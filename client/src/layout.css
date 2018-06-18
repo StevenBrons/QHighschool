@@ -1,0 +1,52 @@
+.App {
+    width: 100vh;
+    height: 90vw;
+    position: relative;
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.Login {
+    grid-column: 6 / span 4;
+    grid-row: 5 / span 4;
+}
+
+.Header {
+  grid-column: 1 / span 15;
+  grid-row: 1 / span 1;
+}
+
+.Menu {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 14;
+}
+
+.CourseSelect {
+  grid-column: 3 / span 12;
+  grid-row: 2 / span 13;
+}
+
+@media only screen and (max-width: 1200px) {
+  .Menu {
+    grid-column: 1 / span 3;
+    grid-row: 2 / span 14;
+  }
+
+  .CourseSelect {
+    grid-column: 4 / span 12;
+    grid-row: 2 / span 13;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .Menu {
+    display: none;
+  }
+
+  .CourseSelect {
+    grid-column: 1 / span 13;
+    grid-row: 2 / span 13;
+  }
+}
