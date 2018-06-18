@@ -1,0 +1,19 @@
+Eigen email bevestigen?
+Logo?
+QHighschool website vervangen?
+Webadres (QHighschool.nl?)
+Zijn er al courses en docenten bekend?
+Is er een maximum aan leerlingen per module?
+Eerste keuze, tweede keuze?
+Heeft één vak één docent? (of meer of geen)
+Heeft één module één docent? (of meer of geen)
+Heeft één les één docent? (of meer of geen)
+Hoe veel lessen zijn er per module?
+Is elke module onderdeel van een vak?
+Is elke les onderdeel van een module?
+Hoe moet ik lessen opslaan?
+Beoordeling formaat (cijfers, goed, matig etc.)
+Meerdere beoordelingen per module?
+Hoeveel periodes per jaar?
+Wie maakt modules aan?
+Azure administrator account!
