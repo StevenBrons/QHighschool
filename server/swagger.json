@@ -215,7 +215,7 @@
   "securityDefinitions": {
     "userId": {
       "type": "apiKey",
-      "in": "query",
+      "in": "header",
       "name": "userId"
     }
   },
