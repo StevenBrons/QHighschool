@@ -21,9 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/test', function (req, res, next) {
-  res.send('respond with a resource');
-});
 app.use('/api', courseRoute);
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
