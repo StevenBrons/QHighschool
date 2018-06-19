@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+
 import "./style.css";
 import "./layout.css";
 
@@ -7,16 +14,27 @@ import Header from "./components/Header";
 import Menu from "./components/Menu";
 import CourseSelect from "./pages/CourseSelect";
 
+
 class App extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      currentPage: "courseSelect",
       user: {
         email: "abc@email.com",
-      }
+      },
+      pages: [
+        {
+          id: "module-keuze",
+          title: "Module keuze",
+        },
+        {
+          id: "instellingen",
+          title: "Instellingen",
+          bottom: true,
+        }
+      ],
     };
   }
 
@@ -25,22 +43,19 @@ class App extends Component {
     this.setState({ email: event.target.elements[0].value });
   }
 
-  getCurrentPage() {
-    switch (this.state.currentPage) {
-      case "courseSelect":
-        return <CourseSelect />;
-      case "login":
-      return <Login />;
-    }
-  }
-
   render() {
     return (
-      <div className="App" style={{ backgroundColor: "white" }}>
-        <Header email={this.state.user.email} />
-        <Menu/>
-        {this.getCurrentPage()}
-      </div>
+      <Router>
+        <div className="App" style={{ backgroundColor: "white" }}>
+          <Header email={this.state.user.email} />
+          <Menu pages={this.state.pages} />
+          <Switch>
+            <Route path="/course-select" component={CourseSelect} />
+            <Redirect to="/course-select" />
+          </Switch>
+        </div>
+      </Router>
+
     );
   }
 
