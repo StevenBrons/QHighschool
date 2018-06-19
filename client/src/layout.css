@@ -24,8 +24,8 @@
 }
 
 .CourseSelect {
-  grid-column: 3 / span 12;
-  grid-row: 2 / span 13;
+  grid-column: 3 / span 11;
+  grid-row: 2 / span 12;
 }
 
 @media only screen and (max-width: 1200px) {
