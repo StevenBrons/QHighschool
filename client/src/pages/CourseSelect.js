@@ -76,7 +76,7 @@ class CourseSelect extends Component {
         });
 
         return (
-            <div className="CourseSelect">
+            <div className="Page">
                 {courses}
             </div>
         );

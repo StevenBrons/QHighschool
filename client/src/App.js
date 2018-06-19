@@ -10,9 +10,11 @@ import "./style.css";
 import "./layout.css";
 
 import Login from "./pages/Login";
+import Settings from "./pages/Settings";
+import CourseSelect from "./pages/CourseSelect";
+
 import Header from "./components/Header";
 import Menu from "./components/Menu";
-import CourseSelect from "./pages/CourseSelect";
 
 
 class App extends Component {
@@ -50,8 +52,9 @@ class App extends Component {
           <Header email={this.state.user.email} />
           <Menu pages={this.state.pages} />
           <Switch>
-            <Route path="/course-select" component={CourseSelect} />
-            <Redirect to="/course-select" />
+            <Route path="/module-keuze" component={CourseSelect} />
+            <Route path="/instellingen" component={Settings} />
+            <Redirect to="/module-keuze" />
           </Switch>
         </div>
       </Router>

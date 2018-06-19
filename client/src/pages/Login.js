@@ -12,7 +12,7 @@ class Login extends Component {
 
     render() {
         return (
-            <Paper className="Login" elevation={8}>
+            <Paper className="Page" elevation={8}>
                 <form onSubmit={this.props.onSubmit}>
                     <TextField
                         name="email"
