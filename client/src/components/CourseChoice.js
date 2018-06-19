@@ -45,8 +45,7 @@ class CourseChoice extends Component {
     }
 
     getButton(choices, course, maxChoices) {
-        if (choices.contais(course.key)) {
-            let t = "";
+        if (choices.indexOf(course.key) != -1) {
             return (
                 <Button size="large" color="primary" onClick={this.onChoose.bind(this)}>
                     {this.getButtonText(choices.indexOf(course.key))}
@@ -80,6 +79,7 @@ class CourseChoice extends Component {
     }
 
 }
+
 
 export default CourseChoice;
 
