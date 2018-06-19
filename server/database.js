@@ -20,6 +20,11 @@ class Database {
       if (users.length == 1) {
         return users[0];
       } else {
+        return this.checkToken(token);
+      }
+    });
+  }
+
   async checkToken(token) {
     if (token == null || token == "") {
       throw new InvalidTokenError(true);
@@ -30,9 +35,24 @@ class Database {
       }
     });
   }
+
+  async getChoice(token) {
+    return this.connection.query('SELECT * FROM choice WHERE student IN (SELECT id FROM loggedin WHERE token = ?)', [token]).then(async (choice) => {
+      if (choice.length == 1) {
+        return choice[0];
+      } else {
+        await this.checkToken(token);
+        return null;
       }
     });
   }
+
+  async getCourses() {
+    return this.connection.query('SELECT * FROM course;');
+  }
+
+
+
 }
 
-module.exports = Database;
+module.exports = new Database();
