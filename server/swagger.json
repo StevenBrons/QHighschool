@@ -8,7 +8,6 @@
       "email": "steven.bronsveld@gmail.com"
     }
   },
-  "host": "",
   "basePath": "/api",
   "tags": [
     {
@@ -31,10 +30,70 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type":"array",
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/Course"
               }
+            }
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "QHighschool"
+        ],
+        "summary": "Get user data",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "QHighschool"
+        ],
+        "summary": "Update user data",
+        "operationId": "setUser",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "preferedEmail",
+            "in": "formData",
+            "description": "The new prefered email",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
             }
           }
         },
@@ -84,6 +143,44 @@
             "2021/2022",
             "2023/2024"
           ]
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "vwo",
+            "havo",
+            "mavo"
+          ]
+        },
+        "preferedEmail": {
+          "type": "string"
         }
       },
       "xml": {
