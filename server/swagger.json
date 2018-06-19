@@ -20,13 +20,41 @@
     }
   ],
   "paths": {
-    "/courses/list": {
+    "/course/list": {
       "get": {
         "tags": [
           "Course"
         ],
         "summary": "Get list of all courses",
         "operationId": "getCourse",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      }
+    },
+    "/course/choices": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Get list of courses to choose from",
+        "operationId": "getChoices",
         "produces": [
           "application/json"
         ],
