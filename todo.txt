@@ -1,0 +1,13 @@
+keuze endpoints maken
+instellingen pagina maken
+licensie zoeken + in swagger stoppen + in files stoppen
+database aan server koppelen
+zorgen dat de endpoints echt iets nuttigs returenen
+login systeem maken met userKeys
+	logout pagina
+	login pagina
+	office 365 link!!!
+course codes toevoegen
+
+maken dat de client ook gegevens kan aanpassen
+server kopen
