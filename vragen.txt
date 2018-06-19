@@ -18,3 +18,4 @@ Hoeveel periodes per jaar?
 Wie maakt modules aan?
 Azure administrator account!
 Wanneer moeten leerlingen modules kiezen?
+Wie mag wat zien?
