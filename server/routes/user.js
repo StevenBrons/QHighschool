@@ -12,7 +12,10 @@ var user = {
     "preferedEmail": "steven@gmail.com"
 }
 
-/* GET users listing. */
+var choices = [
+
+]
+
 router.get("/", function (req, res, next) {
     res.setHeader("Content-Type", "application/json");
     res.send(user);
@@ -23,6 +26,17 @@ router.post("/", function (req, res, next) {
 
     res.setHeader("Content-Type", "application/json");
     res.send(user);
+});
+
+router.post("/choices", function (req, res, next) {
+    res.setHeader("Content-Type", "application/json");
+    choices = (req.body.choices).split(",");
+    res.send(choices);
+});
+
+router.get("/choices", function (req, res, next) {
+    res.setHeader("Content-Type", "application/json");
+    res.send(choices);
 });
 
 module.exports = router;
