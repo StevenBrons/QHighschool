@@ -135,6 +135,81 @@
           }
         ]
       }
+    },
+    "/user/choices": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user data",
+        "operationId": "setUserChoices",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "choices",
+            "in": "formData",
+            "description": "An array of the keys of the chosen courses",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxItems": 3
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "maxLength": 3,
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user data",
+        "operationId": "getUserChoices",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "maxLength": 3,
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
