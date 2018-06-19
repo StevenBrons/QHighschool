@@ -11,15 +11,19 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "QHighschool",
-      "description": "The Q-highschool api"
+      "name": "User",
+      "description": "The user api"
+    },
+    {
+      "name": "Course",
+      "description": "The course api"
     }
   ],
   "paths": {
-    "/courses": {
+    "/courses/list": {
       "get": {
         "tags": [
-          "QHighschool"
+          "Course"
         ],
         "summary": "Get list of all courses",
         "operationId": "getCourse",
@@ -47,7 +51,7 @@
     "/user": {
       "get": {
         "tags": [
-          "QHighschool"
+          "User"
         ],
         "summary": "Get user data",
         "operationId": "getUser",
@@ -70,7 +74,7 @@
       },
       "post": {
         "tags": [
-          "QHighschool"
+          "User"
         ],
         "summary": "Update user data",
         "operationId": "setUser",
