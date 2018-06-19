@@ -7,7 +7,8 @@ var logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-var courseRoute = require('./routes/getCourse');
+var courseRoute = require('./routes/course');
+var userRoute = require('./routes/user');
 
 var app = express();
 
@@ -21,7 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', courseRoute);
+app.use('/api/course', courseRoute);
+app.use('/api/user', userRoute);
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
