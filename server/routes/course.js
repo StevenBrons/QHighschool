@@ -17,14 +17,12 @@ function toClientCourse(databaseCourse) {
 
 /* GET users listing. */
 router.get("/list", function (req, res, next) {
-  res.setHeader("Content-Type", "application/json");
   Database.getCourses().then(courses => {
     res.send(courses.map(toClientCourse));
   });
 });
 
 router.get("/choices", function (req, res, next) {
-  res.setHeader("Content-Type", "application/json");
   Database.getCourses().then(courses => {
     var choices = courses.filter((course) => { return course.period == 1 });
     res.send(choices.map(toClientCourse));

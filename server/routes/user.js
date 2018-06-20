@@ -28,7 +28,6 @@ function toClientChoice(databaseChoice) {
 }
 
 function handleError(error, res) {
-    res.setHeader("Content-Type", "application/json");
     res.send({
         error: error.message,
     });
@@ -40,7 +39,6 @@ var choices = [
 
 router.get("/", (req, res) => {
     Database.getUser(req.headers.userid).then((user) => {
-        res.setHeader("Content-Type", "application/json");
         res.send(toClientUser(user));
     }).catch(error => {
         handleError(error, res);
@@ -49,19 +47,16 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
     user.preferedEmail = req.body.preferedEmail
-    res.setHeader("Content-Type", "application/json");
     res.send(user);
 });
 
 router.post("/choices", (req, res) => {
-    res.setHeader("Content-Type", "application/json");
     choices = (req.body.choices).split(",");
     res.send(choices);
 });
 
 router.get("/choices", (req, res) => {
     Database.getChoice(req.headers.userid).then(choice => {
-        res.setHeader("Content-Type", "application/json");
         res.send(toClientChoice(choice));
     }).catch((error) => {
         handleError(error, res);
