@@ -47,6 +47,10 @@ class CourseSelect extends Component {
 
     }
 
+    componentWillMount() {
+        
+    }
+
     handleCourseChoose(course) {
         const index = this.state.choices.indexOf(course.key)
         if (index === -1) {

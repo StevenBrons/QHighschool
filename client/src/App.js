@@ -5,6 +5,8 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import $ from "jquery";
+import {User} from "./Data";
 
 import "./style.css";
 import "./layout.css";
@@ -15,7 +17,6 @@ import CourseSelect from "./pages/CourseSelect";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
-
 
 class App extends Component {
 
@@ -38,6 +39,13 @@ class App extends Component {
         }
       ],
     };
+  }
+
+  componentWillMount() {
+    console.log("test");
+    console.log(User);
+    // $.getJson();
+
   }
 
   handleLogin(event) {
