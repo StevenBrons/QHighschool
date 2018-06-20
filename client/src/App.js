@@ -42,10 +42,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log("test");
-    console.log(User);
-    // $.getJson();
-
+    User.getUser();
   }
 
   handleLogin(event) {
