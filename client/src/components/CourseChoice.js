@@ -45,7 +45,7 @@ class CourseChoice extends Component {
     }
 
     getButton(choices, course, maxChoices) {
-        if (choices.indexOf(course.key) != -1) {
+        if (choices.indexOf(course.key) !== -1) {
             return (
                 <Button size="large" color="primary" onClick={this.onChoose.bind(this)}>
                     {this.getButtonText(choices.indexOf(course.key))}

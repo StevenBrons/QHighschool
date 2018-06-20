@@ -69,7 +69,6 @@ class CourseSelect extends Component {
 
 
     render() {
-        const chosenCoursesCount = this.state.courses.filter(course => course.chosen === true).length;
         var courses = this.state.courses.map((course) => {
             return <CourseChoice
                 course={course}

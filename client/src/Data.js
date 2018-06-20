@@ -8,30 +8,16 @@ class Data {
 }
 
 class UserClass extends Data {
-    constructor() {
-        super();
-    }
-
     getUrl() {
         return this.url + "course/list";
     }
 
     async getUser() {
-        console.log(this.getUrl());
-        $.getJSON("/test",(data) => {
-            console.log(data);
-            console.log("test");
-        });
-
-        $.ajax({
+        return $.ajax({
             url: this.getUrl(),
             type: "get",
             dataType: "json",
-            success:function tets(t){
-                console.log(t);
-            }
         });
-
     }
 }
 

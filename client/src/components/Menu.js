@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Menu extends Component {
 
