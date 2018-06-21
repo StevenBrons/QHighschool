@@ -56,7 +56,7 @@ class CourseChoice extends Component {
 			if (choices.length < maxChoices) {
 				return (
 					<Button variant="contained" size="large" color="primary" onClick={this.onChoose.bind(this)}>
-						{this.getButtonText(choices.indexOf(course.key) + 1)}
+						{this.getButtonText(choices.length)}
 					</Button>
 				);
 			}
