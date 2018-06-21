@@ -69,11 +69,10 @@ class App extends Component {
 				</div>
 			);
 		}
-
 		return (
 			<Router>
 				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email={this.state.user.email} handleShowMenu={this.handleShowMenu.bind(this)}/>
+					<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)}/>
 					{
 						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
 					}

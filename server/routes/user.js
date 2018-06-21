@@ -11,7 +11,7 @@ function toClientUser(databaseUser) {
         lastname: databaseUser.lastname,
         year: databaseUser.year,
         level: databaseUser.level,
-        preferedEmail: databaseUser.preferedEmail
+        preferedEmail: databaseUser.preferedemail
     }
 }
 
