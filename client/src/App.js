@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect,
 } from 'react-router-dom';
-import {User} from "./Data";
+import { User } from "./Data";
 
 import "./style.css";
 import "./layout.css";
@@ -19,73 +19,92 @@ import Menu from "./components/Menu";
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
+		const token = getCookie("token");
+		this.state = {
+			showMenu: token ? true : false,
+			user: {
+				token: token,
+				email: "abc@email.com",
+			},
+			pages: [
+				{
+					id: "module-keuze",
+					title: "Module keuze",
+				},
+				{
+					id: "instellingen",
+					title: "Instellingen",
+					bottom: true,
+				}
+			],
+		};
+	}
 
-    this.state = {
-      token: getCookie("token"),
-      user: {
-        email: "abc@email.com",
-      },
-      pages: [
-        {
-          id: "module-keuze",
-          title: "Module keuze",
-        },
-        {
-          id: "instellingen",
-          title: "Instellingen",
-          bottom: true,
-        }
-      ],
-    };
-  }
+	componentWillMount() {
+		User.getUser().then((data) => {
+			console.log(data);
+		});
+	}
 
-  componentWillMount() {
-    User.getUser().then((data) => {
-      console.log(data);
-    });
-  }
+	handleLogin(event) {
+		event.preventDefault();
+		let token = "token1";
+		setCookie("token", token, 365);
+		this.setState({ showMenu: true, user: { ...{ token: token } } });
+	}
 
-  handleLogin(event) {
-    event.preventDefault();
-    this.setState({ email: event.target.elements[0].value });
-  }
+	render() {
+		if (this.state.user.token === null) {
+			return (
+				<div className="App" style={{ backgroundColor: "white" }}>
+					<Header email={this.state.user.email} />
+					<Login handleLogin={this.handleLogin.bind(this)} />
+				</div>
+			);
+		}
 
-  render() {
-    console.log(document.location.href);
-    if (this.state.token === null) {
-      //document.location.href = "/login";
-    }
-    return (
-      <Router>
-        <div className="App" style={{ backgroundColor: "white" }}>
-          <Header email={this.state.user.email} />
-          {this.state.token?<Menu pages={this.state.pages} />:null}
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/module-keuze" component={CourseSelect} />
-            <Route path="/instellingen" component={Settings} />
-            <Redirect to="/module-keuze" />
-          </Switch>
-        </div>
-      </Router>
+		return (
+			<Router>
+				<div className="App" style={{ backgroundColor: "white" }}>
+					<Header email={this.state.user.email} />
+					{
+						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
+					}
+					<Switch>
+						<Route path="/module-keuze" component={CourseSelect} />
+						<Route path="/instellingen" component={Settings} />
+						<Redirect to="/module-keuze" />
+					</Switch>
+				</div>
+			</Router>
 
-    );
-  }
+		);
+	}
 
 }
 
 
 function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)===' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
-  }
-  return null;
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+		if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+	}
+	return null;
+}
+
+function setCookie(name, value, days) {
+	var expires = "";
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		expires = "; expires=" + date.toUTCString();
+	}
+	document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 export default App;
