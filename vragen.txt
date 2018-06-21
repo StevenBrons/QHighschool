@@ -1,4 +1,4 @@
-Eigen email bevestigen?
+﻿Eigen email bevestigen?
 Logo?
 QHighschool website vervangen?
 Webadres (QHighschool.nl?)
@@ -20,3 +20,4 @@ Azure administrator account!
 Wanneer moeten leerlingen modules kiezen?
 Wie mag wat zien?
 Weegfactoren cijfers (studielasturen)
+Hoe moet opslaan werken?
