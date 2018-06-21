@@ -12,6 +12,14 @@ class CourseChoice extends Component {
 		super(props);
 		this.state = {
 			hover: false,
+			style: {
+				width: "400px",
+				height: "250px",
+				padding: "10px",
+				margin: "20px",
+				display: "inline-block",
+				cursor: "pointer",
+			}
 		}
 	}
 
@@ -22,12 +30,13 @@ class CourseChoice extends Component {
 	render() {
 		const props = this.props
 		return (
-			<Card
-				className="Course"
-				elevation={this.state.hover ? 8 : 2}
-				onMouseEnter={() => this.setState({ hover: true })}
-				onMouseLeave={() => this.setState({ hover: false })}
-			>
+				<Card
+					className="Course"
+					elevation={this.state.hover ? 8 : 2}
+					onMouseEnter={() => this.setState({ hover: true })}
+					onMouseLeave={() => this.setState({ hover: false })}
+					style={this.state.style}
+				>
 				<CardHeader
 					title={props.course.name}
 					subheader={"Periode " + props.course.period}

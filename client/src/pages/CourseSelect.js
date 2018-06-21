@@ -10,6 +10,9 @@ class CourseSelect extends Component {
 			maxChoices: 3,
 			courses: [],
 			choices: [],
+			style: {
+				overflowY:"scroll",
+			}
 		}
 
 	}
@@ -48,7 +51,7 @@ class CourseSelect extends Component {
 		});
 
 		return (
-			<div className="Page">
+			<div className="Page" style={this.state.style}>
 				{courses}
 			</div>
 		);
