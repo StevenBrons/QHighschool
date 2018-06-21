@@ -1,7 +1,5 @@
 .App {
-    width: 100vh;
-    height: 90vw;
-    position: relative;
+    position: rel09ative;
     display: -ms-grid;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

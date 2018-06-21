@@ -11,7 +11,7 @@ class Header extends Component {
         return (
             <AppBar className="Header">
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="Menu">
+                    <IconButton color="inherit" aria-label="Menu" onClick={this.props.handleShowMenu}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="!title" color="inherit">

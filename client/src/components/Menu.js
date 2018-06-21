@@ -45,7 +45,7 @@ class Menu extends Component {
 	}
 
 	render() {
-		var pages = this.props.pages.map(this.getItem);
+		var pages = this.props.pages.map(this.getItem.bind(this));
 		return (
 			<Paper elevation={8} className="Menu" >
 				<List component="nav" style={{ height: "100%" }}>

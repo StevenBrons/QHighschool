@@ -7,9 +7,6 @@ import {
 } from 'react-router-dom';
 import { User } from "./Data";
 
-import "./style.css";
-import "./layout.css";
-
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
@@ -56,6 +53,13 @@ class App extends Component {
 		this.setState({ showMenu: true, token: token });
 	}
 
+	handleShowMenu() {
+		let showMenu = this.state.showMenu;
+		this.setState({
+			showMenu:!showMenu,
+		});
+	}
+
 	render() {
 		if (this.state.token === null) {
 			return (
@@ -69,7 +73,7 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email={this.state.user.email} />
+					<Header email={this.state.user.email} handleShowMenu={this.handleShowMenu.bind(this)}/>
 					{
 						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
 					}
