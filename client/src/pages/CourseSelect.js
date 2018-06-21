@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Page from './Page';
 import CourseChoice from '../components/CourseChoice';
 import { Course, User } from "../Data";
 
-class CourseSelect extends Component {
+class CourseSelect extends Page {
 
 	constructor(props) {
 		super(props);

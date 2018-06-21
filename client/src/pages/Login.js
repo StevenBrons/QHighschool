@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
+import Page from './Page';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
-class Login extends Component {
-
+class Login extends Page {
 
 	render() {
 		return (

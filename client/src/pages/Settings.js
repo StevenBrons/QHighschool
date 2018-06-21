@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Page from './Page';
 
-class Settings extends Component {
+class Settings extends Page {
     render() {
         return (
             <div className="Page">
