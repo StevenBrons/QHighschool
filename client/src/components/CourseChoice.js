@@ -29,7 +29,7 @@ class CourseChoice extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 			>
 				<CardHeader
-					title={props.course.title}
+					title={props.course.name}
 					subheader={"Periode " + props.course.period}
 				/>
 				<CardContent>

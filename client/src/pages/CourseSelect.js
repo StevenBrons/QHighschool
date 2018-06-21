@@ -1,54 +1,30 @@
 import React, { Component } from 'react';
 import CourseChoice from '../components/CourseChoice';
+import { Course,User } from "../Data";
 
 class CourseSelect extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            maxChoices: 3,
-            courses: [
-                {
-                    title: "Informatica",
-                    period: 3,
-                    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ",
-                    chosen: false,
-                    chosenNum: 0,
-                    key: 0,
-                },
-                {
-                    title: "Filosofie",
-                    period: 3,
-                    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ",
-                    chosen: false,
-                    chosenNum: 0,
-                    key: 1,
-                },
-                {
-                    title: "Spaans",
-                    period: 3,
-                    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ",
-                    chosen: false,
-                    chosenNum: 0,
-                    key: 2,
-                },
-                {
-                    title: "Tekenen",
-                    period: 3,
-                    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ",
-                    chosen: false,
-                    chosenNum: 0,
-                    key: 3,
-                },
-            ],
+						maxChoices: 3,
+						courses:[],
             choices: [],
         }
 
     }
 
     componentWillMount() {
-        
+      Course.getChoices().then(data => {
+				if (data.error !== null) {
+					this.setState({courses:data});
+				}
+			});
+			User.getChoices(this.props.token).then(data => {
+				if (data.error !== null) {
+					this.setState({choices:data});
+				}
+			});
     }
 
     handleCourseChoose(course) {

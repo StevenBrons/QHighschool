@@ -7,22 +7,56 @@ class Data {
 
 }
 
-class UserClass extends Data {
+class CourseClass extends Data {
 	getUrl() {
-		return this.url + "course/list";
+		return this.url + "course";
 	}
 
-	async getUser() {
+	async getList() {
+		return $.ajax({
+			url: this.getUrl() + "/list",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
+	async getChoices() {
+		return $.ajax({
+			url: this.getUrl() + "/choices",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
+}
+
+class UserClass extends Data {
+	getUrl() {
+		return this.url + "user";
+	}
+
+	async getUser(token) {
 		return $.ajax({
 			url: this.getUrl(),
 			type: "get",
+			headers:{"userid":token},
+			dataType: "json",
+		});
+	}
+
+	async getChoices(token) {
+		return $.ajax({
+			url: this.getUrl() + "/choices",
+			type: "get",
+			headers:{"userid":token},
 			dataType: "json",
 		});
 	}
 }
 
 const User = Data.User = new UserClass();
+const Course = Data.Course = new CourseClass();
 
 const d = new Data();
 export default d;
-export { User }
+export { User,Course }

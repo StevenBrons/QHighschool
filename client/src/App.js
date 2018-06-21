@@ -22,12 +22,11 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		const token = getCookie("token");
+
 		this.state = {
 			showMenu: token ? true : false,
-			user: {
-				token: token,
-				email: "abc@email.com",
-			},
+			token: token,
+			user: {},
 			pages: [
 				{
 					id: "module-keuze",
@@ -40,26 +39,28 @@ class App extends Component {
 				}
 			],
 		};
-	}
 
-	componentWillMount() {
-		User.getUser().then((data) => {
-			console.log(data);
-		});
+		if (token !== null) {
+			User.getUser(this.state.token).then(data => {
+				this.setState({
+					user: data,
+				});
+			});
+		}
 	}
 
 	handleLogin(event) {
 		event.preventDefault();
 		let token = "token1";
 		setCookie("token", token, 365);
-		this.setState({ showMenu: true, user: { ...{ token: token } } });
+		this.setState({ showMenu: true, token: token });
 	}
 
 	render() {
-		if (this.state.user.token === null) {
+		if (this.state.token === null) {
 			return (
 				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email={this.state.user.email} />
+					<Header email="" />
 					<Login handleLogin={this.handleLogin.bind(this)} />
 				</div>
 			);
@@ -73,7 +74,7 @@ class App extends Component {
 						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
 					}
 					<Switch>
-						<Route path="/module-keuze" component={CourseSelect} />
+						<Route path="/module-keuze" render={()=><CourseSelect token={this.state.token}/>}/>
 						<Route path="/instellingen" component={Settings} />
 						<Redirect to="/module-keuze" />
 					</Switch>
