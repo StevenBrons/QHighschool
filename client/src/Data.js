@@ -2,7 +2,8 @@ import $ from "jquery";
 
 class Data {
 	constructor() {
-		this.url = "http://192.168.0.70:26194/api/";
+		//this.url = "http://192.168.0.70:26194/api/";
+			this.url = "http://213.127.243.178:26194/api/";
 	}
 
 }
