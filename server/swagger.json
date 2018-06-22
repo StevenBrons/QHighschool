@@ -40,12 +40,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "userId": []
-          }
-        ]
+        }
       }
     },
     "/course/choices": {
@@ -68,12 +63,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "userId": []
-          }
-        ]
+        }
       }
     },
     "/user": {
