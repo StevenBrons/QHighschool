@@ -131,21 +131,21 @@
             "name": "preferedEmail",
             "in": "formData",
             "description": "The new prefered email",
-            "required": false,
+            "required": true,
             "type": "string"
-					},
-					{
+          },
+          {
             "name": "profile",
             "in": "formData",
             "description": "The profile of the student",
-            "required": false,
+            "required": true,
             "type": "string"
-					},
-					{
+          },
+          {
             "name": "phoneNumber",
             "in": "formData",
             "description": "Thephone number of the student",
-            "required": false,
+            "required": true,
             "type": "string"
           }
         ],
@@ -167,28 +167,15 @@
         ]
       }
     },
-    "/user/choices": {
-      "post": {
+    "/user/choices/list": {
+      "get": {
         "tags": [
           "User"
         ],
-        "summary": "Update user data",
-        "operationId": "setUserChoices",
+        "summary": "Get choices",
+        "operationId": "getUserChoices",
         "consumes": [
           "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "choices",
-            "in": "formData",
-            "description": "An array of the keys of the chosen courses",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "maxItems": 3
-            }
-          }
         ],
         "produces": [
           "application/json"
@@ -210,29 +197,67 @@
             "userId": []
           }
         ]
-      },
-      "get": {
+      }
+    },
+    "/user/choices/add": {
+      "post": {
         "tags": [
           "User"
         ],
         "summary": "Update user data",
-        "operationId": "getUserChoices",
+        "operationId": "addUserChoice",
         "consumes": [
           "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId to add",
+            "required": true,
+            "type": "string"
+          }
         ],
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "maxLength": 3,
-              "items": {
-                "$ref": "#/definitions/Course"
-              }
-            }
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "userId": []
+          }
+        ]
+      }
+    },
+    "/user/choices/remove": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user data",
+        "operationId": "removeUserChoice",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId to remove",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
           }
         },
         "security": [
@@ -272,8 +297,8 @@
         "period": {
           "type": "integer",
           "format": "int64"
-				},
-				"day": {
+        },
+        "day": {
           "type": "string"
         },
         "schoolYear": {
