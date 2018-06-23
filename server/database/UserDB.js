@@ -40,7 +40,7 @@ class UserDB{
 
 		if (data.preferedEmail == null) {
 			throw new Exception("The property preferedEmail is required");
-	}
+		}
 		if (data.profile == null) {
 			throw new Exception("The property profile is required");
 		}
@@ -54,29 +54,28 @@ class UserDB{
 			"profile = ?, " +
 			"phoneNumber = ? " +
 			"WHERE id IN " +
-				"(SELECT id FROM loggedin " +
-				"WHERE token = ?)",
+			"(SELECT id FROM loggedin " +
+			"WHERE token = ?)",
 			[data.preferedEmail,data.profile,data.phoneNumber, token]);
-		}
+	}
 
 	async addUserChoice(token, courseId) {
 		return this.mainDb.connection.query(
-				"INSERT INTO choice " +
-				"(student,firstchoice,secondchoice,thirdchoice) VALUES ( " +
-				"student = (SELECT id FROM loggedin WHERE token = ?), " +
-				"firstchoice = ?, " +
-				"secondchoice = ?, " +
-				"thirdchoice = ?)",
-				[_this.token, _this.choices[0], _this.choices[1], _this.choices[2]]);
-		}
+			"INSERT INTO choice " + 
+			"(studentId,courseId) VALUES" + 
+			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
+			[token,courseId]
+		);
+	}
 
-		return this.checkToken(token).then(checkChoice()).then((data) => {
-			if (data != null && data[0] != null && data[0].student > 0) {
-				return updateChoice();
-			} else {
-				return createChoice();
-			}
-		});
+	async removeUserChoice(token, courseId) {
+		return this.mainDb.connection.query(
+			"DELETE FROM choice " + 
+			"WHERE studentId IN " +
+			"(SELECT id FROM loggedin " +
+			"WHERE token = ?) AND courseId = ?",
+			[token,courseId]
+		);
 	}
 
 }
