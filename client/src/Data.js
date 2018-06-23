@@ -31,6 +31,21 @@ class CourseClass extends Data {
 
 }
 
+class SubjectClass extends Data {
+	getUrl() {
+		return this.url + "subject";
+	}
+
+	async getList() {
+		return $.ajax({
+			url: this.getUrl() + "/list",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
+}
+
 class UserClass extends Data {
 	getUrl() {
 		return this.url + "user";
@@ -47,7 +62,7 @@ class UserClass extends Data {
 
 	async getChoices(token) {
 		return $.ajax({
-			url: this.getUrl() + "/choices",
+			url: this.getUrl() + "/choices/list",
 			type: "get",
 			headers:{"userid":token},
 			dataType: "json",
@@ -57,7 +72,8 @@ class UserClass extends Data {
 
 const User = Data.User = new UserClass();
 const Course = Data.Course = new CourseClass();
+const Subject = Data.Subject = new SubjectClass();
 
 const d = new Data();
 export default d;
-export { User,Course }
+export { User,Course,Subject }
