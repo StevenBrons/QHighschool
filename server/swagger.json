@@ -16,7 +16,11 @@
     },
     {
       "name": "Course",
-      "description": "The course api"
+      "description": "The course"
+    },
+    {
+      "name": "Subject",
+      "description": "The subject api"
     }
   ],
   "paths": {
@@ -60,6 +64,29 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subject/list": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "summary": "Get list of subjects",
+        "operationId": "getSubjects",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subject"
               }
             }
           }
@@ -213,10 +240,10 @@
     "Course": {
       "type": "object",
       "properties": {
-        "key": {
+        "id": {
           "type": "string"
         },
-        "subject": {
+        "subjectId": {
           "type": "string"
         },
         "name": {
@@ -225,7 +252,7 @@
         "description": {
           "type": "string"
         },
-        "teacher": {
+        "teacherId": {
           "type": "string"
         },
         "period": {
@@ -246,10 +273,27 @@
         "name": "Course"
       }
     },
+    "Subject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
     "User": {
       "type": "object",
       "properties": {
-        "key": {
+        "id": {
           "type": "string"
         },
         "role": {
@@ -277,6 +321,12 @@
           ]
         },
         "preferedEmail": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "phonenumber": {
           "type": "string"
         }
       },
