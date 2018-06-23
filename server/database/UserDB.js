@@ -36,24 +36,27 @@ class UserDB{
 	}
 
 	async setUser(token, data) {
-		return this.connection.query(
-			"UPDATE user SET preferedemail = ? " +
-			"WHERE id IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?)",
-			[data.preferedEmail, token]);
+		await this.mainDb.checkToken(token);
+
+		if (data.preferedEmail == null) {
+			throw new Exception("The property preferedEmail is required");
 	}
+		if (data.profile == null) {
+			throw new Exception("The property profile is required");
+		}
+		if (data.phoneNumber == null) {
+			throw new Exception("The property phoneNumber is required");
+		}
 
-	async setUserChoices(token, choices) {
-		const _this = this;
-
-		function checkChoice() {
-			return _this.connection.query(
-				"SELECT student FROM choice " +
-				"WHERE student IN " +
+		return this.mainDb.connection.query(
+			"UPDATE user SET " +
+			"preferedEmail = ?, " +
+			"profile = ?, " +
+			"phoneNumber = ? " +
+			"WHERE id IN " +
 				"(SELECT id FROM loggedin " +
 				"WHERE token = ?)",
-				[_this.token]);
+			[data.preferedEmail,data.profile,data.phoneNumber, token]);
 		}
 
 	async addUserChoice(token, courseId) {
