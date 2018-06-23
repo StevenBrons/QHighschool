@@ -259,7 +259,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "schoolyear": {
+        "schoolYear": {
           "type": "string",
           "enum": [
             "2018/2019",
@@ -302,10 +302,10 @@
         "school": {
           "type": "string"
         },
-        "firstname": {
+        "firstName": {
           "type": "string"
         },
-        "lastname": {
+        "lastName": {
           "type": "string"
         },
         "year": {
@@ -326,7 +326,7 @@
         "profile": {
           "type": "string"
         },
-        "phonenumber": {
+        "phoneNumber": {
           "type": "string"
         }
       },
