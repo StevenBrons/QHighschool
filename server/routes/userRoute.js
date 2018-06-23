@@ -17,16 +17,17 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	Database.setUser(req.headers.userid, req.body).then((data) => {
+	database.user.setUser(req.headers.userid, req.body).then((data) => {
 		res.send({
 			success: true,
 		});
+	}).catch(error => {
+		handleError(error,res);
 	});
 });
 
-router.post("/choices", (req, res) => {
-	let choices = (req.body.choices).split(",");
-	Database.setUserChoices(req.headers.userid, choices).then((data) => {
+router.post("/choices/add", (req, res) => {
+	database.user.addUserChoice(req.headers.userid, req.body.courseId).then((data) => {
 		res.send({
 			success: true,
 		});
@@ -35,7 +36,17 @@ router.post("/choices", (req, res) => {
 	});
 });
 
-router.get("/choices", (req, res) => {
+router.post("/choices/remove", (req, res) => {
+	database.user.removeUserChoice(req.headers.userid, req.body.courseId).then((data) => {
+		res.send({
+			success: true,
+		});
+	}).catch((error) => {
+		handleError(error, res);
+	});
+});
+
+router.get("/choices/list", (req, res) => {
 	database.user.getChoices(req.headers.userid).then(choices => {
 		res.send(choices);
 	}).catch((error) => {
