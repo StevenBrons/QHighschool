@@ -7,15 +7,9 @@ var logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-var courseRoute = require('./routes/course');
-var userRoute = require('./routes/user');
-var Database = require('./database');
-
-async function main() {
-  await Database.connect(require('./private/keys').databaseArgs);
-}
-
-main();
+var courseRoute = require('./routes/courseRoute');
+var userRoute = require('./routes/userRoute');
+var subjectRoute = require('./routes/subjectRoute');
 
 var app = express();
 
@@ -39,6 +33,7 @@ app.use(function (req, res, next) {
 
 app.use('/api/course', courseRoute);
 app.use('/api/user', userRoute);
+app.use('/api/subject', subjectRoute);
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
