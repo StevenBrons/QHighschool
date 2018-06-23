@@ -1,11 +1,11 @@
 
 class SubjectDB {
-	constructor(mainDB) {
-		this.mainDB = mainDB;
+	constructor(mainDb) {
+		this.mainDb = mainDb;
 	}
 
 	async getSubjects() {
-		return this.mainDB.connection.query("SELECT * FROM subject;");
+		return this.mainDb.connection.query("SELECT * FROM subject;");
 	}
 
 }

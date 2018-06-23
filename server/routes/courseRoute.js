@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var database = require('../database/MainDB');
+var database = require('../database/mainDb');
 
 router.get("/list", function (req, res, next) {
   database.course.getCourses().then(courses => {

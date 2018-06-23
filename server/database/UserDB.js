@@ -1,11 +1,11 @@
 class UserDB{
 
-	constructor(mainDB) {
-		this.mainDB = mainDB;
+	constructor(mainDb) {
+		this.mainDb = mainDb;
 	}
 
 	async getUser(token) {
-		return this.mainDB.connection.query(
+		return this.mainDb.connection.query(
 			"SELECT * FROM user " +
 			"WHERE id IN " +
 			"(SELECT id FROM loggedin " +
@@ -14,13 +14,13 @@ class UserDB{
 				if (users.length == 1) {
 					return users[0];
 				} else {
-					return this.mainDB.checkToken(token);
+					return this.mainDb.checkToken(token);
 				}
 			});
 	}
 
 	async getChoices(token) {
-		return this.mainDB.connection.query(
+		return this.mainDb.connection.query(
 			"SELECT * FROM choice " +
 			"WHERE studentId IN " +
 			"(SELECT id FROM loggedin " +
@@ -29,7 +29,7 @@ class UserDB{
 				if (choices.length > 0) {
 					return choices;
 				} else {
-					await this.mainDB.checkToken(token);
+					await this.mainDb.checkToken(token);
 					return [];
 				}
 			});
@@ -56,18 +56,8 @@ class UserDB{
 				[_this.token]);
 		}
 
-		function updateChoice() {
-			return _this.connection.query(
-				"UPDATE choice SET " +
-				"firstchoice = ?, " +
-				"secondchoice = ?, " +
-				"thirdchoice = ? " +
-				"WHERE student = ?"
-				[_this.choices[0], _this.choices[1], _this.choices[2], _this.data[0].student]);
-		}
-
-		function createChoice() {
-			return _this.connection.query(
+	async addUserChoice(token, courseId) {
+		return this.mainDb.connection.query(
 				"INSERT INTO choice " +
 				"(student,firstchoice,secondchoice,thirdchoice) VALUES ( " +
 				"student = (SELECT id FROM loggedin WHERE token = ?), " +

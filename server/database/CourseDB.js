@@ -1,11 +1,11 @@
 
 class CourseDB {
-	constructor(mainDB) {
-		this.mainDB = mainDB;
+	constructor(mainDb) {
+		this.mainDb = mainDb;
 	}
 
 	async getCourses() {
-		return this.mainDB.connection.query("SELECT * FROM course;");
+		return this.mainDb.connection.query("SELECT * FROM course;");
 	}
 
 }
