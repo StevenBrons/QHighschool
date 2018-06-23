@@ -14,7 +14,7 @@ class CourseChoice extends Component {
 			hover: false,
 			style: {
 				width: "400px",
-				height: "250px",
+				height: "200px",
 				padding: "10px",
 				margin: "20px",
 				display: "inline-block",
