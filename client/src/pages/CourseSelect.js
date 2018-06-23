@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from './Page';
-import CourseChoice from '../components/CourseChoice';
-import { Course, User } from "../Data";
+import SubjectComponent from '../components/Subject';
+import { Course, User, Subject } from "../Data";
 
 class CourseSelect extends Page {
 
@@ -11,16 +11,17 @@ class CourseSelect extends Page {
 			maxChoices: 3,
 			courses: [],
 			choices: [],
+			subjects: [],
 			style: {
-				overflowY:"scroll",
+				overflowY: "scroll",
 			}
 		}
 
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(this.props.token),Course.getChoices()]).then((data)=> {
-			this.setState({choices:data[0],courses:data[1]});
+		Promise.all([User.getChoices(this.props.token), Course.getList(), Subject.getList()]).then((data) => {
+			this.setState({ choices: data[0], courses: data[1], subjects: data[2] });
 		});
 	}
 
@@ -40,20 +41,26 @@ class CourseSelect extends Page {
 
 	}
 
+	getCoursesPerSubject(subject) {
+		return this.state.courses.filter(course => {
+			return (subject.id === course.subjectId);
+		});
+	}
+
 	render() {
-		var courses = this.state.courses.map((course) => {
-			return <CourseChoice
-				key={course.key}
-				course={course}
+		var subjects = this.state.subjects.map((subject) => {
+			return <SubjectComponent
+				key={subject.id}
+				subject={subject}
+				extended={false}
+				courses={this.getCoursesPerSubject.bind(this)(subject)}
 				choices={this.state.choices}
-				onChoose={this.handleCourseChoose.bind(this)}
-				maxChoices={this.state.maxChoices}
 			/>
 		});
 
 		return (
 			<div className="Page" style={this.state.style}>
-				{courses}
+				{subjects}
 			</div>
 		);
 	}
