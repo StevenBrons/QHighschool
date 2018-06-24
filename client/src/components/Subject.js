@@ -40,10 +40,10 @@ class Subject extends Component {
 	render() {
 		let courses;
 		if (this.state.extended) {
-
 			courses = this.props.courses.map((course) => {
 				return (
 					<CourseChoice
+						key={course.id}
 						course={course}
 						choices={this.props.choices}
 						preventCollapse={this.preventCollapse.bind(this)}
@@ -62,12 +62,12 @@ class Subject extends Component {
 				onClick={this.onClick.bind(this)}
 			>
 				<IconButton aria-label="Delete" style={{ float: "right" }}>
-					<ExpandLess />
+					{this.state.extended?<ExpandLess />:<ExpandMore />}
 				</IconButton>
 				<Typography variant="headline" color="primary" gutterBottom>
 					{this.props.subject.name}
 				</Typography>
-				<Typography variant="body" color="inherit">
+				<Typography color="inherit">
 					{this.props.subject.description}
 				</Typography>
 				<br />

@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import Clear from '@material-ui/icons/Clear';
 
 const currentChoosePeriod = 1;
-const currentPeriod = 0;
 
 class CourseChoice extends Component {
 
@@ -40,7 +39,6 @@ class CourseChoice extends Component {
 	}
 
 	render() {
-		const props = this.props
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}
@@ -51,10 +49,10 @@ class CourseChoice extends Component {
 				<Typography variant="headline" color="primary">
 						{this.props.course.name}
 				</Typography>
-				<Typography variant="subheading" color="TextSecondary" paragraph>
+				<Typography variant="subheading" color="textSecondary" paragraph>
 						{"Periode " + this.props.course.period + " - " + this.props.course.day} 
 				</Typography>
-				<Typography variant="body" paragraph>
+				<Typography paragraph>
 						{this.props.course.description}
 				</Typography>
 				{
