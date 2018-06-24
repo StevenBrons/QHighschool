@@ -82,7 +82,6 @@ class App extends Component {
 	}
 
 	onSettingsSave(newUser) {
-		console.log(newUser);
 		this.setState({
 			user: newUser,
 		});

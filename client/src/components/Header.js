@@ -25,8 +25,6 @@ class Header extends Component {
 
 	render() {
 		const { anchorEl } = this.state;
-		console.log(this.props);
-
 		return (
 			<AppBar className="Header">
 				<Toolbar>
