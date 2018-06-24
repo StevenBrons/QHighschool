@@ -38,7 +38,7 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		const token = getCookie("token");
+		const token = "token1";//getCookie("token");
 		Data.setToken(token);
 
 		this.state = {
