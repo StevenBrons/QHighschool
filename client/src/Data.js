@@ -2,7 +2,7 @@ import $ from "jquery";
 
 class Data {
 	constructor() {
-			this.url = "http://213.127.243.178:26194/api/";
+		this.url = "http://213.127.243.178:26194/api/";
 	}
 
 	setToken(t) {
@@ -10,7 +10,7 @@ class Data {
 		User.token = t;
 		Course.token = t;
 		Subject.token = t;
-}
+	}
 
 }
 
@@ -74,6 +74,27 @@ class UserClass extends Data {
 			dataType: "json",
 		});
 	}
+
+	async addChoice(courseId) {
+		return $.ajax({
+			url: this.getUrl() + "/choices/add",
+			type: "post",
+			data: {
+				courseId:courseId,
+			},
+			headers:{"userid":this.token},
+			dataType: "json",
+		});
+	}
+
+	async removeChoice(courseId) {
+		return $.ajax({
+			url: this.getUrl() + "/choices/remove",
+			type: "post",
+			data: {
+				courseId:courseId,
+			},
+			headers:{"userid":this.token},
 			dataType: "json",
 		});
 	}
