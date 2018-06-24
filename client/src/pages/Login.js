@@ -9,7 +9,7 @@ class Login extends Page {
 	render() {
 		return (
 			<Paper className="Login" elevation={8}>
-				<form onSubmit={this.props.handleLogin}>
+				<form onSubmit={this.props.handleLogin} style={{padding:"10px"}}>
 					<TextField
 						name="email"
 						id="email"
