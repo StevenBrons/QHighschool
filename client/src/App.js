@@ -5,7 +5,7 @@ import {
 	Switch,
 	Redirect,
 } from 'react-router-dom';
-import { User } from "./Data";
+import Data,{User} from "./Data";
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -40,6 +40,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		const token = getCookie("token");
+		Data.setToken(token);
 
 		this.state = {
 			showMenu: token ? true : false,
@@ -70,6 +71,7 @@ class App extends Component {
 	handleLogin(event) {
 		event.preventDefault();
 		let token = "token1";
+		Data.setToken(token);
 		setCookie("token", token, 365);
 		this.setState({ showMenu: true, token: token });
 	}
@@ -99,7 +101,7 @@ class App extends Component {
 						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
 					}
 					<Switch>
-						<Route path="/module-keuze" render={()=><CourseSelect token={this.state.token}/>}/>
+						<Route path="/module-keuze" component={CourseSelect}/>
 						<Route path="/instellingen" component={Settings} />
 						<Redirect to="/module-keuze" />
 					</Switch>

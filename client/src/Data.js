@@ -2,9 +2,15 @@ import $ from "jquery";
 
 class Data {
 	constructor() {
-		//this.url = "http://192.168.0.70:26194/api/";
 			this.url = "http://213.127.243.178:26194/api/";
 	}
+
+	setToken(t) {
+		this.token = t;
+		User.token = t;
+		Course.token = t;
+		Subject.token = t;
+}
 
 }
 
@@ -51,20 +57,23 @@ class UserClass extends Data {
 		return this.url + "user";
 	}
 
-	async getUser(token) {
+	async getUser() {
 		return $.ajax({
 			url: this.getUrl(),
 			type: "get",
-			headers:{"userid":token},
+			headers:{"userid":this.token},
 			dataType: "json",
 		});
 	}
 
-	async getChoices(token) {
+	async getChoices() {
 		return $.ajax({
 			url: this.getUrl() + "/choices/list",
 			type: "get",
-			headers:{"userid":token},
+			headers:{"userid":this.token},
+			dataType: "json",
+		});
+	}
 			dataType: "json",
 		});
 	}

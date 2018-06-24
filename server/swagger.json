@@ -185,7 +185,7 @@
             "description": "successful operation",
             "schema": {
               "type": "array",
-              "maxLength": 3,
+              "maxLength": 5,
               "items": {
                 "$ref": "#/definitions/Course"
               }
