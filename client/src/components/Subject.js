@@ -13,6 +13,7 @@ class Subject extends Component {
 		super(props);
 		this.state = {
 			extended: this.props.extended ? true : false,
+			canCollapse: true,
 			style: {
 				width: "95%",
 				height: "auto",
@@ -20,14 +21,20 @@ class Subject extends Component {
 				margin: "20px",
 				display: "inline-block",
 				cursor: "pointer",
-			}
+			},
 		}
 	}
 
 	onClick() {
-		this.setState({
-			extended: !this.state.extended,
-		});
+		if (this.state.canCollapse) {
+			this.setState({
+				extended: !this.state.extended,
+			});
+		}
+	}
+
+	preventCollapse(preventCollapse) {
+		this.setState({canCollapse:!preventCollapse});
 	}
 
 	render() {
@@ -38,6 +45,8 @@ class Subject extends Component {
 					<CourseChoice
 						course={course}
 						choices={this.props.choices}
+						preventCollapse={this.preventCollapse.bind(this)}
+						onChoose={this.props.onChoose}
 					/>
 				);
 			});
@@ -45,7 +54,7 @@ class Subject extends Component {
 			return (
 				<Paper
 					className="Course"
-					elevation={this.state.hover ? 8 : 2}
+					elevation={this.state.hover ? 2 : 1}
 					onMouseEnter={() => this.setState({ hover: true })}
 					onMouseLeave={() => this.setState({ hover: false })}
 					style={this.state.style}
@@ -57,7 +66,7 @@ class Subject extends Component {
 					<Typography variant="headline" color="primary" gutterBottom>
 						{this.props.subject.name}
 					</Typography>
-					<Typography variant="body1" color="inherit">
+					<Typography variant="body" color="inherit">
 						{this.props.subject.description}
 					</Typography>
 					<br/>
@@ -80,7 +89,7 @@ class Subject extends Component {
 				<Typography variant="headline" color="primary" gutterBottom>
 					{this.props.subject.name}
 				</Typography>
-				<Typography variant="body1" color="inherit">
+				<Typography variant="body" color="inherit">
 					{this.props.subject.description}
 				</Typography>
 
