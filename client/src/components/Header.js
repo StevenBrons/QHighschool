@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Typography from '@material-ui/core/Typography';
 
 class Header extends Component {
 
@@ -31,7 +32,12 @@ class Header extends Component {
 					<IconButton color="inherit" aria-label="Menu" onClick={this.props.handleShowMenu}>
 						<MenuIcon />
 					</IconButton>
+					<Typography variant="title" color="inherit" gutterBottom>
 						Q-Highschool
+					</Typography>
+					<Typography variant="title" color="inherit" gutterBottom>
+						{this.props.location}
+					</Typography>
 					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.email}</Button>
 				</Toolbar>
 				<Menu
