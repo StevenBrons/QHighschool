@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var database = require('../database/mainDb');
+var database = require('../database/MainDB');
 
 router.get("/list", function (req, res, next) {
   database.subject.getSubjects().then(subjects => {
