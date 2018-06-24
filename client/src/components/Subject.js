@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import CourseChoice from '../components/CourseChoice';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
 
 class Subject extends Component {
 
@@ -64,9 +65,12 @@ class Subject extends Component {
 				<IconButton aria-label="Delete" style={{ float: "right" }}>
 					{this.state.extended?<ExpandLess />:<ExpandMore />}
 				</IconButton>
-				<Typography variant="headline" color="primary" gutterBottom>
+				<Button variant="contained" color="primary">
+						{this.props.subject.name}
+				</Button>
+				{/* <Typography variant="headline" color="primary" gutterBottom>
 					{this.props.subject.name}
-				</Typography>
+				</Typography> */}
 				<Typography color="inherit">
 					{this.props.subject.description}
 				</Typography>
