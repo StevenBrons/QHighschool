@@ -25,6 +25,7 @@ class Header extends Component {
 
 	render() {
 		const { anchorEl } = this.state;
+		console.log(this.props);
 
 		return (
 			<AppBar className="Header">
@@ -32,10 +33,10 @@ class Header extends Component {
 					<IconButton color="inherit" aria-label="Menu" onClick={this.props.handleShowMenu}>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="title" color="inherit" gutterBottom>
+					<Typography variant="title" color="inherit">
 						Q-Highschool
 					</Typography>
-					<Typography variant="title" color="inherit" gutterBottom>
+					<Typography variant="title" color="inherit">
 						{this.props.location}
 					</Typography>
 					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.email}</Button>

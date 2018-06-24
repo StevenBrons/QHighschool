@@ -20,6 +20,11 @@ class Menu extends Component {
 			style.position = "absolute";
 			style.bottom = "0px";
 		}
+
+		// if (("/" + page.id) === this.props.location.pathname) {
+		// 	style.backgroundColor = "red";
+		// }
+
 		let icon;
 		if (page.notifications > 0) {
 			icon = (

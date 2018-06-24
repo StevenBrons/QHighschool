@@ -66,6 +66,16 @@ class UserClass extends Data {
 		});
 	}
 
+	async setUser(newUser) {
+		return $.ajax({
+			url: this.getUrl(),
+			type: "post",
+			data: newUser,
+			headers:{"userid":this.token},
+			dataType: "json",
+		});
+	}
+
 	async getChoices() {
 		return $.ajax({
 			url: this.getUrl() + "/choices/list",

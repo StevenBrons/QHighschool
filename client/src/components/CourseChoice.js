@@ -66,7 +66,6 @@ class CourseChoice extends Component {
 
 	getButton(choices, course) {
 		if (course.period === currentChoosePeriod) {
-
 			if (choices.filter(c => {
 				return c.id === course.id;
 			}).length === 1) {

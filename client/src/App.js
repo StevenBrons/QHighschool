@@ -5,7 +5,7 @@ import {
 	Switch,
 	Redirect,
 } from 'react-router-dom';
-import Data,{User} from "./Data";
+import Data, { User } from "./Data";
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -16,23 +16,21 @@ import Menu from "./components/Menu";
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-
-
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#5472d3',
-      main: '#0d47a1',
-      dark: '#002171',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#60ad5e',
-      main: '#2e7d32',
-      dark: '#005005',
-      contrastText: '#ffffff',
-    },
-  },
+	palette: {
+		primary: {
+			light: '#5472d3',
+			main: '#0d47a1',
+			dark: '#002171',
+			contrastText: '#fff',
+		},
+		secondary: {
+			light: '#60ad5e',
+			main: '#2e7d32',
+			dark: '#005005',
+			contrastText: '#ffffff',
+		},
+	},
 });
 
 class App extends Component {
@@ -79,7 +77,14 @@ class App extends Component {
 	handleShowMenu() {
 		let showMenu = this.state.showMenu;
 		this.setState({
-			showMenu:!showMenu,
+			showMenu: !showMenu,
+		});
+	}
+
+	onSettingsSave(newUser) {
+		console.log(newUser);
+		this.setState({
+			user: newUser,
 		});
 	}
 
@@ -94,19 +99,21 @@ class App extends Component {
 		}
 		return (
 			<MuiThemeProvider theme={theme}>
-			<Router>
-				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)}/>
-					{
-						this.state.showMenu ? <Menu pages={this.state.pages} /> : null
-					}
-					<Switch>
-						<Route path="/module-keuze" component={CourseSelect}/>
-						<Route path="/instellingen" component={Settings} />
-						<Redirect to="/module-keuze" />
-					</Switch>
-				</div>
-			</Router>
+				<Router>
+					<div className="App" style={{ backgroundColor: "white" }}>
+						{
+							this.state.showMenu ? <Menu pages={this.state.pages} /> : null
+						}
+						<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
+						<Switch>
+							<Route path="/module-keuze" component={CourseSelect} />
+							<Route path="/instellingen" render={() => {
+								return (<Settings onSave={this.onSettingsSave.bind(this)} user={this.state.user}/>);
+							}} />
+							<Redirect to="/module-keuze" />
+						</Switch>
+					</div>
+				</Router>
 			</MuiThemeProvider>
 		);
 	}

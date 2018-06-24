@@ -34,13 +34,14 @@ class Subject extends Component {
 	}
 
 	preventCollapse(preventCollapse) {
-		this.setState({canCollapse:!preventCollapse});
+		this.setState({ canCollapse: !preventCollapse });
 	}
 
 	render() {
+		let courses;
 		if (this.state.extended) {
 
-			const courses = this.props.courses.map((course) => {
+			courses = this.props.courses.map((course) => {
 				return (
 					<CourseChoice
 						course={course}
@@ -50,41 +51,18 @@ class Subject extends Component {
 					/>
 				);
 			});
-
-			return (
-				<Paper
-					className="Course"
-					elevation={this.state.hover ? 2 : 1}
-					onMouseEnter={() => this.setState({ hover: true })}
-					onMouseLeave={() => this.setState({ hover: false })}
-					style={this.state.style}
-					onClick={this.onClick.bind(this)}
-				>
-					<IconButton aria-label="Delete" style={{float:"right"}}>
-						<ExpandLess />
-					</IconButton>
-					<Typography variant="headline" color="primary" gutterBottom>
-						{this.props.subject.name}
-					</Typography>
-					<Typography variant="body" color="inherit">
-						{this.props.subject.description}
-					</Typography>
-					<br/>
-					{courses}
-				</Paper >
-			);
-		} else {
-			return (
-				<Paper
-					className="Course"
-					elevation={this.state.hover ? 8 : 2}
-					onMouseEnter={() => this.setState({ hover: true })}
-					onMouseLeave={() => this.setState({ hover: false })}
-					style={this.state.style}
-					onClick={this.onClick.bind(this)}
-				>
-				<IconButton aria-label="Delete" style={{float:"right"}}>
-					<ExpandMore />
+		}
+		return (
+			<Paper
+				className="Course"
+				elevation={this.state.hover ? 2 : 1}
+				onMouseEnter={() => this.setState({ hover: true })}
+				onMouseLeave={() => this.setState({ hover: false })}
+				style={this.state.style}
+				onClick={this.onClick.bind(this)}
+			>
+				<IconButton aria-label="Delete" style={{ float: "right" }}>
+					<ExpandLess />
 				</IconButton>
 				<Typography variant="headline" color="primary" gutterBottom>
 					{this.props.subject.name}
@@ -92,12 +70,11 @@ class Subject extends Component {
 				<Typography variant="body" color="inherit">
 					{this.props.subject.description}
 				</Typography>
-
-				</Paper >
-			);
-		}
+				<br />
+				{courses}
+			</Paper >
+		);
 	}
-
 }
 
 export default Subject;
