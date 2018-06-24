@@ -6,6 +6,8 @@ Zijn er al courses en docenten bekend?
 
 Azure administrator account!
 
+Elke periode opnieuw modules invullen.
+
 Fase 1:
 Heeft één vak één docent? (of meer of geen)
 Heeft één module één docent? (of meer of geen)
