@@ -21,10 +21,11 @@ class UserDB{
 
 	async getChoices(token) {
 		return this.mainDb.connection.query(
-			"SELECT * FROM choice " +
+			"SELECT * FROM course WHERE id IN " +
+			"(SELECT (courseId) FROM choice " +
 			"WHERE studentId IN " +
 			"(SELECT id FROM loggedin " +
-			"WHERE token = ?)",
+			"WHERE token = ?))",
 			[token]).then(async (choices) => {
 				if (choices.length > 0) {
 					return choices;
