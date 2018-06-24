@@ -14,6 +14,27 @@ import CourseSelect from "./pages/CourseSelect";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#5472d3',
+      main: '#0d47a1',
+      dark: '#002171',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#60ad5e',
+      main: '#2e7d32',
+      dark: '#005005',
+      contrastText: '#ffffff',
+    },
+  },
+});
+
 class App extends Component {
 
 	constructor(props) {
@@ -70,6 +91,7 @@ class App extends Component {
 			);
 		}
 		return (
+			<MuiThemeProvider theme={theme}>
 			<Router>
 				<div className="App" style={{ backgroundColor: "white" }}>
 					<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)}/>
@@ -83,7 +105,7 @@ class App extends Component {
 					</Switch>
 				</div>
 			</Router>
-
+			</MuiThemeProvider>
 		);
 	}
 
