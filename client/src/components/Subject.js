@@ -65,12 +65,9 @@ class Subject extends Component {
 				<IconButton aria-label="Delete" style={{ float: "right" }}>
 					{this.state.extended?<ExpandLess />:<ExpandMore />}
 				</IconButton>
-				<Button variant="contained" color="primary">
-						{this.props.subject.name}
-				</Button>
-				{/* <Typography variant="headline" color="primary" gutterBottom>
+				<Typography variant="headline" color="primary" gutterBottom>
 					{this.props.subject.name}
-				</Typography> */}
+				</Typography>
 				<Typography color="inherit">
 					{this.props.subject.description}
 				</Typography>
