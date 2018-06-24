@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import Clear from '@material-ui/icons/Clear';
+
+const currentChoosePeriod = 1;
+const currentPeriod = 0;
 
 class CourseChoice extends Component {
 
@@ -13,9 +14,10 @@ class CourseChoice extends Component {
 		this.state = {
 			hover: false,
 			style: {
-				width: "400px",
+				width: "700px",
 				height: "200px",
-				padding: "10px",
+				padding: "20px",
+				verticalAlign: "top",
 				margin: "20px",
 				display: "inline-block",
 				cursor: "pointer",
@@ -23,67 +25,77 @@ class CourseChoice extends Component {
 		}
 	}
 
-	onChoose(event) {
+	onChoose() {
 		this.props.onChoose(this.props.course);
+	}
+
+	enter() {
+		this.props.preventCollapse(true);
+		this.setState({ hover: true })
+	}
+
+	exit() {
+		this.props.preventCollapse(false);
+		this.setState({ hover: false })
 	}
 
 	render() {
 		const props = this.props
 		return (
-				<Card
-					className="Course"
-					elevation={this.state.hover ? 8 : 2}
-					onMouseEnter={() => this.setState({ hover: true })}
-					onMouseLeave={() => this.setState({ hover: false })}
-					style={this.state.style}
-				>
-				<CardHeader
-					title={props.course.name}
-					subheader={"Periode " + props.course.period}
-				/>
-				<CardContent>
-					{props.course.description}
-				</CardContent>
-				<CardActions>
-					{
-						this.getButton(props.choices, props.course, props.maxChoices)
-					}
-				</CardActions>
-			</Card >
+			<Paper
+				elevation={this.state.hover ? 4 : 2}
+				onMouseEnter={this.enter.bind(this)}
+				onMouseLeave={this.exit.bind(this)}
+				style={this.state.style}
+			>
+				<Typography variant="headline" color="primary">
+						{this.props.course.name}
+				</Typography>
+				<Typography variant="subheading" color="TextSecondary" paragraph>
+						{"Periode " + this.props.course.period + " - " + this.props.course.day} 
+				</Typography>
+				<Typography variant="body" paragraph>
+						{this.props.course.description}
+				</Typography>
+				{
+					this.getButton(this.props.choices,this.props.course)
+				}
+			</Paper >
 		);
 	}
 
-	getButton(choices, course, maxChoices) {
-		if (choices.indexOf(course.key) !== -1) {
-			return (
-				<Button size="large" color="primary" onClick={this.onChoose.bind(this)}>
-					{this.getButtonText(choices.indexOf(course.key))}
-					<Clear />
-				</Button>
-			);
-		} else {
-			if (choices.length < maxChoices) {
+	getButton(choices, course) {
+		if (course.period === currentChoosePeriod) {
+
+			if (choices.filter(c => {
+				return c.id === course.id;
+			}).length === 1) {
 				return (
-					<Button variant="contained" size="large" color="primary" onClick={this.onChoose.bind(this)}>
-						{this.getButtonText(choices.length)}
+					<Button color="secondary" onClick={this.onChoose.bind(this)}>
+						{"Aangemeld"}
+						<Clear/>
+					</Button>
+				); 
+			}
+
+			if (choices.filter(c => {
+				return c.day === course.day;
+			}).length === 0) {
+				return (
+					<Button color="secondary" variant="contained" onClick={this.onChoose.bind(this)}>
+					{"Aanmelden"}
+				</Button>
+				);
+			} else {
+				//Choices already contain a course on this day
+				return (
+					<Button color="secondary">
+						{"Je hebt al een module gekozen voor " + course.day}
 					</Button>
 				);
 			}
-		}
-	}
-
-	getButtonText(num) {
-		switch (num) {
-			case 0: return "Eerste keuze";
-			case 1: return "Tweede keuze";
-			case 2: return "Derde keuze";
-			case 4: return "Vierde keuze";
-			case 5: return "Vijfde keuze";
-			case 6: return "Zesde keuze";
-			case 7: return "Zevende keuze";
-			case 8: return "Achste keuze";
-			case 9: return "Negende keuze";
-			default: return num + "ste keuze";
+		} else {
+			return null;
 		}
 	}
 
