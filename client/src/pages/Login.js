@@ -13,7 +13,7 @@ class Login extends Page {
 					<TextField
 						name="email"
 						id="email"
-						label="Email"
+						label="Gebruikersnaam"
 						margin="normal"
 						fullWidth
 					/>
@@ -21,13 +21,13 @@ class Login extends Page {
 					<TextField
 						name="password"
 						id="password"
-						label="Password"
+						label="Wachtwoord"
 						margin="normal"
 						type="password"
 						fullWidth
 					/>
 					<br />
-					<Button type="submit" variant="contained">
+					<Button type="submit" variant="contained" color="primary">
 						Login
 					</Button>
 				</form>
