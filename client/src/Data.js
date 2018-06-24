@@ -65,7 +65,7 @@ class UserClass extends Data {
 		return $.ajax({
 			url: this.getUrl(),
 			type: "get",
-			headers: { "userid": this.token },
+			headers: { "userId": this.token },
 			dataType: "json",
 		});
 	}
@@ -75,7 +75,7 @@ class UserClass extends Data {
 			url: this.getUrl(),
 			type: "post",
 			data: newUser,
-			headers: { "userid": this.token },
+			headers: { "userId": this.token },
 			dataType: "json",
 		});
 	}
@@ -84,7 +84,7 @@ class UserClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/choices/list",
 			type: "get",
-			headers: { "userid": this.token },
+			headers: { "userId": this.token },
 			dataType: "json",
 		});
 	}
@@ -96,7 +96,7 @@ class UserClass extends Data {
 			data: {
 				courseId: courseId,
 			},
-			headers: { "userid": this.token },
+			headers: { "userId": this.token },
 			dataType: "json",
 		});
 	}
@@ -108,7 +108,7 @@ class UserClass extends Data {
 			data: {
 				courseId: courseId,
 			},
-			headers: { "userid": this.token },
+			headers: { "userId": this.token },
 			dataType: "json",
 		});
 	}

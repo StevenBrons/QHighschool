@@ -9,7 +9,7 @@ function handleError(error, res) {
 }
 
 router.get("/", (req, res) => {
-	database.user.getUser(req.headers.userid).then((user) => {
+	database.user.getUser(req.headers.userId).then((user) => {
 		res.send(user);
 	}).catch(error => {
 		handleError(error, res);
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	database.user.setUser(req.headers.userid, req.body).then((data) => {
+	database.user.setUser(req.headers.userId, req.body).then((data) => {
 		res.send({
 			success: true,
 		});
@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
 });
 
 router.post("/choices/add", (req, res) => {
-	database.user.addUserChoice(req.headers.userid, req.body.courseId).then((data) => {
+	database.user.addUserChoice(req.headers.userId, req.body.courseId).then((data) => {
 		res.send({
 			success: true,
 		});
@@ -37,7 +37,7 @@ router.post("/choices/add", (req, res) => {
 });
 
 router.post("/choices/remove", (req, res) => {
-	database.user.removeUserChoice(req.headers.userid, req.body.courseId).then((data) => {
+	database.user.removeUserChoice(req.headers.userId, req.body.courseId).then((data) => {
 		res.send({
 			success: true,
 		});
@@ -47,7 +47,7 @@ router.post("/choices/remove", (req, res) => {
 });
 
 router.get("/choices/list", (req, res) => {
-	database.user.getChoices(req.headers.userid).then(choices => {
+	database.user.getChoices(req.headers.userId).then(choices => {
 		res.send(choices);
 	}).catch((error) => {
 		handleError(error, res);
