@@ -30,7 +30,7 @@
           "Course"
         ],
         "summary": "Get list of all courses",
-        "operationId": "getCourse",
+        "operationId": "getCourses",
         "produces": [
           "application/json"
         ],
@@ -42,6 +42,38 @@
               "items": {
                 "$ref": "#/definitions/Course"
               }
+            }
+          }
+        }
+      }
+    },
+    "/course": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Get course data",
+        "operationId": "getCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId of the course to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
             }
           }
         }
@@ -65,6 +97,38 @@
               "items": {
                 "$ref": "#/definitions/Subject"
               }
+            }
+          }
+        }
+      }
+    },
+    "/subject": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "summary": "Get subject data",
+        "operationId": "getSubject",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The subjectId of the subject to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Subject"
             }
           }
         }
