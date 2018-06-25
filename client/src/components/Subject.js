@@ -18,7 +18,8 @@ class Subject extends Component {
 				width: "95%",
 				height: "auto",
 				padding: "20px",
-				margin: "20px",
+				marginTop: "20px",
+				marginBottom: "20px",
 				display: "inline-block",
 				cursor: "pointer",
 			},
@@ -48,7 +49,6 @@ class Subject extends Component {
 						choices={this.props.choices}
 						preventCollapse={this.preventCollapse.bind(this)}
 						onChoose={this.props.onChoose}
-						possibleChoices={this.props.possibleChoices}
 					/>
 				);
 			});

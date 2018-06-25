@@ -23,11 +23,7 @@ class Settings extends Page {
 
 			},
 			style: {
-				width: "95%",
-				height: "auto",
-				padding: "20px",
-				margin: "20px",
-				display: "inline-block",
+
 			},
 		};
 	}
