@@ -11,6 +11,7 @@ import {getCookie,setCookie} from "./lib/Cookie";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
+import Course from "./pages/Course";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -107,6 +108,7 @@ class App extends Component {
 						<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
 						<Switch>
 							<Route path="/module-keuze" component={CourseSelect} />
+							<Route path="/course/:id" component={Course} />
 							<Route path="/instellingen" render={() => {
 								return (<Settings onSave={this.onSettingsSave.bind(this)} user={this.state.user}/>);
 							}} />

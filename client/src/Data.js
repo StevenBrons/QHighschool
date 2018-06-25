@@ -5,7 +5,7 @@ class Data {
 		if (process.env.NODE_ENV === 'production') {
 			this.url = "/api/";
 		} else {
-			this.url = "http://127.0.0.1:26194/api/";
+			this.url = "http://192.168.0.70:26194/api/";
 		}
 	}
 
