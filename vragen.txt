@@ -6,25 +6,10 @@ Zijn er al courses en docenten bekend?
 
 Azure administrator account!
 
-Elke periode opnieuw modules invullen.
-
-Fase 1:
-Heeft één vak één docent? (of meer of geen)
-Heeft één module één docent? (of meer of geen)
-Heeft één les één docent? (of meer of geen)
-Is er een maximum aan leerlingen per module
-Kunt u een aantal al bekende modules sturen?
-Hoeveel periodes zijn er per jaar?
-	Is er één inschrijving per periode?
-	Kan ik er vanuit gaan dat elke module uit 8 lessen bestaat en dat die lessen telkens op dezelfde dag gegeven worden?
-Heeft een module een maximaal aantal leerlingen?
-	Wat gebeurt er als dit maximum overschreven wordt?
-	Worden er vanaf dan geen extra inschrijvingen meer geaccepteerd, of moeten leerlingen een tweede keuze invullen?
-Is elke module onderdeel van een vak?
-Is elke les onderdeel van een module?
-Welke gegevens moet ik hebben van een les?
-	Alleen de dag en het aantal lessen?
-Welke gegevens heeft 
+Elke periode opnieuw modules invullen??
+Relatie instanceof module?
+Expert s!
+Coach es!
 
 Fase 2:
 Weegfactoren cijfers (studielasturen)
