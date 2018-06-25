@@ -17,32 +17,50 @@ class CourseSelect extends Page {
 		super(props);
 		this.state = {
 			course: {},
-			choices:[],
-			currentTab:0,
+			choices: [],
+			currentTab: 0,
 		}
 		if (this.props.course != null) {
 			this.state.course = this.props.course;
 		}
 	}
-	
+
 	handleChange = (event, currentTab) => {
-    this.setState({ currentTab });
-  };
+		this.setState({ currentTab });
+	};
 
 	componentWillMount() {
 		const courseId = 5;
-		if (this.props.course === undefined) {
-			Course.get(courseId).then(course => {
-				this.setState({ course: course })
+		Course.get(courseId)
+			.then(course => this.setState({ course: course }))
+			.then(User.getChoices())
+			.then(choices => {
+				choices.forEach(c => {
+					if (c.id === this.state.course.id) {
+						this.setState({ chosen: true });
+					}
+				});
+				this.setState({ choices: choices });
 			});
+	}
+
+	handleChoose(course) {
+		if (this.state.chosen) {
+			User.removeChoice(course.id);
+		} else {
+			User.addChoice(course.id);
 		}
+		this.setState({
+			chosen: !this.state.chosen,
+		});
+		User.getChoices().then(choices => this.setState({ choices: choices }));
 	}
 
 
 	render() {
 		let course = this.state.course;
 		return (
-			<div className="Page" style={this.state.style}>
+			<div className="Page" style={this.state.style} >
 				<div style={{ float: "right", textAlign: "right" }}>
 					<Button color="primary" size="large">
 						{course.teacherName}
@@ -68,23 +86,25 @@ class CourseSelect extends Page {
 				<Divider />
 				<ChooseButton
 					course={course}
-					choices={this.props.choices}
-					onChoose={this.props.onChoose}
+					choices={this.state.choices}
+					onChoose={this.handleChoose.bind(this)}
+					style={{margin:"20px"}}
 				/>
+				<Divider />
 				<AppBar position="static" color="default">
-          <Tabs
-            value={this.state.currentTab}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
+					<Tabs
+						value={this.state.currentTab}
+						onChange={this.handleChange}
+						indicatorColor="primary"
+						textColor="primary"
 						fullWidth
 						centered
-          >
-            <Tab label="Lessen" />
-            <Tab label="Activiteit" />
-            <Tab label="Beoordeling" />
-          </Tabs>
-        </AppBar>
+					>
+						<Tab label="Lessen" />
+						<Tab label="Activiteit" />
+						<Tab label="Beoordeling" />
+					</Tabs>
+				</AppBar>
 				{/* <TextField
           id="name"
           label="Name"

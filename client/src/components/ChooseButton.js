@@ -8,7 +8,7 @@ class ChooseButton extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			possibleChoices: [],	
+			possibleChoices: [],
 		}
 	}
 
@@ -35,7 +35,7 @@ class ChooseButton extends Component {
 		const props = this.props;
 		if (this.indexOfCourse(props.choices, props.course) > -1) {
 			return (
-				<Button color="secondary" onClick={props.onChoose.bind(this)}>
+				<Button color="secondary" onClick={() => props.onChoose(props.course)} style={this.props.style}>
 					{"Aangemeld"}
 					<Clear />
 				</Button>
@@ -48,13 +48,13 @@ class ChooseButton extends Component {
 			}).length === 1) {
 				//Choices already contain a course on this day
 				return (
-					<Button color="secondary">
+					<Button color="secondary" style={this.props.style}>
 						{"Je hebt al een module gekozen voor " + props.course.day}
 					</Button>
 				);
 			} else {
 				return (
-					<Button color="secondary" variant="contained" onClick={props.onChoose.bind(this)}>
+					<Button color="secondary" variant="contained" onClick={() => props.onChoose(props.course)} style={this.props.style}>
 						{"Aanmelden"}
 					</Button>
 				);
