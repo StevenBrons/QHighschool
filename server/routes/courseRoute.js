@@ -14,7 +14,7 @@ router.get("/list", function (req, res, next) {
   });
 });
 
-router.get("/", function (req, res, next) {
+router.post("/", function (req, res, next) {
   database.course.getCourse(req.body).then(courses => {
     res.send(courses);
   }).catch(error => handleError(error, res))

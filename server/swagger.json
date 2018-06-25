@@ -48,7 +48,7 @@
       }
     },
     "/course": {
-      "get": {
+      "post": {
         "tags": [
           "Course"
         ],
@@ -103,7 +103,7 @@
       }
     },
     "/subject": {
-      "get": {
+      "post": {
         "tags": [
           "Subject"
         ],
