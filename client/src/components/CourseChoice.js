@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Clear from '@material-ui/icons/Clear';
+import ChooseButton from './ChooseButton';
 
 class CourseChoice extends Component {
 
@@ -53,56 +52,16 @@ class CourseChoice extends Component {
 				<Typography paragraph>
 					{this.props.course.description}
 				</Typography>
-				{
-					this.getButton(this.props.choices, this.props.possibleChoices, this.props.course)
-				}
+				<ChooseButton
+					course={this.props.course}
+					choices={this.props.choices}
+					onChoose={this.props.onChoose}
+				/>
 			</Paper >
 		);
 	}
 
-	indexOfCourse(list, course) {
-		let index = -1;
-		list.map((c, i) => {
-			if (c.id === course.id) {
-				index = i;
-			}
-			return 0;
-		});
-		return index;
-	}
 
-	getButton(choices, possibleChoices, course) {
-		if (this.indexOfCourse(choices, course) > -1) {
-			return (
-				<Button color="secondary" onClick={this.onChoose.bind(this)}>
-					{"Aangemeld"}
-					<Clear />
-				</Button>
-			);
-		}
-
-		if (this.indexOfCourse(possibleChoices, course) !== -1) {
-			if (choices.filter(c => {
-				return c.day === course.day;
-			}).length === 1) {
-				//Choices already contain a course on this day
-				return (
-					<Button color="secondary">
-						{"Je hebt al een module gekozen voor " + course.day}
-					</Button>
-				);
-			} else {
-				return (
-					<Button color="secondary" variant="contained" onClick={this.onChoose.bind(this)}>
-						{"Aanmelden"}
-					</Button>
-				);
-			}
-		} else {
-			return null;
-		}
-
-	}
 }
 
 

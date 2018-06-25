@@ -31,6 +31,17 @@ class CourseClass extends Data {
 		});
 	}
 
+	async get(courseId) {
+		return $.ajax({
+			url: this.getUrl() + "/",
+			type: "post",
+			data: {
+				courseId: courseId,
+			},
+			dataType: "json",
+		});
+	}
+
 }
 
 class SubjectClass extends Data {
@@ -42,6 +53,17 @@ class SubjectClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/list",
 			type: "get",
+			dataType: "json",
+		});
+	}
+
+	async get(subjectId) {
+		return $.ajax({
+			url: this.getUrl() + "/",
+			type: "post",
+			data: {
+				subjectId: subjectId,
+			},
 			dataType: "json",
 		});
 	}
@@ -106,11 +128,17 @@ class UserClass extends Data {
 	}
 
 	async getPossibleChoices() {
+		if (this.possibleChoices != null) {
+			return this.possibleChoices;
+		}
 		return $.ajax({
 			url: this.getUrl() + "/possibleChoices",
 			type: "get",
 			headers: { "token": this.token },
 			dataType: "json",
+		}).then((choices)=> {
+			this.possibleChoices = choices;
+			return choices;
 		});
 	}
 }

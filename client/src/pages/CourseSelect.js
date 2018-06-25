@@ -20,8 +20,8 @@ class CourseSelect extends Page {
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(), Course.getList(), Subject.getList(), User.getPossibleChoices()]).then((data) => {
-			this.setState({ choices: data[0], courses: data[1], subjects: data[2],possibleChoices: data[3]});
+		Promise.all([User.getChoices(), Course.getList(), Subject.getList()]).then((data) => {
+			this.setState({ choices: data[0], courses: data[1], subjects: data[2]});
 		});
 	}
 
@@ -70,7 +70,6 @@ class CourseSelect extends Page {
 				courses={this.getCoursesPerSubject.bind(this)(subject)}
 				choices={this.state.choices}
 				onChoose={this.handleCourseChoose.bind(this)}
-				possibleChoices={this.state.possibleChoices}
 			/>
 		});
 
