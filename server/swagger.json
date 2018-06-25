@@ -47,29 +47,6 @@
         }
       }
     },
-    "/course/choices": {
-      "get": {
-        "tags": [
-          "Course"
-        ],
-        "summary": "Get list of courses to choose from",
-        "operationId": "getChoices",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Course"
-              }
-            }
-          }
-        }
-      }
-    },
     "/subject/list": {
       "get": {
         "tags": [
@@ -113,7 +90,7 @@
         },
         "security": [
           {
-            "userId": []
+            "token": []
           }
         ]
       },
@@ -162,12 +139,40 @@
         },
         "security": [
           {
-            "userId": []
+            "token": []
           }
         ]
       }
     },
-    "/user/choices/list": {
+    "/user/possibleChoices": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get list of courses to choose from",
+        "operationId": "getChoices",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/user/choices": {
       "get": {
         "tags": [
           "User"
@@ -194,17 +199,15 @@
         },
         "security": [
           {
-            "userId": []
+            "token": []
           }
         ]
-      }
-    },
-    "/user/choices/add": {
-      "post": {
+      },
+      "put": {
         "tags": [
           "User"
         ],
-        "summary": "Update user data",
+        "summary": "Add choice",
         "operationId": "addUserChoice",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -228,17 +231,15 @@
         },
         "security": [
           {
-            "userId": []
+            "token": []
           }
         ]
-      }
-    },
-    "/user/choices/remove": {
-      "post": {
+      },
+      "delete": {
         "tags": [
           "User"
         ],
-        "summary": "Update user data",
+        "summary": "Delete choice",
         "operationId": "removeUserChoice",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -262,14 +263,14 @@
         },
         "security": [
           {
-            "userId": []
+            "token": []
           }
         ]
       }
     }
   },
   "securityDefinitions": {
-    "userid": {
+    "token": {
       "type": "apiKey",
       "in": "header",
       "name": "token"
@@ -369,6 +370,21 @@
           "type": "string"
         },
         "phoneNumber": {
+          "type": "string"
+        },
+        "foreknowledge": {
+          "type": "string"
+        },
+        "studyTime": {
+          "type": "string"
+        },
+        "accessibleFor": {
+          "type": "string"
+        },
+        "experts": {
+          "type": "string"
+        },
+        "coaches": {
           "type": "string"
         }
       },
