@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import CourseChoice from '../components/CourseChoice';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
 
 class Subject extends Component {
 

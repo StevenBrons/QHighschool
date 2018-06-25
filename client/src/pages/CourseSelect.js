@@ -25,7 +25,6 @@ class CourseSelect extends Page {
 	}
 
 	async handleCourseChoose(course) {
-		const index = this.state.choices.indexOf(course)
 		if (this.state.choices.filter(c => {
 			return c.id === course.id;
 		}).length === 0) {
@@ -35,6 +34,12 @@ class CourseSelect extends Page {
 				});
 			});
 		} else {
+			let index = -1;
+			this.state.choices.map((c,i) => {
+				if (c.id === course.id) {
+					index = i;
+				}
+			});
 			let c = this.state.choices.slice();
 			c.splice(index, 1);
 			await User.removeChoice(course.id).then(() => {
