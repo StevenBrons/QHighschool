@@ -46,6 +46,7 @@ class App extends Component {
 			showMenu: token ? true : false,
 			token: token,
 			user: {},
+			choices:[],
 			pages: [
 				{
 					id: "module-keuze",
@@ -108,7 +109,7 @@ class App extends Component {
 						<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
 						<Switch>
 							<Route path="/module-keuze" component={CourseSelect} />
-							<Route path="/course/:id" component={Course} />
+							<Route path="/module" component={Course} />
 							<Route path="/instellingen" render={() => {
 								return (<Settings onSave={this.onSettingsSave.bind(this)} user={this.state.user}/>);
 							}} />
