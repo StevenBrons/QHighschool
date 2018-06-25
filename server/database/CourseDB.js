@@ -8,6 +8,20 @@ class CourseDB {
 		return this.mainDb.connection.query("SELECT * FROM course;");
 	}
 
+	async getCourse(body) {
+		if (body.courseId.length > 0) {
+			return this.mainDb.connection.query("SELECT * FROM course WHERE id = ?",[body.courseId]).then(courses => {
+				if (courses.length === 1) {	
+					return courses[0];
+				}
+				throw new Error("courseId is invalid");
+			});
+		}else {
+			throw new Error("courseId cannot be unset");
+		}
+	}
+
+
 }
 
 module.exports = CourseDB;

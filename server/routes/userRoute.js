@@ -11,9 +11,7 @@ function handleError(error, res) {
 router.get("/", (req, res) => {
 	database.user.getUser(req.headers.token).then((user) => {
 		res.send(user);
-	}).catch(error => {
-		handleError(error, res);
-	});
+	}).catch(error => handleError(error, res));
 });
 
 router.post("/", (req, res) => {
@@ -21,9 +19,7 @@ router.post("/", (req, res) => {
 		res.send({
 			success: true,
 		});
-	}).catch(error => {
-		handleError(error,res);
-	});
+	}).catch(error => handleError(error, res));
 });
 
 router.put("/choices", (req, res) => {
@@ -31,9 +27,7 @@ router.put("/choices", (req, res) => {
 		res.send({
 			success: true,
 		});
-	}).catch((error) => {
-		handleError(error, res);
-	});
+	}).catch(error => handleError(error, res));
 });
 
 router.delete("/choices", (req, res) => {
@@ -41,25 +35,21 @@ router.delete("/choices", (req, res) => {
 		res.send({
 			success: true,
 		});
-	}).catch((error) => {
-		handleError(error, res);
-	});
+	}).catch(error => handleError(error, res));
 });
 
 router.get("/choices", (req, res) => {
 	database.user.getChoices(req.headers.token).then(choices => {
 		res.send(choices);
-	}).catch((error) => {
-		handleError(error, res);
-	});
+	}).catch(error => handleError(error, res));
 });
 
 router.get("/possibleChoices", function (req, res, next) {
 	const token = req.headers.token;
-  database.course.getCourses().then(courses => {
-    var choices = courses.filter((course) => { return course.period == 1 });
-    res.send(choices);
-  });
+	database.course.getCourses().then(courses => {
+		var choices = courses.filter((course) => { return course.period == 1 });
+		res.send(choices);
+	});
 });
 
 module.exports = router;
