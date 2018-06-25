@@ -349,6 +349,9 @@
         },
         "subjectId": {
           "type": "string"
+				},
+				"subjectName": {
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -357,6 +360,9 @@
           "type": "string"
         },
         "teacherId": {
+          "type": "string"
+				},
+				"teacherName": {
           "type": "string"
         },
         "period": {

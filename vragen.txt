@@ -15,4 +15,4 @@ Fase 2:
 Weegfactoren cijfers (studielasturen)
 Beoordeling formaat (cijfers, goed, matig etc.)
 Meerdere beoordelingen per module?
-
+Voor en achternaam los opslaan?
