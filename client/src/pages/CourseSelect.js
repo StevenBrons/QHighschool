@@ -39,6 +39,7 @@ class CourseSelect extends Page {
 				if (c.id === course.id) {
 					index = i;
 				}
+				return 0;
 			});
 			let c = this.state.choices.slice();
 			c.splice(index, 1);
