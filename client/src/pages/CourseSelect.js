@@ -10,6 +10,7 @@ class CourseSelect extends Page {
 		this.state = {
 			courses: [],
 			choices: [],
+			choosable: [],
 			subjects: [],
 			style: {
 				overflowY: "scroll",
@@ -19,8 +20,8 @@ class CourseSelect extends Page {
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(), Course.getList(), Subject.getList()]).then((data) => {
-			this.setState({ choices: data[0], courses: data[1], subjects: data[2] });
+		Promise.all([User.getChoices(), Course.getList(), Subject.getList(), Course.getChoices()]).then((data) => {
+			this.setState({ choices: data[0], courses: data[1], subjects: data[2],choosable });
 		});
 	}
 

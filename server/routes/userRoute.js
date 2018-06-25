@@ -26,7 +26,7 @@ router.post("/", (req, res) => {
 	});
 });
 
-router.post("/choices/add", (req, res) => {
+router.put("/choices", (req, res) => {
 	database.user.addUserChoice(req.headers.token, req.body.courseId).then((data) => {
 		res.send({
 			success: true,
@@ -36,7 +36,7 @@ router.post("/choices/add", (req, res) => {
 	});
 });
 
-router.post("/choices/remove", (req, res) => {
+router.delete("/choices", (req, res) => {
 	database.user.removeUserChoice(req.headers.token, req.body.courseId).then((data) => {
 		res.send({
 			success: true,
@@ -46,12 +46,20 @@ router.post("/choices/remove", (req, res) => {
 	});
 });
 
-router.get("/choices/list", (req, res) => {
+router.get("/choices", (req, res) => {
 	database.user.getChoices(req.headers.token).then(choices => {
 		res.send(choices);
 	}).catch((error) => {
 		handleError(error, res);
 	});
+});
+
+router.get("/possibleChoices", function (req, res, next) {
+	const token = req.headers.token;
+  database.course.getCourses().then(courses => {
+    var choices = courses.filter((course) => { return course.period == 1 });
+    res.send(choices);
+  });
 });
 
 module.exports = router;

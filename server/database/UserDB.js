@@ -61,12 +61,12 @@ class UserDB{
 	}
 
 	async addUserChoice(token, courseId) {
-		return this.mainDb.connection.query(
+		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
 			"INSERT INTO choice " + 
 			"(studentId,courseId) VALUES" + 
 			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
 			[token,courseId]
-		);
+		));
 	}
 
 	async removeUserChoice(token, courseId) {
