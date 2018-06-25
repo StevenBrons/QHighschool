@@ -269,10 +269,10 @@
     }
   },
   "securityDefinitions": {
-    "userId": {
+    "userid": {
       "type": "apiKey",
       "in": "header",
-      "name": "userId"
+      "name": "token"
     }
   },
   "definitions": {
