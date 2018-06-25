@@ -8,7 +8,9 @@
     display: -ms-grid;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+		-ms-grid-rows: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
 }
 
 body, #root, .App {
@@ -21,22 +23,38 @@ body, #root, .App {
 
 .Login {
     grid-column: 6 / span 4;
-    grid-row: 5 / span 4;
+		grid-row: 5 / span 4;
+		-ms-grid-column: 6;
+		-ms-grid-column-span: 4;
+		-ms-grid-row: 5;
+		-ms-grid-row-span: 4;
 }
 
 .Header {
   grid-column: 1 / span 15;
-  grid-row: 1 / span 1;
+	grid-row: 1 / span 1;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 15;
+	-ms-grid-row: 1;
+	-ms-grid-row-span: 1;
 }
 
 .Menu {
   grid-column: 1 / span 2;
-  grid-row: 2 / span 14;
+	grid-row: 2 / span 14;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 2;
+	-ms-grid-row: 2;
+	-ms-grid-row-span: 14;
 }
 
 .Page {
   grid-column: 3 / span 12;
-  grid-row: 2 / span 13;
+	grid-row: 2 / span 13;
+	-ms-grid-column: 3;
+	-ms-grid-column-span: 12;
+	-ms-grid-row: 2;
+	-ms-grid-row-span: 13;
 }
 
 @media only screen and (max-width: 1200px) {
