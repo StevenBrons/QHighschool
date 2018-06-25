@@ -4,8 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Clear from '@material-ui/icons/Clear';
 
-const currentChoosePeriod = 1;
-
 class CourseChoice extends Component {
 
 	constructor(props) {
@@ -47,55 +45,64 @@ class CourseChoice extends Component {
 				style={this.state.style}
 			>
 				<Typography variant="headline" color="primary">
-						{this.props.course.name}
+					{this.props.course.name}
 				</Typography>
 				<Typography variant="subheading" color="textSecondary" paragraph>
-						{"Periode " + this.props.course.period + " - " + this.props.course.day} 
+					{"Periode " + this.props.course.period + " - " + this.props.course.day}
 				</Typography>
 				<Typography paragraph>
-						{this.props.course.description}
+					{this.props.course.description}
 				</Typography>
 				{
-					this.getButton(this.props.choices,this.props.course)
+					this.getButton(this.props.choices, this.props.possibleChoices, this.props.course)
 				}
 			</Paper >
 		);
 	}
 
-	getButton(choices, course) {
-		if (course.period === currentChoosePeriod) {
-			if (choices.filter(c => {
-				return c.id === course.id;
-			}).length === 1) {
-				return (
-					<Button color="secondary" onClick={this.onChoose.bind(this)}>
-						{"Aangemeld"}
-						<Clear/>
-					</Button>
-				); 
+	indexOfCourse(list, course) {
+		let index = -1;
+		list.map((c, i) => {
+			if (c.id === course.id) {
+				index = i;
 			}
+			return 0;
+		});
+		return index;
+	}
 
+	getButton(choices, possibleChoices, course) {
+		if (this.indexOfCourse(choices, course) > -1) {
+			return (
+				<Button color="secondary" onClick={this.onChoose.bind(this)}>
+					{"Aangemeld"}
+					<Clear />
+				</Button>
+			);
+		}
+
+		if (this.indexOfCourse(possibleChoices, course) !== -1) {
 			if (choices.filter(c => {
 				return c.day === course.day;
-			}).length === 0) {
-				return (
-					<Button color="secondary" variant="contained" onClick={this.onChoose.bind(this)}>
-					{"Aanmelden"}
-				</Button>
-				);
-			} else {
+			}).length === 1) {
 				//Choices already contain a course on this day
 				return (
 					<Button color="secondary">
 						{"Je hebt al een module gekozen voor " + course.day}
 					</Button>
 				);
+			} else {
+				return (
+					<Button color="secondary" variant="contained" onClick={this.onChoose.bind(this)}>
+						{"Aanmelden"}
+					</Button>
+				);
 			}
 		} else {
 			return null;
 		}
-	}
 
+	}
 }
 
 

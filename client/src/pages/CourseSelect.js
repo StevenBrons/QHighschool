@@ -10,7 +10,7 @@ class CourseSelect extends Page {
 		this.state = {
 			courses: [],
 			choices: [],
-			choosable: [],
+			possibleChoices: [],
 			subjects: [],
 			style: {
 				overflowY: "scroll",
@@ -20,28 +20,31 @@ class CourseSelect extends Page {
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(), Course.getList(), Subject.getList(), Course.getChoices()]).then((data) => {
-			this.setState({ choices: data[0], courses: data[1], subjects: data[2],choosable });
+		Promise.all([User.getChoices(), Course.getList(), Subject.getList(), User.getPossibleChoices()]).then((data) => {
+			this.setState({ choices: data[0], courses: data[1], subjects: data[2],possibleChoices: data[3]});
 		});
 	}
 
+	indexOfCourse(course) {
+		let index = -1;
+		this.state.choices.map((c,i) => {
+			if (c.id === course.id) {
+				index = i;
+			}
+			return 0;
+		});
+		return index;
+	}
+
 	async handleCourseChoose(course) {
-		if (this.state.choices.filter(c => {
-			return c.id === course.id;
-		}).length === 0) {
+		const index = this.indexOfCourse(course);
+		if (index === -1) {
 			await User.addChoice(course.id).then(() => {
 				this.setState({
 					choices: this.state.choices.concat(course),
 				});
 			});
 		} else {
-			let index = -1;
-			this.state.choices.map((c,i) => {
-				if (c.id === course.id) {
-					index = i;
-				}
-				return 0;
-			});
 			let c = this.state.choices.slice();
 			c.splice(index, 1);
 			await User.removeChoice(course.id).then(() => {
@@ -67,6 +70,7 @@ class CourseSelect extends Page {
 				courses={this.getCoursesPerSubject.bind(this)(subject)}
 				choices={this.state.choices}
 				onChoose={this.handleCourseChoose.bind(this)}
+				possibleChoices={this.state.possibleChoices}
 			/>
 		});
 

@@ -48,6 +48,7 @@ class Subject extends Component {
 						choices={this.props.choices}
 						preventCollapse={this.preventCollapse.bind(this)}
 						onChoose={this.props.onChoose}
+						possibleChoices={this.props.possibleChoices}
 					/>
 				);
 			});

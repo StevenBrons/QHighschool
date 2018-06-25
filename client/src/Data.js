@@ -31,14 +31,6 @@ class CourseClass extends Data {
 		});
 	}
 
-	async getChoices() {
-		return $.ajax({
-			url: this.getUrl() + "/choices",
-			type: "get",
-			dataType: "json",
-		});
-	}
-
 }
 
 class SubjectClass extends Data {
@@ -82,7 +74,7 @@ class UserClass extends Data {
 
 	async getChoices() {
 		return $.ajax({
-			url: this.getUrl() + "/choices/list",
+			url: this.getUrl() + "/choices",
 			type: "get",
 			headers: { "token": this.token },
 			dataType: "json",
@@ -91,8 +83,8 @@ class UserClass extends Data {
 
 	async addChoice(courseId) {
 		return $.ajax({
-			url: this.getUrl() + "/choices/add",
-			type: "post",
+			url: this.getUrl() + "/choices",
+			type: "put",
 			data: {
 				courseId: courseId,
 			},
@@ -103,11 +95,20 @@ class UserClass extends Data {
 
 	async removeChoice(courseId) {
 		return $.ajax({
-			url: this.getUrl() + "/choices/remove",
-			type: "post",
+			url: this.getUrl() + "/choices",
+			type: "delete",
 			data: {
 				courseId: courseId,
 			},
+			headers: { "token": this.token },
+			dataType: "json",
+		});
+	}
+
+	async getPossibleChoices() {
+		return $.ajax({
+			url: this.getUrl() + "/possibleChoices",
+			type: "get",
 			headers: { "token": this.token },
 			dataType: "json",
 		});
