@@ -9,14 +9,14 @@ function handleError(error, res) {
 }
 
 router.get("/list", function (req, res, next) {
-  database.course.getCourses().then(courses => {
-    res.send(courses);
+  database.group.getGroups().then(groups => {
+    res.send(groups);
   });
 });
 
 router.post("/", function (req, res, next) {
-  database.course.getCourse(req.body).then(course => {
-    res.send(course);
+  database.group.getGroup(req.body).then(group => {
+    res.send(group);
   }).catch(error => handleError(error, res))
 });
 
