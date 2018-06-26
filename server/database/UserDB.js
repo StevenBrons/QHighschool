@@ -19,7 +19,7 @@ class UserDB{
 			});
 	}
 
-	async getChoices(token) {
+	async getEnrollments(token) {
 		return this.mainDb.connection.query(
 			"SELECT * FROM course WHERE id IN " +
 			"(SELECT (courseId) FROM choice " +
@@ -60,7 +60,7 @@ class UserDB{
 			[data.preferedEmail,data.profile,data.phoneNumber, token]);
 	}
 
-	async addUserChoice(token, courseId) {
+	async addUserEnrollment(token, courseId) {
 		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
 			"INSERT INTO choice " + 
 			"(studentId,courseId) VALUES" + 
@@ -69,7 +69,7 @@ class UserDB{
 		));
 	}
 
-	async removeUserChoice(token, courseId) {
+	async removeUserEnrollment(token, courseId) {
 		return this.mainDb.connection.query(
 			"DELETE FROM choice " + 
 			"WHERE studentId IN " +

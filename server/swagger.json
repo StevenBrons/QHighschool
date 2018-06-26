@@ -121,9 +121,9 @@
         ],
         "parameters": [
           {
-            "name": "courseId",
+            "name": "groupId",
             "in": "formData",
-            "description": "The courseId of the course to get information from",
+            "description": "The groupId of the course to get information from",
             "required": true,
             "type": "string"
           }
@@ -301,7 +301,7 @@
           "User"
         ],
         "summary": "Get choices",
-        "operationId": "getUserChoices",
+        "operationId": "getEnrollments",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -315,7 +315,7 @@
               "type": "array",
               "maxLength": 5,
               "items": {
-                "$ref": "#/definitions/Course"
+                "$ref": "#/definitions/Group"
               }
             }
           }
@@ -330,16 +330,16 @@
         "tags": [
           "User"
         ],
-        "summary": "Add choice",
-        "operationId": "addUserChoice",
+        "summary": "Add enrollment",
+        "operationId": "addEnrollment",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
-            "name": "courseId",
+            "name": "groupId",
             "in": "formData",
-            "description": "The courseId to add",
+            "description": "The groupId of the group to add",
             "required": true,
             "type": "string"
           }
@@ -362,16 +362,16 @@
         "tags": [
           "User"
         ],
-        "summary": "Delete choice",
-        "operationId": "removeUserChoice",
+        "summary": "Delete enrollment",
+        "operationId": "removeEnrollment",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
-            "name": "courseId",
+            "name": "groupId",
             "in": "formData",
-            "description": "The courseId to remove",
+            "description": "The groupId of the group to remove",
             "required": true,
             "type": "string"
           }

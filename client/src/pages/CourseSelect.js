@@ -1,14 +1,14 @@
 import React from 'react';
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
-import { Course, User, Subject } from "../Data";
+import { Group , User, Subject } from "../Data";
 
 class CourseSelect extends Page {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			courses: [],
+			groups: [],
 			choices: [],
 			possibleChoices: [],
 			subjects: [],
@@ -20,8 +20,8 @@ class CourseSelect extends Page {
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(), Course.getList(), Subject.getList()]).then((data) => {
-			this.setState({ choices: data[0], courses: data[1], subjects: data[2]});
+		Promise.all([User.getChoices(), Group.getList(), Subject.getList()]).then((data) => {
+			this.setState({ choices: data[0], groups: data[1], subjects: data[2]});
 		});
 	}
 
