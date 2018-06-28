@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
-import { Group, User, Subject } from "../Data";
+import { getSubjects,getGroups } from '../store/actions';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,10 +15,6 @@ class CourseSelect extends Page {
 	constructor(props) {
 		super(props);
 		this.state = {
-			groups: [],
-			enrollments: [],
-			enrollableGroups: [],
-			subjects: [],
 			sortMethod: "subject",
 		}
 	}
@@ -97,5 +93,6 @@ class CourseSelect extends Page {
 	}
 }
 
-export default CourseSelect;
+		subjects:state.subjects,
+		getSubjects: () => dispatch(getSubjects()),
 

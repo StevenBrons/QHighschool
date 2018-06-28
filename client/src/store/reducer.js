@@ -3,6 +3,7 @@ const DEFAULT_STATE = {
 	},
 	enrollments: null,
 	enrollableGroups: null,
+	subjects:null,
 	showMenu: true,
 	isLoggedIn: true,
 	hasFetched:[],
@@ -24,6 +25,8 @@ function reducer(state = DEFAULT_STATE, action) {
 			return { ...state, hasFetched: [...state.hasFetched,action.call] };
 		case "CHANGE_ENROLLABLE_GROUPS":
 			return { ...state, enrollableGroups: action.enrollableGroups };
+		case "CHANGE_SUBJECTS":
+			return { ...state, subjects: action.subjects };
 		case "CHANGE_ENROLLMENT":
 			if (action.action === "ADD") {
 				return {
