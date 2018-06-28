@@ -21,10 +21,6 @@ class CourseChoice extends Component {
 		}
 	}
 
-	onChoose() {
-		this.props.onChoose(this.props.course);
-	}
-
 	enter() {
 		this.props.preventCollapse(true);
 		this.setState({ hover: true })
@@ -44,18 +40,16 @@ class CourseChoice extends Component {
 				style={this.state.style}
 			>
 				<Typography variant="headline" color="primary">
-					{this.props.course.name}
+					{this.props.group.courseName}
 				</Typography>
 				<Typography variant="subheading" color="textSecondary" paragraph>
-					{"Periode " + this.props.course.period + " - " + this.props.course.day}
+					{"Periode " + this.props.group.period + " - " + this.props.group.day}
 				</Typography>
 				<Typography paragraph>
-					{this.props.course.description}
+					{this.props.group.courseDescription}
 				</Typography>
 				<ChooseButton
-					course={this.props.course}
-					choices={this.props.choices}
-					onChoose={this.props.onChoose}
+					group={this.props.group}
 				/>
 			</Paper >
 		);
