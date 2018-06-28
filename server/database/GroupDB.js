@@ -10,6 +10,7 @@ class GroupDB {
 			"qhighschool.group.*, " +
 			"qhighschool.course.name AS courseName, " +
 			"qhighschool.course.description AS courseDescription, " +
+			"qhighschool.subject.id AS subjectId, " +
 			"qhighschool.subject.name AS subjectName, " +
 			"qhighschool.subject.description AS subjectDescription, " +
 			"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName " +
@@ -28,6 +29,7 @@ class GroupDB {
 				"qhighschool.course.name AS courseName, " +
 				"qhighschool.course.description AS courseDescription, " +
 				"qhighschool.subject.name AS subjectName, " +
+				"qhighschool.subject.id AS subjectId, " +
 				"qhighschool.subject.description AS subjectDescription, " +
 				"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName " +
 				 "FROM qhighschool.group  " +
