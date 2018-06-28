@@ -49,11 +49,7 @@ body, #root, .App {
 }
 
 .Page {
-	width: 95%;
-	height: auto;
-	padding: 20px;
-	margin: 20px;
-	display: inline-block;
+	padding: 30px;
   grid-column: 3 / span 12;
 	grid-row: 2 / span 13;
 	-ms-grid-column: 3;
