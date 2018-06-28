@@ -70,6 +70,8 @@ class CourseSelect extends Page {
 				);
 			});
 			break;
+			default:
+			break;
 		}
 
 		return (

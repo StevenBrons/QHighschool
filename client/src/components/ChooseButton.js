@@ -60,9 +60,9 @@ function mapStateToProps(state, ownProps) {
 	}
 
 	return {
-		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) != -1,
-		hasChosen: state.enrollments.map(e => e.id).indexOf(ownProps.group.id) != -1,
-		hasChosenDay: state.enrollments.map(e => e.day).indexOf(ownProps.group.day) != -1,
+		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
+		hasChosen: state.enrollments.map(e => e.id).indexOf(ownProps.group.id) !== -1,
+		hasChosenDay: state.enrollments.map(e => e.day).indexOf(ownProps.group.day) !== -1,
 	};
 }
 
