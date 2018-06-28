@@ -4,6 +4,11 @@ import SubjectComponent from '../components/Subject';
 import { Group, User, Subject } from "../Data";
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 class CourseSelect extends Page {
 
@@ -14,11 +19,8 @@ class CourseSelect extends Page {
 			enrollments: [],
 			enrollableGroups: [],
 			subjects: [],
-			style: {
-				overflowY: "scroll",
-			}
+			sortMethod: "subject",
 		}
-
 	}
 
 	componentWillMount() {
@@ -33,26 +35,63 @@ class CourseSelect extends Page {
 		});
 	}
 
+	handleSortChange = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
+
 	render() {
-		var subjects = this.state.subjects.map((subject) => {
-			return <SubjectComponent
-				key={subject.id}
-				subject={subject}
-				extended={false}
-				groups={this.getGroupsPerSubject.bind(this)(subject)}
-			/>
-		});
+		let data;
+		switch(this.state.sortMethod) {
+			case "subject":
+			data = this.state.subjects.map((subject) => {
+				return <SubjectComponent
+					key={subject.id}
+					subject={subject}
+					extended={false}
+					groups={this.getGroupsPerSubject.bind(this)(subject)}
+				/>
+			});
+			break;
+			case "enrollable":
+			break;
+		}
+
 		return (
 			<div className="Page" style={this.state.style}>
-				{/* <AppBar position="static" color="default">
-					<Typography variant="title" color="inherit">
-						Q-Highschool
-					</Typography>
-				</AppBar> */}
-				{subjects}
-				<br/>
-				<br/>
-				<br/>
+				<AppBar position="static" color="default">
+					<Toolbar>
+						<Typography variant="subheading" color="textSecondary">
+							Meld je aan voor modules
+          	</Typography>
+						<form autoComplete="off" style={{ right: 10, position: "absolute"}}>
+							<FormControl>
+								<InputLabel htmlFor="sortMethod">Sorteren op</InputLabel>
+								<Select
+									value={this.state.sortMethod}
+									onChange={this.handleSortChange}
+									inputProps={{
+										name: 'sortMethod',
+										id: 'sortMethod',
+									}}
+									autoWidth={true}
+									size={"large"}
+								>
+									<MenuItem value="subject">
+										<Typography variant="subheading" color="textSecondary" style={{width:"100px"}}>
+											Vak
+          					</Typography>
+									</MenuItem>
+									<MenuItem value={"enrollable"} style={{width:"100px"}}>Aanmeldbaar</MenuItem>
+								</Select>
+							</FormControl>
+						</form>
+					</Toolbar>
+				</AppBar>
+				<br />
+				{data}
+				<br />
+				<br />
+				<br />
 			</div>
 		);
 	}

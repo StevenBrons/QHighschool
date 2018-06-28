@@ -49,6 +49,7 @@ body, #root, .App {
 }
 
 .Page {
+	overflow-y: scroll;
 	padding: 30px;
   grid-column: 3 / span 12;
 	grid-row: 2 / span 13;

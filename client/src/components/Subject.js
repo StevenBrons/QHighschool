@@ -45,40 +45,16 @@ class Subject extends Component {
 	}
 
 	render() {
-		let groups;
-		// if (this.state.extended) {
-			groups = this.props.groups.map((group) => {
-				return (
-					<Group
-						key={group.id}
-						group={group}
-						preventCollapse={this.preventCollapse.bind(this)}
-					/>
-				);
-			});
-		// }
-
-{/* <Paper
-				className="Course"
-				elevation={this.state.hover ? 2 : 1}
-				onMouseEnter={() => this.setState({ hover: true })}
-				onMouseLeave={() => this.setState({ hover: false })}
-				style={this.state.style}
-				onClick={this.onClick.bind(this)}
-			>
-				<IconButton aria-label="Delete" style={{ float: "right" }}>
-					{this.state.extended?<ExpandLess />:<ExpandMore />}
-				</IconButton>
-				<Typography variant="headline" color="primary" gutterBottom>
-					{this.props.subject.name}
-				</Typography>
-				<Typography color="inherit">
-					{this.props.subject.description}
-				</Typography>
-				<br />
-				{groups}
-				<div id={"subject_" + this.props.subject.id} />
-			</Paper > */}
+		
+		const groups = this.props.groups.map((group) => {
+			return (
+				<Group
+					key={group.id}
+					group={group}
+					preventCollapse={this.preventCollapse.bind(this)}
+				/>
+			);
+		});
 
 		return (
 			<ExpansionPanel>
