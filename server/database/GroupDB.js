@@ -17,7 +17,8 @@ class GroupDB {
  			"FROM qhighschool.group  " +
  			"INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId  " +
  			"INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId " +
- 			"INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId "
+			 "INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " + 
+			 "ORDER BY group.period"
 		);
 	}
 
