@@ -1,60 +1,46 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Clear from '@material-ui/icons/Clear';
-import { User } from "../Data";
+import { connect } from 'react-redux';
+import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../store/actions';
+import Progress from './Progress';
 
 class ChooseButton extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			possibleChoices: [],
-		}
-	}
-
-	componentWillMount() {
-		User.getPossibleChoices().then((possibleChoices) => {
-			this.setState({
-				possibleChoices,
-			});
-		});
-	}
-
-	indexOfCourse(list, course) {
-		let index = -1;
-		list.map((c, i) => {
-			if (c.id === course.id) {
-				index = i;
-			}
-			return 0;
-		});
-		return index;
+		this.props.getEnrollableGroups();
+		this.props.getEnrolLments();
 	}
 
 	render() {
 		const props = this.props;
-		if (this.indexOfCourse(props.choices, props.course) > -1) {
+
+		if (props.loading) {
 			return (
-				<Button color="secondary" onClick={() => props.onChoose(props.course)} style={this.props.style}>
+				<Progress size={30}/>
+			)
+		}
+
+		if (props.hasChosen) {
+			return (
+				<Button color="secondary" onClick={() => this.props.toggleEnrollment(props.group)} style={props.style}>
 					{"Aangemeld"}
 					<Clear />
 				</Button>
 			);
 		}
 
-		if (this.indexOfCourse(this.state.possibleChoices, props.course) !== -1) {
-			if (props.choices.filter(c => {
-				return c.day === props.course.day;
-			}).length === 1) {
-				//Choices already contain a course on this day
+		if (this.props.canChoose) {
+			if (this.props.hasChosenDay) {
 				return (
 					<Button color="secondary" style={this.props.style}>
-						{"Je hebt al een module gekozen voor " + props.course.day}
+						{"Je hebt al een module gekozen voor " + props.group.day}
 					</Button>
 				);
 			} else {
 				return (
-					<Button color="secondary" variant="contained" onClick={() => props.onChoose(props.course)} style={this.props.style}>
+					<Button color="secondary" variant="contained" onClick={() => this.props.toggleEnrollment(props.group)} style={this.props.style}>
 						{"Aanmelden"}
 					</Button>
 				);
@@ -66,4 +52,26 @@ class ChooseButton extends Component {
 	}
 }
 
-export default ChooseButton;
+function mapStateToProps(state, ownProps) {
+	if (state.enrollments == null || state.enrollableGroups == null) {
+		return {
+			loading: true,
+		}
+	}
+
+	return {
+		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) != -1,
+		hasChosen: state.enrollments.map(e => e.id).indexOf(ownProps.group.id) != -1,
+		hasChosenDay: state.enrollments.map(e => e.day).indexOf(ownProps.group.day) != -1,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		toggleEnrollment: (group) => dispatch(toggleEnrollment(group)),
+		getEnrollableGroups: () => dispatch(getEnrollableGroups()),
+		getEnrolLments: () => dispatch(getEnrolLments()),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseButton);
