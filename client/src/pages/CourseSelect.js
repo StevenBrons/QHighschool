@@ -1,7 +1,9 @@
 import React from 'react';
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
-import { Group , User, Subject } from "../Data";
+import { Group, User, Subject } from "../Data";
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
 
 class CourseSelect extends Page {
 
@@ -9,8 +11,8 @@ class CourseSelect extends Page {
 		super(props);
 		this.state = {
 			groups: [],
-			choices: [],
-			possibleChoices: [],
+			enrollments: [],
+			enrollableGroups: [],
 			subjects: [],
 			style: {
 				overflowY: "scroll",
@@ -20,44 +22,14 @@ class CourseSelect extends Page {
 	}
 
 	componentWillMount() {
-		Promise.all([User.getChoices(), Group.getList(), Subject.getList()]).then((data) => {
-			this.setState({ choices: data[0], groups: data[1], subjects: data[2]});
+		Promise.all([Group.getList(), Subject.getList()]).then((data) => {
+			this.setState({ groups: data[0], subjects: data[1] });
 		});
 	}
 
-	indexOfCourse(course) {
-		let index = -1;
-		this.state.choices.map((c,i) => {
-			if (c.id === course.id) {
-				index = i;
-			}
-			return 0;
-		});
-		return index;
-	}
-
-	async handleCourseChoose(course) {
-		const index = this.indexOfCourse(course);
-		if (index === -1) {
-			await User.addChoice(course.id).then(() => {
-				this.setState({
-					choices: this.state.choices.concat(course),
-				});
-			});
-		} else {
-			let c = this.state.choices.slice();
-			c.splice(index, 1);
-			await User.removeChoice(course.id).then(() => {
-				this.setState({
-					choices: c,
-				});
-			});
-		}
-	}
-
-	getCoursesPerSubject(subject) {
-		return this.state.courses.filter(course => {
-			return (subject.id === course.subjectId);
+	getGroupsPerSubject(subject) {
+		return this.state.groups.filter(group => {
+			return (subject.id === group.subjectId);
 		});
 	}
 
@@ -67,15 +39,20 @@ class CourseSelect extends Page {
 				key={subject.id}
 				subject={subject}
 				extended={false}
-				courses={this.getCoursesPerSubject.bind(this)(subject)}
-				choices={this.state.choices}
-				onChoose={this.handleCourseChoose.bind(this)}
+				groups={this.getGroupsPerSubject.bind(this)(subject)}
 			/>
 		});
-
 		return (
 			<div className="Page" style={this.state.style}>
+				{/* <AppBar position="static" color="default">
+					<Typography variant="title" color="inherit">
+						Q-Highschool
+					</Typography>
+				</AppBar> */}
 				{subjects}
+				<br/>
+				<br/>
+				<br/>
 			</div>
 		);
 	}
