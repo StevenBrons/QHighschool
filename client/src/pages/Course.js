@@ -44,18 +44,6 @@ class CourseSelect extends Page {
 			});
 	}
 
-	handleChoose(course) {
-		if (this.state.chosen) {
-			User.removeChoice(course.id);
-		} else {
-			User.addChoice(course.id);
-		}
-		this.setState({
-			chosen: !this.state.chosen,
-		});
-		User.getChoices().then(choices => this.setState({ choices: choices }));
-	}
-
 
 	render() {
 		let course = this.state.course;
@@ -86,8 +74,6 @@ class CourseSelect extends Page {
 				<Divider />
 				<ChooseButton
 					course={course}
-					choices={this.state.choices}
-					onChoose={this.handleChoose.bind(this)}
 					style={{margin:"20px"}}
 				/>
 				<Divider />

@@ -1,7 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
+import Progress from '../components/Progress';
+import Group from '../components/Group';
 import { getSubjects,getGroups } from '../store/actions';
+
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -52,6 +57,18 @@ class CourseSelect extends Page {
 			});
 			break;
 			case "enrollable":
+			if (this.props.enrollableGroups == null) {
+				data = <Progress/>
+				break;
+			}
+			data = this.props.enrollableGroups.map((group) => {
+				return (
+					<Group
+						key={group.id}
+						group={group}
+					/>
+				);
+			});
 			break;
 		}
 

@@ -35,8 +35,8 @@ class CourseChoice extends Component {
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}
-				onMouseEnter={this.enter.bind(this)}
-				onMouseLeave={this.exit.bind(this)}
+				onMouseEnter={() => this.setState({ hover: true })}
+				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
 				<Typography variant="headline" color="primary">

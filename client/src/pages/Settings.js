@@ -37,19 +37,6 @@ class Settings extends Page {
 		return JSON.stringify(this.props.user) !== JSON.stringify(this.state.user)
 	}
 
-	// save() {
-	// 	User.setUser({
-	// 		preferedEmail: this.state.user.preferedEmail,
-	// 		phoneNumber: this.state.user.phoneNumber,
-	// 		profile: this.state.user.profile,
-	// 	}).then(() => { return User.getUser() }).then(data => {
-	// 		this.props.onSave(data);
-	// 		this.setState({
-	// 			old: data,
-	// 		});
-	// 	});
-	// }
-
 	render() {
 		const x = this.props.sqaured;
 
