@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import CourseChoice from '../components/CourseChoice';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import Group from '../components/Group';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 class Subject extends Component {
 
@@ -28,6 +31,9 @@ class Subject extends Component {
 
 	onClick() {
 		if (this.state.canCollapse) {
+			if (!this.state.extended) {
+				document.getElementById("subject_" + this.props.subject.id).scrollIntoView(); 
+			}
 			this.setState({
 				extended: !this.state.extended,
 			});
@@ -39,22 +45,20 @@ class Subject extends Component {
 	}
 
 	render() {
-		let courses;
-		if (this.state.extended) {
-			courses = this.props.courses.map((course) => {
+		let groups;
+		// if (this.state.extended) {
+			groups = this.props.groups.map((group) => {
 				return (
-					<CourseChoice
-						key={course.id}
-						course={course}
-						choices={this.props.choices}
+					<Group
+						key={group.id}
+						group={group}
 						preventCollapse={this.preventCollapse.bind(this)}
-						onChoose={this.props.onChoose}
 					/>
 				);
 			});
-		}
-		return (
-			<Paper
+		// }
+
+{/* <Paper
 				className="Course"
 				elevation={this.state.hover ? 2 : 1}
 				onMouseEnter={() => this.setState({ hover: true })}
@@ -72,8 +76,22 @@ class Subject extends Component {
 					{this.props.subject.description}
 				</Typography>
 				<br />
-				{courses}
-			</Paper >
+				{groups}
+				<div id={"subject_" + this.props.subject.id} />
+			</Paper > */}
+
+		return (
+			<ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="title" color="primary">{this.props.subject.name}</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+					<div>
+						{groups}
+					</div>
+        </ExpansionPanelDetails>
+			</ExpansionPanel>
+			
 		);
 	}
 }
