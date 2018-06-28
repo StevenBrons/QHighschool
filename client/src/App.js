@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import {
-	BrowserRouter as Router,
 	Route,
 	Switch,
 	Redirect,
+	withRouter,
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Data, { User } from "./Data";
-import {getCookie,setCookie} from "./lib/Cookie";
+import { getCookie, setCookie } from "./lib/Cookie";
+import { getUser } from './store/actions';
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -16,48 +19,20 @@ import Course from "./pages/Course";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			light: '#5472d3',
-			main: '#0d47a1',
-			dark: '#002171',
-			contrastText: '#fff',
-		},
-		secondary: {
-			light: '#60ad5e',
-			main: '#2e7d32',
-			dark: '#005005',
-			contrastText: '#ffffff',
-		},
-	},
-});
-
 class App extends Component {
 
 	constructor(props) {
 		super(props);
 		const token = getCookie("token");
 		Data.setToken(token);
+		this.props.getUser();
 
 		this.state = {
 			showMenu: token ? true : false,
 			token: token,
 			user: {},
-			choices:[],
-			pages: [
-				{
-					id: "module-keuze",
-					title: "Module keuze",
-				},
-				{
-					id: "instellingen",
-					title: "Instellingen",
-					bottom: true,
-				}
-			],
+			choices: [],
+			isLoggedIn: false,
 		};
 
 		if (token !== null) {
@@ -100,27 +75,37 @@ class App extends Component {
 			);
 		}
 		return (
-			<MuiThemeProvider theme={theme}>
-				<Router>
-					<div className="App" style={{ backgroundColor: "white" }}>
-						{
-							this.state.showMenu ? <Menu pages={this.state.pages} /> : null
-						}
-						<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
-						<Switch>
-							<Route path="/module-keuze" component={CourseSelect} />
-							<Route path="/module" component={Course} />
-							<Route path="/instellingen" render={() => {
-								return (<Settings onSave={this.onSettingsSave.bind(this)} user={this.state.user}/>);
-							}} />
-							<Redirect to="/module-keuze" />
-						</Switch>
-					</div>
-				</Router>
-			</MuiThemeProvider>
+			<div className="App" style={{ backgroundColor: "white" }}>
+				{this.props.showMenu && <Menu/>}
+				<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
+				<Switch>
+					<Route path="/login" component={Login} />
+					{!this.props.isLoggedIn && <Redirect to="/login" />}
+					<Route path="/aanmelden" component={CourseSelect} />
+					<Route path="/module" component={Course} />
+					<Route path="/instellingen" component={Settings} />
+					<Redirect push to="/aanmelden" />
+				</Switch>
+			</div>
 		);
 	}
 
 }
 
-export default App;
+function mapStateToProps(state) {
+	return {
+		isLoggedIn: state.isLoggedIn,
+		showMenu: state.showMenu,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		getUser: () => {
+			dispatch(getUser());
+		},
+
+	};
+}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));

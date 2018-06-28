@@ -6,25 +6,14 @@ class CourseDB {
 
 	async getCourses() {
 		return this.mainDb.connection.query(				
-			"SELECT "  +
-			"course.* ," +
-			"subject.name AS subjectName," +
-			"concat(user.firstName, ' ', user.lastName) AS teacherName " +
-			"FROM course INNER JOIN user ON course.teacherId = user.id " +
-			"INNER JOIN subject ON course.subjectId = subject.id "
+			"SELECT course.*,subject.name AS subjectName FROM course INNER JOIN subject ON subject.id = course.subjectId;"
 		);
 	}
 
 	async getCourse(body) {
 		if (body.courseId >= 0) {
 			return this.mainDb.connection.query(
-				"SELECT "  +
-				"course.* ," +
-				"subject.name AS subjectName," +
-				"concat(user.firstName, ' ', user.lastName) AS teacherName " +
-				"FROM course INNER JOIN user ON course.teacherId = user.id " +
-				"INNER JOIN subject ON course.subjectId = subject.id " +
-				"WHERE course.id = ?;"
+				"SELECT course.*,subject.name AS subjectName FROM course INNER JOIN subject ON subject.id = course.subjectId WHERE course.id = ?"
 			, [body.courseId]).then(courses => {
 				if (courses.length === 1) {
 					return courses[0];

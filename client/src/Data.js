@@ -44,6 +44,32 @@ class CourseClass extends Data {
 
 }
 
+class GroupClass extends Data {
+	getUrl() {
+		return this.url + "group";
+	}
+
+	async getList() {
+		return $.ajax({
+			url: this.getUrl() + "/list",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
+	async get(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/",
+			type: "post",
+			data: {
+				groupId: groupId,
+			},
+			dataType: "json",
+		});
+	}
+
+}
+
 class SubjectClass extends Data {
 	getUrl() {
 		return this.url + "subject";
@@ -94,51 +120,51 @@ class UserClass extends Data {
 		});
 	}
 
-	async getChoices() {
+	async getEnrollments() {
 		return $.ajax({
-			url: this.getUrl() + "/choices",
+			url: this.getUrl() + "/enrollments",
 			type: "get",
 			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
 
-	async addChoice(courseId) {
+	async addEnrollment(groupId) {
 		return $.ajax({
-			url: this.getUrl() + "/choices",
+			url: this.getUrl() + "/enrollments",
 			type: "put",
 			data: {
-				courseId: courseId,
+				groupId: groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
 
-	async removeChoice(courseId) {
+	async removeEnrollment(groupId) {
 		return $.ajax({
-			url: this.getUrl() + "/choices",
+			url: this.getUrl() + "/enrollments",
 			type: "delete",
 			data: {
-				courseId: courseId,
+				groupId: groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
 
-	async getPossibleChoices() {
-		if (this.possibleChoices != null) {
-			return this.possibleChoices;
+	async getEnrolllableGroups() {
+		if (this.enrollableGroups != null) {
+			return this.enrollableGroups;
 		}
 		return $.ajax({
-			url: this.getUrl() + "/possibleChoices",
+			url: this.getUrl() + "/enrollableGroups",
 			type: "get",
 			headers: { "token": this.token },
 			dataType: "json",
-		}).then((choices)=> {
-			this.possibleChoices = choices;
-			return choices;
+		}).then((groups)=> {
+			this.enrollableGroups = groups;
+			return groups;
 		});
 	}
 }
@@ -146,7 +172,8 @@ class UserClass extends Data {
 const User = Data.User = new UserClass();
 const Course = Data.Course = new CourseClass();
 const Subject = Data.Subject = new SubjectClass();
+const Group = Data.Group = new GroupClass();
 
 const d = new Data();
 export default d;
-export { User, Course, Subject }
+export { User, Course, Subject, Group }

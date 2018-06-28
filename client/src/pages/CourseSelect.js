@@ -1,85 +1,133 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
-import { Course, User, Subject } from "../Data";
+import Progress from '../components/Progress';
+import Group from '../components/Group';
+import { getSubjects,getGroups } from '../store/actions';
+
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 class CourseSelect extends Page {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			courses: [],
-			choices: [],
-			possibleChoices: [],
-			subjects: [],
-			style: {
-				overflowY: "scroll",
-			}
-		}
-
-	}
-
-	componentWillMount() {
-		Promise.all([User.getChoices(), Course.getList(), Subject.getList()]).then((data) => {
-			this.setState({ choices: data[0], courses: data[1], subjects: data[2]});
-		});
-	}
-
-	indexOfCourse(course) {
-		let index = -1;
-		this.state.choices.map((c,i) => {
-			if (c.id === course.id) {
-				index = i;
-			}
-			return 0;
-		});
-		return index;
-	}
-
-	async handleCourseChoose(course) {
-		const index = this.indexOfCourse(course);
-		if (index === -1) {
-			await User.addChoice(course.id).then(() => {
-				this.setState({
-					choices: this.state.choices.concat(course),
-				});
-			});
-		} else {
-			let c = this.state.choices.slice();
-			c.splice(index, 1);
-			await User.removeChoice(course.id).then(() => {
-				this.setState({
-					choices: c,
-				});
-			});
+			sortMethod: "subject",
 		}
 	}
 
-	getCoursesPerSubject(subject) {
-		return this.state.courses.filter(course => {
-			return (subject.id === course.subjectId);
+	componentDidMount() {
+		this.props.getSubjects();
+		this.props.getGroups();
+	}
+
+	getGroupsPerSubject(subject) {
+		return this.props.groups.filter(group => {
+			return (subject.id === group.subjectId);
 		});
 	}
+
+	handleSortChange = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
 
 	render() {
-		var subjects = this.state.subjects.map((subject) => {
-			return <SubjectComponent
-				key={subject.id}
-				subject={subject}
-				extended={false}
-				courses={this.getCoursesPerSubject.bind(this)(subject)}
-				choices={this.state.choices}
-				onChoose={this.handleCourseChoose.bind(this)}
-			/>
-		});
+		let data;
+		switch(this.state.sortMethod) {
+			case "subject":
+			if (this.props.subjects == null || this.props.groups == null) {
+				data = <Progress/>
+				break;
+			}
+			data = this.props.subjects.map((subject) => {
+				return <SubjectComponent
+					key={subject.id}
+					subject={subject}
+					extended={false}
+					groups={this.getGroupsPerSubject.bind(this)(subject)}
+				/>
+			});
+			break;
+			case "enrollable":
+			if (this.props.enrollableGroups == null) {
+				data = <Progress/>
+				break;
+			}
+			data = this.props.enrollableGroups.map((group) => {
+				return (
+					<Group
+						key={group.id}
+						group={group}
+					/>
+				);
+			});
+			break;
+		}
 
 		return (
 			<div className="Page" style={this.state.style}>
-				{subjects}
+				<AppBar position="static" color="default">
+					<Toolbar>
+						<Typography variant="subheading" color="textSecondary">
+							Meld je aan voor modules
+          	</Typography>
+						<form autoComplete="off" style={{ right: 10, position: "absolute"}}>
+							<FormControl>
+								<InputLabel htmlFor="sortMethod">Sorteren op</InputLabel>
+								<Select
+									value={this.state.sortMethod}
+									onChange={this.handleSortChange}
+									inputProps={{
+										name: 'sortMethod',
+										id: 'sortMethod',
+									}}
+									autoWidth={true}
+									size={"large"}
+								>
+									<MenuItem value="subject">
+										<Typography variant="subheading" color="textSecondary" style={{width:"100px"}}>
+											Vak
+          					</Typography>
+									</MenuItem>
+									<MenuItem value={"enrollable"} style={{width:"100px"}}>Aanmeldbaar</MenuItem>
+								</Select>
+							</FormControl>
+						</form>
+					</Toolbar>
+				</AppBar>
+				<br />
+				{data}
+				<br />
+				<br />
+				<br />
 			</div>
 		);
 	}
 }
 
-export default CourseSelect;
+function mapStateToProps(state) {
+	return {
+		enrollableGroups: state.enrollableGroups,
+		groups:state.groups,
+		subjects:state.subjects,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		getSubjects: () => dispatch(getSubjects()),
+		getGroups: () => dispatch(getGroups()),
+	};
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CourseSelect);
+
 

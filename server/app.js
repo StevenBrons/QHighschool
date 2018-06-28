@@ -10,6 +10,7 @@ const swaggerDocument = require('./swagger.json');
 var courseRoute = require('./routes/courseRoute');
 var userRoute = require('./routes/userRoute');
 var subjectRoute = require('./routes/subjectRoute');
+var groupRoute = require('./routes/groupRoute');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(function (req, res, next) {
 app.use('/api/course', courseRoute);
 app.use('/api/user', userRoute);
 app.use('/api/subject', subjectRoute);
+app.use('/api/group', groupRoute);
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler

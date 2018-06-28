@@ -21,6 +21,10 @@
     {
       "name": "Subject",
       "description": "The subject api"
+    },
+    {
+      "name": "Group",
+      "description": "The group api"
     }
   ],
   "paths": {
@@ -74,6 +78,61 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/Course"
+            }
+          }
+        }
+      }
+    },
+    "/group/list": {
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get list of all courses",
+        "operationId": "getGroups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get course data",
+        "operationId": "getGroup",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId of the course to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Group"
             }
           }
         }
@@ -208,12 +267,12 @@
         ]
       }
     },
-    "/user/possibleChoices": {
+    "/user/enrollableGroups": {
       "get": {
         "tags": [
           "User"
         ],
-        "summary": "Get list of courses to choose from",
+        "summary": "Get list of groups to choose from",
         "operationId": "getChoices",
         "produces": [
           "application/json"
@@ -236,13 +295,13 @@
         ]
       }
     },
-    "/user/choices": {
+    "/user/enrollments": {
       "get": {
         "tags": [
           "User"
         ],
         "summary": "Get choices",
-        "operationId": "getUserChoices",
+        "operationId": "getEnrollments",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -256,7 +315,7 @@
               "type": "array",
               "maxLength": 5,
               "items": {
-                "$ref": "#/definitions/Course"
+                "$ref": "#/definitions/Group"
               }
             }
           }
@@ -271,16 +330,16 @@
         "tags": [
           "User"
         ],
-        "summary": "Add choice",
-        "operationId": "addUserChoice",
+        "summary": "Add enrollment",
+        "operationId": "addEnrollment",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
-            "name": "courseId",
+            "name": "groupId",
             "in": "formData",
-            "description": "The courseId to add",
+            "description": "The groupId of the group to add",
             "required": true,
             "type": "string"
           }
@@ -303,16 +362,16 @@
         "tags": [
           "User"
         ],
-        "summary": "Delete choice",
-        "operationId": "removeUserChoice",
+        "summary": "Delete enrollment",
+        "operationId": "removeEnrollment",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
-            "name": "courseId",
+            "name": "groupId",
             "in": "formData",
-            "description": "The courseId to remove",
+            "description": "The groupId of the group to remove",
             "required": true,
             "type": "string"
           }
@@ -349,8 +408,8 @@
         },
         "subjectId": {
           "type": "string"
-				},
-				"subjectName": {
+        },
+        "subjectName": {
           "type": "string"
         },
         "name": {
@@ -359,27 +418,14 @@
         "description": {
           "type": "string"
         },
-        "teacherId": {
-          "type": "string"
-				},
-				"teacherName": {
+        "foreknowledge": {
           "type": "string"
         },
-        "period": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "day": {
+        "studyTime": {
           "type": "string"
         },
-        "schoolYear": {
-          "type": "string",
-          "enum": [
-            "2018/2019",
-            "2019/2020",
-            "2021/2022",
-            "2023/2024"
-          ]
+        "enrollableFor": {
+          "type": "string"
         }
       },
       "xml": {
@@ -441,20 +487,62 @@
         },
         "phoneNumber": {
           "type": "string"
-        },
-        "foreknowledge": {
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "id": {
           "type": "string"
         },
-        "studyTime": {
+        "teacherId": {
           "type": "string"
         },
-        "accessibleFor": {
+        "teacherName": {
           "type": "string"
         },
-        "experts": {
+        "day": {
+          "type": "string",
+          "enum": [
+            "maandag",
+            "dinsdag",
+            "woensdag",
+            "donderdag",
+            "vrijdag"
+          ]
+        },
+        "schoolYear": {
+          "type": "string",
+          "enum": [
+            "2018/2019",
+            "2019/2020",
+            "2021/2022",
+            "2023/2024"
+          ]
+        },
+        "period": {
+          "type": "integer"
+        },
+        "courseId": {
+          "type": "integer"
+        },
+        "courseName": {
           "type": "string"
         },
-        "coaches": {
+        "courseDescription": {
+          "type": "string"
+        },
+        "subjectId": {
+          "type": "integer"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "subjectDescription": {
           "type": "string"
         }
       },

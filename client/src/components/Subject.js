@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import CourseChoice from '../components/CourseChoice';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import Group from '../components/Group';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 class Subject extends Component {
 
@@ -28,6 +31,9 @@ class Subject extends Component {
 
 	onClick() {
 		if (this.state.canCollapse) {
+			if (!this.state.extended) {
+				document.getElementById("subject_" + this.props.subject.id).scrollIntoView(); 
+			}
 			this.setState({
 				extended: !this.state.extended,
 			});
@@ -39,41 +45,29 @@ class Subject extends Component {
 	}
 
 	render() {
-		let courses;
-		if (this.state.extended) {
-			courses = this.props.courses.map((course) => {
-				return (
-					<CourseChoice
-						key={course.id}
-						course={course}
-						choices={this.props.choices}
-						preventCollapse={this.preventCollapse.bind(this)}
-						onChoose={this.props.onChoose}
-					/>
-				);
-			});
-		}
+		
+		const groups = this.props.groups.map((group) => {
+			return (
+				<Group
+					key={group.id}
+					group={group}
+					preventCollapse={this.preventCollapse.bind(this)}
+				/>
+			);
+		});
+
 		return (
-			<Paper
-				className="Course"
-				elevation={this.state.hover ? 2 : 1}
-				onMouseEnter={() => this.setState({ hover: true })}
-				onMouseLeave={() => this.setState({ hover: false })}
-				style={this.state.style}
-				onClick={this.onClick.bind(this)}
-			>
-				<IconButton aria-label="Delete" style={{ float: "right" }}>
-					{this.state.extended?<ExpandLess />:<ExpandMore />}
-				</IconButton>
-				<Typography variant="headline" color="primary" gutterBottom>
-					{this.props.subject.name}
-				</Typography>
-				<Typography color="inherit">
-					{this.props.subject.description}
-				</Typography>
-				<br />
-				{courses}
-			</Paper >
+			<ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="title" color="primary">{this.props.subject.name}</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+					<div>
+						{groups}
+					</div>
+        </ExpansionPanelDetails>
+			</ExpansionPanel>
+			
 		);
 	}
 }

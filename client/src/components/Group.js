@@ -10,8 +10,8 @@ class CourseChoice extends Component {
 		this.state = {
 			hover: false,
 			style: {
-				width: "400px",
-				height: "200px",
+				width: "430px",
+				height: "210px",
 				padding: "20px",
 				verticalAlign: "top",
 				margin: "20px",
@@ -19,10 +19,6 @@ class CourseChoice extends Component {
 				cursor: "pointer",
 			}
 		}
-	}
-
-	onChoose() {
-		this.props.onChoose(this.props.course);
 	}
 
 	enter() {
@@ -39,23 +35,21 @@ class CourseChoice extends Component {
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}
-				onMouseEnter={this.enter.bind(this)}
-				onMouseLeave={this.exit.bind(this)}
+				onMouseEnter={() => this.setState({ hover: true })}
+				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
 				<Typography variant="headline" color="primary">
-					{this.props.course.name}
+					{this.props.group.courseName}
 				</Typography>
 				<Typography variant="subheading" color="textSecondary" paragraph>
-					{"Periode " + this.props.course.period + " - " + this.props.course.day}
+					{"Periode " + this.props.group.period + " - " + this.props.group.day}
 				</Typography>
 				<Typography paragraph>
-					{this.props.course.description}
+					{this.props.group.courseDescription}
 				</Typography>
 				<ChooseButton
-					course={this.props.course}
-					choices={this.props.choices}
-					onChoose={this.props.onChoose}
+					group={this.props.group}
 				/>
 			</Paper >
 		);

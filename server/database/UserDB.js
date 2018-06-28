@@ -19,16 +19,25 @@ class UserDB{
 			});
 	}
 
-	async getChoices(token) {
+	async getEnrollments(token) {
 		return this.mainDb.connection.query(
-			"SELECT * FROM course WHERE id IN " +
-			"(SELECT (courseId) FROM choice " +
-			"WHERE studentId IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?))",
-			[token]).then(async (choices) => {
-				if (choices.length > 0) {
-					return choices;
+			"SELECT   " +
+			"qhighschool.group.*,  " +
+			"qhighschool.course.name AS courseName,  " +
+			"qhighschool.course.description AS courseDescription,  " +
+			"qhighschool.subject.id AS subjectId,  " +
+			"qhighschool.subject.name AS subjectName,  " +
+			"qhighschool.subject.description AS subjectDescription,  " +
+			"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName  " +
+			" FROM qhighschool.enrollment " +
+			" INNER JOIN qhighschool.group ON qhighschool.group.id = qhighschool.enrollment.groupId   " +
+			" INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId   " +
+			" INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId  " +
+			" INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " +
+			" WHERE qhighschool.enrollment.studentId = (SELECT id FROM loggedin WHERE token = ?) ",
+			[token]).then(async (enrollments) => {
+				if (enrollments.length > 0) {
+					return enrollments;
 				} else {
 					await this.mainDb.checkToken(token);
 					return [];
@@ -60,22 +69,22 @@ class UserDB{
 			[data.preferedEmail,data.profile,data.phoneNumber, token]);
 	}
 
-	async addUserChoice(token, courseId) {
+	async addUserEnrollment(token, groupId) {
 		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
-			"INSERT INTO choice " + 
-			"(studentId,courseId) VALUES" + 
+			"INSERT INTO enrollment " + 
+			"(studentId,groupId) VALUES" + 
 			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token,courseId]
+			[token,groupId]
 		));
 	}
 
-	async removeUserChoice(token, courseId) {
+	async removeUserEnrollment(token, groupId) {
 		return this.mainDb.connection.query(
-			"DELETE FROM choice " + 
+			"DELETE FROM enrollment " + 
 			"WHERE studentId IN " +
 			"(SELECT id FROM loggedin " +
-			"WHERE token = ?) AND courseId = ?",
-			[token,courseId]
+			"WHERE token = ?) AND groupId = ?",
+			[token,groupId]
 		);
 	}
 
