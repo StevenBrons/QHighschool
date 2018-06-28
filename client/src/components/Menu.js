@@ -39,7 +39,7 @@ class Menu extends Component {
 	}
 
 	getItem(page, index) {
-		const isCurrentPage = ((("/" + page.id) === this.props.location.pathname));
+		// const isCurrentPage = ((("/" + page.id) === this.props.location.pathname));
 		let style = {};
 		if (page.bottom) {
 			style.position = "absolute";
