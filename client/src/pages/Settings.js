@@ -2,12 +2,13 @@ import React from 'react';
 import Page from './Page';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { User } from "../Data";
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
+import { setUser } from '../store/actions';
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 
@@ -16,22 +17,10 @@ class Settings extends Page {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: {
-
-			},
-			old: {
-
-			},
+			user: this.props.user,
 			style: {
-
 			},
 		};
-	}
-
-	componentWillMount() {
-		User.getUser().then((data) => {
-			this.setState({ user: data, old: data });
-		});
 	}
 
 	handleChange = name => event => {
@@ -45,23 +34,24 @@ class Settings extends Page {
 	};
 
 	hasChanged() {
-		return JSON.stringify(this.state.old) !== JSON.stringify(this.state.user)
+		return JSON.stringify(this.props.user) !== JSON.stringify(this.state.user)
 	}
 
-	save() {
-		User.setUser({
-			preferedEmail: this.state.user.preferedEmail,
-			phoneNumber: this.state.user.phoneNumber,
-			profile: this.state.user.profile,
-		}).then(() => {return User.getUser()}).then(data => {
-			this.props.onSave(data);
-			this.setState({
-				old: data,
-			});
-		});
-	}
+	// save() {
+	// 	User.setUser({
+	// 		preferedEmail: this.state.user.preferedEmail,
+	// 		phoneNumber: this.state.user.phoneNumber,
+	// 		profile: this.state.user.profile,
+	// 	}).then(() => { return User.getUser() }).then(data => {
+	// 		this.props.onSave(data);
+	// 		this.setState({
+	// 			old: data,
+	// 		});
+	// 	});
+	// }
 
 	render() {
+		const x = this.props.sqaured;
 
 		let inputStyle = {
 			display: "inline-block",
@@ -95,6 +85,7 @@ class Settings extends Page {
 						fullWidth
 						style={inputStyle}
 					/>
+					{x}
 					<TextField
 						id="role"
 						label="Rol"
@@ -149,7 +140,8 @@ class Settings extends Page {
 							return (<MenuItem key={profile} value={profile}>
 								{profile}
 							</MenuItem>
-						)})}
+							)
+						})}
 					</Select>
 					<TextField
 						id="phoneNumber"
@@ -162,16 +154,29 @@ class Settings extends Page {
 					/>
 					<br />
 					{this.hasChanged() ?
-						<Button variant="contained" color="secondary" size="large" onClick={this.save.bind(this)}>
+						<Button variant="contained" color="secondary" size="large" onClick={() => this.props.save(this.state.user)}>
 							Opslaan
 						</Button> : null
 					}
-
 				</form >
 			</Paper>
 		);
 	}
 }
 
-export default Settings;
+function mapStateToProps(state) {
+	return {
+		user: state.user,
+		key: state.user.id,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		save: (user) => dispatch(setUser(user)),
+	};
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
