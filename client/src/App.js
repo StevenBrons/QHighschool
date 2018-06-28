@@ -5,8 +5,11 @@ import {
 	Redirect,
 	withRouter,
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Data, { User } from "./Data";
-import {getCookie,setCookie} from "./lib/Cookie";
+import { getCookie, setCookie } from "./lib/Cookie";
+import { getUser } from './store/actions';
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -22,12 +25,14 @@ class App extends Component {
 		super(props);
 		const token = getCookie("token");
 		Data.setToken(token);
+		this.props.getUser();
 
 		this.state = {
 			showMenu: token ? true : false,
 			token: token,
 			user: {},
-			choices:[],
+			choices: [],
+			isLoggedIn: false,
 			pages: [
 				{
 					id: "module-keuze",
@@ -81,21 +86,37 @@ class App extends Component {
 			);
 		}
 		return (
-					<div className="App" style={{ backgroundColor: "white" }}>
+			<div className="App" style={{ backgroundColor: "white" }}>
 				{this.props.showMenu && <Menu pages={this.state.pages} />}
-						<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
-						<Switch>
+				<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
+				<Switch>
 					<Route path="/login" component={Login} />
 					{!this.props.isLoggedIn && <Redirect to="/login" />}
-							<Route path="/module-keuze" component={CourseSelect} />
-							<Route path="/module" component={Course} />
+					<Route path="/module-keuze" component={CourseSelect} />
+					<Route path="/module" component={Course} />
 					<Route path="/instellingen" component={Settings} />
 					<Redirect push to="/module-keuze" />
-						</Switch>
-					</div>
+				</Switch>
+			</div>
 		);
 	}
 
 }
 
-export default App;
+function mapStateToProps(state) {
+	return {
+		isLoggedIn: state.isLoggedIn,
+		showMenu: state.showMenu,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		getUser: () => {
+			dispatch(getUser());
+		},
+
+	};
+}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));
