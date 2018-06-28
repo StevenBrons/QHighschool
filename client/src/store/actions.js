@@ -1,4 +1,4 @@
-import { User } from "../Data"
+import { User,Subject , Group} from "../Data"
 
 function apiErrorHandler(dispatch) {
 	return function (error) {
@@ -7,6 +7,40 @@ function apiErrorHandler(dispatch) {
 			type: "FATAL_ERROR",
 			error,
 		});
+	}
+}
+
+export function getSubjects() {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("Subject.getList")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "Subject.getList"
+			});
+			Subject.getList().then((subjects) => {
+				dispatch({
+					type: "CHANGE_SUBJECTS",
+					subjects,
+				});
+			}).catch(apiErrorHandler(dispatch));
+		}
+	}
+}
+
+export function getGroups() {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("Group.getList")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "Group.getList"
+			});
+			Group.getList().then((groups) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups,
+				});
+			}).catch(apiErrorHandler(dispatch));
+		}
 	}
 }
 

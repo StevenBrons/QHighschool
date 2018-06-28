@@ -19,14 +19,13 @@ class CourseSelect extends Page {
 		}
 	}
 
-	componentWillMount() {
-		Promise.all([Group.getList(), Subject.getList()]).then((data) => {
-			this.setState({ groups: data[0], subjects: data[1] });
-		});
+	componentDidMount() {
+		this.props.getSubjects();
+		this.props.getGroups();
 	}
 
 	getGroupsPerSubject(subject) {
-		return this.state.groups.filter(group => {
+		return this.props.groups.filter(group => {
 			return (subject.id === group.subjectId);
 		});
 	}
@@ -39,7 +38,11 @@ class CourseSelect extends Page {
 		let data;
 		switch(this.state.sortMethod) {
 			case "subject":
-			data = this.state.subjects.map((subject) => {
+			if (this.props.subjects == null || this.props.groups == null) {
+				data = <Progress/>
+				break;
+			}
+			data = this.props.subjects.map((subject) => {
 				return <SubjectComponent
 					key={subject.id}
 					subject={subject}
@@ -93,6 +96,21 @@ class CourseSelect extends Page {
 	}
 }
 
+function mapStateToProps(state) {
+	return {
+		enrollableGroups: state.enrollableGroups,
+		groups:state.groups,
 		subjects:state.subjects,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
 		getSubjects: () => dispatch(getSubjects()),
+		getGroups: () => dispatch(getGroups()),
+	};
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CourseSelect);
+
 
