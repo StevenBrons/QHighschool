@@ -14,7 +14,7 @@ import { getUser } from './store/actions';
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
-import Course from "./pages/Course";
+import Group from "./components/Group";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -82,7 +82,7 @@ class App extends Component {
 					<Route path="/login" component={Login} />
 					{!this.props.isLoggedIn && <Redirect to="/login" />}
 					<Route path="/aanmelden" component={CourseSelect} />
-					<Route path="/module" component={Course} />
+					<Route path="/groep" component={Group} />
 					<Route path="/instellingen" component={Settings} />
 					<Redirect push to="/aanmelden" />
 				</Switch>

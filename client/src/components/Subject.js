@@ -15,7 +15,6 @@ class Subject extends Component {
 			extended: this.props.extended ? true : false,
 			canCollapse: true,
 			style: {
-				width: "95%",
 				height: "auto",
 				padding: "20px",
 				marginTop: "20px",
