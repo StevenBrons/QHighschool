@@ -100,7 +100,7 @@ export function getEnrolLments() {
 		});
 		User.getEnrollments().then((enrollments) => {
 			dispatch({
-				type: "CHANGE_ENROLLMENT",
+				type: "CHANGE_ENROLLMENTS",
 				enrollments,
 			});
 		}).catch(apiErrorHandler(dispatch));
@@ -120,14 +120,14 @@ export function toggleEnrollment(group) {
 		if (index === -1) {
 			User.addEnrollment(group.id).catch(apiErrorHandler(dispatch));
 			dispatch({
-				type: "CHANGE_ENROLLMENT",
+				type: "CHANGE_ENROLLMENTS",
 				action: "ADD",
 				group,
 			});
 		} else {
 			User.removeEnrollment(group.id).catch(apiErrorHandler(dispatch));
 			dispatch({
-				type: "CHANGE_ENROLLMENT",
+				type: "CHANGE_ENROLLMENTS",
 				action: "REMOVE",
 				group,
 			});

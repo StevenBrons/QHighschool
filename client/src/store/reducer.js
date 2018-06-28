@@ -30,7 +30,7 @@ function reducer(state = DEFAULT_STATE, action) {
 			return { ...state, groups: action.groups };
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: action.subjects };
-		case "CHANGE_ENROLLMENT":
+		case "CHANGE_ENROLLMENTS":
 			if (action.action === "ADD") {
 				return {
 					...state, enrollments: state.enrollments.concat(action.group)
