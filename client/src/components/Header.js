@@ -7,6 +7,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
+import { toggleMenu } from '../store/actions';
 
 class Header extends Component {
 
@@ -28,7 +30,7 @@ class Header extends Component {
 		return (
 			<AppBar className="Header">
 				<Toolbar>
-					<IconButton color="inherit" aria-label="Menu" onClick={this.props.handleShowMenu}>
+					<IconButton color="inherit" aria-label="Menu" onClick={this.props.toggleMenu}>
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="title" color="inherit">
@@ -53,5 +55,19 @@ class Header extends Component {
 	}
 }
 
-export default Header;
+function mapStateToProps(state) {
+	return {
+		email: state.user.preferedEmail,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		toggleMenu: () => dispatch(toggleMenu()),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+
 
