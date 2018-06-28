@@ -33,17 +33,6 @@ class App extends Component {
 			user: {},
 			choices: [],
 			isLoggedIn: false,
-			pages: [
-				{
-					id: "module-keuze",
-					title: "Module keuze",
-				},
-				{
-					id: "instellingen",
-					title: "Instellingen",
-					bottom: true,
-				}
-			],
 		};
 
 		if (token !== null) {
@@ -87,15 +76,15 @@ class App extends Component {
 		}
 		return (
 			<div className="App" style={{ backgroundColor: "white" }}>
-				{this.props.showMenu && <Menu pages={this.state.pages} />}
+				{this.props.showMenu && <Menu/>}
 				<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
 				<Switch>
 					<Route path="/login" component={Login} />
 					{!this.props.isLoggedIn && <Redirect to="/login" />}
-					<Route path="/module-keuze" component={CourseSelect} />
+					<Route path="/aanmelden" component={CourseSelect} />
 					<Route path="/module" component={Course} />
 					<Route path="/instellingen" component={Settings} />
-					<Redirect push to="/module-keuze" />
+					<Redirect push to="/aanmelden" />
 				</Switch>
 			</div>
 		);

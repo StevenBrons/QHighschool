@@ -10,8 +10,8 @@ class CourseChoice extends Component {
 		this.state = {
 			hover: false,
 			style: {
-				width: "400px",
-				height: "200px",
+				width: "430px",
+				height: "210px",
 				padding: "20px",
 				verticalAlign: "top",
 				margin: "20px",
