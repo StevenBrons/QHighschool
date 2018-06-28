@@ -28,6 +28,8 @@ function reducer(state = DEFAULT_STATE, action) {
 			return { ...state, enrollableGroups: action.enrollableGroups };
 		case "CHANGE_GROUPS":
 			return { ...state, groups: action.groups };
+		case "CHANGE_GROUP":
+			return { ...state, groups: [...this.state.groups,action.group] };
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: action.subjects };
 		case "CHANGE_ENROLLMENTS":
