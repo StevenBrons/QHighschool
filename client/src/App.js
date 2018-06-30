@@ -14,7 +14,7 @@ import { getUser } from './store/actions';
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
-import Group from "./components/Group";
+import Group from "./pages/Group";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";

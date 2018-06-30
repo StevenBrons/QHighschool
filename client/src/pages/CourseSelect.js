@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
-import Group from '../components/Group';
+import Group from './Group';
 import { getSubjects,getGroups } from '../store/actions';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
