@@ -14,6 +14,15 @@ class InvalidTokenError extends Error {
 	}
 }
 
+class InsufficientPrivileges extends Error {
+	constructor() {
+			super("You have insufficient privileges to execute this action");
+	}
+}
+
+
+const roles = ["STUDENT","TEACHER"];
+
 class Database {
 
 	constructor() {
@@ -28,17 +37,23 @@ class Database {
 		this.group = new GroupDB(this);
 	}
 
-	async checkToken(token) {
+	async checkToken(token, allowedRoles) {
 		if (token == null || token == "") {
 			return Promise.reject(new InvalidTokenError(true));
 		}
 		return this.connection.query(
-			"SELECT id FROM loggedin " +
-			"WHERE token = ?",
-			[token]).then((id) => {
-				if (id.length !== 1) {
-					throw new InvalidTokenError();
+			"SELECT user.role FROM loggedin " +
+			"INNER JOIN user ON user.id = loggedin.id " +
+			"WHERE loggedin.token = ?" ,
+			[token]).then((items) => {
+				if (items.length === 1) {
+					if (allowedRoles.includes(items[0].role)) {
+						return items[0].role;
+					}else {
+						throw new InsufficientPrivileges();
+					}
 				}
+				throw new InvalidTokenError();
 			});
 	}
 

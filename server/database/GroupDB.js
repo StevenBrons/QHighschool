@@ -1,4 +1,3 @@
-
 class GroupDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
@@ -14,16 +13,16 @@ class GroupDB {
 			"qhighschool.subject.name AS subjectName, " +
 			"qhighschool.subject.description AS subjectDescription, " +
 			"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName " +
- 			"FROM qhighschool.group  " +
- 			"INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId  " +
- 			"INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId " +
-			 "INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " + 
-			 "ORDER BY group.period"
+			"FROM qhighschool.group  " +
+			"INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId  " +
+			"INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId " +
+			"INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " +
+			"ORDER BY group.period"
 		);
 	}
 
-	async getGroup(body) {
-		if (body.groupId >= 0) {
+	async getGroup(groupId) {
+		if (groupId >= 0) {
 			return this.mainDb.connection.query(
 				"SELECT  " +
 				"qhighschool.group.*, " +
@@ -33,13 +32,13 @@ class GroupDB {
 				"qhighschool.subject.id AS subjectId, " +
 				"qhighschool.subject.description AS subjectDescription, " +
 				"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName " +
-				 "FROM qhighschool.group  " +
-				 "INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId  " +
-				 "INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId " +
-				 "INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId WHERE qhighschool.group.id = ?"
-				, [body.groupId]).then(courses => {
-					if (courses.length === 1) {
-						return courses[0];
+				"FROM qhighschool.group  " +
+				"INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId  " +
+				"INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId " +
+				"INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId WHERE qhighschool.group.id = ?"
+				, [groupId]).then(groups => {
+					if (groups.length === 1) {
+						return groups[0];
 					}
 					throw new Error("groupId is invalid");
 				});
@@ -48,6 +47,18 @@ class GroupDB {
 		}
 	}
 
+	async getEnrollments(token, groupId) {
+		if (groupId >= 0) {
+			return this.mainDb.checkToken(token,["TEACHER"]).then(this.mainDb.connection.query(
+				"SELECT * FROM enrollment " +
+				"INNER JOIN user ON user.id = enrollment.studentId WHERE enrollment.groupId = ?; "
+				, [groupId]).then(enrollments => {
+						return enrollments;
+				}));
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
 
 }
 

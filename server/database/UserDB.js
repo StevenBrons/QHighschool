@@ -14,7 +14,7 @@ class UserDB{
 				if (users.length == 1) {
 					return users[0];
 				} else {
-					return this.mainDb.checkToken(token);
+					return this.mainDb.checkToken(token,["STUDENT"]);
 				}
 			});
 	}
@@ -39,14 +39,14 @@ class UserDB{
 				if (enrollments.length > 0) {
 					return enrollments;
 				} else {
-					await this.mainDb.checkToken(token);
+					await this.mainDb.checkToken(token,["STUDENT"]);
 					return [];
 				}
 			});
 	}
 
 	async setUser(token, data) {
-		await this.mainDb.checkToken(token);
+		await this.mainDb.checkToken(token,["STUDENT"]);
 
 		if (data.preferedEmail == null) {
 			throw new Exception("The property preferedEmail is required");
@@ -70,7 +70,7 @@ class UserDB{
 	}
 
 	async addUserEnrollment(token, groupId) {
-		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
+		return this.mainDb.checkToken(token,["STUDENT"]).then(() => this.mainDb.connection.query(
 			"INSERT INTO enrollment " + 
 			"(studentId,groupId) VALUES" + 
 			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
