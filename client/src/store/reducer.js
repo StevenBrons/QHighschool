@@ -30,7 +30,9 @@ function reducer(state = DEFAULT_STATE, action) {
 		case "CHANGE_GROUPS":
 			return { ...state, groups: {...state.groups,...action.groups} };
 		case "CHANGE_GROUP":
-			return { ...state, groups: {...state.groups,...action.group}};
+			return { ...state, groups: {[action.group.id]:{
+				...state.groups[action.group.id],...action.group
+			}} };
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: {...state.subjects,...action.subjects} };
 		case "CHANGE_ENROLLMENTS":

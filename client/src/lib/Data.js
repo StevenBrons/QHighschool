@@ -14,6 +14,7 @@ class Data {
 		this.token = t;
 		User.token = t;
 		Course.token = t;
+		Group.token = t;
 		Subject.token = t;
 	}
 
@@ -76,6 +77,7 @@ class GroupClass extends Data {
 			data: {
 				groupId,
 			},
+			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}

@@ -92,7 +92,7 @@ export function setGroup(group) {
 	return (dispatch, getState) => {
 		dispatch({
 			type: "CHANGE_GROUP",
-			group,
+			group: group,
 		});
 		// TODO setGroup api call
 		// User.setUser(user).catch(apiErrorHandler(dispatch));
@@ -130,6 +130,30 @@ export function getEnrolLments() {
 			dispatch({
 				type: "CHANGE_ENROLLMENTS",
 				enrollments,
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getGroupEnrollments(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].enrollments != null || 
+			getState().hasFetched.includes("Group.getEnrollments(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getEnrollments(" + groupId + ")"
+		});
+		Group.getEnrollments(groupId).then((enrollments) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id:groupId,
+					enrollments,
+				}
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import GroupCard from "./GroupCard";
 import GroupPage from "./GroupPage";
 
-import { setGroup, getGroup } from "../store/actions"
+import { setGroup, getGroup,getGroupEnrollments } from "../store/actions"
 import { withRouter } from 'react-router-dom';
 import Progress from './Progress'
 
@@ -74,6 +74,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		setGroup: (group) => dispatch(setGroup(group)),
 		getGroup: (groupId) => dispatch(getGroup(groupId)),
+		getGroupEnrollments: (groupId) => dispatch(getGroupEnrollments(groupId)),
+
 	};
 }
 

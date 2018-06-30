@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import ChooseButton from './ChooseButton';
-import Field from './Field';
+import ChooseButton from '../components/ChooseButton';
+import Field from '../components/Field';
 
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,6 +17,10 @@ class GroupPage extends Component {
 		this.state = {
 			currentTab: 0,
 		}
+	}
+
+	componentWillMount() {
+		this.props.getGroupEnrollments(this.props.group.id);
 	}
 
 	handleTab = (event, currentTab) => {
