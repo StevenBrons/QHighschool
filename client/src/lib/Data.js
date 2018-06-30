@@ -37,7 +37,7 @@ class CourseClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				courseId: courseId,
+				courseId,
 			},
 			dataType: "json",
 		});
@@ -63,7 +63,18 @@ class GroupClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				groupId: groupId,
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
+	async getEnrollments(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/enrollments",
+			type: "post",
+			data: {
+				groupId,
 			},
 			dataType: "json",
 		});
@@ -89,7 +100,7 @@ class SubjectClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				subjectId: subjectId,
+				subjectId,
 			},
 			dataType: "json",
 		});
@@ -135,7 +146,7 @@ class UserClass extends Data {
 			url: this.getUrl() + "/enrollments",
 			type: "put",
 			data: {
-				groupId: groupId,
+				groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",
@@ -147,7 +158,7 @@ class UserClass extends Data {
 			url: this.getUrl() + "/enrollments",
 			type: "delete",
 			data: {
-				groupId: groupId,
+				groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",

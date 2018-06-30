@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import theme from './MuiTheme';
-import App from './App';
+import App from '../App';
 
 class GlobalProvider extends Component {
 	render() {

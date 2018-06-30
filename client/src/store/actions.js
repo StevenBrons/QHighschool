@@ -1,4 +1,4 @@
-import { User,Subject , Group} from "../Data"
+import { User,Subject , Group} from "../lib/Data"
 
 function apiErrorHandler(dispatch) {
 	return function (error) {

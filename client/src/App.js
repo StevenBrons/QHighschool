@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Data, { User } from "./Data";
+import Data, { User } from "./lib/Data";
 import { getCookie, setCookie } from "./lib/Cookie";
 import { getUser } from './store/actions';
 

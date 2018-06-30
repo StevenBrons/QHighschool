@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import theme from '../MuiTheme'
-
-import Typography from '@material-ui/core/Typography';
 import ChooseButton from './ChooseButton';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Field from './Field';
 
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import { createMuiTheme } from '@material-ui/core';
 
 class GroupPage extends Component {
 

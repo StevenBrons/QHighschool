@@ -67,8 +67,9 @@ class CourseSelect extends Page {
 				return (
 					<Group
 						key={group.id}
-						group={group}
-					/>
+						groupId={group.id}
+						display="Card"
+						/>
 				);
 			});
 			break;

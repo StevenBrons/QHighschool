@@ -1,26 +1,8 @@
 import React, { Component } from 'react';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import theme from '../MuiTheme'
-
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import { createMuiTheme } from '@material-ui/core';
+import theme from '../lib/MuiTheme'
 
 class Field extends Component {
-
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		let textAlign = this.props.right ? "right" : "left";
@@ -71,13 +53,14 @@ class Field extends Component {
 							textAlign,
 							float,
 						}
+					},
+					inputProps:{
+						style: {
+							textAlign,
+						}
 					}
 				}}
-				inputProps={{
-					style: {
-						textAlign,
-					}
-				}}
+				
 			/>
 		);
 	}
