@@ -16,6 +16,8 @@ function reducer(state = DEFAULT_STATE, action) {
 			return { ...state, isLoggedIn: true };
 		case "SET_SELF":
 			return { ...state, userId: action.userId,role:action.role };
+		case "CHANGE_USERS":
+			return { ...state, users: { ...state.users, ...action.users } };
 		case "CHANGE_USER":
 			if (state.users == null) {
 				return {

@@ -82,7 +82,7 @@ class App extends Component {
 					<Route path="/login" component={Login} />
 					{!this.props.isLoggedIn && <Redirect to="/login" />}
 					<Route path="/aanmelden" component={CourseSelect} />
-					<Route path="/groep/:id" component={Group} />
+					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/instellingen" component={Settings} />
 					<Redirect push to={this.props.role==="student"?"/aanmelden":"/instellingen"} />
 				</Switch>

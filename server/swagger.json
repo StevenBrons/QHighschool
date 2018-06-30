@@ -84,7 +84,7 @@
       }
     },
     "/group/list": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],
@@ -139,7 +139,7 @@
       }
     },
     "/group/enrollments": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],
@@ -179,7 +179,7 @@
       }
     },
     "/group/participants": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],
@@ -219,7 +219,7 @@
       }
     },
     "/group/evaluations": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],
@@ -259,7 +259,7 @@
       }
     },
     "/group/lessons": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],
@@ -299,7 +299,7 @@
       }
     },
     "/group/presence": {
-      "get": {
+      "post": {
         "tags": [
           "Group"
         ],

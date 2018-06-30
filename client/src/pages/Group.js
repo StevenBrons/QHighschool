@@ -13,7 +13,7 @@ class Group extends Component {
 	render() {
 
 		if (this.props.group == null) {
-			if (this.props.display === "Page") {
+			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
 						<div className="Page">
@@ -34,11 +34,11 @@ class Group extends Component {
 		}
 
 		switch (this.props.display) {
-			case "Page":
+			case "page":
 				return (
 					<GroupPage {...this.props} />
 				);
-			case "Card":
+			case "card":
 			default:
 				return (
 					<GroupCard {...this.props} />
@@ -49,8 +49,8 @@ class Group extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-	let id = ownProps.match.params.id || ownProps.groupId;
-	let display = ownProps.display || "Page";
+	let id = ownProps.match.params.groupId || ownProps.groupId;
+	let display = ownProps.display || "page";
 
 	let notExists = false;
 	let group = null;

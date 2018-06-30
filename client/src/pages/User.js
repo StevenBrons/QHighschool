@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import UserPage from "../components/UserPage";
+import UserRow from "../components/UserRow";
 
-import { setGroup, getGroup,getGroupEnrollments } from "../store/actions"
 import { withRouter } from 'react-router-dom';
 import Progress from '../components/Progress'
 
 class User extends Component {
 
 	render() {
-
 		if (this.props.user == null) {
 			if (this.props.display === "Page") {
 				if (this.props.notExists) {
@@ -32,19 +30,20 @@ class User extends Component {
 			}
 		}
 
+
 		switch (this.props.display) {
-			case "Page":
+			case "page":
 				return (
-					<UserPage {...this.props} />
+					<UserRow {...this.props} />
 				);
-			case "Row":
+			case "row":
 				return (
-					<UserPage {...this.props} />
+					<UserRow {...this.props} />
 				);
-			case "Card":
+			case "card":
 			default:
 				return (
-					<UserPage {...this.props} />
+					<UserRow {...this.props} />
 				);
 		}
 	}
@@ -52,34 +51,28 @@ class User extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-	let id = ownProps.match.params.id || ownProps.groupId;
+	let id = ownProps.match.params.userId || ownProps.userId;
 	let display = ownProps.display || "Page";
 
 	let notExists = false;
-	let group = null;
+	let user = null;
+	console.log(id);
+	console.log(state.users[id]);
 
 	if (state.users == null || state.users[id] == null) {
-		if (id == null || state.hasFetched.includes("Group.get(" + id + ")")) {
+		if (id == null || state.hasFetched.includes("User.get(" + id + ")")) {
 			notExists = true;
 		}
 	} else {
-		group = state.users[id];
+		user = state.users[id];
 	}
+
 	return {
-		group,
+		user,
 		notExists,
 		display,
-		groupId: id,
+		userId: id,
 	}
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		setGroup: (group) => dispatch(setGroup(group)),
-		getGroup: (groupId) => dispatch(getGroup(groupId)),
-		getGroupEnrollments: (groupId) => dispatch(getGroupEnrollments(groupId)),
-
-	};
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Group));
+export default withRouter(connect(mapStateToProps)(User));

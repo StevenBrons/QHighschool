@@ -26,6 +26,8 @@ class GroupCard extends Component {
 	}
 
 	render() {
+		console.log(this.props.userId);
+		return this.props.userId;
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}

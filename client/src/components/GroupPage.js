@@ -8,6 +8,9 @@ import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { Group } from "../lib/Data"
+
+import User from "../pages/User"
 
 class GroupPage extends Component {
 
@@ -19,8 +22,18 @@ class GroupPage extends Component {
 		}
 	}
 
-	componentWillMount() {
-		this.props.getGroupEnrollments(this.props.group.id);
+	getCurrentTab(currentTab) {
+		switch (currentTab) {
+			case 0:
+			if (this.props.group.enrollments == null) {
+				this.props.getGroupEnrollments(this.props.group.id);
+				return null;
+			}
+			return this.props.group.enrollments.map(enrollment => {
+				return <User userId={enrollment.id} display="row"/>
+			});
+		}
+
 	}
 
 	handleTab = (event, currentTab) => {
@@ -63,6 +76,7 @@ class GroupPage extends Component {
 						{this.props.role === "teacher" && <Tab label="Beoordeling" />}
 					</Tabs>
 				</AppBar>
+				{this.getCurrentTab(this.state.currentTab)}
 			</div >
 		);
 	}

@@ -50,7 +50,7 @@ class GroupDB {
 	async getEnrollments(token, groupId) {
 		if (groupId >= 0) {
 			return this.mainDb.checkToken(token,["teacher"]).then(() => this.mainDb.connection.query(
-				"SELECT * FROM enrollment " +
+				"SELECT user.* FROM enrollment " +
 				"INNER JOIN user ON user.id = enrollment.studentId WHERE enrollment.groupId = ?; "
 				, [groupId]).then(enrollments => {
 						return enrollments;

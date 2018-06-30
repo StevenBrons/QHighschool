@@ -1,4 +1,5 @@
-import { User,Subject , Group} from "../lib/Data"
+import { User,Subject, Group} from "../lib/Data"
+import keyBy from "lodash/keyBy"
 
 function apiErrorHandler(dispatch) {
 	return function (error) {
@@ -161,6 +162,10 @@ export function getGroupEnrollments(groupId) {
 					id:groupId,
 					enrollments,
 				}
+			});
+			dispatch({
+				type: "CHANGE_USERS",
+				users: keyBy(enrollments,"id"),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}

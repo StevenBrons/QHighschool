@@ -43,7 +43,7 @@ class Subject extends Component {
 				<Group
 					key={group.id}
 					groupId={group.id}
-					display="Card"
+					display="card"
 				/>
 			);
 		});
