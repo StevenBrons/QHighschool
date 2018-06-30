@@ -56,8 +56,13 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
+	if (state.userId != null) {
+		return {
+			email: state.users[state.userId].preferedEmail,
+		};
+	}
 	return {
-		email: state.user.preferedEmail,
+		email: "",
 	};
 }
 

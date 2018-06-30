@@ -61,18 +61,25 @@ export function getGroup(groupId) {
 	}
 }
 
-export function getUser() {
+export function getUser(userId) {
 	return (dispatch, getState) => {
 		if (!getState().hasFetched.includes("User.getUser()")) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getUser()"
 			});
-			User.getUser().then((user) => {
+			User.getUser(userId).then((user) => {
 				dispatch({
 					type: "CHANGE_USER",
 					user,
 				});
+				if (userId == null) {
+					dispatch({
+						type: "SET_SELF",
+						userId:user.id,
+						role:user.role,
+					});
+				}
 			}).catch(apiErrorHandler(dispatch));
 		}
 	}

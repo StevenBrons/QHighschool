@@ -115,10 +115,11 @@ class UserClass extends Data {
 		return this.url + "user";
 	}
 
-	async getUser() {
+	async getUser(userId) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "get",
+			type: "post",
+			data: {userId},
 			headers: { "token": this.token },
 			dataType: "json",
 		});
@@ -127,7 +128,7 @@ class UserClass extends Data {
 	async setUser(newUser) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "post",
+			type: "put",
 			data: newUser,
 			headers: { "token": this.token },
 			dataType: "json",
