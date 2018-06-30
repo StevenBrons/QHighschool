@@ -2,20 +2,20 @@ import { User,Subject , Group} from "../Data"
 
 function apiErrorHandler(dispatch) {
 	return function (error) {
-		console.log(error);
 		dispatch({
 			type: "FATAL_ERROR",
 			error,
 		});
+		throw error;
 	}
 }
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.includes("Subject.getList")) {
+		if (!getState().hasFetched.includes("Subject.getList()")) {
 			dispatch({
 				type: "HAS_FETCHED",
-				call: "Subject.getList"
+				call: "Subject.getList()"
 			});
 			Subject.getList().then((subjects) => {
 				dispatch({
@@ -29,10 +29,10 @@ export function getSubjects() {
 
 export function getGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.includes("Group.getList")) {
+		if (!getState().hasFetched.includes("Group.getList()")) {
 			dispatch({
 				type: "HAS_FETCHED",
-				call: "Group.getList"
+				call: "Group.getList()"
 			});
 			Group.getList().then((groups) => {
 				dispatch({
@@ -44,12 +44,29 @@ export function getGroups() {
 	}
 }
 
-export function getUser() {
+export function getGroup(groupId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.includes("User.getUser")) {
+		if (!getState().hasFetched.includes("Group.get(" + groupId + ")")) {
 			dispatch({
 				type: "HAS_FETCHED",
-				call: "User.getUser"
+				call: "Group.get(" + groupId + ")",
+			});
+			Group.get(groupId).then((group) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups: {[groupId]:group}
+				});
+			}).catch(apiErrorHandler(dispatch));
+		}
+	}
+}
+
+export function getUser() {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("User.getUser()")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "User.getUser()"
 			});
 			User.getUser().then((user) => {
 				dispatch({
@@ -71,14 +88,25 @@ export function setUser(user) {
 	}
 }
 
+export function setGroup(group) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: "CHANGE_GROUP",
+			group,
+		});
+		// TODO setGroup api call
+		// User.setUser(user).catch(apiErrorHandler(dispatch));
+	}
+}
+
 export function getEnrollableGroups() {
 	return (dispatch, getState) => {
-		if (getState().enrollableGroups != null || getState().hasFetched.includes("User.getEnrolllableGroups")) {
+		if (getState().enrollableGroups != null || getState().hasFetched.includes("User.getEnrolllableGroups()")) {
 			return;
 		}
 		dispatch({
 			type: "HAS_FETCHED",
-			call: "User.getEnrolllableGroups"
+			call: "User.getEnrolllableGroups()"
 		});
 		User.getEnrolllableGroups().then((enrollableGroups) => {
 			dispatch({
@@ -91,12 +119,12 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		if (getState().enrollments != null || getState().hasFetched.includes("User.getEnrollments")) {
+		if (getState().enrollments != null || getState().hasFetched.includes("User.getEnrollments()")) {
 			return;
 		}
 		dispatch({
 			type: "HAS_FETCHED",
-			call: "User.getEnrollments"
+			call: "User.getEnrollments()"
 		});
 		User.getEnrollments().then((enrollments) => {
 			dispatch({

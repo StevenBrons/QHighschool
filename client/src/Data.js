@@ -1,4 +1,5 @@
 import $ from "jquery";
+import keyBy from "lodash/keyBy"
 
 class Data {
 	constructor() {
@@ -28,7 +29,7 @@ class CourseClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(courseId) {
@@ -54,7 +55,7 @@ class GroupClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(groupId) {
@@ -80,7 +81,7 @@ class SubjectClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(subjectId) {

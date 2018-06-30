@@ -26,12 +26,13 @@ function reducer(state = DEFAULT_STATE, action) {
 			return { ...state, hasFetched: [...state.hasFetched,action.call] };
 		case "CHANGE_ENROLLABLE_GROUPS":
 			return { ...state, enrollableGroups: action.enrollableGroups };
+			
 		case "CHANGE_GROUPS":
-			return { ...state, groups: action.groups };
+			return { ...state, groups: {...state.groups,...action.groups} };
 		case "CHANGE_GROUP":
-			return { ...state, groups: [...this.state.groups,action.group] };
+			return { ...state, groups: {...state.groups,...action.group}};
 		case "CHANGE_SUBJECTS":
-			return { ...state, subjects: action.subjects };
+			return { ...state, subjects: {...state.subjects,...action.subjects} };
 		case "CHANGE_ENROLLMENTS":
 			if (action.action === "ADD") {
 				return {

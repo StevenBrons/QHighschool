@@ -6,6 +6,8 @@ import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
 import Group from '../components/Group';
 import { getSubjects,getGroups } from '../store/actions';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
 
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -30,9 +32,9 @@ class CourseSelect extends Page {
 	}
 
 	getGroupsPerSubject(subject) {
-		return this.props.groups.filter(group => {
-			return (subject.id === group.subjectId);
-		});
+		return filter(this.props.groups,(group) => {
+			return subject.id === group.subjectId;
+		})
 	}
 
 	handleSortChange = event => {
@@ -47,7 +49,7 @@ class CourseSelect extends Page {
 				data = <Progress/>
 				break;
 			}
-			data = this.props.subjects.map((subject) => {
+			data = map(this.props.subjects,(subject) => {
 				return <SubjectComponent
 					key={subject.id}
 					subject={subject}
