@@ -64,8 +64,8 @@ class GroupPage extends Component {
 						centered
 					>
 						<Tab label="Aanmeldingen" />
-						<Tab label="Deelnemers" />
 						<Tab label="Lessen" />
+						<Tab label="Deelnemers" />
 						<Tab label="Presentie" />
 						<Tab label="Beoordeling" />
 					</Tabs>
