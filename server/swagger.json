@@ -138,6 +138,206 @@
         }
       }
     },
+    "/group/enrollments": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get enrollements for the group",
+        "operationId": "getGroupEnrollments",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the enrollments from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/group/participants": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants of the group",
+        "operationId": "getGroupParticipants",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the participants from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/group/evaluations": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants evaluation",
+        "operationId": "getEvaluation",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the evaluation from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/group/lessons": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants evaluation",
+        "operationId": "getLessons",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the lessons from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Lesson"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/group/presence": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants presence",
+        "operationId": "getLesson",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the presence from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
     "/subject/list": {
       "get": {
         "tags": [
@@ -547,7 +747,68 @@
         }
       },
       "xml": {
-        "name": "Course"
+        "name": "Group"
+      }
+    },
+    "Evaluation": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "integer"
+        },
+        "studentId": {
+          "type": "integer"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "assesement": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Evaluation"
+      }
+    },
+    "Lesson": {
+      "type": "object",
+      "properties": {
+        "lessonId": {
+          "type": "integer"
+        },
+        "groupId": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "string"
+        },
+        "day": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "activities": {
+          "type": "string"
+        },
+        "numerInBlock": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Lesson"
       }
     }
   }
