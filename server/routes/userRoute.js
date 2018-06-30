@@ -8,13 +8,13 @@ function handleError(error, res) {
 	});
 }
 
-router.get("/", (req, res) => {
-	database.user.getUser(req.headers.token).then((user) => {
+router.post("/", (req, res) => {
+	database.user.getUser(req.headers.token, req.body.userId).then((user) => {
 		res.send(user);
 	}).catch(error => handleError(error, res));
 });
 
-router.post("/", (req, res) => {
+router.put("/", (req, res) => {
 	database.user.setUser(req.headers.token, req.body).then((data) => {
 		res.send({
 			success: true,

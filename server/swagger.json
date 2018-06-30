@@ -139,7 +139,7 @@
       }
     },
     "/group/enrollments": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -179,7 +179,7 @@
       }
     },
     "/group/participants": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -219,7 +219,7 @@
       }
     },
     "/group/evaluations": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -259,7 +259,7 @@
       }
     },
     "/group/lessons": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -299,7 +299,7 @@
       }
     },
     "/group/presence": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -394,7 +394,7 @@
       }
     },
     "/user": {
-      "get": {
+      "post": {
         "tags": [
           "User"
         ],
@@ -402,6 +402,9 @@
         "operationId": "getUser",
         "produces": [
           "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
         ],
         "responses": {
           "200": {
@@ -411,13 +414,22 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId to change, if empty, own user will be returned",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "security": [
           {
             "token": []
           }
         ]
       },
-      "post": {
+      "put": {
         "tags": [
           "User"
         ],
@@ -427,6 +439,13 @@
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId to change, if empty, own user will be returned",
+            "required": false,
+            "type": "string"
+          },
           {
             "name": "preferedEmail",
             "in": "formData",
