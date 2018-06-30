@@ -23,7 +23,7 @@ router.post("/", function (req, res, next) {
 router.post("/enrollments", function (req, res, next) {
   database.group.getEnrollments(req.headers.token, req.body.groupId).then(groups => {
     res.send(groups);
-  });
+  }).catch((error) => handleError(error,res))
 });
 
 module.exports = router;
