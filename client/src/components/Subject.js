@@ -36,18 +36,14 @@ class Subject extends Component {
 		}
 	}
 
-	preventCollapse(preventCollapse) {
-		this.setState({ canCollapse: !preventCollapse });
-	}
-
 	render() {
 		
 		const groups = this.props.groups.map((group) => {
 			return (
 				<Group
 					key={group.id}
-					group={group}
-					preventCollapse={this.preventCollapse.bind(this)}
+					groupId={group.id}
+					display="Card"
 				/>
 			);
 		});

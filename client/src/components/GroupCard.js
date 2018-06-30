@@ -17,42 +17,14 @@ const CARD_STYLE = {
 	cursor: "pointer",
 }
 
-const PAGE_STYLE = {
-}
-
-const LINE_STYLE = {
-}
-
-class CourseChoice extends Component {
+class GroupCard extends Component {
 
 	constructor(props) {
 		super(props);
-		if (this.props.group == null) {
-			throw new Error("Group cannot be null");
-		}
-		let display = this.props.display;
-		if (display == null) {
-			display = "card";
-		}
-		let style;
-		switch (display) {
-			case "line":
-				style = LINE_STYLE;
-				break;
-			case "card":
-				style = CARD_STYLE;
-				break;
-			case "page":
-				style = PAGE_STYLE;
-				break;
-			default:
-				break;
-		}
 
 		this.state = {
-			display: this.props.display ? "card" : this.props.display,
 			hover: false,
-			style: style,
+			style: CARD_STYLE,
 		}
 	}
 
@@ -70,7 +42,7 @@ class CourseChoice extends Component {
 			>
 				{
 					this.state.hover && 
-					<IconButton aria-label="Add an alarm" onClick={this.expand.bind(this)} style={{ float: "right" }}>
+					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
 						<UnfoldMoreIcon />
 					</IconButton>
 				}
@@ -94,5 +66,5 @@ class CourseChoice extends Component {
 }
 
 
-export default withRouter(CourseChoice);
+export default withRouter(GroupCard);
 

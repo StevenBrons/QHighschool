@@ -1,50 +1,80 @@
 import React, { Component } from "react";
-import {connect} from "redux";
+import { connect } from "react-redux";
 
 import GroupCard from "./GroupCard";
-import {setGroup} from "../store/actions"
+import GroupPage from "./GroupPage";
+
+import { setGroup, getGroup } from "../store/actions"
+import { withRouter } from 'react-router-dom';
+import Progress from './Progress'
 
 class Group extends Component {
 
-  render() {
+	render() {
 
-    switch(this.props.display){
-      case "page":
-      return (
-        <GroupCard {...this.props} />
-      );
-      case "Card":
-      default:
-      return (
-        <GroupCard {...this.props} />
-      );
-    }
-  }
+		if (this.props.group == null) {
+			if (this.props.display === "Page") {
+				if (this.props.notExists) {
+					return (
+						<div className="Page">
+							De opgevraagde groep bestaat niet
+							</div>
+					);
+				} else {
+					this.props.getGroup(this.props.groupId)
+					return (
+						<div className="Page">
+							<Progress />
+						</div>
+					);
+				}
+			} else {
+				return this.props.notExists ? null : <Progress />;
+			}
+		}
+
+		switch (this.props.display) {
+			case "Page":
+				return (
+					<GroupPage {...this.props} />
+				);
+			case "Card":
+			default:
+				return (
+					<GroupCard {...this.props} />
+				);
+		}
+	}
 }
 
 
 function mapStateToProps(state, ownProps) {
-  if (state.groups == null) {
-    return {
-      loading:true,
-      group:{}
-    }
-  }
-  const groups = state.groups.filter((g) => g.id === ownProps.groupId);
-  if (groups.length !== 1) {
-    return {
-      group:true,
-    }
-  }
-  return {
-    group:groups[0],
-  }
+	let id = ownProps.match.params.id || ownProps.groupId;
+	let display = ownProps.display || "Page";
+
+	let notExists = false;
+	let group = null;
+
+	if (state.groups == null || state.groups[id] == null) {
+		if (id == null || state.hasFetched.includes("Group.get(" + id + ")")) {
+			notExists = true;
+		}
+	} else {
+		group = state.groups[id];
+	}
+	return {
+		group,
+		notExists,
+		display,
+		groupId: id,
+	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		setGroup: (group) => dispatch(setGroup(group)),
+		getGroup: (groupId) => dispatch(getGroup(groupId)),
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Group);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Group));
