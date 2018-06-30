@@ -152,9 +152,14 @@ class Settings extends Page {
 }
 
 function mapStateToProps(state) {
+	if (state.userId == null) {
+		return {
+			user: {},
+		}
+	}
 	return {
-		user: state.user,
-		key: state.user.id,
+		user: state.users[state.userId],
+		key: state.userId,
 	};
 }
 

@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { toggleMenu } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { setCookie } from "../lib/Cookie";
 
 class Login extends Page {
 
@@ -24,7 +25,7 @@ class Login extends Page {
 	handleLogin(event) {
 		event.preventDefault();
 		this.props.login(event.target[0].value, event.target[1].value);
-		this.props.history.push("/module-keuze");
+		document.location.reload();
 	}
 
 	render() {
@@ -60,6 +61,12 @@ class Login extends Page {
 function mapDispatchToProps(dispatch) {
 	return {
 		login: (email, password) => {
+			if (email === "teacher") {
+				setCookie("token","teacher");
+			}
+			if (email === "student") {
+				setCookie("token","student");
+			}
 			dispatch(toggleMenu(true));
 			dispatch({
 				type: "LOGIN",

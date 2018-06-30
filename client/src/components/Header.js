@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { toggleMenu } from '../store/actions';
+import { setCookie } from '../lib/Cookie';
 
 class Header extends Component {
 
@@ -24,6 +25,12 @@ class Header extends Component {
 	handleClose = () => {
 		this.setState({ anchorEl: null });
 	};
+
+	logout() {
+		this.handleClose();
+		setCookie("token", "", -1);
+		document.location.reload(); 
+	}
 
 	render() {
 		const { anchorEl } = this.state;
@@ -48,7 +55,7 @@ class Header extends Component {
 					onClose={this.handleClose}
 				>
 					<MenuItem onClick={this.handleClose}>Profiel</MenuItem>
-					<MenuItem onClick={this.handleClose}>Log uit</MenuItem>
+					<MenuItem onClick={this.logout.bind(this)}>Log uit</MenuItem>
 				</Menu>
 			</AppBar>
 		);

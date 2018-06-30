@@ -31,19 +31,21 @@ class GroupPage extends Component {
 		const group = this.props.group;
 		return (
 			<div className="Page" style={this.state.style}>
-				<Field value={group.subjectName} right headline/>
-				<Field value={group.courseName} headline/>
-				<br/>
-				<Field value={group.teacherName} right/>
-				<Field value={"Periode " + group.period} caption style={{width:"100px"}}/>
-				<Field value={group.day} caption/>
-				<br/>
-				<Field value={group.courseDescription} area/>
+				<Field value={group.subjectName} right headline />
+				<Field value={group.courseName} headline />
+				<br />
+				<Field value={group.teacherName} right />
+				<Field value={"Periode " + group.period} caption style={{ width: "100px" }} />
+				<Field value={group.day} caption />
+				<br />
+				<Field value={group.courseDescription} area />
 				<Divider />
-				<ChooseButton
-					group={group}
-					style={{ margin: "20px" }}
-				/>
+				{this.props.role === "student" &&
+					<ChooseButton
+						group={group}
+						style={{ margin: "20px" }}
+					/>
+				}
 				<Divider />
 				<AppBar position="static" color="default">
 					<Tabs
@@ -54,11 +56,11 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						<Tab label="Aanmeldingen" />
+						{this.props.role === "teacher" && <Tab label="Aanmeldingen" />}
 						<Tab label="Lessen" />
 						<Tab label="Deelnemers" />
-						<Tab label="Presentie" />
-						<Tab label="Beoordeling" />
+						{this.props.role === "teacher" && <Tab label="Presentie" />}
+						{this.props.role === "teacher" && <Tab label="Beoordeling" />}
 					</Tabs>
 				</AppBar>
 			</div >

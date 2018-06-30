@@ -84,7 +84,7 @@ class App extends Component {
 					<Route path="/aanmelden" component={CourseSelect} />
 					<Route path="/groep/:id" component={Group} />
 					<Route path="/instellingen" component={Settings} />
-					<Redirect push to="/aanmelden" />
+					<Redirect push to={this.props.role==="student"?"/aanmelden":"/instellingen"} />
 				</Switch>
 			</div>
 		);
@@ -96,6 +96,7 @@ function mapStateToProps(state) {
 	return {
 		isLoggedIn: state.isLoggedIn,
 		showMenu: state.showMenu,
+		role: state.role
 	};
 }
 
