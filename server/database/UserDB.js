@@ -61,7 +61,11 @@ class UserDB{
 	}
 
 	async setUser(token, data) {
-		await this.mainDb.checkToken(token,["student"]);
+		if (data.userId == null) {
+			await this.mainDb.checkToken(token,["teacher","student"]);
+		}else {
+			await this.mainDb.checkToken(token,["teacher"]);
+		}
 
 		if (data.preferedEmail == null) {
 			throw new Exception("The property preferedEmail is required");

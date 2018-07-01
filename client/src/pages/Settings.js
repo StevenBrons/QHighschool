@@ -1,11 +1,9 @@
 import React from 'react';
 import Page from './Page';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { setUser } from '../store/actions';
@@ -38,8 +36,6 @@ class Settings extends Page {
 	}
 
 	render() {
-		const x = this.props.sqaured;
-
 		let inputStyle = {
 			display: "inline-block",
 			width: "45%",
@@ -47,7 +43,7 @@ class Settings extends Page {
 		}
 		const user = this.state.user;
 		return (
-			<Paper style={this.state.style} elevation={0} className="Page">
+			<div className="Page" style={this.state.style}>
 				<Typography variant="headline" color="primary">
 					{"Instellingen"}
 				</Typography>
@@ -72,7 +68,6 @@ class Settings extends Page {
 						fullWidth
 						style={inputStyle}
 					/>
-					{x}
 					<TextField
 						id="role"
 						label="Rol"
@@ -113,11 +108,11 @@ class Settings extends Page {
 						fullWidth
 						style={inputStyle}
 					/>
-					<Select
+					<TextField
 						id="profile"
 						label="Profiel"
 						select
-						value={user.profile}
+						value={this.state.user.profile}
 						onChange={this.handleChange('profile')}
 						margin="normal"
 						fullWidth
@@ -129,7 +124,7 @@ class Settings extends Page {
 							</MenuItem>
 							)
 						})}
-					</Select>
+					</TextField>
 					<TextField
 						id="phoneNumber"
 						label="Telefoon nummer"
@@ -146,7 +141,7 @@ class Settings extends Page {
 						</Button> : null
 					}
 				</form >
-			</Paper>
+			</div>
 		);
 	}
 }

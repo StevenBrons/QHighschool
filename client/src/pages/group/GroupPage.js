@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import ChooseButton from '../components/ChooseButton';
-import Field from '../components/Field';
-import User from "../pages/User"
+import ChooseButton from './ChooseButton';
+import Field from '../../components/Field';
+import User from "../User"
 
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,10 +17,8 @@ class GroupPage extends Component {
 
 	constructor(props) {
 		super(props);
-
-		const studentTabs = ["Lessen","Deelnemers"];
+		const studentTabs = ["Lessen"];
 		const teacherTabs = ["Aanmeldingen","Lessen","Deelnemers","Activiteit","Beoordeling"];
-
 		this.state = {
 			currentTab: 0,
 			tabs: this.props.role === "teacher" ? teacherTabs : studentTabs,
@@ -36,7 +34,7 @@ class GroupPage extends Component {
 					return null;
 				}
 				return this.props.group.enrollments.map(enrollment => {
-					return <User userId={enrollment.id} display="row" />
+					return <User key={enrollment.id} userId={enrollment.id} display="row" />
 				});
 			default: return null;
 		}
@@ -88,7 +86,7 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						{this.state.tabs.map(tab => <Tab label={tab} />) }
+						{this.state.tabs.map(tab => <Tab key={tab} label={tab} />) }
 					</Tabs>
 				</AppBar>
 				<br/>

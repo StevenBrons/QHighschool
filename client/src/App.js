@@ -7,14 +7,13 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Data, { User } from "./lib/Data";
-import { getCookie, setCookie } from "./lib/Cookie";
+import Data from "./lib/Data";
 import { getUser } from './store/actions';
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
-import Group from "./pages/Group";
+import Group from "./pages/group/Group";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -23,33 +22,8 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		const token = getCookie("token");
-		Data.setToken(token);
+		Data.setToken(this.props.token);
 		this.props.getUser();
-
-		this.state = {
-			showMenu: token ? true : false,
-			token: token,
-			user: {},
-			choices: [],
-			isLoggedIn: false,
-		};
-
-		if (token !== null) {
-			User.getUser(this.state.token).then(data => {
-				this.setState({
-					user: data,
-				});
-			});
-		}
-	}
-
-	handleLogin(event) {
-		event.preventDefault();
-		let token = "token1";
-		Data.setToken(token);
-		setCookie("token", token, 365);
-		this.setState({ showMenu: true, token: token });
 	}
 
 	handleShowMenu() {
@@ -59,28 +33,21 @@ class App extends Component {
 		});
 	}
 
-	onSettingsSave(newUser) {
-		this.setState({
-			user: newUser,
-		});
-	}
-
 	render() {
-		if (this.state.token === null) {
+		if (this.props.role == null && this.props.token != null) {
 			return (
 				<div className="App" style={{ backgroundColor: "white" }}>
 					<Header email="" />
-					<Login handleLogin={this.handleLogin.bind(this)} />
 				</div>
 			);
 		}
 		return (
 			<div className="App" style={{ backgroundColor: "white" }}>
 				{this.props.showMenu && <Menu/>}
-				<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
+				<Header/>
 				<Switch>
 					<Route path="/login" component={Login} />
-					{!this.props.isLoggedIn && <Redirect to="/login" />}
+					{ (this.props.token == null) && <Redirect to="/login" />}
 					<Route path="/aanmelden" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/instellingen" component={Settings} />
@@ -94,7 +61,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
 	return {
-		isLoggedIn: state.isLoggedIn,
+		token: state.token,
 		showMenu: state.showMenu,
 		role: state.role
 	};
@@ -102,10 +69,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getUser: () => {
-			dispatch(getUser());
-		},
-
+		getUser: () => dispatch(getUser()),
+		setToken: (token) => dispatch({
+			type:"SET_TOKEN",
+			token: token,
+		}),
 	};
 }
 

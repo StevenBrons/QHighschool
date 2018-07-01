@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import GroupCard from "../components/GroupCard";
-import GroupPage from "../components/GroupPage";
+import GroupCard from "./GroupCard";
+import GroupPage from "./GroupPage";
 
-import { setGroup, getGroup,getGroupEnrollments } from "../store/actions"
+import { setGroup, getGroup,getGroupEnrollments } from "../../store/actions"
 import { withRouter } from 'react-router-dom';
-import Progress from '../components/Progress'
+import Progress from '../../components/Progress'
 
 class Group extends Component {
 
 	render() {
-
 		if (this.props.group == null) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {

@@ -10,10 +10,14 @@ import { setCookie } from "../lib/Cookie";
 
 class Login extends Page {
 
-	constructor(props) {
-		super(props);
-		this.props.toggleMenu(false);
+	componentWillMount() {
+		if (this.props.token != null) {
+			this.props.history.push("/");
+		} else {
+			this.props.toggleMenu(false);
+		}
 	}
+
 
 	handleChange = name => event => {
 		this.setState(prevState => ({
@@ -58,20 +62,25 @@ class Login extends Page {
 	}
 }
 
+
+function mapStateToProps(state) {
+	return {
+		token: state.token,
+	};
+}
+
 function mapDispatchToProps(dispatch) {
 	return {
 		login: (email, password) => {
+			let token = "student";
 			if (email === "teacher") {
-				setCookie("token","teacher");
+				token = "teacher";
 			}
-			if (email === "student") {
-				setCookie("token","student");
-			}
+			setCookie("token", token);
 			dispatch(toggleMenu(true));
 			dispatch({
-				type: "LOGIN",
-				email: email,
-				password: password,
+				type: "SET_TOKEN",
+				token: token,
 			})
 		},
 		toggleMenu: (state) => {
@@ -81,7 +90,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Login));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
 
 
 
