@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
 
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
 import Group from './group/Group';
 import { getSubjects,getGroups } from '../store/actions';
-import filter from 'lodash/filter';
-import map from 'lodash/map';
 
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
