@@ -3,37 +3,50 @@ import { withRouter } from 'react-router';
 
 import ChooseButton from '../components/ChooseButton';
 import Field from '../components/Field';
+import User from "../pages/User"
 
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Group } from "../lib/Data"
+import Button from '@material-ui/core/Button';
 
-import User from "../pages/User"
+
 
 class GroupPage extends Component {
 
 	constructor(props) {
 		super(props);
 
+		const studentTabs = ["Lessen","Deelnemers"];
+		const teacherTabs = ["Aanmeldingen","Lessen","Deelnemers","Activiteit","Beoordeling"];
+
 		this.state = {
 			currentTab: 0,
+			tabs: this.props.role === "teacher" ? teacherTabs : studentTabs,
+			editable:false,
 		}
 	}
 
 	getCurrentTab(currentTab) {
-		switch (currentTab) {
-			case 0:
-			if (this.props.group.enrollments == null) {
-				this.props.getGroupEnrollments(this.props.group.id);
-				return null;
-			}
-			return this.props.group.enrollments.map(enrollment => {
-				return <User userId={enrollment.id} display="row"/>
-			});
+		switch (this.state.tabs[currentTab]) {
+			case "Aanmeldingen":
+				if (this.props.group.enrollments == null) {
+					this.props.getGroupEnrollments(this.props.group.id);
+					return null;
+				}
+				return this.props.group.enrollments.map(enrollment => {
+					return <User userId={enrollment.id} display="row" />
+				});
+			default: return null;
 		}
 
+	}
+
+	setEditable() {
+		this.setState({
+			editable:true,
+		});
 	}
 
 	handleTab = (event, currentTab) => {
@@ -42,22 +55,28 @@ class GroupPage extends Component {
 
 	render() {
 		const group = this.props.group;
+		const editable = this.state.editable;
 		return (
 			<div className="Page" style={this.state.style}>
-				<Field value={group.subjectName} right headline />
-				<Field value={group.courseName} headline />
+				<Field value={group.subjectName} right headline editable={editable}/>
+				<Field value={group.courseName} headline  editable={editable}/>
 				<br />
-				<Field value={group.teacherName} right />
-				<Field value={"Periode " + group.period} caption style={{ width: "100px" }} />
-				<Field value={group.day} caption />
+				<Field value={group.teacherName} right  editable={editable}/>
+				<Field value={"Periode " + group.period} caption style={{ width: "100px" }}  editable={editable}/>
+				<Field value={group.day} caption  editable={editable}/>
 				<br />
-				<Field value={group.courseDescription} area />
+				<Field value={group.courseDescription} area  editable={editable}/>
 				<Divider />
 				{this.props.role === "student" &&
 					<ChooseButton
 						group={group}
 						style={{ margin: "20px" }}
 					/>
+				}
+				{this.props.role === "teacher" &&
+					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable.bind(this)}>
+						{"Bewerken"}
+					</Button>
 				}
 				<Divider />
 				<AppBar position="static" color="default">
@@ -69,15 +88,14 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						{this.props.role === "teacher" && <Tab label="Aanmeldingen" />}
-						<Tab label="Lessen" />
-						<Tab label="Deelnemers" />
-						{this.props.role === "teacher" && <Tab label="Presentie" />}
-						{this.props.role === "teacher" && <Tab label="Beoordeling" />}
+						{this.state.tabs.map(tab => <Tab label={tab} />) }
 					</Tabs>
 				</AppBar>
-				{this.getCurrentTab(this.state.currentTab)}
-			</div >
+				<br/>
+				<div style={{ width: "95%", margin: "auto" }}>
+					{this.getCurrentTab(this.state.currentTab)}
+				</div>
+			</div>
 		);
 	}
 

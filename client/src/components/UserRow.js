@@ -3,7 +3,6 @@ import {withRouter} from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ChooseButton from './ChooseButton';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -16,18 +15,22 @@ class GroupCard extends Component {
 			hover: false,
 			style: {
 				width:"100%",
-				height:"auto",
+				height:"45px",
+				margin: "0px",
+				marginTop: "10px",
+				marginBottom: "10px",
+				padding: "10px",
+				display: "flex",
+				justifyContent: "space-between",
 			},
 		}
 	}
 
 	expand() {
-		// this.props.history.push("/groep/" + this.props.group.id)
+		// this.props.history.push("/user/" + this.props.user.id)
 	}
 
 	render() {
-		console.log(this.props.userId);
-		return this.props.userId;
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}
@@ -35,15 +38,24 @@ class GroupCard extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
-				{
-					this.state.hover && 
-					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
-						<UnfoldMoreIcon />
-					</IconButton>
-				}
-				<Typography variant="headline" color="primary">
+				<Typography variant="title">
 					{this.props.user.firstName + " " + this.props.user.lastName}
 				</Typography>
+				<Typography variant="subheading">
+					{this.props.user.school}
+				</Typography>
+				<Typography variant="body1">
+					{this.props.user.level}
+				</Typography>
+				<Typography variant="body1">
+					{this.props.user.role}
+				</Typography>
+				<Typography variant="body1">
+					{this.props.user.profile}
+				</Typography>
+				<IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
+					<UnfoldMoreIcon />
+				</IconButton>
 			</Paper >
 		);
 	}
