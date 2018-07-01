@@ -1,4 +1,5 @@
 import $ from "jquery";
+import keyBy from "lodash/keyBy"
 
 class Data {
 	constructor() {
@@ -13,6 +14,7 @@ class Data {
 		this.token = t;
 		User.token = t;
 		Course.token = t;
+		Group.token = t;
 		Subject.token = t;
 	}
 
@@ -28,7 +30,7 @@ class CourseClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(courseId) {
@@ -36,7 +38,7 @@ class CourseClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				courseId: courseId,
+				courseId,
 			},
 			dataType: "json",
 		});
@@ -54,7 +56,7 @@ class GroupClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(groupId) {
@@ -62,8 +64,20 @@ class GroupClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				groupId: groupId,
+				groupId,
 			},
+			dataType: "json",
+		});
+	}
+
+	async getEnrollments(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/enrollments",
+			type: "post",
+			data: {
+				groupId,
+			},
+			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -80,7 +94,7 @@ class SubjectClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list,"id"));
 	}
 
 	async get(subjectId) {
@@ -88,7 +102,7 @@ class SubjectClass extends Data {
 			url: this.getUrl() + "/",
 			type: "post",
 			data: {
-				subjectId: subjectId,
+				subjectId,
 			},
 			dataType: "json",
 		});
@@ -101,10 +115,11 @@ class UserClass extends Data {
 		return this.url + "user";
 	}
 
-	async getUser() {
+	async getUser(userId) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "get",
+			type: "post",
+			data: {userId},
 			headers: { "token": this.token },
 			dataType: "json",
 		});
@@ -113,7 +128,7 @@ class UserClass extends Data {
 	async setUser(newUser) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "post",
+			type: "put",
 			data: newUser,
 			headers: { "token": this.token },
 			dataType: "json",
@@ -134,7 +149,7 @@ class UserClass extends Data {
 			url: this.getUrl() + "/enrollments",
 			type: "put",
 			data: {
-				groupId: groupId,
+				groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",
@@ -146,7 +161,7 @@ class UserClass extends Data {
 			url: this.getUrl() + "/enrollments",
 			type: "delete",
 			data: {
-				groupId: groupId,
+				groupId,
 			},
 			headers: { "token": this.token },
 			dataType: "json",

@@ -4,19 +4,34 @@ class UserDB{
 		this.mainDb = mainDb;
 	}
 
-	async getUser(token) {
-		return this.mainDb.connection.query(
-			"SELECT * FROM user " +
-			"WHERE id IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?);",
-			[token]).then((users) => {
-				if (users.length == 1) {
-					return users[0];
-				} else {
-					return this.mainDb.checkToken(token);
-				}
+	async getUser(token,userId) {
+		if (userId != null) {
+			return this.mainDb.checkToken(token,["teacher"]).then(() => {
+				return this.mainDb.connection.query(
+					"SELECT * FROM user " +
+					"WHERE id = ?;",
+					[userId]).then((users) => {
+						if (users.length == 1) {
+							return users[0];
+						} else {
+							return this.mainDb.checkToken(token,["teacher"]);
+						}
+					});
 			});
+		}else {
+			return this.mainDb.connection.query(
+				"SELECT * FROM user " +
+				"WHERE id IN " +
+				"(SELECT id FROM loggedin " +
+				"WHERE token = ?);",
+				[token]).then((users) => {
+					if (users.length == 1) {
+						return users[0];
+					} else {
+						return this.mainDb.checkToken(token,["student"]);
+					}
+				});
+		}
 	}
 
 	async getEnrollments(token) {
@@ -39,14 +54,18 @@ class UserDB{
 				if (enrollments.length > 0) {
 					return enrollments;
 				} else {
-					await this.mainDb.checkToken(token);
+					await this.mainDb.checkToken(token,["student"]);
 					return [];
 				}
 			});
 	}
 
 	async setUser(token, data) {
-		await this.mainDb.checkToken(token);
+		if (data.userId == null) {
+			await this.mainDb.checkToken(token,["teacher","student"]);
+		}else {
+			await this.mainDb.checkToken(token,["teacher"]);
+		}
 
 		if (data.preferedEmail == null) {
 			throw new Exception("The property preferedEmail is required");
@@ -70,7 +89,7 @@ class UserDB{
 	}
 
 	async addUserEnrollment(token, groupId) {
-		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
+		return this.mainDb.checkToken(token,["student"]).then(() => this.mainDb.connection.query(
 			"INSERT INTO enrollment " + 
 			"(studentId,groupId) VALUES" + 
 			"((SELECT id FROM loggedin WHERE token = ?) ,?)",

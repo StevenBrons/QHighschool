@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
-import Group from '../components/Group';
+import Group from '../pages/group/Group';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -15,7 +15,6 @@ class Subject extends Component {
 			extended: this.props.extended ? true : false,
 			canCollapse: true,
 			style: {
-				width: "95%",
 				height: "auto",
 				padding: "20px",
 				marginTop: "20px",
@@ -37,18 +36,14 @@ class Subject extends Component {
 		}
 	}
 
-	preventCollapse(preventCollapse) {
-		this.setState({ canCollapse: !preventCollapse });
-	}
-
 	render() {
 		
 		const groups = this.props.groups.map((group) => {
 			return (
 				<Group
 					key={group.id}
-					group={group}
-					preventCollapse={this.preventCollapse.bind(this)}
+					groupId={group.id}
+					display="card"
 				/>
 			);
 		});

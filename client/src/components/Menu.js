@@ -9,6 +9,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 class Menu extends Component {
 
@@ -20,13 +22,14 @@ class Menu extends Component {
 				{
 					id: "aanmelden",
 					title: "Aanmelden",
-					icon: <InboxIcon/>,
+					visibleTo: "student",
+					icon: <InboxIcon />,
 				},
 				{
 					id: "instellingen",
 					title: "Instellingen",
 					bottom: true,
-					icon: <SettingsIcon/>,
+					icon: <SettingsIcon />,
 				}
 			],
 		};
@@ -58,20 +61,27 @@ class Menu extends Component {
 		} else {
 			icon = (
 				<ListItemIcon>
-						{page.icon}
+					{page.icon}
 				</ListItemIcon>
 			);
 		}
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<ListItemText primary={page.title}/>
+				<ListItemText primary={page.title} />
 			</ListItem>
 		);
 	}
 
 	render() {
-		var pages = this.state.pages.map(this.getItem.bind(this));
+		var pages = this.state.pages.filter(
+			(page) => {
+				if (page.visibleTo != null) {
+					return page.visibleTo === this.props.role
+				}
+				return true;
+			}
+		).map(this.getItem.bind(this));
 		return (
 			<Paper elevation={8} className="Menu" >
 				<List component="nav" style={{ height: "100%" }}>
@@ -82,5 +92,11 @@ class Menu extends Component {
 	}
 }
 
-export default withRouter(Menu);
+function mapStateToProps(state) {
+	return {
+		role:state.role
+	};
+}
+
+export default connect(mapStateToProps)(withRouter(Menu));
 

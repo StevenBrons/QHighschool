@@ -15,9 +15,15 @@ router.get("/list", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  database.group.getGroup(req.body).then(group => {
+  database.group.getGroup(req.body.groupId).then(group => {
     res.send(group);
   }).catch(error => handleError(error, res))
+});
+
+router.post("/enrollments", function (req, res, next) {
+  database.group.getEnrollments(req.headers.token, req.body.groupId).then(groups => {
+    res.send(groups);
+  }).catch((error) => handleError(error,res))
 });
 
 module.exports = router;

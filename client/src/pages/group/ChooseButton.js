@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Clear from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
-import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../store/actions';
-import Progress from './Progress';
+import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../../store/actions';
+import Progress from '../../components/Progress';
 
 class ChooseButton extends Component {
 
