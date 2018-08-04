@@ -16,6 +16,7 @@ import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 
 import Header from "./components/Header";
+import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
 		return (
 			<div className="App" style={{ backgroundColor: "white" }}>
 				{this.props.showMenu && <Menu/>}
+				<NotificationBar/>
 				<Header/>
 				<Switch>
 					<Route path="/login" component={Login} />
@@ -63,7 +65,7 @@ function mapStateToProps(state) {
 	return {
 		token: state.token,
 		showMenu: state.showMenu,
-		role: state.role
+		role: state.role,
 	};
 }
 
