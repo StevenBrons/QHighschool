@@ -43,7 +43,7 @@ class Settings extends Page {
 		}
 		const user = this.state.user;
 		return (
-			<div className="Page" style={this.state.style}>
+			<Page>
 				<Typography variant="headline" color="primary">
 					{"Instellingen"}
 				</Typography>
@@ -141,7 +141,7 @@ class Settings extends Page {
 						</Button> : null
 					}
 				</form >
-			</div>
+			</Page>
 		);
 	}
 }

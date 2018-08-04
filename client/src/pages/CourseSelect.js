@@ -78,7 +78,7 @@ class CourseSelect extends Page {
 		}
 
 		return (
-			<div className="Page" style={this.state.style}>
+			<Page>
 				<AppBar position="static" color="default">
 					<Toolbar>
 						<Typography variant="subheading" color="textSecondary">
@@ -113,7 +113,7 @@ class CourseSelect extends Page {
 				<br />
 				<br />
 				<br />
-			</div>
+			</Page>
 		);
 	}
 }
