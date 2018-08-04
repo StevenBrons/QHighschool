@@ -1,36 +1,40 @@
-class UserDB{
+class UserDB {
 
 	constructor(mainDb) {
 		this.mainDb = mainDb;
 	}
 
-	async getUser(token,userId) {
+	async getUser(token, userId) {
+		let sendUser = async (users) => {
+			if (users.length == 1) {
+				let notifications = await this.getNotifications(users[0].id);
+				return {
+					...users[0],
+					notifications,
+				};
+			} else {
+				if (userId != null) {
+					return this.mainDb.checkToken(token, ["student"]);
+				}else {
+					return this.mainDb.checkToken(token, ["teacher"]);
+				}
+			}
+		}
+
 		if (userId != null) {
-			return this.mainDb.checkToken(token,["teacher"]).then(() => {
+			return this.mainDb.checkToken(token, ["teacher"]).then(() => {
 				return this.mainDb.connection.query(
 					"SELECT * FROM user " +
 					"WHERE id = ?;",
-					[userId]).then((users) => {
-						if (users.length == 1) {
-							return users[0];
-						} else {
-							return this.mainDb.checkToken(token,["teacher"]);
-						}
-					});
+					[userId]).then(sendUser);
 			});
-		}else {
+		} else {
 			return this.mainDb.connection.query(
 				"SELECT * FROM user " +
 				"WHERE id IN " +
 				"(SELECT id FROM loggedin " +
 				"WHERE token = ?);",
-				[token]).then((users) => {
-					if (users.length == 1) {
-						return users[0];
-					} else {
-						return this.mainDb.checkToken(token,["student"]);
-					}
-				});
+				[token]).then(sendUser);
 		}
 	}
 
@@ -54,7 +58,7 @@ class UserDB{
 				if (enrollments.length > 0) {
 					return enrollments;
 				} else {
-					await this.mainDb.checkToken(token,["student"]);
+					await this.mainDb.checkToken(token, ["student"]);
 					return [];
 				}
 			});
@@ -62,9 +66,9 @@ class UserDB{
 
 	async setUser(token, data) {
 		if (data.userId == null) {
-			await this.mainDb.checkToken(token,["teacher","student"]);
-		}else {
-			await this.mainDb.checkToken(token,["teacher"]);
+			await this.mainDb.checkToken(token, ["teacher", "student"]);
+		} else {
+			await this.mainDb.checkToken(token, ["teacher"]);
 		}
 
 		if (data.preferedEmail == null) {
@@ -85,25 +89,37 @@ class UserDB{
 			"WHERE id IN " +
 			"(SELECT id FROM loggedin " +
 			"WHERE token = ?)",
-			[data.preferedEmail,data.profile,data.phoneNumber, token]);
+			[data.preferedEmail, data.profile, data.phoneNumber, token]);
 	}
 
 	async addUserEnrollment(token, groupId) {
-		return this.mainDb.checkToken(token,["student"]).then(() => this.mainDb.connection.query(
-			"INSERT INTO enrollment " + 
-			"(studentId,groupId) VALUES" + 
+		return this.mainDb.checkToken(token, ["student"]).then(() => this.mainDb.connection.query(
+			"INSERT INTO enrollment " +
+			"(studentId,groupId) VALUES" +
 			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token,groupId]
+			[token, groupId]
 		));
 	}
 
 	async removeUserEnrollment(token, groupId) {
 		return this.mainDb.connection.query(
-			"DELETE FROM enrollment " + 
+			"DELETE FROM enrollment " +
 			"WHERE studentId IN " +
 			"(SELECT id FROM loggedin " +
 			"WHERE token = ?) AND groupId = ?",
-			[token,groupId]
+			[token, groupId]
+		);
+	}
+
+	async getNotifications(userId) {
+		return this.mainDb.connection.query(
+			"		SELECT  " +
+			"		*  " +
+			"	FROM  " +
+			"		notifications  " +
+			"	WHERE  " +
+			"		userId = ? ",
+			[userId]
 		);
 	}
 
