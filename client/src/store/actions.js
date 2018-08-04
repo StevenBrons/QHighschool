@@ -182,19 +182,22 @@ export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().enrollments.map(e => e.id).indexOf(group.id);
 		if (index === -1) {
-			User.addEnrollment(group.id).catch(apiErrorHandler(dispatch));
-			dispatch({
-				type: "CHANGE_ENROLLMENTS",
-				action: "ADD",
-				group,
-			});
+			User.addEnrollment(group.id).then(() => {
+				dispatch({
+					type: "CHANGE_ENROLLMENTS",
+					action: "ADD",
+					group,
+				});
+			}).catch(apiErrorHandler(dispatch));
 		} else {
-			User.removeEnrollment(group.id).catch(apiErrorHandler(dispatch));
-			dispatch({
-				type: "CHANGE_ENROLLMENTS",
-				action: "REMOVE",
-				group,
-			});
+			User.removeEnrollment(group.id).then(() => {
+				dispatch({
+					type: "CHANGE_ENROLLMENTS",
+					action: "REMOVE",
+					group,
+				});
+			}).catch(apiErrorHandler(dispatch));
+			
 		}
 	}
 }
