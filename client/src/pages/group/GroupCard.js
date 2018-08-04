@@ -4,7 +4,7 @@ import {withRouter} from 'react-router';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ChooseButton from './ChooseButton';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
@@ -43,7 +43,7 @@ class GroupCard extends Component {
 				{
 					this.state.hover && 
 					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
-						<UnfoldMoreIcon />
+						<FullscreenIcon />
 					</IconButton>
 				}
 				<Typography variant="headline" color="primary">
