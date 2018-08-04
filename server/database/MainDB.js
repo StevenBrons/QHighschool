@@ -42,8 +42,8 @@ class Database {
 			return Promise.reject(new InvalidTokenError(true));
 		}
 		return this.connection.query(
-			"SELECT user.role FROM loggedin " +
-			"INNER JOIN user ON user.id = loggedin.id " +
+			"SELECT user_data.role FROM loggedin " +
+			"INNER JOIN user_data ON user_data.id = loggedin.id " +
 			"WHERE loggedin.token = ?" ,
 			[token]).then((items) => {
 				if (items.length === 1) {

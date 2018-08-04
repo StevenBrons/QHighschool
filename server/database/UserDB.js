@@ -24,13 +24,13 @@ class UserDB {
 		if (userId != null) {
 			return this.mainDb.checkToken(token, ["teacher"]).then(() => {
 				return this.mainDb.connection.query(
-					"SELECT * FROM user " +
+					"SELECT * FROM user_data " +
 					"WHERE id = ?;",
 					[userId]).then(sendUser);
-			});
-		} else {
+				});
+			} else {
 			return this.mainDb.connection.query(
-				"SELECT * FROM user " +
+				"SELECT * FROM user_data " +
 				"WHERE id IN " +
 				"(SELECT id FROM loggedin " +
 				"WHERE token = ?);",
@@ -40,20 +40,22 @@ class UserDB {
 
 	async getEnrollments(token) {
 		return this.mainDb.connection.query(
-			"SELECT   " +
-			"qhighschool.group.*,  " +
-			"qhighschool.course.name AS courseName,  " +
-			"qhighschool.course.description AS courseDescription,  " +
-			"qhighschool.subject.id AS subjectId,  " +
-			"qhighschool.subject.name AS subjectName,  " +
-			"qhighschool.subject.description AS subjectDescription,  " +
-			"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName  " +
-			" FROM qhighschool.enrollment " +
-			" INNER JOIN qhighschool.group ON qhighschool.group.id = qhighschool.enrollment.groupId   " +
-			" INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId   " +
-			" INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId  " +
-			" INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " +
-			" WHERE qhighschool.enrollment.studentId = (SELECT id FROM loggedin WHERE token = ?) ",
+			"SELECT course_group.*, " +
+			"course.name AS courseName, " +
+			"course.description AS courseDescription, " +
+			"school_subject.id AS subjectId, " +
+			"school_subject.name AS subjectName, " +
+			"school_subject.description AS subjectDescription, " +
+			"CONCAT(user_data.firstName, ' ', user_data.lastName) AS teacherName " +
+			"FROM enrollment " +
+			"INNER JOIN course_group ON course_group.id = enrollment.groupId " +
+			"INNER JOIN course ON course.id = course_group.courseId " +
+			"INNER JOIN user_data ON user_data.id = course_group.teacherId " +
+			"INNER JOIN school_subject ON school_subject.id = course.subjectId " +
+			"WHERE enrollment.studentId = " +
+			"	 (SELECT id " +
+			"		FROM loggedin " +
+			"		WHERE token = ?) ",
 			[token]).then(async (enrollments) => {
 				if (enrollments.length > 0) {
 					return enrollments;
@@ -82,7 +84,7 @@ class UserDB {
 		}
 
 		return this.mainDb.connection.query(
-			"UPDATE user SET " +
+			"UPDATE user_data SET " +
 			"preferedEmail = ?, " +
 			"profile = ?, " +
 			"phoneNumber = ? " +
