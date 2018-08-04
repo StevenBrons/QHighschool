@@ -18,7 +18,7 @@ class GroupPage extends Component {
 	constructor(props) {
 		super(props);
 		const studentTabs = ["Lessen"];
-		const teacherTabs = ["Aanmeldingen","Lessen","Deelnemers","Activiteit","Beoordeling"];
+		const teacherTabs = ["Inschrijvingen","Lessen","Deelnemers","Activiteit","Beoordeling"];
 		this.state = {
 			currentTab: 0,
 			tabs: this.props.role === "teacher" ? teacherTabs : studentTabs,
@@ -28,7 +28,7 @@ class GroupPage extends Component {
 
 	getCurrentTab(currentTab) {
 		switch (this.state.tabs[currentTab]) {
-			case "Aanmeldingen":
+			case "Inschrijvingen":
 				if (this.props.group.enrollments == null) {
 					this.props.getGroupEnrollments(this.props.group.id);
 					return null;

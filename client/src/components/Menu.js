@@ -20,8 +20,8 @@ class Menu extends Component {
 		this.state = {
 			pages: [
 				{
-					id: "aanmelden",
-					title: "Aanmelden",
+					id: "inschrijven",
+					title: "Inschrijven",
 					visibleTo: "student",
 					icon: <InboxIcon />,
 				},

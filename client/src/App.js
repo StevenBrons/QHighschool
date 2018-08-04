@@ -48,10 +48,10 @@ class App extends Component {
 				<Switch>
 					<Route path="/login" component={Login} />
 					{ (this.props.token == null) && <Redirect to="/login" />}
-					<Route path="/aanmelden" component={CourseSelect} />
+					<Route path="/inschrijven" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/instellingen" component={Settings} />
-					<Redirect push to={this.props.role==="student"?"/aanmelden":"/instellingen"} />
+					<Redirect push to={this.props.role==="student"?"/inschrijven":"/instellingen"} />
 				</Switch>
 			</div>
 		);
