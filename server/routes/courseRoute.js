@@ -8,13 +8,14 @@ function handleError(error, res) {
   });
 }
 
-router.get("/list", function (req, res, next) {
+router.get("/list", function (req, res) {
+	console.log(req.user);
   database.course.getCourses().then(courses => {
     res.send(courses);
   });
 });
 
-router.post("/", function (req, res, next) {
+router.post("/", function (req, res) {
   database.course.getCourse(req.body).then(course => {
     res.send(course);
   }).catch(error => handleError(error, res))

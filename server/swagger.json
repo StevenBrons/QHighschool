@@ -615,7 +615,7 @@
     "token": {
       "type": "apiKey",
       "in": "header",
-      "name": "token"
+      "name": "X-Requested-With"
     }
   },
   "definitions": {
