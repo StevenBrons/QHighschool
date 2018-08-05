@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-// app.use("/api",apiRoute);
+app.use("/api",apiRoute);
 app.use("/auth",authRoute);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

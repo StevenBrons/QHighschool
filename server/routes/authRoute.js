@@ -35,7 +35,7 @@ router.post('/openid/return',
 		passport.authenticate('azuread-openidconnect',
 			{
 				response: res,                      // required
-				failureRedirect: '/error'
+				failureRedirect: '/auth/login'
 			}
 		)(req, res, next);
 	},

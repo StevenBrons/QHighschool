@@ -3,6 +3,7 @@ const UserDB = require("./UserDB");
 const SubjectDB = require("./SubjectDB");
 const CourseDB = require("./CourseDB");
 const GroupDB = require("./GroupDB");
+const SessionDB = require("./SessionDB");
 
 class InvalidTokenError extends Error {
 	constructor(unset) {
@@ -35,6 +36,7 @@ class Database {
 		this.subject = new SubjectDB(this);
 		this.user = new UserDB(this);
 		this.group = new GroupDB(this);
+		this.session = new SessionDB(this);
 	}
 
 	async checkToken(token, allowedRoles) {
