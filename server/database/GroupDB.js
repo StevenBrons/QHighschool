@@ -46,14 +46,14 @@ class GroupDB {
 		}
 	}
 
-	async getEnrollments(token, groupId) {
+	async getEnrollments(groupId) {
 		if (groupId >= 0) {
-			return this.mainDb.checkToken(token, ["teacher"]).then(() => this.mainDb.connection.query(
+			return this.mainDb.connection.query(
 				"SELECT user_data.* FROM enrollment " +
 				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
 				, [groupId]).then(enrollments => {
 					return enrollments;
-				}));
+				});
 		} else {
 			throw new Error("groupId must be a number");
 		}

@@ -4,41 +4,44 @@ class UserDB {
 		this.mainDb = mainDb;
 	}
 
-	async getUser(token, userId) {
-		let sendUser = async (users) => {
-			if (users.length == 1) {
-				let notifications = await this.getNotifications(users[0].id);
-				return {
-					...users[0],
-					notifications,
-				};
-			} else {
-				if (userId != null) {
-					return this.mainDb.checkToken(token, ["student"]);
-				}else {
-					return this.mainDb.checkToken(token, ["teacher"]);
-				}
-			}
-		}
-
-		if (userId != null) {
-			return this.mainDb.checkToken(token, ["teacher"]).then(() => {
-				return this.mainDb.connection.query(
-					"SELECT * FROM user_data " +
-					"WHERE id = ?;",
-					[userId]).then(sendUser);
-				});
-			} else {
-			return this.mainDb.connection.query(
-				"SELECT * FROM user_data " +
-				"WHERE id IN " +
-				"(SELECT id FROM loggedin " +
-				"WHERE token = ?);",
-				[token]).then(sendUser);
-		}
+	async getSelf(userId) {
+		return this.mainDb.connection.query(
+			"SELECT * FROM user_data " +
+			"WHERE id = ?;",
+			[userId]).then((rows) => {
+				return this.getNotifications(userId).then((notifications) => {
+					return {
+						...rows[0],
+						notifications,
+					};
+				})
+			});
 	}
 
-	async getEnrollments(token) {
+	async getUser(userId) {
+		return this.mainDb.connection.query(
+			"SELECT * FROM user_data " +
+			"WHERE id = ?;",
+			[userId]).then((rows) => {
+				if (rows.length === 1) {
+					let user = rows[0];
+					return {
+						firstName: user.firstName,
+						lastName: user.lastName,
+						displayName: user.displayName,
+						email: user.email,
+						role: user.role,
+						school: user.school,
+						profile: user.profile,
+					}
+				} else {
+					return {
+					}
+				}
+			});
+	}
+
+	async getEnrollments(userId) {
 		return this.mainDb.connection.query(
 			"SELECT course_group.*, " +
 			"course.name AS courseName, " +
@@ -52,27 +55,17 @@ class UserDB {
 			"INNER JOIN course ON course.id = course_group.courseId " +
 			"INNER JOIN user_data ON user_data.id = course_group.teacherId " +
 			"INNER JOIN school_subject ON school_subject.id = course.subjectId " +
-			"WHERE enrollment.studentId = " +
-			"	 (SELECT id " +
-			"		FROM loggedin " +
-			"		WHERE token = ?) ",
-			[token]).then(async (enrollments) => {
+			"WHERE enrollment.studentId = ?" +
+			[userId]).then(async (enrollments) => {
 				if (enrollments.length > 0) {
 					return enrollments;
 				} else {
-					await this.mainDb.checkToken(token, ["student"]);
 					return [];
 				}
 			});
 	}
 
-	async setUser(token, data) {
-		if (data.userId == null) {
-			await this.mainDb.checkToken(token, ["teacher", "student"]);
-		} else {
-			await this.mainDb.checkToken(token, ["teacher"]);
-		}
-
+	async setUser(userId, data) {
 		if (data.preferedEmail == null) {
 			throw new Exception("The property preferedEmail is required");
 		}
@@ -88,28 +81,25 @@ class UserDB {
 			"preferedEmail = ?, " +
 			"profile = ?, " +
 			"phoneNumber = ? " +
-			"WHERE id IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?)",
-			[data.preferedEmail, data.profile, data.phoneNumber, token]);
+			"WHERE id = ? " +
+			[data.preferedEmail, data.profile, data.phoneNumber, userId]);
 	}
 
-	async addUserEnrollment(token, groupId) {
+	async addUserEnrollment(userId, groupId) {
 		return this.mainDb.checkToken(token, ["student"]).then(() => this.mainDb.connection.query(
 			"INSERT INTO enrollment " +
 			"(studentId,groupId) VALUES" +
-			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token, groupId]
+			"(? ,?)",
+			[userId, groupId]
 		));
 	}
 
-	async removeUserEnrollment(token, groupId) {
+	async removeUserEnrollment(userId, groupId) {
 		return this.mainDb.connection.query(
 			"DELETE FROM enrollment " +
-			"WHERE studentId IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?) AND groupId = ?",
-			[token, groupId]
+			"WHERE studentId = ? " +
+			"AND groupId = ?",
+			[userId, groupId]
 		);
 	}
 

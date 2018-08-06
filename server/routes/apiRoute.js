@@ -19,7 +19,7 @@ router.use('/group', groupRoute);
 // }
 
 function ensureAuthenticated(req, res, next) {
-	console.log((req.method === 'GET' || req.xhr));
+	// console.log((req.method === 'GET' || req.xhr));
 	if (req.isAuthenticated()) {
 		return next();
 	}else {

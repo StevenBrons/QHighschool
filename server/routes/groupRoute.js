@@ -3,27 +3,29 @@ var router = express.Router();
 var database = require('../database/MainDB');
 
 function handleError(error, res) {
-  res.send({
-    error: error.message,
-  });
+	res.send({
+		error: error.message,
+	});
 }
 
 router.get("/list", function (req, res, next) {
-  database.group.getGroups().then(groups => {
-    res.send(groups);
-  });
+	database.group.getGroups().then(groups => {
+		res.send(groups);
+	});
 });
 
 router.post("/", function (req, res, next) {
-  database.group.getGroup(req.body.groupId).then(group => {
-    res.send(group);
-  }).catch(error => handleError(error, res))
+	database.group.getGroup(req.body.groupId).then(group => {
+		res.send(group);
+	}).catch(error => handleError(error, res))
 });
 
 router.post("/enrollments", function (req, res, next) {
-  database.group.getEnrollments(req.headers.token, req.body.groupId).then(groups => {
-    res.send(groups);
-  }).catch((error) => handleError(error,res))
+	if (req.user.role === "teacher") {
+		database.group.getEnrollments(req.body.groupId).then(groups => {
+			res.send(groups);
+		}).catch((error) => handleError(error, res))
+	}
 });
 
 module.exports = router;

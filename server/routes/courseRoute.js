@@ -3,22 +3,21 @@ var router = express.Router();
 var database = require('../database/MainDB');
 
 function handleError(error, res) {
-  res.send({
-    error: error.message,
-  });
+	res.send({
+		error: error.message,
+	});
 }
 
 router.get("/list", function (req, res) {
-	console.log(req.user);
-  database.course.getCourses().then(courses => {
-    res.send(courses);
-  });
+	database.course.getCourses().then(courses => {
+		res.send(courses);
+	});
 });
 
 router.post("/", function (req, res) {
-  database.course.getCourse(req.body).then(course => {
-    res.send(course);
-  }).catch(error => handleError(error, res))
+	database.course.getCourse(req.body).then(course => {
+		res.send(course);
+	}).catch(error => handleError(error, res));
 });
 
 module.exports = router;

@@ -24,7 +24,6 @@ router.get('/openid/return',
 				response: res,                      // required
 				failureRedirect: '/error2',
 				successRedirect: '/',
-				// session: false,
 			}
 		)(req, res, next);
 	});

@@ -111,7 +111,7 @@
         "tags": [
           "Group"
         ],
-        "summary": "Get course data",
+        "summary": "Get group data",
         "operationId": "getGroup",
         "produces": [
           "application/json"
@@ -170,12 +170,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/group/participants": {
@@ -210,12 +205,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/group/evaluations": {
@@ -250,12 +240,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/group/lessons": {
@@ -290,12 +275,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/group/presence": {
@@ -330,12 +310,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/subject/list": {
@@ -393,6 +368,29 @@
         }
       }
     },
+    "/user/self": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get own user data",
+        "operationId": "getSelf",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": [
@@ -418,18 +416,13 @@
           {
             "name": "userId",
             "in": "formData",
-            "description": "The userId to change, if empty, own user will be returned",
+            "description": "The userId of the user to get",
             "required": false,
             "type": "string"
           }
-        ],
-        "security": [
-          {
-            "token": []
-          }
         ]
       },
-      "put": {
+      "patch": {
         "tags": [
           "User"
         ],
@@ -478,12 +471,7 @@
               "$ref": "#/definitions/User"
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/user/enrollableGroups": {
@@ -506,12 +494,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
     },
     "/user/enrollments": {
@@ -538,12 +521,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -570,12 +548,7 @@
           "200": {
             "description": "successful operation"
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -602,20 +575,8 @@
           "200": {
             "description": "successful operation"
           }
-        },
-        "security": [
-          {
-            "token": []
-          }
-        ]
+        }
       }
-    }
-  },
-  "securityDefinitions": {
-    "token": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "X-Requested-With"
     }
   },
   "definitions": {
