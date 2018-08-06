@@ -60,13 +60,12 @@ body, #root, .App {
 }
 
 .NotificationBar {
-  grid-column: 3 / span 15;
+  grid-column: 3 / span 12;
 	-ms-grid-column: 3;
 	-ms-grid-column-span: 12;
-	grid-row-end: 15;
-	-ms-grid-row: 15;
+	grid-row-end: 16;
+	-ms-grid-row: 16;
 	-ms-grid-row-span: 1;
-	/* bottom: 0px; */
 }
 
 @media only screen and (max-width: 1200px) {
