@@ -3,14 +3,15 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 const creds = require('./private/keys').azureADCreds;
 const database = require('./database/MainDB');
 
-passport.serializeUser((user, done) => {
-	done(null, user.upn);
+passport.serializeUser((profile, done) => {
+	database.session.createTokenForUser(profile).then((token) => {
+		done(null, token);
+	});
 });
 
-passport.deserializeUser((oid, done) => {
-	let err = null;
-	done(err, {
-		name: "test",
+passport.deserializeUser((token, done) => {
+	database.session.getUserByToken(token).then((user) => {
+		done(null, user);
 	});
 });
 
@@ -36,17 +37,17 @@ passport.use(new OIDCStrategy({
 	redirectUrl: creds.returnURL,
 },
 	function (iss, sub, profile, accessToken, refreshToken, done) {
-		console.log(profile);
-		// database.session.getUserByEmail(profile.upn).then((user) => {
-		// 	if (user == null) {
-		// 		database.session.createUser(profile).then((user) => {
-		// 			done(null, user);
-		// 		});
-		// 	} else {
-		// 		done(null,user);
-		// 	}
-		// });
-		done(null, profile);
+		database.session.getUserByEmail(profile.upn).then((user) => {
+			if (user == null) {
+				database.session.createUser(profile).then((u) => {
+					done(null, u);
+				});
+			} else {
+				done(null, profile);
+			}
+		}).catch((err) => {
+			done(err);
+		});
 	}
 ));
 

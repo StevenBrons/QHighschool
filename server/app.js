@@ -14,9 +14,17 @@ const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
 
+const database = require('./database/MainDB');
+
 require('./passportSetup');
 
 const app = express();
+
+// setTimeout(() => {
+// 	database.session.getUserByEmail("CC114040@ll.candea.nl").then((user) => {
+// 		console.log(user);
+// 	});
+// }, 1000);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

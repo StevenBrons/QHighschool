@@ -4,19 +4,6 @@ class SessionDB {
 		this.mainDb = mainDb;
 	}
 
-	async getUserByEmail(email) {
-		return this.mainDb.connection.query(
-			"SELECT * FROM user_data WHERE email = ?"
-			, [email]
-		).then((users) => {
-			if (users.length === 1) {
-				return users[0];
-			} else {
-				return null;
-			}
-		});
-	}
-
 	async createUser(profile) {
 
 		let user = {
@@ -66,9 +53,6 @@ class SessionDB {
 			user.role = "teacher";
 		}
 
-		console.log("Creating new user:");
-		console.log(user);
-
 		return this.mainDb.connection.query(
 			"INSERT INTO user_data " +
 			"(email,role,firstName,lastName,displayName,school,createIp,createDate) VALUES" +
@@ -80,22 +64,52 @@ class SessionDB {
 
 	}
 
-	async getUserByToken(token, groupId) {
+	async getUserByEmail(email) {
 		return this.mainDb.connection.query(
-			"INSERT INTO enrollment " +
-			"(studentId,groupId) VALUES" +
-			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token, groupId]
-		);
+			"SELECT id,role FROM user_data WHERE email = ?",
+			[email]
+		).then((rows) => {
+			if (rows.length === 1) {
+				return rows[0]
+			} else {
+				return null;
+			}
+		});
 	}
 
-	async createSessionForUser(token, groupId) {
+	async getUserByToken(token) {
 		return this.mainDb.connection.query(
-			"INSERT INTO enrollment " +
-			"(studentId,groupId) VALUES" +
-			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token, groupId]
-		);
+			"SELECT id, " +
+			"email, " +
+			"role, " +
+			"displayName " +
+			"FROM user_data " +
+			"WHERE id IN " +
+			"	 (SELECT userId " +
+			"		FROM loggedin " +
+			"		WHERE token = ?) ",
+			[token]
+		).then((rows) => {
+			if (rows.length === 1) {
+				return rows[0];
+			}else {
+				return null;
+			}
+		});
+	}
+
+	async createTokenForUser(profile) {
+		const token = require('uuid/v4')();
+		return this.mainDb.connection.query(
+			"INSERT INTO loggedin (userId, token) " +
+			"VALUES ( " +
+			"					(SELECT id " +
+			"					 FROM user_data " +
+			"					 WHERE email = ?),?)",
+			[profile.upn, token]
+		).then(() => {
+			return token;
+		})
 	}
 
 	async destroySession(token, groupId) {
