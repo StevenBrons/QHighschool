@@ -55,13 +55,15 @@ class UserDB {
 			"INNER JOIN course ON course.id = course_group.courseId " +
 			"INNER JOIN user_data ON user_data.id = course_group.teacherId " +
 			"INNER JOIN school_subject ON school_subject.id = course.subjectId " +
-			"WHERE enrollment.studentId = ?" +
+			"WHERE enrollment.studentId = ?",
 			[userId]).then(async (enrollments) => {
 				if (enrollments.length > 0) {
 					return enrollments;
 				} else {
 					return [];
 				}
+			}).catch((err) => {
+				console.log(err);
 			});
 	}
 
