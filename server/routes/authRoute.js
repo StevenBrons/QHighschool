@@ -22,12 +22,11 @@ router.get('/openid/return',
 		passport.authenticate('azuread-openidconnect',
 			{
 				response: res,                      // required
-				failureRedirect: '/error1'
+				failureRedirect: '/error2',
+				successRedirect: '/',
+				// session: false,
 			}
 		)(req, res, next);
-	},
-	function (req, res) {
-		res.redirect('/');
 	});
 
 router.post('/openid/return',
@@ -35,12 +34,12 @@ router.post('/openid/return',
 		passport.authenticate('azuread-openidconnect',
 			{
 				response: res,                      // required
-				failureRedirect: '/auth/login'
+				successRedirect: '/',
+				failureRedirect: '/error1',
+				failureFlash: true,
+				// session: false,
 			}
 		)(req, res, next);
-	},
-	function (req, res) {
-		res.redirect('/');
 	});
 
 module.exports = router;

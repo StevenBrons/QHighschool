@@ -13,14 +13,21 @@ router.use('/user', userRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
 
+// function getUserRole(req,res,next) {
+// 	console.log(req.cookie);
+// 	return next();
+// }
+
 function ensureAuthenticated(req, res, next) {
-	if (req.isAuthenticated() && (req.method === 'GET' || req.xhr)) {
+	console.log((req.method === 'GET' || req.xhr));
+	if (req.isAuthenticated()) {
 		return next();
+	}else {
+		res.status(401).send({
+			error: "Authentication error",
+			message: "You must be signed in to view this resource!",
+		});
 	}
-	res.status(401).send({
-		error: "Authentication error",
-		message: "You must be signed in to view this resource!",
-	});
 }
 
 module.exports = router;

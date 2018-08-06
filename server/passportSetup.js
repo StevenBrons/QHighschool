@@ -4,18 +4,11 @@ const creds = require('./private/keys').azureADCreds;
 const database = require('./database/MainDB');
 
 passport.serializeUser((user, done) => {
-	//Step 7: Passport uses part of user profile to generate identifier
-
-	//TODO: generate a token to use for serialization
-	console.log(user);
-
-	done(null, user.email);
+	done(null, user.upn);
 });
 
 passport.deserializeUser((oid, done) => {
-	//return an user profile from identifier
 	let err = null;
-
 	done(err, {
 		name: "test",
 	});
@@ -43,15 +36,17 @@ passport.use(new OIDCStrategy({
 	redirectUrl: creds.returnURL,
 },
 	function (iss, sub, profile, accessToken, refreshToken, done) {
-		database.session.getUserByEmail(profile.upn).then((user) => {
-			if (user == null) {
-				database.session.createUser(profile).then((user) => {
-					done(null, user);
-				});
-			} else {
-				done(user);
-			}
-		});
+		console.log(profile);
+		// database.session.getUserByEmail(profile.upn).then((user) => {
+		// 	if (user == null) {
+		// 		database.session.createUser(profile).then((user) => {
+		// 			done(null, user);
+		// 		});
+		// 	} else {
+		// 		done(null,user);
+		// 	}
+		// });
+		done(null, profile);
 	}
 ));
 
