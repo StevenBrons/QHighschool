@@ -62,12 +62,37 @@ export function getGroup(groupId) {
 	}
 }
 
-export function getUser(userId) {
+export function getSelf() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.includes("User.getUser()")) {
+		if (!getState().hasFetched.includes("User.getSelf()")) {
 			dispatch({
 				type: "HAS_FETCHED",
-				call: "User.getUser()"
+				call: "User.getSelf()"
+			});
+			const notification = {
+				priority: "low",
+				type: "bar",
+				message: "Bezig met laden",
+				scope: ".",
+			};
+			dispatch(addNotification(notification));
+			User.getSelf().then((user) => {
+				dispatch({
+					type: "SET_SELF",
+					user,
+				});
+				dispatch(removeNotification(notification));
+			}).catch(apiErrorHandler(dispatch, "Kan profiel niet laden"));
+		}
+	}
+}
+
+export function getUser(userId) {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("User.getUser(" + userId + ")")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "User.getUser(" + userId + ")"
 			});
 			User.getUser(userId).then((user) => {
 				dispatch({

@@ -1,5 +1,3 @@
-import { getCookie } from "../lib/Cookie";
-
 const DEFAULT_STATE = {
 	userId: null,
 	enrollments: null,
@@ -7,17 +5,22 @@ const DEFAULT_STATE = {
 	subjects: null,
 	groups: null,
 	users: null,
-	token: getCookie("token"),
 	showMenu: true,
 	hasFetched: [],
 }
 
 function reducer(state = DEFAULT_STATE, action) {
 	switch (action.type) {
-		case "SET_TOKEN":
-			return { ...state, token: action.token };
 		case "SET_SELF":
-			return { ...state, userId: action.userId,role:action.role };
+			return {
+				...state, 
+				userId: action.user.id, 
+				role: action.user.role, 
+				notifications: [...state.notifications,...action.user.notifications],
+				users: {
+					[action.user.id]: action.user,
+				}
+			};
 		case "CHANGE_USERS":
 			return { ...state, users: { ...state.users, ...action.users } };
 		case "CHANGE_USER":

@@ -21,10 +21,8 @@ import Menu from "./components/Menu";
 
 class App extends Component {
 
-	constructor(props) {
-		super(props);
-		Data.setToken(this.props.token);
-		this.props.getUser();
+	componentWillMount() {
+		this.props.getSelf();
 	}
 
 	handleShowMenu() {

@@ -32,7 +32,11 @@ class UserDB {
 						email: user.email,
 						role: user.role,
 						school: user.school,
+						year: user.year,
+						preferedEmail: user.preferedEmail,
+						phoneNumber: user.phoneNumber,
 						profile: user.profile,
+						level: user.level,
 					}
 				} else {
 					return {
@@ -83,7 +87,7 @@ class UserDB {
 			"preferedEmail = ?, " +
 			"profile = ?, " +
 			"phoneNumber = ? " +
-			"WHERE id = ? " +
+			"WHERE id = ? ",
 			[data.preferedEmail, data.profile, data.phoneNumber, userId]);
 	}
 
