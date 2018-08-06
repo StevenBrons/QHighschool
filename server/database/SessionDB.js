@@ -87,7 +87,7 @@ class SessionDB {
 			"WHERE id IN " +
 			"	 (SELECT userId " +
 			"		FROM loggedin " +
-			"		WHERE token = ?) ",
+			"		WHERE token = ? AND active = 1);",
 			[token]
 		).then((rows) => {
 			if (rows.length === 1) {
