@@ -6,6 +6,7 @@ const DEFAULT_STATE = {
 	groups: null,
 	users: null,
 	showMenu: true,
+	notifications: [],
 	hasFetched: [],
 }
 
@@ -20,6 +21,20 @@ function reducer(state = DEFAULT_STATE, action) {
 				users: {
 					[action.user.id]: action.user,
 				}
+			};
+		case "ADD_NOTIFICATION":
+			return {
+				...state, 
+				notifications: [...state.notifications,action.notification], 
+			};
+		case "REMOVE_NOTIFICATION":
+			const index = state.notifications.indexOf(action.notification);
+			return {
+				...state,
+				notifications: [
+					...state.notifications.slice(0, index),
+					...state.notifications.slice(index + 1) 
+				], 
 			};
 		case "CHANGE_USERS":
 			return { ...state, users: { ...state.users, ...action.users } };

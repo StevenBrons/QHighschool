@@ -5,8 +5,10 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import theme from '../lib/MuiTheme'
 import Paper from '@material-ui/core/Paper';
+
+import theme from '../lib/MuiTheme'
+import { removeNotification } from '../store/actions';
 
 class NotificationBar extends Component {
 
@@ -20,7 +22,7 @@ class NotificationBar extends Component {
 				"grid-row-end": "16",
 				"-ms-grid-row": "16",
 				"-ms-grid-row-span": "1",
-		}
+			}
 		}else {
 			style = {
 				"grid-column": "1 / span 15",
@@ -29,55 +31,71 @@ class NotificationBar extends Component {
 				"grid-row-end": "16",
 				"-ms-grid-row": "16",
 				"-ms-grid-row-span": "1",
-	}
+			}
 		}
-	
-	close() {
-		this.setState({
-			visible: false,
-		});
-	}
+		
+		function checkNotification(not) {
+			try {
+				return not.type === "bar" && new RegExp(not.scope).test(window.location.pathname);
+			} catch (err) {
+				return true;
+			}
+		}
 
-	render() {
-		if (this.props.notifications.length === 0 || !this.state.visible) {
-			return null;
-		}
+		let notifications = this.props.notifications.filter(checkNotification).map((not) => {
+			let bg;
+			let fg;
+			switch (not.priority) {
+				case "low":
+				bg = theme.palette.background.paper;
+				fg = theme.palette.getContrastText(theme.palette.background.paper);
+				break;
+				case "medium":
+				bg = theme.palette.secondary.light;
+				fg = theme.palette.getContrastText(theme.palette.error.light);				
+				break;
+				case "high":
+				default:
+					bg = theme.palette.error.dark;
+					fg = theme.palette.getContrastText(theme.palette.error.dark);
+				break;
+			}
+			return (
+				<Paper
+					elevation={16}
+				>
+					<Toolbar style={{ backgroundColor: bg, height: "100%" }}>
+						<ErrorIcon style={{ color: fg, marginRight: "25px" }} />
+						<Typography variant="title" style={{ display: "inline-block", color: fg }}>
+							{not.message}
+						</Typography>
+						<Typography variant="title" style={{ display: "inline-block", color: fg }}>
+						</Typography>
+						<IconButton color="inherit" aria-label="Menu" onClick={() => this.props.removeNotification(not)} style={{ right: 25, position: "absolute" }}>
+							<CloseIcon style={{ color: fg }} />
+						</IconButton>
+					</Toolbar>
+				</Paper>
+			);
+		});
 		return (
-			<Paper
-				elevation={16}
-				className="NotificationBar"
-			>
-				<Toolbar style={{ backgroundColor: theme.palette.error.dark,height:"100%" }}>
-						<ErrorIcon style={{color:theme.palette.secondary.contrastText,marginRight:"25px"}}/>
-					<Typography variant="title" style={{display:"inline-block",color:theme.palette.error.contrastText}}>
-						{this.props.notifications[0].message}
-				</Typography>
-					<Typography variant="title" style={{display:"inline-block",color:theme.palette.error.contrastText}}>
-					</Typography>
-					<IconButton color="inherit" aria-label="Menu" onClick={() => this.close()} style={{ right: 25, position: "absolute" }}>
-						<CloseIcon style={{color:theme.palette.error.contrastText}}/>
-					</IconButton>
-				</Toolbar>
-			</Paper>
+			<div className="NotificationBar" style={style}>
+				{notifications}
+			</div>
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	if (state.userId == null) {
-		return {
-			notifications: [{
-				message: "Bezig met laden..."
-			}],
-		}
-	}
 	return {
-		notifications: state.users[state.userId].notifications,
+		notifications: state.notifications,
+		showMenu: state.showMenu,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
+		removeNotification: (notification) => dispatch(removeNotification(notification)),
 	};
 }
 

@@ -46,7 +46,7 @@ class Header extends Component {
 					<Typography variant="title" color="inherit">
 						{this.props.location}
 					</Typography>
-					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.email}</Button>
+					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.displayName}</Button>
 				</Toolbar>
 				<Menu
 					id="simple-menu"
@@ -65,11 +65,11 @@ class Header extends Component {
 function mapStateToProps(state) {
 	if (state.userId != null) {
 		return {
-			email: state.users[state.userId].preferedEmail,
+			displayName: state.users[state.userId].displayName,
 		};
 	}
 	return {
-		email: "",
+		displayName: "",
 	};
 }
 

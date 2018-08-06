@@ -1,8 +1,17 @@
-import { User,Subject, Group} from "../lib/Data"
+import { User, Subject, Group } from "../lib/Data"
 import keyBy from "lodash/keyBy"
 
-function apiErrorHandler(dispatch) {
+function apiErrorHandler(dispatch, message) {
 	return function (error) {
+		dispatch({
+			type: "ADD_NOTIFICATION",
+			notification: {
+				id: -1,
+				priority: "high",
+				type: "bar",
+				message: message?message:"Er is iets mis gegaan",
+			}
+		});
 		dispatch({
 			type: "FATAL_ERROR",
 			error,
@@ -55,7 +64,7 @@ export function getGroup(groupId) {
 			Group.get(groupId).then((group) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
-					groups: {[groupId]:group}
+					groups: { [groupId]: group }
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
@@ -99,13 +108,6 @@ export function getUser(userId) {
 					type: "CHANGE_USER",
 					user,
 				});
-				if (userId == null) {
-					dispatch({
-						type: "SET_SELF",
-						userId:user.id,
-						role:user.role,
-					});
-				}
 			}).catch(apiErrorHandler(dispatch));
 		}
 	}
@@ -171,7 +173,7 @@ export function getEnrolLments() {
 export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
-			getState().groups[groupId].enrollments != null || 
+			getState().groups[groupId].enrollments != null ||
 			getState().hasFetched.includes("Group.getEnrollments(" + groupId + ")")
 		) {
 			return;
@@ -184,15 +186,29 @@ export function getGroupEnrollments(groupId) {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
-					id:groupId,
+					id: groupId,
 					enrollments,
 				}
 			});
 			dispatch({
 				type: "CHANGE_USERS",
-				users: keyBy(enrollments,"id"),
+				users: keyBy(enrollments, "id"),
 			});
 		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function addNotification(notification) {
+	return {
+		type: "ADD_NOTIFICATION",
+		notification,
+	}
+}
+
+export function removeNotification(notification) {
+	return {
+		type: "REMOVE_NOTIFICATION",
+		notification,
 	}
 }
 
@@ -222,7 +238,7 @@ export function toggleEnrollment(group) {
 					group,
 				});
 			}).catch(apiErrorHandler(dispatch));
-			
+
 		}
 	}
 }

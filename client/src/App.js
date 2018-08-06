@@ -7,8 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Data from "./lib/Data";
-import { getUser } from './store/actions';
+import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -33,25 +32,25 @@ class App extends Component {
 	}
 
 	render() {
-		if (this.props.role == null && this.props.token != null) {
+		if (!this.props.userId) {
 			return (
-				<div className="App" style={{ backgroundColor: "white" }}>
+				<div className="App">
 					<Header email="" />
+					<NotificationBar />
 				</div>
 			);
 		}
 		return (
-			<div className="App" style={{ backgroundColor: "white" }}>
-				{this.props.showMenu && <Menu/>}
-				<NotificationBar/>
-				<Header/>
+			<div className="App">
+				<NotificationBar />
+				{this.props.showMenu && <Menu />}
+				<Header />
 				<Switch>
 					<Route path="/login" component={Login} />
-					{ (this.props.token == null) && <Redirect to="/login" />}
 					<Route path="/inschrijven" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/instellingen" component={Settings} />
-					<Redirect push to={this.props.role==="student"?"/inschrijven":"/instellingen"} />
+					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/instellingen"} />
 				</Switch>
 			</div>
 		);
@@ -61,20 +60,17 @@ class App extends Component {
 
 function mapStateToProps(state) {
 	return {
-		token: state.token,
 		showMenu: state.showMenu,
 		role: state.role,
+		userId: state.userId,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getUser: () => dispatch(getUser()),
-		setToken: (token) => dispatch({
-			type:"SET_TOKEN",
-			token: token,
-		}),
+		getSelf: () => dispatch(getSelf()),
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

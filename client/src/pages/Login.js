@@ -6,18 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import { toggleMenu } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setCookie } from "../lib/Cookie";
 
 class Login extends Page {
-
-	componentWillMount() {
-		if (this.props.token != null) {
-			this.props.history.push("/");
-		} else {
-			this.props.toggleMenu(false);
-		}
-	}
-
 
 	handleChange = name => event => {
 		this.setState(prevState => ({
@@ -33,6 +23,12 @@ class Login extends Page {
 	}
 
 	render() {
+		if (this.props.userId != null) {
+			this.props.history.push("/");
+			this.props.toggleMenu(true);
+		} else {
+			this.props.toggleMenu(false);
+		}
 		return (
 			<Paper className="Login" elevation={8}>
 				<form onSubmit={this.handleLogin.bind(this)} style={{ padding: "10px" }}>
@@ -65,28 +61,18 @@ class Login extends Page {
 
 function mapStateToProps(state) {
 	return {
-		token: state.token,
+		userId: state.userId,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		login: (email, password) => {
-			let token = "student";
-			if (email === "teacher") {
-				token = "teacher";
-			}
-			setCookie("token", token);
 			dispatch(toggleMenu(true));
-			dispatch({
-				type: "SET_TOKEN",
-				token: token,
-			})
 		},
 		toggleMenu: (state) => {
 			dispatch(toggleMenu(state));
 		},
-
 	};
 }
 
