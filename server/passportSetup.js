@@ -6,12 +6,18 @@ const database = require('./database/MainDB');
 passport.serializeUser((profile, done) => {
 	database.session.createTokenForUser(profile).then((token) => {
 		done(null, token);
+	}).catch((err) => {
+		console.log(err);
+		done(err);
 	});
 });
 
 passport.deserializeUser((token, done) => {
 	database.session.getUserByToken(token).then((user) => {
 		done(null, user);
+	}).catch((err) => {
+		console.log(err);
+		done(err);
 	});
 });
 

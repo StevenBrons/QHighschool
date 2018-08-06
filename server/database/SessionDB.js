@@ -92,7 +92,7 @@ class SessionDB {
 		).then((rows) => {
 			if (rows.length === 1) {
 				return rows[0];
-			}else {
+			} else {
 				return null;
 			}
 		});
@@ -100,16 +100,25 @@ class SessionDB {
 
 	async createTokenForUser(profile) {
 		const token = require('uuid/v4')();
-		return this.mainDb.connection.query(
-			"INSERT INTO loggedin (userId, token) " +
+		const q1 =
+			"UPDATE loggedin " +
+			"SET active=0 " +
+			"WHERE userId = " +
+			"    (SELECT id " +
+			"     FROM user_data " +
+			"     WHERE email = ?) ";
+
+		const q2 =
+			"INSERT INTO loggedin (userId, token,ip,date,active) " +
 			"VALUES ( " +
 			"					(SELECT id " +
 			"					 FROM user_data " +
-			"					 WHERE email = ?),?)",
-			[profile.upn, token]
-		).then(() => {
-			return token;
-		})
+			"					 WHERE email = ?),?,?,NOW(),1)";
+
+		await this.mainDb.connection.query(q1, [profile.upn]);
+		await this.mainDb.connection.query(q2, [profile.upn, token, profile._json.ipaddr]);
+
+		return token;
 	}
 
 	async destroySession(token, groupId) {
