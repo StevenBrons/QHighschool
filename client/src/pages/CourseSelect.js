@@ -102,7 +102,7 @@ class CourseSelect extends Page {
 											Vak
           					</Typography>
 									</MenuItem>
-									<MenuItem value={"enrollable"} style={{width:"100px"}}>Aanmeldbaar</MenuItem>
+									<MenuItem value={"enrollable"} style={{width:"100px"}}>Inschrijfbaar</MenuItem>
 								</Select>
 							</FormControl>
 						</form>

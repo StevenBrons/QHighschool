@@ -25,12 +25,6 @@ class Menu extends Component {
 					visibleTo: "student",
 					icon: <AssignmentIcon />,
 				},
-				{
-					id: "instellingen",
-					title: "Instellingen",
-					bottom: true,
-					icon: <SettingsIcon />,
-				}
 			],
 		};
 	}
