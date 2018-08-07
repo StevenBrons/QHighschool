@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import theme from '../lib/MuiTheme'
+import MenuItem from '@material-ui/core/MenuItem';
 
 class Field extends Component {
+
+	onChange(event) {
+		this.props.onChange({
+			...event,
+			name:this.props.name,
+		});
+	}
 
 	render() {
 		let textAlign = this.props.right ? "right" : "left";
@@ -15,6 +23,16 @@ class Field extends Component {
 		let disableUnderline = true;
 		let margin = "none";
 		let multiline = false;
+		let menuItems;
+		if (this.props.options) {
+			menuItems = this.props.options.map(option => {
+				return (
+					<MenuItem key={option} value={option}>
+						{option}
+					</MenuItem>
+				)
+			});
+		}
 		if (style == null) {
 			style = {};
 		}
@@ -42,11 +60,14 @@ class Field extends Component {
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
-				style={{ float }}
+				label={this.props.label}
+				select={this.props.options ? true : false}
+				style={{ float, flex: 1, marginLeft: "10px", marginRight: "10px" }}
+				onChange={this.onChange.bind(this)}
 				InputProps={{
 					disableUnderline,
 					style: {
-						...this.props.style, 
+						...this.props.style,
 						...{
 							fontSize,
 							color,
@@ -54,14 +75,16 @@ class Field extends Component {
 							float,
 						}
 					},
-					inputProps:{
+					inputProps: {
 						style: {
 							textAlign,
 						}
 					}
 				}}
-				
-			/>
+
+			>
+				{menuItems}
+			</TextField>
 		);
 	}
 
