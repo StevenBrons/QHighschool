@@ -93,17 +93,18 @@ export function getSelf() {
 				dispatch(removeNotification(notification));
 			}).catch((error) => {
 				dispatch(removeNotification(notification));
-				if (error.responseJSON.error === "Authentication Error") {
+				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
 					if (window.location.pathname != "/login") {
 						document.location.href = "/login";
 					}
 				} else {
-					this.props.addNotification({
+					dispatch(toggleMenu(false));
+					dispatch(addNotification({
 						id: -1,
 						priority: "high",
 						type: "bar",
 						message: "Kan geen verbinding met de server maken",
-					});
+					}));
 				}
 			});
 		}
