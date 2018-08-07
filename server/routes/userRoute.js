@@ -29,19 +29,23 @@ router.patch("/", (req, res) => {
 });
 
 router.put("/enrollments", (req, res) => {
-	database.user.addUserEnrollment(req.user.id, req.body.groupId).then((data) => {
-		res.send({
-			success: true,
-		});
-	}).catch(error => handleError(error, res));
+	if (req.user.role === "student") {
+		database.user.addUserEnrollment(req.user.id, req.body.groupId).then((data) => {
+			res.send({
+				success: true,
+			});
+		}).catch(error => handleError(error, res));
+	}
 });
 
 router.delete("/enrollments", (req, res) => {
-	database.user.removeUserEnrollment(req.user.id, req.body.groupId).then((data) => {
-		res.send({
-			success: true,
-		});
-	}).catch(error => handleError(error, res));
+	if (req.user.role === "student") {
+		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then((data) => {
+			res.send({
+				success: true,
+			});
+		}).catch(error => handleError(error, res));
+	}
 });
 
 router.get("/enrollments", (req, res) => {

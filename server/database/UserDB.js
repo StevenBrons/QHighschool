@@ -66,8 +66,6 @@ class UserDB {
 				} else {
 					return [];
 				}
-			}).catch((err) => {
-				console.log(err);
 			});
 	}
 
@@ -81,23 +79,25 @@ class UserDB {
 		if (data.phoneNumber == null) {
 			throw new Exception("The property phoneNumber is required");
 		}
-
 		return this.mainDb.connection.query(
 			"UPDATE user_data SET " +
 			"preferedEmail = ?, " +
 			"profile = ?, " +
 			"phoneNumber = ? " +
 			"WHERE id = ? ",
-			[data.preferedEmail, data.profile, data.phoneNumber, userId]);
+			[data.preferedEmail, data.profile, data.phoneNumber, userId]
+		).catch((err) => {
+			console.log(err);
+		});
 	}
 
 	async addUserEnrollment(userId, groupId) {
-		return this.mainDb.checkToken(token, ["student"]).then(() => this.mainDb.connection.query(
+		return this.mainDb.connection.query(
 			"INSERT INTO enrollment " +
 			"(studentId,groupId) VALUES" +
 			"(? ,?)",
 			[userId, groupId]
-		));
+		);
 	}
 
 	async removeUserEnrollment(userId, groupId) {

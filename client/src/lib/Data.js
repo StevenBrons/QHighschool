@@ -127,7 +127,7 @@ class UserClass extends Data {
 	async setUser(newUser) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "put",
+			type: "patch",
 			data: newUser,
 			dataType: "json",
 		});
