@@ -41,15 +41,20 @@ function reducer(state = DEFAULT_STATE, action) {
 		case "CHANGE_USER":
 			if (state.users == null) {
 				return {
-					...state, users: {
+					...state, 
+					users: {
+						...state.user,
 						[action.user.id]: action.user,
 					}
 				};
 			}
 			return {
-				...state, users: {
+				...state, 
+				users: {
+					...state.users,
 					[action.user.id]: {
-						...state.users[action.user.id], ...action.user
+						...state.users[action.user.id], 
+						...action.user
 					}
 				}
 			};

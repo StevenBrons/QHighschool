@@ -26,6 +26,7 @@ class UserDB {
 				if (rows.length === 1) {
 					let user = rows[0];
 					return {
+						id: user.id,
 						firstName: user.firstName,
 						lastName: user.lastName,
 						displayName: user.displayName,
@@ -33,8 +34,6 @@ class UserDB {
 						role: user.role,
 						school: user.school,
 						year: user.year,
-						preferedEmail: user.preferedEmail,
-						phoneNumber: user.phoneNumber,
 						profile: user.profile,
 						level: user.level,
 					}
