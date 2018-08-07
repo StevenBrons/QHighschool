@@ -9,7 +9,7 @@ function apiErrorHandler(dispatch, message) {
 				id: -1,
 				priority: "high",
 				type: "bar",
-				message: message?message:"Er is iets mis gegaan",
+				message: message ? message : "Er is iets mis gegaan",
 			}
 		});
 		dispatch({
@@ -91,7 +91,21 @@ export function getSelf() {
 					user,
 				});
 				dispatch(removeNotification(notification));
-			}).catch(apiErrorHandler(dispatch, "Kan profiel niet laden"));
+			}).catch((error) => {
+				dispatch(removeNotification(notification));
+				if (error.responseJSON.error === "Authentication Error") {
+					if (window.location.pathname != "/login") {
+						document.location.href = "/login";
+					}
+				} else {
+					this.props.addNotification({
+						id: -1,
+						priority: "high",
+						type: "bar",
+						message: "Kan geen verbinding met de server maken",
+					});
+				}
+			});
 		}
 	}
 }

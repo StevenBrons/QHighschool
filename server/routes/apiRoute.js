@@ -24,7 +24,7 @@ function ensureAuthenticated(req, res, next) {
 		return next();
 	}else {
 		res.status(401).send({
-			error: "Authentication error",
+			error: "Authentication Error",
 			message: "You must be signed in to view this resource!",
 		});
 	}
