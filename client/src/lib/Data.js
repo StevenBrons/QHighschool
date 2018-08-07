@@ -9,6 +9,7 @@ class Data {
 			this.url = "/api/";
 		}
 	}
+
 }
 
 class CourseClass extends Data {
@@ -105,6 +106,14 @@ class UserClass extends Data {
 		return this.url + "user";
 	}
 
+	async logout() {
+		return $.ajax({
+			url: "auth/logout",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
 	async getSelf() {
 		return $.ajax({
 			url: this.getUrl() + "/self",
@@ -182,12 +191,6 @@ const User = Data.User = new UserClass();
 const Course = Data.Course = new CourseClass();
 const Subject = Data.Subject = new SubjectClass();
 const Group = Data.Group = new GroupClass();
-
-User.getSelf().then((user) => {
-	console.log(user);
-}).catch((err) => {
-	console.log(err);
-});
 
 const d = new Data();
 export default d;
