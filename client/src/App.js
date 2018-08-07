@@ -32,7 +32,7 @@ class App extends Component {
 	}
 
 	render() {
-		if (!this.props.userId) {
+		if (!this.props.userId && this.props.location.pathname !== "/login") {
 			return (
 				<div className="App">
 					<Header email="" />
