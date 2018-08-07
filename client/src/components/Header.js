@@ -26,6 +26,11 @@ class Header extends Component {
 		this.setState({ anchorEl: null });
 	};
 
+	goToProfile() {
+		this.handleClose();
+		this.props.history.push("/gebruiker/" + this.props.userId);
+	}
+
 	logout() {
 		User.logout().then(() => {
 			document.location.reload(); 
@@ -54,7 +59,7 @@ class Header extends Component {
 					open={Boolean(anchorEl)}
 					onClose={this.handleClose}
 				>
-					<MenuItem onClick={this.handleClose}>Profiel</MenuItem>
+					<MenuItem onClick={this.goToProfile.bind(this)}>Profiel</MenuItem>
 					<MenuItem onClick={this.logout}>Log uit</MenuItem>
 				</Menu>
 			</AppBar>
@@ -66,10 +71,12 @@ function mapStateToProps(state) {
 	if (state.userId != null) {
 		return {
 			displayName: state.users[state.userId].displayName,
+			userId: state.userId,
 		};
 	}
 	return {
 		displayName: "",
+		userId: state.userId,
 	};
 }
 
