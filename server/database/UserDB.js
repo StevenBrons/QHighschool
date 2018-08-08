@@ -14,7 +14,7 @@ class UserDB {
 						...rows[0],
 						notifications,
 					};
-				})
+				});
 			});
 	}
 

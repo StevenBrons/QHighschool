@@ -13,9 +13,14 @@ class Settings extends Page {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: {
+			}
+		}
+	}
+
+	componentWillMount() {
+		this.state = {
 			user: this.props.user,
-			style: {
-			},
 		};
 	}
 
@@ -33,8 +38,15 @@ class Settings extends Page {
 	}
 
 	render() {
-		const user = this.state.user;
-		console.log(this.props.ownProfile);
+		let user = null;
+		if (this.props.user.id !== this.state.user.id) {
+			this.setState({
+				user: this.props.user,
+			});
+			user = this.props.user;
+		}else {
+			user = this.state.user;
+		}
 		return (
 			<Page>
 				<Field label="Naam" value={user.displayName} headline editable={false} />
@@ -45,7 +57,7 @@ class Settings extends Page {
 					<Field label="Leerjaar" value={user.year} editable={false} />
 					<Field label="Niveau" value={user.level} editable={false} />
 				</div>
-				{this.props.ownProfile&&
+				{this.props.ownProfile &&
 					<div style={{ display: "flex" }} >
 						<Field label="Voorkeurs email" name="preferedEmail" value={user.preferedEmail} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)}/>
 						<Field label="Telefoonnummer" name="phoneNumber" value={user.phoneNumber} editable={this.props.ownProfile}  onChange={this.handleChange.bind(this)} />
