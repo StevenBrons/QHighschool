@@ -1,8 +1,17 @@
-import { User,Subject, Group} from "../lib/Data"
+import { User, Subject, Group } from "../lib/Data"
 import keyBy from "lodash/keyBy"
 
-function apiErrorHandler(dispatch) {
+function apiErrorHandler(dispatch, message) {
 	return function (error) {
+		dispatch({
+			type: "ADD_NOTIFICATION",
+			notification: {
+				id: -1,
+				priority: "high",
+				type: "bar",
+				message: message ? message : "Er is iets mis gegaan",
+			}
+		});
 		dispatch({
 			type: "FATAL_ERROR",
 			error,
@@ -55,32 +64,66 @@ export function getGroup(groupId) {
 			Group.get(groupId).then((group) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
-					groups: {[groupId]:group}
+					groups: { [groupId]: group }
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
 
-export function getUser(userId) {
+export function getSelf() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.includes("User.getUser()")) {
+		if (!getState().hasFetched.includes("User.getSelf()")) {
 			dispatch({
 				type: "HAS_FETCHED",
-				call: "User.getUser()"
+				call: "User.getSelf()"
+			});
+			const notification = {
+				id: -96,
+				priority: "low",
+				type: "bar",
+				message: "Bezig met laden",
+				scope: ".",
+			};
+			dispatch(addNotification(notification));
+			User.getSelf().then((user) => {
+				dispatch({
+					type: "SET_SELF",
+					user,
+				});
+				dispatch(removeNotification(notification));
+			}).catch((error) => {
+				dispatch(removeNotification(notification));
+				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
+					if (window.location.pathname !== "/login") {
+						document.location.href = "/login";
+					}
+				} else {
+					dispatch(toggleMenu(false));
+					dispatch(addNotification({
+						id: -1,
+						priority: "high",
+						type: "bar",
+						message: "Kan geen verbinding met de server maken",
+					}));
+				}
+			});
+		}
+	}
+}
+
+export function getUser(userId) {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("User.getUser(" + userId + ")")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "User.getUser(" + userId + ")"
 			});
 			User.getUser(userId).then((user) => {
 				dispatch({
 					type: "CHANGE_USER",
 					user,
 				});
-				if (userId == null) {
-					dispatch({
-						type: "SET_SELF",
-						userId:user.id,
-						role:user.role,
-					});
-				}
 			}).catch(apiErrorHandler(dispatch));
 		}
 	}
@@ -146,7 +189,7 @@ export function getEnrolLments() {
 export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
-			getState().groups[groupId].enrollments != null || 
+			getState().groups[groupId].enrollments != null ||
 			getState().hasFetched.includes("Group.getEnrollments(" + groupId + ")")
 		) {
 			return;
@@ -159,15 +202,29 @@ export function getGroupEnrollments(groupId) {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
-					id:groupId,
+					id: groupId,
 					enrollments,
 				}
 			});
 			dispatch({
 				type: "CHANGE_USERS",
-				users: keyBy(enrollments,"id"),
+				users: keyBy(enrollments, "id"),
 			});
 		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function addNotification(notification) {
+	return {
+		type: "ADD_NOTIFICATION",
+		notification,
+	}
+}
+
+export function removeNotification(notification) {
+	return {
+		type: "REMOVE_NOTIFICATION",
+		notification,
 	}
 }
 
@@ -182,19 +239,22 @@ export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().enrollments.map(e => e.id).indexOf(group.id);
 		if (index === -1) {
-			User.addEnrollment(group.id).catch(apiErrorHandler(dispatch));
-			dispatch({
-				type: "CHANGE_ENROLLMENTS",
-				action: "ADD",
-				group,
-			});
+			User.addEnrollment(group.id).then(() => {
+				dispatch({
+					type: "CHANGE_ENROLLMENTS",
+					action: "ADD",
+					group,
+				});
+			}).catch(apiErrorHandler(dispatch));
 		} else {
-			User.removeEnrollment(group.id).catch(apiErrorHandler(dispatch));
-			dispatch({
-				type: "CHANGE_ENROLLMENTS",
-				action: "REMOVE",
-				group,
-			});
+			User.removeEnrollment(group.id).then(() => {
+				dispatch({
+					type: "CHANGE_ENROLLMENTS",
+					action: "REMOVE",
+					group,
+				});
+			}).catch(apiErrorHandler(dispatch));
+
 		}
 	}
 }

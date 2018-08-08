@@ -7,11 +7,15 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
-    "jade": "~1.11.0",
+    "jade": "^1.11.0",
     "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-azure-ad": "^3.0.12",
     "promise-mysql": "^3.2.1",
     "swagger-ui-express": "^3.0.10"
   }

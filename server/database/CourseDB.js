@@ -6,14 +6,14 @@ class CourseDB {
 
 	async getCourses() {
 		return this.mainDb.connection.query(				
-			"SELECT course.*,subject.name AS subjectName FROM course INNER JOIN subject ON subject.id = course.subjectId;"
+			"SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId;"
 		);
 	}
 
 	async getCourse(body) {
 		if (body.courseId >= 0) {
 			return this.mainDb.connection.query(
-				"SELECT course.*,subject.name AS subjectName FROM course INNER JOIN subject ON subject.id = course.subjectId WHERE course.id = ?"
+				"SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId WHERE course.id = ?"
 			, [body.courseId]).then(courses => {
 				if (courses.length === 1) {
 					return courses[0];

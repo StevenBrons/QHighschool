@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
 
 import Page from './Page';
 import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
 import Group from './group/Group';
 import { getSubjects,getGroups } from '../store/actions';
-import filter from 'lodash/filter';
-import map from 'lodash/map';
 
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -78,7 +78,7 @@ class CourseSelect extends Page {
 		}
 
 		return (
-			<div className="Page" style={this.state.style}>
+			<Page>
 				<AppBar position="static" color="default">
 					<Toolbar>
 						<Typography variant="subheading" color="textSecondary">
@@ -102,7 +102,7 @@ class CourseSelect extends Page {
 											Vak
           					</Typography>
 									</MenuItem>
-									<MenuItem value={"enrollable"} style={{width:"100px"}}>Aanmeldbaar</MenuItem>
+									<MenuItem value={"enrollable"} style={{width:"100px"}}>Inschrijfbaar</MenuItem>
 								</Select>
 							</FormControl>
 						</form>
@@ -113,7 +113,7 @@ class CourseSelect extends Page {
 				<br />
 				<br />
 				<br />
-			</div>
+			</Page>
 		);
 	}
 }

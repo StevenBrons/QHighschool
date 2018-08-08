@@ -15,14 +15,14 @@ class Group extends Component {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
-						<div className="Page">
+						<div className="page">
 							De opgevraagde groep bestaat niet
 							</div>
 					);
 				} else {
 					this.props.getGroup(this.props.groupId)
 					return (
-						<div className="Page">
+						<div className="page">
 							<Progress />
 						</div>
 					);
@@ -75,7 +75,6 @@ function mapDispatchToProps(dispatch) {
 		setGroup: (group) => dispatch(setGroup(group)),
 		getGroup: (groupId) => dispatch(getGroup(groupId)),
 		getGroupEnrollments: (groupId) => dispatch(getGroupEnrollments(groupId)),
-
 	};
 }
 

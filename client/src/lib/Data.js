@@ -6,16 +6,8 @@ class Data {
 		if (process.env.NODE_ENV === 'production') {
 			this.url = "/api/";
 		} else {
-			this.url = "http://192.168.0.70:26194/api/";
+			this.url = "/api/";
 		}
-	}
-
-	setToken(t) {
-		this.token = t;
-		User.token = t;
-		Course.token = t;
-		Group.token = t;
-		Subject.token = t;
 	}
 
 }
@@ -30,7 +22,7 @@ class CourseClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		}).then((list) => keyBy(list,"id"));
+		}).then((list) => keyBy(list, "id"));
 	}
 
 	async get(courseId) {
@@ -56,7 +48,7 @@ class GroupClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		}).then((list) => keyBy(list,"id"));
+		}).then((list) => keyBy(list, "id"));
 	}
 
 	async get(groupId) {
@@ -77,7 +69,6 @@ class GroupClass extends Data {
 			data: {
 				groupId,
 			},
-			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -94,7 +85,7 @@ class SubjectClass extends Data {
 			url: this.getUrl() + "/list",
 			type: "get",
 			dataType: "json",
-		}).then((list) => keyBy(list,"id"));
+		}).then((list) => keyBy(list, "id"));
 	}
 
 	async get(subjectId) {
@@ -115,12 +106,29 @@ class UserClass extends Data {
 		return this.url + "user";
 	}
 
+	async logout() {
+		return $.ajax({
+			url: "auth/logout",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
+	async getSelf() {
+		return $.ajax({
+			url: this.getUrl() + "/self",
+			type: "get",
+			dataType: "json",
+		});
+	}
+
 	async getUser(userId) {
 		return $.ajax({
 			url: this.getUrl(),
 			type: "post",
-			data: {userId},
-			headers: { "token": this.token },
+			data: {
+				userId
+			},
 			dataType: "json",
 		});
 	}
@@ -128,9 +136,8 @@ class UserClass extends Data {
 	async setUser(newUser) {
 		return $.ajax({
 			url: this.getUrl(),
-			type: "put",
+			type: "patch",
 			data: newUser,
-			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -139,7 +146,6 @@ class UserClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/enrollments",
 			type: "get",
-			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -151,7 +157,6 @@ class UserClass extends Data {
 			data: {
 				groupId,
 			},
-			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -163,7 +168,6 @@ class UserClass extends Data {
 			data: {
 				groupId,
 			},
-			headers: { "token": this.token },
 			dataType: "json",
 		});
 	}
@@ -175,9 +179,8 @@ class UserClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/enrollableGroups",
 			type: "get",
-			headers: { "token": this.token },
 			dataType: "json",
-		}).then((groups)=> {
+		}).then((groups) => {
 			this.enrollableGroups = groups;
 			return groups;
 		});

@@ -5,12 +5,12 @@ class SubjectDB {
 	}
 
 	async getSubjects() {
-		return this.mainDb.connection.query("SELECT * FROM subject;");
+		return this.mainDb.connection.query("SELECT * FROM school_subject;");
 	}
 	
 	async getSubject(body) {
 		if (body.subjectId >= 0) {
-			return this.mainDb.connection.query("SELECT * FROM subject WHERE id = ?", [body.subjectId]).then(subjects => {
+			return this.mainDb.connection.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId]).then(subjects => {
 				if (subjects.length === 1) {
 					return subjects[0];
 				}

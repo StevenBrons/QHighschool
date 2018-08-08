@@ -1,5 +1,3 @@
-import { getCookie } from "../lib/Cookie";
-
 const DEFAULT_STATE = {
 	userId: null,
 	enrollments: null,
@@ -7,31 +5,56 @@ const DEFAULT_STATE = {
 	subjects: null,
 	groups: null,
 	users: null,
-	token: getCookie("token"),
 	showMenu: true,
+	notifications: [],
 	hasFetched: [],
 }
 
 function reducer(state = DEFAULT_STATE, action) {
 	switch (action.type) {
-		case "SET_TOKEN":
-			return { ...state, token: action.token };
 		case "SET_SELF":
-			return { ...state, userId: action.userId,role:action.role };
+			return {
+				...state, 
+				userId: action.user.id, 
+				role: action.user.role, 
+				notifications: [...state.notifications,...action.user.notifications],
+				users: {
+					[action.user.id]: action.user,
+				}
+			};
+		case "ADD_NOTIFICATION":
+			return {
+				...state, 
+				notifications: [...state.notifications,action.notification], 
+			};
+		case "REMOVE_NOTIFICATION":
+			const index = state.notifications.indexOf(action.notification);
+			return {
+				...state,
+				notifications: [
+					...state.notifications.slice(0, index),
+					...state.notifications.slice(index + 1) 
+				], 
+			};
 		case "CHANGE_USERS":
 			return { ...state, users: { ...state.users, ...action.users } };
 		case "CHANGE_USER":
 			if (state.users == null) {
 				return {
-					...state, users: {
+					...state, 
+					users: {
+						...state.user,
 						[action.user.id]: action.user,
 					}
 				};
 			}
 			return {
-				...state, users: {
+				...state, 
+				users: {
+					...state.users,
 					[action.user.id]: {
-						...state.users[action.user.id], ...action.user
+						...state.users[action.user.id], 
+						...action.user
 					}
 				}
 			};

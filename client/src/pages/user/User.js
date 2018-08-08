@@ -1,26 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import UserRow from "../components/UserRow";
+import UserRow from "./UserRow";
+import UserPage from "./UserPage";
+import { getUser } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
-import Progress from '../components/Progress'
+import Progress from '../../components/Progress'
 
 class User extends Component {
 
 	render() {
 		if (this.props.user == null) {
-			if (this.props.display === "Page") {
+			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
-						<div className="Page">
-							De opgevraagde user bestaat niet
+						<div className="page">
+							De opgevraagde gebruiker bestaat niet
 						</div>
 					);
 				} else {
-					this.props.getUser(this.props.userId)
+					this.props.getUser(this.props.userId);
 					return (
-						<div className="Page">
+						<div className="page">
 							<Progress />
 						</div>
 					);
@@ -34,7 +36,7 @@ class User extends Component {
 		switch (this.props.display) {
 			case "page":
 				return (
-					<UserRow {...this.props} />
+					<UserPage {...this.props} />
 				);
 			case "row":
 				return (
@@ -52,10 +54,14 @@ class User extends Component {
 
 function mapStateToProps(state, ownProps) {
 	let id = ownProps.match.params.userId || ownProps.userId;
-	let display = ownProps.display || "Page";
+	let display = ownProps.display || "page";
 
 	let notExists = false;
 	let user = null;
+
+	if (id == null)  {
+		id = state.userId;
+	}
 
 	if (state.users == null || state.users[id] == null) {
 		if (id == null || state.hasFetched.includes("User.get(" + id + ")")) {
@@ -65,12 +71,21 @@ function mapStateToProps(state, ownProps) {
 		user = state.users[id];
 	}
 
+
 	return {
 		user,
 		notExists,
 		display,
 		userId: id,
+		ownProfile: ("" + id) === ("" + state.userId),
 	}
 }
 
-export default withRouter(connect(mapStateToProps)(User));
+function mapDispatchToProps(dispatch) {
+	return {
+		getUser: (userId) => dispatch(getUser(userId)),
+	};
+}
+
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(User));

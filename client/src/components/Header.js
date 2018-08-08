@@ -9,7 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { toggleMenu } from '../store/actions';
-import { setCookie } from '../lib/Cookie';
+import { User } from '../lib/Data';
 
 class Header extends Component {
 
@@ -26,10 +26,15 @@ class Header extends Component {
 		this.setState({ anchorEl: null });
 	};
 
-	logout() {
+	goToProfile() {
 		this.handleClose();
-		setCookie("token", "", -1);
-		document.location.reload(); 
+		this.props.history.push("/gebruiker/" + this.props.userId);
+	}
+
+	logout() {
+		User.logout().then(() => {
+			document.location.reload(); 
+		});
 	}
 
 	render() {
@@ -46,7 +51,7 @@ class Header extends Component {
 					<Typography variant="title" color="inherit">
 						{this.props.location}
 					</Typography>
-					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.email}</Button>
+					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.displayName}</Button>
 				</Toolbar>
 				<Menu
 					id="simple-menu"
@@ -54,8 +59,8 @@ class Header extends Component {
 					open={Boolean(anchorEl)}
 					onClose={this.handleClose}
 				>
-					<MenuItem onClick={this.handleClose}>Profiel</MenuItem>
-					<MenuItem onClick={this.logout.bind(this)}>Log uit</MenuItem>
+					<MenuItem onClick={this.goToProfile.bind(this)}>Profiel</MenuItem>
+					<MenuItem onClick={this.logout}>Log uit</MenuItem>
 				</Menu>
 			</AppBar>
 		);
@@ -65,11 +70,13 @@ class Header extends Component {
 function mapStateToProps(state) {
 	if (state.userId != null) {
 		return {
-			email: state.users[state.userId].preferedEmail,
+			displayName: state.users[state.userId].displayName,
+			userId: state.userId,
 		};
 	}
 	return {
-		email: "",
+		displayName: "",
+		userId: state.userId,
 	};
 }
 

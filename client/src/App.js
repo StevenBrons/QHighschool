@@ -7,23 +7,22 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Data from "./lib/Data";
-import { getUser } from './store/actions';
+import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
-import Settings from "./pages/Settings";
+// import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
+import User from "./pages/user/User";
 
 import Header from "./components/Header";
+import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 
 class App extends Component {
 
-	constructor(props) {
-		super(props);
-		Data.setToken(this.props.token);
-		this.props.getUser();
+	componentWillMount() {
+		this.props.getSelf();
 	}
 
 	handleShowMenu() {
@@ -34,24 +33,27 @@ class App extends Component {
 	}
 
 	render() {
-		if (this.props.role == null && this.props.token != null) {
+		if (!this.props.userId && this.props.location.pathname !== "/login") {
 			return (
-				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email="" />
+				<div className="App">
+					<Header email="" history={this.props.history}/>
+					<NotificationBar />
 				</div>
 			);
 		}
 		return (
-			<div className="App" style={{ backgroundColor: "white" }}>
-				{this.props.showMenu && <Menu/>}
-				<Header/>
+			<div className="App">
+				<NotificationBar />
+				{this.props.showMenu && <Menu />}
+				<Header history={this.props.history}/>
 				<Switch>
 					<Route path="/login" component={Login} />
-					{ (this.props.token == null) && <Redirect to="/login" />}
-					<Route path="/aanmelden" component={CourseSelect} />
+					<Route path="/inschrijven" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
-					<Route path="/instellingen" component={Settings} />
-					<Redirect push to={this.props.role==="student"?"/aanmelden":"/instellingen"} />
+					<Route path="/gebruiker/:userId" component={User} />
+					<Route path="/profile/" component={User} />
+					{/* <Route path="/instellingen" component={Settings} /> */}
+					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/instellingen"} />
 				</Switch>
 			</div>
 		);
@@ -61,20 +63,17 @@ class App extends Component {
 
 function mapStateToProps(state) {
 	return {
-		token: state.token,
 		showMenu: state.showMenu,
-		role: state.role
+		role: state.role,
+		userId: state.userId,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getUser: () => dispatch(getUser()),
-		setToken: (token) => dispatch({
-			type:"SET_TOKEN",
-			token: token,
-		}),
+		getSelf: () => dispatch(getSelf()),
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
