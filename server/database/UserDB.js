@@ -120,6 +120,20 @@ class UserDB {
 		);
 	}
 
+	async getGroups(userId) {
+		return this.mainDb.connection.query(
+			"SELECT participant.groupId " +
+			"FROM participant " +
+			"WHERE participant.userId = ? ",
+			[userId]
+		).then(rows => {
+			const groupPromises = rows.map((row) => {
+				return this.mainDb.group.getGroup(row.groupId);
+			});
+			return Promise.all(groupPromises);
+		});
+	}
+
 }
 
 module.exports = UserDB;
