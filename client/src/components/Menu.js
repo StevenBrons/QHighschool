@@ -5,6 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import SettingsIcon from '@material-ui/icons/Settings';
+import GroupIcon from '@material-ui/icons/Group';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -24,6 +25,12 @@ class Menu extends Component {
 					title: "Inschrijven",
 					visibleTo: "student",
 					icon: <AssignmentIcon />,
+				},
+				{
+					id: "groepen",
+					title: "Mijn groepen",
+					visibleTo: "teacher",
+					icon: <GroupIcon />,
 				},
 			],
 		};

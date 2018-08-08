@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 import User from "./pages/user/User";
+import MyGroups from "./pages/MyGroups";
 
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
@@ -52,6 +53,7 @@ class App extends Component {
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/gebruiker/:userId" component={User} />
 					<Route path="/profiel/" component={User} />
+					<Route path="/groepen/" component={MyGroups} />
 					{/* <Route path="/instellingen" component={Settings} /> */}
 					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/instellingen"} />
 				</Switch>
