@@ -59,6 +59,10 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let user = null;
 
+	if (id == null)  {
+		id = state.userId;
+	}
+
 	if (state.users == null || state.users[id] == null) {
 		if (id == null || state.hasFetched.includes("User.get(" + id + ")")) {
 			notExists = true;
