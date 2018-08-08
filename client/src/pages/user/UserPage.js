@@ -5,20 +5,14 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { setUser } from '../../store/actions';
 import Field from '../../components/Field';
+import Typography from '@material-ui/core/Typography';
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 
-class Settings extends Page {
+class UserPage extends Page {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			user: {
-			}
-		}
-	}
-
-	componentWillMount() {
 		this.state = {
 			user: this.props.user,
 		};
@@ -47,6 +41,11 @@ class Settings extends Page {
 		} else {
 			user = this.state.user;
 		}
+		let shouldFillIn = this.props.ownProfile && (
+			this.props.user.profile == null ||
+			this.props.user.profile == "" ||
+			this.props.user.preferedEmail == null ||
+			this.props.user.preferedEmail == "")?true:null;
 		return (
 			<Page>
 				<Field label="Naam" value={user.displayName} headline editable={false} />
@@ -66,6 +65,12 @@ class Settings extends Page {
 				}
 				<br />
 				{
+					shouldFillIn &&
+						<Typography gutterBottom variant="title" color="primary" >
+							Controlleer de bovenstaande gegevens en vul de ontbrekende gegevens aan
+						</Typography>
+				}
+				{
 					this.hasChanged() ?
 						<Button variant="contained" color="secondary" size="large" onClick={() => this.props.save(this.state.user)}>
 							Opslaan
@@ -84,5 +89,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(null, mapDispatchToProps)(UserPage);
 

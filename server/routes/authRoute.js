@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 
 router.get('/logout', (req, res) => {
-	req.logOut();
+	req.logout();
 	res.send({
 		success: true,
 		message: "You logged out",
