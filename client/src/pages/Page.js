@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import grid from '../lib/Grid';
 
 class Page extends Component {
 
 	render() {
 		let style = {};
 		if (!this.props.showMenu) {
-			const startRow = 2;
-			const endRow = 16;
-			const startCol = 3;
-			const endCol = 16;
-			style = {
-				"grid-column": startCol + " / " + endCol,
-				"grid-row": startRow + " / " + endRow,
-				"-ms-grid-column": startCol,
-				"-ms-grid-column-span": endCol - startCol,
-				"-ms-grid-row": startRow,
-				"-ms-grid-row-span": endRow - startRow,
-			}
+			style = grid({
+				x: 3,
+				w: 12,
+				y: 2,
+				h: 13,
+			});
 		} else {
-			const startRow = 2;
-			const endRow = 16;
-			const startCol = 3;
-			const endCol = 16;
-			style = {
-				"grid-column": startCol + " / " + endCol,
-				"grid-row": startRow + " / " + endRow,
-				"-ms-grid-column": startCol,
-				"-ms-grid-column-span": endCol - startCol,
-				"-ms-grid-row": startRow,
-				"-ms-grid-row-span": endRow - startRow,
-			}
+			style = grid({
+				x: 1,
+				w: 15,
+				y: 2,
+				h: 13,
+			});
 		}
 		return (
 			<div className="Page" style={style}>

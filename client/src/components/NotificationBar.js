@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 import theme from '../lib/MuiTheme'
+import grid from '../lib/Grid'
 import { removeNotification } from '../store/actions';
 
 class NotificationBar extends Component {
@@ -15,23 +16,17 @@ class NotificationBar extends Component {
 	render() {
 		let style = {};
 		if (this.props.showMenu) {
-			style = {
-				"grid-column": "3 / span 12",
-				"-ms-grid-column": "3",
-				"-ms-grid-column-span": "12",
-				"grid-row-end": "16",
-				"-ms-grid-row": "16",
-				"-ms-grid-row-span": "1",
-			}
+			style = grid({
+				x:3,
+				w:12,
+				endY:16
+			});
 		}else {
-			style = {
-				"grid-column": "1 / span 15",
-				"-ms-grid-column": "1",
-				"-ms-grid-column-span": "15",
-				"grid-row-end": "16",
-				"-ms-grid-row": "16",
-				"-ms-grid-row-span": "1",
-			}
+			style = grid({
+				x:1,
+				w:15,
+				endY:16
+			});
 		}
 		
 		function checkNotification(not) {
@@ -63,6 +58,7 @@ class NotificationBar extends Component {
 			return (
 				<Paper
 					elevation={16}
+					key={not.id}
 				>
 					<Toolbar style={{ backgroundColor: bg, height: "100%" }}>
 						<ErrorIcon style={{ color: fg, marginRight: "25px" }} />

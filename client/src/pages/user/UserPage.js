@@ -28,7 +28,7 @@ class Settings extends Page {
 		this.setState({
 			user: {
 				...this.state.user,
-				[event.name]:event.target.value,
+				[event.name]: event.target.value,
 			}
 		});
 	}
@@ -44,7 +44,7 @@ class Settings extends Page {
 				user: this.props.user,
 			});
 			user = this.props.user;
-		}else {
+		} else {
 			user = this.state.user;
 		}
 		return (
@@ -52,16 +52,16 @@ class Settings extends Page {
 				<Field label="Naam" value={user.displayName} headline editable={false} />
 				<Divider />
 				<br />
-				<div style={{ display: "flex"}} >
+				<div style={{ display: "flex" }} >
 					<Field label="Rol" value={user.role} editable={false} />
 					<Field label="Leerjaar" value={user.year} editable={false} />
 					<Field label="Niveau" value={user.level} editable={false} />
 				</div>
 				{this.props.ownProfile &&
 					<div style={{ display: "flex" }} >
-						<Field label="Voorkeurs email" name="preferedEmail" value={user.preferedEmail} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)}/>
-						<Field label="Telefoonnummer" name="phoneNumber" value={user.phoneNumber} editable={this.props.ownProfile}  onChange={this.handleChange.bind(this)} />
-						<Field label="Profiel" name="profile" value={user.profile} editable={this.props.ownProfile} options={profiles}  onChange={this.handleChange.bind(this)}/>
+						<Field label="Voorkeurs email" name="preferedEmail" value={user.preferedEmail} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} />
+						<Field label="Telefoonnummer" name="phoneNumber" value={user.phoneNumber} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} />
+						<Field label="Profiel" name="profile" value={user.profile} editable={this.props.ownProfile} options={profiles} onChange={this.handleChange.bind(this)} />
 					</div>
 				}
 				<br />

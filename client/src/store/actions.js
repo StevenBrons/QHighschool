@@ -79,6 +79,7 @@ export function getSelf() {
 				call: "User.getSelf()"
 			});
 			const notification = {
+				id: -96,
 				priority: "low",
 				type: "bar",
 				message: "Bezig met laden",
@@ -94,7 +95,7 @@ export function getSelf() {
 			}).catch((error) => {
 				dispatch(removeNotification(notification));
 				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
-					if (window.location.pathname != "/login") {
+					if (window.location.pathname !== "/login") {
 						document.location.href = "/login";
 					}
 				} else {

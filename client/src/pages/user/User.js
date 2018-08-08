@@ -73,7 +73,7 @@ function mapStateToProps(state, ownProps) {
 		notExists,
 		display,
 		userId: id,
-		ownProfile: id == state.userId,
+		ownProfile: ("" + id) === ("" + state.userId),
 	}
 }
 
