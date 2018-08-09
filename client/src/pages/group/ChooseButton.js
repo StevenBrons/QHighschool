@@ -53,7 +53,7 @@ class ChooseButton extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-	if (state.enrollments == null || state.enrollableGroups == null) {
+	if (state.users[state.userId].enrollmentIds == null || state.enrollableGroups == null) {
 		return {
 			loading: true,
 		}
@@ -61,8 +61,8 @@ function mapStateToProps(state, ownProps) {
 
 	return {
 		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
-		hasChosen: state.enrollments.map(e => e.id).indexOf(ownProps.group.id) !== -1,
-		hasChosenDay: state.enrollments.map(e => e.day).indexOf(ownProps.group.day) !== -1,
+		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
+		hasChosenDay: state.users[state.userId].enrollmentIds.map(id => state.groups[id].day).indexOf(ownProps.group.day) !== -1,
 	};
 }
 

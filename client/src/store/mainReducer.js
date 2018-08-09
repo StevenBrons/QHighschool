@@ -10,22 +10,22 @@ const DEFAULT_STATE = {
 	hasFetched: [],
 }
 
-function reducer(state = DEFAULT_STATE, action) {
+function mainReducer(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 		case "SET_SELF":
 			return {
-				...state, 
-				userId: action.user.id, 
-				role: action.user.role, 
-				notifications: [...state.notifications,...action.user.notifications],
+				...state,
+				userId: action.user.id,
+				role: action.user.role,
+				notifications: [...state.notifications, ...action.user.notifications],
 				users: {
 					[action.user.id]: action.user,
 				}
 			};
 		case "ADD_NOTIFICATION":
 			return {
-				...state, 
-				notifications: [...state.notifications,action.notification], 
+				...state,
+				notifications: [...state.notifications, action.notification],
 			};
 		case "REMOVE_NOTIFICATION":
 			const index = state.notifications.indexOf(action.notification);
@@ -33,15 +33,15 @@ function reducer(state = DEFAULT_STATE, action) {
 				...state,
 				notifications: [
 					...state.notifications.slice(0, index),
-					...state.notifications.slice(index + 1) 
-				], 
+					...state.notifications.slice(index + 1)
+				],
 			};
 		case "CHANGE_USERS":
-			return { ...state, users: { ...state.users, ...action.users } };
+			return { ...state, users: { ...action.users, ...state.users } };
 		case "CHANGE_USER":
 			if (state.users == null) {
 				return {
-					...state, 
+					...state,
 					users: {
 						...state.user,
 						[action.user.id]: action.user,
@@ -49,11 +49,11 @@ function reducer(state = DEFAULT_STATE, action) {
 				};
 			}
 			return {
-				...state, 
+				...state,
 				users: {
 					...state.users,
 					[action.user.id]: {
-						...state.users[action.user.id], 
+						...state.users[action.user.id],
 						...action.user
 					}
 				}
@@ -79,35 +79,55 @@ function reducer(state = DEFAULT_STATE, action) {
 				}
 			};
 		case "CHANGE_PARTICIPATING_GROUPS":
-			return { ...state, users: {
-				...state.users,
-				[action.userId]: {
-					...state.users[action.userId],
-					participatingGroupsIds: [
-						...state.users[action.userId].participatingGroupsIds || [],
-						...action.participatingGroupsIds,
-					]
+			return {
+				...state, users: {
+					...state.users,
+					[action.userId]: {
+						...state.users[action.userId],
+						participatingGroupsIds: [
+							...state.users[action.userId].participatingGroupsIds || [],
+							...action.participatingGroupsIds,
+						]
+					}
 				}
-			}};
+			};
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: { ...state.subjects, ...action.subjects } };
 		case "CHANGE_ENROLLMENTS":
 			if (action.action === "ADD") {
 				return {
-					...state, enrollments: state.enrollments.concat(action.group)
+					...state, users: {
+						...state.users,
+						[state.userId]: {
+							...state.users[state.userId],
+							enrollmentIds: (state.users[state.userId].enrollmentIds || []).concat(action.groupId)
+						}
+					}
 				}
 			}
 			if (action.action === "REMOVE") {
-				const index = state.enrollments.map(e => e.id).indexOf(action.group.id);
+				const index = state.users[state.userId].enrollmentIds.indexOf(action.groupId);
 				return {
-					...state, enrollments: [
-						...state.enrollments.slice(0, index),
-						...state.enrollments.slice(index + 1),
-					]
+					...state, users: {
+						...state.users,
+						[state.userId]: {
+							...state.users[state.userId],
+							enrollmentIds: [
+								...state.users[state.userId].enrollmentIds.slice(0, index),
+								...state.users[state.userId].enrollmentIds.slice(index + 1),
+							]
+						}
+					}
 				}
 			}
 			return {
-				...state, enrollments: action.enrollments
+				...state, users: {
+					...state.users,
+					[state.userId]: {
+						...state.users[state.userId],
+						enrollmentIds: action.enrollmentIds,
+					}
+				}
 			}
 		default:
 			return state;
@@ -115,4 +135,4 @@ function reducer(state = DEFAULT_STATE, action) {
 }
 
 
-export default reducer;
+export default mainReducer;

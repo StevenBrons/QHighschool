@@ -69,7 +69,7 @@ export function getParticipatingGroups() {
 				});
 				dispatch({
 					type: "CHANGE_PARTICIPATING_GROUPS",
-					userId:getState().userId,
+					userId: getState().userId,
 					participatingGroupsIds: Object.keys(groups),
 				});
 			}).catch(apiErrorHandler(dispatch));
@@ -193,7 +193,7 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		if (getState().enrollments != null || getState().hasFetched.includes("User.getEnrollments()")) {
+		if (getState().users[getState().userId].enrollmentIds != null || getState().hasFetched.includes("User.getEnrollments()")) {
 			return;
 		}
 		dispatch({
@@ -203,7 +203,7 @@ export function getEnrolLments() {
 		User.getEnrollments().then((enrollments) => {
 			dispatch({
 				type: "CHANGE_ENROLLMENTS",
-				enrollments,
+				enrollmentIds: enrollments.map(e => e.id),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -260,13 +260,13 @@ export function toggleMenu(menuState) {
 
 export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
-		const index = getState().enrollments.map(e => e.id).indexOf(group.id);
+		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
 		if (index === -1) {
 			User.addEnrollment(group.id).then(() => {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "ADD",
-					group,
+					groupId: group.id,
 				});
 			}).catch(apiErrorHandler(dispatch));
 		} else {
@@ -274,7 +274,7 @@ export function toggleEnrollment(group) {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "REMOVE",
-					group,
+					groupId: group.id
 				});
 			}).catch(apiErrorHandler(dispatch));
 
