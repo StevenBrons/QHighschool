@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import Page from './Page';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,7 @@ import { toggleMenu } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-class Login extends Page {
+class Login extends Component{
 
 	constructor(props) {
 		super(props);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import Page from '../Page';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 
-class UserPage extends Page {
+class UserPage extends Component {
 
 	constructor(props) {
 		super(props);

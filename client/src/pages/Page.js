@@ -6,7 +6,7 @@ class Page extends Component {
 
 	render() {
 		let style = {};
-		if (!this.props.showMenu) {
+		if (this.props.showMenu) {
 			style = grid({
 				x: 3,
 				w: 12,
@@ -37,4 +37,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default Page;
+export default connect(mapStateToProps)(Page);

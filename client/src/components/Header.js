@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { toggleMenu } from '../store/actions';
 import { User } from '../lib/Data';
+import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
 

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import ChooseButton from './ChooseButton';
 import Field from '../../components/Field';
 import User from "../user/User"
+import Page from '../Page';
 
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
@@ -53,7 +54,7 @@ class GroupPage extends Component {
 		const group = this.props.group;
 		const editable = this.state.editable;
 		return (
-			<div className="Page" style={this.state.style}>
+			<Page>
 				<Field value={group.courseName} headline  editable={editable}/>
 				<Field value={group.subjectName} right headline editable={editable}/>
 				<br />
@@ -91,7 +92,7 @@ class GroupPage extends Component {
 				<div style={{ width: "95%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
 				</div>
-			</div>
+			</Page>
 		);
 	}
 

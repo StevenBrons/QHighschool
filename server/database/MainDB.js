@@ -17,12 +17,10 @@ class InvalidTokenError extends Error {
 
 class InsufficientPrivileges extends Error {
 	constructor() {
-			super("You have insufficient privileges to execute this action");
+		super("You have insufficient privileges to execute this action");
 	}
 }
 
-
-const roles = ["STUDENT","TEACHER"];
 
 class Database {
 
@@ -31,7 +29,9 @@ class Database {
 	}
 
 	async connect(connectionArgs) {
-		this.connection = await mysql.createConnection(connectionArgs);
+		this.connection = await mysql.createConnection(connectionArgs).catch((err) => {
+			console.log(err);
+		});
 		this.course = new CourseDB(this);
 		this.subject = new SubjectDB(this);
 		this.user = new UserDB(this);
