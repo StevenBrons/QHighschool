@@ -2,7 +2,7 @@ import { User, Subject, Group } from "../lib/Data"
 import keyBy from "lodash/keyBy"
 
 function apiErrorHandler(dispatch, message) {
-	return function (error) {
+	return function handleError(error) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
@@ -14,7 +14,8 @@ function apiErrorHandler(dispatch, message) {
 		});
 		dispatch({
 			type: "FATAL_ERROR",
-			error,
+			error: error.name,
+			message: error.message,
 		});
 		throw error;
 	}
@@ -48,6 +49,28 @@ export function getGroups() {
 				dispatch({
 					type: "CHANGE_GROUPS",
 					groups,
+				});
+			}).catch(apiErrorHandler(dispatch));
+		}
+	}
+}
+
+export function getParticipatingGroups() {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("User.getParticipatingGroups()")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "User.getParticipatingGroups()"
+			});
+			User.getParticipatingGroups().then((groups) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups,
+				});
+				dispatch({
+					type: "CHANGE_PARTICIPATING_GROUPS",
+					userId:getState().userId,
+					participatingGroupsIds: Object.keys(groups),
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}

@@ -142,6 +142,14 @@ class UserClass extends Data {
 		});
 	}
 
+	async getParticipatingGroups() {
+		return $.ajax({
+			url: this.getUrl() + "/groups",
+			type: "get",
+			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
+
 	async getEnrollments() {
 		return $.ajax({
 			url: this.getUrl() + "/enrollments",
@@ -173,16 +181,10 @@ class UserClass extends Data {
 	}
 
 	async getEnrolllableGroups() {
-		if (this.enrollableGroups != null) {
-			return this.enrollableGroups;
-		}
 		return $.ajax({
 			url: this.getUrl() + "/enrollableGroups",
 			type: "get",
 			dataType: "json",
-		}).then((groups) => {
-			this.enrollableGroups = groups;
-			return groups;
 		});
 	}
 }

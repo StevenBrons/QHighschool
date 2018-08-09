@@ -78,6 +78,17 @@ function reducer(state = DEFAULT_STATE, action) {
 					}
 				}
 			};
+		case "CHANGE_PARTICIPATING_GROUPS":
+			return { ...state, users: {
+				...state.users,
+				[action.userId]: {
+					...state.users[action.userId],
+					participatingGroupsIds: [
+						...state.users[action.userId].participatingGroupsIds || [],
+						...action.participatingGroupsIds,
+					]
+				}
+			}};
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: { ...state.subjects, ...action.subjects } };
 		case "CHANGE_ENROLLMENTS":
