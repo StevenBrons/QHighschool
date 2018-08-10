@@ -202,8 +202,12 @@ export function getEnrolLments() {
 		});
 		User.getEnrollments().then((enrollments) => {
 			dispatch({
+				type: "CHANGE_GROUPS",
+				groups: enrollments,
+			});
+			dispatch({
 				type: "CHANGE_ENROLLMENTS",
-				enrollmentIds: enrollments.map(e => e.id),
+				enrollmentIds: Object.keys(enrollments),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -212,7 +216,7 @@ export function getEnrolLments() {
 export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
-			getState().groups[groupId].enrollments != null ||
+			getState().groups[groupId].enrollmentIds != null ||
 			getState().hasFetched.includes("Group.getEnrollments(" + groupId + ")")
 		) {
 			return;
@@ -226,12 +230,12 @@ export function getGroupEnrollments(groupId) {
 				type: "CHANGE_GROUP",
 				group: {
 					id: groupId,
-					enrollments,
+					enrollmentIds:Object.keys(enrollments),
 				}
 			});
 			dispatch({
 				type: "CHANGE_USERS",
-				users: keyBy(enrollments, "id"),
+				users: enrollments,
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}

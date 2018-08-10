@@ -43,9 +43,9 @@ class UserPage extends Component {
 		}
 		let shouldFillIn = this.props.ownProfile && (
 			this.props.user.profile == null ||
-			this.props.user.profile == "" ||
+			this.props.user.profile === "" ||
 			this.props.user.preferedEmail == null ||
-			this.props.user.preferedEmail == "")?true:null;
+			this.props.user.preferedEmail === "")?true:null;
 		return (
 			<Page>
 				<Field label="Naam" value={user.displayName} headline editable={false} />

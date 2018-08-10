@@ -26,14 +26,15 @@ class GroupPage extends Component {
 	}
 
 	getCurrentTab(currentTab) {
+		const group = this.props.group;
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
-				if (this.props.group.enrollments == null) {
+				if (group.enrollmentIds == null) {
 					this.props.getGroupEnrollments(this.props.group.id);
 					return null;
 				}
-				return this.props.group.enrollments.map(enrollment => {
-					return <User key={enrollment.id} userId={enrollment.id} display="row" />
+				return group.enrollmentIds.map(id => {
+					return <User key={id} userId={id} display="row" />
 				});
 			default: return null;
 		}

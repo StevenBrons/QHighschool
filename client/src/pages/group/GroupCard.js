@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ChooseButton from './ChooseButton';
@@ -41,7 +42,7 @@ class GroupCard extends Component {
 				style={this.state.style}
 			>
 				{
-					this.state.hover && 
+					this.state.hover &&
 					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
 						<FullscreenIcon />
 					</IconButton>
@@ -55,9 +56,21 @@ class GroupCard extends Component {
 				<Typography paragraph>
 					{this.props.group.courseDescription}
 				</Typography>
-				<ChooseButton
-					group={this.props.group}
-				/>
+				{
+					this.props.role === "student" ?
+						<ChooseButton
+							group={this.props.group}
+						/> : null
+				}
+				{
+					this.props.role === "teacher" ?
+						<Button
+							color="secondary"
+							onClick={this.expand.bind(this)}
+						>
+						Bekijken
+						</Button>:null
+				}
 			</Paper >
 		);
 	}

@@ -69,12 +69,14 @@ function mainReducer(state = DEFAULT_STATE, action) {
 		case "CHANGE_ENROLLABLE_GROUPS":
 			return { ...state, enrollableGroups: action.enrollableGroups };
 		case "CHANGE_GROUPS":
-			return { ...state, groups: { ...state.groups, ...action.groups } };
+			return { ...state, groups: { ...action.groups,...state.groups, } };
 		case "CHANGE_GROUP":
 			return {
 				...state, groups: {
+					...state.groups,
 					[action.group.id]: {
-						...state.groups[action.group.id], ...action.group
+						...state.groups[action.group.id], 
+						...action.group
 					}
 				}
 			};

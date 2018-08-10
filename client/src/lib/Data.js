@@ -70,7 +70,7 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 }
@@ -155,7 +155,7 @@ class UserClass extends Data {
 			url: this.getUrl() + "/enrollments",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 	async addEnrollment(groupId) {

@@ -17,7 +17,7 @@ class Group extends Component {
 					return (
 						<div className="page">
 							De opgevraagde groep bestaat niet
-							</div>
+						</div>
 					);
 				} else {
 					this.props.getGroup(this.props.groupId)
