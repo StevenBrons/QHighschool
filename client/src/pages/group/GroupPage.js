@@ -54,6 +54,7 @@ class GroupPage extends Component {
 				});
 			case "Deelnemers":
 				if (group.participantIds == null) {
+					this.props.getGroupParticipants(this.props.group.id);
 					return <Progress />;
 				}
 				if (group.participantIds.length === 0) {

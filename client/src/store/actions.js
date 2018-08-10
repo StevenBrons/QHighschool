@@ -265,6 +265,34 @@ export function getGroupLessons(groupId) {
 	}
 }
 
+export function getGroupParticipants(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].participantIds != null ||
+			getState().hasFetched.includes("Group.getParticipants(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getParticipants(" + groupId + ")"
+		});
+		Group.getParticipants(groupId).then((participants) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					participantIds:Object.keys(participants).map(id => parseInt(id,10)),
+				}
+			});
+			dispatch({
+				type: "CHANGE_USERS",
+				users: participants,
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
 export function addNotification(notification) {
 	return {
 		type: "ADD_NOTIFICATION",
