@@ -241,6 +241,30 @@ export function getGroupEnrollments(groupId) {
 	}
 }
 
+export function getGroupLessons(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].lessons != null ||
+			getState().hasFetched.includes("Group.getGroupLessons(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getGroupLessons(" + groupId + ")"
+		});
+		Group.getGroupLessons(groupId).then((lessons) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					lessons,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
 export function addNotification(notification) {
 	return {
 		type: "ADD_NOTIFICATION",

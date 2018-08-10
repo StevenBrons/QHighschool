@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 
 import ChooseButton from './ChooseButton';
 import Field from '../../components/Field';
+import Lesson from '../../components/Lesson';
 import User from "../user/User"
 import Page from '../Page';
 
@@ -11,6 +12,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
+import Progress from '../../components/Progress'
 
 class GroupPage extends Component {
 
@@ -31,9 +33,33 @@ class GroupPage extends Component {
 			case "Inschrijvingen":
 				if (group.enrollmentIds == null) {
 					this.props.getGroupEnrollments(this.props.group.id);
-					return null;
+					return <Progress />;
+				}
+				if (group.enrollmentIds.length === 0) {
+					return "Er zijn geen inschrijvingen";
 				}
 				return group.enrollmentIds.map(id => {
+					return <User key={id} userId={id} display="row" />
+				});
+			case "Lessen":
+				if (group.lessons == null) {
+					this.props.getGroupLessons(this.props.group.id);
+					return <Progress />;
+				}
+				if (group.lessons.length === 0) {
+					return "Er zijn nog geen lessen bekend";
+				}
+				return group.lessons.map(lesson => {
+					return <Lesson lesson={lesson} key={lesson.id}/>
+				});
+			case "Deelnemers":
+				if (group.participantIds == null) {
+					return <Progress />;
+				}
+				if (group.participantIds.length === 0) {
+					return "Er zijn nog geen deelnemers toegevoegd";
+				}
+				return group.participantIds.map(id => {
 					return <User key={id} userId={id} display="row" />
 				});
 			default: return null;

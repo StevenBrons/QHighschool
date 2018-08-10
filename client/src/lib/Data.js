@@ -73,6 +73,17 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
+	async getGroupLessons(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/lessons",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
 }
 
 class SubjectClass extends Data {
