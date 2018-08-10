@@ -69,7 +69,7 @@ export function getParticipatingGroups() {
 				dispatch({
 					type: "CHANGE_PARTICIPATING_GROUPS",
 					userId: getState().userId,
-					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id)),
+					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id,10)),
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
@@ -207,7 +207,7 @@ export function getEnrolLments() {
 			dispatch({
 				type: "CHANGE_ENROLLMENTS",
 				userId: getState().userId,
-				enrollmentIds: Object.keys(enrollments).map(id => parseInt(id)),
+				enrollmentIds: Object.keys(enrollments).map(id => parseInt(id,10)),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -230,7 +230,7 @@ export function getGroupEnrollments(groupId) {
 				type: "CHANGE_GROUP",
 				group: {
 					id: groupId,
-					enrollmentIds:Object.keys(enrollments).map(id => parseInt(id)),
+					enrollmentIds:Object.keys(enrollments).map(id => parseInt(id,10)),
 				}
 			});
 			dispatch({

@@ -59,6 +59,18 @@ class GroupDB {
 		}
 	}
 
+	async getLessons(groupId) {
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(
+				"SELECT lessons.* FROM lessons WHERE lessons.groupId = ? ",
+				[groupId]).then(lessons => {
+					return lessons;
+				});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
 }
 
 module.exports = GroupDB;

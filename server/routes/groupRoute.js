@@ -28,4 +28,10 @@ router.post("/enrollments", function (req, res, next) {
 	}
 });
 
+router.post("/lessons", function (req, res, next) {
+	database.group.getLessons(req.body.groupId).then(lessons => {
+		res.send(lessons);
+	}).catch((error) => handleError(error, res))
+});
+
 module.exports = router;
