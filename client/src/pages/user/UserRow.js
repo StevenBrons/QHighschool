@@ -38,19 +38,19 @@ class GroupCard extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
-				<Typography variant="title">
+				<Typography variant="title" color={this.props.user.role === "teacher"?"secondary":"primary"} style={{flex:1}}>
 					{this.props.user.firstName + " " + this.props.user.lastName}
 				</Typography>
-				<Typography variant="subheading">
+				<Typography variant="subheading" style={{flex:1}}>
 					{this.props.user.school}
 				</Typography>
-				<Typography variant="body1">
+				<Typography variant="body1" style={{flex:1}}>
 					{this.props.user.level}
 				</Typography>
-				<Typography variant="body1">
+				<Typography variant="body1" style={{flex:1}}>
 					{this.props.user.role}
 				</Typography>
-				<Typography variant="body1">
+				<Typography variant="body1" style={{flex:1}}>
 					{this.props.user.profile}
 				</Typography>
 				<IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
