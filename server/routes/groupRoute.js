@@ -34,4 +34,12 @@ router.post("/lessons", function (req, res, next) {
 	}).catch((error) => handleError(error, res))
 });
 
+router.post("/participants", function (req, res, next) {
+	if (req.user.role === "teacher") {
+		database.group.getParticipants(req.body.groupId).then(participants => {
+			res.send(participants);
+		}).catch((error) => handleError(error, res))
+	}
+});
+
 module.exports = router;

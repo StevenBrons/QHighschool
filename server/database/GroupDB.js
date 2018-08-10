@@ -59,6 +59,20 @@ class GroupDB {
 		}
 	}
 
+
+	async getParticipants(groupId) {
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(
+				"SELECT user_data.* FROM participant " +
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.groupId = ?; "
+				, [groupId]).then(participants => {
+					return participants;
+				});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
 	async getLessons(groupId) {
 		if (groupId >= 0) {
 			return this.mainDb.connection.query(
