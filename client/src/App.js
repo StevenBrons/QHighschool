@@ -19,7 +19,6 @@ import MyGroups from "./pages/MyGroups";
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
-import {User as test}  from "./lib/Data";
 
 class App extends Component {
 

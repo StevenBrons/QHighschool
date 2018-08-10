@@ -1,5 +1,4 @@
 import { User, Subject, Group } from "../lib/Data"
-import keyBy from "lodash/keyBy"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
@@ -70,7 +69,7 @@ export function getParticipatingGroups() {
 				dispatch({
 					type: "CHANGE_PARTICIPATING_GROUPS",
 					userId: getState().userId,
-					participatingGroupsIds: Object.keys(groups),
+					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id)),
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
@@ -207,7 +206,8 @@ export function getEnrolLments() {
 			});
 			dispatch({
 				type: "CHANGE_ENROLLMENTS",
-				enrollmentIds: Object.keys(enrollments),
+				userId: getState().userId,
+				enrollmentIds: Object.keys(enrollments).map(id => parseInt(id)),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -230,7 +230,7 @@ export function getGroupEnrollments(groupId) {
 				type: "CHANGE_GROUP",
 				group: {
 					id: groupId,
-					enrollmentIds:Object.keys(enrollments),
+					enrollmentIds:Object.keys(enrollments).map(id => parseInt(id)),
 				}
 			});
 			dispatch({
@@ -270,6 +270,7 @@ export function toggleEnrollment(group) {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "ADD",
+					userId: getState().userId,
 					groupId: group.id,
 				});
 			}).catch(apiErrorHandler(dispatch));
@@ -278,6 +279,7 @@ export function toggleEnrollment(group) {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "REMOVE",
+					userId: getState().userId,
 					groupId: group.id
 				});
 			}).catch(apiErrorHandler(dispatch));
