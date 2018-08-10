@@ -62,7 +62,7 @@ class GroupDB {
 	async getLessons(groupId) {
 		if (groupId >= 0) {
 			return this.mainDb.connection.query(
-				"SELECT lessons.* FROM lessons WHERE lessons.groupId = ? ",
+				"SELECT lesson.* FROM lesson WHERE lesson.groupId = ? ",
 				[groupId]).then(lessons => {
 					return lessons;
 				});
