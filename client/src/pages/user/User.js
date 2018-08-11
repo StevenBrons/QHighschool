@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import UserRow from "./UserRow";
 import UserPage from "./UserPage";
+import UserCard from "./UserCard";
 import { getUser } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
@@ -45,7 +46,7 @@ class User extends Component {
 			case "card":
 			default:
 				return (
-					<UserRow {...this.props} />
+					<UserCard {...this.props} />
 				);
 		}
 	}
