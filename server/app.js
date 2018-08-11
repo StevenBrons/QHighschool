@@ -20,11 +20,11 @@ require('./passportSetup');
 
 const app = express();
 
-// setTimeout(() => {
-// 	database.session.getUserByEmail("CC114040@ll.candea.nl").then((user) => {
-// 		console.log(user);
-// 	});
-// }, 1000);
+setTimeout(() => {
+	database.function.addUserToGroup(1,4).catch(err => {
+		console.log(err);
+	});
+}, 1000);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
