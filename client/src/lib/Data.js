@@ -95,6 +95,29 @@ class GroupClass extends Data {
 		});
 	}
 
+
+	async getEvaluations(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/evaluations",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
+	async getPresence(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/presence",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
 }
 
 class SubjectClass extends Data {

@@ -339,3 +339,28 @@ export function toggleEnrollment(group) {
 		}
 	}
 }
+
+
+export function getGroupEvaluations(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].evaluations != null ||
+			getState().hasFetched.includes("Group.getEvaluations(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getEvaluations(" + groupId + ")"
+		});
+		Group.getEvaluations(groupId).then((evaluations) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					evaluations:evaluations,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
