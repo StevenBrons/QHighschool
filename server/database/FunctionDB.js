@@ -89,7 +89,7 @@ class FunctionDB {
 			"(userId,courseId,`type`,assesment,explanation) VALUES " +
 			"(?, " +
 			"(SELECT courseId FROM course_group WHERE course_group.id = ?), " +
-			"NULL, NULL, NULL)",
+			"'cijfer', NULL, NULL)",
 			[userId, groupId, "active"]);
 	}
 
