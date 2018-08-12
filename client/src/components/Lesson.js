@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
-import IconButton from '@material-ui/core/IconButton';
 
 class Lesson extends Component {
 

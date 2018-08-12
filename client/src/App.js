@@ -37,7 +37,7 @@ class App extends Component {
 		if (!this.props.userId && this.props.location.pathname !== "/login") {
 			return (
 				<div className="App">
-					<Header email="" history={this.props.history}/>
+					<Header/>
 					<NotificationBar />
 				</div>
 			);
@@ -46,7 +46,7 @@ class App extends Component {
 			<div className="App">
 				<NotificationBar />
 				{this.props.showMenu && <Menu />}
-				<Header history={this.props.history}/>
+				<Header/>
 				<Switch>
 					<Route path="/login" component={Login} />
 					<Route path="/inschrijven" component={CourseSelect} />

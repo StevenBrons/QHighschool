@@ -20,7 +20,7 @@ class Group extends Component {
 						</div>
 					);
 				} else {
-					this.props.getGroup(this.props.groupId)
+					this.props.getGroup(this.props.groupId);
 					return (
 						<div className="page">
 							<Progress />

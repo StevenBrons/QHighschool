@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
@@ -54,7 +53,7 @@ class GroupCard extends Component {
 					{user.firstName + " " + user.lastName}
 				</Typography>
 				<Typography variant="subheading">
-					{user.role==="teacher"?"docent":"leerling" + "\t" + user.school}
+					{(user.role==="teacher"?"docent":"leerling") + "\t" + user.school}
 				</Typography>
 			</Paper >
 		);

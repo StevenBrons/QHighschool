@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
-import IconButton from '@material-ui/core/IconButton';
 import Progress from '../../components/Progress'
 import { connect } from "react-redux";
 import { getUser } from "../../store/actions"
 import Field from '../../components/Field';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
 
 class EvaluationTab extends Component {
 
@@ -110,6 +104,7 @@ class EvaluationTab extends Component {
 					/>
 				);
 			case "cijfer":
+			default:
 				return (
 					<Field
 						headline
