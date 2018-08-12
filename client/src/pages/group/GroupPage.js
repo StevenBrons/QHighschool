@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import ChooseButton from './ChooseButton';
 import Field from '../../components/Field';
 import Lesson from '../../components/Lesson';
+import EvaluationTab from './EvaluationTab';
 import User from "../user/User"
 import Page from '../Page';
 
@@ -34,7 +35,7 @@ class GroupPage extends Component {
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
 				if (group.enrollmentIds == null) {
-					this.props.getGroupEnrollments(this.props.group.id);
+					this.props.getGroupEnrollments(group.id);
 					return <Progress />;
 				}
 				if (group.enrollmentIds.length === 0) {
@@ -45,7 +46,7 @@ class GroupPage extends Component {
 				});
 			case "Lessen":
 				if (group.lessons == null) {
-					this.props.getGroupLessons(this.props.group.id);
+					this.props.getGroupLessons(group.id);
 					return <Progress />;
 				}
 				if (group.lessons.length === 0) {
@@ -56,7 +57,7 @@ class GroupPage extends Component {
 				});
 			case "Deelnemers":
 				if (group.participantIds == null) {
-					this.props.getGroupParticipants(this.props.group.id);
+					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				if (group.participantIds.length === 0) {
@@ -65,6 +66,12 @@ class GroupPage extends Component {
 				return group.participantIds.map(id => {
 					return <User key={id} userId={id} display="row" />
 				});
+			case "Beoordeling":
+				if (group.evaluations == null) {
+					this.props.getGroupEvaluations(this.props.groupId);
+					return <Progress />;
+				}
+				return <EvaluationTab evaluations={group.evaluations} groupId={group.id}/>
 			default: return null;
 		}
 
@@ -120,7 +127,7 @@ class GroupPage extends Component {
 					</Button>
 				} */}
 					<Popover
-						open={this.state.anchorEl}
+						open={this.state.anchorEl?true:false}
 						anchorEl={this.state.anchorEl}
 						anchorOrigin={{vertical:"top"}}
 					>				
