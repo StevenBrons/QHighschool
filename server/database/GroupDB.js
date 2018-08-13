@@ -59,6 +59,54 @@ class GroupDB {
 		}
 	}
 
+
+	async getParticipants(groupId) {
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(
+				"SELECT user_data.* FROM participant " +
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.groupId = ?; "
+				, [groupId]).then(participants => {
+					return participants;
+				});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
+	async getLessons(groupId) {
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(
+				"SELECT lesson.* FROM lesson WHERE lesson.groupId = ? ",
+				[groupId]).then(lessons => {
+					return lessons;
+				});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
+	async getPresence(groupId) {
+		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(q1,[groupId]).then(presence => {
+				return presence;
+			});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
+	async getEvaluations(groupId) {
+		const q1 = "SELECT * FROM evaluation WHERE evaluation.courseId = (SELECT course_group.courseId FROM course_group WHERE course_group.id = ?)";
+		if (groupId >= 0) {
+			return this.mainDb.connection.query(q1,[groupId]).then(evaluations => {
+				return evaluations;
+			});
+		} else {
+			throw new Error("groupId must be a number");
+		}
+	}
+
 }
 
 module.exports = GroupDB;

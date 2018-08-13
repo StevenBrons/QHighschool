@@ -14,7 +14,7 @@ router.get('/logout', (req, res) => {
 router.get('/login',
 	passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
 	(req, res) => {
-		res.redirect('/profile');
+		res.redirect('/profiel');
 	});
 
 router.get('/openid/return',
@@ -23,7 +23,7 @@ router.get('/openid/return',
 			{
 				response: res,                      // required
 				failureRedirect: '/error2',
-				successRedirect: '/profile',
+				successRedirect: '/profiel',
 			}
 		)(req, res, next);
 	});
@@ -33,7 +33,7 @@ router.post('/openid/return',
 		passport.authenticate('azuread-openidconnect',
 			{
 				response: res,                      // required
-				successRedirect: '/profile',
+				successRedirect: '/profiel',
 				failureRedirect: '/error1',
 				failureFlash: true,
 				// session: false,

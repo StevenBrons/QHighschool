@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { toggleMenu } from '../store/actions';
 import { User } from '../lib/Data';
+import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
 
@@ -48,9 +49,6 @@ class Header extends Component {
 					<Typography variant="title" color="inherit">
 						Q-Highschool
 					</Typography>
-					<Typography variant="title" color="inherit">
-						{this.props.location}
-					</Typography>
 					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.displayName}</Button>
 				</Toolbar>
 				<Menu
@@ -86,7 +84,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
 
 
 

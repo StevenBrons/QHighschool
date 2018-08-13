@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import Page from '../Page';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 
-class UserPage extends Page {
+class UserPage extends Component {
 
 	constructor(props) {
 		super(props);
@@ -43,9 +43,9 @@ class UserPage extends Page {
 		}
 		let shouldFillIn = this.props.ownProfile && (
 			this.props.user.profile == null ||
-			this.props.user.profile == "" ||
+			this.props.user.profile === "" ||
 			this.props.user.preferedEmail == null ||
-			this.props.user.preferedEmail == "")?true:null;
+			this.props.user.preferedEmail === "")?true:null;
 		return (
 			<Page>
 				<Field label="Naam" value={user.displayName} headline editable={false} />

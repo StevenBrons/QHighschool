@@ -70,6 +70,51 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
+
+	async getParticipants(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/participants",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
+
+	async getGroupLessons(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/lessons",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
+
+	async getEvaluations(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/evaluations",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
+	async getPresence(groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/presence",
+			type: "post",
+			data: {
+				groupId,
+			},
+			dataType: "json",
 		});
 	}
 
@@ -142,12 +187,20 @@ class UserClass extends Data {
 		});
 	}
 
+	async getParticipatingGroups() {
+		return $.ajax({
+			url: this.getUrl() + "/groups",
+			type: "get",
+			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
+
 	async getEnrollments() {
 		return $.ajax({
 			url: this.getUrl() + "/enrollments",
 			type: "get",
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 	async addEnrollment(groupId) {
@@ -173,16 +226,10 @@ class UserClass extends Data {
 	}
 
 	async getEnrolllableGroups() {
-		if (this.enrollableGroups != null) {
-			return this.enrollableGroups;
-		}
 		return $.ajax({
 			url: this.getUrl() + "/enrollableGroups",
 			type: "get",
 			dataType: "json",
-		}).then((groups) => {
-			this.enrollableGroups = groups;
-			return groups;
 		});
 	}
 }

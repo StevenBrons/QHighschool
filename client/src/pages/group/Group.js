@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import GroupCard from "./GroupCard";
 import GroupPage from "./GroupPage";
 
-import { setGroup, getGroup,getGroupEnrollments } from "../../store/actions"
+import { setGroup, getGroup,getGroupEnrollments,getGroupLessons,getGroupParticipants,getGroupEvaluations } from "../../store/actions"
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 
@@ -17,10 +17,10 @@ class Group extends Component {
 					return (
 						<div className="page">
 							De opgevraagde groep bestaat niet
-							</div>
+						</div>
 					);
 				} else {
-					this.props.getGroup(this.props.groupId)
+					this.props.getGroup(this.props.groupId);
 					return (
 						<div className="page">
 							<Progress />
@@ -75,6 +75,9 @@ function mapDispatchToProps(dispatch) {
 		setGroup: (group) => dispatch(setGroup(group)),
 		getGroup: (groupId) => dispatch(getGroup(groupId)),
 		getGroupEnrollments: (groupId) => dispatch(getGroupEnrollments(groupId)),
+		getGroupLessons: (groupId) => dispatch(getGroupLessons(groupId)),
+		getGroupParticipants: (groupId) => dispatch(getGroupParticipants(groupId)),
+		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
 	};
 }
 

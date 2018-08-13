@@ -14,6 +14,7 @@
     "http-errors": "~1.6.2",
     "jade": "^1.11.0",
     "morgan": "~1.9.0",
+    "npm": "^6.3.0",
     "passport": "^0.4.0",
     "passport-azure-ad": "^3.0.12",
     "promise-mysql": "^3.2.1",

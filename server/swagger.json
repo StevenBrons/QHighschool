@@ -368,29 +368,6 @@
         }
       }
     },
-    "/user/self": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get own user data",
-        "operationId": "getSelf",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Self"
-            }
-          }
-        }
-      }
-    },
     "/user": {
       "post": {
         "tags": [
@@ -474,6 +451,52 @@
         }
       }
     },
+    "/user/self": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get own user data",
+        "operationId": "getSelf",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Self"
+            }
+          }
+        }
+      }
+    },
+    "/user/groups": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "getParticipatingGroups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/enrollableGroups": {
       "get": {
         "tags": [
@@ -490,7 +513,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Course"
+                "$ref": "#/definitions/Group"
               }
             }
           }

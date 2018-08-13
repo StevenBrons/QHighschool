@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose as reduxCompose } from 'redux';
 import thunk from 'redux-thunk';
 
-import reducer from './store/reducer';
+import reducer from './store/mainReducer';
 import GlobalProvider from './lib/GlobalProvider';
 import "./layout.css";
 import 'typeface-roboto'

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ChooseButton from './ChooseButton';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
-	width: "430px",
-	height: "210px",
+	width: "300px",
+	height: "80px",
 	padding: "20px",
 	verticalAlign: "top",
 	margin: "20px",
@@ -25,15 +23,19 @@ class GroupCard extends Component {
 
 		this.state = {
 			hover: false,
-			style: CARD_STYLE,
+			style: {
+				...CARD_STYLE,
+				...this.props.style,
+			}
 		}
 	}
 
 	expand() {
-		this.props.history.push("/groep/" + this.props.group.id)
+		this.props.history.push("/gebruiker/" + this.props.user.id)
 	}
 
 	render() {
+		const user = this.props.user;
 		return (
 			<Paper
 				elevation={this.state.hover ? 4 : 2}
@@ -47,30 +49,12 @@ class GroupCard extends Component {
 						<FullscreenIcon />
 					</IconButton>
 				}
-				<Typography variant="headline" color="primary">
-					{this.props.group.courseName}
+				<Typography variant="title" color={user.role === "teacher"?"secondary":"primary"} >
+					{user.firstName + " " + user.lastName}
 				</Typography>
-				<Typography variant="subheading" color="textSecondary" paragraph>
-					{"Periode " + this.props.group.period + " - " + this.props.group.day}
+				<Typography variant="subheading">
+					{(user.role==="teacher"?"docent":"leerling") + "\t" + user.school}
 				</Typography>
-				<Typography paragraph>
-					{this.props.group.courseDescription}
-				</Typography>
-				{
-					this.props.role === "student" ?
-						<ChooseButton
-							group={this.props.group}
-						/> : null
-				}
-				{
-					this.props.role === "teacher" ?
-						<Button
-							color="secondary"
-							onClick={this.expand.bind(this)}
-						>
-						Bekijken
-						</Button>:null
-				}
 			</Paper >
 		);
 	}

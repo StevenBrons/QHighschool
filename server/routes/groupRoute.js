@@ -28,4 +28,34 @@ router.post("/enrollments", function (req, res, next) {
 	}
 });
 
+router.post("/lessons", function (req, res, next) {
+	database.group.getLessons(req.body.groupId).then(lessons => {
+		res.send(lessons);
+	}).catch((error) => handleError(error, res))
+});
+
+router.post("/participants", function (req, res, next) {
+	if (req.user.role === "teacher") {
+		database.group.getParticipants(req.body.groupId).then(participants => {
+			res.send(participants);
+		}).catch((error) => handleError(error, res))
+	}
+});
+
+router.post("/presence", function (req, res, next) {
+	if (req.user.role === "teacher") {
+		database.group.getPresence(req.body.groupId).then(presence => {
+			res.send(presence);
+		}).catch((error) => handleError(error, res))
+	}
+});
+
+router.post("/evaluations", function (req, res, next) {
+	if (req.user.role === "teacher") {
+		database.group.getEvaluations(req.body.groupId).then(evaluations => {
+			res.send(evaluations);
+		}).catch((error) => handleError(error, res))
+	}
+});
+
 module.exports = router;

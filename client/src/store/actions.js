@@ -1,8 +1,7 @@
 import { User, Subject, Group } from "../lib/Data"
-import keyBy from "lodash/keyBy"
 
 function apiErrorHandler(dispatch, message) {
-	return function (error) {
+	return function handleError(error) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
@@ -14,7 +13,8 @@ function apiErrorHandler(dispatch, message) {
 		});
 		dispatch({
 			type: "FATAL_ERROR",
-			error,
+			error: error.name,
+			message: error.message,
 		});
 		throw error;
 	}
@@ -48,6 +48,28 @@ export function getGroups() {
 				dispatch({
 					type: "CHANGE_GROUPS",
 					groups,
+				});
+			}).catch(apiErrorHandler(dispatch));
+		}
+	}
+}
+
+export function getParticipatingGroups() {
+	return (dispatch, getState) => {
+		if (!getState().hasFetched.includes("User.getParticipatingGroups()")) {
+			dispatch({
+				type: "HAS_FETCHED",
+				call: "User.getParticipatingGroups()"
+			});
+			User.getParticipatingGroups().then((groups) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups,
+				});
+				dispatch({
+					type: "CHANGE_PARTICIPATING_GROUPS",
+					userId: getState().userId,
+					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id,10)),
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
@@ -170,7 +192,7 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		if (getState().enrollments != null || getState().hasFetched.includes("User.getEnrollments()")) {
+		if (getState().users[getState().userId].enrollmentIds != null || getState().hasFetched.includes("User.getEnrollments()")) {
 			return;
 		}
 		dispatch({
@@ -179,8 +201,13 @@ export function getEnrolLments() {
 		});
 		User.getEnrollments().then((enrollments) => {
 			dispatch({
+				type: "CHANGE_GROUPS",
+				groups: enrollments,
+			});
+			dispatch({
 				type: "CHANGE_ENROLLMENTS",
-				enrollments,
+				userId: getState().userId,
+				enrollmentIds: Object.keys(enrollments).map(id => parseInt(id,10)),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -189,7 +216,7 @@ export function getEnrolLments() {
 export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
-			getState().groups[groupId].enrollments != null ||
+			getState().groups[groupId].enrollmentIds != null ||
 			getState().hasFetched.includes("Group.getEnrollments(" + groupId + ")")
 		) {
 			return;
@@ -203,12 +230,64 @@ export function getGroupEnrollments(groupId) {
 				type: "CHANGE_GROUP",
 				group: {
 					id: groupId,
-					enrollments,
+					enrollmentIds:Object.keys(enrollments).map(id => parseInt(id,10)),
 				}
 			});
 			dispatch({
 				type: "CHANGE_USERS",
-				users: keyBy(enrollments, "id"),
+				users: enrollments,
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getGroupLessons(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].lessons != null ||
+			getState().hasFetched.includes("Group.getGroupLessons(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getGroupLessons(" + groupId + ")"
+		});
+		Group.getGroupLessons(groupId).then((lessons) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					lessons,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getGroupParticipants(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].participantIds != null ||
+			getState().hasFetched.includes("Group.getParticipants(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getParticipants(" + groupId + ")"
+		});
+		Group.getParticipants(groupId).then((participants) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					participantIds:Object.keys(participants).map(id => parseInt(id,10)),
+				}
+			});
+			dispatch({
+				type: "CHANGE_USERS",
+				users: participants,
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
@@ -237,13 +316,14 @@ export function toggleMenu(menuState) {
 
 export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
-		const index = getState().enrollments.map(e => e.id).indexOf(group.id);
+		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
 		if (index === -1) {
 			User.addEnrollment(group.id).then(() => {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "ADD",
-					group,
+					userId: getState().userId,
+					groupId: group.id,
 				});
 			}).catch(apiErrorHandler(dispatch));
 		} else {
@@ -251,10 +331,36 @@ export function toggleEnrollment(group) {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "REMOVE",
-					group,
+					userId: getState().userId,
+					groupId: group.id
 				});
 			}).catch(apiErrorHandler(dispatch));
 
 		}
+	}
+}
+
+
+export function getGroupEvaluations(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].evaluations != null ||
+			getState().hasFetched.includes("Group.getEvaluations(" + groupId + ")")
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getEvaluations(" + groupId + ")"
+		});
+		Group.getEvaluations(groupId).then((evaluations) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					evaluations:evaluations,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
 	}
 }
