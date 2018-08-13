@@ -96,7 +96,7 @@ class Login extends Component{
 	}
 
 	login() {
-		document.location.href = "http://localhost:26194/auth/login"
+		document.location.href = "/auth/login"
 	}
 
 	generateColoredEmail(schoolShort, studentNumber, school) {
