@@ -24,7 +24,7 @@ setTimeout(() => {
 	database.function.addUserToGroup(1,4).catch(err => {
 		console.log(err);
 	});
-}, 1000);
+}, 2000);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

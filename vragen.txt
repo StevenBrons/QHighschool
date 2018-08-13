@@ -5,6 +5,8 @@ Wanneer is het streven om de website toegankelijk te maken?
 	-Nameserver
 	-SQL Server
 	-Welke andere features zijn een must?
+	-wanneer moeten leerlingen kunnen kiezen?! (blok 1 begint al volgende week toch?!)
+	
 
 Fase 2 omschrijving:
 	Docenten en leerlingen kunnen lijst zien van groepen waar zij deel aan nemen
