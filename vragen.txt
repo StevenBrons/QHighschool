@@ -1,12 +1,7 @@
 ﻿Fase 1 afronding:
 Wanneer is het streven om de website toegankelijk te maken?
-	-Server
-	-NGINX
-	-Nameserver
-	-SQL Server
 	-Welke andere features zijn een must?
 	-wanneer moeten leerlingen kunnen kiezen?! (blok 1 begint al volgende week toch?!)
-	
 
 Fase 2 omschrijving:
 	Docenten en leerlingen kunnen lijst zien van groepen waar zij deel aan nemen
@@ -21,14 +16,18 @@ Fase 2 omschrijving:
 
 	(Administratoren kunnen deelnemers aan groepen toevoegen)
 
-Fase 2:
-	-Lessen pagina
-		-welke velden?
-	-Deelnemers pagina
-		-simpele lijst van alle deelnemers
+	Lessen pagina
+		welke velden?
+	Deelnemers pagina
+		simpele lijst van alle deelnemers
 	-Beoordeling pagina
-		-welk formaat?
-		-één beoordeling per module?
+		welk formaat?
+			-cijfer
+			-vink
+			-onvoldoende
+			-voldoende
+			-goed
+		één beoordeling per module?
 	-Activiteit
 		-Per les per leerling:
 			-Actief
