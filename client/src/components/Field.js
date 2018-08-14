@@ -5,7 +5,60 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 class Field extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: false,
+		}
+	}
+	
+	componentDidMount() {
+		this.checkRequirements(this.props.value);
+	}
+
+	checkRequirements(value) {
+		let error = false;
+		if (this.props.email){
+			const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+			if (!re.test(value)) {
+				error = true;
+			}
+		}
+		if (this.props.integer){
+			const re = /^\+?[1-9][\d]*$/i;
+			if (!re.test(value)) {
+				error = true;
+			}
+		}
+		if (this.props.min){
+			if (parseInt(value) < this.props.min) {
+				error = true;
+			}
+		}
+		if (this.props.max){
+			if (parseInt(value) > this.props.max) {
+				error = true;
+			}
+		}
+		if (this.props.phoneNumber){
+			const re = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
+			if (!re.test(value)) {
+				error = true;
+			}
+		}
+		if (this.props.notEmpty){
+			if (value == null || value === "" || value === " " || (this.props.options != null && this.props.options.indexOf(value) === -1)) {
+				error = true;
+			}
+		}
+
+		this.setState({
+			error,
+		});
+	}
+
 	onChange(event) {
+		this.checkRequirements(event.target.value);
 		this.props.onChange({
 			...event,
 			name:this.props.name,
@@ -67,10 +120,12 @@ class Field extends Component {
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
+				className={this.props.right?"right":""}
 				label={this.props.label}
 				select={this.props.options ? true : false}
 				style={{ float, flex: 1, marginLeft: "10px", marginRight: "10px" }}
 				onChange={this.onChange.bind(this)}
+				error={this.state.error}
 				InputProps={{
 					disableUnderline,
 					style: {
