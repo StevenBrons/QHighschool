@@ -424,6 +424,20 @@
             "type": "string"
           },
           {
+            "name": "level",
+            "in": "formData",
+            "description": "The new education level",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "year",
+            "in": "formData",
+            "description": "The new year the student is in",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "name": "profile",
             "in": "formData",
             "description": "The profile of the student",
