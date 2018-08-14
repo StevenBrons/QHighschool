@@ -78,16 +78,40 @@ class UserDB {
 		if (data.phoneNumber == null) {
 			throw new Exception("The property phoneNumber is required");
 		}
+		if (data.level == null) {
+			throw new Exception("The property level is required");
+		}
+		if (data.year == null) {
+			throw new Exception("The property year is required");
+		}
+		const re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		if (!re1.test(data.email)) {
+			throw new Exception("The property email does not comply with requirements");
+		}
+		const re2 = /^\+?[1-9][\d]*$/i;
+		if (!re2.test(data.year)) {
+			throw new Exception("The property phoneNumber does not comply with requirements");
+		}
+		if (parseInt(data.year) <= 6) {
+			throw new Exception("The property year does not comply with requirements");
+		}
+		if (parseInt(data.year) >= 1) {
+			throw new Exception("The property year does not comply with requirements");
+		}
+		const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
+		if (!re3.test(data.phoneNumber)) {
+			throw new Exception("The property year does not comply with requirements");
+		}
 		return this.mainDb.connection.query(
 			"UPDATE user_data SET " +
 			"preferedEmail = ?, " +
 			"profile = ?, " +
-			"phoneNumber = ? " +
+			"phoneNumber = ?, " +
+			"year = ?, " +
+			"level = ? " +
 			"WHERE id = ? ",
-			[data.preferedEmail, data.profile, data.phoneNumber, userId]
-		).catch((err) => {
-			console.log(err);
-		});
+			[data.preferedEmail, data.profile, data.phoneNumber, data.year, data.level, userId]
+		);
 	}
 
 	async addUserEnrollment(userId, groupId) {
