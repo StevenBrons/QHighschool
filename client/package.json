@@ -2,7 +2,7 @@
   "name": "qhighschool",
   "version": "0.1.0",
 	"private": true,
-	"proxy": "http://213.127.243.178:26194/",
+	"proxy": "http://localhost:26194/",
   "dependencies": {
     "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
