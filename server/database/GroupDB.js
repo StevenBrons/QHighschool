@@ -8,6 +8,7 @@ class GroupDB {
 			"SELECT course_group.*, " +
 			"course.name AS courseName, " +
 			"course.description AS courseDescription, " +
+			"course.foreknowledge AS foreknowledge, " +
 			"school_subject.id AS subjectId, " +
 			"school_subject.name AS subjectName, " +
 			"school_subject.description AS subjectDescription, " +
@@ -26,6 +27,7 @@ class GroupDB {
 				"SELECT course_group.*, " +
 				"course.name AS courseName, " +
 				"course.description AS courseDescription, " +
+				"course.foreknowledge AS foreknowledge, " +
 				"school_subject.name AS subjectName, " +
 				"school_subject.id AS subjectId, " +
 				"school_subject.description AS subjectDescription, " +
