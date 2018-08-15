@@ -31,12 +31,12 @@ body, #root, .App {
 }
 
 .Login {
-    grid-column: 6 / span 4;
-		grid-row: 5 / span 4;
-		-ms-grid-column: 6;
-		-ms-grid-column-span: 4;
-		-ms-grid-row: 5;
-		-ms-grid-row-span: 4;
+  grid-column: 6 / span 4;
+	grid-row: 5 / span 4;
+	-ms-grid-column: 6;
+	-ms-grid-column-span: 4;
+	-ms-grid-row: 5;
+	-ms-grid-row-span: 4;
 }
 
 .Header {
@@ -99,6 +99,30 @@ body, #root, .App {
 	-ms-grid-row-span: 1;
 }
 
+@media only screen and (max-height: 1000px) {
+	.Login {
+		grid-row: 4 / span 6;
+		-ms-grid-row: 4;
+		-ms-grid-row-span: 6;
+	}
+}
+
+@media only screen and (max-height: 700px) {
+	.Login {
+		grid-row: 3 / span 8;
+		-ms-grid-row: 3;
+		-ms-grid-row-span: 8;
+	}
+}
+
+@media only screen and (max-width: 1400px) {
+	.Login {
+		grid-column: 5 / span 6;
+		-ms-grid-column: 5;
+		-ms-grid-column-span: 6;
+	}
+}
+
 @media only screen and (max-width: 1200px) {
   .Menu {
     grid-column: 1 / span 3;
@@ -132,25 +156,24 @@ body, #root, .App {
 		grid-column: 1 / span 4;
   }
 
+	.Login {
+		grid-column: 4 / span 8;
+		-ms-grid-column: 4;
+		-ms-grid-column-span: 8;
+	}
+
 	.Page.menuShown {
-		overflow-y: scroll;
 		padding: 5px;
 		grid-column: 5 / span 10;
-		grid-row: 2 / span 13;
 		-ms-grid-column: 5;
 		-ms-grid-column-span: 10;
-		-ms-grid-row: 2;
-		-ms-grid-row-span: 13;
 	}
 
 	.NotificationBar.menuShown {
 		grid-column: 5 / span 10;
-		grid-row: 15;
 		-ms-grid-column: 5;
 		-ms-grid-column-span: 10;
 		grid-row-end: 16;
-		-ms-grid-row: 16;
-		-ms-grid-row-span: 1;
 	}
 
 }
@@ -188,6 +211,12 @@ body, #root, .App {
 		grid-row-end: 16;
 		-ms-grid-row: 16;
 		-ms-grid-row-span: 1;
+	}
+
+	.Login {
+		grid-column: 2 / span 12;
+		-ms-grid-column: 2;
+		-ms-grid-column-span: 12;
 	}
 
 }
