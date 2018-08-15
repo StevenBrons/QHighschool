@@ -20,4 +20,12 @@ router.post("/", function (req, res) {
 	}).catch(error => handleError(error, res));
 });
 
+router.put("/", function (req, res) {
+	if (req.user.role === "admin") {
+		database.course.addCourse(req.body).then(rows => {
+			res.send(rows);
+		}).catch(error => handleError(error, res));
+	}
+});
+
 module.exports = router;

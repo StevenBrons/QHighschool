@@ -104,7 +104,7 @@ class FunctionDB {
 	async addLessons(groupId, period, day) {
 		const schedule = require("../lib/schedule");
 
-		const lessonAmount = (period === 1) ? 7 : 8;
+		const lessonAmount = ((period + "") === "1") ? 7 : 8;
 		for (let i = 0; i < lessonAmount; i++) {
 			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
 			await this.mainDb.connection.query(q2, [groupId, schedule.getLessonDate(period,i + 1,day), "", "", i + 1]);

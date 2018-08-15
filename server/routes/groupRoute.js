@@ -20,6 +20,14 @@ router.post("/", function (req, res, next) {
 	}).catch(error => handleError(error, res))
 });
 
+router.put("/", function (req, res) {
+	if (req.user.role === "admin") {
+		database.group.addGroup(req.body).then(rows => {
+			res.send(rows);
+		}).catch(error => handleError(error, res));
+	}
+});
+
 router.post("/enrollments", function (req, res, next) {
 	if (req.user.role === "teacher") {
 		database.group.getEnrollments(req.body.groupId).then(groups => {

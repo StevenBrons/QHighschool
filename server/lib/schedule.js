@@ -8,8 +8,14 @@ moment.locale('nl')
 
 module.exports.getLessonDate = function (period, numberInBlock, day) {
   const week = module.exports.schedule.filter((week) => {
-    return (week.period === period && week.numberInBlock === numberInBlock);
+    console.log(period + ":" + numberInBlock);
+    return ((week.period + "") === (period + "") && (week.numberInBlock + "") === (numberInBlock + ""));
   })[0];
+
+  if (week == null) {
+    throw new Error("Schedule is wrong!");
+  }
+
   return moment().year(week.year).week(week.weekNumber).day(day).toDate();
 }
 
