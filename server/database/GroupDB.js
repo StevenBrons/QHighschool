@@ -88,7 +88,7 @@ class GroupDB {
 	async getPresence(groupId) {
 		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
 		if (groupId >= 0) {
-			return this.mainDb.connection.query(q1,[groupId]).then(presence => {
+			return this.mainDb.connection.query(q1, [groupId]).then(presence => {
 				return presence;
 			});
 		} else {
@@ -99,12 +99,18 @@ class GroupDB {
 	async getEvaluations(groupId) {
 		const q1 = "SELECT * FROM evaluation WHERE evaluation.courseId = (SELECT course_group.courseId FROM course_group WHERE course_group.id = ?)";
 		if (groupId >= 0) {
-			return this.mainDb.connection.query(q1,[groupId]).then(evaluations => {
+			return this.mainDb.connection.query(q1, [groupId]).then(evaluations => {
 				return evaluations;
 			});
 		} else {
 			throw new Error("groupId must be a number");
 		}
+	}
+
+	async addGroup(data) {
+		const q1 = "INSERT INTO course_group (courseId,`day`,teacherId,period,schoolYear) VALUES (?,?,?,?,?);";
+		return this.mainDb.connection.query(q1, [data.courseId, data.day, data.teacherId, data.period, data.schoolYear])
+			.then((rows) => this.mainDb.function.addLessons(rows.insertId, data.period, data.day));
 	}
 
 }
