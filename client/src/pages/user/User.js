@@ -65,7 +65,7 @@ function mapStateToProps(state, ownProps) {
 	}
 
 	if (state.users == null || state.users[id] == null) {
-		if (id == null || state.hasFetched.includes("User.get(" + id + ")")) {
+		if (id == null || state.hasFetched.indexOf("User.get(" + id + ")") != -1) {
 			notExists = true;
 		}
 	} else {
