@@ -12,7 +12,6 @@ import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-
 class Menu extends Component {
 
 	constructor(props) {
@@ -84,7 +83,7 @@ class Menu extends Component {
 			}
 		).map(this.getItem.bind(this));
 		return (
-			<Paper elevation={8} className="Menu" >
+			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{pages}
 				</List>

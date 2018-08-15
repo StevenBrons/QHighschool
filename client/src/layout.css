@@ -3,6 +3,10 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
+#root > div {
+	height: 100%;
+}
+
 .right label {
 	left: inherit;
 	right: 0;
@@ -53,7 +57,7 @@ body, #root, .App {
 	-ms-grid-row-span: 14;
 }
 
-.Page {
+.Page.menuShown {
 	overflow-y: scroll;
 	padding: 30px;
   grid-column: 3 / span 12;
@@ -64,8 +68,30 @@ body, #root, .App {
 	-ms-grid-row-span: 13;
 }
 
-.NotificationBar {
-  grid-column: 3 / span 12;
+.Page.menuHidden {
+	overflow-y: scroll;
+	padding: 30px;
+  grid-column: 1 / span 15;
+	grid-row: 2 / span 13;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 15;
+	-ms-grid-row: 2;
+	-ms-grid-row-span: 13;
+}
+
+.NotificationBar.menuShown {
+	grid-column: 3 / span 12;
+	grid-row: 15;
+	-ms-grid-column: 3;
+	-ms-grid-column-span: 12;
+	grid-row-end: 16;
+	-ms-grid-row: 16;
+	-ms-grid-row-span: 1;
+}
+
+.NotificationBar.menuHidden {
+	grid-column: 1 / span 15;
+	grid-row: 15;
 	-ms-grid-column: 3;
 	-ms-grid-column-span: 12;
 	grid-row-end: 16;
@@ -76,22 +102,104 @@ body, #root, .App {
 @media only screen and (max-width: 1200px) {
   .Menu {
     grid-column: 1 / span 3;
-    grid-row: 2 / span 14;
   }
 
-  .Page {
-    grid-column: 4 / span 12;
-    grid-row: 2 / span 13;
+	.Page.menuShown {
+		overflow-y: scroll;
+		padding: 15px;
+		grid-column: 4 / span 11;
+		grid-row: 2 / span 13;
+		-ms-grid-column: 4;
+		-ms-grid-column-span: 11;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 13;
 	}
+
+	.NotificationBar.menuShown {
+		grid-column: 4 / span 11;
+		grid-row: 15;
+		-ms-grid-column: 4;
+		-ms-grid-column-span: 11;
+		grid-row-end: 16;
+		-ms-grid-row: 16;
+		-ms-grid-row-span: 1;
+	}
+	
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 930px) {
   .Menu {
-    display: none;
+		grid-column: 1 / span 4;
   }
 
-  .Page {
-    grid-column: 1 / span 13;
-    grid-row: 2 / span 13;
-  }
+	.Page.menuShown {
+		overflow-y: scroll;
+		padding: 5px;
+		grid-column: 5 / span 10;
+		grid-row: 2 / span 13;
+		-ms-grid-column: 5;
+		-ms-grid-column-span: 10;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 13;
+	}
+
+	.NotificationBar.menuShown {
+		grid-column: 5 / span 10;
+		grid-row: 15;
+		-ms-grid-column: 5;
+		-ms-grid-column-span: 10;
+		grid-row-end: 16;
+		-ms-grid-row: 16;
+		-ms-grid-row-span: 1;
+	}
+
+}
+
+@media only screen and (max-width: 700px) {
+  .Menu {
+		grid-column: 1 / span 1;
+		padding: 0px;
+	}
+	
+	.Menu svg {
+		margin:0px;
+	}
+
+	.Menu nav div div {
+		display: none;
+	}
+
+	.Page.menuShown {
+		overflow-y: scroll;
+		padding: 5px;
+		grid-column: 2 / span 14;
+		grid-row: 2 / span 13;
+		-ms-grid-column: 2;
+		-ms-grid-column-span: 14;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 13;
+	}
+
+	.NotificationBar.menuShown {
+		grid-column: 2 / span 14;
+		grid-row: 15;
+		-ms-grid-column: 2;
+		-ms-grid-column-span: 14;
+		grid-row-end: 16;
+		-ms-grid-row: 16;
+		-ms-grid-row-span: 1;
+	}
+
+}
+
+@media only screen and (max-width: 590px) {
+	.App {
+		position: relative;
+		display: -ms-grid;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		grid-template-rows: 56px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+		-ms-grid-rows: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+	}
 }

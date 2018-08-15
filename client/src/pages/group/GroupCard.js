@@ -65,7 +65,7 @@ class GroupCard extends Component {
 				}
 				{
 					(this.props.group.foreknowledge != null && this.props.group.foreknowledge.length > 5) ?
-						<Typography color="error" style={{ display: "inline-block", width: "65%", marginLeft: "5px" }}>
+						<Typography color="error" style={{ display: "inline-block", width: "60%", marginLeft: "5px" }}>
 							{"Verplichte voorkennis: " + this.props.group.foreknowledge}
 						</Typography> : null
 				}

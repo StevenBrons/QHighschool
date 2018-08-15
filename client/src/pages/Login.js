@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import theme from '../lib/MuiTheme';
-import grid from '../lib/Grid';
 import { toggleMenu } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -130,15 +129,8 @@ class Login extends Component{
 			this.props.toggleMenu(false);
 		}
 
-		const style = grid({
-			x: 6,
-			w: 4,
-			y: 5,
-			h: 5,
-		});
-
 		return (
-			<Paper elevation={8} style={style}>
+			<Paper elevation={8} className="Login">
 				<div style={{ padding: "20px" }}>
 					<Typography gutterBottom variant="headline" color="primary">
 						Log in
