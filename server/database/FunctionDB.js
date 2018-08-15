@@ -65,25 +65,25 @@ class FunctionDB {
 
 	}
 
-	async addUserToGroup(userId,groupId) {
-		await this._addParticipant(userId,groupId);
-		await this._addEvaluation(userId,groupId);
-		await this._addPresence(userId,groupId);
+	async addUserToGroup(userId, groupId) {
+		await this._addParticipant(userId, groupId);
+		await this._addEvaluation(userId, groupId);
+		await this._addPresence(userId, groupId);
 	}
 
-	async _addPresence(userId,groupId) {
+	async _addPresence(userId, groupId) {
 		const q1 = "SELECT id FROM lesson WHERE lesson.groupId = ?";
-		const q2 = 	"INSERT INTO presence (lessonId,studentId,`status`,explanation) VALUES (?,?,NULL,NULL)";
+		const q2 = "INSERT INTO presence (lessonId,studentId,`status`,explanation) VALUES (?,?,NULL,NULL)";
 		return this.mainDb.connection.query(q1, [groupId])
-		.then((rows) => {
-			const prs = rows.map((row) => {
-				return this.mainDb.connection.query(q2,[row.id, userId]);
+			.then((rows) => {
+				const prs = rows.map((row) => {
+					return this.mainDb.connection.query(q2, [row.id, userId]);
+				});
+				return Promise.all(prs);
 			});
-			return Promise.all(prs);
-		});
 	}
 
-	async _addEvaluation(userId,groupId) {
+	async _addEvaluation(userId, groupId) {
 		return this.mainDb.connection.query(
 			"INSERT INTO evaluation " +
 			"(userId,courseId,`type`,assesment,explanation) VALUES " +
@@ -93,7 +93,7 @@ class FunctionDB {
 			[userId, groupId, "active"]);
 	}
 
-	async _addParticipant(userId,groupId) {
+	async _addParticipant(userId, groupId) {
 		return this.mainDb.connection.query(
 			"INSERT INTO participant " +
 			"(userId,groupId,status) VALUES" +
@@ -101,8 +101,19 @@ class FunctionDB {
 			[userId, groupId, "active"]);
 	}
 
+	async addLessons(groupId, period, day) {
+		const schedule = require("../lib/schedule");
+
+		const lessonAmount = (period === 1) ? 7 : 8;
+		for (let i = 0; i < lessonAmount; i++) {
+			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
+			await this.mainDb.connection.query(q2, [groupId, schedule.getLessonDate(period,i + 1,day), "", "", i + 1]);
+		}
+	}
 
 }
+
+
 
 module.exports = FunctionDB;
 
