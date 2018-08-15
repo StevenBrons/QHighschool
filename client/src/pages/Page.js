@@ -11,7 +11,7 @@ class Page extends Component {
 			className += "menuHidden"
 		}
 		return (
-			<div className={"Page" + " " + className}>
+			<div className={"Page " + className}>
 				{this.props.children}
 			</div>
 		);

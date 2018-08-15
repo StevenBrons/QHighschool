@@ -66,7 +66,7 @@ class NotificationBar extends Component {
 			);
 		});
 		return (
-			<div className={"NotificationBar" + " " + className}>
+			<div className={"NotificationBar " + className}>
 				{notifications}
 			</div>
 		);

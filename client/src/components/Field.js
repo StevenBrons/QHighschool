@@ -31,12 +31,12 @@ class Field extends Component {
 			}
 		}
 		if (this.props.min){
-			if (parseInt(value) < this.props.min) {
+			if (parseInt(value,10) < this.props.min) {
 				error = true;
 			}
 		}
 		if (this.props.max){
-			if (parseInt(value) > this.props.max) {
+			if (parseInt(value,10) > this.props.max) {
 				error = true;
 			}
 		}

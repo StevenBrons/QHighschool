@@ -22,7 +22,7 @@ function apiErrorHandler(dispatch, message) {
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Subject.getList()") != -1) {
+		if (!getState().hasFetched.indexOf("Subject.getList()") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Subject.getList()"
@@ -39,7 +39,7 @@ export function getSubjects() {
 
 export function getGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.getList()") != -1) {
+		if (!getState().hasFetched.indexOf("Group.getList()") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.getList()"
@@ -56,7 +56,7 @@ export function getGroups() {
 
 export function getParticipatingGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getParticipatingGroups()") != -1) {
+		if (!getState().hasFetched.indexOf("User.getParticipatingGroups()") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getParticipatingGroups()"
@@ -78,7 +78,7 @@ export function getParticipatingGroups() {
 
 export function getGroup(groupId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.get(" + groupId + ")") != -1) {
+		if (!getState().hasFetched.indexOf("Group.get(" + groupId + ")") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.get(" + groupId + ")",
@@ -95,7 +95,7 @@ export function getGroup(groupId) {
 
 export function getSelf() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getSelf()") != -1) {
+		if (!getState().hasFetched.indexOf("User.getSelf()") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getSelf()"
@@ -136,7 +136,7 @@ export function getSelf() {
 
 export function getUser(userId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getUser(" + userId + ")") != -1) {
+		if (!getState().hasFetched.indexOf("User.getUser(" + userId + ")") !== -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getUser(" + userId + ")"
@@ -174,7 +174,7 @@ export function setGroup(group) {
 
 export function getEnrollableGroups() {
 	return (dispatch, getState) => {
-		if (getState().enrollableGroups != null || getState().hasFetched.indexOf("User.getEnrolllableGroups()") != -1) {
+		if (getState().enrollableGroups != null || getState().hasFetched.indexOf("User.getEnrolllableGroups()") !== -1) {
 			return;
 		}
 		dispatch({
@@ -192,7 +192,7 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		if (getState().users[getState().userId].enrollmentIds != null || getState().hasFetched.indexOf("User.getEnrollments()") != -1) {
+		if (getState().users[getState().userId].enrollmentIds != null || getState().hasFetched.indexOf("User.getEnrollments()") !== -1) {
 			return;
 		}
 		dispatch({
@@ -217,7 +217,7 @@ export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].enrollmentIds != null ||
-			getState().hasFetched.indexOf("Group.getEnrollments(" + groupId + " != -1)")
+			getState().hasFetched.indexOf("Group.getEnrollments(" + groupId + ")" !== -1)
 		) {
 			return;
 		}
@@ -245,7 +245,7 @@ export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].lessons != null ||
-			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + " != -1)")
+			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + ")" !== -1)
 		) {
 			return;
 		}
@@ -269,7 +269,7 @@ export function getGroupParticipants(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].participantIds != null ||
-			getState().hasFetched.indexOf("Group.getParticipants(" + groupId + " != -1)")
+			getState().hasFetched.indexOf("Group.getParticipants(" + groupId + ")" !== -1)
 		) {
 			return;
 		}
@@ -345,7 +345,7 @@ export function getGroupEvaluations(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].evaluations != null ||
-			getState().hasFetched.indexOf("Group.getEvaluations(" + groupId + " != -1)")
+			getState().hasFetched.indexOf("Group.getEvaluations(" + groupId + ")" !== -1)
 		) {
 			return;
 		}

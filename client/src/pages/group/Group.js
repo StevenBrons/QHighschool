@@ -55,7 +55,7 @@ function mapStateToProps(state, ownProps) {
 	let group = null;
 
 	if (state.groups == null || state.groups[id] == null) {
-		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") != -1) {
+		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") !== -1) {
 			notExists = true;
 		}
 	} else {
