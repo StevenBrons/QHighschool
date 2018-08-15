@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "430px",
-	height: "210px",
+	height: "auto",
 	padding: "20px",
 	verticalAlign: "top",
 	margin: "20px",
