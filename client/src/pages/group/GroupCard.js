@@ -10,8 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "430px",
-	height: "auto",
-	padding: "20px",
+	height: "210px",
+	padding: "15px",
 	verticalAlign: "top",
 	margin: "20px",
 	display: "inline-block",
@@ -50,17 +50,24 @@ class GroupCard extends Component {
 				<Typography variant="headline" color="primary">
 					{this.props.group.courseName}
 				</Typography>
-				<Typography variant="subheading" color="textSecondary" paragraph>
+				<Typography variant="subheading" color="textSecondary" gutterBottom>
 					{"Periode " + this.props.group.period + " - " + this.props.group.day}
 				</Typography>
-				<Typography paragraph>
+				<Typography style={{ height: "45%", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
 				{
 					this.props.role === "student" ?
 						<ChooseButton
 							group={this.props.group}
+							style={{float:"left"}}
 						/> : null
+				}
+				{
+					(this.props.group.foreknowledge != null && this.props.group.foreknowledge.length > 5) ?
+						<Typography color="error" style={{ display: "inline-block", width: "65%", marginLeft: "5px" }}>
+							{"Verplichte voorkennis: " + this.props.group.foreknowledge}
+						</Typography> : null
 				}
 				{
 					this.props.role === "teacher" ?
@@ -68,8 +75,8 @@ class GroupCard extends Component {
 							color="secondary"
 							onClick={this.expand.bind(this)}
 						>
-						Bekijken
-						</Button>:null
+							Bekijken
+						</Button> : null
 				}
 			</Paper >
 		);
