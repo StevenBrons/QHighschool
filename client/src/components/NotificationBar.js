@@ -8,27 +8,18 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 import theme from '../lib/MuiTheme'
-import grid from '../lib/Grid'
 import { removeNotification } from '../store/actions';
 
 class NotificationBar extends Component {
 
 	render() {
-		let style = {};
+		let className = "";
 		if (this.props.showMenu) {
-			style = grid({
-				x:3,
-				w:12,
-				endY:16
-			});
-		}else {
-			style = grid({
-				x:1,
-				w:15,
-				endY:16
-			});
+			className = "menuShown";
+		} else {
+			className = "menuHidden";
 		}
-		
+
 		function checkNotification(not) {
 			try {
 				return not.type === "bar" && new RegExp(not.scope).test(window.location.pathname);
@@ -42,18 +33,18 @@ class NotificationBar extends Component {
 			let fg;
 			switch (not.priority) {
 				case "low":
-				bg = theme.palette.background.paper;
-				fg = theme.palette.getContrastText(theme.palette.background.paper);
-				break;
+					bg = theme.palette.background.paper;
+					fg = theme.palette.getContrastText(theme.palette.background.paper);
+					break;
 				case "medium":
-				bg = theme.palette.secondary.light;
-				fg = theme.palette.getContrastText(theme.palette.error.light);				
-				break;
+					bg = theme.palette.secondary.light;
+					fg = theme.palette.getContrastText(theme.palette.error.light);
+					break;
 				case "high":
 				default:
 					bg = theme.palette.error.dark;
 					fg = theme.palette.getContrastText(theme.palette.error.dark);
-				break;
+					break;
 			}
 			return (
 				<Paper
@@ -75,7 +66,7 @@ class NotificationBar extends Component {
 			);
 		});
 		return (
-			<div className="NotificationBar" style={style}>
+			<div className={"NotificationBar " + className}>
 				{notifications}
 			</div>
 		);

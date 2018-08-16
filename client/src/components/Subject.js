@@ -37,8 +37,7 @@ class Subject extends Component {
 	}
 
 	render() {
-		
-		const groups = this.props.groups.map((group) => {
+		const groups = this.props.groups.sort((a,b) => {return a.period - b.period}).map((group) => {
 			return (
 				<Group
 					key={group.id}

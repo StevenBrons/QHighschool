@@ -46,7 +46,7 @@ passport.use(new OIDCStrategy({
 		database.session.getUserByEmail(profile.upn).then((user) => {
 			if (user == null) {
 				database.function.createUser(profile).then((u) => {
-					done(null, u);
+					done(null, profile);
 				});
 			} else {
 				done(null, profile);

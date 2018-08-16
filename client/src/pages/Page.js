@@ -1,28 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import grid from '../lib/Grid';
 
 class Page extends Component {
 
 	render() {
-		let style = {};
+		let className = "";
 		if (this.props.showMenu) {
-			style = grid({
-				x: 3,
-				w: 12,
-				y: 2,
-				h: 13,
-			});
+			className += "menuShown"
 		} else {
-			style = grid({
-				x: 1,
-				w: 15,
-				y: 2,
-				h: 13,
-			});
+			className += "menuHidden"
 		}
 		return (
-			<div className="Page" style={style}>
+			<div className={"Page " + className}>
 				{this.props.children}
 			</div>
 		);

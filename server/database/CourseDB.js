@@ -25,6 +25,11 @@ class CourseDB {
 		}
 	}
 
+	async addCourse(data) {
+		console.log(data);
+		const q1 = "INSERT INTO course (subjectId,`name`,description,foreknowledge,studyTime) VALUES (?,?,?,?,?)"
+		return this.mainDb.connection.query(q1,[data.subjectId,data.name,data.description,data.foreknowledge,data.studyTime]);
+	}
 
 }
 

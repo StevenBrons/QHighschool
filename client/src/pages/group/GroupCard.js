@@ -10,8 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "430px",
-	height: "210px",
-	padding: "20px",
+	height: "auto",
+	padding: "15px",
 	verticalAlign: "top",
 	margin: "20px",
 	display: "inline-block",
@@ -47,30 +47,44 @@ class GroupCard extends Component {
 						<FullscreenIcon />
 					</IconButton>
 				}
-				<Typography variant="headline" color="primary">
+				<Typography variant="headline" color="primary" style={{ overflow: "hidden", height: "35px" }}>
 					{this.props.group.courseName}
 				</Typography>
-				<Typography variant="subheading" color="textSecondary" paragraph>
-					{"Periode " + this.props.group.period + " - " + this.props.group.day}
-				</Typography>
-				<Typography paragraph>
+				<div>
+					<Typography variant="subheading" color="textSecondary" gutterBottom style={{ display: "inline-block" }}>
+						{"Periode " + this.props.group.period + " - " + this.props.group.day}
+					</Typography>
+					<Typography variant="subheading" color="secondary" gutterBottom style={{ display: "inline-block", marginLeft: "20px" }}>
+						{this.props.group.enrollableFor}
+					</Typography>
+				</div>
+				<Typography style={{ height: "86px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
-				{
-					this.props.role === "student" ?
-						<ChooseButton
-							group={this.props.group}
-						/> : null
-				}
-				{
-					this.props.role === "teacher" ?
-						<Button
-							color="secondary"
-							onClick={this.expand.bind(this)}
-						>
-						Bekijken
-						</Button>:null
-				}
+				<div style={{ display: "flex" }} >
+					{
+						this.props.role === "student" ?
+							<ChooseButton
+								group={this.props.group}
+								style={{ float: "left" }}
+							/> : null
+					}
+					{
+						this.props.role === "teacher" ?
+							<Button
+								color="secondary"
+								onClick={this.expand.bind(this)}
+							>
+								Bekijken
+						</Button> : null
+					}
+					{
+						(this.props.group.foreknowledge != null && this.props.group.foreknowledge.length > 5) ?
+							<Typography color="error" style={{ flex: "1", marginLeft: "10px", }}>
+								{"Verplichte voorkennis: " + this.props.group.foreknowledge}
+							</Typography> : null
+					}
+				</div>
 			</Paper >
 		);
 	}

@@ -83,7 +83,10 @@ class Login extends Component{
 				schoolShort = "HW";
 				break;
 		}
-		studentNumber = (Math.floor(Math.random() * 999999) + "").padStart(6, "0");
+		studentNumber = Math.floor(Math.random() * 999999) + "";
+		for (let i = studentNumber.length; i < 6; i++) {
+			studentNumber = "0" + studentNumber;
+		}
 		this.setState({
 			school,
 			schoolShort,
@@ -130,7 +133,7 @@ class Login extends Component{
 		}
 
 		return (
-			<Paper className="Login" elevation={8}>
+			<Paper elevation={8} className="Login">
 				<div style={{ padding: "20px" }}>
 					<Typography gutterBottom variant="headline" color="primary">
 						Log in

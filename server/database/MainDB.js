@@ -15,9 +15,6 @@ class Database {
 	async connect(connectionArgs) {
 		this.connection = await mysql.createConnection(connectionArgs).catch((err) => {
 			console.log(err);
-		}).then((e) => {
-			console.log("Made connection to MySQL database");
-			console.log(e);
 		});
 		this.course = new CourseDB(this);
 		this.subject = new SubjectDB(this);

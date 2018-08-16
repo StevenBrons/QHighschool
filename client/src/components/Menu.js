@@ -4,14 +4,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import SettingsIcon from '@material-ui/icons/Settings';
 import GroupIcon from '@material-ui/icons/Group';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 
 class Menu extends Component {
 
@@ -84,7 +82,7 @@ class Menu extends Component {
 			}
 		).map(this.getItem.bind(this));
 		return (
-			<Paper elevation={8} className="Menu" >
+			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{pages}
 				</List>

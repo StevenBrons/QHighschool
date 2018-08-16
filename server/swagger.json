@@ -81,6 +81,64 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Add new course",
+        "operationId": "setCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The subjectId of the new course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "foreknowledge",
+            "in": "formData",
+            "description": "The foreknowledge of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studyTime",
+            "in": "formData",
+            "description": "The studyTime of the course",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          }
+        }
       }
     },
     "/group/list": {
@@ -124,6 +182,64 @@
             "name": "groupId",
             "in": "formData",
             "description": "The groupId of the course to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Add a new group",
+        "operationId": "setGroup",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId of the new group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "formData",
+            "description": "The day the new group has its lessons on",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "teacherId",
+            "in": "formData",
+            "description": "The teacherId of the new group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "period",
+            "in": "formData",
+            "description": "The period of the new group",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "schoolYear",
+            "in": "formData",
+            "description": "The schoolYear of the new group",
             "required": true,
             "type": "string"
           }
@@ -422,6 +538,20 @@
             "description": "The new prefered email",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "level",
+            "in": "formData",
+            "description": "The new education level",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "year",
+            "in": "formData",
+            "description": "The new year the student is in",
+            "required": true,
+            "type": "integer"
           },
           {
             "name": "profile",
