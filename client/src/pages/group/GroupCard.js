@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "430px",
-	height: "210px",
+	height: "265px",
 	padding: "15px",
 	verticalAlign: "top",
 	margin: "20px",
@@ -47,7 +47,7 @@ class GroupCard extends Component {
 						<FullscreenIcon />
 					</IconButton>
 				}
-				<Typography variant="headline" color="primary">
+				<Typography variant="headline" color="primary" style={{overflow:"hidden",height:"35px"}}>
 					{this.props.group.courseName}
 				</Typography>
 				<Typography variant="subheading" color="textSecondary" gutterBottom>
@@ -60,7 +60,7 @@ class GroupCard extends Component {
 					this.props.role === "student" ?
 						<ChooseButton
 							group={this.props.group}
-							style={{float:"left"}}
+							style={{ float: "left" }}
 						/> : null
 				}
 				{

@@ -72,7 +72,7 @@ class UserPage extends Component {
 				{
 					shouldFillIn &&
 					<Typography gutterBottom variant="title" color="primary" >
-						Controlleer de bovenstaande gegevens en vul de ontbrekende gegevens aan
+						Controleer de bovenstaande gegevens en vul de ontbrekende gegevens aan.
 						</Typography>
 				}
 				{
