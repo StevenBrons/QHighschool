@@ -217,7 +217,7 @@ export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].enrollmentIds != null ||
-			getState().hasFetched.indexOf("Group.getEnrollments(" + groupId + ")" !== -1)
+			getState().hasFetched.indexOf("Group.getEnrollments(" + groupId + ")") !== -1
 		) {
 			return;
 		}
@@ -245,7 +245,7 @@ export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].lessons != null ||
-			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + ")" !== -1)
+			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + ")") !== -1
 		) {
 			return;
 		}
@@ -269,7 +269,7 @@ export function getGroupParticipants(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].participantIds != null ||
-			getState().hasFetched.indexOf("Group.getParticipants(" + groupId + ")" !== -1)
+			getState().hasFetched.indexOf("Group.getParticipants(" + groupId + ")") !== -1
 		) {
 			return;
 		}
@@ -345,7 +345,7 @@ export function getGroupEvaluations(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].evaluations != null ||
-			getState().hasFetched.indexOf("Group.getEvaluations(" + groupId + ")" !== -1)
+			getState().hasFetched.indexOf("Group.getEvaluations(" + groupId + ")") !== -1
 		) {
 			return;
 		}
