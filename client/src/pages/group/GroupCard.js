@@ -47,7 +47,7 @@ class GroupCard extends Component {
 						<FullscreenIcon />
 					</IconButton>
 				}
-				<Typography variant="headline" color="primary" style={{ overflow: "hidden", height: "35px" }}>
+				<Typography variant="headline" color="primary" style={{ overflow: "hidden", height: "auto" }}>
 					{this.props.group.courseName}
 				</Typography>
 				<div>
@@ -58,7 +58,7 @@ class GroupCard extends Component {
 						{this.props.group.enrollableFor}
 					</Typography>
 				</div>
-				<Typography style={{ height: "86px", overflow: "hidden" }} gutterBottom>
+				<Typography style={{ height: "auto", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
 				<div style={{ display: "flex" }} >
