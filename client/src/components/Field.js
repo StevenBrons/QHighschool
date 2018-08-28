@@ -66,6 +66,7 @@ class Field extends Component {
 	}
 
 	render() {
+		let value = this.props.value == null?"":this.props.value;
 		let textAlign = this.props.right ? "right" : "left";
 		let float = this.props.right ? "right" : "none";
 		let color = theme.palette.text.primary;
@@ -115,7 +116,7 @@ class Field extends Component {
 
 		return (
 			<TextField
-				value={this.props.value}
+				value={value}
 				margin={margin}
 				disabled={disabled}
 				fullWidth={fullWidth}
