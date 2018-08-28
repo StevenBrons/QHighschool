@@ -66,9 +66,10 @@ class ChooseButton extends Component {
 									"Weet je zeker dat je wilt uitschrijven voor de module" :
 									"Weet je zeker dat je wilt inschrijven voor de module"
 								}
-								<Typography color="primary" variant="title" style={{ fontSize: "16px", display: "inline-block", margin: "5px" }}>
+								<Typography color="primary" variant="title" style={{ fontSize: "16px", display: "inline", margin: "5px" }}>
 									{this.props.group.courseName}
 								</Typography>
+								?
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>

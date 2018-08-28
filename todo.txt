@@ -7,3 +7,4 @@ mobile support
 aanmelden tegenhanger (als je nog niet kunt aanmelden)
 field loopt door elkaar (grom)
 foreknowledge " " veranderen in ""
+add 2 ssh keys
