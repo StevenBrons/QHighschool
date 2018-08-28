@@ -56,7 +56,7 @@ class ChooseButton extends Component {
 					:
 					<div>
 						<DialogContent>
-							{this.props.group.foreknowledge &&
+							{this.props.group.foreknowledge && !this.props.hasChosen &&
 								<Typography color="error" variant="error">
 									{"Voorkennis: " + this.props.group.foreknowledge}
 								</Typography>
@@ -131,7 +131,7 @@ class ChooseButton extends Component {
 		} else {
 			return (
 				<Button disabled color="primary" onClick={() => this.onButtonClick()} style={props.style}>
-					{"Nog niet beschikbaar"}
+					{"Binnenkort beschikbaar"}
 					{dialog}
 				</Button>
 			);

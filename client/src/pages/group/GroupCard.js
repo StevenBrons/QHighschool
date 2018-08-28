@@ -9,7 +9,7 @@ import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
-	width: "450px",
+	width: "400px",
 	height: "338px",
 	padding: "15px",
 	verticalAlign: "top",
