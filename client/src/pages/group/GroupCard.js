@@ -15,6 +15,12 @@ const CARD_STYLE = {
 	verticalAlign: "top",
 	margin: "20px",
 	display: "inline-block",
+	position: "relative",
+}
+
+const CHOOSE_BUTTON_STYLE = {
+	position: "absolute",
+	bottom: "10px",
 }
 
 class GroupCard extends Component {
@@ -73,7 +79,7 @@ class GroupCard extends Component {
 						this.props.role === "student" ?
 							<ChooseButton
 								group={this.props.group}
-								style={{ float: "left" }}
+								style={CHOOSE_BUTTON_STYLE}
 							/> : null
 					}
 					{
