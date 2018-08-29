@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
@@ -7,7 +7,7 @@ import Page from './Page';
 import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
 import Group from './group/Group';
-import { getSubjects,getGroups } from '../store/actions';
+import { getSubjects, getGroups } from '../store/actions';
 
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -16,13 +16,23 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import InboxIcon from '@material-ui/icons/Inbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import Paper from '@material-ui/core/Paper';
 
-class CourseSelect extends Component{
+class CourseSelect extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			sortMethod: "subject",
+			sortSubjectId: -1,
 		}
 	}
 
@@ -31,9 +41,9 @@ class CourseSelect extends Component{
 		this.props.getGroups();
 	}
 
-	getGroupsPerSubject(subject) {
-		return filter(this.props.groups,(group) => {
-			return subject.id === group.subjectId;
+	getGroupsPerSubject(subjectId) {
+		return filter(this.props.groups, (group) => {
+			return subjectId + "" === group.subjectId + "";
 		})
 	}
 
@@ -43,48 +53,79 @@ class CourseSelect extends Component{
 
 	render() {
 		let data;
-		switch(this.state.sortMethod) {
+		switch (this.state.sortMethod) {
 			case "subject":
-			if (this.props.subjects == null || this.props.groups == null) {
-				data = <Progress/>
-				break;
-			}
-			data = map(this.props.subjects,(subject) => {
-				return <SubjectComponent
-					key={subject.id}
-					subject={subject}
-					extended={false}
-					groups={this.getGroupsPerSubject.bind(this)(subject)}
-				/>
-			});
-			break;
-			case "enrollable":
-			if (this.props.enrollableGroups == null) {
-				data = <Progress/>
-				break;
-			}
-			data = this.props.enrollableGroups.map((group) => {
-				return (
-					<Group
+				if (this.props.subjects == null || this.props.groups == null) {
+					data = <Progress />
+					break;
+				}
+				if (this.state.sortSubjectId === -1) {
+					this.setState({
+						sortSubjectId: Object.keys(this.props.subjects)[0],
+					});
+				}
+				data = this.getGroupsPerSubject(this.state.sortSubjectId).sort((a, b) => { return a.period - b.period }).map((group) => {
+					return <Group
 						key={group.id}
 						groupId={group.id}
 						display="card"
+					/>
+				});
+				break;
+			case "enrolled":
+				if (this.props.enrolledGroupsIds == null) {
+					data = <Progress />
+					break;
+				}
+				data = this.props.enrolledGroupsIds.map((groupId) => {
+					return (
+						<Group
+							key={groupId}
+							groupId={groupId}
+							display="card"
 						/>
-				);
-			});
-			break;
+					);
+				});
+				if (this.props.enrolledGroupsIds.length === 0) {
+					data = (
+						<div style={{ margin: "15px" }} >
+							Je hebt je nog niet ingeschreven.
+						</div>
+					)
+				}
+				break;
 			default:
-			break;
+				break;
 		}
+
+		const subjects = map(this.props.subjects, (subject) => {
+			return (
+				<ListItem button onClick={() => {
+					this.setState({
+						sortMethod: "subject",
+						sortSubjectId: subject.id,
+					})
+				}} >
+					<ListItemText>
+						<Typography variant="title" color={(this.state.sortSubjectId + "" === "" + subject.id && this.state.sortMethod === "subject") ? "secondary" : "primary"}>
+							{subject.name}
+						</Typography>
+					</ListItemText>
+				</ListItem >
+			);
+		});
 
 		return (
 			<Page>
-				<AppBar position="static" color="default">
+				<Paper
+					elevation={2}
+					style={{ position: "relative" }}
+				>
 					<Toolbar>
 						<Typography variant="subheading" color="textSecondary">
-							Meld je aan voor modules
+							Schrijf je in voor modules
           	</Typography>
-						<form autoComplete="off" style={{ right: 10, position: "absolute"}}>
+						{/* <form autoComplete="off" style={{ right: 10, position: "absolute" }}>
 							<FormControl>
 								<InputLabel htmlFor="sortMethod">Sorteren op</InputLabel>
 								<Select
@@ -98,22 +139,43 @@ class CourseSelect extends Component{
 									size={"large"}
 								>
 									<MenuItem value="subject">
-										<Typography variant="subheading" color="textSecondary" style={{width:"100px"}}>
+										<Typography variant="subheading" color="textSecondary" style={{ width: "100px" }}>
 											Vak
           					</Typography>
 									</MenuItem>
-									<MenuItem value={"enrollable"} style={{width:"100px"}}>Inschrijfbaar</MenuItem>
+									<MenuItem value={"enrollable"} style={{ width: "100px" }}>Inschrijfbaar</MenuItem>
 								</Select>
 							</FormControl>
-						</form>
+						</form> */}
 					</Toolbar>
-				</AppBar>
+				</Paper>
+				<div style={{ display: "flex" }}>
+					<Paper
+						elevation={2}
+					>
+						<List component="nav" style={{ flex: 1 }}>
+							<ListItem button onClick={() => {
+								this.setState({
+									sortMethod: "enrolled",
+								})
+							}} >
+								<ListItemText>
+									<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
+										Inschrijvingen
+									</Typography>
+								</ListItemText>
+							</ListItem >
+							{subjects}
+						</List>
+					</Paper>
+					<div>
+						{data}
+					</div>
+				</div>
 				<br />
-				{data}
 				<br />
 				<br />
-				<br />
-			</Page>
+			</Page >
 		);
 	}
 }
@@ -121,8 +183,9 @@ class CourseSelect extends Component{
 function mapStateToProps(state) {
 	return {
 		enrollableGroups: state.enrollableGroups,
-		groups:state.groups,
-		subjects:state.subjects,
+		groups: state.groups,
+		subjects: state.subjects ? state.subjects : [],
+		enrolledGroupsIds: state.users[state.userId].enrollmentIds,
 	};
 }
 
@@ -133,6 +196,6 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CourseSelect);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseSelect);
 
 

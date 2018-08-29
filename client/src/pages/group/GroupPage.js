@@ -71,7 +71,7 @@ class GroupPage extends Component {
 					this.props.getGroupEvaluations(this.props.groupId);
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={group.evaluations} groupId={group.id}/>
+				return <EvaluationTab evaluations={group.evaluations} groupId={group.id} />
 			default: return null;
 		}
 
@@ -104,9 +104,10 @@ class GroupPage extends Component {
 		const editable = this.state.editable;
 		return (
 			<Page>
-				<Field value={group.courseName} headline editable={editable} />
-				<Field value={group.subjectName} right headline editable={editable} />
-				<br />
+				<div style={{ display: "flex" }}>
+					<Field value={group.courseName} headline editable={editable} />
+					<Field value={group.subjectName} right headline editable={editable} />
+				</div>
 				<Button color="secondary" style={{ float: "right" }} onClick={this.showTeacherCard}>
 					{group.teacherName}
 				</Button>
@@ -126,15 +127,15 @@ class GroupPage extends Component {
 						{"Bewerken"}
 					</Button>
 				} */}
-					<Popover
-						open={this.state.anchorEl?true:false}
-						anchorEl={this.state.anchorEl}
-						anchorOrigin={{vertical:"top"}}
-					>				
+				<Popover
+					open={this.state.anchorEl ? true : false}
+					anchorEl={this.state.anchorEl}
+					anchorOrigin={{ vertical: "top" }}
+				>
 					<ClickAwayListener onClickAway={this.handleClickAway}>
-							<User key={group.teacherId} userId={group.teacherId} display="card" style={{margin:"0px"}} />
+						<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 					</ClickAwayListener>
-					</Popover>
+				</Popover>
 				<Divider />
 				<AppBar position="static" color="default">
 					<Tabs

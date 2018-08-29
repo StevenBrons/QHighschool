@@ -1,13 +1,10 @@
-keuze endpoints maken
-instellingen pagina maken
-licensie zoeken + in swagger stoppen + in files stoppen
-database aan server koppelen
-zorgen dat de endpoints echt iets nuttigs returenen
-login systeem maken met userKeys
-	logout pagina
-	login pagina
-	office 365 link!!!
-course codes toevoegen
-
-maken dat de client ook gegevens kan aanpassen
-server kopen
+Aanmeld popup
+Herindeling inschrijven
+Vak aan groep toevoegen
+periode --> blok
+Groep titel = link
+mobile support
+aanmelden tegenhanger (als je nog niet kunt aanmelden)
+field loopt door elkaar (grom)
+foreknowledge " " veranderen in ""
+add 2 ssh keys
