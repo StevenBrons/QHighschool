@@ -123,9 +123,9 @@ class CourseSelect extends Component {
 				>
 					<Toolbar>
 						<Typography variant="subheading" color="textSecondary">
-							Schrijf je in voor
+							Schrijf je in voor modules
           	</Typography>
-						<form autoComplete="off" style={{ right: 10, position: "absolute" }}>
+						{/* <form autoComplete="off" style={{ right: 10, position: "absolute" }}>
 							<FormControl>
 								<InputLabel htmlFor="sortMethod">Sorteren op</InputLabel>
 								<Select
@@ -146,7 +146,7 @@ class CourseSelect extends Component {
 									<MenuItem value={"enrollable"} style={{ width: "100px" }}>Inschrijfbaar</MenuItem>
 								</Select>
 							</FormControl>
-						</form>
+						</form> */}
 					</Toolbar>
 				</Paper>
 				<div style={{ display: "flex" }}>
