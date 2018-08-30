@@ -3,15 +3,22 @@ import { connect } from "react-redux";
 
 import GroupCard from "./GroupCard";
 import GroupPage from "./GroupPage";
-
-import { setGroup, getGroup,getGroupEnrollments,getGroupLessons,getGroupParticipants,getGroupEvaluations } from "../../store/actions"
+import {
+	setGroup,
+	getGroup,
+	getGroupEnrollments,
+	getGroupLessons,
+	getGroupParticipants,
+	getGroupEvaluations,
+	getSubjects
+} from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 
 class Group extends Component {
 
 	render() {
-		if (this.props.group == null) {
+		if (this.props.group == null || this.props.subjects == null) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -20,6 +27,7 @@ class Group extends Component {
 						</div>
 					);
 				} else {
+					this.props.getSubjects();
 					this.props.getGroup(this.props.groupId);
 					return (
 						<div className="page">
@@ -65,8 +73,9 @@ function mapStateToProps(state, ownProps) {
 		group,
 		notExists,
 		display,
-		role:state.role,
+		role: state.role,
 		groupId: id,
+		subjects: state.subjects,
 	}
 }
 
@@ -78,6 +87,7 @@ function mapDispatchToProps(dispatch) {
 		getGroupLessons: (groupId) => dispatch(getGroupLessons(groupId)),
 		getGroupParticipants: (groupId) => dispatch(getGroupParticipants(groupId)),
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
+		getSubjects: () => dispatch(getSubjects()),
 	};
 }
 

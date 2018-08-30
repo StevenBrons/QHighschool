@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import map from 'lodash/map';
 
 import ChooseButton from './ChooseButton';
 import Field from '../../components/Field';
@@ -89,13 +90,11 @@ class GroupPage extends Component {
 
 
 	handleClickAway = () => {
-		console.log("test");
 		this.setState({ anchorEl: null });
 	}
 
 	showTeacherCard = event => {
 		//TODO teacher
-		console.log("test");
 		this.setState({ anchorEl: event.currentTarget });
 	};
 
@@ -106,12 +105,16 @@ class GroupPage extends Component {
 			<Page>
 				<div style={{ display: "flex" }}>
 					<Field value={group.courseName} headline editable={editable} />
-					<Field value={group.subjectName} right headline editable={editable} />
+					{
+						editable ?
+							<Field value={group.subjectId} right headline editable options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} /> :
+							<Field value={group.subjectName} right headline />
+					}
 				</div>
 				<Button color="secondary" style={{ float: "right" }} onClick={this.showTeacherCard}>
 					{group.teacherName}
 				</Button>
-				<Field value={"Periode " + group.period} caption style={{ width: "100px" }} editable={editable} />
+				<Field value={group.period} caption style={{ width: "100px" }} editable={editable} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
 				<Field value={group.day} caption editable={editable} />
 				<br />
 				<Field value={group.courseDescription} area editable={editable} />
@@ -122,20 +125,20 @@ class GroupPage extends Component {
 						style={{ margin: "20px" }}
 					/>
 				}
-				{/* {this.props.role === "teacher" &&
+				{(this.props.role === "teacher" || this.props.role === "admin") &&
 					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable.bind(this)}>
 						{"Bewerken"}
 					</Button>
-				} */}
+				}
 				<Popover
 					open={this.state.anchorEl ? true : false}
+					onClose={this.handleClickAway}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ vertical: "top" }}
 				>
-					<ClickAwayListener onClickAway={this.handleClickAway}>
-						<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
-					</ClickAwayListener>
+					<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 				</Popover>
+
 				<Divider />
 				<AppBar position="static" color="default">
 					<Tabs
