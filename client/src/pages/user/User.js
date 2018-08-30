@@ -29,7 +29,12 @@ class User extends Component {
 					);
 				}
 			} else {
-				return this.props.notExists ? null : <Progress />;
+				if (this.props.notExists) {
+					return null;
+				} else {
+					this.props.getUser(this.props.userId);
+					return <Progress />;
+				}
 			}
 		}
 
@@ -60,7 +65,7 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let user = null;
 
-	if (id == null)  {
+	if (id == null) {
 		id = state.userId;
 	}
 
@@ -89,4 +94,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(User));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(User));

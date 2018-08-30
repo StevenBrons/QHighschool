@@ -67,7 +67,7 @@ class GroupDB {
 	async getParticipants(groupId) {
 		if (groupId >= 0) {
 			return this.mainDb.connection.query(
-				"SELECT user_data.* FROM participant " +
+				"SELECT id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
 				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.groupId = ?; "
 				, [groupId]).then(participants => {
 					return participants;

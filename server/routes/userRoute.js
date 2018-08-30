@@ -7,7 +7,11 @@ function handleError(error, res) {
 		error: error.message,
 	});
 }
-
+function authError(res) {
+	res.send({
+		error: "Unauthorized",
+	});
+}
 router.get("/self", (req, res) => {
 	database.user.getSelf(req.user.id).then((user) => {
 		res.send(user);
@@ -35,6 +39,8 @@ router.put("/enrollments", (req, res) => {
 				success: true,
 			});
 		}).catch(error => handleError(error, res));
+	} else {
+		authError(res);
 	}
 });
 
