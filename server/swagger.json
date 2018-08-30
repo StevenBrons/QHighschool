@@ -82,6 +82,68 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Update course data",
+        "operationId": "updateCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId of the course to patch",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The (new) subjectId of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The (new) name of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studyTime",
+            "in": "formData",
+            "description": "The (new) studyTime of the course",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The (new) description of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "foreknowledge",
+            "in": "formData",
+            "description": "The (new) foreknowledge of the course",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
       "put": {
         "tags": [
           "Course"

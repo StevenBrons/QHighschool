@@ -7,6 +7,11 @@ function handleError(error, res) {
 		error: error.message,
 	});
 }
+function authError(res) {
+	res.send({
+		error: "Unauthorized",
+	});
+}
 
 router.get("/list", function (req, res) {
 	database.course.getCourses().then(courses => {
@@ -25,6 +30,20 @@ router.put("/", function (req, res) {
 		database.course.addCourse(req.body).then(rows => {
 			res.send(rows);
 		}).catch(error => handleError(error, res));
+	}else {
+		authError(res);
+	}
+});
+
+router.patch("/", function (req, res) {
+	if (req.user.role === "teacher") {
+		database.course.updateCourse(req.body).then(() => {
+			res.send({
+				success: true,
+			});
+		}).catch(error => handleError(error, res));
+	}else {
+		authError(res);
 	}
 });
 
