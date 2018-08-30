@@ -80,6 +80,7 @@ class Field extends Component {
 		let margin = this.props.margin || "none";
 		let multiline = false;
 		let menuItems;
+		let label = this.props.label;
 		if (style == null) {
 			style = {};
 		}
@@ -99,7 +100,8 @@ class Field extends Component {
 			disableUnderline = this.props.disableUnderline || false;
 			margin = this.props.margin || "normal";
 		} else {
-			if (typeof options === "object") {
+			label = null;
+			if (options != null && options[0] != null && typeof options[0] !== "string") {
 				value = options.filter((opt) => {
 					return opt.value === value;
 				})[0].label;
@@ -114,7 +116,7 @@ class Field extends Component {
 		}
 		if (options) {
 			menuItems = options.map(option => {
-				if (typeof option === "object") {
+				if (typeof option !== "string") {
 					return (
 						<MenuItem key={option.value} value={option.value}>
 							{option.label}
@@ -137,9 +139,9 @@ class Field extends Component {
 				fullWidth={fullWidth}
 				multiline={multiline}
 				className={this.props.right ? "right" : ""}
-				label={this.props.label}
+				label={label}
 				select={options ? true : false}
-				style={{ float, flex: 1, marginLeft: "10px", marginRight: "10px" }}
+				style={{ ...{ float, flex: 1, marginLeft: "10px", marginRight: "10px" }, ...style }}
 				onChange={this.onChange.bind(this)}
 				error={this.state.error}
 				InputProps={{
