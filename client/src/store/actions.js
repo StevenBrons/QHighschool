@@ -1,4 +1,4 @@
-import { User, Subject, Group } from "../lib/Data"
+import { User, Subject, Group,Course } from "../lib/Data"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
@@ -167,8 +167,14 @@ export function setGroup(group) {
 			type: "CHANGE_GROUP",
 			group: group,
 		});
-		// TODO setGroup api call
-		// User.setUser(user).catch(apiErrorHandler(dispatch));
+		Course.setCourse({
+			courseId: group.courseId,
+			subjectId: group.subjectId,
+			name: group.courseName,
+			description: group.courseDescription,
+			studyTime: group.studyTime,
+			foreknowledge: group.foreknowledge,
+		}).catch(apiErrorHandler(dispatch));
 	}
 }
 

@@ -16,7 +16,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Progress from '../../components/Progress'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 class GroupPage extends Component {
 
@@ -28,6 +27,7 @@ class GroupPage extends Component {
 			currentTab: 0,
 			tabs: this.props.role === "teacher" ? teacherTabs : studentTabs,
 			editable: false,
+			group: this.props.group,
 		}
 	}
 
@@ -53,7 +53,7 @@ class GroupPage extends Component {
 				if (group.lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return group.lessons.map(lesson => {
+				return [{}].concat(group.lessons).map(lesson => {
 					return <Lesson lesson={lesson} key={lesson.id} />
 				});
 			case "Deelnemers":
@@ -78,9 +78,32 @@ class GroupPage extends Component {
 
 	}
 
-	setEditable() {
+	handleChange = (event) => {
+		this.setState({
+			group: {
+				...this.state.group,
+				[event.name]: event.target.value,
+			}
+		});
+	}
+
+	setEditable = () => {
 		this.setState({
 			editable: true,
+		});
+	}
+
+	cancel = () => {
+		this.setState({
+			editable: false,
+			group: this.props.group,
+		});
+	}
+
+	save = () => {
+		this.props.setGroup(this.state.group);
+		this.setState({
+			editable: false,
 		});
 	}
 
@@ -94,30 +117,33 @@ class GroupPage extends Component {
 	}
 
 	showTeacherCard = event => {
-		//TODO teacher
 		this.setState({ anchorEl: event.currentTarget });
-	};
+	}
 
 	render() {
-		const group = this.props.group;
 		const editable = this.state.editable;
+		let group = null;
+		if (this.props.group.id !== this.state.group.id) {
+			this.setState({
+				group: this.props.group,
+			});
+			group = this.props.group;
+		} else {
+			group = this.state.group;
+		}
 		return (
 			<Page>
 				<div style={{ display: "flex" }}>
-					<Field value={group.courseName} headline editable={editable} />
-					{
-						editable ?
-							<Field value={group.subjectId} right headline editable options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} /> :
-							<Field value={group.subjectName} right headline />
-					}
+					<Field value={group.courseName} name="courseName" onChange={this.handleChange} headline editable={editable} style={{ flex: "5" }} />
+					<Field value={group.subjectId} name="subjectId" onChange={this.handleChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
 				</div>
 				<Button color="secondary" style={{ float: "right" }} onClick={this.showTeacherCard}>
 					{group.teacherName}
 				</Button>
-				<Field value={group.period} caption style={{ width: "100px" }} editable={editable} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
-				<Field value={group.day} caption editable={editable} />
+				<Field value={group.period} name="period" onChange={this.handleChange} caption style={{ width: "100px" }} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
+				<Field value={group.day} name="day" onChange={this.handleChange} caption options={["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]} />
 				<br />
-				<Field value={group.courseDescription} area editable={editable} />
+				<Field value={group.courseDescription} name="courseDescription" onChange={this.handleChange} area editable={editable} />
 				<Divider />
 				{this.props.role === "student" &&
 					<ChooseButton
@@ -125,9 +151,19 @@ class GroupPage extends Component {
 						style={{ margin: "20px" }}
 					/>
 				}
-				{(this.props.role === "teacher" || this.props.role === "admin") &&
-					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable.bind(this)}>
+				{((this.props.role === "teacher" || this.props.role === "admin") && !this.state.editable) &&
+					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
 						{"Bewerken"}
+					</Button>
+				}
+				{this.state.editable &&
+					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
+						{"Opslaan"}
+					</Button>
+				}
+				{this.state.editable &&
+					<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
+						{"Annuleren"}
 					</Button>
 				}
 				<Popover

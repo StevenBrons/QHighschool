@@ -9,6 +9,7 @@ class GroupDB {
 			"course.name AS courseName, " +
 			"course.description AS courseDescription, " +
 			"course.foreknowledge AS foreknowledge, " +
+			"course.studyTime AS studyTime, " +
 			"course.enrollableFor AS enrollableFor, " +
 			"school_subject.id AS subjectId, " +
 			"school_subject.name AS subjectName, " +
@@ -30,6 +31,7 @@ class GroupDB {
 				"course.description AS courseDescription, " +
 				"course.foreknowledge AS foreknowledge, " +
 				"course.enrollableFor AS enrollableFor, " +
+				"course.studyTime AS studyTime, " +
 				"school_subject.name AS subjectName, " +
 				"school_subject.id AS subjectId, " +
 				"school_subject.description AS subjectDescription, " +

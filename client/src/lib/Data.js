@@ -27,11 +27,20 @@ class CourseClass extends Data {
 
 	async get(courseId) {
 		return $.ajax({
-			url: this.getUrl() + "/",
+			url: this.getUrl(),
 			type: "post",
 			data: {
 				courseId,
 			},
+			dataType: "json",
+		});
+	}
+
+	async setCourse(newCourse) {
+		return $.ajax({
+			url: this.getUrl(),
+			type: "patch",
+			data: newCourse,
 			dataType: "json",
 		});
 	}
