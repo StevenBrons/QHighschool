@@ -4,7 +4,6 @@ import Clear from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
 import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../../store/actions';
 import Progress from '../../components/Progress';
-import { log } from 'util';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -48,7 +47,7 @@ class ChooseButton extends Component {
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
-							<Button color="primary" variant="contained" color="primary">
+							<Button color="primary" variant="contained">
 								Sluiten
 							</Button>
 						</DialogActions>

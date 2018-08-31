@@ -5,8 +5,6 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ChooseButton from './ChooseButton';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "400px",
@@ -46,20 +44,11 @@ class GroupCard extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
-				{/* {
-					this.state.hover &&
-					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
-						<FullscreenIcon />
-					</IconButton>
-				} */}
-				{/* <Typography variant="title" color="primary" style={{ overflow: "hidden", height: "auto",backgroundColor:"red",margin:"-15px",marginBottom:"5px" }} onClick={()=>{this.props.history.push("/groep/" + this.props.group.id)}}>
-					{this.props.group.subjectName}
-				</Typography> */}
 				<Typography
 					variant="headline"
 					color="primary"
-					style={{ overflow: "hidden", maxHeight: "65px",cursor:"pointer",fontSize:this.props.group.courseName.length>40?"16px":"auto" }}
-					onClick={()=>{this.props.history.push("/groep/" + this.props.group.id)}}
+					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer", fontSize: this.props.group.courseName.length > 40 ? "16px" : "auto" }}
+					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
 				>
 					{this.props.group.courseName}
 				</Typography>
@@ -71,10 +60,10 @@ class GroupCard extends Component {
 						{this.props.group.enrollableFor}
 					</Typography>
 				</div>
-				<Typography style={{ height: "205px", overflow: "hidden" }} gutterBottom>
+				<Typography style={{ maxHeight: "205px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
-				<div style={{ display: "flex" }} >
+				<div style={{ position: "absolute", bottom: "5px" }} >
 					{
 						this.props.role === "student" ?
 							<ChooseButton
@@ -91,12 +80,6 @@ class GroupCard extends Component {
 								Bekijken
 						</Button> : null
 					}
-					{/* {
-						(this.props.group.foreknowledge != null && this.props.group.foreknowledge.length > 5) ?
-							<Typography color="error" style={{ flex: "1", marginLeft: "10px", }}>
-								{"Verplichte voorkennis: " + this.props.group.foreknowledge}
-							</Typography> : null
-					} */}
 				</div>
 			</Paper >
 		);

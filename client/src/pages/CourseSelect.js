@@ -4,24 +4,15 @@ import filter from 'lodash/filter';
 import map from 'lodash/map';
 
 import Page from './Page';
-import SubjectComponent from '../components/Subject';
 import Progress from '../components/Progress';
 import Group from './group/Group';
 import { getSubjects, getGroups } from '../store/actions';
 
-import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import Paper from '@material-ui/core/Paper';
 
 class CourseSelect extends Component {
