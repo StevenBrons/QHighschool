@@ -37,7 +37,7 @@ class Lesson extends Component {
 
 	render() {
 		const lesson = this.props.lesson;
-		if (lesson.id == null) {
+		if (lesson.id === -1) {
 			return (
 				<AppBar position="static" color="default">
 					<Toolbar

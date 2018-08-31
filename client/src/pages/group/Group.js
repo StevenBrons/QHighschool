@@ -39,7 +39,6 @@ class Group extends Component {
 				return this.props.notExists ? null : <Progress />;
 			}
 		}
-
 		switch (this.props.display) {
 			case "page":
 				return (

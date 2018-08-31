@@ -32,71 +32,51 @@ class GroupPage extends Component {
 	}
 
 	getCurrentTab(currentTab) {
-		const group = this.state.group;
+		let group = this.state.group;
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
-				if (group.enrollmentIds == null) {
+				const enrollmentIds = this.state.group.enrollmentIds || this.props.group.enrollmentIds;
+				if (enrollmentIds == null) {
 					this.props.getGroupEnrollments(group.id);
 					return <Progress />;
 				}
-				if (group.enrollmentIds.length === 0) {
+				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return group.enrollmentIds.map(id => {
+				return enrollmentIds.map(id => {
 					return <User key={id} userId={id} display="row" />
 				});
 			case "Lessen":
-				if (this.state.group.lessons == null) {
-					if (this.props.group.lessons == null) {
-						this.props.getGroupLessons(group.id);
-						return <Progress />;
-					}
-					this.setState({
-						group: {
-							...this.state.group,
-							lessons: this.props.group.lessons,
-						}
-					});
+				const lessons = this.state.group.lessons || this.props.group.lessons;
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
 					return <Progress />;
 				}
-				let ls = group.lessons;
-				if (ls == null) {
-					return <Progress />;
-				}
-				if (ls.length === 0) {
+				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return map({ 0: {}, ...ls }, lesson => {
-					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={
-						(l) => {
-							this.setState({
-								group: {
-									...group,
-									lessons: {
-										...group.lessons,
-										[lesson.id]: l,
-									}
-								}
-							});
-						}} />
+				return map({ 0: {id:-1}, ...lessons }, lesson => {
+					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
 				});
 			case "Deelnemers":
-				if (group.participantIds == null) {
+				const participantIds = this.state.group.participantIds || this.props.group.participantIds;
+				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
-				if (group.participantIds.length === 0) {
+				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return group.participantIds.map(id => {
+				return participantIds.map(id => {
 					return <User key={id} userId={id} display="row" />
 				});
 			case "Beoordeling":
-				if (group.evaluations == null) {
-					this.props.getGroupEvaluations(this.props.groupId);
+				const evaluations = this.state.group.evaluations || this.props.group.evaluations;
+				if (evaluations == null) {
+					this.props.getGroupEvaluations(group.id);
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={group.evaluations} groupId={group.id} />
+				return <EvaluationTab evaluations={evaluations} groupId={group.id} />
 			default: return null;
 		}
 
@@ -107,6 +87,18 @@ class GroupPage extends Component {
 			group: {
 				...this.state.group,
 				[event.name]: event.target.value,
+			}
+		});
+	}
+
+	handleLessonChange = (lesson) => {
+		this.setState({
+			group: {
+				...this.state.group,
+				lessons: {
+					...this.state.group.lessons,
+					[lesson.id]: lesson,
+				}
 			}
 		});
 	}
@@ -146,15 +138,7 @@ class GroupPage extends Component {
 
 	render() {
 		const editable = this.state.editable;
-		let group = null;
-		if (this.props.group.id !== this.state.group.id) {
-			this.setState({
-				group: this.props.group,
-			});
-			group = this.props.group;
-		} else {
-			group = this.state.group;
-		}
+		let group = this.state.group;
 		return (
 			<Page>
 				<div style={{ display: "flex" }}>

@@ -21,7 +21,7 @@ class CourseSelect extends Component {
 		super(props);
 		this.state = {
 			sortMethod: "subject",
-			sortSubjectId: -1,
+			sortSubjectId: null,
 		}
 	}
 
@@ -44,16 +44,12 @@ class CourseSelect extends Component {
 		let data;
 		switch (this.state.sortMethod) {
 			case "subject":
+				let sortSubjectId = this.state.sortSubjectId || Object.keys(this.props.subjects)[0];
 				if (this.props.subjects == null || this.props.groups == null) {
 					data = <Progress />
 					break;
 				}
-				if (this.state.sortSubjectId === -1) {
-					this.setState({
-						sortSubjectId: Object.keys(this.props.subjects)[0],
-					});
-				}
-				data = this.getGroupsPerSubject(this.state.sortSubjectId).sort((a, b) => { return a.period - b.period }).map((group) => {
+				data = this.getGroupsPerSubject(sortSubjectId).sort((a, b) => { return a.period - b.period }).map((group) => {
 					return <Group
 						key={group.id}
 						groupId={group.id}
@@ -88,15 +84,20 @@ class CourseSelect extends Component {
 		}
 
 		const subjects = map(this.props.subjects, (subject) => {
+			let color = (this.state.sortSubjectId === subject.id && this.state.sortMethod === "subject") ? "secondary" : "primary";
+			if (this.state.sortSubjectId == null && subject.id + "" === Object.keys(this.props.subjects)[0]) {
+				color = "secondary";
+			}
 			return (
 				<ListItem button onClick={() => {
 					this.setState({
 						sortMethod: "subject",
 						sortSubjectId: subject.id,
 					})
-				}} >
+				}}
+					key={subject.id}>
 					<ListItemText>
-						<Typography variant="title" color={(this.state.sortSubjectId + "" === "" + subject.id && this.state.sortMethod === "subject") ? "secondary" : "primary"}>
+						<Typography variant="title" color={color}>
 							{subject.name}
 						</Typography>
 					</ListItemText>
