@@ -14,6 +14,7 @@ import {
 } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
+import Page from '../Page';
 
 class Group extends Component {
 
@@ -22,17 +23,17 @@ class Group extends Component {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
-						<div className="page">
+						<Page>
 							De opgevraagde groep bestaat niet
-						</div>
+						</Page>
 					);
 				} else {
 					this.props.getSubjects();
 					this.props.getGroup(this.props.groupId);
 					return (
-						<div className="page">
+						<Page>
 							<Progress />
-						</div>
+						</Page>
 					);
 				}
 			} else {

@@ -93,7 +93,7 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
-	async getGroupLessons(groupId) {
+	async getLessons(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/lessons",
 			type: "post",
@@ -104,7 +104,14 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
-
+	async setLessons(lessons) {
+		return $.ajax({
+			url: this.getUrl() + "/lessons",
+			type: "patch",
+			data: lessons,
+			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
 	async getEvaluations(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/evaluations",

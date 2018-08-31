@@ -1,4 +1,4 @@
-import { User, Subject, Group,Course } from "../lib/Data"
+import { User, Subject, Group, Course } from "../lib/Data"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
@@ -163,18 +163,35 @@ export function setUser(user) {
 
 export function setGroup(group) {
 	return (dispatch, getState) => {
+		function getCourse(group) {
+			return {
+				courseId: group.courseId,
+				subjectId: group.subjectId,
+				name: group.courseName,
+				description: group.courseDescription,
+				studyTime: group.studyTime,
+				foreknowledge: group.foreknowledge,
+			}
+		}
+
+		const oldCourse = getCourse(getState().groups[group.id]);
+		const newCourse = getCourse(group);
+
+		const oldLessons = getState().groups[group.id].lessons;
+		const newLessons = group.lessons;
+
+		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
+			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
+		}
+
+		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
+			Group.setLessons(newLessons).catch(apiErrorHandler(dispatch));
+		}
+
 		dispatch({
 			type: "CHANGE_GROUP",
 			group: group,
 		});
-		Course.setCourse({
-			courseId: group.courseId,
-			subjectId: group.subjectId,
-			name: group.courseName,
-			description: group.courseDescription,
-			studyTime: group.studyTime,
-			foreknowledge: group.foreknowledge,
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -251,15 +268,15 @@ export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].lessons != null ||
-			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + ")") !== -1
+			getState().hasFetched.indexOf("Group.getLessons(" + groupId + ")") !== -1
 		) {
 			return;
 		}
 		dispatch({
 			type: "HAS_FETCHED",
-			call: "Group.getGroupLessons(" + groupId + ")"
+			call: "Group.getLessons(" + groupId + ")"
 		});
-		Group.getGroupLessons(groupId).then((lessons) => {
+		Group.getLessons(groupId).then((lessons) => {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
