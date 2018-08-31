@@ -101,7 +101,7 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 

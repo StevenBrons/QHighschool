@@ -32,7 +32,7 @@ class GroupPage extends Component {
 	}
 
 	getCurrentTab(currentTab) {
-		const group = this.props.group;
+		const group = this.state.group;
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
 				if (group.enrollmentIds == null) {
@@ -46,15 +46,39 @@ class GroupPage extends Component {
 					return <User key={id} userId={id} display="row" />
 				});
 			case "Lessen":
-				if (group.lessons == null) {
-					this.props.getGroupLessons(group.id);
+				if (this.state.group.lessons == null) {
+					if (this.props.group.lessons == null) {
+						this.props.getGroupLessons(group.id);
+						return <Progress />;
+					}
+					this.setState({
+						group: {
+							...this.state.group,
+							lessons: this.props.group.lessons,
+						}
+					});
 					return <Progress />;
 				}
-				if (group.lessons.length === 0) {
+				let ls = group.lessons;
+				if (ls == null) {
+					return <Progress />;
+				}
+				if (ls.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return [{}].concat(group.lessons).map(lesson => {
-					return <Lesson lesson={lesson} key={lesson.id} />
+				return map({ 0: {}, ...ls }, lesson => {
+					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={
+						(l) => {
+							this.setState({
+								group: {
+									...group,
+									lessons: {
+										...group.lessons,
+										[lesson.id]: l,
+									}
+								}
+							});
+						}} />
 				});
 			case "Deelnemers":
 				if (group.participantIds == null) {

@@ -21,8 +21,6 @@ class Lesson extends Component {
 				alignItems: "start",
 				position: "relative",
 			},
-			editable: true,
-			lesson: this.props.lesson,
 		}
 	}
 
@@ -31,17 +29,15 @@ class Lesson extends Component {
 	}
 
 	handleChange = (event) => {
-		this.setState({
-			lesson: {
-				...this.state.lesson,
-				[event.name]: event.target.value,
-			}
+		this.props.handleChange({
+			...this.props.lesson,
+			[event.name]: event.target.value,
 		});
 	}
 
 
 	render() {
-		const lesson = this.state.lesson;
+		const lesson = this.props.lesson;
 		if (lesson.id == null) {
 			return (
 				<AppBar position="static" color="default">
@@ -76,13 +72,13 @@ class Lesson extends Component {
 			>
 				<div style={{ flex: "10px" }}>
 					<Field margin="none" variant="body1" color="primary" style={{ fontWeight: "bold" }} value={"Les " + lesson.numberInBlock} />
-					<Field margin="none" label="Soort les" name="kind" variant="body1" value={lesson.kind} editable={this.state.editable} onChange={this.handleChange} />
+					<Field margin="none" label="Soort les" name="kind" variant="body1" value={lesson.kind} editable={this.props.editable} onChange={this.handleChange} />
 				</div>
-				<Field margin="none" label="Onderwerp" area name="subject" variant="body1" style={{ flex: 2 }} value={lesson.subject} editable={this.state.editable} onChange={this.handleChange} />
-				<Field margin="none" label="Activiteiten" area name="activities" variant="body1" style={{ flex: 4 }} value={lesson.activities} editable={this.state.editable} onChange={this.handleChange} />
+				<Field margin="none" label="Onderwerp" area name="subject" variant="body1" style={{ flex: 2 }} value={lesson.subject} editable={this.props.editable} onChange={this.handleChange} />
+				<Field margin="none" label="Activiteiten" area name="activities" variant="body1" style={{ flex: 4 }} value={lesson.activities} editable={this.props.editable} onChange={this.handleChange} />
 				<div style={{ flex: "20px" }}>
 					<Field margin="none" variant="body1" value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()} />
-					<Field margin="none" label="Aanwezigheid" name="presence" variant="body1" value={lesson.presence} editable={this.state.editable} onChange={this.handleChange} />
+					<Field margin="none" name="presence" label="Aanwezigheid" labelVisible variant="body1" value={lesson.presence} editable={this.props.editable} onChange={this.handleChange} options={[{label:"Noodzakelijk",value:"required"},{label:"Optioneel",value:"optional"},{label:"Niet nodig",value:"unrequired"}]}/>
 				</div>
 			</Paper >
 		);

@@ -100,11 +100,16 @@ class Field extends Component {
 			disableUnderline = this.props.disableUnderline || false;
 			margin = this.props.margin || "normal";
 		} else {
-			label = null;
+			if (!this.props.labelVisible) {
+				label = null;
+			}
 			if (options != null && options[0] != null && typeof options[0] !== "string") {
-				value = options.filter((opt) => {
+				const a = options.filter((opt) => {
 					return opt.value === value;
-				})[0].label;
+				})[0];
+				if (a != null) {
+					value = a.label;
+				}
 			}
 			options = null;
 		}
