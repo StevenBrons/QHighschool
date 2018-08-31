@@ -5,6 +5,7 @@ import map from 'lodash/map';
 
 import Page from './Page';
 import Progress from '../components/Progress';
+import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups } from '../store/actions';
 
@@ -22,6 +23,7 @@ class CourseSelect extends Component {
 		this.state = {
 			sortMethod: "subject",
 			sortSubjectId: null,
+			filterMethod: "none",
 		}
 	}
 
@@ -49,13 +51,29 @@ class CourseSelect extends Component {
 					data = <Progress />
 					break;
 				}
-				data = this.getGroupsPerSubject(sortSubjectId).sort((a, b) => { return a.period - b.period }).map((group) => {
-					return <Group
-						key={group.id}
-						groupId={group.id}
-						display="card"
-					/>
-				});
+				data = this.getGroupsPerSubject(sortSubjectId)
+					.sort((a, b) => a.period - b.period)
+					.filter((group) => {
+						switch (this.state.filterMethod) {
+							case "period1":
+								return group.period === 1;
+							case "period2":
+								return group.period === 2;
+							case "period3":
+								return group.period === 3;
+							case "period4":
+								return group.period === 4;
+							default:
+								return true;
+						}
+					})
+					.map((group) => {
+						return <Group
+							key={group.id}
+							groupId={group.id}
+							display="card"
+						/>
+					});
 				break;
 			case "enrolled":
 				if (this.props.enrolledGroupsIds == null) {
@@ -112,37 +130,26 @@ class CourseSelect extends Component {
 					style={{ position: "relative" }}
 				>
 					<Toolbar>
-						<Typography variant="subheading" color="textSecondary">
+						<Typography variant="subheading" color="textSecondary" style={{ width: "90%" }}>
 							Schrijf je in voor modules
           	</Typography>
-						{/* <form autoComplete="off" style={{ right: 10, position: "absolute" }}>
-							<FormControl>
-								<InputLabel htmlFor="sortMethod">Sorteren op</InputLabel>
-								<Select
-									value={this.state.sortMethod}
-									onChange={this.handleSortChange}
-									inputProps={{
-										name: 'sortMethod',
-										id: 'sortMethod',
-									}}
-									autoWidth={true}
-									size={"large"}
-								>
-									<MenuItem value="subject">
-										<Typography variant="subheading" color="textSecondary" style={{ width: "100px" }}>
-											Vak
-          					</Typography>
-									</MenuItem>
-									<MenuItem value={"enrollable"} style={{ width: "100px" }}>Inschrijfbaar</MenuItem>
-								</Select>
-							</FormControl>
-						</form> */}
+						<Field
+							label="filter"
+							value={this.state.filterMethod}
+							right
+							editable
+							options={[
+								{ label: "Geen", value: "none" },
+								{ label: "Blok 1", value: "period1" },
+								{ label: "Blok 2", value: "period2" },
+								{ label: "Blok 3", value: "period3" },
+								{ label: "Blok 4", value: "period4" }]}
+							onChange={(event) => { this.setState({ filterMethod: event.target.value }) }}
+						/>
 					</Toolbar>
 				</Paper>
 				<div style={{ display: "flex" }}>
-					<Paper
-						elevation={2}
-					>
+					<Paper elevation={2}>
 						<List component="nav" style={{ flex: 1 }}>
 							<ListItem button onClick={() => {
 								this.setState({
