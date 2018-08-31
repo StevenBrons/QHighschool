@@ -63,7 +63,7 @@ class GroupCard extends Component {
 				<Typography style={{ maxHeight: "205px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
-				<div style={{ position: "absolute", bottom: "5px" }} >
+				<div style={{ position: "absolute", bottom: "5px", width: "100%" }} >
 					{
 						this.props.role === "student" ?
 							<ChooseButton
