@@ -92,11 +92,12 @@ class GroupPage extends Component {
 	}
 
 	handleLessonChange = (lesson) => {
+		let lessons = this.state.group.lessons || this.props.group.lessons;
 		this.setState({
 			group: {
 				...this.state.group,
 				lessons: {
-					...this.state.group.lessons,
+					...lessons,
 					[lesson.id]: lesson,
 				}
 			}
