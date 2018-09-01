@@ -48,14 +48,22 @@ router.post("/lessons", function (req, res, next) {
 });
 
 router.patch("/lessons", function (req, res, next) {
-	if (req.user.role === "teacher") {
-		database.group.setLessons(req.body.lessons).then(() => {
-			res.send({
-				success: true,
-			});
-		}).catch((error) => handleError(error, res))
-	}else {
-		authError(res);
+	let lessons = JSON.parse(req.body.lessons);
+	if (Array.isArray(lessons) && lessons.length >= 1) {
+		let l = lessons.filter((l) => {
+			return req.user.groupIds.indexOf(l.groupId) == -1;
+		});
+		if (req.user.role === "teacher" && l.length === 0) {
+			database.group.setLessons(lessons).then(() => {
+				res.send({
+					success: true,
+				});
+			}).catch((error) => handleError(error, res))
+		} else {
+			authError(res);
+		}
+	} else {
+		throw new Error("Wrong datatypes");
 	}
 });
 

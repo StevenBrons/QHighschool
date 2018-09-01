@@ -121,16 +121,11 @@ class GroupDB {
 		}
 	}
 
-	async setLessons(lessonsRaw) {
-		const lessons = JSON.parse(lessonsRaw);
+	async setLessons(lessons) {
 		const q1 = "UPDATE lesson SET kind = ?, activities = ?, `subject` = ?, presence = ? WHERE id = ?";
-		if (Array.isArray(lessons)) {
-			lessons.map((lesson) => {
-				return this.mainDb.connection.query(q1, [lesson.kind, lesson.activities, lesson.subject, lesson.presence, lesson.id]);
-			});
-		} else {
-			throw new Error("Wrong datatypes, please follow documentation");
-		}
+		return Promise.all(lessons.map((lesson) => {
+			return this.mainDb.connection.query(q1, [lesson.kind, lesson.activities, lesson.subject, lesson.presence, lesson.id]);
+		}));
 	}
 
 	async getPresence(groupId) {

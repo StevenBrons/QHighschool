@@ -30,19 +30,19 @@ router.put("/", function (req, res) {
 		database.course.addCourse(req.body).then(rows => {
 			res.send(rows);
 		}).catch(error => handleError(error, res));
-	}else {
+	} else {
 		authError(res);
 	}
 });
 
 router.patch("/", function (req, res) {
-	if (req.user.role === "teacher") {
+	if (req.user.role === "teacher" && req.user.courseIds.indexOf(req.body.courseId) !== -1) {
 		database.course.updateCourse(req.body).then(() => {
 			res.send({
 				success: true,
 			});
 		}).catch(error => handleError(error, res));
-	}else {
+	} else {
 		authError(res);
 	}
 });

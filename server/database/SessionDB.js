@@ -29,9 +29,25 @@ class SessionDB {
 			"		FROM loggedin " +
 			"		WHERE token = ? AND active = 1);",
 			[token]
-		).then((rows) => {
+		).then(async (rows) => {
 			if (rows.length === 1) {
-				return rows[0];
+				let user = rows[0];
+				return this.mainDb.connection.query(
+					"		SELECT  " +
+					"				course_group.id " +
+					"		FROM " +
+					"				course_group " +
+					"		WHERE " +
+					"				course_group.id IN (SELECT  " +
+					"								groupId " +
+					"						FROM " +
+					"								participant " +
+					"						WHERE " +
+					"								participant.userId = ?) ", [user.id])
+					.then(rs => {
+						user.groupIds = rs.map(row => row.id);
+						return user;
+					});
 			} else {
 				return null;
 			}
