@@ -81,126 +81,6 @@
             }
           }
         }
-      },
-      "patch": {
-        "tags": [
-          "Group"
-        ],
-        "summary": "Update course data",
-        "operationId": "updateCourse",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "courseId",
-            "in": "formData",
-            "description": "The courseId of the course to patch",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "subjectId",
-            "in": "formData",
-            "description": "The (new) subjectId of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "description": "The (new) name of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "studyTime",
-            "in": "formData",
-            "description": "The (new) studyTime of the course",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "The (new) description of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "foreknowledge",
-            "in": "formData",
-            "description": "The (new) foreknowledge of the course",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Course"
-        ],
-        "summary": "Add new course",
-        "operationId": "setCourse",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "subjectId",
-            "in": "formData",
-            "description": "The subjectId of the new course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "description": "The name of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "The description of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "foreknowledge",
-            "in": "formData",
-            "description": "The foreknowledge of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "studyTime",
-            "in": "formData",
-            "description": "The studyTime of the course",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Course"
-            }
-          }
-        }
       }
     },
     "/group/list": {
@@ -244,64 +124,6 @@
             "name": "groupId",
             "in": "formData",
             "description": "The groupId of the course to get information from",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Group"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Group"
-        ],
-        "summary": "Add a new group",
-        "operationId": "setGroup",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "courseId",
-            "in": "formData",
-            "description": "The courseId of the new group",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "day",
-            "in": "formData",
-            "description": "The day the new group has its lessons on",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "teacherId",
-            "in": "formData",
-            "description": "The teacherId of the new group",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "period",
-            "in": "formData",
-            "description": "The period of the new group",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "schoolYear",
-            "in": "formData",
-            "description": "The schoolYear of the new group",
             "required": true,
             "type": "string"
           }
@@ -426,7 +248,7 @@
         "tags": [
           "Group"
         ],
-        "summary": "Get participants evaluation",
+        "summary": "Get lessons of group",
         "operationId": "getLessons",
         "produces": [
           "application/json"
@@ -452,6 +274,56 @@
                 "$ref": "#/definitions/Lesson"
               }
             }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Patch lessons of group",
+        "operationId": "setLessons",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "lessons",
+            "in": "formData",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "activities": {
+                  "type": "activities"
+                },
+                "presence": {
+                  "type": "string",
+                  "enum": [
+                    "required",
+                    "optional",
+                    "unrequired"
+                  ]
+                },
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
           }
         }
       }
@@ -600,20 +472,6 @@
             "description": "The new prefered email",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "level",
-            "in": "formData",
-            "description": "The new education level",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "year",
-            "in": "formData",
-            "description": "The new year the student is in",
-            "required": true,
-            "type": "integer"
           },
           {
             "name": "profile",
@@ -1033,7 +891,7 @@
         "data": {
           "type": "string"
         },
-        "day": {
+        "date": {
           "type": "string"
         },
         "kind": {

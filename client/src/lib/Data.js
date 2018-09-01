@@ -1,5 +1,6 @@
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
+import map from "lodash/map"
 
 class Data {
 	constructor() {
@@ -108,10 +109,13 @@ class GroupClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/lessons",
 			type: "patch",
-			data: lessons,
+			data: {
+				lessons: JSON.stringify(map(lessons, (lesson) => { return lesson })),
+			},
 			dataType: "json",
-		}).then((list) => keyBy(list, "id"));
+		});
 	}
+
 	async getEvaluations(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/evaluations",

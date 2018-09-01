@@ -13,7 +13,7 @@ const swaggerDocument = require('./swagger.json');
 const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
-
+const bodyParser = require('body-parser')
 const database = require('./database/MainDB');
 
 require('./passportSetup');
@@ -36,6 +36,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

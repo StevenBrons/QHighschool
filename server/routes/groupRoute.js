@@ -7,6 +7,11 @@ function handleError(error, res) {
 		error: error.message,
 	});
 }
+function authError(res) {
+	res.send({
+		error: "Unauthorized",
+	});
+}
 
 router.get("/list", function (req, res, next) {
 	database.group.getGroups().then(groups => {
@@ -40,6 +45,18 @@ router.post("/lessons", function (req, res, next) {
 	database.group.getLessons(req.body.groupId).then(lessons => {
 		res.send(lessons);
 	}).catch((error) => handleError(error, res))
+});
+
+router.patch("/lessons", function (req, res, next) {
+	if (req.user.role === "teacher") {
+		database.group.setLessons(req.body.lessons).then(() => {
+			res.send({
+				success: true,
+			});
+		}).catch((error) => handleError(error, res))
+	}else {
+		authError(res);
+	}
 });
 
 router.post("/participants", function (req, res, next) {
