@@ -1,4 +1,23 @@
-Vak aan groep toevoegen
-mobile support
-add 2 ssh keys
+Version 1.1.0
+	mobile support
+	add 2 ssh keys
+	not explicitly storing teacher
+	fix group visibility (only members can see/change things)
+	make date and time editable and re-calculate lesson dates based upon that
+	make teachers members of groups
+
+Version 1.2.0
+	Make activity tab
+	Make evaluation tab
+
+Version 1.3.0
+	Get evaluations of students of school
+	add modules
+	add groups
+	student portfolio?
+	schedule?
+
+Version 1.4.0
+	???
+	???
 
