@@ -350,7 +350,7 @@
           "Group"
         ],
         "summary": "Get participants presence",
-        "operationId": "getLesson",
+        "operationId": "getPresence",
         "produces": [
           "application/json"
         ],
@@ -372,7 +372,51 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Evaluation"
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Set participants presence",
+        "operationId": "setPresence",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "lessons",
+            "in": "body",
+            "description": "An array of the presence objects to change",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Presence"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
               }
             }
           }
@@ -886,6 +930,33 @@
         },
         "assesement": {
           "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Evaluation"
+      }
+    },
+    "Presence": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "lessonId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "present",
+            "absent"
+          ]
         },
         "explanation": {
           "type": "string"
