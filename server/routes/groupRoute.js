@@ -75,7 +75,7 @@ router.post("/participants", function (req, res, next) {
 		database.group.getParticipants(req.body.groupId).then(participants => {
 			res.send(participants);
 		}).catch((error) => handleError(error, res))
-	}else {
+	} else {
 		authError(res);
 	}
 });
@@ -97,6 +97,8 @@ router.post("/presence", function (req, res, next) {
 		database.group.getPresence(req.body.groupId).then(presence => {
 			res.send(presence);
 		}).catch((error) => handleError(error, res))
+	} else {
+		authError(res);
 	}
 });
 

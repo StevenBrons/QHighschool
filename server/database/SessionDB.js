@@ -20,6 +20,9 @@ class SerialisedUser {
 	}
 
 	isTeacher() {
+		if (this.isAdmin()) {
+			return true;
+		}
 		return this.role === "teacher";
 	}
 

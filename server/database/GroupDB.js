@@ -131,9 +131,7 @@ class GroupDB {
 	async getPresence(groupId) {
 		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
 		if (groupId >= 0) {
-			return this.mainDb.connection.query(q1, [groupId]).then(presence => {
-				return presence;
-			});
+			return this.mainDb.connection.query(q1, [groupId]);
 		} else {
 			throw new Error("groupId must be a number");
 		}
