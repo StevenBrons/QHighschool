@@ -206,6 +206,40 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Add a new participant to a group",
+        "operationId": "addGroupParticipant",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId to add in the group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to add the user in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
       }
     },
     "/group/evaluations": {
@@ -291,32 +325,14 @@
         ],
         "parameters": [
           {
-            "name": "lessons",
-            "in": "formData",
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string"
-                },
-                "subject": {
-                  "type": "string"
-                },
-                "activities": {
-                  "type": "activities"
-                },
-                "presence": {
-                  "type": "string",
-                  "enum": [
-                    "required",
-                    "optional",
-                    "unrequired"
-                  ]
-                },
-                "id": {
-                  "type": "string"
-                }
+            "name": "groupId",
+            "in": "body",
+            "description": "The groupId to get the lessons from",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LessonEdit"
               }
             }
           }
@@ -902,10 +918,46 @@
         },
         "numerInBlock": {
           "type": "integer"
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "required",
+            "optional",
+            "unrequired"
+          ]
         }
       },
       "xml": {
         "name": "Lesson"
+      }
+    },
+    "LessonEdit": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "integer"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "activities": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "required",
+            "optional",
+            "unrequired"
+          ]
+        }
+      },
+      "xml": {
+        "name": "LessonEdit"
       }
     },
     "Notification": {
