@@ -131,7 +131,7 @@ class UserDB {
 
 	async getParticipatingGroupIds(userId) {
 		return this.mainDb.connection.query("SELECT groupId FROM participant WHERE userId = ?", [userId])
-			.then(rows => rows.map(row => row.groupId + ""));
+			.then(rows => rows.map(row => row.groupId));
 	}
 
 	async getGroups(userId) {

@@ -13,13 +13,13 @@ class MyGroups extends Component {
 
 	render() {
 		let content;
-		if (this.props.groups == null) {
+		if (this.props.groupIds == null) {
 			content = <Progress />
 		} else {
-			content = this.props.groups.map((group) => {
+			content = this.props.groupIds.map((id) => {
 				return <Group
-					key={group.id}
-					groupId={group.id}
+					key={id}
+					groupId={id}
 					display="card"
 				/>
 			});
@@ -34,13 +34,13 @@ class MyGroups extends Component {
 }
 
 function mapStateToProps(state) {
-	if (state.users[state.userId].participatingGroupsIds == null) {
+	if (state.groups == null || state.users[state.userId].participatingGroupIds == null) {
 		return {
-			groups: null,
+			groupIds: null,
 		}
 	} else {
 		return {
-			groups: state.users[state.userId].participatingGroupsIds.map(id => state.groups[id]),
+			groupIds: state.users[state.userId].participatingGroupIds,
 		};
 	}
 

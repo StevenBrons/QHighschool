@@ -17,9 +17,9 @@ import Progress from '../../components/Progress'
 import Page from '../Page';
 
 class Group extends Component {
-
+	
 	render() {
-		if (this.props.group == null || this.props.subjects == null) {
+		if (this.props.group == null) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -56,13 +56,13 @@ class Group extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-	let id = ownProps.match.params.groupId || ownProps.groupId;
+	let id = (ownProps.match.params.groupId || ownProps.groupId) + "";
 	let display = ownProps.display || "page";
 
 	let notExists = false;
 	let group = null;
 
-	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(id + "") !== -1;
+	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(parseInt(id)) !== -1;
 	if (state.groups == null || state.groups[id] == null) {
 		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") !== -1) {
 			notExists = true;

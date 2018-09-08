@@ -66,11 +66,6 @@ export function getParticipatingGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-				dispatch({
-					type: "CHANGE_PARTICIPATING_GROUPS",
-					userId: getState().userId,
-					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id, 10)),
-				});
 			}).catch(apiErrorHandler(dispatch));
 		}
 	}
