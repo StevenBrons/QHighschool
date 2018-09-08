@@ -3,11 +3,13 @@ var router = express.Router();
 var database = require('../database/MainDB');
 
 function handleError(error, res) {
+	res.status(406);
 	res.send({
 		error: error.message,
 	});
 }
 function authError(res) {
+	res.status(401);
 	res.send({
 		error: "Unauthorized",
 	});

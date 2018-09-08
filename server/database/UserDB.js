@@ -8,13 +8,12 @@ class UserDB {
 		return this.mainDb.connection.query(
 			"SELECT * FROM user_data " +
 			"WHERE id = ?;",
-			[userId]).then((rows) => {
-				return this.getNotifications(userId).then((notifications) => {
-					return {
-						...rows[0],
-						notifications,
-					};
-				});
+			[userId]).then(async (rows) => {
+				return {
+					...rows[0],
+					notifications: await this.getNotifications(userId),
+					participatingGroupIds: await this.getParticipatingGroupIds(userId),
+				};
 			});
 	}
 
@@ -128,6 +127,11 @@ class UserDB {
 			"		userId = ? ",
 			[userId]
 		);
+	}
+
+	async getParticipatingGroupIds(userId) {
+		return this.mainDb.connection.query("SELECT groupId FROM participant WHERE userId = ?", [userId])
+			.then(rows => rows.map(row => row.groupId));
 	}
 
 	async getGroups(userId) {
