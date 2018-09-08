@@ -46,25 +46,11 @@ class UserDB {
 
 	async getEnrollments(userId) {
 		return this.mainDb.connection.query(
-			"SELECT course_group.*, " +
-			"course.name AS courseName, " +
-			"course.description AS courseDescription, " +
-			"school_subject.id AS subjectId, " +
-			"school_subject.name AS subjectName, " +
-			"school_subject.description AS subjectDescription, " +
-			"CONCAT(user_data.firstName, ' ', user_data.lastName) AS teacherName " +
+			"SELECT groupId " +
 			"FROM enrollment " +
-			"INNER JOIN course_group ON course_group.id = enrollment.groupId " +
-			"INNER JOIN course ON course.id = course_group.courseId " +
-			"INNER JOIN user_data ON user_data.id = course_group.teacherId " +
-			"INNER JOIN school_subject ON school_subject.id = course.subjectId " +
-			"WHERE enrollment.studentId = ?",
-			[userId]).then(async (enrollments) => {
-				if (enrollments.length > 0) {
-					return enrollments;
-				} else {
-					return [];
-				}
+			"WHERE studentId = ?",
+			[userId]).then(async (rows) => {
+				return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.groupId)));
 			});
 	}
 

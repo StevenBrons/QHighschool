@@ -55,7 +55,9 @@ router.delete("/enrollments", (req, res) => {
 });
 
 router.get("/enrollments", (req, res) => {
-	database.user.getEnrollments(req.user.id).then(enrollments => res.send(enrollments)).catch(error => handleError(error, res));
+	database.user.getEnrollments(req.user.id)
+		.then(enrollments => res.send(enrollments))
+		.catch(error => handleError(error, res));
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
