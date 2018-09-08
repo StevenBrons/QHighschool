@@ -28,13 +28,23 @@ class GroupPage extends Component {
 		}
 		switch (this.props.role) {
 			case "student":
-				this.state.tabs = ["Lessen"];
+				if (this.props.userIsMemberOfGroup) {
+					this.state.tabs = ["Lessen", "Deelnemers"];
+				} else {
+					this.state.tabs = ["Lessen"];
+				}
 				break;
 			case "teacher":
-				this.state.tabs = ["Lessen", "Deelnemers", "Activiteit"];
+				if (this.props.userIsMemberOfGroup) {
+					this.state.tabs = ["Lessen", "Deelnemers", "Activiteit"];
+				} else {
+					this.state.tabs = ["Lessen"];
+				}
 				break;
 			case "admin":
 				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Activiteit"];
+				break;
+			default:
 				break;
 		}
 	}

@@ -62,6 +62,7 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let group = null;
 
+	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(id + "") !== -1;
 	if (state.groups == null || state.groups[id] == null) {
 		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") !== -1) {
 			notExists = true;
@@ -76,6 +77,7 @@ function mapStateToProps(state, ownProps) {
 		role: state.role,
 		groupId: id,
 		subjects: state.subjects,
+		userIsMemberOfGroup,
 	}
 }
 

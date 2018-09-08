@@ -54,9 +54,9 @@ class GroupCard extends Component {
 				<Typography variant="body1" style={{flex:1}}>
 					{user.profile}
 				</Typography>
-				<IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
+				{/* <IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
 					<FullscreenIcon />
-				</IconButton>
+				</IconButton> */}
 			</Paper >
 		);
 	}
