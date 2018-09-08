@@ -26,7 +26,7 @@ router.post("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res) {
-	if (req.user.role === "admin") {
+	if (req.user.isAdmin()) {
 		database.group.addGroup(req.body).then(rows => {
 			res.send(rows);
 		}).catch(error => handleError(error, res));
@@ -34,8 +34,9 @@ router.put("/", function (req, res) {
 });
 
 router.post("/enrollments", function (req, res, next) {
-	if (req.user.role === "teacher") {
-		database.group.getEnrollments(req.body.groupId).then(groups => {
+	const groupId = req.body.groupId;
+	if (req.user.isAdmin()) {
+		database.group.getEnrollments(groupId).then(groups => {
 			res.send(groups);
 		}).catch((error) => handleError(error, res))
 	}
@@ -51,9 +52,9 @@ router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
 	if (Array.isArray(lessons) && lessons.length >= 1) {
 		let l = lessons.filter((l) => {
-			return req.user.groupIds.indexOf(l.groupId) == -1;
+			return req.user.inGroup(l.groupId);
 		});
-		if (req.user.role === "teacher" && l.length === 0) {
+		if (req.user.isTeacher() && l.length === 0) {
 			database.group.setLessons(lessons).then(() => {
 				res.send({
 					success: true,
@@ -68,15 +69,25 @@ router.patch("/lessons", function (req, res, next) {
 });
 
 router.post("/participants", function (req, res, next) {
-	if (req.user.role === "teacher") {
+	if (req.user.inGroup(req.body.groupId)) {
 		database.group.getParticipants(req.body.groupId).then(participants => {
 			res.send(participants);
 		}).catch((error) => handleError(error, res))
 	}
 });
 
+router.patch("/participants", function (req, res, next) {
+	if (req.user.isAdmin()) {
+		database.function.addUserToGroup(req.body.userId, req.body.groupId).then(() => {
+			res.send({
+				success: true,
+			});
+		}).catch((error) => handleError(error, res))
+	}
+});
+
 router.post("/presence", function (req, res, next) {
-	if (req.user.role === "teacher") {
+	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
 		database.group.getPresence(req.body.groupId).then(presence => {
 			res.send(presence);
 		}).catch((error) => handleError(error, res))
@@ -84,7 +95,7 @@ router.post("/presence", function (req, res, next) {
 });
 
 router.post("/evaluations", function (req, res, next) {
-	if (req.user.role === "teacher") {
+	if (req.user.isTeacher()) {
 		database.group.getEvaluations(req.body.groupId).then(evaluations => {
 			res.send(evaluations);
 		}).catch((error) => handleError(error, res))

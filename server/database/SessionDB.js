@@ -1,3 +1,34 @@
+class SerialisedUser {
+
+	constructor(id, email, role, displayName, groupIds) {
+		this.id = id;
+		this.email = email;
+		this.role = role;
+		this.displayName = displayName;
+		this.groupIds = groupIds;
+	}
+
+	inGroup(groupId) {
+		if (this.isAdmin()) {
+			return true;
+		}
+		return this.groupIds.indexOf(groupId) !== -1;
+	}
+
+	isAdmin() {
+		return this.role === "admin";
+	}
+
+	isTeacher() {
+		return this.role === "teacher";
+	}
+
+	isStudent() {
+		return this.role === "student";
+	}
+
+}
+
 class SessionDB {
 
 	constructor(mainDb) {
@@ -45,8 +76,7 @@ class SessionDB {
 					"						WHERE " +
 					"								participant.userId = ?) ", [user.id])
 					.then(rs => {
-						user.groupIds = rs.map(row => row.id);
-						return user;
+						return new SerialisedUser(user.id, user.email, user.role, user.displayName, rs.map(row => row.id));
 					});
 			} else {
 				return null;

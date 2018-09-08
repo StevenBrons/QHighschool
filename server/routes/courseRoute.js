@@ -26,7 +26,7 @@ router.post("/", function (req, res) {
 });
 
 router.put("/", function (req, res) {
-	if (req.user.role === "admin") {
+	if (req.user.isAdmin()) {
 		database.course.addCourse(req.body).then(rows => {
 			res.send(rows);
 		}).catch(error => handleError(error, res));
@@ -36,7 +36,7 @@ router.put("/", function (req, res) {
 });
 
 router.patch("/", function (req, res) {
-	if (req.user.role === "teacher" && req.user.courseIds.indexOf(req.body.courseId) !== -1) {
+	if (req.user.isTeacher()) {
 		database.course.updateCourse(req.body).then(() => {
 			res.send({
 				success: true,

@@ -33,7 +33,7 @@ router.patch("/", (req, res) => {
 });
 
 router.put("/enrollments", (req, res) => {
-	if (req.user.role === "student") {
+	if (req.user.isStudent()) {
 		database.user.addUserEnrollment(req.user.id, req.body.groupId).then((data) => {
 			res.send({
 				success: true,
@@ -45,8 +45,8 @@ router.put("/enrollments", (req, res) => {
 });
 
 router.delete("/enrollments", (req, res) => {
-	if (req.user.role === "student") {
-		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then((data) => {
+	if (req.user.isStudent()) {
+		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then(() => {
 			res.send({
 				success: true,
 			});
@@ -60,7 +60,9 @@ router.get("/enrollments", (req, res) => {
 
 router.get("/enrollableGroups", function (req, res, next) {
 	database.group.getGroups().then(groups => {
-		var enrollableGroups = groups.filter((group) => { return group.period == 1 });
+		var enrollableGroups = groups.filter((group) => {
+			return group.period == 1
+		});
 		res.send(enrollableGroups);
 	});
 });
