@@ -3,11 +3,13 @@ var router = express.Router();
 var database = require('../database/MainDB');
 
 function handleError(error, res) {
+	res.status(406);
 	res.send({
 		error: error.message,
 	});
 }
 function authError(res) {
+	res.status(401);
 	res.send({
 		error: "Unauthorized",
 	});
@@ -52,7 +54,7 @@ router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
 	if (Array.isArray(lessons) && lessons.length >= 1) {
 		let l = lessons.filter((l) => {
-			return req.user.inGroup(l.groupId);
+			return !req.user.inGroup(l.groupId);
 		});
 		if (req.user.isTeacher() && l.length === 0) {
 			database.group.setLessons(lessons).then(() => {
@@ -73,6 +75,8 @@ router.post("/participants", function (req, res, next) {
 		database.group.getParticipants(req.body.groupId).then(participants => {
 			res.send(participants);
 		}).catch((error) => handleError(error, res))
+	}else {
+		authError(res);
 	}
 });
 
@@ -83,6 +87,8 @@ router.patch("/participants", function (req, res, next) {
 				success: true,
 			});
 		}).catch((error) => handleError(error, res))
+	} else {
+		authError(res);
 	}
 });
 

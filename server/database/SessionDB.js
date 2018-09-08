@@ -12,7 +12,7 @@ class SerialisedUser {
 		if (this.isAdmin()) {
 			return true;
 		}
-		return this.groupIds.indexOf(groupId) !== -1;
+		return this.groupIds.indexOf(groupId + "") !== -1;
 	}
 
 	isAdmin() {
@@ -76,7 +76,7 @@ class SessionDB {
 					"						WHERE " +
 					"								participant.userId = ?) ", [user.id])
 					.then(rs => {
-						return new SerialisedUser(user.id, user.email, user.role, user.displayName, rs.map(row => row.id));
+						return new SerialisedUser(user.id, user.email, user.role, user.displayName, rs.map(row => row.id + ""));
 					});
 			} else {
 				return null;

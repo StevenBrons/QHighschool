@@ -21,13 +21,21 @@ class GroupPage extends Component {
 
 	constructor(props) {
 		super(props);
-		const studentTabs = ["Lessen"];
-		const teacherTabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Activiteit", "Beoordeling"];
 		this.state = {
 			currentTab: 0,
-			tabs: this.props.role === "teacher" ? teacherTabs : studentTabs,
 			editable: false,
 			group: this.props.group,
+		}
+		switch (this.props.role) {
+			case "student":
+				this.state.tabs = ["Lessen"];
+				break;
+			case "teacher":
+				this.state.tabs = ["Lessen", "Deelnemers", "Activiteit"];
+				break;
+			case "admin":
+				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Activiteit"];
+				break;
 		}
 	}
 
@@ -55,7 +63,7 @@ class GroupPage extends Component {
 				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return map({ 0: {id:-1}, ...lessons }, lesson => {
+				return map({ 0: { id: -1 }, ...lessons }, lesson => {
 					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
 				});
 			case "Deelnemers":
