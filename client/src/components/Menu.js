@@ -29,6 +29,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "inschrijven"];
 				break;
 			default:
+				this.state.pages = ["inschrijven"];
 				break;
 		}
 	}
