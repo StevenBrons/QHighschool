@@ -72,12 +72,13 @@ class GroupCard extends Component {
 							/> : null
 					}
 					{
-						<Button
-							color="secondary"
-							onClick={this.expand.bind(this)}
-						>
-							Bekijken
-						</Button>
+						this.props.role !== "student" ?
+							<Button
+								color="secondary"
+								onClick={this.expand.bind(this)}
+							>
+								Bekijken
+						</Button> : null
 					}
 				</div>
 			</Paper >
