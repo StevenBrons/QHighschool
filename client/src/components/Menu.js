@@ -10,38 +10,35 @@ import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 
 class Menu extends Component {
 
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			pages: [
-				{
-					id: "inschrijven",
-					title: "Inschrijven",
-					visibleTo: "student",
-					icon: <AssignmentIcon />,
-				},
-				{
-					id: "groepen",
-					title: "Mijn groepen",
-					visibleTo: "teacher",
-					icon: <GroupIcon />,
-				},
-			],
-		};
+		this.state = {};
+		switch (this.props.role) {
+			case "student":
+				this.state.pages = ["inschrijven"];
+				break;
+			case "teacher":
+				this.state.pages = ["groepen"];
+				break;
+			case "admin":
+				this.state.pages = ["groepen", "inschrijven"];
+				break;
+			default:
+				break;
+		}
 	}
-
-
 
 	onClick(page) {
 		this.props.history.push("/" + page);
 	}
 
 	getItem(page, index) {
-		// const isCurrentPage = ((("/" + page.id) === this.props.location.pathname));
+		const isCurrentPage = ((("/" + page.id) === this.props.location.pathname));
 		let style = {};
 		if (page.bottom) {
 			style.position = "absolute";
@@ -52,7 +49,7 @@ class Menu extends Component {
 		if (page.notifications > 0) {
 			icon = (
 				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color="primary">
+					<Badge badgeContent={this.state.notifications} color={isCurrentPage ? "secondary" : "primary"}>
 						{page.icon}
 					</Badge>
 				</ListItemIcon>
@@ -67,24 +64,37 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<ListItemText primary={page.title} />
+				<Typography variant="title" color={isCurrentPage ? "secondary" : "primary"}>
+					{page.title}
+				</Typography>
 			</ListItem>
 		);
 	}
 
 	render() {
-		var pages = this.state.pages.filter(
-			(page) => {
-				if (page.visibleTo != null) {
-					return page.visibleTo === this.props.role
-				}
-				return true;
-			}
-		).map(this.getItem.bind(this));
+		const pages = [
+			{
+				id: "inschrijven",
+				title: "Inschrijven",
+				visibleTo: "student",
+				icon: <AssignmentIcon />,
+			},
+			{
+				id: "groepen",
+				title: "Mijn groepen",
+				visibleTo: "teacher",
+				icon: <GroupIcon />,
+			},
+		];
+
+		const visiblePages = pages
+			.filter(page => this.state.pages.indexOf(page.id) !== -1)
+			.map(this.getItem.bind(this));
+
 		return (
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
-					{pages}
+					{visiblePages}
 				</List>
 			</Paper >
 		);
@@ -93,9 +103,9 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
 	return {
-		role:state.role
+		role: state.role
 	};
 }
 
-export default connect(mapStateToProps)(withRouter(Menu));
+export default withRouter(connect(mapStateToProps)(Menu));
 
