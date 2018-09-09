@@ -104,35 +104,31 @@ router.post("/presence", function (req, res, next) {
 });
 
 router.patch("/presence", function (req, res, next) {
-	if (req.isTeacher() && req.inGroup(req.body.groupId)) {
-		let presenceObjs = JSON.parse(req.body.presence);
-		//check if the user is allowed to edit every presence object
-		let error = false;
-		async function a() {
-			const oldPresences = await database.group.getPresence(req.body.groupId);
-			await Promise.all(presenceObjs.map((newPresence) => {
-				if (error) {
-					return {};
-				}
-				const oldP = oldPresences.filter((oldP) => {
-					return oldP.id === newPresence.id;
-				});
-				if (oldP.length === 1) {
-					return database.group.setPresence(newPresence);
-				} else {
-					error = true;
-					authError(res);
-				}
-			}));
-			if (!error) {
-				res.send({
-					success: true,
-				});
-			}
-		};
-		a();
-	} else {
+	if (!req.user.isTeacher() || !req.user.inGroup(req.body.groupId)) {
 		authError(res);
+	}
+	let presenceObjs = JSON.parse(req.body.presence);
+	let error = false;
+	//check if the user is allowed to edit every presence object
+	function setPresencesIfAllowed(oldPresences) {
+		return Promise.all(presenceObjs.map((newPresence) => {
+			if (error) {
+				return {};
+			}
+			if (oldPresences.find(oldP => oldP.id === newPresence.id) != null) {
+				return database.group.setPresence(newPresence);
+			} else {
+				error = true;
+				authError(res);
+			}
+		}));
+	}
+	database.group.getPresence(req.body.groupId)
+		.then(setPresencesIfAllowed);
+	if (!error) {
+		res.send({
+			success: true,
+		});
 	}
 });
 
