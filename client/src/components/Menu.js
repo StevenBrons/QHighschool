@@ -49,14 +49,14 @@ class Menu extends Component {
 		if (page.notifications > 0) {
 			icon = (
 				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color={isCurrentPage ? "secondary" : "primary"}>
+					<Badge badgeContent={this.state.notifications} color={"primary"}>
 						{page.icon}
 					</Badge>
 				</ListItemIcon>
 			);
 		} else {
 			icon = (
-				<ListItemIcon>
+				<ListItemIcon color={isCurrentPage ? "primary" : "textSecondary"}>
 					{page.icon}
 				</ListItemIcon>
 			);
@@ -64,7 +64,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={isCurrentPage ? "secondary" : "primary"}>
+				<Typography variant="subheading" color={isCurrentPage ? "primary" : "textSecondary"}>
 					{page.title}
 				</Typography>
 			</ListItem>
