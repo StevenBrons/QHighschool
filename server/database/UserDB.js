@@ -12,7 +12,7 @@ class UserDB {
 				return {
 					...rows[0],
 					notifications: await this.getNotifications(userId),
-					participatingGroupIds: await this.getParticipatingGroupIds(userId),
+					participatingGroupIds: await this.getParticipatingGroupIds(userId, rows[0].role === "admin"),
 				};
 			});
 	}
@@ -118,41 +118,30 @@ class UserDB {
 	}
 
 	async getNotifications(userId) {
-		return this.mainDb.connection.query(
-			"		SELECT  " +
-			"		*  " +
-			"	FROM  " +
-			"		notifications  " +
-			"	WHERE  " +
-			"		userId = ? ",
-			[userId]
-		);
+		return this.mainDb.connection.query("SELECT * FROM notifications WHERE userId = ?", [userId]);
 	}
 
-	async getParticipatingGroupIds(userId) {
-		return this.mainDb.connection.query("SELECT groupId FROM participant WHERE userId = ?", [userId])
+	async getParticipatingGroupIds(userId, admin) {
+		let q1 = "SELECT groupId FROM participant WHERE userId = ?";
+		if (admin) {
+			q1 = "SELECT id AS groupId FROM course_group";
+		}
+		return this.mainDb.connection.query(q1, [userId])
 			.then(rows => rows.map(row => row.groupId));
 	}
 
 	async getGroups(userId, admin) {
-		const mainDb = this.mainDb;
-		function _getGroups(rows) {
-			const groupPromises = rows.map((row) => {
-				return mainDb.group.getGroup(row.groupId);
-			});
-			return Promise.all(groupPromises);
-		}
+		let q1 = "SELECT participant.groupId FROM participant WHERE participant.userId = ?";
 		if (admin) {
-			return mainDb.connection.query("SELECT id AS groupId FROM course_group")
-				.then(_getGroups);
-		} else {
-			return mainDb.connection.query(
-				"SELECT participant.groupId " +
-				"FROM participant " +
-				"WHERE participant.userId = ? ",
-				[userId]
-			).then(_getGroups);
+			q1 = "SELECT id AS groupId FROM course_group";
 		}
+		return this.mainDb.connection.query(q1, [userId])
+			.then((rows) => {
+				const groupPromises = rows.map((row) => {
+					return this.mainDb.group.getGroup(row.groupId);
+				});
+				return Promise.all(groupPromises);
+			});
 	}
 
 }
