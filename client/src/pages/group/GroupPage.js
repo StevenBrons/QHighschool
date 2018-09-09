@@ -105,7 +105,7 @@ class GroupPage extends Component {
 					this.props.getGroupPresence(group.id);
 					return <Progress />;
 				}
-				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} />
+				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} editable={this.state.editable} handleChange={this.handlePresenceChange} />
 			case "Beoordeling":
 				if (evaluations == null) {
 					this.props.getGroupEvaluations(group.id);
@@ -135,6 +135,19 @@ class GroupPage extends Component {
 					...lessons,
 					[lesson.id]: lesson,
 				}
+			}
+		});
+	}
+
+	handlePresenceChange = (presenceObj) => {
+		let presence = this.state.group.presence || this.props.group.presence;
+		this.setState({
+			group: {
+				...this.state.group,
+				presence: {
+					...presence,
+					[presenceObj.id]: presenceObj,
+				},
 			}
 		});
 	}

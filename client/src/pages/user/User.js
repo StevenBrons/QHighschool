@@ -8,6 +8,7 @@ import { getUser } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
+import Field from "../../components/Field"
 
 class User extends Component {
 
@@ -41,7 +42,7 @@ class User extends Component {
 
 		switch (this.props.display) {
 			case "name":
-				return this.props.user.displayName;
+				return <Field value={this.props.user.displayName} title/>;
 			case "page":
 				return (
 					<UserPage {...this.props} />

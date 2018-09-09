@@ -94,6 +94,17 @@ class GroupClass extends Data {
 		});
 	}
 
+	async setPresence(presenceObjs) {
+		return $.ajax({
+			url: this.getUrl() + "/presence",
+			type: "patch",
+			data: {
+				presence: JSON.stringify(map(presenceObjs, (presenceObj) => { return presenceObj })),
+			},
+			dataType: "json",
+		});
+	}
+
 	async getParticipants(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/participants",
@@ -146,7 +157,7 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 }

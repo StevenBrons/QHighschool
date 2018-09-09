@@ -175,8 +175,18 @@ export function setGroup(group) {
 		const oldLessons = getState().groups[group.id].lessons;
 		const newLessons = group.lessons;
 
+		const oldPresence = getState().groups[group.id].presence;
+		const newPresence = group.presence;
+
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
 			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
+		}
+
+		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
+			const changedPresenceObjs = filter(newPresence, (presence) => {
+				return JSON.stringify(presence) !== JSON.stringify(oldPresence[presence.id]);
+			});
+			Group.setPresence(changedPresenceObjs).catch(apiErrorHandler(dispatch));
 		}
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
