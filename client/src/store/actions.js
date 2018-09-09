@@ -1,4 +1,5 @@
 import { User, Subject, Group, Course } from "../lib/Data"
+import filter from "lodash/filter"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
