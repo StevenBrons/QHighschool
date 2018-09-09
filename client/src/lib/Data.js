@@ -83,17 +83,6 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
-	async getPresence(groupId) {
-		return $.ajax({
-			url: this.getUrl() + "/presence",
-			type: "post",
-			data: {
-				groupId,
-			},
-			dataType: "json",
-		});
-	}
-
 	async setPresence(presenceObjs, groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/presence",
