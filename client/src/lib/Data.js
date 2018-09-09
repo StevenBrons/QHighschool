@@ -94,12 +94,13 @@ class GroupClass extends Data {
 		});
 	}
 
-	async setPresence(presenceObjs) {
+	async setPresence(presenceObjs, groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/presence",
 			type: "patch",
 			data: {
 				presence: JSON.stringify(map(presenceObjs, (presenceObj) => { return presenceObj })),
+				groupId,
 			},
 			dataType: "json",
 		});

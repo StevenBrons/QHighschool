@@ -137,6 +137,11 @@ class GroupDB {
 		}
 	}
 
+	async setPresence(presence) {
+		const q1 = "UPDATE presence SET status = ? WHERE id = ?";
+		return this.mainDb.connection.query(q1, [presence.status, presence.id]);
+	}
+
 	async getEvaluations(groupId) {
 		const q1 = "SELECT * FROM evaluation WHERE evaluation.courseId = (SELECT course_group.courseId FROM course_group WHERE course_group.id = ?)";
 		if (groupId >= 0) {

@@ -52,6 +52,7 @@ router.post("/lessons", function (req, res, next) {
 
 router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
+	//check if the user is allowed to edit every lesson object
 	if (Array.isArray(lessons) && lessons.length >= 1) {
 		let l = lessons.filter((l) => {
 			return !req.user.inGroup(l.groupId);
@@ -97,6 +98,39 @@ router.post("/presence", function (req, res, next) {
 		database.group.getPresence(req.body.groupId).then(presence => {
 			res.send(presence);
 		}).catch((error) => handleError(error, res))
+	} else {
+		authError(res);
+	}
+});
+
+router.patch("/presence", function (req, res, next) {
+	if (req.isTeacher() && req.inGroup(req.body.groupId)) {
+		let presenceObjs = JSON.parse(req.body.presence);
+		//check if the user is allowed to edit every presence object
+		let error = false;
+		async function a() {
+			const oldPresences = await database.group.getPresence(req.body.groupId);
+			await Promise.all(presenceObjs.map((newPresence) => {
+				if (error) {
+					return {};
+				}
+				const oldP = oldPresences.filter((oldP) => {
+					return oldP.id === newPresence.id;
+				});
+				if (oldP.length === 1) {
+					return database.group.setPresence(newPresence);
+				} else {
+					error = true;
+					authError(res);
+				}
+			}));
+			if (!error) {
+				res.send({
+					success: true,
+				});
+			}
+		};
+		a();
 	} else {
 		authError(res);
 	}
