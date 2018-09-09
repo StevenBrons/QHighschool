@@ -63,7 +63,7 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let group = null;
 
-	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(parseInt(id)) !== -1;
+	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(parseInt(id,10)) !== -1;
 	if (state.groups == null || state.groups[id] == null) {
 		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") !== -1) {
 			notExists = true;

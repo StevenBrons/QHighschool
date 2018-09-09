@@ -185,7 +185,7 @@ class UserClass extends Data {
 
 	async logout() {
 		return $.ajax({
-			url: "auth/logout",
+			url: window.location.protocol + "/auth/logout",
 			type: "get",
 			dataType: "json",
 		});

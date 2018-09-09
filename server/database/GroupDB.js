@@ -20,7 +20,7 @@ class GroupDB {
 			"							participant " +
 			"					WHERE " +
 			"							groupId = course_group.id " +
-			"									AND `status` = 'teacher' " +
+			"									AND participant.status = 'teacher' " +
 			"					LIMIT 1) AS teacherId, " +
 			"			(SELECT  " +
 			"							displayName " +

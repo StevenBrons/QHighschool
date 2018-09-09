@@ -47,7 +47,7 @@ class GroupCard extends Component {
 				<Typography
 					variant="headline"
 					color="primary"
-					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer", fontSize: this.props.group.courseName.length > 40 ? "16px" : "auto" }}
+					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer", fontSize: this.props.group.courseName.length > 33 ? "16px" : "auto" }}
 					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
 				>
 					{this.props.group.courseName}
@@ -56,14 +56,14 @@ class GroupCard extends Component {
 					<Typography variant="subheading" color="textSecondary" gutterBottom style={{ display: "inline-block" }}>
 						{"Blok " + this.props.group.period + " - " + this.props.group.day}
 					</Typography>
-					<Typography variant="subheading" color="secondary" gutterBottom style={{ display: "inline-block", marginLeft: "20px" }}>
+					<Typography variant="subheading" color="secondary" style={{ display: "inline-block", marginLeft: "20px" }}>
 						{this.props.group.enrollableFor}
 					</Typography>
 				</div>
-				<Typography style={{ maxHeight: "205px", overflow: "hidden" }} gutterBottom>
+				<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
-				<div style={{ position: "absolute", bottom: "5px", width: "100%" }} >
+				<div style={{ position: "absolute", bottom: "0px", width: "100%" }} >
 					{
 						this.props.role === "student" ?
 							<ChooseButton

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 
@@ -57,7 +56,7 @@ class Menu extends Component {
 			);
 		} else {
 			icon = (
-				<ListItemIcon color={isCurrentPage ? "secondary" : "textSecondary"}>
+				<ListItemIcon color={isCurrentPage ? "secondary" : "disabled"}>
 					{page.icon}
 				</ListItemIcon>
 			);

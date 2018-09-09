@@ -3,8 +3,6 @@ import {withRouter} from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 class GroupCard extends Component {
 
