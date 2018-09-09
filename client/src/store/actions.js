@@ -187,7 +187,7 @@ export function setGroup(group) {
 			const changedPresenceObjs = filter(newPresence, (presence) => {
 				return JSON.stringify(presence) !== JSON.stringify(oldPresence[presence.id]);
 			});
-			Group.setPresence(changedPresenceObjs).catch(apiErrorHandler(dispatch));
+			Group.setPresence(changedPresenceObjs, group.id).catch(apiErrorHandler(dispatch));
 		}
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
