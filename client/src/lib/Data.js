@@ -1,5 +1,6 @@
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
+import map from "lodash/map"
 
 class Data {
 	constructor() {
@@ -27,11 +28,20 @@ class CourseClass extends Data {
 
 	async get(courseId) {
 		return $.ajax({
-			url: this.getUrl() + "/",
+			url: this.getUrl(),
 			type: "post",
 			data: {
 				courseId,
 			},
+			dataType: "json",
+		});
+	}
+
+	async setCourse(newCourse) {
+		return $.ajax({
+			url: this.getUrl(),
+			type: "patch",
+			data: newCourse,
 			dataType: "json",
 		});
 	}
@@ -73,6 +83,18 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
+	async setPresence(presenceObjs, groupId) {
+		return $.ajax({
+			url: this.getUrl() + "/presence",
+			type: "patch",
+			data: {
+				presence: JSON.stringify(map(presenceObjs, (presenceObj) => { return presenceObj })),
+				groupId,
+			},
+			dataType: "json",
+		});
+	}
+
 	async getParticipants(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/participants",
@@ -84,7 +106,7 @@ class GroupClass extends Data {
 		}).then((list) => keyBy(list, "id"));
 	}
 
-	async getGroupLessons(groupId) {
+	async getLessons(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/lessons",
 			type: "post",
@@ -92,9 +114,19 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
+	async setLessons(lessons) {
+		return $.ajax({
+			url: this.getUrl() + "/lessons",
+			type: "patch",
+			data: {
+				lessons: JSON.stringify(map(lessons, (lesson) => { return lesson })),
+			},
+			dataType: "json",
+		});
+	}
 
 	async getEvaluations(groupId) {
 		return $.ajax({
@@ -115,7 +147,7 @@ class GroupClass extends Data {
 				groupId,
 			},
 			dataType: "json",
-		});
+		}).then((list) => keyBy(list, "id"));
 	}
 
 }
@@ -153,7 +185,7 @@ class UserClass extends Data {
 
 	async logout() {
 		return $.ajax({
-			url: "auth/logout",
+			url: window.location.protocol + "/auth/logout",
 			type: "get",
 			dataType: "json",
 		});

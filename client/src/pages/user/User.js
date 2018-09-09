@@ -8,6 +8,7 @@ import { getUser } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
+import Field from "../../components/Field"
 
 class User extends Component {
 
@@ -29,12 +30,19 @@ class User extends Component {
 					);
 				}
 			} else {
-				return this.props.notExists ? null : <Progress />;
+				if (this.props.notExists) {
+					return null;
+				} else {
+					this.props.getUser(this.props.userId);
+					return <Progress />;
+				}
 			}
 		}
 
 
 		switch (this.props.display) {
+			case "name":
+				return <Field value={this.props.user.displayName} title/>;
 			case "page":
 				return (
 					<UserPage {...this.props} />
@@ -60,7 +68,7 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let user = null;
 
-	if (id == null)  {
+	if (id == null) {
 		id = state.userId;
 	}
 
@@ -89,4 +97,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(User));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(User));

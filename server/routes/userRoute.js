@@ -3,11 +3,17 @@ var router = express.Router();
 var database = require('../database/MainDB');
 
 function handleError(error, res) {
+	res.status(406);
 	res.send({
 		error: error.message,
 	});
 }
-
+function authError(res) {
+	res.status(401);
+	res.send({
+		error: "Unauthorized",
+	});
+}
 router.get("/self", (req, res) => {
 	database.user.getSelf(req.user.id).then((user) => {
 		res.send(user);
@@ -29,18 +35,20 @@ router.patch("/", (req, res) => {
 });
 
 router.put("/enrollments", (req, res) => {
-	if (req.user.role === "student") {
+	if (req.user.isStudent()) {
 		database.user.addUserEnrollment(req.user.id, req.body.groupId).then((data) => {
 			res.send({
 				success: true,
 			});
 		}).catch(error => handleError(error, res));
+	} else {
+		authError(res);
 	}
 });
 
 router.delete("/enrollments", (req, res) => {
-	if (req.user.role === "student") {
-		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then((data) => {
+	if (req.user.isStudent()) {
+		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then(() => {
 			res.send({
 				success: true,
 			});
@@ -49,18 +57,22 @@ router.delete("/enrollments", (req, res) => {
 });
 
 router.get("/enrollments", (req, res) => {
-	database.user.getEnrollments(req.user.id).then(enrollments => res.send(enrollments)).catch(error => handleError(error, res));
+	database.user.getEnrollments(req.user.id)
+		.then(enrollments => res.send(enrollments))
+		.catch(error => handleError(error, res));
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
 	database.group.getGroups().then(groups => {
-		var enrollableGroups = groups.filter((group) => { return group.period == 1 });
+		var enrollableGroups = groups.filter((group) => {
+			return group.period == 1
+		});
 		res.send(enrollableGroups);
 	});
 });
 
 router.get("/groups", (req, res) => {
-	database.user.getGroups(req.user.id).then(groups => {
+	database.user.getGroups(req.user.id, req.user.isAdmin()).then(groups => {
 		res.send(groups);
 	});
 });

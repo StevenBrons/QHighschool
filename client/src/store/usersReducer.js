@@ -43,17 +43,6 @@ function usersReducer(users = DEFAULT_USERS, action) {
 						enrollmentIds: action.enrollmentIds,
 					}
 			}
-			case "CHANGE_PARTICIPATING_GROUPS":
-			return {
-					...users,
-					[action.userId]: {
-						...users[action.userId],
-						participatingGroupsIds: [
-							...users[action.userId].participatingGroupsIds || [],
-							...action.participatingGroupsIds,
-						]
-					}
-			};
 		default:
 			return users;
 	}

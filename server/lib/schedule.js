@@ -8,7 +8,6 @@ moment.locale('nl')
 
 module.exports.getLessonDate = function (period, numberInBlock, day) {
   const week = module.exports.schedule.filter((week) => {
-    console.log(period + ":" + numberInBlock);
     return ((week.period + "") === (period + "") && (week.numberInBlock + "") === (numberInBlock + ""));
   })[0];
 
@@ -22,13 +21,14 @@ module.exports.getLessonDate = function (period, numberInBlock, day) {
 
 module.exports.schedule = [
   //block 1
-  { weekNumber: 36, period: 1, numberInBlock: 1, year: 2018, },
-  { weekNumber: 37, period: 1, numberInBlock: 2, year: 2018, },
-  { weekNumber: 38, period: 1, numberInBlock: 3, year: 2018, },
-  { weekNumber: 39, period: 1, numberInBlock: 4, year: 2018, },
-  { weekNumber: 40, period: 1, numberInBlock: 5, year: 2018, },
-  { weekNumber: 41, period: 1, numberInBlock: 6, year: 2018, },
-  { weekNumber: 43, period: 1, numberInBlock: 7, year: 2018, },
+  { weekNumber: 35, period: 1, numberInBlock: 1, year: 2018, },
+  { weekNumber: 36, period: 1, numberInBlock: 2, year: 2018, },
+  { weekNumber: 37, period: 1, numberInBlock: 3, year: 2018, },
+  { weekNumber: 38, period: 1, numberInBlock: 4, year: 2018, },
+  { weekNumber: 39, period: 1, numberInBlock: 5, year: 2018, },
+  { weekNumber: 40, period: 1, numberInBlock: 6, year: 2018, },
+  { weekNumber: 41, period: 1, numberInBlock: 7, year: 2018, },
+  { weekNumber: 43, period: 1, numberInBlock: 8, year: 2018, },
   //block 2
   { weekNumber: 45, period: 2, numberInBlock: 1, year: 2018, },
   { weekNumber: 46, period: 2, numberInBlock: 2, year: 2018, },

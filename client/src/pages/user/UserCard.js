@@ -3,8 +3,6 @@ import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import IconButton from '@material-ui/core/IconButton';
 
 const CARD_STYLE = {
 	width: "300px",
@@ -43,12 +41,6 @@ class GroupCard extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
-				{
-					this.state.hover &&
-					<IconButton onClick={this.expand.bind(this)} style={{ float: "right" }}>
-						<FullscreenIcon />
-					</IconButton>
-				}
 				<Typography variant="title" color={user.role === "teacher"?"secondary":"primary"} >
 					{user.firstName + " " + user.lastName}
 				</Typography>

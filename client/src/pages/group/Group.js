@@ -3,35 +3,44 @@ import { connect } from "react-redux";
 
 import GroupCard from "./GroupCard";
 import GroupPage from "./GroupPage";
-
-import { setGroup, getGroup,getGroupEnrollments,getGroupLessons,getGroupParticipants,getGroupEvaluations } from "../../store/actions"
+import {
+	setGroup,
+	getGroup,
+	getGroupEnrollments,
+	getGroupLessons,
+	getGroupParticipants,
+	getGroupEvaluations,
+	getGroupPresence,
+	getSubjects,
+} from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
+import Page from '../Page';
 
 class Group extends Component {
-
+	
 	render() {
 		if (this.props.group == null) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
-						<div className="page">
+						<Page>
 							De opgevraagde groep bestaat niet
-						</div>
+						</Page>
 					);
 				} else {
+					this.props.getSubjects();
 					this.props.getGroup(this.props.groupId);
 					return (
-						<div className="page">
+						<Page>
 							<Progress />
-						</div>
+						</Page>
 					);
 				}
 			} else {
 				return this.props.notExists ? null : <Progress />;
 			}
 		}
-
 		switch (this.props.display) {
 			case "page":
 				return (
@@ -48,12 +57,13 @@ class Group extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-	let id = ownProps.match.params.groupId || ownProps.groupId;
+	let id = (ownProps.match.params.groupId || ownProps.groupId) + "";
 	let display = ownProps.display || "page";
 
 	let notExists = false;
 	let group = null;
 
+	let userIsMemberOfGroup = state.users[state.userId].participatingGroupIds.indexOf(parseInt(id,10)) !== -1;
 	if (state.groups == null || state.groups[id] == null) {
 		if (id == null || state.hasFetched.indexOf("Group.get(" + id + ")") !== -1) {
 			notExists = true;
@@ -65,8 +75,10 @@ function mapStateToProps(state, ownProps) {
 		group,
 		notExists,
 		display,
-		role:state.role,
+		role: state.role,
 		groupId: id,
+		subjects: state.subjects,
+		userIsMemberOfGroup,
 	}
 }
 
@@ -78,6 +90,8 @@ function mapDispatchToProps(dispatch) {
 		getGroupLessons: (groupId) => dispatch(getGroupLessons(groupId)),
 		getGroupParticipants: (groupId) => dispatch(getGroupParticipants(groupId)),
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
+		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
+		getSubjects: () => dispatch(getSubjects()),
 	};
 }
 

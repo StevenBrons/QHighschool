@@ -37,7 +37,7 @@ class App extends Component {
 		if (!this.props.userId && this.props.location.pathname !== "/login") {
 			return (
 				<div className="App">
-					<Header/>
+					<Header />
 					<NotificationBar />
 				</div>
 			);
@@ -46,7 +46,7 @@ class App extends Component {
 			<div className="App">
 				<NotificationBar />
 				{this.props.showMenu && <Menu />}
-				<Header/>
+				<Header />
 				<Switch>
 					<Route path="/login" component={Login} />
 					<Route path="/inschrijven" component={CourseSelect} />
@@ -55,7 +55,7 @@ class App extends Component {
 					<Route path="/profiel/" component={User} />
 					<Route path="/groepen/" component={MyGroups} />
 					{/* <Route path="/instellingen" component={Settings} /> */}
-					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/instellingen"} />
+					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/groepen"} />
 				</Switch>
 			</div>
 		);

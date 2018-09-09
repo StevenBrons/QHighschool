@@ -3,8 +3,6 @@ import {withRouter} from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 class GroupCard extends Component {
 
@@ -54,9 +52,9 @@ class GroupCard extends Component {
 				<Typography variant="body1" style={{flex:1}}>
 					{user.profile}
 				</Typography>
-				<IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
+				{/* <IconButton onClick={this.expand.bind(this)} style={{ float: "right" ,transform:"translateY(-10px)"}}>
 					<FullscreenIcon />
-				</IconButton>
+				</IconButton> */}
 			</Paper >
 		);
 	}

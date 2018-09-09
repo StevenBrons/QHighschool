@@ -1,4 +1,5 @@
-import { User, Subject, Group } from "../lib/Data"
+import { User, Subject, Group, Course } from "../lib/Data"
+import filter from "lodash/filter"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
@@ -65,11 +66,6 @@ export function getParticipatingGroups() {
 				dispatch({
 					type: "CHANGE_GROUPS",
 					groups,
-				});
-				dispatch({
-					type: "CHANGE_PARTICIPATING_GROUPS",
-					userId: getState().userId,
-					participatingGroupsIds: Object.keys(groups).map(id => parseInt(id, 10)),
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
@@ -163,12 +159,45 @@ export function setUser(user) {
 
 export function setGroup(group) {
 	return (dispatch, getState) => {
+		function getCourse(group) {
+			return {
+				courseId: group.courseId,
+				subjectId: group.subjectId,
+				name: group.courseName,
+				description: group.courseDescription,
+				studyTime: group.studyTime,
+				foreknowledge: group.foreknowledge,
+			}
+		}
+
+		const oldCourse = getCourse(getState().groups[group.id]);
+		const newCourse = getCourse(group);
+
+		const oldLessons = getState().groups[group.id].lessons;
+		const newLessons = group.lessons;
+
+		const oldPresence = getState().groups[group.id].presence;
+		const newPresence = group.presence;
+
+		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
+			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
+		}
+
+		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
+			const changedPresenceObjs = filter(newPresence, (presence) => {
+				return JSON.stringify(presence) !== JSON.stringify(oldPresence[presence.id]);
+			});
+			Group.setPresence(changedPresenceObjs, group.id).catch(apiErrorHandler(dispatch));
+		}
+
+		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
+			Group.setLessons(newLessons).catch(apiErrorHandler(dispatch));
+		}
+
 		dispatch({
 			type: "CHANGE_GROUP",
 			group: group,
 		});
-		// TODO setGroup api call
-		// User.setUser(user).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -245,20 +274,44 @@ export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
 		if (
 			getState().groups[groupId].lessons != null ||
-			getState().hasFetched.indexOf("Group.getGroupLessons(" + groupId + ")") !== -1
+			getState().hasFetched.indexOf("Group.getLessons(" + groupId + ")") !== -1
 		) {
 			return;
 		}
 		dispatch({
 			type: "HAS_FETCHED",
-			call: "Group.getGroupLessons(" + groupId + ")"
+			call: "Group.getLessons(" + groupId + ")"
 		});
-		Group.getGroupLessons(groupId).then((lessons) => {
+		Group.getLessons(groupId).then((lessons) => {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
 					id: groupId,
 					lessons,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getGroupPresence(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].presence != null ||
+			getState().hasFetched.indexOf("Group.getPresence(" + groupId + ")") !== -1
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getPresence(" + groupId + ")"
+		});
+		Group.getPresence(groupId).then((presence) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					presence,
 				}
 			});
 		}).catch(apiErrorHandler(dispatch));

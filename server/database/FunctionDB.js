@@ -104,12 +104,21 @@ class FunctionDB {
 	async addLessons(groupId, period, day) {
 		const schedule = require("../lib/schedule");
 
-		const lessonAmount = ((period + "") === "1") ? 7 : 8;
-		for (let i = 0; i < lessonAmount; i++) {
+		for (let i = 0; i < 8; i++) {
 			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
-			await this.mainDb.connection.query(q2, [groupId, schedule.getLessonDate(period,i + 1,day), "", "", i + 1]);
+			await this.mainDb.connection.query(q2, [groupId, schedule.getLessonDate(period, i + 1, day), "", "", i + 1]);
 		}
 	}
+
+	async addAllLessons() {
+		const q1 = "SELECT id,period,day FROM course_group"
+		this.mainDb.connection.query(q1).then((rows) => {
+			rows.map((row) => {
+				this.addLessons(row.id, row.period, row.day);
+			});
+		});
+	}
+
 
 }
 

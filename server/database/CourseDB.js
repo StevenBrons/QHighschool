@@ -5,7 +5,7 @@ class CourseDB {
 	}
 
 	async getCourses() {
-		return this.mainDb.connection.query(				
+		return this.mainDb.connection.query(
 			"SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId;"
 		);
 	}
@@ -14,21 +14,25 @@ class CourseDB {
 		if (body.courseId >= 0) {
 			return this.mainDb.connection.query(
 				"SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId WHERE course.id = ?"
-			, [body.courseId]).then(courses => {
-				if (courses.length === 1) {
-					return courses[0];
-				}
-				throw new Error("courseId is invalid");
-			});
+				, [body.courseId]).then(courses => {
+					if (courses.length === 1) {
+						return courses[0];
+					}
+					throw new Error("courseId is invalid");
+				});
 		} else {
 			throw new Error("courseId must be a number");
 		}
 	}
 
 	async addCourse(data) {
-		console.log(data);
 		const q1 = "INSERT INTO course (subjectId,`name`,description,foreknowledge,studyTime) VALUES (?,?,?,?,?)"
-		return this.mainDb.connection.query(q1,[data.subjectId,data.name,data.description,data.foreknowledge,data.studyTime]);
+		return this.mainDb.connection.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime]);
+	}
+
+	async updateCourse(data) {
+		const q1 = "UPDATE course SET subjectId = ?,`name` = ?,description = ?,foreknowledge = ?,studyTime = ? WHERE id = ?"
+		return this.mainDb.connection.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime, data.courseId]);
 	}
 
 }
