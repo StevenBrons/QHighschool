@@ -57,7 +57,7 @@ class Menu extends Component {
 			);
 		} else {
 			icon = (
-				<ListItemIcon color={isCurrentPage ? "primary" : "textSecondary"}>
+				<ListItemIcon color={isCurrentPage ? "secondary" : "textSecondary"}>
 					{page.icon}
 				</ListItemIcon>
 			);
@@ -65,7 +65,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="subheading" color={isCurrentPage ? "primary" : "textSecondary"}>
+				<Typography variant="subheading" color={isCurrentPage ? "secondary" : "textSecondary"}>
 					{page.title}
 				</Typography>
 			</ListItem>
