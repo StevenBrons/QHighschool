@@ -40,6 +40,8 @@ class User extends Component {
 
 
 		switch (this.props.display) {
+			case "name":
+				return this.props.user.displayName;
 			case "page":
 				return (
 					<UserPage {...this.props} />

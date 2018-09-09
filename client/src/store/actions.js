@@ -283,6 +283,30 @@ export function getGroupLessons(groupId) {
 	}
 }
 
+export function getGroupPresence(groupId) {
+	return (dispatch, getState) => {
+		if (
+			getState().groups[groupId].presence != null ||
+			getState().hasFetched.indexOf("Group.getPresence(" + groupId + ")") !== -1
+		) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "Group.getPresence(" + groupId + ")"
+		});
+		Group.getPresence(groupId).then((presence) => {
+			dispatch({
+				type: "CHANGE_GROUP",
+				group: {
+					id: groupId,
+					presence,
+				}
+			});
+		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
 export function getGroupParticipants(groupId) {
 	return (dispatch, getState) => {
 		if (

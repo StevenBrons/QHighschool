@@ -10,7 +10,8 @@ import {
 	getGroupLessons,
 	getGroupParticipants,
 	getGroupEvaluations,
-	getSubjects
+	getGroupPresence,
+	getSubjects,
 } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
@@ -89,6 +90,7 @@ function mapDispatchToProps(dispatch) {
 		getGroupLessons: (groupId) => dispatch(getGroupLessons(groupId)),
 		getGroupParticipants: (groupId) => dispatch(getGroupParticipants(groupId)),
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
+		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
 		getSubjects: () => dispatch(getSubjects()),
 	};
 }

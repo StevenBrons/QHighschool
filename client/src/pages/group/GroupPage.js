@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import map from 'lodash/map';
 
 import ChooseButton from './ChooseButton';
+import PresenceTable from './PresenceTable';
 import Field from '../../components/Field';
 import Lesson from '../../components/Lesson';
 import EvaluationTab from './EvaluationTab';
@@ -51,9 +52,14 @@ class GroupPage extends Component {
 
 	getCurrentTab(currentTab) {
 		let group = this.state.group;
+		const enrollmentIds = this.state.group.enrollmentIds || this.props.group.enrollmentIds;
+		const lessons = this.state.group.lessons || this.props.group.lessons;
+		const participantIds = this.state.group.participantIds || this.props.group.participantIds;
+		const evaluations = this.state.group.evaluations || this.props.group.evaluations;
+		const presence = this.state.group.presence || this.props.group.presence;
+
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
-				const enrollmentIds = this.state.group.enrollmentIds || this.props.group.enrollmentIds;
 				if (enrollmentIds == null) {
 					this.props.getGroupEnrollments(group.id);
 					return <Progress />;
@@ -65,7 +71,6 @@ class GroupPage extends Component {
 					return <User key={id} userId={id} display="row" />
 				});
 			case "Lessen":
-				const lessons = this.state.group.lessons || this.props.group.lessons;
 				if (lessons == null) {
 					this.props.getGroupLessons(group.id);
 					return <Progress />;
@@ -77,7 +82,6 @@ class GroupPage extends Component {
 					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
 				});
 			case "Deelnemers":
-				const participantIds = this.state.group.participantIds || this.props.group.participantIds;
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
 					return <Progress />;
@@ -88,8 +92,21 @@ class GroupPage extends Component {
 				return participantIds.map(id => {
 					return <User key={id} userId={id} display="row" />
 				});
+			case "Activiteit":
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+					return <Progress />;
+				}
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
+					return <Progress />;
+				}
+				if (presence == null) {
+					this.props.getGroupPresence(group.id);
+					return <Progress />;
+				}
+				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} />
 			case "Beoordeling":
-				const evaluations = this.state.group.evaluations || this.props.group.evaluations;
 				if (evaluations == null) {
 					this.props.getGroupEvaluations(group.id);
 					return <Progress />;
