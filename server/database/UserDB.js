@@ -143,15 +143,16 @@ class UserDB {
 			return Promise.all(groupPromises);
 		}
 		if (admin) {
-			return mainDb.connection.query("SELECT id AS groupId FROM course_group", [userId])
+			return mainDb.connection.query("SELECT id AS groupId FROM course_group")
 				.then(_getGroups);
+		} else {
+			return mainDb.connection.query(
+				"SELECT participant.groupId " +
+				"FROM participant " +
+				"WHERE participant.userId = ? ",
+				[userId]
+			).then(_getGroups);
 		}
-		return mainDb.connection.query(
-			"SELECT participant.groupId " +
-			"FROM participant " +
-			"WHERE participant.userId = ? ",
-			[userId]
-		).then(_getGroups);
 	}
 
 }

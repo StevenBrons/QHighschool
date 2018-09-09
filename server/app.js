@@ -21,15 +21,6 @@ require('./passportSetup');
 const app = express();
 
 // setTimeout(() => {
-// 	database.group.addGroup({
-// 		courseId:1,
-// 		day: "maandag",
-// 		teacherId: 1,
-// 		period: 2,
-// 		schoolYear: "2018/2019",
-// 	}).catch(err => {
-// 		console.log(err);
-// 	});
 // }, 1000);
 
 app.set('views', path.join(__dirname, 'views'));
