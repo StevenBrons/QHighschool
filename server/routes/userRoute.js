@@ -72,7 +72,7 @@ router.get("/enrollableGroups", function (req, res, next) {
 });
 
 router.get("/groups", (req, res) => {
-	database.user.getGroups(req.user.id).then(groups => {
+	database.user.getGroups(req.user.id, req.user.isAdmin()).then(groups => {
 		res.send(groups);
 	});
 });

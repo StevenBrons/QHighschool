@@ -134,18 +134,24 @@ class UserDB {
 			.then(rows => rows.map(row => row.groupId));
 	}
 
-	async getGroups(userId) {
-		return this.mainDb.connection.query(
+	async getGroups(userId, admin) {
+		const mainDb = this.mainDb;
+		function _getGroups(rows) {
+			const groupPromises = rows.map((row) => {
+				return mainDb.group.getGroup(row.groupId);
+			});
+			return Promise.all(groupPromises);
+		}
+		if (admin) {
+			return mainDb.connection.query("SELECT id AS groupId FROM course_group", [userId])
+				.then(_getGroups);
+		}
+		return mainDb.connection.query(
 			"SELECT participant.groupId " +
 			"FROM participant " +
 			"WHERE participant.userId = ? ",
 			[userId]
-		).then(rows => {
-			const groupPromises = rows.map((row) => {
-				return this.mainDb.group.getGroup(row.groupId);
-			});
-			return Promise.all(groupPromises);
-		});
+		).then(_getGroups);
 	}
 
 }
