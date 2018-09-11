@@ -13,9 +13,10 @@ class Database {
 	}
 
 	async connect(connectionArgs) {
-		this.connection = await mysql.createConnection(connectionArgs).catch((err) => {
-			console.log(err);
-		});
+		this.connection = await mysql.createConnection(connectionArgs)
+			.catch((err) => {
+				console.log(err);
+			});
 		this.course = new CourseDB(this);
 		this.subject = new SubjectDB(this);
 		this.user = new UserDB(this);

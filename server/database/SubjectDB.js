@@ -2,15 +2,16 @@
 class SubjectDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
+		this.query = mainDb.connection.query;
 	}
 
 	async getSubjects() {
-		return this.mainDb.connection.query("SELECT * FROM school_subject;");
+		return this.query("SELECT * FROM school_subject;");
 	}
 	
 	async getSubject(body) {
 		if (body.subjectId >= 0) {
-			return this.mainDb.connection.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId]).then(subjects => {
+			return this.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId]).then(subjects => {
 				if (subjects.length === 1) {
 					return subjects[0];
 				}
