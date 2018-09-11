@@ -1,9 +1,10 @@
-
-
 class FunctionDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
-		this.query = mainDB.connection.query;
+	}
+
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
 	}
 
 	async createUser(profile) {

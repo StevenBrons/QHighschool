@@ -4,6 +4,10 @@ class GroupDB {
 		this.query = mainDb.connection.query;
 	}
 
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
+	}
+
 	async getGroups() {
 		return this.query(
 			"			SELECT  " +
