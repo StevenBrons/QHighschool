@@ -156,11 +156,13 @@ class CourseSelect extends Component {
 									sortMethod: "enrolled",
 								})
 							}} >
-								<ListItemText>
-									<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
-										Inschrijvingen
-									</Typography>
-								</ListItemText>
+								{this.props.role === "student" &&
+									<ListItemText>
+										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
+											Inschrijvingen
+										</Typography>
+									</ListItemText>
+								}
 							</ListItem >
 							{subjects}
 						</List>
