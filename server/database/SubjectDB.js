@@ -2,7 +2,6 @@
 class SubjectDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
-		this.query = mainDb.connection.query;
 	}
 
 	async query(sqlString, value) {
@@ -15,12 +14,16 @@ class SubjectDB {
 
 	async getSubject(body) {
 		if (body.subjectId >= 0) {
-			return this.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId]).then(subjects => {
-				if (subjects.length === 1) {
-					return subjects[0];
-				}
-				throw new Error("subjectId is invalid");
-			});
+			return this.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId])
+				.then(subjects => {
+					if (subjects.length === 1) {
+						return subjects[0];
+					}
+					throw new Error("subjectId is invalid");
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		} else {
 			throw new Error("subjectId must be a number");
 		}

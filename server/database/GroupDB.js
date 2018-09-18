@@ -1,7 +1,6 @@
 class GroupDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
-		this.query = mainDb.connection.query;
 	}
 
 	async query(sqlString, value) {
