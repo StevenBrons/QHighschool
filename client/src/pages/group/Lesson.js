@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import { AppBar, Toolbar } from '@material-ui/core';
-import Field from './Field';
+import Field from '../../components/Field';
 
 class Lesson extends Component {
 
@@ -77,7 +77,7 @@ class Lesson extends Component {
 				<Field margin="none" label="Activiteiten" area name="activities" variant="body1" style={{ flex: 8 }} value={lesson.activities} editable={this.props.editable} onChange={this.handleChange} />
 				<div style={{ flex: 2 }}>
 					<Field margin="none" variant="body1" value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()} />
-					<Field margin="none" name="presence" label="Aanwezigheid" labelVisible variant="body1" value={lesson.presence} editable={this.props.editable} onChange={this.handleChange} options={[{label:"Noodzakelijk",value:"required"},{label:"Optioneel",value:"optional"},{label:"Geen bijeenkomst",value:"unrequired"}]}/>
+					<Field margin="none" name="presence" label="Aanwezigheid" labelVisible variant="body1" value={lesson.presence} editable={this.props.editable} onChange={this.handleChange} options={[{label:"Noodzakelijk",value:"required"},{label:"Eigen keuze",value:"optional"},{label:"Geen bijeenkomst",value:"unrequired"}]}/>
 				</div>
 			</Paper >
 		);
