@@ -102,9 +102,9 @@ class CourseSelect extends Component {
 		}
 
 		const subjects = map(this.props.subjects, (subject) => {
-			let color = (this.state.sortSubjectId === subject.id && this.state.sortMethod === "subject") ? "secondary" : "primary";
+			let color = (this.state.sortSubjectId === subject.id && this.state.sortMethod === "subject") ? "primary" : "default";
 			if (this.state.sortSubjectId == null && subject.id + "" === Object.keys(this.props.subjects)[0]) {
-				color = "secondary";
+				color = "primary";
 			}
 			return (
 				<ListItem button onClick={() => {
@@ -115,7 +115,7 @@ class CourseSelect extends Component {
 				}}
 					key={subject.id}>
 					<ListItemText>
-						<Typography variant="title" color={color}>
+						<Typography variant="title" color={color} style={{minWidth:"150px"}}>
 							{subject.name}
 						</Typography>
 					</ListItemText>
@@ -151,19 +151,19 @@ class CourseSelect extends Component {
 				<div style={{ display: "flex" }}>
 					<Paper elevation={2}>
 						<List component="nav" style={{ flex: 1 }}>
-							<ListItem button onClick={() => {
-								this.setState({
-									sortMethod: "enrolled",
-								})
-							}} >
-								{this.props.role === "student" &&
+							{this.props.role === "student" &&
+								<ListItem button onClick={() => {
+									this.setState({
+										sortMethod: "enrolled",
+									})
+								}} >
 									<ListItemText>
 										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
 											Ingeschreven
 										</Typography>
 									</ListItemText>
-								}
-							</ListItem >
+								</ListItem >
+							}
 							{subjects}
 						</List>
 					</Paper>

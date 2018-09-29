@@ -19,6 +19,7 @@ const CARD_STYLE = {
 const CHOOSE_BUTTON_STYLE = {
 	position: "absolute",
 	bottom: "10px",
+	right:"30px",
 }
 
 class GroupCard extends Component {
@@ -45,18 +46,25 @@ class GroupCard extends Component {
 				style={this.state.style}
 			>
 				<Typography
-					variant="headline"
+					variant="caption"
 					color="primary"
 					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer", fontSize: this.props.group.courseName.length > 33 ? "16px" : "auto" }}
+					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
+				>
+					{this.props.group.subjectName}
+				</Typography>
+				<Typography
+					variant="headline"
+					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer",textTransform: "uppercase", fontSize: this.props.group.courseName.length > 33 ? "16px" : "auto" }}
 					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
 				>
 					{this.props.group.courseName}
 				</Typography>
 				<div>
-					<Typography variant="subheading" color="textSecondary" gutterBottom style={{ display: "inline-block" }}>
+					<Typography style={{ display: "inline-block",fontWeight:"bold",float:"right" }}>
 						{"Blok " + this.props.group.period + " - " + this.props.group.day}
 					</Typography>
-					<Typography variant="subheading" color="secondary" style={{ display: "inline-block", marginLeft: "20px" }}>
+					<Typography style={{ display: "inline-block",fontWeight:"bold" }}>
 						{this.props.group.enrollableFor}
 					</Typography>
 				</div>

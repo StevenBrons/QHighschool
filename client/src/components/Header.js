@@ -34,7 +34,7 @@ class Header extends Component {
 
 	logout() {
 		User.logout().then(() => {
-			document.location.reload(); 
+			document.location.reload();
 		});
 	}
 

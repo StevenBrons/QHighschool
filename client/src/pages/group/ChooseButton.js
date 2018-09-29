@@ -112,7 +112,7 @@ class ChooseButton extends Component {
 
 		if (props.hasChosen) {
 			return (
-				<Button color="secondary" onClick={() => this.onButtonClick()} style={props.style}>
+				<Button color="primary" onClick={() => this.onButtonClick()} style={props.style}>
 					{"Ingeschreven"}
 					<Clear />
 					{dialog}
@@ -122,7 +122,7 @@ class ChooseButton extends Component {
 
 		if (this.props.canChoose) {
 			return (
-				<Button color="secondary" variant="contained" onClick={() => this.onButtonClick()} style={this.props.style}>
+				<Button color="primary" variant="contained" onClick={() => this.onButtonClick()} style={this.props.style}>
 					{"Inschrijven" + (this.props.hasChosenDay ? "*" : "")}
 					{dialog}
 				</Button>
