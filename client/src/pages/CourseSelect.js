@@ -159,7 +159,7 @@ class CourseSelect extends Component {
 								{this.props.role === "student" &&
 									<ListItemText>
 										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
-											Inschrijvingen
+											Ingeschreven
 										</Typography>
 									</ListItemText>
 								}

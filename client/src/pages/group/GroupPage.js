@@ -4,8 +4,8 @@ import map from 'lodash/map';
 
 import ChooseButton from './ChooseButton';
 import PresenceTable from './PresenceTable';
+import Lesson from './Lesson';
 import Field from '../../components/Field';
-import Lesson from '../../components/Lesson';
 import EvaluationTab from './EvaluationTab';
 import User from "../user/User"
 import Page from '../Page';

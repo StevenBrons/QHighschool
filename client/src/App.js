@@ -49,13 +49,13 @@ class App extends Component {
 				<Header />
 				<Switch>
 					<Route path="/login" component={Login} />
-					<Route path="/inschrijven" component={CourseSelect} />
+					<Route path="/aanbod" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/gebruiker/:userId" component={User} />
 					<Route path="/profiel/" component={User} />
 					<Route path="/groepen/" component={MyGroups} />
 					{/* <Route path="/instellingen" component={Settings} /> */}
-					<Redirect push to={this.props.role === "student" ? "/inschrijven" : "/groepen"} />
+					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>
 			</div>
 		);
