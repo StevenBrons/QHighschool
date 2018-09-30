@@ -130,7 +130,7 @@ class ChooseButton extends Component {
 		} else {
 			return (
 				<Button disabled color="primary" onClick={() => this.onButtonClick()} style={props.style}>
-					{"Binnenkort beschikbaar"}
+					Coming Soon
 					{dialog}
 				</Button>
 			);

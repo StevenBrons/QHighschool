@@ -49,14 +49,14 @@ class Menu extends Component {
 		if (page.notifications > 0) {
 			icon = (
 				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color={"primary"}>
+					<Badge badgeContent={this.state.notifications} color="primary">
 						{page.icon}
 					</Badge>
 				</ListItemIcon>
 			);
 		} else {
 			icon = (
-				<ListItemIcon color={isCurrentPage ? "secondary" : "disabled"}>
+				<ListItemIcon color={isCurrentPage ? "primary" : "disabled"}>
 					{page.icon}
 				</ListItemIcon>
 			);
@@ -64,7 +64,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={isCurrentPage ? "secondary" : "textSecondary"}>
+				<Typography variant="title" color={isCurrentPage ? "primary" : "textSecondary"}>
 					{page.title}
 				</Typography>
 			</ListItem>
@@ -95,6 +95,12 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
+					<div style={{ margin: "25%",position:"absolute",bottom:"0px" }}>
+						<Typography variant="body1" style={{ textTransform:"uppercase" }}>
+							Made By
+						</Typography>
+						<img src="./images/logo_quadraam.svg" style={{ width: "100%" }} />
+					</div>
 				</List>
 			</Paper >
 		);

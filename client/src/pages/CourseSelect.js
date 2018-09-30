@@ -122,7 +122,7 @@ class CourseSelect extends Component {
 				</ListItem >
 			);
 		});
-
+		console.log(this.props.role);
 		return (
 			<Page>
 				<Paper
@@ -158,7 +158,7 @@ class CourseSelect extends Component {
 									})
 								}} >
 									<ListItemText>
-										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
+										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "primary" : "default"}>
 											Ingeschreven
 										</Typography>
 									</ListItemText>
@@ -181,6 +181,7 @@ class CourseSelect extends Component {
 
 function mapStateToProps(state) {
 	return {
+		role: state.role,
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
 		subjects: state.subjects ? state.subjects : [],
