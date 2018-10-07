@@ -151,19 +151,19 @@ class CourseSelect extends Component {
 				<div style={{ display: "flex" }}>
 					<Paper elevation={2}>
 						<List component="nav" style={{ flex: 1 }}>
-							<ListItem button onClick={() => {
-								this.setState({
-									sortMethod: "enrolled",
-								})
-							}} >
-								{this.props.role === "student" &&
+							{this.props.role === "student" &&
+								<ListItem button onClick={() => {
+									this.setState({
+										sortMethod: "enrolled",
+									})
+								}} >
 									<ListItemText>
 										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "secondary" : "primary"}>
 											Ingeschreven
 										</Typography>
 									</ListItemText>
-								}
-							</ListItem >
+								</ListItem >
+							}
 							{subjects}
 						</List>
 					</Paper>
@@ -181,6 +181,7 @@ class CourseSelect extends Component {
 
 function mapStateToProps(state) {
 	return {
+		role: state.role,
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
 		subjects: state.subjects ? state.subjects : [],
