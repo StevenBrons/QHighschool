@@ -30,7 +30,7 @@ class ChooseButton extends Component {
 				keepMounted
 			>
 				<DialogTitle>
-					{"Inschrijven"}
+					Inschrijven
 				</DialogTitle>
 				{this.props.hasChosenDay && !this.props.hasChosen ?
 					<div>

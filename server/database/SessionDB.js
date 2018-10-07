@@ -38,8 +38,12 @@ class SessionDB {
 		this.mainDb = mainDb;
 	}
 
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
+	}
+
 	async getUserByEmail(email) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"SELECT id,role FROM user_data WHERE email = ?",
 			[email]
 		).then((rows) => {
@@ -52,7 +56,7 @@ class SessionDB {
 	}
 
 	async getUserByToken(token) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"SELECT id, " +
 			"email, " +
 			"role, " +
@@ -66,7 +70,7 @@ class SessionDB {
 		).then(async (rows) => {
 			if (rows.length === 1) {
 				let user = rows[0];
-				return this.mainDb.connection.query(
+				return this.query(
 					"		SELECT  " +
 					"				course_group.id " +
 					"		FROM " +
@@ -97,7 +101,7 @@ class SessionDB {
 			"					 WHERE email = ?),?,?,NOW(),1)";
 
 		await this.destroySession(profile.upn);
-		await this.mainDb.connection.query(q1, [profile.upn, token, profile._json.ipaddr]);
+		await this.query(q1, [profile.upn, token, profile._json.ipaddr]);
 
 		return token;
 	}
@@ -110,7 +114,7 @@ class SessionDB {
 			"    (SELECT id " +
 			"     FROM user_data " +
 			"     WHERE email = ?) ";
-		return this.mainDb.connection.query(q1, [email]);
+		return this.query(q1, [email]);
 	}
 
 }

@@ -1,8 +1,10 @@
-
-
 class FunctionDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
+	}
+
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
 	}
 
 	async createUser(profile) {
@@ -54,7 +56,7 @@ class FunctionDB {
 			user.role = "teacher";
 		}
 
-		return this.mainDb.connection.query(
+		return this.query(
 			"INSERT INTO user_data " +
 			"(email,role,firstName,lastName,displayName,school,createIp,createDate) VALUES" +
 			"(?,?,?,?,?,?,?,NOW())",
@@ -74,17 +76,17 @@ class FunctionDB {
 	async _addPresence(userId, groupId) {
 		const q1 = "SELECT id FROM lesson WHERE lesson.groupId = ?";
 		const q2 = "INSERT INTO presence (lessonId,studentId,`status`,explanation) VALUES (?,?,NULL,NULL)";
-		return this.mainDb.connection.query(q1, [groupId])
+		return this.query(q1, [groupId])
 			.then((rows) => {
 				const prs = rows.map((row) => {
-					return this.mainDb.connection.query(q2, [row.id, userId]);
+					return this.query(q2, [row.id, userId]);
 				});
 				return Promise.all(prs);
 			});
 	}
 
 	async _addEvaluation(userId, groupId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"INSERT INTO evaluation " +
 			"(userId,courseId,`type`,assesment,explanation) VALUES " +
 			"(?, " +
@@ -94,7 +96,7 @@ class FunctionDB {
 	}
 
 	async _addParticipant(userId, groupId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"INSERT INTO participant " +
 			"(userId,groupId,status) VALUES" +
 			"(?,?,?)",
@@ -106,13 +108,13 @@ class FunctionDB {
 
 		for (let i = 0; i < 8; i++) {
 			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
-			await this.mainDb.connection.query(q2, [groupId, schedule.getLessonDate(period, i + 1, day), "", "", i + 1]);
+			await this.query(q2, [groupId, schedule.getLessonDate(period, i + 1, day), "", "", i + 1]);
 		}
 	}
 
 	async addAllLessons() {
 		const q1 = "SELECT id,period,day FROM course_group"
-		this.mainDb.connection.query(q1).then((rows) => {
+		this.query(q1).then((rows) => {
 			rows.map((row) => {
 				this.addLessons(row.id, row.period, row.day);
 			});

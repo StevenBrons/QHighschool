@@ -4,8 +4,12 @@ class UserDB {
 		this.mainDb = mainDb;
 	}
 
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
+	}
+
 	async getSelf(userId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"SELECT * FROM user_data " +
 			"WHERE id = ?;",
 			[userId]).then(async (rows) => {
@@ -18,7 +22,7 @@ class UserDB {
 	}
 
 	async getUser(userId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"SELECT * FROM user_data " +
 			"WHERE id = ?;",
 			[userId]).then((rows) => {
@@ -44,7 +48,7 @@ class UserDB {
 	}
 
 	async getEnrollments(userId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"SELECT groupId " +
 			"FROM enrollment " +
 			"WHERE studentId = ?",
@@ -87,7 +91,7 @@ class UserDB {
 		// if (!re3.test(data.phoneNumber)) {
 		// 	throw new Error("The property phoneNumber does not comply with requirements");
 		// }
-		return this.mainDb.connection.query(
+		return this.query(
 			"UPDATE user_data SET " +
 			"preferedEmail = ?, " +
 			"profile = ?, " +
@@ -100,7 +104,7 @@ class UserDB {
 	}
 
 	async addUserEnrollment(userId, groupId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"INSERT INTO enrollment " +
 			"(studentId,groupId) VALUES" +
 			"(? ,?)",
@@ -109,7 +113,7 @@ class UserDB {
 	}
 
 	async removeUserEnrollment(userId, groupId) {
-		return this.mainDb.connection.query(
+		return this.query(
 			"DELETE FROM enrollment " +
 			"WHERE studentId = ? " +
 			"AND groupId = ?",
@@ -118,7 +122,7 @@ class UserDB {
 	}
 
 	async getNotifications(userId) {
-		return this.mainDb.connection.query("SELECT * FROM notifications WHERE userId = ?", [userId]);
+		return this.query("SELECT * FROM notifications WHERE userId = ?", [userId]);
 	}
 
 	async getParticipatingGroupIds(userId, admin) {
@@ -126,7 +130,7 @@ class UserDB {
 		if (admin) {
 			q1 = "SELECT id AS groupId FROM course_group";
 		}
-		return this.mainDb.connection.query(q1, [userId])
+		return this.query(q1, [userId])
 			.then(rows => rows.map(row => row.groupId));
 	}
 
@@ -135,7 +139,7 @@ class UserDB {
 		if (admin) {
 			q1 = "SELECT id AS groupId FROM course_group";
 		}
-		return this.mainDb.connection.query(q1, [userId])
+		return this.query(q1, [userId])
 			.then((rows) => {
 				const groupPromises = rows.map((row) => {
 					return this.mainDb.group.getGroup(row.groupId);

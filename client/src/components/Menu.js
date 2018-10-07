@@ -19,16 +19,16 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["inschrijven"];
+				this.state.pages = ["aanbod"];
 				break;
 			case "teacher":
 				this.state.pages = ["groepen"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "inschrijven"];
+				this.state.pages = ["groepen", "aanbod"];
 				break;
 			default:
-				this.state.pages = ["inschrijven"];
+				this.state.pages = ["aanbod"];
 				break;
 		}
 	}
@@ -64,7 +64,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="subheading" color={isCurrentPage ? "secondary" : "textSecondary"}>
+				<Typography variant="title" color={isCurrentPage ? "secondary" : "textSecondary"}>
 					{page.title}
 				</Typography>
 			</ListItem>
@@ -74,8 +74,8 @@ class Menu extends Component {
 	render() {
 		const pages = [
 			{
-				id: "inschrijven",
-				title: "Inschrijven",
+				id: "aanbod",
+				title: "Aanbod",
 				visibleTo: "student",
 				icon: <AssignmentIcon />,
 			},
