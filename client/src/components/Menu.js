@@ -48,6 +48,8 @@ class Menu extends Component {
 				return <AssignmentIcon style={{color:c}}/>;
 			case "Group":
 				return <GroupIcon style={{color:c}}/>;
+			default:
+				return null;
 		}
 	}
 
