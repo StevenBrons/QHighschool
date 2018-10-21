@@ -11,7 +11,9 @@ const CARD_STYLE = {
 	height: "338px",
 	padding: "15px",
 	verticalAlign: "top",
-	margin: "20px",
+	margin: "25px",
+	marginRight:"0px",
+	marginBottom:"0px",
 	display: "inline-block",
 	position: "relative",
 }
@@ -71,7 +73,7 @@ class GroupCard extends Component {
 				<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription}
 				</Typography>
-				<div style={{ position: "absolute", bottom: "0px", width: "100%" }} >
+				<div style={{ position: "absolute", bottom: "5px", width: "100%" }} >
 					{
 						this.props.role === "student" ?
 							<ChooseButton
