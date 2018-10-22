@@ -116,7 +116,7 @@ class Menu extends Component {
 						<Typography variant="body1" style={{ textTransform: "uppercase" }}>
 							Made By
 						</Typography>
-						<img src="./images/logo_quadraam.svg" alt="Quadraam Logo" style={{ width: "100%" }} />
+						<img src="/images/logo_quadraam.svg" alt="Quadraam Logo" style={{ width: "100%" }} />
 					</div>
 				</List>
 			</Paper >

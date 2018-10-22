@@ -45,7 +45,7 @@ class Header extends Component {
 					<IconButton color="inherit" aria-label="Menu" onClick={this.props.toggleMenu}>
 						<MenuIcon />
 					</IconButton>
-					<img src="./images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto"}}/>
+					<img src="/images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto"}}/>
 					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.displayName}</Button>
 				</Toolbar>
 				<Menu
