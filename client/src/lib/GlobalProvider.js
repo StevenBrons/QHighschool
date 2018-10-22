@@ -10,15 +10,13 @@ import App from '../App';
 class GlobalProvider extends Component {
 	render() {
 		return (
-			<div>
-				<Provider store={this.props.store}>
-					<MuiThemeProvider theme={theme}>
-						<BrowserRouter>
-							<App />
-						</BrowserRouter>
-					</MuiThemeProvider>
-				</Provider>
-			</div>
+			<Provider store={this.props.store}>
+				<MuiThemeProvider theme={theme}>
+					<BrowserRouter>
+						<App />
+					</BrowserRouter>
+				</MuiThemeProvider>
+			</Provider>
 		);
 	}
 }

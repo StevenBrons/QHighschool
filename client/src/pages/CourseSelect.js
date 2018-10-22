@@ -21,9 +21,23 @@ class CourseSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortMethod: "subject",
+			sortMethod: null,
 			sortSubjectId: null,
 			filterMethod: "none",
+		}
+	}
+
+	static getDerivedStateFromProps(next, prevState) {
+		if (prevState.sortMethod == null && next.subjects != null) {
+			return {
+				...prevState,
+				...{
+					sortMethod: "subject",
+					sortSubjectId: Object.keys(next.subjects)[0],
+				}
+			};
+		} else {
+			return prevState;
 		}
 	}
 
@@ -42,16 +56,38 @@ class CourseSelect extends Component {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
+	getMenuItem(title, sortMethod, sortSubjectId) {
+		let color = (this.state.sortSubjectId === sortSubjectId && this.state.sortMethod === "subject") ? "primary" : "default";
+		return (
+			<ListItem button onClick={() => this.setState({ sortMethod, sortSubjectId })} key={title}>
+				<ListItemText>
+					<Typography variant="title" color={color} style={{ minWidth: "150px" }}>
+						{title}
+					</Typography>
+				</ListItemText>
+			</ListItem >
+		)
+	}
+
+	getMenuItems() {
+		const subjectsComponents = map(this.props.subjects, (subject) => {
+			return this.getMenuItem(subject.name, "subject", subject.id + "");
+		});
+		if (this.props.role === "student") {
+			subjectsComponents.unshift(this.getMenuItem("Ingeschreven", "enrolled"));
+		}
+		return subjectsComponents;
+	}
+
 	render() {
 		let data;
 		switch (this.state.sortMethod) {
 			case "subject":
-				let sortSubjectId = this.state.sortSubjectId || Object.keys(this.props.subjects)[0];
 				if (this.props.subjects == null || this.props.groups == null) {
 					data = <Progress />
 					break;
 				}
-				data = this.getGroupsPerSubject(sortSubjectId)
+				data = this.getGroupsPerSubject(this.state.sortSubjectId)
 					.sort((a, b) => a.period - b.period)
 					.filter((group) => {
 						switch (this.state.filterMethod) {
@@ -100,29 +136,6 @@ class CourseSelect extends Component {
 			default:
 				break;
 		}
-
-		const subjects = map(this.props.subjects, (subject) => {
-			let color = (this.state.sortSubjectId === subject.id && this.state.sortMethod === "subject") ? "primary" : "default";
-			if (this.state.sortSubjectId == null && subject.id + "" === Object.keys(this.props.subjects)[0]) {
-				color = "primary";
-			}
-			return (
-				<ListItem button onClick={() => {
-					this.setState({
-						sortMethod: "subject",
-						sortSubjectId: subject.id,
-					})
-				}}
-					key={subject.id}>
-					<ListItemText>
-						<Typography variant="title" color={color} style={{minWidth:"150px"}}>
-							{subject.name}
-						</Typography>
-					</ListItemText>
-				</ListItem >
-			);
-		});
-		console.log(this.props.role);
 		return (
 			<Page>
 				<Paper
@@ -151,20 +164,7 @@ class CourseSelect extends Component {
 				<div style={{ display: "flex" }}>
 					<Paper elevation={2}>
 						<List component="nav" style={{ flex: 1 }}>
-							{this.props.role === "student" &&
-								<ListItem button onClick={() => {
-									this.setState({
-										sortMethod: "enrolled",
-									})
-								}} >
-									<ListItemText>
-										<Typography variant="title" color={this.state.sortMethod === "enrolled" ? "primary" : "default"}>
-											Ingeschreven
-										</Typography>
-									</ListItemText>
-								</ListItem >
-							}
-							{subjects}
+							{this.getMenuItems()}
 						</List>
 					</Paper>
 					<div>
@@ -184,7 +184,7 @@ function mapStateToProps(state) {
 		role: state.role,
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
-		subjects: state.subjects ? state.subjects : [],
+		subjects: state.subjects,
 		enrolledGroupsIds: state.users[state.userId].enrollmentIds,
 	};
 }

@@ -61,12 +61,12 @@ class Menu extends Component {
 			style.bottom = "0px";
 		}
 
-		const color = isCurrentPage ? "primary" : "disabled";
+		const color = isCurrentPage ? "primary" : "inherit";
 		let icon;
 		if (page.notifications > 0) {
 			icon = (
 				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color="primary">
+					<Badge badgeContent={this.state.notifications} color="secondary">
 						{this.getIcon(page.icon,color)}
 					</Badge>
 				</ListItemIcon>
