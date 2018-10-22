@@ -39,7 +39,7 @@ class CourseSelect extends Component {
 		} else {
 			return prevState;
 		}
-	}
+}
 
 	componentDidMount() {
 		this.props.getSubjects();
