@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import { toggleMenu } from '../store/actions';
 import { User } from '../lib/Data';
 import { withRouter } from 'react-router-dom';
+import PersonIcon from '@material-ui/icons/Person';
+
 
 class Header extends Component {
 
@@ -46,7 +48,10 @@ class Header extends Component {
 						<MenuIcon />
 					</IconButton>
 					<img src="/images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto"}}/>
-					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>{this.props.displayName}</Button>
+					<Button color="inherit" style={{ right: 10, position: "absolute" }} onClick={this.handleClick}>
+						<PersonIcon style={{transform:"scale(1.5)",marginRight:"10px"}}/>
+						{this.props.displayName}
+					</Button>
 				</Toolbar>
 				<Menu
 					id="simple-menu"
