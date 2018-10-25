@@ -24,7 +24,7 @@ class GroupDB {
 			"            participant " +
 			"        WHERE " +
 			"            groupId = course_group.id " +
-			"                AND participant.role = 'teacher' " +
+			"                AND participant.participating_role = 'teacher' " +
 			"        LIMIT 1) AS teacherId, " +
 			"    (SELECT  " +
 			"            displayName " +
@@ -60,7 +60,7 @@ class GroupDB {
 				"							participant " +
 				"					WHERE " +
 				"							groupId = course_group.id " +
-				"									AND `role` = 'teacher' " +
+				"									AND participant.participating_role = 'teacher' " +
 				"					LIMIT 1) AS teacherId, " +
 				"			(SELECT  " +
 				"							displayName " +
