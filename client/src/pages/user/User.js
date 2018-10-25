@@ -80,8 +80,6 @@ function mapStateToProps(state, ownProps) {
 		user = state.users[id];
 	}
 
-	console.log(ownProps.userId);
-
 	return {
 		user,
 		notExists,
