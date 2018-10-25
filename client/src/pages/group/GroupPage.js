@@ -199,6 +199,7 @@ class GroupPage extends Component {
 	render() {
 		const editable = this.state.editable;
 		let group = this.state.group;
+		console.log(group.teacherId);
 		return (
 			<Page>
 				<div style={{ display: "flex" }}>
@@ -240,7 +241,7 @@ class GroupPage extends Component {
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ vertical: "top" }}
 				>
-					<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
+				<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 				</Popover>
 
 				<Divider />
