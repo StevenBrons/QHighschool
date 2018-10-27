@@ -82,6 +82,7 @@ class Field extends Component {
 		let multiline = false;
 		let menuItems;
 		let label = this.props.label;
+
 		if (style == null) {
 			style = {};
 		}
@@ -186,9 +187,6 @@ class Field extends Component {
 
 
 Field.propTypes = { 
-  firstName:PropTypes.string.isRequired, 
-  lastName:PropTypes.string.isRequired, 
-  country:PropTypes.string 
 }; 
 
 export default Field;
