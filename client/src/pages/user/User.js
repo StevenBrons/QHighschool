@@ -42,7 +42,7 @@ class User extends Component {
 
 		switch (this.props.display) {
 			case "name":
-				return <Field value={this.props.user.displayName} title/>;
+				return <Field value={this.props.user.displayName} title td/>;
 			case "page":
 				return (
 					<UserPage {...this.props} />

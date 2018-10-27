@@ -45,9 +45,9 @@ class Menu extends Component {
 		}
 		switch (iconName) {
 			case "Assignment":
-				return <AssignmentIcon style={{color:c}}/>;
+				return <AssignmentIcon style={{ color: c }} />;
 			case "Group":
-				return <GroupIcon style={{color:c}}/>;
+				return <GroupIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -67,21 +67,21 @@ class Menu extends Component {
 			icon = (
 				<ListItemIcon>
 					<Badge badgeContent={this.state.notifications} color="secondary">
-						{this.getIcon(page.icon,color)}
+						{this.getIcon(page.icon, color)}
 					</Badge>
 				</ListItemIcon>
 			);
 		} else {
 			icon = (
 				<ListItemIcon color={color}>
-					{this.getIcon(page.icon,color)}
+					{this.getIcon(page.icon, color)}
 				</ListItemIcon>
 			);
 		}
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={color}>
+				<Typography variant="title" color={color} className="HiddenOnMobile">
 					{page.title}
 				</Typography>
 			</ListItem>
@@ -112,7 +112,7 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
-					<div style={{ margin: "25%", position: "absolute", bottom: "0px" }}>
+					<div style={{ margin: "25%", position: "absolute", bottom: "0px" }} className="HiddenOnMobile">
 						<Typography variant="body1" style={{ textTransform: "uppercase" }}>
 							Made By
 						</Typography>

@@ -39,7 +39,7 @@ class CourseSelect extends Component {
 		} else {
 			return prevState;
 		}
-}
+	}
 
 	componentDidMount() {
 		this.props.getSubjects();
@@ -142,14 +142,13 @@ class CourseSelect extends Component {
 					elevation={2}
 					style={{ position: "relative" }}
 				>
-					<Toolbar>
-						<Typography variant="subheading" color="textSecondary" style={{ width: "90%" }}>
+					<Toolbar style={{display:"flex"}}>
+						<Typography variant="subheading" color="textSecondary" style={{flex:"3 1 auto"}}>
 							Schrijf je in voor modules
           	</Typography>
 						<Field
 							label="filter"
 							value={this.state.filterMethod}
-							right
 							editable
 							options={[
 								{ label: "Geen", value: "none" },
@@ -161,7 +160,7 @@ class CourseSelect extends Component {
 						/>
 					</Toolbar>
 				</Paper>
-				<div style={{ display: "flex" }}>
+				<div style={{ display: "flex" }} className="ColumnFlexDirectionOnMobile">
 					<Paper elevation={2}>
 						<List component="nav" style={{ flex: 1 }}>
 							{this.getMenuItems()}

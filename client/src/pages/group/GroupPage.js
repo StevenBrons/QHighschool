@@ -199,7 +199,6 @@ class GroupPage extends Component {
 	render() {
 		const editable = this.state.editable;
 		let group = this.state.group;
-		console.log(group.teacherId);
 		return (
 			<Page>
 				<div style={{ display: "flex" }}>
@@ -244,7 +243,6 @@ class GroupPage extends Component {
 				<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 				</Popover>
 
-				<Divider />
 				<AppBar position="static" color="default">
 					<Tabs
 						value={this.state.currentTab}
@@ -258,9 +256,9 @@ class GroupPage extends Component {
 					</Tabs>
 				</AppBar>
 				<br />
-				<div style={{ width: "95%", margin: "auto" }}>
+				<table style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
-				</div>
+				</table>
 				<PageLeaveWarning giveWarning={this.state.editable}/>
 			</Page>
 		);
