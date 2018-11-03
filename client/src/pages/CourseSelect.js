@@ -15,6 +15,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
+import queryString from "query-string";
 
 class CourseSelect extends Component {
 
@@ -22,18 +23,27 @@ class CourseSelect extends Component {
 		super(props);
 		this.state = {
 			sortMethod: null,
-			sortSubjectId: null,
 			filterMethod: "none",
 		}
 	}
 
-	static getDerivedStateFromProps(next, prevState) {
-		if (prevState.sortMethod == null && next.subjects != null) {
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
+		if (values.sort) {
 			return {
 				...prevState,
 				...{
-					sortMethod: "subject",
-					sortSubjectId: Object.keys(next.subjects)[0],
+					sortMethod: values.sort,
+					filterMethod: values.filter?values.filter:"none",
+				}
+			}
+		}
+		if (prevState.sortMethod == null && nextProps.subjects != null) {
+			return {
+				...prevState,
+				...{
+					filterMethod: values.filter?values.filter:"none",
+					sortMethod: nextProps.subjects[Object.keys(nextProps.subjects)[0]].name,
 				}
 			};
 		} else {
@@ -46,20 +56,29 @@ class CourseSelect extends Component {
 		this.props.getGroups();
 	}
 
-	getGroupsPerSubject(subjectId) {
+	getGroupsPerSubject(subject) {
 		return filter(this.props.groups, (group) => {
-			return subjectId + "" === group.subjectId + "";
+			return subject === group.subjectName;
 		})
 	}
 
-	handleSortChange = event => {
-		this.setState({ [event.target.name]: event.target.value });
+	handleSortChange = subject => {
+		this.props.history.push({
+			search: "sort=" + subject + "&filter=" + this.state.filterMethod,
+		});
 	};
 
-	getMenuItem(title, sortMethod, sortSubjectId) {
-		let color = (this.state.sortSubjectId === sortSubjectId && this.state.sortMethod === "subject") ? "primary" : "default";
+	handleFilterChange = event => {
+		console.log(event.target);
+		this.props.history.push({
+			search: "sort=" + this.state.sortMethod + "&filter=" + event.target.value,
+		});
+	};
+
+	getMenuItem(title, subject) {
+		let color = (this.state.sortMethod === subject) ? "primary" : "default";
 		return (
-			<ListItem button onClick={() => this.setState({ sortMethod, sortSubjectId })} key={title}>
+			<ListItem button onClick={() => this.handleSortChange(subject)} key={title}>
 				<ListItemText>
 					<Typography variant="title" color={color} style={{ minWidth: "150px" }}>
 						{title}
@@ -71,7 +90,7 @@ class CourseSelect extends Component {
 
 	getMenuItems() {
 		const subjectsComponents = map(this.props.subjects, (subject) => {
-			return this.getMenuItem(subject.name, "subject", subject.id + "");
+			return this.getMenuItem(subject.name, subject.name);
 		});
 		if (this.props.role === "student") {
 			subjectsComponents.unshift(this.getMenuItem("Ingeschreven", "enrolled"));
@@ -81,60 +100,53 @@ class CourseSelect extends Component {
 
 	render() {
 		let data;
-		switch (this.state.sortMethod) {
-			case "subject":
-				if (this.props.subjects == null || this.props.groups == null) {
-					data = <Progress />
-					break;
-				}
-				data = this.getGroupsPerSubject(this.state.sortSubjectId)
-					.sort((a, b) => a.period - b.period)
-					.filter((group) => {
-						switch (this.state.filterMethod) {
-							case "period1":
-								return group.period === 1;
-							case "period2":
-								return group.period === 2;
-							case "period3":
-								return group.period === 3;
-							case "period4":
-								return group.period === 4;
-							default:
-								return true;
-						}
-					})
-					.map((group) => {
-						return <Group
-							key={group.id}
-							groupId={group.id}
-							display="card"
-						/>
-					});
-				break;
-			case "enrolled":
-				if (this.props.enrolledGroupsIds == null) {
-					data = <Progress />
-					break;
-				}
-				data = this.props.enrolledGroupsIds.map((groupId) => {
-					return (
-						<Group
-							key={groupId}
-							groupId={groupId}
-							display="card"
-						/>
-					);
+		if (this.state.sortMethod === "enrolled") {
+			if (this.props.enrolledGroupsIds == null) {
+				data = <Progress />
+			}
+			data = this.props.enrolledGroupsIds.map((groupId) => {
+				return (
+					<Group
+						key={groupId}
+						groupId={groupId}
+						display="card"
+					/>
+				);
+			});
+			if (this.props.enrolledGroupsIds.length === 0) {
+				data = (
+					<div style={{ margin: "15px" }} >
+						Je hebt je nog niet ingeschreven.
+					</div>
+				)
+			}
+		} else {
+			if (this.props.subjects == null || this.props.groups == null) {
+				data = <Progress />
+			}
+			data = this.getGroupsPerSubject(this.state.sortMethod)
+				.sort((a, b) => a.period - b.period)
+				.filter((group) => {
+					switch (this.state.filterMethod) {
+						case "period1":
+							return group.period === 1;
+						case "period2":
+							return group.period === 2;
+						case "period3":
+							return group.period === 3;
+						case "period4":
+							return group.period === 4;
+						default:
+							return true;
+					}
+				})
+				.map((group) => {
+					return <Group
+						key={group.id}
+						groupId={group.id}
+						display="card"
+					/>
 				});
-				if (this.props.enrolledGroupsIds.length === 0) {
-					data = (
-						<div style={{ margin: "15px" }} >
-							Je hebt je nog niet ingeschreven.
-						</div>
-					)
-				}
-				break;
-			default:
-				break;
 		}
 		return (
 			<Page>
@@ -142,8 +154,8 @@ class CourseSelect extends Component {
 					elevation={2}
 					style={{ position: "relative" }}
 				>
-					<Toolbar style={{display:"flex"}}>
-						<Typography variant="subheading" color="textSecondary" style={{flex:"2 1 auto"}}>
+					<Toolbar style={{ display: "flex" }}>
+						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Schrijf je in voor modules
           	</Typography>
 						<Field
@@ -156,7 +168,7 @@ class CourseSelect extends Component {
 								{ label: "Blok 2", value: "period2" },
 								{ label: "Blok 3", value: "period3" },
 								{ label: "Blok 4", value: "period4" }]}
-							onChange={(event) => { this.setState({ filterMethod: event.target.value }) }}
+							onChange={this.handleFilterChange}
 						/>
 					</Toolbar>
 				</Paper>
