@@ -143,7 +143,7 @@ class CourseSelect extends Component {
 					style={{ position: "relative" }}
 				>
 					<Toolbar style={{display:"flex"}}>
-						<Typography variant="subheading" color="textSecondary" style={{flex:"3 1 auto"}}>
+						<Typography variant="subheading" color="textSecondary" style={{flex:"2 1 auto"}}>
 							Schrijf je in voor modules
           	</Typography>
 						<Field
