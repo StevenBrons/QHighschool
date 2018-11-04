@@ -20,7 +20,7 @@ const mainDec = require('./databaseDeclearations/MainDec');
 const UserDec = require('./databaseDeclearations/UserDec');
 const CourseDec = require('./databaseDeclearations/CourseDec');
 const SubjectDec = require('./databaseDeclearations/SubjectDec');
-
+const CourseGroup = require('./databaseDeclearations/CourseGroupDec');
 
 // const database = require('./database/MainDB');
 
