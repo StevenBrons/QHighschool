@@ -1,3 +1,7 @@
+const Course = require("../databaseDeclearations/CourseDec");
+const Subject = require("../databaseDeclearations/SubjectDec");
+const Sequelize = require('sequelize');
+
 class CourseDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
@@ -8,8 +12,14 @@ class CourseDB {
 	}
 
 	async getCourses() {
-		const q1 = "SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId;";
-		return this.query(q1);
+		return Course.findAll({
+			include: [{ model: Subject, attributes: ["name"] }]
+		}).then(rows => rows.map(({ dataValues }) => {
+			return {
+				...dataValues,
+				subjectName: dataValues.subject.name,
+			};
+		}));
 	}
 
 	async getCourse(body) {

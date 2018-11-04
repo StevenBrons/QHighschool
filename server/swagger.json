@@ -757,9 +757,6 @@
 				},
 				"studyTime": {
 					"type": "string"
-				},
-				"enrollableFor": {
-					"type": "string"
 				}
 			},
 			"xml": {
@@ -921,6 +918,9 @@
 					"type": "string"
 				},
 				"subjectDescription": {
+					"type": "string"
+				},
+				"enrollableFor": {
 					"type": "string"
 				}
 			},

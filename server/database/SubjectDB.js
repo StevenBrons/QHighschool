@@ -17,4 +17,4 @@ class SubjectDB {
 	}
 }
 
-module.exports = SubjectDB;
+module.exports = new SubjectDB();
