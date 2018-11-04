@@ -2,13 +2,6 @@ const Course = require("../databaseDeclearations/CourseDec");
 const Subject = require("../databaseDeclearations/SubjectDec");
 
 class CourseDB {
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
 
 	async getCourses() {
 		return Course.findAll({
@@ -36,13 +29,29 @@ class CourseDB {
 	}
 
 	async addCourse(data) {
-		const q1 = "INSERT INTO course (subjectId,`name`,description,foreknowledge,studyTime) VALUES (?,?,?,?,?)"
-		return this.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime]);
+		return Course.create({
+			subjectId: data.subjectId,
+			name: data.name,
+			description: data.description,
+			foreknowledge: data.foreknowledge,
+			studyTime: data.studyTime
+		});
 	}
 
 	async updateCourse(data) {
-		const q1 = "UPDATE course SET subjectId = ?,`name` = ?,description = ?,foreknowledge = ?,studyTime = ? WHERE id = ?"
-		return this.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime, data.courseId]);
+		return Course.findById(data.courseId).then((course) => {
+			if (course) {
+				return course.updateAttributes({
+					subjectId: data.subjectId,
+					name: data.name,
+					description: data.description,
+					foreknowledge: data.foreknowledge,
+					studyTime: data.studyTime
+				});
+			}else {
+				throw new Error("courseId is invalid");
+			}
+		});
 	}
 
 }
