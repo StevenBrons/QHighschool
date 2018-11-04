@@ -1,6 +1,5 @@
 const Course = require("../databaseDeclearations/CourseDec");
 const Subject = require("../databaseDeclearations/SubjectDec");
-const Sequelize = require('sequelize');
 
 class CourseDB {
 	constructor(mainDb) {
@@ -22,18 +21,18 @@ class CourseDB {
 		}));
 	}
 
-	async getCourse(body) {
-		if (body.courseId >= 0) {
-			throw new Error("courseId must be a number");
-		}
-		const q1 = "SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId WHERE course.id = ?";
-		return this.query(q1, [body.courseId])
-			.then(courses => {
-				if (courses.length === 1) {
-					return courses[0];
-				}
-				throw new Error("courseId is invalid");
-			});
+	async getCourse(courseId) {
+		return Course.findById(courseId, {
+			include: [{ model: Subject, attributes: ["name"] }]
+		}).then(data => {
+			if (data == null) {
+				throw new Error("courseId \'" + courseId + "\' is invalid");
+			}
+			return {
+				...data.dataValues,
+				subjectName: data.dataValues.subject.name,
+			};
+		});
 	}
 
 	async addCourse(data) {

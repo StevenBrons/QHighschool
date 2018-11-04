@@ -20,7 +20,7 @@ router.get("/list", function (req, res) {
 });
 
 router.post("/", function (req, res) {
-	database.course.getCourse(req.body).then(course => {
+	database.course.getCourse(req.body.courseId).then(course => {
 		res.send(course);
 	}).catch(error => handleError(error, res));
 });
