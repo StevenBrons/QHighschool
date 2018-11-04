@@ -530,7 +530,7 @@
 						"name": "userId",
 						"in": "formData",
 						"description": "The userId to change, if empty, own user will be returned",
-						"required": false,
+						"required": true,
 						"type": "string"
 					},
 					{
@@ -544,6 +544,20 @@
 						"name": "profile",
 						"in": "formData",
 						"description": "The profile of the student",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "year",
+						"in": "formData",
+						"description": "The schoolyear the student is in",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "level",
+						"in": "formData",
+						"description": "The level of the student",
 						"required": true,
 						"type": "string"
 					},

@@ -1,3 +1,5 @@
+const User = require('../databaseDeclearations/UserDec');
+
 class UserDB {
 
 	constructor(mainDb) {
@@ -9,42 +11,36 @@ class UserDB {
 	}
 
 	async getSelf(userId) {
-		return this.query(
-			"SELECT * FROM user_data " +
-			"WHERE id = ?;",
-			[userId]).then(async (rows) => {
-				return {
-					...rows[0],
-					notifications: await this.getNotifications(userId),
-					participatingGroupIds: await this.getParticipatingGroupIds(userId, rows[0].role === "admin"),
-				};
-			});
+		return User.findById(userId).then(async (data) => {
+			const user = data.dataValues;
+			return {
+				...user,
+				notifications: await this.getNotifications(userId),
+				participatingGroupIds: await this.getParticipatingGroupIds(userId, user.role === "admin"),
+			};
+		});
 	}
 
 	async getUser(userId) {
-		return this.query(
-			"SELECT * FROM user_data " +
-			"WHERE id = ?;",
-			[userId]).then((rows) => {
-				if (rows.length === 1) {
-					let user = rows[0];
-					return {
-						id: user.id,
-						firstName: user.firstName,
-						lastName: user.lastName,
-						displayName: user.displayName,
-						email: user.email,
-						role: user.role,
-						school: user.school,
-						year: user.year,
-						profile: user.profile,
-						level: user.level,
-					}
-				} else {
-					return {
-					}
+		return User.findById(userId).then((data) => {
+			if (data) {
+				const user = data.dataValues;
+				return {
+					id: user.id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					displayName: user.displayName,
+					email: user.email,
+					role: user.role,
+					school: user.school,
+					year: user.year,
+					profile: user.profile,
+					level: user.level,
 				}
-			});
+			} else {
+				throw new Error("User not found");
+			}
+		});
 	}
 
 	async getEnrollments(userId) {
@@ -58,49 +54,47 @@ class UserDB {
 	}
 
 	async setUser(userId, data) {
-		// if (data.preferedEmail == null || data.preferedEmail == "") {
-		// 	throw new Error("The property preferedEmail is required");
-		// }
-		// if (data.profile == null || data.profile == "") {
-		// 	throw new Error("The property profile is required");
-		// }
-		// if (data.phoneNumber == null || data.phoneNumber == "") {
-		// 	throw new Error("The property phoneNumber is required");
-		// }
-		// if (data.level == null || data.level == "") {
-		// 	throw new Error("The property level is required");
-		// }
-		// if (data.year == null || data.year == "") {
-		// 	throw new Error("The property year is required");
-		// }
-		// const re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		// if (!re1.test(data.email)) {
-		// 	throw new Error("The property email does not comply with requirements");
-		// }
-		// const re2 = /^\+?[1-9][\d]*$/i;
-		// if (!re2.test(data.year)) {
-		// 	throw new Error("The property phoneNumber does not comply with requirements");
-		// }
-		// if (parseInt(data.year) > 6) {
-		// 	throw new Error("The property year must be below or equal to 6");
-		// }
-		// if (parseInt(data.year) < 1) {
-		// 	throw new Error("The property year must be 1 or higher");
-		// }
-		// const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
-		// if (!re3.test(data.phoneNumber)) {
-		// 	throw new Error("The property phoneNumber does not comply with requirements");
-		// }
-		return this.query(
-			"UPDATE user_data SET " +
-			"preferedEmail = ?, " +
-			"profile = ?, " +
-			"phoneNumber = ?, " +
-			"year = ?, " +
-			"level = ? " +
-			"WHERE id = ? ",
-			[data.preferedEmail, data.profile, data.phoneNumber, data.year, data.level, userId]
-		);
+		if (data.profile == null || data.profile == "") {
+			throw new Error("The property profile is required");
+		}
+		if (data.phoneNumber == null || data.phoneNumber == "") {
+			throw new Error("The property phoneNumber is required");
+		}
+		if (data.level == null || data.level == "") {
+			throw new Error("The property level is required");
+		}
+		if (data.year == null || data.year == "") {
+			throw new Error("The property year is required");
+		}
+		const re1 = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+		if (!re1.test(data.preferedEmail)) {
+			throw new Error("The property preferedEmail does not comply with requirements");
+		}
+		const re2 = /^\+?[1-9][\d]*$/i;
+		if (!re2.test(data.year)) {
+			throw new Error("The property year does not comply with requirements");
+		}
+		if (parseInt(data.year) > 6) {
+			throw new Error("The property year must be below or equal to 6");
+		}
+		if (parseInt(data.year) < 1) {
+			throw new Error("The property year must be 1 or higher");
+		}
+		const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
+		if (!re3.test(data.phoneNumber)) {
+			throw new Error("The property phoneNumber does not comply with requirements");
+		}
+		return User.update({
+			preferedEmail: data.preferedEmail,
+			profile: data.profile,
+			phoneNumber: data.phoneNumber,
+			year: data.year,
+			level: data.level,
+		}, {
+				where: {
+					id: userId,
+				}
+			});
 	}
 
 	async addUserEnrollment(userId, groupId) {

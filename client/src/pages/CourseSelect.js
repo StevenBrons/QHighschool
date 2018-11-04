@@ -69,7 +69,6 @@ class CourseSelect extends Component {
 	};
 
 	handleFilterChange = event => {
-		console.log(event.target);
 		this.props.history.push({
 			search: "sort=" + this.state.sortMethod + "&filter=" + event.target.value,
 		});
