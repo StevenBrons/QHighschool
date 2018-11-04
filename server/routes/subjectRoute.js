@@ -15,9 +15,9 @@ router.get("/list", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  database.subject.getSubject(req.body).then(subjects => {
+  database.subject.getSubject(req.body.subjectId).then(subjects => {
     res.send(subjects);
-  }).catch(error => handleError(error,res));
+  }).catch((err) => handleError(err,res));
 });
 
 module.exports = router;
