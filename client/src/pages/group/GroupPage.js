@@ -17,6 +17,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Progress from '../../components/Progress'
+import PageLeaveWarning from '../../components/PageLeaveWarning'
 
 class GroupPage extends Component {
 
@@ -50,13 +51,23 @@ class GroupPage extends Component {
 		}
 	}
 
+	static getDerivedStateFromProps(next, prevState) {
+		return {
+			...prevState,
+			group: {
+				...next.group,
+				...prevState.group,
+			}
+		}
+	}
+
 	getCurrentTab(currentTab) {
 		let group = this.state.group;
-		const enrollmentIds = this.state.group.enrollmentIds || this.props.group.enrollmentIds;
-		const lessons = this.state.group.lessons || this.props.group.lessons;
-		const participantIds = this.state.group.participantIds || this.props.group.participantIds;
-		const evaluations = this.state.group.evaluations || this.props.group.evaluations;
-		const presence = this.state.group.presence || this.props.group.presence;
+		const enrollmentIds = this.state.group.enrollmentIds;
+		const lessons = this.state.group.lessons;
+		const participantIds = this.state.group.participantIds;
+		const evaluations = this.state.group.evaluations;
+		const presence = this.state.group.presence;
 
 		switch (this.state.tabs[currentTab]) {
 			case "Inschrijvingen":
@@ -229,10 +240,9 @@ class GroupPage extends Component {
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ vertical: "top" }}
 				>
-					<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
+				<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 				</Popover>
 
-				<Divider />
 				<AppBar position="static" color="default">
 					<Tabs
 						value={this.state.currentTab}
@@ -246,9 +256,10 @@ class GroupPage extends Component {
 					</Tabs>
 				</AppBar>
 				<br />
-				<div style={{ width: "95%", margin: "auto" }}>
+				<table style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
-				</div>
+				</table>
+				<PageLeaveWarning giveWarning={this.state.editable}/>
 			</Page>
 		);
 	}

@@ -14,8 +14,11 @@ class PresenceTable extends Component {
 				{ label: "Actief", value: "present" },
 				{ label: "Niet actief", value: "absent" }
 			]}
+			td
 			editable={this.props.editable}
+			variant="body1"
 			margin="none"
+			area
 			onChange={(event) => {
 				this.props.handleChange({
 					...presence,
@@ -38,7 +41,7 @@ class PresenceTable extends Component {
 		}));
 
 		return (
-			<Paper style={{ display: "flex", marginTop: "10px" }}>
+			<Paper component="tr">
 				<User key={participantId} userId={participantId} display="name" />
 				{content}
 			</Paper>
@@ -47,23 +50,20 @@ class PresenceTable extends Component {
 
 	createLessonHeader() {
 		const content = map(this.props.lessons, lesson => {
-			return <Field value={"Les " + lesson.numberInBlock} title />;
+			return <Field value={"Les " + lesson.numberInBlock} title td area/>;
 		});
 		return (
-			<Paper style={{ display: "flex" }}>
-				<Field value="" />
+			<Paper component="tr">
+				<Field value="" td area/>
 				{content}
 			</Paper>
 		);
 	}
 
 	render() {
-		return (
-			<div>
-				{this.createLessonHeader()}
-				{this.props.participantIds.map(this.createRows)}
-			</div>
-		);
+		let rows = this.props.participantIds.map(this.createRows);
+		rows.unshift(this.createLessonHeader());
+		return rows;
 	}
 
 }

@@ -10,6 +10,7 @@ import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
+import theme from '../lib/MuiTheme';
 
 class Menu extends Component {
 
@@ -37,6 +38,21 @@ class Menu extends Component {
 		this.props.history.push("/" + page);
 	}
 
+	getIcon(iconName, color) {
+		let c = "black";
+		if (theme.palette[color]) {
+			c = theme.palette[color].main;
+		}
+		switch (iconName) {
+			case "Assignment":
+				return <AssignmentIcon style={{ color: c }} />;
+			case "Group":
+				return <GroupIcon style={{ color: c }} />;
+			default:
+				return null;
+		}
+	}
+
 	getItem(page, index) {
 		const isCurrentPage = ((("/" + page.id) === this.props.location.pathname));
 		let style = {};
@@ -45,26 +61,27 @@ class Menu extends Component {
 			style.bottom = "0px";
 		}
 
+		const color = isCurrentPage ? "primary" : "inherit";
 		let icon;
 		if (page.notifications > 0) {
 			icon = (
 				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color={"primary"}>
-						{page.icon}
+					<Badge badgeContent={this.state.notifications} color="secondary">
+						{this.getIcon(page.icon, color)}
 					</Badge>
 				</ListItemIcon>
 			);
 		} else {
 			icon = (
-				<ListItemIcon color={isCurrentPage ? "secondary" : "disabled"}>
-					{page.icon}
+				<ListItemIcon color={color}>
+					{this.getIcon(page.icon, color)}
 				</ListItemIcon>
 			);
 		}
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={isCurrentPage ? "secondary" : "textSecondary"}>
+				<Typography variant="title" color={color} className="HiddenOnMobile">
 					{page.title}
 				</Typography>
 			</ListItem>
@@ -77,13 +94,13 @@ class Menu extends Component {
 				id: "aanbod",
 				title: "Aanbod",
 				visibleTo: "student",
-				icon: <AssignmentIcon />,
+				icon: "Assignment",
 			},
 			{
 				id: "groepen",
 				title: "Mijn groepen",
 				visibleTo: "teacher",
-				icon: <GroupIcon />,
+				icon: "Group",
 			},
 		];
 
@@ -95,6 +112,12 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
+					<div style={{ margin: "25%", position: "absolute", bottom: "0px" }} className="HiddenOnMobile">
+						<Typography variant="body1" style={{ textTransform: "uppercase" }}>
+							Made By
+						</Typography>
+						<img src="/images/logo_quadraam.svg" alt="Quadraam Logo" style={{ width: "100%" }} />
+					</div>
 				</List>
 			</Paper >
 		);

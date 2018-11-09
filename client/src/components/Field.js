@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import theme from '../lib/MuiTheme'
 import MenuItem from '@material-ui/core/MenuItem';
+import PropTypes from 'prop-types';
 
 class Field extends Component {
 
@@ -81,6 +82,7 @@ class Field extends Component {
 		let multiline = false;
 		let menuItems;
 		let label = this.props.label;
+
 		if (style == null) {
 			style = {};
 		}
@@ -135,8 +137,7 @@ class Field extends Component {
 				)
 			});
 		}
-
-		return (
+		const field = (
 			<TextField
 				value={value}
 				margin={margin}
@@ -146,7 +147,7 @@ class Field extends Component {
 				className={this.props.right ? "right" : ""}
 				label={label}
 				select={options ? true : false}
-				style={{ ...{ float, flex: 1, marginLeft: "10px", marginRight: "10px" }, ...style }}
+				style={{ ...{ float, flex: 1 }, ...style }}
 				onChange={this.onChange.bind(this)}
 				error={this.state.error}
 				InputProps={{
@@ -171,8 +172,21 @@ class Field extends Component {
 				{menuItems}
 			</TextField>
 		);
+		if (this.props.td) {
+			return (
+				<td>
+					{field}
+				</td>
+			);
+		}else {
+			return field;
+		}
 	}
 
 }
+
+
+Field.propTypes = { 
+}; 
 
 export default Field;

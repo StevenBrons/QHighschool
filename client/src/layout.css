@@ -32,14 +32,22 @@ body, #root, .App {
 
 .Login {
   grid-column: 6 / span 4;
-	grid-row: 5 / span 4;
+	grid-row: 5 / span 5;
 	-ms-grid-column: 6;
 	-ms-grid-column-span: 4;
 	-ms-grid-row: 5;
-	-ms-grid-row-span: 4;
+	-ms-grid-row-span: 5;
 }
 
 .Header {
+	background: rgba(195,56,107,1);
+	background: -moz-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
+	background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(195,56,107,1)), color-stop(0%, rgba(195,56,107,1)), color-stop(25%, rgba(86,140,190,1)), color-stop(100%, rgba(4,199,253,1)));
+	background: -webkit-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
+	background: -o-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
+	background: -ms-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
+	background: linear-gradient(135deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c3386b', endColorstr='#04c7fd', GradientType=1 );
   grid-column: 1 / span 15;
 	grid-row: 1 / span 1;
 	-ms-grid-column: 1;
@@ -57,49 +65,54 @@ body, #root, .App {
 	-ms-grid-row-span: 14;
 }
 
-.Page.menuShown {
+.Page {
 	overflow-y: scroll;
 	padding: 30px;
-  grid-column: 3 / span 12;
+}
+
+.Page {
 	grid-row: 2 / span 13;
-	-ms-grid-column: 3;
-	-ms-grid-column-span: 12;
 	-ms-grid-row: 2;
 	-ms-grid-row-span: 13;
 }
 
-.Page.menuHidden {
-	overflow-y: scroll;
-	padding: 30px;
-  grid-column: 1 / span 15;
-	grid-row: 2 / span 13;
-	-ms-grid-column: 1;
-	-ms-grid-column-span: 15;
-	-ms-grid-row: 2;
-	-ms-grid-row-span: 13;
-}
-
-.NotificationBar.menuShown {
-	grid-column: 3 / span 12;
+.NotificationBar {
 	grid-row: 15;
-	-ms-grid-column: 3;
-	-ms-grid-column-span: 12;
 	grid-row-end: 16;
 	-ms-grid-row: 16;
 	-ms-grid-row-span: 1;
 }
 
-.NotificationBar.menuHidden {
-	grid-column: 1 / span 15;
-	grid-row: 15;
-	-ms-grid-column: 3;
-	-ms-grid-column-span: 12;
-	grid-row-end: 16;
-	-ms-grid-row: 16;
-	-ms-grid-row-span: 1;
+.menuShown {
+  grid-column-start: 3;
+  grid-column-end: 16;
+	-ms-grid-column-start: 3;
+	-ms-grid-column-end: 16;
 }
 
-@media only screen and (max-height: 1000px) {
+.menuHidden {
+  grid-column-start: 1;
+  grid-column-end: 16;
+	-ms-grid-column-start: 1;
+	-ms-grid-column-end: 16;
+}
+
+td {
+	padding: 7px;
+}
+
+table {
+	border-spacing: 0px 10px
+}
+
+/* Small Monitors: 
+	(Reduced padding and margins)
+*/
+@media only screen and (max-width: 1350px) {
+	.Page {
+		padding: 15px;
+	}
+
 	.Login {
 		grid-row: 4 / span 6;
 		-ms-grid-row: 4;
@@ -107,128 +120,49 @@ body, #root, .App {
 	}
 }
 
-@media only screen and (max-height: 700px) {
-	.Login {
-		grid-row: 3 / span 8;
-		-ms-grid-row: 3;
-		-ms-grid-row-span: 8;
-	}
-}
-
-@media only screen and (max-width: 1400px) {
-	.Login {
-		grid-column: 5 / span 6;
-		-ms-grid-column: 5;
-		-ms-grid-column-span: 6;
-	}
-}
-
+/* Tablet: 
+	(Reduced padding and margins)
+*/
 @media only screen and (max-width: 1200px) {
-  .Menu {
-    grid-column: 1 / span 3;
-  }
-
-	.Page.menuShown {
-		overflow-y: scroll;
-		padding: 15px;
-		grid-column: 4 / span 11;
-		grid-row: 2 / span 13;
-		-ms-grid-column: 4;
-		-ms-grid-column-span: 11;
-		-ms-grid-row: 2;
-		-ms-grid-row-span: 13;
-	}
-
-	.NotificationBar.menuShown {
-		grid-column: 4 / span 11;
-		grid-row: 15;
-		-ms-grid-column: 4;
-		-ms-grid-column-span: 11;
-		grid-row-end: 16;
-		-ms-grid-row: 16;
-		-ms-grid-row-span: 1;
-	}
-	
-}
-
-@media only screen and (max-width: 930px) {
-  .Menu {
-		grid-column: 1 / span 4;
-  }
-
-	.Login {
-		grid-column: 4 / span 8;
-		-ms-grid-column: 4;
-		-ms-grid-column-span: 8;
-	}
-
-	.Page.menuShown {
-		padding: 5px;
-		grid-column: 5 / span 10;
-		-ms-grid-column: 5;
-		-ms-grid-column-span: 10;
-	}
-
-	.NotificationBar.menuShown {
-		grid-column: 5 / span 10;
-		-ms-grid-column: 5;
-		-ms-grid-column-span: 10;
-		grid-row-end: 16;
-	}
-
-}
-
-@media only screen and (max-width: 700px) {
-  .Menu {
-		grid-column: 1 / span 1;
-		padding: 0px;
-	}
-	
-	.Menu svg {
-		margin:0px;
-	}
-
-	.Menu nav div div {
-		display: none;
-	}
-
-	.Page.menuShown {
-		overflow-y: scroll;
-		padding: 5px;
-		grid-column: 2 / span 14;
-		grid-row: 2 / span 13;
-		-ms-grid-column: 2;
-		-ms-grid-column-span: 14;
-		-ms-grid-row: 2;
-		-ms-grid-row-span: 13;
-	}
-
-	.NotificationBar.menuShown {
-		grid-column: 2 / span 14;
-		grid-row: 15;
-		-ms-grid-column: 2;
-		-ms-grid-column-span: 14;
-		grid-row-end: 16;
-		-ms-grid-row: 16;
-		-ms-grid-row-span: 1;
-	}
-
-	.Login {
-		grid-column: 2 / span 12;
-		-ms-grid-column: 2;
-		-ms-grid-column-span: 12;
-	}
-
-}
-
-@media only screen and (max-width: 590px) {
 	.App {
-		position: relative;
-		display: -ms-grid;
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-		grid-template-rows: 56px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 68px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
-		-ms-grid-rows: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+	}
+
+	.Menu {
+		grid-column: 1 / span 1;
+		-ms-grid-column-span: 1;
+	}
+
+	.menuShown {
+		grid-column-start: 2;
+		-ms-grid-column-start: 2;
+	}
+
+	.HiddenOnMobile {
+		display: none !important;
+	}
+
+	.Login {
+		grid-row: 4 / span 6;
+		-ms-grid-row: 4;
+		-ms-grid-row-span: 6;
+	}
+
+}
+
+/* Mobile */
+@media only screen and (max-width: 750px) {
+	.ColumnFlexDirectionOnMobile {
+		flex-direction: column;
+	}
+
+	.Login {
+		grid-column: 1 / span 14;
+		grid-row: 4 / span 7;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 14;
+		-ms-grid-row: 4;
+		-ms-grid-row-span: 7;
 	}
 }

@@ -39,27 +39,23 @@ class Lesson extends Component {
 		const lesson = this.props.lesson;
 		if (lesson.id === -1) {
 			return (
-				<AppBar position="static" color="default">
-					<Toolbar
-						elevation={this.state.hover ? 4 : 2}
-						onMouseEnter={() => this.setState({ hover: true })}
-						onMouseLeave={() => this.setState({ hover: false })}
-						style={{ ...this.state.style, ...{ margin: "0px" } }}
-						variant="dense"
-						disableGutters
-					>
-						<div style={{ flex: 1 }}>
-							<Field style={{ fontWeight: "bold" }} value="Lesnummer" />
-							<Field style={{ fontWeight: "bold" }} value="Soort les" />
-						</div>
-						<Field style={{ flex: 4, fontWeight: "bold" }} value="Onderwerp" />
-						<Field style={{ flex: 8, fontWeight: "bold" }} value="Activiteiten" />
-						<div style={{ flex: 2 }}>
-							<Field style={{ fontWeight: "bold" }} value="Datum" />
-							<Field style={{ fontWeight: "bold" }} value="Aanwezigheid" />
-						</div>
-					</Toolbar >
-				</AppBar >
+				<Paper
+					elevation={this.state.hover ? 4 : 2}
+					onMouseEnter={() => this.setState({ hover: true })}
+					onMouseLeave={() => this.setState({ hover: false })}
+					component="tr"
+				>
+					<td style={{ display: "flex", flexDirection: "column" }}>
+						<Field style={{ fontWeight: "bold" }} value="Lesnummer" />
+						<Field style={{ fontWeight: "bold" }} value="Soort les" />
+					</td>
+					<Field style={{ flex: 4, fontWeight: "bold" }} value="Onderwerp" td />
+					<Field style={{ flex: 8, fontWeight: "bold" }} value="Activiteiten" td />
+					<td style={{ display: "flex", flexDirection: "column" }}>
+						<Field style={{ fontWeight: "bold" }} value="Datum" right />
+						<Field style={{ fontWeight: "bold" }} value="Aanwezigheid" right />
+					</td>
+				</Paper>
 			);
 		}
 		return (
@@ -67,19 +63,65 @@ class Lesson extends Component {
 				elevation={this.state.hover ? 4 : 2}
 				onMouseEnter={() => this.setState({ hover: true })}
 				onMouseLeave={() => this.setState({ hover: false })}
-				style={this.state.style}
+				component="tr"
 			>
-				<div style={{ flex: 1 }}>
-					<Field margin="none" variant="body1" color="primary" style={{ fontWeight: "bold" }} value={"Les " + lesson.numberInBlock} />
-					<Field margin="none" label="Soort les" name="kind" variant="body1" value={lesson.kind} editable={this.props.editable} onChange={this.handleChange} />
-				</div>
-				<Field margin="none" label="Onderwerp" area name="subject" variant="body1" style={{ flex: 4 }} value={lesson.subject} editable={this.props.editable} onChange={this.handleChange} />
-				<Field margin="none" label="Activiteiten" area name="activities" variant="body1" style={{ flex: 8 }} value={lesson.activities} editable={this.props.editable} onChange={this.handleChange} />
-				<div style={{ flex: 2 }}>
-					<Field margin="none" variant="body1" value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()} />
-					<Field margin="none" name="presence" label="Aanwezigheid" labelVisible variant="body1" value={lesson.presence} editable={this.props.editable} onChange={this.handleChange} options={[{label:"Noodzakelijk",value:"required"},{label:"Eigen keuze",value:"optional"},{label:"Geen bijeenkomst",value:"unrequired"}]}/>
-				</div>
-			</Paper >
+				<td style={{ display: "flex", flexDirection: "column" }}>
+					<Field
+						variant="body1"
+						color="primary"
+						style={{ fontWeight: "bold" }}
+						value={"Les " + lesson.numberInBlock}
+					/>
+					<Field
+						label="Soort les"
+						name="kind"
+						variant="body1"
+						value={lesson.kind}
+						editable={this.props.editable}
+						onChange={this.handleChange}
+					/>
+				</td>
+				<Field
+					label="Onderwerp"
+					area
+					name="subject"
+					variant="body1"
+					style={{ flex: 4 }}
+					value={lesson.subject}
+					editable={this.props.editable}
+					onChange={this.handleChange}
+					td
+				/>
+				<Field
+					label="Activiteiten"
+					area
+					name="activities"
+					variant="body1"
+					style={{ flex: 8 }}
+					value={lesson.activities}
+					editable={this.props.editable}
+					onChange={this.handleChange}
+					td
+				/>
+				<td style={{ display: "flex", flexDirection: "column" }}>
+					<Field
+						variant="body1"
+						right
+						value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
+					/>
+					<Field
+						name="presence"
+						label="Aanwezigheid"
+						labelVisible
+						right
+						variant="body1"
+						value={lesson.presence}
+						editable={this.props.editable}
+						onChange={this.handleChange}
+						options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
+					/>
+				</td>
+			</Paper>
 		);
 	}
 
