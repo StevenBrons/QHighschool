@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
-// import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 import User from "./pages/user/User";
@@ -54,7 +53,6 @@ class App extends Component {
 					<Route path="/gebruiker/:userId" component={User} />
 					<Route path="/profiel/" component={User} />
 					<Route path="/groepen/" component={MyGroups} />
-					{/* <Route path="/instellingen" component={Settings} /> */}
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>
 			</div>

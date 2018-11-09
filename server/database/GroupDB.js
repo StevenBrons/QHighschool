@@ -9,36 +9,36 @@ class GroupDB {
 
 	async getGroups() {
 		return this.query(
-			"			SELECT  " +
-			"			course_group.*, " +
-			"			course.name AS courseName, " +
-			"			course.description AS courseDescription, " +
-			"			course.foreknowledge AS foreknowledge, " +
-			"			course.studyTime AS studyTime, " +
-			"			school_subject.id AS subjectId, " +
-			"			school_subject.name AS subjectName, " +
-			"			school_subject.description AS subjectDescription, " +
-			"			(SELECT  " +
-			"							userId " +
-			"					FROM " +
-			"							participant " +
-			"					WHERE " +
-			"							groupId = course_group.id " +
-			"									AND participant.status = 'teacher' " +
-			"					LIMIT 1) AS teacherId, " +
-			"			(SELECT  " +
-			"							displayName " +
-			"					FROM " +
-			"							user_data " +
-			"					WHERE " +
-			"							id = teacherId) AS teacherName " +
-			"	FROM " +
-			"			course_group " +
-			"					INNER JOIN " +
-			"			course ON course.id = course_group.courseId " +
-			"					INNER JOIN " +
-			"			school_subject ON school_subject.id = course.subjectId " +
-			"	ORDER BY course_group.period "
+			"SELECT  " +
+			"    course_group.*, " +
+			"    course.name AS courseName, " +
+			"    course.description AS courseDescription, " +
+			"    course.foreknowledge AS foreknowledge, " +
+			"    course.studyTime AS studyTime, " +
+			"    school_subject.id AS subjectId, " +
+			"    school_subject.name AS subjectName, " +
+			"    school_subject.description AS subjectDescription, " +
+			"    (SELECT  " +
+			"            userId " +
+			"        FROM " +
+			"            participant " +
+			"        WHERE " +
+			"            groupId = course_group.id " +
+			"                AND participant.participating_role = 'teacher' " +
+			"        LIMIT 1) AS teacherId, " +
+			"    (SELECT  " +
+			"            displayName " +
+			"        FROM " +
+			"            user_data " +
+			"        WHERE " +
+			"            id = teacherId) AS teacherName " +
+			"FROM " +
+			"    course_group " +
+			"        INNER JOIN " +
+			"    course ON course.id = course_group.courseId " +
+			"        INNER JOIN " +
+			"    school_subject ON school_subject.id = course.subjectId " +
+			"ORDER BY course_group.period "
 		);
 	}
 
@@ -60,7 +60,7 @@ class GroupDB {
 				"							participant " +
 				"					WHERE " +
 				"							groupId = course_group.id " +
-				"									AND `status` = 'teacher' " +
+				"									AND participant.participating_role = 'teacher' " +
 				"					LIMIT 1) AS teacherId, " +
 				"			(SELECT  " +
 				"							displayName " +
