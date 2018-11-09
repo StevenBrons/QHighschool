@@ -1,19 +1,40 @@
-﻿Eigen email bevestigen?
-Logo?
-QHighschool website vervangen?
-Webadres (QHighschool.nl?)
-Zijn er al courses en docenten bekend?
+﻿Fase 1 afronding:
+Wanneer is het streven om de website toegankelijk te maken?
+	-Welke andere features zijn een must?
+	-wanneer moeten leerlingen kunnen kiezen?! (blok 1 begint al volgende week toch?!)
 
-Azure administrator account!
+Fase 2 omschrijving:
+	Docenten en leerlingen kunnen lijst zien van groepen waar zij deel aan nemen
 
-Elke periode opnieuw modules invullen??
-Relatie instanceof module?
-Expert s!
-Coach es!
+	Leerlingen en docenten kunnen lesomschrijvingen van de lessen bekijken
 
-Fase 2:
-Weegfactoren cijfers (studielasturen)
-Beoordeling formaat (cijfers, goed, matig etc.)
-Meerdere beoordelingen per module?
-Voor en achternaam los opslaan?
-Hoe moet de beoordeling?
+	Docenten kunnen de moduleomschrijving aanpassen
+	Docenten kunnen lesomschrijvingen aanpassen
+	Docenten en leerlingen kunnen deelnemers bekijken van groepen waar zij deel aan nemen
+	Docenten kunnen beoordelingen geven aan leerlingen in hun groepen
+	Docenten kunnen activiteit aangeven van leerlingen in hun groepen
+
+	(Administratoren kunnen deelnemers aan groepen toevoegen)
+
+	Lessen pagina
+		welke velden?
+	Deelnemers pagina
+		simpele lijst van alle deelnemers
+	-Beoordeling pagina
+		welk formaat?
+			-cijfer
+			-vink
+			-onvoldoende
+			-voldoende
+			-goed
+		één beoordeling per module?
+	-Activiteit
+		-Per les per leerling:
+			-Actief
+			-Inactief
+			-Onbekend (moet door docent nog worden ingevuld)
+	-Mijn groepen
+		-Voor docenten:
+			-Lijst van alle groepen waar deze docent les geeft
+		-Voor leerlingen:
+			-Lijst van alle groepen waar deze leerling aan deelneemt

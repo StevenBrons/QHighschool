@@ -7,49 +7,22 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Data, { User } from "./Data";
-import { getCookie, setCookie } from "./lib/Cookie";
-import { getUser } from './store/actions';
+import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
-import Settings from "./pages/Settings";
 import CourseSelect from "./pages/CourseSelect";
-import Course from "./pages/Course";
+import Group from "./pages/group/Group";
+import User from "./pages/user/User";
+import MyGroups from "./pages/MyGroups";
 
 import Header from "./components/Header";
+import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 
 class App extends Component {
 
-	constructor(props) {
-		super(props);
-		const token = getCookie("token");
-		Data.setToken(token);
-		this.props.getUser();
-
-		this.state = {
-			showMenu: token ? true : false,
-			token: token,
-			user: {},
-			choices: [],
-			isLoggedIn: false,
-		};
-
-		if (token !== null) {
-			User.getUser(this.state.token).then(data => {
-				this.setState({
-					user: data,
-				});
-			});
-		}
-	}
-
-	handleLogin(event) {
-		event.preventDefault();
-		let token = "token1";
-		Data.setToken(token);
-		setCookie("token", token, 365);
-		this.setState({ showMenu: true, token: token });
+	componentWillMount() {
+		this.props.getSelf();
 	}
 
 	handleShowMenu() {
@@ -59,32 +32,28 @@ class App extends Component {
 		});
 	}
 
-	onSettingsSave(newUser) {
-		this.setState({
-			user: newUser,
-		});
-	}
-
 	render() {
-		if (this.state.token === null) {
+		if (!this.props.userId && this.props.location.pathname !== "/login") {
 			return (
-				<div className="App" style={{ backgroundColor: "white" }}>
-					<Header email="" />
-					<Login handleLogin={this.handleLogin.bind(this)} />
+				<div className="App">
+					<Header />
+					<NotificationBar />
 				</div>
 			);
 		}
 		return (
-			<div className="App" style={{ backgroundColor: "white" }}>
-				{this.props.showMenu && <Menu/>}
-				<Header email={this.state.user.preferedEmail} handleShowMenu={this.handleShowMenu.bind(this)} path={this.props.location} />
+			<div className="App">
+				<NotificationBar />
+				{this.props.showMenu && <Menu />}
+				<Header />
 				<Switch>
 					<Route path="/login" component={Login} />
-					{!this.props.isLoggedIn && <Redirect to="/login" />}
-					<Route path="/aanmelden" component={CourseSelect} />
-					<Route path="/module" component={Course} />
-					<Route path="/instellingen" component={Settings} />
-					<Redirect push to="/aanmelden" />
+					<Route path="/aanbod" component={CourseSelect} />
+					<Route path="/groep/:groupId" component={Group} />
+					<Route path="/gebruiker/:userId" component={User} />
+					<Route path="/profiel/" component={User} />
+					<Route path="/groepen/" component={MyGroups} />
+					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>
 			</div>
 		);
@@ -94,18 +63,17 @@ class App extends Component {
 
 function mapStateToProps(state) {
 	return {
-		isLoggedIn: state.isLoggedIn,
 		showMenu: state.showMenu,
+		role: state.role,
+		userId: state.userId,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getUser: () => {
-			dispatch(getUser());
-		},
-
+		getSelf: () => dispatch(getSelf()),
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

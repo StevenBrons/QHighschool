@@ -1,91 +1,151 @@
-class UserDB{
+class UserDB {
 
 	constructor(mainDb) {
 		this.mainDb = mainDb;
 	}
 
-	async getUser(token) {
-		return this.mainDb.connection.query(
-			"SELECT * FROM user " +
-			"WHERE id IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?);",
-			[token]).then((users) => {
-				if (users.length == 1) {
-					return users[0];
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
+	}
+
+	async getSelf(userId) {
+		return this.query(
+			"SELECT * FROM user_data " +
+			"WHERE id = ?;",
+			[userId]).then(async (rows) => {
+				return {
+					...rows[0],
+					notifications: await this.getNotifications(userId),
+					participatingGroupIds: await this.getParticipatingGroupIds(userId, rows[0].role === "admin"),
+				};
+			});
+	}
+
+	async getUser(userId) {
+		return this.query(
+			"SELECT * FROM user_data " +
+			"WHERE id = ?;",
+			[userId]).then((rows) => {
+				if (rows.length === 1) {
+					let user = rows[0];
+					return {
+						id: user.id,
+						firstName: user.firstName,
+						lastName: user.lastName,
+						displayName: user.displayName,
+						email: user.email,
+						role: user.role,
+						school: user.school,
+						year: user.year,
+						profile: user.profile,
+						level: user.level,
+					}
 				} else {
-					return this.mainDb.checkToken(token);
+					return {
+					}
 				}
 			});
 	}
 
-	async getEnrollments(token) {
-		return this.mainDb.connection.query(
-			"SELECT   " +
-			"qhighschool.group.*,  " +
-			"qhighschool.course.name AS courseName,  " +
-			"qhighschool.course.description AS courseDescription,  " +
-			"qhighschool.subject.id AS subjectId,  " +
-			"qhighschool.subject.name AS subjectName,  " +
-			"qhighschool.subject.description AS subjectDescription,  " +
-			"CONCAT(qhighschool.user.firstName, ' ', qhighschool.user.lastName) AS teacherName  " +
-			" FROM qhighschool.enrollment " +
-			" INNER JOIN qhighschool.group ON qhighschool.group.id = qhighschool.enrollment.groupId   " +
-			" INNER JOIN qhighschool.course ON qhighschool.course.id = qhighschool.group.courseId   " +
-			" INNER JOIN qhighschool.user ON qhighschool.user.id = qhighschool.group.teacherId  " +
-			" INNER JOIN qhighschool.subject ON qhighschool.subject.id = qhighschool.course.subjectId " +
-			" WHERE qhighschool.enrollment.studentId = (SELECT id FROM loggedin WHERE token = ?) ",
-			[token]).then(async (enrollments) => {
-				if (enrollments.length > 0) {
-					return enrollments;
-				} else {
-					await this.mainDb.checkToken(token);
-					return [];
-				}
+	async getEnrollments(userId) {
+		return this.query(
+			"SELECT groupId " +
+			"FROM enrollment " +
+			"WHERE studentId = ?",
+			[userId]).then(async (rows) => {
+				return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.groupId)));
 			});
 	}
 
-	async setUser(token, data) {
-		await this.mainDb.checkToken(token);
-
-		if (data.preferedEmail == null) {
-			throw new Exception("The property preferedEmail is required");
-		}
-		if (data.profile == null) {
-			throw new Exception("The property profile is required");
-		}
-		if (data.phoneNumber == null) {
-			throw new Exception("The property phoneNumber is required");
-		}
-
-		return this.mainDb.connection.query(
-			"UPDATE user SET " +
+	async setUser(userId, data) {
+		// if (data.preferedEmail == null || data.preferedEmail == "") {
+		// 	throw new Error("The property preferedEmail is required");
+		// }
+		// if (data.profile == null || data.profile == "") {
+		// 	throw new Error("The property profile is required");
+		// }
+		// if (data.phoneNumber == null || data.phoneNumber == "") {
+		// 	throw new Error("The property phoneNumber is required");
+		// }
+		// if (data.level == null || data.level == "") {
+		// 	throw new Error("The property level is required");
+		// }
+		// if (data.year == null || data.year == "") {
+		// 	throw new Error("The property year is required");
+		// }
+		// const re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		// if (!re1.test(data.email)) {
+		// 	throw new Error("The property email does not comply with requirements");
+		// }
+		// const re2 = /^\+?[1-9][\d]*$/i;
+		// if (!re2.test(data.year)) {
+		// 	throw new Error("The property phoneNumber does not comply with requirements");
+		// }
+		// if (parseInt(data.year) > 6) {
+		// 	throw new Error("The property year must be below or equal to 6");
+		// }
+		// if (parseInt(data.year) < 1) {
+		// 	throw new Error("The property year must be 1 or higher");
+		// }
+		// const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
+		// if (!re3.test(data.phoneNumber)) {
+		// 	throw new Error("The property phoneNumber does not comply with requirements");
+		// }
+		return this.query(
+			"UPDATE user_data SET " +
 			"preferedEmail = ?, " +
 			"profile = ?, " +
-			"phoneNumber = ? " +
-			"WHERE id IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?)",
-			[data.preferedEmail,data.profile,data.phoneNumber, token]);
-	}
-
-	async addUserEnrollment(token, groupId) {
-		return this.mainDb.checkToken(token).then(() => this.mainDb.connection.query(
-			"INSERT INTO enrollment " + 
-			"(studentId,groupId) VALUES" + 
-			"((SELECT id FROM loggedin WHERE token = ?) ,?)",
-			[token,groupId]
-		));
-	}
-
-	async removeUserEnrollment(token, groupId) {
-		return this.mainDb.connection.query(
-			"DELETE FROM enrollment " + 
-			"WHERE studentId IN " +
-			"(SELECT id FROM loggedin " +
-			"WHERE token = ?) AND groupId = ?",
-			[token,groupId]
+			"phoneNumber = ?, " +
+			"year = ?, " +
+			"level = ? " +
+			"WHERE id = ? ",
+			[data.preferedEmail, data.profile, data.phoneNumber, data.year, data.level, userId]
 		);
+	}
+
+	async addUserEnrollment(userId, groupId) {
+		return this.query(
+			"INSERT INTO enrollment " +
+			"(studentId,groupId) VALUES" +
+			"(? ,?)",
+			[userId, groupId]
+		);
+	}
+
+	async removeUserEnrollment(userId, groupId) {
+		return this.query(
+			"DELETE FROM enrollment " +
+			"WHERE studentId = ? " +
+			"AND groupId = ?",
+			[userId, groupId]
+		);
+	}
+
+	async getNotifications(userId) {
+		return this.query("SELECT * FROM notifications WHERE userId = ?", [userId]);
+	}
+
+	async getParticipatingGroupIds(userId, admin) {
+		let q1 = "SELECT groupId FROM participant WHERE userId = ?";
+		if (admin) {
+			q1 = "SELECT id AS groupId FROM course_group";
+		}
+		return this.query(q1, [userId])
+			.then(rows => rows.map(row => row.groupId));
+	}
+
+	async getGroups(userId, admin) {
+		let q1 = "SELECT participant.groupId FROM participant WHERE participant.userId = ?";
+		if (admin) {
+			q1 = "SELECT id AS groupId FROM course_group";
+		}
+		return this.query(q1, [userId])
+			.then((rows) => {
+				const groupPromises = rows.map((row) => {
+					return this.mainDb.group.getGroup(row.groupId);
+				});
+				return Promise.all(groupPromises);
+			});
 	}
 
 }

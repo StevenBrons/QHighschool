@@ -3,16 +3,8 @@ const UserDB = require("./UserDB");
 const SubjectDB = require("./SubjectDB");
 const CourseDB = require("./CourseDB");
 const GroupDB = require("./GroupDB");
-
-class InvalidTokenError extends Error {
-	constructor(unset) {
-		if (unset === true) {
-			super("Token unset");
-		} else {
-			super("Invalid token");
-		}
-	}
-}
+const SessionDB = require("./SessionDB");
+const FunctionDB = require("./FunctionDB");
 
 class Database {
 
@@ -21,25 +13,16 @@ class Database {
 	}
 
 	async connect(connectionArgs) {
-		this.connection = await mysql.createConnection(connectionArgs);
+		this.connection = await mysql.createConnection(connectionArgs)
+			.catch((err) => {
+				console.log(err);
+			});
 		this.course = new CourseDB(this);
 		this.subject = new SubjectDB(this);
 		this.user = new UserDB(this);
 		this.group = new GroupDB(this);
-	}
-
-	async checkToken(token) {
-		if (token == null || token == "") {
-			return Promise.reject(new InvalidTokenError(true));
-		}
-		return this.connection.query(
-			"SELECT id FROM loggedin " +
-			"WHERE token = ?",
-			[token]).then((id) => {
-				if (id.length !== 1) {
-					throw new InvalidTokenError();
-				}
-			});
+		this.session = new SessionDB(this);
+		this.function = new FunctionDB(this);
 	}
 
 }
