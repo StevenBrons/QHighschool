@@ -11,7 +11,7 @@ class UserDB {
 	}
 
 	async getSelf(userId) {
-		return User.findById(userId).then(async (data) => {
+		return User.findByPrimary(userId).then(async (data) => {
 			const user = data.dataValues;
 			return {
 				...user,
@@ -22,7 +22,7 @@ class UserDB {
 	}
 
 	async getUser(userId) {
-		return User.findById(userId).then((data) => {
+		return User.findByPrimary(userId).then((data) => {
 			if (data) {
 				const user = data.dataValues;
 				return {

@@ -8,7 +8,7 @@ class SubjectDB {
 	}
 
 	async getSubject(subjectId) {
-		return Subject.findById(subjectId).then(data => {
+		return Subject.findByPrimary(subjectId).then(data => {
 			if (data == null) {
 				throw new Error("subjectId \'" + subjectId + "\' is invalid");
 			}

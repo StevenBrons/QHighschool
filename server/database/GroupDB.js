@@ -42,6 +42,11 @@ class GroupDB {
 		);
 	}
 
+	async setGroup(data) {
+		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
+		return this.query(q1,[data.courseId,data.day,data.period,data.schoolYear,data.enrollableFor,data.groupId]);
+	}
+
 	async getGroup(groupId) {
 		if (groupId >= 0) {
 			return this.query(

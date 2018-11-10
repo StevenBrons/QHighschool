@@ -26,7 +26,18 @@ router.post("/", function (req, res, next) {
 	database.group.getGroup(req.body.groupId)
 		.then(group => {
 			res.send(group);
-		}).catch(error => handleError(error, res))
+		}).catch(error => handleError(error, res));
+});
+
+router.patch("/", function (req, res, next) {
+	if (req.user.isAdmin()) {
+		database.group.setGroup(req.body)
+			.then(() => {
+				res.send({
+					success: true,
+				});
+			}).catch(error => handleError(error, res));
+	}
 });
 
 router.put("/", function (req, res) {
