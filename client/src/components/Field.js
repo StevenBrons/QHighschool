@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import theme from '../lib/MuiTheme'
 import MenuItem from '@material-ui/core/MenuItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import PropTypes from 'prop-types';
 
 class Field extends Component {
@@ -82,6 +83,7 @@ class Field extends Component {
 		let multiline = false;
 		let menuItems;
 		let label = this.props.label;
+		let endAdornment;
 
 		if (style == null) {
 			style = {};
@@ -96,6 +98,9 @@ class Field extends Component {
 		if (this.props.area) {
 			fullWidth = true;
 			multiline = true;
+		}
+		if (this.props.default && value === "" || value == null) {
+			value = this.props.default;
 		}
 		if (this.props.editable) {
 			disabled = false;
@@ -137,6 +142,10 @@ class Field extends Component {
 				)
 			});
 		}
+		if (this.props.unit) {
+			endAdornment = <InputAdornment position="end">{this.props.unit}</InputAdornment>;
+		}
+
 		const field = (
 			<TextField
 				value={value}
@@ -160,6 +169,7 @@ class Field extends Component {
 						float,
 						fontWeight,
 					},
+					endAdornment: endAdornment ? endAdornment : null,
 					inputProps: {
 						style: {
 							...style,
@@ -178,7 +188,7 @@ class Field extends Component {
 					{field}
 				</td>
 			);
-		}else {
+		} else {
 			return field;
 		}
 	}
@@ -186,7 +196,7 @@ class Field extends Component {
 }
 
 
-Field.propTypes = { 
-}; 
+Field.propTypes = {
+};
 
 export default Field;

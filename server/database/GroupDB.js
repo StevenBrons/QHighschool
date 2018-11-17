@@ -92,7 +92,7 @@ class GroupDB {
 		if (groupId >= 0) {
 			return this.query(
 				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.groupId = ?; "
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
 				, [groupId]).then(participants => {
 					return participants;
 				});
