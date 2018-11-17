@@ -207,7 +207,7 @@
       }
     },
     "/group/list": {
-      "post": {
+      "get": {
         "tags": [
           "Group"
         ],
@@ -320,8 +320,15 @@
             "name": "enrollableFor",
             "in": "formData",
             "description": "A comma seperated string of allowed levels/years",
-            "required": true,
+            "required": false,
             "type": "string"
+					},
+					{
+            "name": "period",
+            "in": "formData",
+            "description": "The new period",
+            "required": true,
+            "type": "integer"
           }
         ],
         "responses": {
