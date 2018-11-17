@@ -11,6 +11,7 @@ const CourseGroup = connection.define('course_group', {
 	},
 	period: {
 		type: Sequelize.INTEGER,
+		allowNull: false,
 	},
 	schoolYear: {
 		type: Sequelize.STRING,
