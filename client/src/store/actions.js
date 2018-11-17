@@ -173,7 +173,7 @@ export function setGroup(group) {
 		function getCourseGroup(group) {
 			return {
 				courseId: group.courseId,
-				groupId: group.groupId,
+				groupId: group.id,
 				day: group.day,
 				schoolYear: group.schoolYear,
 				enrollableFor: group.enrollableFor,

@@ -76,9 +76,7 @@ class GroupClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/",
 			type: "patch",
-			data: {
-				groupData,
-			},
+			data: groupData,
 			dataType: "json",
 		});
 	}
