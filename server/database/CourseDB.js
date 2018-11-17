@@ -56,4 +56,4 @@ class CourseDB {
 
 }
 
-module.exports = CourseDB;
+module.exports = new CourseDB();
