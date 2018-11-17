@@ -44,13 +44,13 @@ class GroupData extends Component {
 							<Field value={group.schoolYear} name="schoolYear" editable={editable && role === "admin"} onChange={onChange} caption options={["2018/2019", "2019/2020", "2020/2021", "2021/2022"]} style={{ width: "120px" }} />
 						</div>
 						<div>
-							<Field value={group.enrollableFor} label="Doelgroep" style={{ width: "40%" }} name="enrollableFor" default="Iedereen" editable={editable} labelVisible onChange={onChange} />
-							<Field value={group.studyTime} label="Studielast" name="studyTime" default="onbekend" editable={editable} labelVisible onChange={onChange} unit="uur" style={{ width: "40%" }} />
+							<Field value={group.enrollableFor} label="Doelgroep" style={{ width: "100%" }} name="enrollableFor" default="Iedereen" editable={editable} labelVisible onChange={onChange} />
 						</div>
 					</div>
 					<div style={{ width: "100%" }}>
 						<Field value={group.courseDescription} name="courseDescription" label="Omschrijving" labelVisible onChange={onChange} area editable={editable} fullWidth />
-						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "100%" }} default="Geen voorkennis vereist" editable={editable} labelVisible onChange={onChange} />
+						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%" }} default="Geen voorkennis vereist" editable={editable} labelVisible onChange={onChange} />
+							<Field value={group.studyTime} label="Studielast" name="studyTime" default="onbekend" editable={editable} labelVisible onChange={onChange} right />
 					</div>
 				</div>
 				<br />
