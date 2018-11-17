@@ -170,8 +170,22 @@ export function setGroup(group) {
 			}
 		}
 
+		function getCourseGroup(group) {
+			return {
+				courseId: group.courseId,
+				groupId: group.groupId,
+				day: group.day,
+				schoolYear: group.schoolYear,
+				enrollableFor: group.enrollableFor,
+				period: group.period,
+			}
+		}
+
 		const oldCourse = getCourse(getState().groups[group.id]);
 		const newCourse = getCourse(group);
+
+		const oldCourseGroup = getCourseGroup(getState().groups[group.id]);
+		const newCourseGroup = getCourseGroup(group);
 
 		const oldLessons = getState().groups[group.id].lessons;
 		const newLessons = group.lessons;
@@ -181,6 +195,9 @@ export function setGroup(group) {
 
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
 			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
+		}
+		if (JSON.stringify(oldCourseGroup) !== JSON.stringify(newCourseGroup)) {
+			Group.setGroup(newCourseGroup).catch(apiErrorHandler(dispatch));
 		}
 
 		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
