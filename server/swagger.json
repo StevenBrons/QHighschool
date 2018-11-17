@@ -291,7 +291,7 @@
             "name": "day",
             "in": "formData",
             "description": "The new day",
-            "required": true,
+            "required": false,
             "type": "string",
             "enum": [
               "maandag",
@@ -307,7 +307,7 @@
             "name": "schoolYear",
             "in": "formData",
             "description": "The new schoolYear",
-            "required": true,
+            "required": false,
             "type": "string",
             "enum": [
               "2018/2019",
@@ -327,7 +327,7 @@
             "name": "period",
             "in": "formData",
             "description": "The new period",
-            "required": true,
+            "required": false,
             "type": "integer"
           }
         ],
