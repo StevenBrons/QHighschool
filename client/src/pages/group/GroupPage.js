@@ -17,13 +17,13 @@ import GroupData from './GroupData';
 import ChooseButton from './ChooseButton';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import queryString from "query-string";
 
 class GroupPage extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentTab: 0,
 			editable: false,
 			group: this.props.group,
 		}
@@ -50,13 +50,15 @@ class GroupPage extends Component {
 		}
 	}
 
-	static getDerivedStateFromProps(next, prevState) {
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
 		return {
 			...prevState,
 			group: {
-				...next.group,
+				...nextProps.group,
 				...prevState.group,
-			}
+			},
+			currentTab: values.tab ? values.tab : prevState.tabs[0]
 		}
 	}
 
@@ -68,7 +70,7 @@ class GroupPage extends Component {
 		const evaluations = this.state.group.evaluations;
 		const presence = this.state.group.presence;
 
-		switch (this.state.tabs[currentTab]) {
+		switch (currentTab) {
 			case "Inschrijvingen":
 				if (enrollmentIds == null) {
 					this.props.getGroupEnrollments(group.id);
@@ -182,8 +184,10 @@ class GroupPage extends Component {
 		});
 	}
 
-	handleTab = (event, currentTab) => {
-		this.setState({ currentTab });
+	handleTab = (event, newTab) => {
+		this.props.history.push({
+			search: "tab=" + this.state.tabs[newTab],
+		});
 	};
 
 
@@ -222,7 +226,7 @@ class GroupPage extends Component {
 				}
 				<AppBar position="static" color="default">
 					<Tabs
-						value={this.state.currentTab}
+						value={this.state.tabs.indexOf(this.state.currentTab)}
 						onChange={this.handleTab}
 						indicatorColor="primary"
 						textColor="primary"
