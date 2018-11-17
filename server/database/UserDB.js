@@ -125,7 +125,7 @@ class UserDB {
 			q1 = "SELECT id AS groupId FROM course_group";
 		}
 		return this.query(q1, [userId])
-			.then(rows => rows.map(row => row.groupId));
+			.then(rows => rows.map(row => row.groupId + ""));
 	}
 
 	async getGroups(userId, admin) {

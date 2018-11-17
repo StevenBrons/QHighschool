@@ -15,7 +15,7 @@ class GroupDB {
 
 	_mapGroup(data) {
 		return {
-			id: data.id,
+			id: data.id + "",
 			courseId: data.courseId,
 			day: data.day,
 			period: data.period,
@@ -50,7 +50,6 @@ class GroupDB {
 	};
 
 	async setFullGroup(data) {
-		console.log(data);
 		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
 		return this.query(q1, [data.courseId, data.day, data.period, data.schoolYear, data.enrollableFor, data.groupId]).then((rows) => {
 			if (rows.changedRows == 1) {

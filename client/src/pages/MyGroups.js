@@ -28,6 +28,9 @@ class MyGroups extends Component {
 			content = <Progress />
 		} else {
 			content = this.props.groups.filter((group) => {
+				if (!group) {
+					return false;
+				}
 				switch (this.state.filterMethod) {
 					case "period1":
 						return group.period === 1;
@@ -55,9 +58,9 @@ class MyGroups extends Component {
 					elevation={2}
 					style={{ position: "relative" }}
 				>
-				<Toolbar style={{ display: "flex" }}>
-					<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
-						Mijn groepen
+					<Toolbar style={{ display: "flex" }}>
+						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+							Mijn groepen
           </Typography>
 						<Field
 							label="filter"
