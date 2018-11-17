@@ -31,6 +31,13 @@ router.post("/", function (req, res, next) {
 
 router.patch("/", function (req, res, next) {
 	if (req.user.isAdmin()) {
+		database.group.setFullGroup(req.body)
+			.then(() => {
+				res.send({
+					success: true,
+				});
+			}).catch(error => handleError(error, res));
+	} else {
 		database.group.setGroup(req.body)
 			.then(() => {
 				res.send({

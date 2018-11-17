@@ -49,13 +49,18 @@ class GroupDB {
 		}).then(data => data.map(this._mapGroup));
 	};
 
-	async setGroup(data) {
+	async setFullGroup(data) {
 		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
 		return this.query(q1, [data.courseId, data.day, data.period, data.schoolYear, data.enrollableFor, data.groupId]).then((rows) => {
 			if (rows.changedRows == 1) {
-				this.mainDb.function.updateLessonDates(data.groupId,data.period,data.day);
+				this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
 			}
 		});
+	}
+
+	async setGroup(data) {
+		const q1 = "UPDATE course_group SET enrollableFor=? WHERE id=?";
+		return this.query(q1, [data.enrollableFor, data.groupId]);
 	}
 
 	async getGroup(groupId) {
@@ -122,7 +127,6 @@ class GroupDB {
 
 	async getPresence(groupId) {
 		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
-		console.log(groupId);
 		return this.query(q1, [groupId]);
 	}
 
