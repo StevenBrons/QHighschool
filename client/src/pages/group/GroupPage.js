@@ -37,7 +37,7 @@ class GroupPage extends Component {
 				break;
 			case "teacher":
 				if (this.props.userIsMemberOfGroup) {
-					this.state.tabs = ["Lessen", "Deelnemers", "Actief"];
+					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
 				} else {
 					this.state.tabs = ["Lessen"];
 				}
@@ -193,7 +193,7 @@ class GroupPage extends Component {
 		let group = this.state.group;
 		return (
 			<Page>
-				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange}/>
+				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />
 				<Divider />
 				{
 					role === "student" &&

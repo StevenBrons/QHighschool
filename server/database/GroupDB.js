@@ -64,7 +64,7 @@ class GroupDB {
 	}
 
 	async getGroup(groupId) {
-		return Group.findByPrimary(groupId, {
+		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
 				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
@@ -79,8 +79,8 @@ class GroupDB {
 		}).then(this._mapGroup);
 	}
 
-	async getEnrollments(groupId) {
-		if (groupId >= 0) {
+	async getEnrollments(groupId, admin) {
+		if (admin) {
 			return this.query(
 				"SELECT user_data.* FROM enrollment " +
 				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
@@ -88,10 +88,14 @@ class GroupDB {
 					return enrollments;
 				});
 		} else {
-			throw new Error("groupId must be a number");
+			return this.query(
+				"SELECT user_data.id,user_data.displayName,user_data.school,user_data.firstName,user_data.lastName,user_data.profile,user_data.role,user_data.level FROM enrollment " +
+				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
+				, [groupId]).then(enrollments => {
+					return enrollments;
+				});
 		}
 	}
-
 
 	async getParticipants(groupId) {
 		if (groupId >= 0) {

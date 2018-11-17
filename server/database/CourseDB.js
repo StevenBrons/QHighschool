@@ -15,7 +15,7 @@ class CourseDB {
 	}
 
 	async getCourse(courseId) {
-		return Course.findByPrimary(courseId, {
+		return Course.findByPk(courseId, {
 			include: [{ model: Subject, attributes: ["name"] }]
 		}).then(data => {
 			if (data == null) {
@@ -39,7 +39,7 @@ class CourseDB {
 	}
 
 	async updateCourse(data) {
-		return Course.findByPrimary(data.courseId).then((course) => {
+		return Course.findByPk(data.courseId).then((course) => {
 			if (course) {
 				return course.updateAttributes({
 					subjectId: data.subjectId,

@@ -11,7 +11,7 @@ class UserDB {
 	}
 
 	async getSelf(userId) {
-		return User.findByPrimary(userId).then(async (data) => {
+		return User.findByPk(userId).then(async (data) => {
 			const user = data.dataValues;
 			return {
 				...user,
@@ -22,7 +22,7 @@ class UserDB {
 	}
 
 	async getUser(userId) {
-		return User.findByPrimary(userId).then((data) => {
+		return User.findByPk(userId).then((data) => {
 			if (data) {
 				const user = data.dataValues;
 				return {
@@ -120,23 +120,23 @@ class UserDB {
 	}
 
 	async getParticipatingGroupIds(userId, admin) {
-		let q1 = "SELECT groupId FROM participant WHERE userId = ?";
+		let q1 = "SELECT courseGroupId FROM participant WHERE userId = ?";
 		if (admin) {
-			q1 = "SELECT id AS groupId FROM course_group";
+			q1 = "SELECT id AS courseGroupId FROM course_group";
 		}
 		return this.query(q1, [userId])
-			.then(rows => rows.map(row => row.groupId + ""));
+			.then(rows => rows.map(row => row.courseGroupId + ""));
 	}
 
 	async getGroups(userId, admin) {
-		let q1 = "SELECT participant.groupId FROM participant WHERE participant.userId = ?";
+		let q1 = "SELECT participant.courseGroupId FROM participant WHERE participant.userId = ?";
 		if (admin) {
-			q1 = "SELECT id AS groupId FROM course_group";
+			q1 = "SELECT id AS courseGroupId FROM course_group";
 		}
 		return this.query(q1, [userId])
 			.then((rows) => {
 				const groupPromises = rows.map((row) => {
-					return this.mainDb.group.getGroup(row.groupId);
+					return this.mainDb.group.getGroup(row.courseGroupId);
 				});
 				return Promise.all(groupPromises);
 			});
