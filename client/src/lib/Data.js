@@ -72,7 +72,7 @@ class GroupClass extends Data {
 		});
 	}
 
-	async set(groupData) {
+	async setGroup(groupData) {
 		return $.ajax({
 			url: this.getUrl() + "/",
 			type: "patch",
