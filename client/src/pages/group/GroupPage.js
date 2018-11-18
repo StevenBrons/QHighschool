@@ -79,9 +79,10 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return enrollmentIds.map(id => {
-					return <User key={id} userId={id} display="row" />
-				});
+				return [<User key={"header"} display="header" />]
+					.concat((enrollmentIds.map(id => {
+						return <User key={id} userId={id} display="row" />
+					})));
 			case "Lessen":
 				if (lessons == null) {
 					this.props.getGroupLessons(group.id);
@@ -101,9 +102,10 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return participantIds.map(id => {
-					return <User key={id} userId={id} display="row" />
-				});
+				return [<User key={"header"} display="header" />]
+					.concat(participantIds.map(id => {
+						return <User key={id} userId={id} display="row" />
+					}));
 			case "Actief":
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
@@ -195,6 +197,7 @@ class GroupPage extends Component {
 		const editable = this.state.editable;
 		const role = this.props.role;
 		let group = this.state.group;
+
 		return (
 			<Page>
 				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />

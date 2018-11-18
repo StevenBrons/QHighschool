@@ -95,7 +95,7 @@ router.patch("/lessons", function (req, res, next) {
 
 router.post("/participants", function (req, res, next) {
 	if (req.user.inGroup(req.body.groupId)) {
-		database.group.getParticipants(req.body.groupId)
+		database.group.getParticipants(req.body.groupId,req.user.isAdmin())
 			.then(participants => {
 				res.send(participants);
 			}).catch((error) => handleError(error, res))

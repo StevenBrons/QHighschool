@@ -97,16 +97,21 @@ class GroupDB {
 		}
 	}
 
-	async getParticipants(groupId) {
-		if (groupId >= 0) {
+	async getParticipants(groupId, admin) {
+		if (admin) {
+			return this.query(
+				"SELECT user_data.* FROM participant " +
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
+				, [groupId]).then(participants => {
+					return participants;
+				});
+		} else {
 			return this.query(
 				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
 				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
 				, [groupId]).then(participants => {
 					return participants;
 				});
-		} else {
-			throw new Error("groupId must be a number");
 		}
 	}
 
