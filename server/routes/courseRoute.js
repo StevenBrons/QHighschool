@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var course = require('../database/CourseDB');
+var database = require('../database/MainDB');
 
 function handleError(error, res) {
 	res.send({
@@ -14,20 +14,20 @@ function authError(res) {
 }
 
 router.get("/list", function (req, res) {
-	course.getCourses().then(courses => {
+	database.course.getCourses().then(courses => {
 		res.send(courses);
 	});
 });
 
 router.post("/", function (req, res) {
-	course.getCourse(req.body.courseId).then(course => {
+	database.course.getCourse(req.body).then(course => {
 		res.send(course);
 	}).catch(error => handleError(error, res));
 });
 
 router.put("/", function (req, res) {
 	if (req.user.isAdmin()) {
-		course.addCourse(req.body).then(rows => {
+		database.course.addCourse(req.body).then(rows => {
 			res.send(rows);
 		}).catch(error => handleError(error, res));
 	} else {
@@ -37,7 +37,7 @@ router.put("/", function (req, res) {
 
 router.patch("/", function (req, res) {
 	if (req.user.isTeacher()) {
-		course.updateCourse(req.body).then(() => {
+		database.course.updateCourse(req.body).then(() => {
 			res.send({
 				success: true,
 			});

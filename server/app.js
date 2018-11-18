@@ -13,20 +13,15 @@ const swaggerDocument = require('./swagger.json');
 const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
-const bodyParser = require('body-parser');
-
-const mainDec = require('./databaseDeclearations/MainDec');
-
-const UserDec = require('./databaseDeclearations/UserDec');
-const CourseDec = require('./databaseDeclearations/CourseDec');
-const SubjectDec = require('./databaseDeclearations/SubjectDec');
-const CourseGroup = require('./databaseDeclearations/CourseGroupDec');
-
-// const database = require('./database/MainDB');
+const bodyParser = require('body-parser')
+const database = require('./database/MainDB');
 
 require('./passportSetup');
 
 const app = express();
+
+// setTimeout(() => {
+// }, 1000);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

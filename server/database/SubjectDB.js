@@ -1,20 +1,34 @@
-const Subject = require("../databaseDeclearations/SubjectDec");
 
 class SubjectDB {
-	async getSubjects() {
-		return Subject.findAll().then((rows) => {
-			return rows.map(data => data.dataValues);
-		});
+	constructor(mainDb) {
+		this.mainDb = mainDb;
 	}
 
-	async getSubject(subjectId) {
-		return Subject.findByPk(subjectId).then(data => {
-			if (data == null) {
-				throw new Error("subjectId \'" + subjectId + "\' is invalid");
-			}
-			return data.dataValues
-		});
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
 	}
+
+	async getSubjects() {
+		return this.query("SELECT * FROM school_subject;");
+	}
+
+	async getSubject(body) {
+		if (body.subjectId >= 0) {
+			return this.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId])
+				.then(subjects => {
+					if (subjects.length === 1) {
+						return subjects[0];
+					}
+					throw new Error("subjectId is invalid");
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		} else {
+			throw new Error("subjectId must be a number");
+		}
+	}
+
 }
 
-module.exports = new SubjectDB();
+module.exports = SubjectDB;
