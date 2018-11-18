@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var subjectDB = require('../database/subjectDB');
+var database = require('../database/MainDB');
 
 function handleError(error, res) {
   res.send({
@@ -9,15 +9,15 @@ function handleError(error, res) {
 }
 
 router.get("/list", function (req, res, next) {
-  subjectDB.getSubjects().then(subjects => {
+  database.subject.getSubjects().then(subjects => {
     res.send(subjects);
   }).catch(error => handleError(error,res));
 });
 
 router.post("/", function (req, res, next) {
-  subjectDB.getSubject(req.body.subjectId).then(subjects => {
+  database.subject.getSubject(req.body).then(subjects => {
     res.send(subjects);
-  }).catch((err) => handleError(err,res));
+  }).catch(error => handleError(error,res));
 });
 
 module.exports = router;
