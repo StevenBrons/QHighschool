@@ -34,7 +34,7 @@ class GroupData extends Component {
 					<Field value={group.subjectId} name="subjectId" onChange={onChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
 					{
 						!editable &&
-						<Button color="secondary" style={{ position: "absolute", display: "block", top: "30px", right: "-15px" }} onClick={this.showTeacherCard}>
+						<Button color="secondary" style={{ position: "absolute", display: "block", top: "30px", right: "-15px", zIndex: "100" }} onClick={this.showTeacherCard}>
 							{group.teacherName}
 						</Button>
 					}
@@ -62,7 +62,7 @@ class GroupData extends Component {
 					open={this.state.anchorEl ? true : false}
 					onClose={this.handleClickAway}
 					anchorEl={this.state.anchorEl}
-					anchorOrigin={{ vertical: "top" }}
+					anchorOrigin={{ horizontal: "left", vertical: "top" }}
 				>
 					<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
 				</Popover>
