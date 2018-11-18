@@ -1,59 +1,41 @@
-const Course = require("../databaseDeclearations/CourseDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
-
 class CourseDB {
-
-	async getCourses() {
-		return Course.findAll({
-			include: [{ model: Subject, attributes: ["name"] }]
-		}).then(rows => rows.map(({ dataValues }) => {
-			return {
-				...dataValues,
-				subjectName: dataValues.subject.name,
-			};
-		}));
+	constructor(mainDb) {
+		this.mainDb = mainDb;
 	}
 
-	async getCourse(courseId) {
-		return Course.findByPk(courseId, {
-			include: [{ model: Subject, attributes: ["name"] }]
-		}).then(data => {
-			if (data == null) {
-				throw new Error("courseId \'" + courseId + "\' is invalid");
-			}
-			return {
-				...data.dataValues,
-				subjectName: data.dataValues.subject.name,
-			};
-		});
+	async query(sqlString, value) {
+		return this.mainDb.connection.query(sqlString, value);
+	}
+
+	async getCourses() {
+		const q1 = "SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId;";
+		return this.query(q1);
+	}
+
+	async getCourse(body) {
+		if (body.courseId >= 0) {
+			throw new Error("courseId must be a number");
+		}
+		const q1 = "SELECT course.*,school_subject.name AS subjectName FROM course INNER JOIN school_subject ON school_subject.id = course.subjectId WHERE course.id = ?";
+		return this.query(q1, [body.courseId])
+			.then(courses => {
+				if (courses.length === 1) {
+					return courses[0];
+				}
+				throw new Error("courseId is invalid");
+			});
 	}
 
 	async addCourse(data) {
-		return Course.create({
-			subjectId: data.subjectId,
-			name: data.name,
-			description: data.description,
-			foreknowledge: data.foreknowledge,
-			studyTime: data.studyTime
-		});
+		const q1 = "INSERT INTO course (subjectId,`name`,description,foreknowledge,studyTime) VALUES (?,?,?,?,?)"
+		return this.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime]);
 	}
 
 	async updateCourse(data) {
-		return Course.findByPk(data.courseId).then((course) => {
-			if (course) {
-				return course.updateAttributes({
-					subjectId: data.subjectId,
-					name: data.name,
-					description: data.description,
-					foreknowledge: data.foreknowledge,
-					studyTime: data.studyTime
-				});
-			}else {
-				throw new Error("courseId is invalid");
-			}
-		});
+		const q1 = "UPDATE course SET subjectId = ?,`name` = ?,description = ?,foreknowledge = ?,studyTime = ? WHERE id = ?"
+		return this.query(q1, [data.subjectId, data.name, data.description, data.foreknowledge, data.studyTime, data.courseId]);
 	}
 
 }
 
-module.exports = new CourseDB();
+module.exports = CourseDB;

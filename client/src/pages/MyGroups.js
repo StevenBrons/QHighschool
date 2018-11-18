@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Field from '../components/Field';
 import Paper from '@material-ui/core/Paper';
+import queryString from 'query-string';
 
 class MyGroups extends Component {
 
@@ -18,9 +19,24 @@ class MyGroups extends Component {
 		}
 	}
 
-	componentWillMount() {
-		this.props.getParticipatingGroups();
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.groups == null) {
+			nextProps.getParticipatingGroups();
+		}
+		let values = queryString.parse(nextProps.location.search);
+		return {
+			...prevState,
+			...{
+				filterMethod: values.filter ? values.filter : "none",
+			}
+		}
 	}
+
+	handleFilterChange = filter => {
+		this.props.history.push({
+			search: "filter=" + filter,
+		});
+	};
 
 	render() {
 		let content;
@@ -28,9 +44,6 @@ class MyGroups extends Component {
 			content = <Progress />
 		} else {
 			content = this.props.groups.filter((group) => {
-				if (!group) {
-					return false;
-				}
 				switch (this.state.filterMethod) {
 					case "period1":
 						return group.period === 1;
@@ -72,7 +85,7 @@ class MyGroups extends Component {
 								{ label: "Blok 2", value: "period2" },
 								{ label: "Blok 3", value: "period3" },
 								{ label: "Blok 4", value: "period4" }]}
-							onChange={(event) => { this.setState({ filterMethod: event.target.value }) }}
+							onChange={(event) => this.handleFilterChange(event.target.value)}
 						/>
 					</Toolbar>
 				</Paper>

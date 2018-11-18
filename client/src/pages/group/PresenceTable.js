@@ -28,7 +28,7 @@ class PresenceTable extends Component {
 		/>;
 	}
 
-	createRow = (participantId) => {
+	createRows = (participantId) => {
 		const content = map(this.props.lessons, (lesson => {
 			const p = filter(this.props.presence, presence => {
 				return presence.lessonId === lesson.id && presence.studentId === participantId;
@@ -50,20 +50,18 @@ class PresenceTable extends Component {
 
 	createLessonHeader() {
 		const content = map(this.props.lessons, lesson => {
-			return <Field value={"Les " + lesson.numberInBlock} title td area />;
+			return <Field value={"Les " + lesson.numberInBlock} title td area/>;
 		});
 		return (
 			<Paper component="tr">
-				<Field value="" td area />
+				<Field value="" td area/>
 				{content}
 			</Paper>
 		);
 	}
 
 	render() {
-		let rows = this.props.participantIds.filter((partId) => {
-			return map(this.props.presence, (p) => p.studentId).indexOf(partId) !== -1;
-		}).map(this.createRow);
+		let rows = this.props.participantIds.map(this.createRows);
 		rows.unshift(this.createLessonHeader());
 		return rows;
 	}

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { setUser } from '../../store/actions';
 import Field from '../../components/Field';
 import Typography from '@material-ui/core/Typography';
+import {withRouter} from 'react-router-dom';
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 const levels = ["VWO", "HAVO"];
@@ -73,13 +74,19 @@ class UserPage extends Component {
 					shouldFillIn &&
 					<Typography gutterBottom variant="title" color="primary" >
 						Controleer de bovenstaande gegevens en vul de ontbrekende gegevens aan.
-						</Typography>
+					</Typography>
 				}
 				{
 					this.hasChanged() ?
 						<Button variant="contained" color="secondary" size="large" onClick={() => this.props.save(this.state.user)}>
 							Opslaan
 						</Button> : null
+				}
+				{
+					(!shouldFillIn && !this.hasChanged()) ?
+						<Button variant="contained" color="primary" size="large" onClick={() => this.props.history.push("/aanbod")} >
+							Ga Verder!
+						</Button>: null
 				}
 			</Page >
 		);
@@ -94,5 +101,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(null, mapDispatchToProps)(UserPage);
+export default withRouter(connect(null, mapDispatchToProps)(UserPage));
 
