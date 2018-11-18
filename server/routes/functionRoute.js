@@ -10,10 +10,11 @@ function handleError(error, res) {
 
 router.post("/acceptEnrollements", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
-		await mainDb.function.addAllEnrollmentsToGroups();
-		return {
-			success: true,
-		}
+		mainDb.function.addAllEnrollmentsToGroups().then(() => {
+			res.send({
+				success: true,
+			});
+		});
 	}
 });
 
