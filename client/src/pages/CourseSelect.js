@@ -34,7 +34,7 @@ class CourseSelect extends Component {
 				...prevState,
 				...{
 					sortMethod: values.sort,
-					filterMethod: values.filter ? values.filter : "none",
+					filterMethod: values.filter?values.filter:"none",
 				}
 			}
 		}
@@ -42,7 +42,7 @@ class CourseSelect extends Component {
 			return {
 				...prevState,
 				...{
-					filterMethod: values.filter ? values.filter : "none",
+					filterMethod: values.filter?values.filter:"none",
 					sortMethod: nextProps.subjects[Object.keys(nextProps.subjects)[0]].name,
 				}
 			};

@@ -65,7 +65,7 @@ router.get("/enrollments", (req, res) => {
 router.get("/enrollableGroups", function (req, res, next) {
 	database.group.getGroups().then(groups => {
 		var enrollableGroups = groups.filter((group) => {
-			return group.period == 2;
+			return group.period == 1
 		});
 		res.send(enrollableGroups);
 	});

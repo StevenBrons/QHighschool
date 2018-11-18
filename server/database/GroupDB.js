@@ -1,3 +1,10 @@
+const Group = require("../databaseDeclearations/CourseGroupDec");
+const Course = require("../databaseDeclearations/CourseDec");
+const Subject = require("../databaseDeclearations/SubjectDec");
+const Participant = require("../databaseDeclearations/ParticipantDec");
+const User = require("../databaseDeclearations/UserDec");
+
+
 class GroupDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
@@ -7,87 +14,74 @@ class GroupDB {
 		return this.mainDb.connection.query(sqlString, value);
 	}
 
-	async getGroups() {
-		return this.query(
-			"SELECT  " +
-			"    course_group.*, " +
-			"    course.name AS courseName, " +
-			"    course.description AS courseDescription, " +
-			"    course.foreknowledge AS foreknowledge, " +
-			"    course.studyTime AS studyTime, " +
-			"    school_subject.id AS subjectId, " +
-			"    school_subject.name AS subjectName, " +
-			"    school_subject.description AS subjectDescription, " +
-			"    (SELECT  " +
-			"            userId " +
-			"        FROM " +
-			"            participant " +
-			"        WHERE " +
-			"            groupId = course_group.id " +
-			"                AND participant.participating_role = 'teacher' " +
-			"        LIMIT 1) AS teacherId, " +
-			"    (SELECT  " +
-			"            displayName " +
-			"        FROM " +
-			"            user_data " +
-			"        WHERE " +
-			"            id = teacherId) AS teacherName " +
-			"FROM " +
-			"    course_group " +
-			"        INNER JOIN " +
-			"    course ON course.id = course_group.courseId " +
-			"        INNER JOIN " +
-			"    school_subject ON school_subject.id = course.subjectId " +
-			"ORDER BY course_group.period "
-		);
-	}
-
-	async getGroup(groupId) {
-		if (groupId >= 0) {
-			return this.query(
-				"			SELECT  " +
-				"			course_group.*, " +
-				"			course.name AS courseName, " +
-				"			course.description AS courseDescription, " +
-				"			course.foreknowledge AS foreknowledge, " +
-				"			course.studyTime AS studyTime, " +
-				"			school_subject.id AS subjectId, " +
-				"			school_subject.name AS subjectName, " +
-				"			school_subject.description AS subjectDescription, " +
-				"			(SELECT  " +
-				"							userId " +
-				"					FROM " +
-				"							participant " +
-				"					WHERE " +
-				"							groupId = course_group.id " +
-				"									AND participant.participating_role = 'teacher' " +
-				"					LIMIT 1) AS teacherId, " +
-				"			(SELECT  " +
-				"							displayName " +
-				"					FROM " +
-				"							user_data " +
-				"					WHERE " +
-				"							id = teacherId) AS teacherName " +
-				"	FROM " +
-				"			course_group " +
-				"					INNER JOIN " +
-				"			course ON course.id = course_group.courseId " +
-				"					INNER JOIN " +
-				"			school_subject ON school_subject.id = course.subjectId " +
-				" WHERE course_group.id = ? ",
-				[groupId]).then(groups => {
-					if (groups.length === 1) {
-						return groups[0];
-					}
-					throw new Error("groupId is invalid");
-				});
-		} else {
-			throw new Error("groupId must be a number");
+	_mapGroup(data) {
+		return {
+			id: data.id + "",
+			courseId: data.courseId,
+			day: data.day,
+			period: data.period,
+			schoolYear: data.schoolYear,
+			enrollableFor: data.enrollableFor,
+			courseName: data.course.name,
+			courseDescription: data.course.description,
+			foreknowledge: data.course.foreknowledge,
+			studyTime: data.course.studyTime,
+			subjectId: data.course.subject.id,
+			subjectName: data.course.subject.name,
+			subjectDescription: data.course.subject.description,
+			teacherId: data.participants[0] ? data.participants[0].user.id : null,
+			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
 		}
 	}
 
-	async getEnrollments(groupId) {
-		if (groupId >= 0) {
+	async getGroups() {
+		return Group.findAll({
+			order: [["period", "ASC"]],
+			include: [{
+				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+					model: Subject, attributes: ["id", "name", "description"]
+				}]
+			},
+			{
+				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
+					model: User, attributes: ["id", "displayName"],
+				}]
+			}]
+		}).then(data => data.map(this._mapGroup));
+	};
+
+	async setFullGroup(data) {
+		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
+		return this.query(q1, [data.courseId, data.day, data.period, data.schoolYear, data.enrollableFor, data.groupId]).then((rows) => {
+			if (rows.changedRows == 1) {
+				this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+			}
+		});
+	}
+
+	async setGroup(data) {
+		const q1 = "UPDATE course_group SET enrollableFor=? WHERE id=?";
+		return this.query(q1, [data.enrollableFor, data.groupId]);
+	}
+
+	async getGroup(groupId) {
+		return Group.findByPk(groupId, {
+			order: [["period", "ASC"]],
+			include: [{
+				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+					model: Subject, attributes: ["id", "name", "description"]
+				}]
+			},
+			{
+				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
+					model: User, attributes: ["id", "displayName"],
+				}]
+			}]
+		}).then(this._mapGroup);
+	}
+
+	async getEnrollments(groupId, admin) {
+		if (admin) {
 			return this.query(
 				"SELECT user_data.* FROM enrollment " +
 				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
@@ -95,21 +89,30 @@ class GroupDB {
 					return enrollments;
 				});
 		} else {
-			throw new Error("groupId must be a number");
+			return this.query(
+				"SELECT user_data.id,user_data.displayName,user_data.school,user_data.firstName,user_data.lastName,user_data.profile,user_data.role,user_data.level FROM enrollment " +
+				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
+				, [groupId]).then(enrollments => {
+					return enrollments;
+				});
 		}
 	}
 
-
-	async getParticipants(groupId) {
-		if (groupId >= 0) {
+	async getParticipants(groupId, admin) {
+		if (admin) {
 			return this.query(
-				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.groupId = ?; "
+				"SELECT user_data.* FROM participant " +
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
 				, [groupId]).then(participants => {
 					return participants;
 				});
 		} else {
-			throw new Error("groupId must be a number");
+			return this.query(
+				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
+				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
+				, [groupId]).then(participants => {
+					return participants;
+				});
 		}
 	}
 
@@ -134,7 +137,6 @@ class GroupDB {
 
 	async getPresence(groupId) {
 		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
-		console.log(groupId);
 		return this.query(q1, [groupId]);
 	}
 

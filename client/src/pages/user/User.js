@@ -13,7 +13,7 @@ import Field from "../../components/Field"
 class User extends Component {
 
 	render() {
-		if (this.props.user == null) {
+		if (this.props.user == null && !this.props.header) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -39,10 +39,9 @@ class User extends Component {
 			}
 		}
 
-
 		switch (this.props.display) {
 			case "name":
-				return <Field value={this.props.user.displayName} title td/>;
+				return <Field value={this.props.user.displayName} title td />;
 			case "page":
 				return (
 					<UserPage {...this.props} />
@@ -50,6 +49,10 @@ class User extends Component {
 			case "row":
 				return (
 					<UserRow {...this.props} />
+				);
+			case "header":
+				return (
+					<UserRow {...this.props} header/>
 				);
 			case "card":
 			default:
@@ -81,6 +84,7 @@ function mapStateToProps(state, ownProps) {
 	}
 
 	return {
+		role: state.role,
 		user,
 		notExists,
 		display,

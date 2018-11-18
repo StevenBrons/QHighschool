@@ -2,29 +2,28 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import map from 'lodash/map';
 
-import ChooseButton from './ChooseButton';
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
-import Field from '../../components/Field';
 import EvaluationTab from './EvaluationTab';
 import User from "../user/User"
 import Page from '../Page';
 
-import Divider from '@material-ui/core/Divider';
-import Popover from '@material-ui/core/Popover';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
 import Progress from '../../components/Progress'
 import PageLeaveWarning from '../../components/PageLeaveWarning'
+import GroupData from './GroupData';
+import ChooseButton from './ChooseButton';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import queryString from "query-string";
 
 class GroupPage extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentTab: 0,
 			editable: false,
 			group: this.props.group,
 		}
@@ -38,7 +37,7 @@ class GroupPage extends Component {
 				break;
 			case "teacher":
 				if (this.props.userIsMemberOfGroup) {
-					this.state.tabs = ["Lessen", "Deelnemers", "Actief"];
+					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
 				} else {
 					this.state.tabs = ["Lessen"];
 				}
@@ -51,13 +50,15 @@ class GroupPage extends Component {
 		}
 	}
 
-	static getDerivedStateFromProps(next, prevState) {
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
 		return {
 			...prevState,
 			group: {
-				...next.group,
+				...nextProps.group,
 				...prevState.group,
-			}
+			},
+			currentTab: values.tab ? values.tab : prevState.tabs[0]
 		}
 	}
 
@@ -69,7 +70,7 @@ class GroupPage extends Component {
 		const evaluations = this.state.group.evaluations;
 		const presence = this.state.group.presence;
 
-		switch (this.state.tabs[currentTab]) {
+		switch (currentTab) {
 			case "Inschrijvingen":
 				if (enrollmentIds == null) {
 					this.props.getGroupEnrollments(group.id);
@@ -78,9 +79,10 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return enrollmentIds.map(id => {
-					return <User key={id} userId={id} display="row" />
-				});
+				return [<User key={"header"} display="header" />]
+					.concat((enrollmentIds.map(id => {
+						return <User key={id} userId={id} display="row" />
+					})));
 			case "Lessen":
 				if (lessons == null) {
 					this.props.getGroupLessons(group.id);
@@ -100,9 +102,10 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return participantIds.map(id => {
-					return <User key={id} userId={id} display="row" />
-				});
+				return [<User key={"header"} display="header" />]
+					.concat(participantIds.map(id => {
+						return <User key={id} userId={id} display="row" />
+					}));
 			case "Actief":
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
@@ -183,69 +186,50 @@ class GroupPage extends Component {
 		});
 	}
 
-	handleTab = (event, currentTab) => {
-		this.setState({ currentTab });
+	handleTab = (event, newTab) => {
+		this.props.history.push({
+			search: "tab=" + this.state.tabs[newTab],
+		});
 	};
 
 
-	handleClickAway = () => {
-		this.setState({ anchorEl: null });
-	}
-
-	showTeacherCard = event => {
-		this.setState({ anchorEl: event.currentTarget });
-	}
-
 	render() {
 		const editable = this.state.editable;
+		const role = this.props.role;
 		let group = this.state.group;
+
 		return (
 			<Page>
-				<div style={{ display: "flex" }}>
-					<Field value={group.courseName} name="courseName" onChange={this.handleChange} headline editable={editable} style={{ flex: "5" }} />
-					<Field value={group.subjectId} name="subjectId" onChange={this.handleChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
-				</div>
-				<Button color="secondary" style={{ float: "right" }} onClick={this.showTeacherCard}>
-					{group.teacherName}
-				</Button>
-				<Field value={group.period} name="period" onChange={this.handleChange} caption style={{ width: "100px" }} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
-				<Field value={group.day} name="day" onChange={this.handleChange} caption options={["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]} />
-				<br />
-				<Field value={group.courseDescription} name="courseDescription" onChange={this.handleChange} area editable={editable} />
+				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />
 				<Divider />
-				{this.props.role === "student" &&
+				{
+					role === "student" &&
 					<ChooseButton
 						group={group}
 						style={{ margin: "20px" }}
 					/>
 				}
-				{((this.props.role === "teacher" || this.props.role === "admin") && !this.state.editable) &&
+				{
+					((role === "teacher" || role === "admin") && !editable) &&
 					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
 						{"Bewerken"}
 					</Button>
 				}
-				{this.state.editable &&
+				{
+					editable &&
 					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
 						{"Opslaan"}
 					</Button>
 				}
-				{this.state.editable &&
+				{
+					editable &&
 					<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
 						{"Annuleren"}
 					</Button>
 				}
-				<Popover
-					open={this.state.anchorEl ? true : false}
-					onClose={this.handleClickAway}
-					anchorEl={this.state.anchorEl}
-					anchorOrigin={{ vertical: "top" }}
-				>
-				<User key={group.teacherId} userId={group.teacherId} display="card" style={{ margin: "0px" }} />
-				</Popover>
-
 				<AppBar position="static" color="default">
 					<Tabs
-						value={this.state.currentTab}
+						value={this.state.tabs.indexOf(this.state.currentTab)}
 						onChange={this.handleTab}
 						indicatorColor="primary"
 						textColor="primary"
@@ -259,7 +243,7 @@ class GroupPage extends Component {
 				<table style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
 				</table>
-				<PageLeaveWarning giveWarning={this.state.editable}/>
+				<PageLeaveWarning giveWarning={this.state.editable} />
 			</Page>
 		);
 	}
