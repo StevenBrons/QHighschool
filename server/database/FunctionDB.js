@@ -69,11 +69,12 @@ class FunctionDB {
 
 	async addAllEnrollmentsToGroups() {
 		const q1 = "SELECT * FROM enrollment;"
-		this.query(q1).then(rows => {
+		await this.query(q1).then(rows => {
 			rows.map((enrollment) => {
-				console.log(enrollment);
+				this.addUserToGroup(enrollment.studentId,enrollment.groupId);
 			});
 		});
+		return true;
 	}
 
 	async addUserToGroup(userId, groupId) {
@@ -84,7 +85,7 @@ class FunctionDB {
 
 	async _addPresence(userId, groupId) {
 		const q1 = "SELECT id FROM lesson WHERE lesson.groupId = ?";
-		const q2 = "INSERT INTO presence (lessonId,studentId,`status`,explanation) VALUES (?,?,NULL,NULL)";
+		const q2 = "INSERT INTO presence (lessonId,studentId) VALUES (?,?)";
 		return this.query(q1, [groupId])
 			.then((rows) => {
 				const prs = rows.map((row) => {
@@ -100,16 +101,16 @@ class FunctionDB {
 			"(userId,courseId,`type`,assesment,explanation) VALUES " +
 			"(?, " +
 			"(SELECT courseId FROM course_group WHERE course_group.id = ?), " +
-			"'cijfer', NULL, NULL)",
+			"'decimal', NULL, NULL)",
 			[userId, groupId, "active"]);
 	}
 
 	async _addParticipant(userId, groupId) {
 		return this.query(
 			"INSERT INTO participant " +
-			"(userId,groupId,status) VALUES" +
-			"(?,?,?)",
-			[userId, groupId, "active"]);
+			"(userId,courseGroupId) VALUES" +
+			"(?,?)",
+			[userId, groupId]);
 	}
 
 	async updateLessonDates(groupId, period, day) {

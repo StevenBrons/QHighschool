@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var mainDB = require('../database/mainDB');
+var subjectDB = require('../database/subjectDB');
 
 function handleError(error, res) {
   res.send({
