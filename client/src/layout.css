@@ -9,8 +9,7 @@
 
 .right label {
 	left: inherit;
-	right: 0px;
-	transform-origin: top right;
+	right: 0;
 }
 
 .App {

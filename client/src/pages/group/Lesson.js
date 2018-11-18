@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
+import { AppBar, Toolbar } from '@material-ui/core';
 import Field from '../../components/Field';
 
 class Lesson extends Component {

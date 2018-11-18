@@ -5,7 +5,6 @@ const courseRoute = require('./courseRoute');
 const userRoute = require('./userRoute');
 const subjectRoute = require('./subjectRoute');
 const groupRoute = require('./groupRoute');
-const functionRoute = require('./functionRoute');
 
 router.use(ensureAuthenticated);
 // router.use(handleErrors);
@@ -14,7 +13,6 @@ router.use('/course', courseRoute);
 router.use('/user', userRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
-router.use('/function', functionRoute);
 
 
 // function handleErrors(req, res, next) {
