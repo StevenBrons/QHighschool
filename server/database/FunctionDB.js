@@ -71,11 +71,7 @@ class FunctionDB {
 		const q1 = "SELECT * FROM enrollment;"
 		await this.query(q1).then(rows => {
 			rows.map((enrollment) => {
-<<<<<<< HEAD
 				this.addUserToGroup(enrollment.studentId, enrollment.groupId);
-=======
-				this.addUserToGroup(enrollment.studentId, enrollment.groupId);
->>>>>>> 33519168af9d3f60b62148e89445fc237776e621
 			});
 		});
 		return true;
