@@ -1,3 +1,9 @@
+const Group = require("../databaseDeclearations/CourseGroupDec");
+const Course = require("../databaseDeclearations/CourseDec");
+const Subject = require("../databaseDeclearations/SubjectDec");
+const Participant = require("../databaseDeclearations/ParticipantDec");
+const User = require("../databaseDeclearations/UserDec");
+
 class GroupDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
