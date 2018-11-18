@@ -50,7 +50,7 @@ class GroupCard extends Component {
 				<Typography
 					variant="caption"
 					color="primary"
-					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer", fontSize: this.props.group.courseName.length > 33 ? "16px" : "auto" }}
+					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer"}}
 					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
 				>
 					{this.props.group.subjectName}

@@ -72,6 +72,15 @@ class GroupClass extends Data {
 		});
 	}
 
+	async setGroup(groupData) {
+		return $.ajax({
+			url: this.getUrl() + "/",
+			type: "patch",
+			data: groupData,
+			dataType: "json",
+		});
+	}
+
 	async getEnrollments(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/enrollments",

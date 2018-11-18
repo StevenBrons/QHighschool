@@ -26,7 +26,25 @@ router.post("/", function (req, res, next) {
 	database.group.getGroup(req.body.groupId)
 		.then(group => {
 			res.send(group);
-		}).catch(error => handleError(error, res))
+		}).catch(error => handleError(error, res));
+});
+
+router.patch("/", function (req, res, next) {
+	if (req.user.isAdmin()) {
+		database.group.setFullGroup(req.body)
+			.then(() => {
+				res.send({
+					success: true,
+				});
+			}).catch(error => handleError(error, res));
+	} else {
+		database.group.setGroup(req.body)
+			.then(() => {
+				res.send({
+					success: true,
+				});
+			}).catch(error => handleError(error, res));
+	}
 });
 
 router.put("/", function (req, res) {
@@ -39,9 +57,8 @@ router.put("/", function (req, res) {
 });
 
 router.post("/enrollments", function (req, res, next) {
-	const groupId = req.body.groupId;
-	if (req.user.isAdmin()) {
-		database.group.getEnrollments(groupId).then(groups => {
+	if (req.user.isTeacher()) {
+		database.group.getEnrollments(req.body.groupId, req.user.isAdmin()).then(groups => {
 			res.send(groups);
 		}).catch((error) => handleError(error, res))
 	}
@@ -78,7 +95,7 @@ router.patch("/lessons", function (req, res, next) {
 
 router.post("/participants", function (req, res, next) {
 	if (req.user.inGroup(req.body.groupId)) {
-		database.group.getParticipants(req.body.groupId)
+		database.group.getParticipants(req.body.groupId,req.user.isAdmin())
 			.then(participants => {
 				res.send(participants);
 			}).catch((error) => handleError(error, res))

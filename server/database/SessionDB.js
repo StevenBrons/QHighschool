@@ -77,7 +77,7 @@ class SessionDB {
 					"				course_group " +
 					"		WHERE " +
 					"				course_group.id IN (SELECT  " +
-					"								groupId " +
+					"								courseGroupId " +
 					"						FROM " +
 					"								participant " +
 					"						WHERE " +

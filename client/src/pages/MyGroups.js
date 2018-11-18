@@ -44,6 +44,9 @@ class MyGroups extends Component {
 			content = <Progress />
 		} else {
 			content = this.props.groups.filter((group) => {
+				if (!group) {
+					return false;
+				}
 				switch (this.state.filterMethod) {
 					case "period1":
 						return group.period === 1;

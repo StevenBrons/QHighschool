@@ -1,34 +1,20 @@
+const Subject = require("../databaseDeclearations/SubjectDec");
 
 class SubjectDB {
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
-
 	async getSubjects() {
-		return this.query("SELECT * FROM school_subject;");
+		return Subject.findAll().then((rows) => {
+			return rows.map(data => data.dataValues);
+		});
 	}
 
-	async getSubject(body) {
-		if (body.subjectId >= 0) {
-			return this.query("SELECT * FROM school_subject WHERE id = ?", [body.subjectId])
-				.then(subjects => {
-					if (subjects.length === 1) {
-						return subjects[0];
-					}
-					throw new Error("subjectId is invalid");
-				})
-				.catch(err => {
-					console.log(err);
-				});
-		} else {
-			throw new Error("subjectId must be a number");
-		}
+	async getSubject(subjectId) {
+		return Subject.findByPk(subjectId).then(data => {
+			if (data == null) {
+				throw new Error("subjectId \'" + subjectId + "\' is invalid");
+			}
+			return data.dataValues
+		});
 	}
-
 }
 
-module.exports = SubjectDB;
+module.exports = new SubjectDB();
