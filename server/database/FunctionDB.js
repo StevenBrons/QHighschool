@@ -67,6 +67,15 @@ class FunctionDB {
 
 	}
 
+	async addAllEnrollmentsToGroups() {
+		const q1 = "SELECT * FROM enrollment;"
+		this.query(q1).then(rows => {
+			rows.map((enrollment) => {
+				console.log(enrollment);
+			});
+		});
+	}
+
 	async addUserToGroup(userId, groupId) {
 		await this._addParticipant(userId, groupId);
 		await this._addEvaluation(userId, groupId);
@@ -107,7 +116,7 @@ class FunctionDB {
 		const schedule = require("../lib/schedule");
 		for (let i = 0; i < 8; i++) {
 			const q2 = "UPDATE lesson set date = ? WHERE groupId = ? AND numberInBlock = ?";
-			await this.query(q2, [schedule.getLessonDate(period, i + 1, day),groupId,i]);
+			await this.query(q2, [schedule.getLessonDate(period, i + 1, day), groupId, i]);
 		}
 	}
 

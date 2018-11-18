@@ -25,6 +25,10 @@
     {
       "name": "Group",
       "description": "The group api"
+    },
+    {
+      "name": "Function",
+      "description": "The function api"
     }
   ],
   "paths": {
@@ -322,8 +326,8 @@
             "description": "A comma seperated string of allowed levels/years",
             "required": false,
             "type": "string"
-					},
-					{
+          },
+          {
             "name": "period",
             "in": "formData",
             "description": "The new period",
@@ -935,6 +939,29 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/acceptEnrollemnts": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "acceptEnrollments",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
           }
         }
       }
