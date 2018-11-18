@@ -18,27 +18,25 @@ import Progress from '../../components/Progress'
 import Page from '../Page';
 
 class Group extends Component {
-	
-	render() {
-		if (this.props.subjects == null) {
-			this.props.getSubjects();
+
+	componentWillMount() {
+		const props = this.props;
+		if (props.subjects == null) {
+			props.getSubjects();
 		}
+		if (props.group == null && !props.notExists) {
+			props.getGroup(props.groupId);
+		}
+	}
+
+	render() {
 		if (this.props.group == null) {
-			if (this.props.display === "page") {
-				if (this.props.notExists) {
-					return (
-						<Page>
-							De opgevraagde groep bestaat niet
-						</Page>
-					);
-				} else {
-					this.props.getGroup(this.props.groupId);
-					return (
-						<Page>
-							<Progress />
-						</Page>
-					);
-				}
+			if (this.props.display === "page" && this.props.notExists) {
+				return (
+					<Page>
+						De opgevraagde groep bestaat niet
+					</Page>
+				);
 			} else {
 				return this.props.notExists ? null : <Progress />;
 			}
