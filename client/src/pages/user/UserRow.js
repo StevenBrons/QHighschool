@@ -27,7 +27,7 @@ class GroupCard extends Component {
 	}
 
 	render() {
-		let user = this.props.user;
+		let user = {...this.props.user};
 		if (this.props.header) {
 			user.firstName = "Naam";
 			user.lastName = "";

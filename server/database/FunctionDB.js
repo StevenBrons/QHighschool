@@ -98,11 +98,11 @@ class FunctionDB {
 	async _addEvaluation(userId, groupId) {
 		return this.query(
 			"INSERT INTO evaluation " +
-			"(userId,courseId,`type`,assesment,explanation) VALUES " +
+			"(userId,courseId,assesment,explanation) VALUES " +
 			"(?, " +
 			"(SELECT courseId FROM course_group WHERE course_group.id = ?), " +
-			"'decimal', NULL, NULL)",
-			[userId, groupId, "active"]);
+			"NULL, NULL)",
+			[userId, groupId]);
 	}
 
 	async _addParticipant(userId, groupId) {
