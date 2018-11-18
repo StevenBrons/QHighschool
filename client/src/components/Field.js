@@ -99,7 +99,7 @@ class Field extends Component {
 			fullWidth = true;
 			multiline = true;
 		}
-		if (this.props.default && this.props.editable === false && value === "" || value == null) {
+		if (this.props.default && this.props.editable === false && (value === "" || value == null)) {
 			value = this.props.default;
 		}
 		if (this.props.editable) {
