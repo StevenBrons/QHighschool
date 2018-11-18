@@ -1,5 +1,5 @@
 var moment = require('moment');
-moment.locale('nl')
+moment.locale('nl');
 
 //Dear future me:
 //If you want to change the schedule for the next schoolyear
@@ -15,7 +15,11 @@ module.exports.getLessonDate = function (period, numberInBlock, day) {
     throw new Error("Schedule is wrong!");
   }
 
-  return moment().year(week.year).week(week.weekNumber).day(day).toDate();
+  if (week.year === 2018) {
+    return moment().year(week.year).week(week.weekNumber - 1).day(day).toDate();
+  } else {
+    return moment().year(week.year).week(week.weekNumber).day(day).toDate();
+  }
 }
 
 
