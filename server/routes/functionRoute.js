@@ -8,14 +8,21 @@ function handleError(error, res) {
 	});
 }
 
-router.post("/acceptEnrollements", function (req, res, next) {
+// router.post("/acceptEnrollements", function (req, res, next) {
+// 	if (req.user.isAdmin() && req.body.message === "confirm") {
+// 		console.log("Accepting all current enrollments");
+// 		mainDb.function.addAllEnrollmentsToGroups().then(() => {
+// 			res.send({
+// 				success: true,
+// 			});
+// 		});
+// 	}
+// });
+
+router.post("/calculateLessonDates", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
-		console.log("Accepting all current enrollments");
-		mainDb.function.addAllEnrollmentsToGroups().then(() => {
-			res.send({
-				success: true,
-			});
-		});
+		console.log("Re-calculating all lesson dates");
+		mainDb.function.updateALLLessonDates();
 	}
 });
 
