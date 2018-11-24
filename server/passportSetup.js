@@ -1,6 +1,7 @@
 const passport = require("passport");
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const creds = require('./private/keys').azureADCreds;
+const keys = require('./private/keys');
+const creds = keys.azureADCreds;
 const database = require('./database/MainDB');
 
 passport.serializeUser((profile, done) => {
