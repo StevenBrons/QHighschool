@@ -196,7 +196,44 @@ class Field extends Component {
 }
 
 
-Field.propTypes = {
+Field.PropTypes = {
+	validate: PropTypes.shape({
+		email: PropTypes.bool,
+		integer: PropTypes.bool,
+		min: PropTypes.bool,
+		phoneNumber: PropTypes.bool,
+		notEmpty: PropTypes.bool,
+	}),
+	value: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.integer,
+	]),
+	style: PropTypes.shape({
+		labelVisible: PropTypes.bool,
+		type: PropTypes.oneOf([
+			"title",
+			"caption",
+			"headline",
+		]),
+		underline: PropTypes.bool,
+		unit: PropTypes.string,
+		margin: PropTypes.oneOf("none","dense","normal"),
+	}),
+	layout: PropTypes.shape({
+		area: PropTypes.bool,
+		alignment: PropTypes.oneOf("left","right"),
+	}),
+	label: PropTypes.string,
+	options: PropTypes.arrayOf(
+		PropTypes.oneOf(
+			PropTypes.shape({
+				value: PropTypes.string,
+				label: PropTypes.string,
+			}),
+			PropTypes.string
+		)),
+	editable: PropTypes.bool,
+	default: PropTypes.string,
 };
 
 export default Field;
