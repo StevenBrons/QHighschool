@@ -7,7 +7,7 @@ const userRoute = require('./userRoute');
 const subjectRoute = require('./subjectRoute');
 const groupRoute = require('./groupRoute');
 const functionRoute = require('./functionRoute');
-const mainDb = require('../database/mainDB');
+const mainDb = require('../database/MainDB');
 
 router.use(ensureAuthenticated);
 // router.use(handleErrors);
