@@ -15,14 +15,12 @@ const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
 const bodyParser = require('body-parser');
 
-const mainDec = require('./databaseDeclearations/MainDec');
-
-const UserDec = require('./databaseDeclearations/UserDec');
-const CourseDec = require('./databaseDeclearations/CourseDec');
-const SubjectDec = require('./databaseDeclearations/SubjectDec');
-const CourseGroup = require('./databaseDeclearations/CourseGroupDec');
-
-// const database = require('./database/MainDB');
+require('./databaseDeclearations/MainDec');
+require('./databaseDeclearations/UserDec');
+require('./databaseDeclearations/CourseDec');
+require('./databaseDeclearations/SubjectDec');
+require('./databaseDeclearations/CourseGroupDec');
+require('./databaseDeclearations/EnrollmentDec');
 
 require('./passportSetup');
 
