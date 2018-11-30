@@ -3,6 +3,7 @@ const Course = require("../databaseDeclearations/CourseDec");
 const Subject = require("../databaseDeclearations/SubjectDec");
 const Participant = require("../databaseDeclearations/ParticipantDec");
 const User = require("../databaseDeclearations/UserDec");
+const Enrollment = require("../databaseDeclearations/EnrollmentDec");
 
 class GroupDB {
 	constructor(mainDb) {
@@ -79,22 +80,16 @@ class GroupDB {
 		}).then(this._mapGroup);
 	}
 
-	async getEnrollments(groupId, admin) {
-		if (admin) {
-			return this.query(
-				"SELECT user_data.* FROM enrollment " +
-				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
-				, [groupId]).then(enrollments => {
-					return enrollments;
-				});
-		} else {
-			return this.query(
-				"SELECT user_data.id,user_data.displayName,user_data.school,user_data.firstName,user_data.lastName,user_data.profile,user_data.role,user_data.level FROM enrollment " +
-				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
-				, [groupId]).then(enrollments => {
-					return enrollments;
-				});
-		}
+	async getEnrollments(groupId) {
+		return Enrollment.findAll({
+			attributes: [],
+			where: {
+				courseGroupId: groupId
+			},
+			include: [{
+				model: User,
+			}]
+		}).then((e) => e.map((e) => e.user));
 	}
 
 	async getParticipants(groupId, admin) {

@@ -58,7 +58,7 @@ router.put("/", function (req, res) {
 
 router.post("/enrollments", function (req, res, next) {
 	if (req.user.isTeacher()) {
-		database.group.getEnrollments(req.body.groupId, req.user.isAdmin()).then(groups => {
+		database.group.getEnrollments(req.body.groupId).then(groups => {
 			res.send(groups);
 		}).catch((error) => handleError(error, res))
 	}

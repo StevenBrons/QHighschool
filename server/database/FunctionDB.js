@@ -73,7 +73,7 @@ class FunctionDB {
 		await Enrollment.findAll().then((rows) => {
 			rows.map((enrollment) => {
 				if (enrollment.accepted === "false") {
-					this.addUserToGroup(enrollment.studentId, enrollment.groupId);
+					this.addUserToGroup(enrollment.userId, enrollment.groupId);
 				}
 			});
 		});

@@ -15,8 +15,8 @@ const Enrollment = connection.define('enrollment', {
 		tableName: 'enrollment'
 	});
 
-Enrollment.belongsTo(User,{as:"student"});
-User.hasMany(Enrollment,{foreignKey:{name:"studentId"}});
+Enrollment.belongsTo(User);
+User.hasMany(Enrollment);
 
 Enrollment.belongsTo(CourseGroup);
 CourseGroup.hasMany(Enrollment);

@@ -47,7 +47,7 @@ class UserDB {
 		return this.query(
 			"SELECT groupId " +
 			"FROM enrollment " +
-			"WHERE studentId = ?",
+			"WHERE userId = ?",
 			[userId]).then(async (rows) => {
 				return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.groupId)));
 			});
