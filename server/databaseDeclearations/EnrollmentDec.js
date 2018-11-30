@@ -12,7 +12,7 @@ const Enrollment = connection.define('enrollment', {
 		},
 	},
 }, {
-		tableName: 'enrollment2'
+		tableName: 'enrollment'
 	});
 
 Enrollment.belongsTo(User,{as:"student"});
