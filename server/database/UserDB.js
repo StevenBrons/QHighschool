@@ -1,4 +1,5 @@
 const User = require('../databaseDeclearations/UserDec');
+const Enrollment = require('../databaseDeclearations/EnrollmentDec');
 
 class UserDB {
 
@@ -44,13 +45,13 @@ class UserDB {
 	}
 
 	async getEnrollments(userId) {
-		return this.query(
-			"SELECT groupId " +
-			"FROM enrollment " +
-			"WHERE userId = ?",
-			[userId]).then(async (rows) => {
-				return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.groupId)));
-			});
+		return Enrollment.findAll({
+			where: {
+				userId,
+			}
+		}).then(async (rows) => {
+			return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.courseGroupId)));
+		});
 	}
 
 	async setUser(userId, data) {
@@ -97,22 +98,20 @@ class UserDB {
 			});
 	}
 
-	async addUserEnrollment(userId, groupId) {
-		return this.query(
-			"INSERT INTO enrollment " +
-			"(studentId,groupId) VALUES" +
-			"(? ,?)",
-			[userId, groupId]
-		);
+	async addUserEnrollment(userId, courseGroupId) {
+		return Enrollment.create({
+			userId,
+			courseGroupId,
+		});
 	}
 
-	async removeUserEnrollment(userId, groupId) {
-		return this.query(
-			"DELETE FROM enrollment " +
-			"WHERE studentId = ? " +
-			"AND groupId = ?",
-			[userId, groupId]
-		);
+	async removeUserEnrollment(userId, courseGroupId) {
+		return Enrollment.destroy({
+			where: {
+				userId,
+				courseGroupId,
+			}
+		});
 	}
 
 	async getNotifications(userId) {
