@@ -51,17 +51,19 @@ class GroupDB {
 	};
 
 	async setFullGroup(data) {
-		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
-		return this.query(q1, [data.courseId, data.day, data.period, data.schoolYear, data.enrollableFor, data.groupId]).then((rows) => {
-			if (rows.changedRows == 1) {
-				this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+		return Group.findByPrimary(data.groupId).then(group => {
+			if (group) {
+				return group.updateAttributes(data).then(() => {
+					this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+				});
 			}
 		});
 	}
 
 	async setGroup(data) {
-		const q1 = "UPDATE course_group SET enrollableFor=? WHERE id=?";
-		return this.query(q1, [data.enrollableFor, data.groupId]);
+		Group.findByPrimary(data.groupId).then(group => {
+			return group.updateAttributes(data);
+		});
 	}
 
 	async getGroup(groupId) {
@@ -92,22 +94,16 @@ class GroupDB {
 		}).then((e) => e.map((e) => e.user));
 	}
 
-	async getParticipants(groupId, admin) {
-		if (admin) {
-			return this.query(
-				"SELECT user_data.* FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
-				, [groupId]).then(participants => {
-					return participants;
-				});
-		} else {
-			return this.query(
-				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
-				, [groupId]).then(participants => {
-					return participants;
-				});
-		}
+	async getParticipants(groupId, teacher) {
+		return Participant.findAll({
+			where: {
+				courseGroupId: groupId,
+			},
+			include: {
+				model: User,
+				attributes: teacher ? ["id", "role", "school", "firstname", "lastname", "displayName", "year", "profile", "level"] : undefined,
+			}
+		}).then(rows => rows.map(row => row.user));
 	}
 
 	async getLessons(groupId) {
@@ -148,12 +144,6 @@ class GroupDB {
 		} else {
 			throw new Error("groupId must be a number");
 		}
-	}
-
-	async addGroup(data) {
-		const q1 = "INSERT INTO course_group (courseId,`day`,teacherId,period,schoolYear) VALUES (?,?,?,?,?);";
-		return this.query(q1, [data.courseId, data.day, data.teacherId, data.period, data.schoolYear])
-			.then((rows) => this.mainDb.function.addLessons(rows.insertId, data.period, data.day));
 	}
 
 }
