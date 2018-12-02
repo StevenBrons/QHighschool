@@ -1,5 +1,6 @@
 const User = require('../databaseDeclearations/UserDec');
 const Enrollment = require('../databaseDeclearations/EnrollmentDec');
+const groupDb = require('../database/GroupDB');
 
 class UserDB {
 
@@ -50,7 +51,7 @@ class UserDB {
 				userId,
 			}
 		}).then(async (rows) => {
-			return Promise.all(rows.map(row => this.mainDb.group.getGroup(row.courseGroupId)));
+			return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId)));
 		});
 	}
 
@@ -135,7 +136,7 @@ class UserDB {
 		return this.query(q1, [userId])
 			.then((rows) => {
 				const groupPromises = rows.map((row) => {
-					return this.mainDb.group.getGroup(row.courseGroupId);
+					return groupDb.getGroup(row.courseGroupId);
 				});
 				return Promise.all(groupPromises);
 			});

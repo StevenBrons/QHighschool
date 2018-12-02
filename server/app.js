@@ -23,6 +23,7 @@ require('./databaseDeclearations/CourseGroupDec');
 require('./databaseDeclearations/EnrollmentDec');
 require('./databaseDeclearations/EvaluationDec');
 require('./databaseDeclearations/LessonDec');
+require('./databaseDeclearations/PresenceDec');
 
 require('./passportSetup');
 
