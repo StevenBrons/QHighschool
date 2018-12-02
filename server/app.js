@@ -21,6 +21,7 @@ require('./databaseDeclearations/CourseDec');
 require('./databaseDeclearations/SubjectDec');
 require('./databaseDeclearations/CourseGroupDec');
 require('./databaseDeclearations/EnrollmentDec');
+require('./databaseDeclearations/EvaluationDec');
 
 require('./passportSetup');
 
