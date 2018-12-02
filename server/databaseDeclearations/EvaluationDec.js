@@ -9,12 +9,8 @@ const Evaluation = connection.define('evaluation', {
 		allowNull: false,
 		isIn: [["decimal", "stepwise", "check"]],
 	},
-	assesment: {
-		type: Sequelize.STRING,
-	},
-	explanation: {
-		type: Sequelize.TEXT,
-	}
+	assesment: Sequelize.STRING,
+	explanation: Sequelize.TEXT,
 }, {
 		tableName: 'evaluation'
 	});
