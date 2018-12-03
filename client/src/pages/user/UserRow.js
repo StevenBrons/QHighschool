@@ -79,8 +79,7 @@ class GroupCard extends Component {
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.preferedEmail}
 						</Typography>
-						<div style={{ flex : 1}}>
-						</div>
+						<div style={{ flex : 1}} />
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.phoneNumber}
 						</Typography>
