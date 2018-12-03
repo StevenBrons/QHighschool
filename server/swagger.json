@@ -455,7 +455,7 @@
           "Group"
         ],
         "summary": "Get participants evaluation",
-        "operationId": "getEvaluation",
+        "operationId": "getEvaluations",
         "produces": [
           "application/json"
         ],
@@ -466,7 +466,7 @@
           {
             "name": "groupId",
             "in": "formData",
-            "description": "The groupId to get the evaluation from",
+            "description": "The groupId to get the evaluations from",
             "required": true,
             "type": "string"
           }

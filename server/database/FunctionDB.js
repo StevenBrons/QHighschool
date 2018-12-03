@@ -1,3 +1,5 @@
+const Enrollment = require("../databaseDeclearations/EnrollmentDec");
+
 class FunctionDB {
 	constructor(mainDb) {
 		this.mainDb = mainDb;
@@ -68,10 +70,11 @@ class FunctionDB {
 	}
 
 	async addAllEnrollmentsToGroups() {
-		const q1 = "SELECT * FROM enrollment;"
-		await this.query(q1).then(rows => {
+		await Enrollment.findAll().then((rows) => {
 			rows.map((enrollment) => {
-				this.addUserToGroup(enrollment.studentId, enrollment.groupId);
+				if (enrollment.accepted === "false") {
+					this.addUserToGroup(enrollment.userId, enrollment.groupId);
+				}
 			});
 		});
 		return true;

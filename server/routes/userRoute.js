@@ -1,6 +1,7 @@
-var express = require("express");
-var router = express.Router();
-var database = require('../database/MainDB');
+const express = require("express");
+const router = express.Router();
+const database = require('../database/MainDB');
+const groupDb = require('../database/GroupDB');
 
 function handleError(error, res) {
 	res.status(406);
@@ -63,7 +64,7 @@ router.get("/enrollments", (req, res) => {
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
-	database.group.getGroups().then(groups => {
+	groupDb.getGroups().then(groups => {
 		var enrollableGroups = groups.filter((group) => {
 			return group.period == 1
 		});
