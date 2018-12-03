@@ -1,6 +1,7 @@
-var express = require("express");
-var router = express.Router();
-var database = require('../database/MainDB');
+const express = require("express");
+const router = express.Router();
+const database = require('../database/MainDB');
+const groupDb = require('../database/GroupDB');
 
 function handleError(error, res) {
 	res.status(406);
@@ -16,14 +17,14 @@ function authError(res) {
 }
 
 router.get("/list", function (req, res, next) {
-	database.group.getGroups()
+	groupDb.getGroups()
 		.then(groups => {
 			res.send(groups);
 		});
 });
 
 router.post("/", function (req, res, next) {
-	database.group.getGroup(req.body.groupId)
+	groupDb.getGroup(req.body.groupId)
 		.then(group => {
 			res.send(group);
 		}).catch(error => handleError(error, res));
@@ -31,14 +32,14 @@ router.post("/", function (req, res, next) {
 
 router.patch("/", function (req, res, next) {
 	if (req.user.isAdmin()) {
-		database.group.setFullGroup(req.body)
+		groupDb.setFullGroup(req.body)
 			.then(() => {
 				res.send({
 					success: true,
 				});
 			}).catch(error => handleError(error, res));
 	} else {
-		database.group.setGroup(req.body)
+		groupDb.setGroup(req.body)
 			.then(() => {
 				res.send({
 					success: true,
@@ -49,7 +50,7 @@ router.patch("/", function (req, res, next) {
 
 router.put("/", function (req, res) {
 	if (req.user.isAdmin()) {
-		database.group.addGroup(req.body)
+		groupDb.addGroup(req.body)
 			.then(rows => {
 				res.send(rows);
 			}).catch(error => handleError(error, res));
@@ -58,14 +59,14 @@ router.put("/", function (req, res) {
 
 router.post("/enrollments", function (req, res, next) {
 	if (req.user.isTeacher()) {
-		database.group.getEnrollments(req.body.groupId).then(groups => {
+		groupDb.getEnrollments(req.body.groupId).then(groups => {
 			res.send(groups);
 		}).catch((error) => handleError(error, res))
 	}
 });
 
 router.post("/lessons", function (req, res, next) {
-	database.group.getLessons(req.body.groupId).then(lessons => {
+	groupDb.getLessons(req.body.groupId).then(lessons => {
 		res.send(lessons);
 	}).catch((error) => handleError(error, res))
 });
@@ -78,7 +79,7 @@ router.patch("/lessons", function (req, res, next) {
 			return !req.user.inGroup(l.groupId);
 		});
 		if (req.user.isTeacher() && l.length === 0) {
-			database.group.setLessons(lessons)
+			groupDb.setLessons(lessons)
 				.then(() => {
 					res.send({
 						success: true,
@@ -95,7 +96,7 @@ router.patch("/lessons", function (req, res, next) {
 
 router.post("/participants", function (req, res, next) {
 	if (req.user.inGroup(req.body.groupId)) {
-		database.group.getParticipants(req.body.groupId, req.user.isTeacher())
+		groupDb.getParticipants(req.body.groupId, req.user.isTeacher())
 			.then(participants => {
 				res.send(participants);
 			}).catch((error) => handleError(error, res))
@@ -119,7 +120,7 @@ router.patch("/participants", function (req, res, next) {
 
 router.post("/presence", function (req, res, next) {
 	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
-		database.group.getPresence(req.body.groupId)
+		groupDb.getPresence(req.body.groupId)
 			.then(presence => {
 				res.send(presence);
 			}).catch((error) => handleError(error, res))
@@ -141,14 +142,14 @@ router.patch("/presence", function (req, res, next) {
 				return {};
 			}
 			if (oldPresences.find(oldP => oldP.id === newPresence.id) != null) {
-				return database.group.setPresence(newPresence);
+				return groupDb.setPresence(newPresence);
 			} else {
 				error = true;
 				authError(res);
 			}
 		}));
 	}
-	database.group.getPresence(req.body.groupId)
+	groupDb.getPresence(req.body.groupId)
 		.then(setPresencesIfAllowed);
 	if (!error) {
 		res.send({
@@ -159,7 +160,7 @@ router.patch("/presence", function (req, res, next) {
 
 router.post("/evaluations", function (req, res, next) {
 	if (req.user.isTeacher()) {
-		database.group.getEvaluations(req.body.groupId)
+		groupDb.getEvaluations(req.body.groupId)
 			.then(evaluations => {
 				res.send(evaluations);
 			}).catch((error) => handleError(error, res))
