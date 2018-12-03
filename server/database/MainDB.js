@@ -1,6 +1,5 @@
 const mysql = require("promise-mysql");
 const UserDB = require("./UserDB");
-const GroupDB = require("./GroupDB");
 const SessionDB = require("./SessionDB");
 const FunctionDB = require("./FunctionDB");
 
@@ -16,7 +15,6 @@ class Database {
 				console.log(err);
 			});
 		this.user = new UserDB(this);
-		this.group = new GroupDB(this);
 		this.session = new SessionDB(this);
 		this.function = new FunctionDB(this);
 	}
