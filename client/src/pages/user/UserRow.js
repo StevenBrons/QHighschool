@@ -59,7 +59,7 @@ class GroupCard extends Component {
 						{user.school}
 					</Typography>
 					<Typography variant="body1" style={{ flex: 1 }}>
-						{user.level + "-" + user.year}
+						{user.level + " - " + user.year}
 					</Typography>
 					<Typography variant="body1" style={{ flex: 1 }}>
 						{user.role === "teacher" ? "docent" : "leerling"}
@@ -79,9 +79,8 @@ class GroupCard extends Component {
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.preferedEmail}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }}>
-							{}
-						</Typography>
+						<div style={{ flex : 1}}>
+						</div>
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.phoneNumber}
 						</Typography>
