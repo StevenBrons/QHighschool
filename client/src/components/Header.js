@@ -47,7 +47,7 @@ class Header extends Component {
 					<IconButton color="inherit" aria-label="Menu" onClick={this.props.toggleMenu} style={{position:"absolute"}}>
 						<MenuIcon />
 					</IconButton>
-					<img src="/images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto",maxHeight:"39px" }}/>
+					<img src="/images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto",maxHeight:"52px" }}/>
 					<Button color="inherit" style={{ top:10,right: 10, position: "absolute"}} onClick={this.handleClick}>
 						<PersonIcon style={{transform:"scale(1.5)",marginRight:"10px",float:"left"}}/>
 						<span className="HiddenOnMobile">
