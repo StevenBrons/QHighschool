@@ -91,9 +91,7 @@ class GroupDB {
 			},
 			include: [{
 				model: User,
-				order: [
-					["displayName", "DESC"]
-				]
+				order: [["displayName", "DESC"]]
 			}]
 		}).then((e) => e.map((e) => e.user));
 	}
@@ -106,9 +104,7 @@ class GroupDB {
 			include: {
 				model: User,
 				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
-				order: [
-					["displayName", "DESC"]
-				]
+				order: [["displayName", "DESC"]]
 			},
 		}).then(rows => rows.map(row => row.user));
 	}
@@ -157,8 +153,23 @@ class GroupDB {
 		});
 	}
 
+	selectDistinct(column) {
+		return function distinct(rows) {
+			let distinct = [];
+			return rows.filter(row => {
+				if (distinct.indexOf(row[column]) == -1) {
+					distinct.push(row[column]);
+					return true;
+				} else {
+					return false;
+				}
+			});
+		}
+	}
+
 	async getEvaluations(groupId) {
 		return Evaluation.findAll({
+			order: [["id", "DESC"]],
 			include: {
 				attributes: [],
 				model: Course,
@@ -170,7 +181,7 @@ class GroupDB {
 					}
 				}
 			}
-		});
+		}).then(this.selectDistinct("userId"));
 	}
 
 	async setEvaluation(newEv) {
