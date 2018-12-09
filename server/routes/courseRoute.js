@@ -2,34 +2,27 @@ var express = require("express");
 var router = express.Router();
 var course = require('../database/CourseDB');
 
-function handleError(error, res) {
-	res.send({
-		error: error.message,
-	});
-}
-function authError(res) {
-	res.send({
-		error: "Unauthorized",
-	});
-}
+const handlers = require('./handlers');
+const handleSuccess = handlers.handleSuccess;
+const handleError = handlers.handleError;
+const authError = handlers.authError;
 
 router.get("/list", function (req, res) {
-	course.getCourses().then(courses => {
-		res.send(courses);
-	});
+	course.getCourses()
+		.then(handleSuccess(res));
 });
 
 router.post("/", function (req, res) {
-	course.getCourse(req.body.courseId).then(course => {
-		res.send(course);
-	}).catch(error => handleError(error, res));
+	course.getCourse(req.body.courseId)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.put("/", function (req, res) {
 	if (req.user.isAdmin()) {
-		course.addCourse(req.body).then(rows => {
-			res.send(rows);
-		}).catch(error => handleError(error, res));
+		course.addCourse(req.body)
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	} else {
 		authError(res);
 	}
@@ -37,11 +30,9 @@ router.put("/", function (req, res) {
 
 router.patch("/", function (req, res) {
 	if (req.user.isTeacher()) {
-		course.updateCourse(req.body).then(() => {
-			res.send({
-				success: true,
-			});
-		}).catch(error => handleError(error, res));
+		course.updateCourse(req.body)
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	} else {
 		authError(res);
 	}

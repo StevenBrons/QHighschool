@@ -3,103 +3,77 @@ const router = express.Router();
 const database = require('../database/MainDB');
 const groupDb = require('../database/GroupDB');
 
-function handleError(error, res) {
-	res.status(406);
-	res.send({
-		error: error.message,
-	});
-}
-function authError(res) {
-	res.status(401);
-	res.send({
-		error: "Unauthorized",
-	});
-}
+const handlers = require('./handlers');
+const handleSuccess = handlers.handleSuccess;
+const handleError = handlers.handleError;
 
 router.get("/list", function (req, res, next) {
 	groupDb.getGroups()
-		.then(groups => {
-			res.send(groups);
-		});
+		.then(handleSuccess(res));
 });
 
 router.post("/", function (req, res, next) {
 	groupDb.getGroup(req.body.groupId)
-		.then(group => {
-			res.send(group);
-		}).catch(error => handleError(error, res));
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.patch("/", function (req, res, next) {
 	if (req.user.isAdmin()) {
 		groupDb.setFullGroup(req.body)
-			.then(() => {
-				res.send({
-					success: true,
-				});
-			}).catch(error => handleError(error, res));
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	} else {
 		groupDb.setGroup(req.body)
-			.then(() => {
-				res.send({
-					success: true,
-				});
-			}).catch(error => handleError(error, res));
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	}
 });
 
 router.put("/", function (req, res) {
 	if (req.user.isAdmin()) {
 		groupDb.addGroup(req.body)
-			.then(rows => {
-				res.send(rows);
-			}).catch(error => handleError(error, res));
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	}
 });
 
 router.post("/enrollments", function (req, res, next) {
 	if (req.user.isTeacher()) {
-		groupDb.getEnrollments(req.body.groupId).then(groups => {
-			res.send(groups);
-		}).catch((error) => handleError(error, res))
+		groupDb.getEnrollments(req.body.groupId)
+			.then(handleSuccess(res))
+			.catch(handleError(res))
 	}
 });
 
 router.post("/lessons", function (req, res, next) {
-	groupDb.getLessons(req.body.groupId).then(lessons => {
-		res.send(lessons);
-	}).catch((error) => handleError(error, res))
+	groupDb.getLessons(req.body.groupId)
+		.then(handleSuccess(res))
+		.catch(handleError(res))
 });
+
+
+async function patchLesson(req, lesson) {
+	if (req.user.inGroup(lesson.groupId)) {
+		return groupDb.setLesson(lesson);
+	}
+}
 
 router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
-	//check if the user is allowed to edit every lesson object
-	if (Array.isArray(lessons) && lessons.length >= 1) {
-		let l = lessons.filter((l) => {
-			return !req.user.inGroup(l.groupId);
-		});
-		if (req.user.isTeacher() && l.length === 0) {
-			groupDb.setLessons(lessons)
-				.then(() => {
-					res.send({
-						success: true,
-					});
-				})
-				.catch((error) => handleError(error, res))
-		} else {
-			authError(res);
-		}
+	if (req.user.isTeacher() && Array.isArray(lessons) && lessons.length >= 1) {
+		Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
+			.then(handleSuccess(res));
 	} else {
 		throw new Error("Wrong datatypes");
 	}
 });
 
 router.post("/participants", function (req, res, next) {
-	if (req.user.inGroup(req.body.groupId)) {
+	if (req.user.inGroup(req.body.groupId) && req.user.inGroup(req.body.groupId)) {
 		groupDb.getParticipants(req.body.groupId, req.user.isTeacher())
-			.then(participants => {
-				res.send(participants);
-			}).catch((error) => handleError(error, res))
+			.then(handleSuccess(res))
+			.catch(handleError(res))
 	} else {
 		authError(res);
 	}
@@ -108,62 +82,59 @@ router.post("/participants", function (req, res, next) {
 router.patch("/participants", function (req, res, next) {
 	if (req.user.isAdmin()) {
 		database.function.addUserToGroup(req.body.userId, req.body.groupId)
-			.then(() => {
-				res.send({
-					success: true,
-				});
-			}).catch((error) => handleError(error, res))
+			.then(handleSuccess(res))
+			.catch(handleError(res))
 	} else {
 		authError(res);
 	}
 });
 
-router.post("/presence", function (req, res, next) {
-	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
-		groupDb.getPresence(req.body.groupId)
-			.then(presence => {
-				res.send(presence);
-			}).catch((error) => handleError(error, res))
-	} else {
-		authError(res);
-	}
+router.post("/presence", ({ user, body }, res) => {
+	if (!user.isTeacher() || !user.inGroup(body.groupId)) return authError(res);
+	groupDb.getPresence(body.groupId)
+		.then(handleSuccess(res))
+		.catch(handleError(res))
 });
 
-router.patch("/presence", function (req, res, next) {
-	if (!req.user.isTeacher() || !req.user.inGroup(req.body.groupId)) {
-		authError(res);
+async function setPresence(newP, old) {
+	if (old.find(o => (o.id === newP.id && o.userId === newP.userId)) != null) {
+		return groupDb.setPresence(newP);
 	}
-	let presenceObjs = JSON.parse(req.body.presence);
-	let error = false;
-	//check if the user is allowed to edit every presence object
-	function setPresencesIfAllowed(oldPresences) {
-		return Promise.all(presenceObjs.map((newPresence) => {
-			if (error) {
-				return {};
-			}
-			if (oldPresences.find(oldP => oldP.id === newPresence.id) != null) {
-				return groupDb.setPresence(newPresence);
-			} else {
-				error = true;
-				authError(res);
-			}
-		}));
-	}
-	groupDb.getPresence(req.body.groupId)
-		.then(setPresencesIfAllowed);
-	if (!error) {
-		res.send({
-			success: true,
-		});
-	}
+	throw new Error("");
+}
+
+router.patch("/presence", async ({ user, body }, res, next) => {
+	if (!user.isTeacher() || !user.inGroup(body.groupId)) return authError(res);
+	const presenceObjs = JSON.parse(body.presence);
+	const oldPs = await groupDb.getPresence(body.groupId);
+	Promise.all(presenceObjs.map(newP => setPresence(newP, oldPs)))
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.post("/evaluations", function (req, res, next) {
-	if (req.user.isTeacher()) {
+	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
 		groupDb.getEvaluations(req.body.groupId)
-			.then(evaluations => {
-				res.send(evaluations);
-			}).catch((error) => handleError(error, res))
+			.then(handleSuccess(res))
+			.catch(handleError(res));
+	} else {
+		authError(res);
+	}
+});
+
+async function setEvaluation(ev, oldEv) {
+	if (oldEv.find(old => ev.id === old.id) != null) {
+		groupDb.setEvaluation(ev);
+	}
+}
+
+router.patch("/evaluations", async (req, res) => {
+	const evaluations = JSON.parse(req.body.evaluations);
+	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
+		const oldEvaluations = await groupDb.getEvaluations(req.body.groupId);
+		Promise.all(evaluations.map((ev) => setEvaluation(ev, oldEvaluations))
+			.then(handleSuccess(res))
+			.catch(handleError(res)));
 	}
 });
 

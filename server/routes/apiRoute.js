@@ -10,18 +10,12 @@ const functionRoute = require('./functionRoute');
 const mainDb = require('../database/MainDB');
 
 router.use(ensureAuthenticated);
-// router.use(handleErrors);
 
 router.use('/course', courseRoute);
 router.use('/user', userRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
 router.use('/function', functionRoute);
-
-
-// function handleErrors(req, res, next) {
-// 	return next();
-// }
 
 function ensureAuthenticated(req, res, next) {
 	if (req.app.get('env') === 'development' && keys.develop === "develop") {

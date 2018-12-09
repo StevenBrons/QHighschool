@@ -112,7 +112,7 @@ class UserDB {
 				userId,
 				courseGroupId,
 			}
-		});
+		}).then(() => null);
 	}
 
 	async getNotifications(userId) {

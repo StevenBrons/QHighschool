@@ -3,45 +3,33 @@ const router = express.Router();
 const database = require('../database/MainDB');
 const groupDb = require('../database/GroupDB');
 
-function handleError(error, res) {
-	res.status(406);
-	res.send({
-		error: error.message,
-	});
-}
-function authError(res) {
-	res.status(401);
-	res.send({
-		error: "Unauthorized",
-	});
-}
+const handlers = require('./handlers');
+const handleSuccess = handlers.handleSuccess;
+const handleError = handlers.handleError;
+
 router.get("/self", (req, res) => {
-	database.user.getSelf(req.user.id).then((user) => {
-		res.send(user);
-	}).catch(error => handleError(error, res));
+	database.user.getSelf(req.user.id)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.post("/", (req, res) => {
-	database.user.getUser(req.body.userId).then((user) => {
-		res.send(user);
-	}).catch(error => handleError(error, res));
+	database.user.getUser(req.body.userId)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.patch("/", (req, res) => {
-	database.user.setUser(req.user.id, req.body).then((data) => {
-		res.send({
-			success: true,
-		});
-	}).catch(error => handleError(error, res));
+	database.user.setUser(req.user.id, req.body)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.put("/enrollments", (req, res) => {
 	if (req.user.isStudent()) {
-		database.user.addUserEnrollment(req.user.id, req.body.groupId).then((data) => {
-			res.send({
-				success: true,
-			});
-		}).catch(error => handleError(error, res));
+		database.user.addUserEnrollment(req.user.id, req.body.groupId)
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	} else {
 		authError(res);
 	}
@@ -49,18 +37,16 @@ router.put("/enrollments", (req, res) => {
 
 router.delete("/enrollments", (req, res) => {
 	if (req.user.isStudent()) {
-		database.user.removeUserEnrollment(req.user.id, req.body.groupId).then(() => {
-			res.send({
-				success: true,
-			});
-		}).catch(error => handleError(error, res));
+		database.user.removeUserEnrollment(req.user.id, req.body.groupId)
+			.then(handleSuccess(res))
+			.catch(handleError(res));
 	}
 });
 
 router.get("/enrollments", (req, res) => {
 	database.user.getEnrollments(req.user.id)
-		.then(enrollments => res.send(enrollments))
-		.catch(error => handleError(error, res));
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
@@ -73,9 +59,8 @@ router.get("/enrollableGroups", function (req, res, next) {
 });
 
 router.get("/groups", (req, res) => {
-	database.user.getGroups(req.user.id, req.user.isAdmin()).then(groups => {
-		res.send(groups);
-	});
+	database.user.getGroups(req.user.id, req.user.isAdmin())
+		.then(handleSuccess(res));
 });
 
 module.exports = router;

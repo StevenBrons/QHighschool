@@ -7,8 +7,13 @@ const Enrollment = require("../databaseDeclearations/EnrollmentDec");
 const Lesson = require("../databaseDeclearations/LessonDec");
 const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Presence = require("../databaseDeclearations/PresenceDec");
+let DB = require("../database/MainDB");
 
 class GroupDB {
+
+	constructor(mainDb) {
+		this.mainDb = mainDb;
+	}
 
 	_mapGroup(data) {
 		return {
@@ -50,7 +55,7 @@ class GroupDB {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
 				return group.updateAttributes(data).then(() => {
-					this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+					require('./MainDB').function.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
 		});
@@ -86,6 +91,9 @@ class GroupDB {
 			},
 			include: [{
 				model: User,
+				order: [
+					["displayName", "DESC"]
+				]
 			}]
 		}).then((e) => e.map((e) => e.user));
 	}
@@ -98,7 +106,10 @@ class GroupDB {
 			include: {
 				model: User,
 				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
-			}
+				order: [
+					["displayName", "DESC"]
+				]
+			},
 		}).then(rows => rows.map(row => row.user));
 	}
 
@@ -106,6 +117,14 @@ class GroupDB {
 		return Lesson.findAll({
 			where: {
 				courseGroupId: groupId,
+			}
+		});
+	}
+
+	async setLesson(lesson) {
+		return Lesson.findByPrimary(lesson.id).then(l => {
+			if (l.groupId === lesson.groupId) {
+				return l.update(lesson);
 			}
 		});
 	}
@@ -154,6 +173,16 @@ class GroupDB {
 		});
 	}
 
+	async setEvaluation(newEv) {
+		return Evaluation.findByPrimary(evaluation.id).then(oldEv => {
+			if (newEv.id === oldEv.id && newEv.userId === oldEv.userId) {
+				return oldEv.update(newEv);
+			} else {
+				throw new Error("authentication!");
+			}
+		});
+	}
+
 }
 
-module.exports = new GroupDB();
+module.exports = new GroupDB(DB);

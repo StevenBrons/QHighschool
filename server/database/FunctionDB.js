@@ -9,6 +9,10 @@ class FunctionDB {
 		return this.mainDb.connection.query(sqlString, value);
 	}
 
+	async test() {
+		console.log("asbsdr");
+	}
+
 	async createUser(profile) {
 
 		let user = {
@@ -127,7 +131,7 @@ class FunctionDB {
 	async updateLessonDates(groupId, period, day) {
 		const schedule = require("../lib/schedule");
 		for (let i = 0; i < 8; i++) {
-			const q2 = "UPDATE lesson set date = ? WHERE groupId = ? AND numberInBlock = ?";
+			const q2 = "UPDATE lesson set date = ? WHERE courseGroupId = ? AND numberInBlock = ?";
 			await this.query(q2, [schedule.getLessonDate(period, i + 1, day), groupId, i + 1]);
 		}
 	}
@@ -136,7 +140,7 @@ class FunctionDB {
 		const schedule = require("../lib/schedule");
 
 		for (let i = 0; i < 8; i++) {
-			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
+			const q2 = "INSERT INTO lesson (courseGroupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
 			await this.query(q2, [groupId, schedule.getLessonDate(period, i + 1, day), "", "", i + 1]);
 		}
 	}
