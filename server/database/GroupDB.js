@@ -186,3 +186,4 @@ class GroupDB {
 }
 
 module.exports = new GroupDB(DB);
+
