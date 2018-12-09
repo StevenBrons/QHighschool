@@ -57,7 +57,7 @@ class GroupCard extends Component {
 				</Typography>
 				<Typography
 					variant="headline"
-					style={{ overflow: "hidden", maxHeight: "65px", cursor: "pointer",textTransform: "uppercase", fontSize: this.props.group.courseName.length > 33 ? "16px" : "auto" }}
+					style={{ overflow: "hidden", height: "64px", cursor: "pointer",textTransform: "uppercase", fontSize: "24px" }}
 					onClick={() => { this.props.history.push("/groep/" + this.props.group.id) }}
 				>
 					{this.props.group.courseName}
@@ -67,11 +67,11 @@ class GroupCard extends Component {
 						{"Blok " + this.props.group.period + " - " + this.props.group.day}
 					</Typography>
 					<Typography style={{ display: "inline-block",fontWeight:"bold" }}>
-						{this.props.group.enrollableFor}
+						{this.props.group.enrollableFor || "Iedereen"}
 					</Typography>
 				</div>
-				<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
-					{this.props.group.courseDescription}
+				<Typography style={{ maxHeight: "180px", overflow: "hidden" }} gutterBottom>
+					{this.props.group.courseDescription || "Dit aanbod heeft geen omschrijving."}
 				</Typography>
 				<div style={{ position: "absolute", bottom: "5px", width: "100%" }} >
 					{

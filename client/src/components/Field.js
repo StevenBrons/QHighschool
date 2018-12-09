@@ -82,6 +82,7 @@ class Field extends Component {
 		let margin = this.props.margin || "none";
 		let multiline = false;
 		let menuItems;
+		let rowsMax = this.props.rowsMax;
 		let label = this.props.label;
 		let endAdornment;
 
@@ -106,6 +107,16 @@ class Field extends Component {
 			disabled = false;
 			disableUnderline = this.props.disableUnderline || false;
 			margin = this.props.margin || "normal";
+			if(this.props.area){
+				if(value.length>500){
+					color = "#ff0000";
+					}
+			}
+			if(this.props.headline){
+				if(value.length>50){
+					color = "#ff0000";
+				}
+			}
 		} else {
 			if (!this.props.labelVisible) {
 				label = null;
@@ -155,6 +166,7 @@ class Field extends Component {
 				multiline={multiline}
 				className={this.props.right ? "right" : ""}
 				label={label}
+				rowsMax={rowsMax}
 				select={options ? true : false}
 				style={{ ...{ float, flex: 1 }, ...style }}
 				onChange={this.onChange.bind(this)}
