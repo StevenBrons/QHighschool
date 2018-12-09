@@ -122,17 +122,26 @@ router.post("/evaluations", function (req, res, next) {
 	}
 });
 
-async function setEvaluation(ev, oldEv) {
-	if (oldEv.find(old => ev.id === old.id) != null) {
-		groupDb.setEvaluation(ev);
+async function setEvaluation(ev, req) {
+	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	const courseId = groupDb.getGroup(ev.groupId).courseId;
+	if (req.user.inGroup(ev.groupId) && Number.isInteger(cousreId) && courseId >= 0) {
+		return groupDb.setEvaluation({
+			userId: ev.userId,
+			assesment: ev.assesment,
+			explanation: ev.explanation,
+			type: ev.type,
+			courseId,
+			updatedByIp: ip,
+			updatedByUserId: req.user.id,
+		});
 	}
 }
 
 router.patch("/evaluations", async (req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
 	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
-		const oldEvaluations = await groupDb.getEvaluations(req.body.groupId);
-		Promise.all(evaluations.map((ev) => setEvaluation(ev, oldEvaluations))
+		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req))
 			.then(handleSuccess(res))
 			.catch(handleError(res)));
 	}

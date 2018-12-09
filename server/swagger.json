@@ -503,14 +503,10 @@
             "schema": {
               "type": "object",
               "required": [
-                "groupId",
                 "presence"
               ],
               "properties": {
-                "groupId": {
-                  "type": "string"
-                },
-                "evaluation": {
+                "evaluations": {
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/Evaluation"

@@ -184,13 +184,14 @@ class GroupDB {
 		}).then(this.selectDistinct("userId"));
 	}
 
-	async setEvaluation(newEv) {
-		return Evaluation.findByPrimary(evaluation.id).then(oldEv => {
-			if (newEv.id === oldEv.id && newEv.userId === oldEv.userId) {
-				return oldEv.update(newEv);
-			} else {
-				throw new Error("authentication!");
-			}
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp }) {
+		return Evaluation.create({
+			userId,
+			assesment,
+			type,
+			explanation,
+			updatedByIp,
+			updatedByUserId,
 		});
 	}
 
