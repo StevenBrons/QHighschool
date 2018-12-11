@@ -113,6 +113,14 @@ class FunctionDB {
 			[userId, groupId]);
 	}
 
+	async updateALLLessonDates() {
+		return this.query("SELECT id,period,day FROM course_group").then((rows) => {
+			rows.map(({id,period,day}) => {
+				this.updateLessonDates(id,period,day);
+			});
+		});
+	}
+
 	async updateLessonDates(groupId, period, day) {
 		const schedule = require("../lib/schedule");
 		for (let i = 0; i < 8; i++) {

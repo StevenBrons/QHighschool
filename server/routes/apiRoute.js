@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const keys = require("../private/keys");
 
 const courseRoute = require('./courseRoute');
 const userRoute = require('./userRoute');
 const subjectRoute = require('./subjectRoute');
 const groupRoute = require('./groupRoute');
 const functionRoute = require('./functionRoute');
+const mainDb = require('../database/MainDB');
 
 router.use(ensureAuthenticated);
 // router.use(handleErrors);
@@ -22,6 +24,12 @@ router.use('/function', functionRoute);
 // }
 
 function ensureAuthenticated(req, res, next) {
+	if (req.app.get('env') === 'development' && keys.develop === "develop") {
+		return mainDb.session.getUserByToken(keys.devLoginToken).then((serializedUser) => {
+			req.user = serializedUser;
+			next();
+		});
+	}
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
