@@ -253,7 +253,7 @@ export function getEnrolLments() {
 			dispatch({
 				type: "CHANGE_ENROLLMENTS",
 				userId: getState().userId,
-				enrollmentIds: Object.keys(enrollments).map(id => parseInt(id, 10)),
+				enrollmentIds: Object.keys(enrollments),
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}

@@ -151,7 +151,7 @@ function mapStateToProps(state, ownProps) {
 
 	return {
 		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
-		hasChosen: state.users[state.userId].enrollmentIds.indexOf(parseInt(ownProps.group.id,10)) !== -1,
+		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
 		hasChosenDay,
 		chosenDayGroupName: hasChosenDay ? state.groups[state.users[state.userId].enrollmentIds[occupiedDayIndex]].courseName : null,
 	};
