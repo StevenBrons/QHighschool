@@ -32,6 +32,7 @@ class GroupDB {
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
+			evaluation: data.course.evaluations[0],
 		}
 	}
 
@@ -67,20 +68,35 @@ class GroupDB {
 		});
 	}
 
-	async getGroup(groupId) {
+	async getGroup(groupId, userId) {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
-					model: Subject, attributes: ["id", "name", "description"]
-				}]
+				model: Course,
+				attributes: ["name", "description", "remarks", "studyTime"],
+				include: [
+					{
+						model: Subject, attributes: ["id", "name", "description"]
+					},
+					{
+						model: Evaluation,
+						order: [["id", "DESC"]],
+						attributes: ["type", "assesment", "explanation", "updatedAt", "userId", "courseId", "updatedByUserId"],
+						where: { userId: userId }
+					},
+				]
 			},
 			{
 				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
 					model: User, attributes: ["id", "displayName"],
 				}]
-			}]
+			},
+			]
 		}).then(this._mapGroup);
+	}
+
+	async getEvaluation(groupId, userId) {
+
 	}
 
 	async getEnrollments(groupId) {

@@ -51,7 +51,7 @@ class UserDB {
 				userId,
 			}
 		}).then(async (rows) => {
-			return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId)));
+			return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId.userId)));
 		});
 	}
 
@@ -136,7 +136,7 @@ class UserDB {
 		return this.query(q1, [userId])
 			.then((rows) => {
 				const groupPromises = rows.map((row) => {
-					return groupDb.getGroup(row.courseGroupId);
+					return groupDb.getGroup(row.courseGroupId,userId);
 				});
 				return Promise.all(groupPromises);
 			});

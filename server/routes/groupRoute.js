@@ -13,7 +13,7 @@ router.get("/list", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-	groupDb.getGroup(req.body.groupId)
+	groupDb.getGroup(req.body.groupId,req.user.id)
 		.then(handleSuccess(res))
 		.catch(handleError(res));
 });
