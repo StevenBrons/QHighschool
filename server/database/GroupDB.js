@@ -32,7 +32,7 @@ class GroupDB {
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
-			evaluation: data.course.evaluations[0],
+			evaluation: data.course.evaluations? data.course.evaluations[0]: null,
 		}
 	}
 
