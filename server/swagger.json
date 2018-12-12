@@ -114,9 +114,9 @@
             "type": "string"
           },
           {
-            "name": "foreknowledge",
+            "name": "remarks",
             "in": "formData",
-            "description": "The foreknowledge for course",
+            "description": "The remarks for course",
             "required": true,
             "type": "string"
           },
@@ -179,9 +179,9 @@
             "type": "string"
           },
           {
-            "name": "foreknowledge",
+            "name": "remarks",
             "in": "formData",
-            "description": "The foreknowledge for course",
+            "description": "The remarks for course",
             "required": true,
             "type": "string"
           },
@@ -1069,7 +1069,7 @@
         "description": {
           "type": "string"
         },
-        "foreknowledge": {
+        "remarks": {
           "type": "string"
         },
         "studyTime": {

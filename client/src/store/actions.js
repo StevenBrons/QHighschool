@@ -166,7 +166,7 @@ export function setGroup(group) {
 				name: group.courseName,
 				description: group.courseDescription,
 				studyTime: group.studyTime,
-				foreknowledge: group.foreknowledge,
+				remarks: group.remarks,
 			}
 		}
 

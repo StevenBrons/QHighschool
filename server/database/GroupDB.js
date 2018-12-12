@@ -25,7 +25,7 @@ class GroupDB {
 			enrollableFor: data.enrollableFor,
 			courseName: data.course.name,
 			courseDescription: data.course.description,
-			foreknowledge: data.course.foreknowledge,
+			remarks: data.course.remarks,
 			studyTime: data.course.studyTime,
 			subjectId: data.course.subject.id,
 			subjectName: data.course.subject.name,
@@ -39,7 +39,7 @@ class GroupDB {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 					model: Subject, attributes: ["id", "name", "description"]
 				}]
 			},
@@ -71,7 +71,7 @@ class GroupDB {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 					model: Subject, attributes: ["id", "name", "description"]
 				}]
 			},

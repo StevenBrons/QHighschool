@@ -33,7 +33,7 @@ class CourseDB {
 			subjectId: data.subjectId,
 			name: data.name,
 			description: data.description,
-			foreknowledge: data.foreknowledge,
+			remarks: data.remarks,
 			studyTime: data.studyTime
 		});
 	}
@@ -45,7 +45,7 @@ class CourseDB {
 					subjectId: data.subjectId,
 					name: data.name,
 					description: data.description,
-					foreknowledge: data.foreknowledge,
+					remarks: data.remarks,
 					studyTime: data.studyTime
 				});
 			}else {

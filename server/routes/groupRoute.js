@@ -139,12 +139,12 @@ async function setEvaluation(ev, req) {
 }
 
 router.patch("/evaluations", async (req, res) => {
-	const evaluations = JSON.parse(req.body.evaluations);
-	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
-		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req))
-			.then(handleSuccess(res))
-			.catch(handleError(res)));
-	}
+	// const evaluations = JSON.parse(req.body.evaluations);
+	// if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
+	// 	return Promise.all(evaluations.map((ev) => setEvaluation(ev, req))
+	// 		.then(handleSuccess(res))
+	// 		.catch(handleError(res)));
+	// }
 });
 
 module.exports = router;
