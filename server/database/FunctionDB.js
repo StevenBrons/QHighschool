@@ -9,10 +9,6 @@ class FunctionDB {
 		return this.mainDb.connection.query(sqlString, value);
 	}
 
-	async test() {
-		console.log("asbsdr");
-	}
-
 	async createUser(profile) {
 
 		let user = {
@@ -64,8 +60,8 @@ class FunctionDB {
 
 		return this.query(
 			"INSERT INTO user_data " +
-			"(email,role,firstName,lastName,displayName,school,createIp,createDate) VALUES" +
-			"(?,?,?,?,?,?,?,NOW())",
+			"(email,role,firstName,lastName,displayName,school,createIp) VALUES" +
+			"(?,?,?,?,?,?,?)",
 			[user.email, user.role, user.firstName, user.lastName, user.displayName, user.school, profile._json.ipaddr]
 		).then(() => {
 			return user;
@@ -122,8 +118,8 @@ class FunctionDB {
 
 	async updateALLLessonDates() {
 		return this.query("SELECT id,period,day FROM course_group").then((rows) => {
-			rows.map(({id,period,day}) => {
-				this.updateLessonDates(id,period,day);
+			rows.map(({ id, period, day }) => {
+				this.updateLessonDates(id, period, day);
 			});
 		});
 	}
