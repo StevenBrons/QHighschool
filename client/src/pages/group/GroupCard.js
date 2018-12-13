@@ -70,7 +70,7 @@ class GroupCard extends Component {
 						{this.props.group.enrollableFor || "Iedereen"}
 					</Typography>
 				</div>
-				<Typography style={{ maxHeight: "180px", overflow: "hidden" }} gutterBottom>
+				<Typography style={{ maxHeight: "162px", overflow: "hidden" }} gutterBottom>
 					{this.props.group.courseDescription || "Dit aanbod heeft geen omschrijving."}
 				</Typography>
 				<div style={{ position: "absolute", bottom: "5px", width: "100%" }} >

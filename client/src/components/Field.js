@@ -53,6 +53,11 @@ class Field extends Component {
 				error = true;
 			}
 		}
+		if (this.props.maxLength) {
+			if(value.length>this.props.maxLength){
+				error = true;
+			}
+		}
 
 		this.setState({
 			error,
@@ -107,17 +112,8 @@ class Field extends Component {
 			disabled = false;
 			disableUnderline = this.props.disableUnderline || false;
 			margin = this.props.margin || "normal";
-			if(this.props.area){
-				if(value.length>500){
-					color = "#ff0000";
-					}
-			}
-			if(this.props.headline){
-				if(value.length>50){
-					color = "#ff0000";
-				}
-			}
-		} else {
+		}
+		 else {
 			if (!this.props.labelVisible) {
 				label = null;
 			}
