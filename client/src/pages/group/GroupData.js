@@ -30,7 +30,7 @@ class GroupData extends Component {
 		return (
 			<div style={{ position: "relative" }}>
 				<div style={{ display: "flex" }}>
-					<Field value={group.courseName} name="courseName" onChange={onChange} headline editable={editable} style={{ flex: "5" }} />
+					<Field value={group.courseName} maxLength={50} name="courseName" onChange={onChange} headline editable={editable} style={{ flex: "5" }} />
 					<Field value={group.subjectId} name="subjectId" onChange={onChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
 					{
 						!editable &&
@@ -51,7 +51,7 @@ class GroupData extends Component {
 						</div>
 					</div>
 					<div style={{ width: "100%" }}>
-						<Field value={group.courseDescription} name="courseDescription" label="Omschrijving" labelVisible onChange={onChange} area editable={editable} fullWidth />
+						<Field value={group.courseDescription} maxLength={440} name="courseDescription" label="Omschrijving" labelVisible onChange={onChange} area editable={editable} default="Dit aanbod heeft geen omschrijving." rowsMax={10} fullWidth />
 						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%" }} default="Geen voorkennis vereist" editable={editable} labelVisible onChange={onChange} />
 						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} labelVisible onChange={onChange} right integer unit="uur" />
 					</div>

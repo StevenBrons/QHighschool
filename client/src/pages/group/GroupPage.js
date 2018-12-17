@@ -18,6 +18,7 @@ import ChooseButton from './ChooseButton';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import queryString from "query-string";
+import { Typography } from '@material-ui/core';
 
 class GroupPage extends Component {
 
