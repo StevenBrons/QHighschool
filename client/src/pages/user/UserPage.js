@@ -55,18 +55,68 @@ class UserPage extends Component {
 			this.props.user.preferedEmail === "") ? true : null;
 		return (
 			<Page>
-				<Field label="Naam" value={user.displayName} headline editable={false} />
-				<Field label="Rol" right value={user.role} editable={false} />
+				<Field
+					label="Naam"
+					value={user.displayName}
+					headline
+				/>
+				<Field
+					label="Rol"
+					right
+					value={user.role}
+				/>
 				<Divider />
 				<br />
 				<div style={{ display: "flex" }} >
-					<Field label="Leerjaar" value={user.year} name="year" editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} integer min={1} max={6} />
-					<Field label="Opleidingsniveau" value={user.level} name="level" editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} options={levels} notEmpty />
-					{this.props.ownProfile && <Field label="Profiel" name="profile" value={user.profile} editable={this.props.ownProfile} options={profiles} onChange={this.handleChange.bind(this)} notEmpty />}
+					<Field
+						label="Leerjaar"
+						value={user.year}
+						name="year"
+						editable={this.props.ownProfile}
+						onChange={this.handleChange.bind(this)}
+						validate={{
+							type: "integer",
+							min: 1,
+							max: 6,
+						}}
+					/>
+					<Field
+						label="Opleidingsniveau"
+						value={user.level}
+						name="level"
+						editable={this.props.ownProfile}
+						onChange={this.handleChange.bind(this)}
+						options={levels}
+						validate={{ notEmpty: true, }}
+					/>
+					{this.props.ownProfile &&
+						<Field
+							label="Profiel"
+							name="profile"
+							value={user.profile}
+							editable={this.props.ownProfile}
+							options={profiles}
+							onChange={this.handleChange.bind(this)}
+							validate={{ notEmpty: true }}
+						/>}
 				</div>
 				<div style={{ display: "flex" }} >
-					{this.props.ownProfile && <Field label="Voorkeurs email" name="preferedEmail" value={user.preferedEmail} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} email />}
-					{this.props.ownProfile && <Field label="Telefoonnummer" name="phoneNumber" value={user.phoneNumber} editable={this.props.ownProfile} onChange={this.handleChange.bind(this)} phoneNumber />}
+					{this.props.ownProfile && <Field
+						label="Voorkeurs email"
+						name="preferedEmail"
+						value={user.preferedEmail}
+						editable={this.props.ownProfile}
+						onChange={this.handleChange.bind(this)}
+						validate={{ type: "email" }}
+					/>}
+					{this.props.ownProfile && <Field
+						label="Telefoonnummer"
+						name="phoneNumber"
+						value={user.phoneNumber}
+						editable={this.props.ownProfile}
+						onChange={this.handleChange.bind(this)}
+						validate={{ type: "phoneNumber" }}
+					/>}
 				</div>
 				<br />
 				{

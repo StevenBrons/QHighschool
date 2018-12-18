@@ -14,53 +14,53 @@ class Field extends Component {
 		}
 	}
 
-	componentDidMount() {
-		this.checkRequirements(this.props.value);
+	static getDerivedStateFromProps(nextProps, prevState) {
+		return {
+			...prevState,
+			error: prevState.error || !Field.validate(nextProps.value, nextProps.validate),
+		}
 	}
 
-	checkRequirements(value) {
-		let error = false;
-		if (this.props.email) {
-			const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-			if (!re.test(value)) {
-				error = true;
+	static validate(value, rules = {}, options = [value]) {
+		switch (rules.type) {
+			case "phoneNUmber":
+				const re = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
+				if (!re.test(value)) {
+					return false;
+				}
+				break;
+			case "email":
+				const re2 = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+				if (!re2.test(value)) {
+					return false;
+				}
+				break;
+			case "integer":
+				if (!/^\+?[1-9][\d]*$/i.test(value)) {
+					return false;
+				}
+				break;
+			default: break;
+		}
+		if (rules.min) {
+			if (parseInt(value, 10) <= rules.min) {
+				return false;
 			}
 		}
-		if (this.props.integer) {
-			const re = /^\+?[1-9][\d]*$/i;
-			if (!re.test(value)) {
-				error = true;
+		if (rules.max) {
+			if (parseInt(value, 10) >= rules.max) {
+				return false;
 			}
 		}
-		if (this.props.min) {
-			if (parseInt(value, 10) < this.props.min) {
-				error = true;
+		if (rules.notEmpty) {
+			if (value == null || value === "" || value === " " || options.indexOf(value) === -1) {
+				return false;
 			}
 		}
-		if (this.props.max) {
-			if (parseInt(value, 10) > this.props.max) {
-				error = true;
-			}
-		}
-		if (this.props.phoneNumber) {
-			const re = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
-			if (!re.test(value)) {
-				error = true;
-			}
-		}
-		if (this.props.notEmpty) {
-			if (value == null || value === "" || value === " " || (this.props.options != null && this.props.options.indexOf(value) === -1)) {
-				error = true;
-			}
-		}
-
-		this.setState({
-			error,
-		});
+		return true;
 	}
 
 	onChange(event) {
-		this.checkRequirements(event.target.value);
 		this.props.onChange({
 			...event,
 			name: this.props.name,
@@ -198,11 +198,11 @@ class Field extends Component {
 
 Field.PropTypes = {
 	validate: PropTypes.shape({
-		email: PropTypes.bool,
-		integer: PropTypes.bool,
-		min: PropTypes.bool,
-		phoneNumber: PropTypes.bool,
+		min: PropTypes.integer,
+		max: PropTypes.integer,
+		type: PropTypes.oneOf("phoneNumber", "email", "integer"),
 		notEmpty: PropTypes.bool,
+		maxLength: PropTypes.integer,
 	}),
 	value: PropTypes.oneOfType([
 		PropTypes.string,
@@ -217,11 +217,11 @@ Field.PropTypes = {
 		]),
 		underline: PropTypes.bool,
 		unit: PropTypes.string,
-		margin: PropTypes.oneOf("none","dense","normal"),
+		margin: PropTypes.oneOf("none", "dense", "normal"),
 	}),
 	layout: PropTypes.shape({
 		area: PropTypes.bool,
-		alignment: PropTypes.oneOf("left","right"),
+		alignment: PropTypes.oneOf("left", "right"),
 	}),
 	label: PropTypes.string,
 	options: PropTypes.arrayOf(
