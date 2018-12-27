@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const database = require('../database/MainDB');
 const groupDb = require('../database/GroupDB');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
 const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
+const authError = handlers.authError;
 
 router.get("/list", function (req, res, next) {
 	groupDb.getGroups()
@@ -74,7 +74,7 @@ router.patch("/lessons", function (req, res, next) {
 router.post("/participants", function (req, res, next) {
 	if (req.user.inGroup(req.body.groupId) && req.user.inGroup(req.body.groupId)) {
 		groupDb.getParticipants(req.body.groupId, req.user.isTeacher())
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res))
 	} else {
 		authError(res);
@@ -94,7 +94,7 @@ router.patch("/participants", function (req, res, next) {
 router.post("/presence", ({ user, body }, res) => {
 	if (!user.isTeacher() || !user.inGroup(body.groupId)) return authError(res);
 	groupDb.getPresence(body.groupId)
-		.then(handleSuccess(res))
+		.then(handleReturn(res))
 		.catch(handleError(res))
 });
 

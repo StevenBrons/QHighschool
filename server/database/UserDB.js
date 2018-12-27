@@ -1,22 +1,17 @@
 const User = require('../databaseDeclearations/UserDec');
 const Enrollment = require('../databaseDeclearations/EnrollmentDec');
+const Notification = require('../databaseDeclearations/NotificationDec');
+const Participant = require('../databaseDeclearations/ParticipantDec');
+const Group = require('../databaseDeclearations/CourseGroupDec');
 const groupDb = require('../database/GroupDB');
 
 class UserDB {
 
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
-
 	async getSelf(userId) {
-		return User.findByPk(userId).then(async (data) => {
-			const user = data.dataValues;
+		return User.findByPk(userId).then(async (user) => {
+			const dataValues = user.dataValues;
 			return {
-				...user,
+				...dataValues,
 				notifications: await this.getNotifications(userId),
 				participatingGroupIds: await this.getParticipatingGroupIds(userId, user.role === "admin"),
 			};
@@ -24,23 +19,18 @@ class UserDB {
 	}
 
 	async getUser(userId) {
-		return User.findByPk(userId).then((data) => {
-			if (data) {
-				const user = data.dataValues;
-				return {
-					id: user.id,
-					firstName: user.firstName,
-					lastName: user.lastName,
-					displayName: user.displayName,
-					email: user.email,
-					role: user.role,
-					school: user.school,
-					year: user.year,
-					profile: user.profile,
-					level: user.level,
-				}
-			} else {
-				throw new Error("User not found");
+		return User.findByPk(userId).then((user) => {
+			return {
+				id: user.id,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				displayName: user.displayName,
+				email: user.email,
+				role: user.role,
+				school: user.school,
+				year: user.year,
+				profile: user.profile,
+				level: user.level,
 			}
 		});
 	}
@@ -51,7 +41,7 @@ class UserDB {
 				userId,
 			}
 		}).then(async (rows) => {
-			return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId.userId)));
+			return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId)));
 		});
 	}
 
@@ -116,32 +106,39 @@ class UserDB {
 	}
 
 	async getNotifications(userId) {
-		return this.query("SELECT * FROM notifications WHERE userId = ?", [userId]);
+		return Notification.findAll({ where: { userId } });
 	}
 
 	async getParticipatingGroupIds(userId, admin) {
-		let q1 = "SELECT courseGroupId FROM participant WHERE userId = ?";
 		if (admin) {
-			q1 = "SELECT id AS courseGroupId FROM course_group";
+			return Group.findAll({ attributes: ["id"] })
+				.then(rows => rows.map(row => row.id + ""));
+		} else {
+			return Participant.findAll({ attributes: ["courseGroupId"], where: { userId } })
+				.then(rows => rows.map(row => row.courseGroupId + ""));
 		}
-		return this.query(q1, [userId])
-			.then(rows => rows.map(row => row.courseGroupId + ""));
 	}
 
 	async getGroups(userId, admin) {
-		let q1 = "SELECT participant.courseGroupId FROM participant WHERE participant.userId = ?";
 		if (admin) {
-			q1 = "SELECT id AS courseGroupId FROM course_group";
-		}
-		return this.query(q1, [userId])
-			.then((rows) => {
-				const groupPromises = rows.map((row) => {
-					return groupDb.getGroup(row.courseGroupId, userId);
+			return Group.findAll({ attributes: ["id"] })
+				.then((rows) => {
+					return Promise.all(rows.map(row => {
+						return groupDb.getGroup(row.id, userId);
+					}));
 				});
-				return Promise.all(groupPromises);
+		} else {
+			return Participant.findAll({
+				attributes: ["courseGroupId"],
+				where: { userId }
+			}).then((rows) => {
+				return Promise.all(rows.map(row => {
+					return groupDb.getGroup(row.courseGroupId, userId);
+				}));
 			});
+		}
 	}
 
 }
 
-module.exports = UserDB;
+module.exports = new UserDB();

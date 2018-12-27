@@ -7,13 +7,9 @@ const Enrollment = require("../databaseDeclearations/EnrollmentDec");
 const Lesson = require("../databaseDeclearations/LessonDec");
 const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Presence = require("../databaseDeclearations/PresenceDec");
-let DB = require("../database/MainDB");
+const functionDb = require("../database/FunctionDB");
 
 class GroupDB {
-
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
 
 	_mapGroup(data) {
 		return {
@@ -56,7 +52,7 @@ class GroupDB {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
 				return group.updateAttributes(data).then(() => {
-					require('./MainDB').function.updateLessonDates(data.groupId, data.period, data.day);
+					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
 		});
@@ -220,5 +216,5 @@ class GroupDB {
 
 }
 
-module.exports = new GroupDB(DB);
+module.exports = new GroupDB();
 

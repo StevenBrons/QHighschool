@@ -7,7 +7,7 @@ const userRoute = require('./userRoute');
 const subjectRoute = require('./subjectRoute');
 const groupRoute = require('./groupRoute');
 const functionRoute = require('./functionRoute');
-const mainDb = require('../database/MainDB');
+const sessionDb = require('../database/SessionDB');
 
 router.use(ensureAuthenticated);
 
@@ -19,7 +19,7 @@ router.use('/function', functionRoute);
 
 function ensureAuthenticated(req, res, next) {
 	if (req.app.get('env') === 'development' && keys.develop === "develop") {
-		return mainDb.session.getUserByToken(keys.devLoginToken).then((serializedUser) => {
+		return sessionDb.getUserByToken(keys.devLoginToken).then((serializedUser) => {
 			req.user = serializedUser;
 			next();
 		});

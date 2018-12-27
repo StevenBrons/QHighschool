@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cookieSession = require('cookie-session');
-const expressSession = require('express-session');
 const passport = require("passport");
 
 const swaggerUi = require('swagger-ui-express');
@@ -24,6 +23,8 @@ require('./databaseDeclearations/EnrollmentDec');
 require('./databaseDeclearations/EvaluationDec');
 require('./databaseDeclearations/LessonDec');
 require('./databaseDeclearations/PresenceDec');
+require('./databaseDeclearations/NotificationDec');
+require('./databaseDeclearations/LoggedInDec');
 
 require('./passportSetup');
 
