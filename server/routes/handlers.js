@@ -21,6 +21,14 @@ exports.authError = function authError(res) {
 
 exports.handleSuccess = function handleSuccess(res) {
 	return function (result) {
+		res.send({
+			sucess: true,
+		})
+	}
+}
+
+exports.handleReturn = function handleReturn(res) {
+	return function (result) {
 		if (result == null) {
 			res.send({
 				sucess: true,

@@ -32,7 +32,7 @@ router.post('/openid/return',
 			response: res,                      // required
 			successRedirect: '/profiel?from=login',
 			failureRedirect: '/error1',
-			failureFlash: true,
+			failureFlash: false,
 			// session: false,
 		})(req, res, next);
 	});

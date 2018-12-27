@@ -786,13 +786,6 @@
         ],
         "parameters": [
           {
-            "name": "userId",
-            "in": "formData",
-            "description": "The userId to change, if empty, own user will be returned",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "preferedEmail",
             "in": "formData",
             "description": "The new prefered email",

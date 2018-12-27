@@ -55,43 +55,43 @@ class UserDB {
 		});
 	}
 
-	async setUser(userId, data) {
-		if (data.profile == null || data.profile == "") {
+	async setUser({ userId, preferedEmail, profile, phoneNumber, level, year }) {
+		if (profile == null || profile == "") {
 			throw new Error("The property profile is required");
 		}
-		if (data.phoneNumber == null || data.phoneNumber == "") {
+		if (phoneNumber == null || phoneNumber == "") {
 			throw new Error("The property phoneNumber is required");
 		}
-		if (data.level == null || data.level == "") {
+		if (level == null || level == "") {
 			throw new Error("The property level is required");
 		}
-		if (data.year == null || data.year == "") {
+		if (year == null || year == "") {
 			throw new Error("The property year is required");
 		}
 		const re1 = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-		if (!re1.test(data.preferedEmail)) {
+		if (!re1.test(preferedEmail)) {
 			throw new Error("The property preferedEmail does not comply with requirements");
 		}
 		const re2 = /^\+?[1-9][\d]*$/i;
-		if (!re2.test(data.year)) {
+		if (!re2.test(year)) {
 			throw new Error("The property year does not comply with requirements");
 		}
-		if (parseInt(data.year) > 6) {
+		if (parseInt(year) > 6) {
 			throw new Error("The property year must be below or equal to 6");
 		}
-		if (parseInt(data.year) < 1) {
+		if (parseInt(year) < 1) {
 			throw new Error("The property year must be 1 or higher");
 		}
 		const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
-		if (!re3.test(data.phoneNumber)) {
+		if (!re3.test(phoneNumber)) {
 			throw new Error("The property phoneNumber does not comply with requirements");
 		}
 		return User.update({
-			preferedEmail: data.preferedEmail,
-			profile: data.profile,
-			phoneNumber: data.phoneNumber,
-			year: data.year,
-			level: data.level,
+			preferedEmail: preferedEmail,
+			profile: profile,
+			phoneNumber: phoneNumber,
+			year: year,
+			level: level,
 		}, {
 				where: {
 					id: userId,
@@ -136,7 +136,7 @@ class UserDB {
 		return this.query(q1, [userId])
 			.then((rows) => {
 				const groupPromises = rows.map((row) => {
-					return groupDb.getGroup(row.courseGroupId,userId);
+					return groupDb.getGroup(row.courseGroupId, userId);
 				});
 				return Promise.all(groupPromises);
 			});

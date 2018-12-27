@@ -5,27 +5,29 @@ const groupDb = require('../database/GroupDB');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
+const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
 
 router.get("/list", function (req, res, next) {
 	groupDb.getGroups()
-		.then(handleSuccess(res));
+		.then(handleReturn(res));
 });
 
 router.post("/", function (req, res, next) {
-	groupDb.getGroup(req.body.groupId,req.user.id)
-		.then(handleSuccess(res))
+	groupDb.getGroup(req.body.groupId)
+		.then(groupDb.appendEvaluation(req.user.id))
+		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
 router.patch("/", function (req, res, next) {
 	if (req.user.isAdmin()) {
 		groupDb.setFullGroup(req.body)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res));
 	} else {
 		groupDb.setGroup(req.body)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res));
 	}
 });
@@ -41,14 +43,14 @@ router.put("/", function (req, res) {
 router.post("/enrollments", function (req, res, next) {
 	if (req.user.isTeacher()) {
 		groupDb.getEnrollments(req.body.groupId)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res))
 	}
 });
 
 router.post("/lessons", function (req, res, next) {
 	groupDb.getLessons(req.body.groupId)
-		.then(handleSuccess(res))
+		.then(handleReturn(res))
 		.catch(handleError(res))
 });
 

@@ -32,7 +32,7 @@ class GroupDB {
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
-			evaluation: data.course.evaluations? data.course.evaluations[0]: null,
+			evaluation: data.course.evaluations ? data.course.evaluations[0] : null,
 		}
 	}
 
@@ -68,7 +68,7 @@ class GroupDB {
 		});
 	}
 
-	async getGroup(groupId, userId) {
+	async getGroup(groupId) {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
@@ -78,12 +78,6 @@ class GroupDB {
 					{
 						model: Subject, attributes: ["id", "name", "description"]
 					},
-					{
-						model: Evaluation,
-						order: [["id", "DESC"]],
-						attributes: ["type", "assesment", "explanation", "updatedAt", "userId", "courseId", "updatedByUserId"],
-						where: { userId: userId }
-					},
 				]
 			},
 			{
@@ -92,11 +86,24 @@ class GroupDB {
 				}]
 			},
 			]
-		}).then(this._mapGroup);
+		}).then(a => this._mapGroup(a));
 	}
 
-	async getEvaluation(groupId, userId) {
-
+	async appendEvaluation(userId) {
+		return async function addEvaluation(group) {
+			return Evaluation.find({
+				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				where: {
+					userId: userId,
+					courseId: group.courseId
+				}
+			}).then(evaluation => {
+				return {
+					...group,
+					evaluation: evaluation
+				}
+			});
+		}
 	}
 
 	async getEnrollments(groupId) {

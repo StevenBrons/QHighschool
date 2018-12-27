@@ -5,22 +5,23 @@ const groupDb = require('../database/GroupDB');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
+const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
 
 router.get("/self", (req, res) => {
 	database.user.getSelf(req.user.id)
-		.then(handleSuccess(res))
+		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
 router.post("/", (req, res) => {
 	database.user.getUser(req.body.userId)
-		.then(handleSuccess(res))
+		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
 router.patch("/", (req, res) => {
-	database.user.setUser(req.user.id, req.body)
+	database.user.setUser({ ...req.body, userId: req.user.id })
 		.then(handleSuccess(res))
 		.catch(handleError(res));
 });
@@ -54,13 +55,13 @@ router.get("/enrollableGroups", function (req, res, next) {
 		var enrollableGroups = groups.filter((group) => {
 			return group.period == 1
 		});
-		res.send(enrollableGroups);
-	});
+		return enrollableGroups;
+	}).then(handleReturn(res));
 });
 
 router.get("/groups", (req, res) => {
 	database.user.getGroups(req.user.id, req.user.isAdmin())
-		.then(handleSuccess(res));
+		.then(handleReturn(res));
 });
 
 module.exports = router;

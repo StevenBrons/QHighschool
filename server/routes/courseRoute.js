@@ -4,17 +4,18 @@ var course = require('../database/CourseDB');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
+const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
 const authError = handlers.authError;
 
 router.get("/list", function (req, res) {
 	course.getCourses()
-		.then(handleSuccess(res));
+		.then(handleReturn(res));
 });
 
 router.post("/", function (req, res) {
 	course.getCourse(req.body.courseId)
-		.then(handleSuccess(res))
+		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
