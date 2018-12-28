@@ -14,11 +14,8 @@ class PresenceTable extends Component {
 				{ label: "Actief", value: "present" },
 				{ label: "Niet actief", value: "absent" }
 			]}
-			td
+			layout={{ td: true, area: true }}
 			editable={this.props.editable}
-			variant="body1"
-			margin="none"
-			area
 			onChange={(event) => {
 				this.props.handleChange({
 					...presence,
@@ -50,11 +47,11 @@ class PresenceTable extends Component {
 
 	createLessonHeader() {
 		const content = map(this.props.lessons, lesson => {
-			return <Field value={"Les " + lesson.numberInBlock} title td area />;
+			return <Field value={"Les " + lesson.numberInBlock} style={{ type: "title" }} layout={{ td: true, area: true }} />;
 		});
 		return (
 			<Paper component="tr">
-				<Field value="" td area />
+				<Field value="" layout={{ td: true, area: true }} />
 				{content}
 			</Paper>
 		);
