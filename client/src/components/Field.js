@@ -17,7 +17,7 @@ class Field extends Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		return {
 			...prevState,
-			error: !Field.validate(nextProps.value, nextProps.validate),
+			error: nextProps.editable? !Field.validate(nextProps.value, nextProps.validate):false,
 		}
 	}
 
