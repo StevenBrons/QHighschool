@@ -6,10 +6,10 @@ class CourseDB {
 	async getCourses() {
 		return Course.findAll({
 			include: [{ model: Subject, attributes: ["name"] }]
-		}).then(rows => rows.map(({ dataValues }) => {
+		}).then(courses => courses.map((course) => {
 			return {
-				...dataValues,
-				subjectName: dataValues.subject.name,
+				...course,
+				subjectName: course.subject.name,
 			};
 		}));
 	}
@@ -17,13 +17,13 @@ class CourseDB {
 	async getCourse(courseId) {
 		return Course.findByPk(courseId, {
 			include: [{ model: Subject, attributes: ["name"] }]
-		}).then(data => {
-			if (data == null) {
+		}).then(course => {
+			if (course == null) {
 				throw new Error("courseId \'" + courseId + "\' is invalid");
 			}
 			return {
-				...data.dataValues,
-				subjectName: data.dataValues.subject.name,
+				...course,
+				subjectName: course.subject.name,
 			};
 		});
 	}
@@ -33,7 +33,7 @@ class CourseDB {
 			subjectId: data.subjectId,
 			name: data.name,
 			description: data.description,
-			foreknowledge: data.foreknowledge,
+			remarks: data.remarks,
 			studyTime: data.studyTime
 		});
 	}
@@ -45,7 +45,7 @@ class CourseDB {
 					subjectId: data.subjectId,
 					name: data.name,
 					description: data.description,
-					foreknowledge: data.foreknowledge,
+					remarks: data.remarks,
 					studyTime: data.studyTime
 				});
 			}else {

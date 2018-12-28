@@ -114,9 +114,9 @@
             "type": "string"
           },
           {
-            "name": "foreknowledge",
+            "name": "remarks",
             "in": "formData",
-            "description": "The foreknowledge for course",
+            "description": "The remarks for course",
             "required": true,
             "type": "string"
           },
@@ -179,9 +179,9 @@
             "type": "string"
           },
           {
-            "name": "foreknowledge",
+            "name": "remarks",
             "in": "formData",
-            "description": "The foreknowledge for course",
+            "description": "The remarks for course",
             "required": true,
             "type": "string"
           },
@@ -455,7 +455,7 @@
           "Group"
         ],
         "summary": "Get participants evaluation",
-        "operationId": "getEvaluations",
+        "operationId": "getEvaluation",
         "produces": [
           "application/json"
         ],
@@ -466,7 +466,7 @@
           {
             "name": "groupId",
             "in": "formData",
-            "description": "The groupId to get the evaluations from",
+            "description": "The groupId to get the evaluation from",
             "required": true,
             "type": "string"
           }
@@ -478,6 +478,54 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Evaluation"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Set evaluation for group",
+        "operationId": "setEvaluation",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "test",
+            "in": "body",
+            "description": "The groupId to change the evaluation from",
+            "schema": {
+              "type": "object",
+              "required": [
+                "presence"
+              ],
+              "properties": {
+                "evaluations": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Evaluation"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
               }
             }
           }
@@ -738,13 +786,6 @@
         ],
         "parameters": [
           {
-            "name": "userId",
-            "in": "formData",
-            "description": "The userId to change, if empty, own user will be returned",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "preferedEmail",
             "in": "formData",
             "description": "The new prefered email",
@@ -971,8 +1012,8 @@
           }
         }
       }
-		},
-		"/function/calculateLessonDates": {
+    },
+    "/function/calculateLessonDates": {
       "post": {
         "tags": [
           "Function"
@@ -1021,7 +1062,7 @@
         "description": {
           "type": "string"
         },
-        "foreknowledge": {
+        "remarks": {
           "type": "string"
         },
         "studyTime": {
@@ -1203,17 +1244,8 @@
         "groupId": {
           "type": "integer"
         },
-        "studentId": {
+        "userId": {
           "type": "integer"
-        },
-        "subjectName": {
-          "type": "string"
-        },
-        "courseName": {
-          "type": "string"
-        },
-        "studentName": {
-          "type": "string"
         },
         "type": {
           "type": "string"
