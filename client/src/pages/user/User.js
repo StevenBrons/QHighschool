@@ -41,7 +41,7 @@ class User extends Component {
 
 		switch (this.props.display) {
 			case "name":
-				return <Field value={this.props.user.displayName} title td />;
+				return <Field value={this.props.user.displayName} style={{ type: "title" }} layout={{ td: true }} />;
 			case "page":
 				return (
 					<UserPage {...this.props} />
@@ -52,7 +52,7 @@ class User extends Component {
 				);
 			case "header":
 				return (
-					<UserRow {...this.props} header/>
+					<UserRow {...this.props} header />
 				);
 			case "card":
 			default:

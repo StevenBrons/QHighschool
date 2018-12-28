@@ -20,16 +20,16 @@ class EvaluationTab extends Component {
 			if (e.userId === event.name) {
 				return {
 					...e,
-					assesment:event.target.value,
+					assesment: event.target.value,
 				}
-			}else {
-				return {...e} 
+			} else {
+				return { ...e }
 			}
 		});
 		this.setState({
-			evaluations:newEvaluations
+			evaluations: newEvaluations
 		});
-	}	
+	}
 
 	handleEvaluationTypeChange(event) {
 		let newEvaluations = [];
@@ -62,9 +62,9 @@ class EvaluationTab extends Component {
 			}
 			return (
 				<Paper style={style} key={evaluation.id}>
-					<Field title value={this.props.users[evaluation.userId].displayName} />
+					<Field style={{ type: "title" }} value={this.props.users[evaluation.userId].displayName} />
 					{this.getAssesmentField(evaluation)}
-					<Field headline value={evaluation.type} />
+					<Field style={{ type: "headline" }} value={evaluation.type} />
 				</Paper >
 			);
 		});
@@ -75,13 +75,12 @@ class EvaluationTab extends Component {
 					<div style={{ flex: "5" }} />
 					<Field
 						label="Beoordelingsformaat"
-						caption
+						style={{ type: "caption", underline: false }}
 						value={evaluations[0].type}
 						options={["cijfer", "vink"]}
 						editable={true}
 						onChange={this.handleEvaluationTypeChange.bind(this)}
-						margin="none"
-						disableUnderline />
+					/>
 				</Paper >
 				{evComps}
 			</div >
@@ -92,13 +91,11 @@ class EvaluationTab extends Component {
 		switch (e.type) {
 			case "vink":
 				return (
-					<Field 
-						headline
-						value={e.assesment?e.assesment:""}
+					<Field
+						style={{ type: "headline", underline: false }}
+						value={e.assesment ? e.assesment : ""}
 						options={["Gehaald", "Niet gehaald"]}
 						editable={true}
-						margin="none"
-						disableUnderline
 						name={e.userId}
 						onChange={this.handleEvaluationChange.bind(this)}
 					/>
@@ -107,12 +104,10 @@ class EvaluationTab extends Component {
 			default:
 				return (
 					<Field
-						headline
+						style={{ type: "headline", underline: false }}
 						name={e.userId}
-						value={e.assesment?e.assesment:""}
+						value={e.assesment ? e.assesment : ""}
 						editable={true}
-						margin="none"
-						disableUnderline
 						onChange={this.handleEvaluationChange.bind(this)}
 					/>
 				);

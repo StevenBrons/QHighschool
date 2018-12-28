@@ -58,13 +58,13 @@ class UserPage extends Component {
 				<Field
 					label="Naam"
 					value={user.displayName}
-					headline
+					style={{ type: "headline"}}
 				/>
 				<Field
 					label="Rol"
-					right
+					layout={{ alignment: "right" }}
 					value={user.role}
-				/>
+					/>
 				<Divider />
 				<br />
 				<div style={{ display: "flex" }} >
@@ -72,6 +72,7 @@ class UserPage extends Component {
 						label="Leerjaar"
 						value={user.year}
 						name="year"
+						style={{ margin: "normal" }}
 						editable={this.props.ownProfile}
 						onChange={this.handleChange.bind(this)}
 						validate={{

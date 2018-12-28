@@ -30,8 +30,8 @@ class GroupData extends Component {
 		return (
 			<div style={{ position: "relative" }}>
 				<div style={{ display: "flex" }}>
-					<Field value={group.courseName} name="courseName" onChange={onChange} headline editable={editable} style={{ flex: "5" }} />
-					<Field value={group.subjectId} name="subjectId" onChange={onChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
+					<Field value={group.courseName} name="courseName" onChange={onChange} editable={editable} style={{ flex: "5", type: "headline" }} />
+					<Field value={group.subjectId} name="subjectId" onChange={onChange} layout={{ alignment: "right" }} style={{ type: "headline" }} editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
 					{
 						!editable &&
 						<Button color="secondary" style={{ position: "absolute", display: "block", top: "30px", right: "-15px", zIndex: "100" }} onClick={this.showTeacherCard}>
@@ -42,18 +42,18 @@ class GroupData extends Component {
 				<div style={{ display: "flex" }} className="ColumnFlexDirectionOnMobile">
 					<div style={{ display: "flex", flexDirection: "column" }}>
 						<div style={{ flex: 1 }}>
-							<Field value={group.period} name="period" editable={editable && role === "admin"} onChange={onChange} caption style={{ width: "100px" }} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
-							<Field value={group.day} name="day" editable={editable && role === "admin"} onChange={onChange} caption style={{ width: "150px" }} options={["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]} />
-							<Field value={group.schoolYear} name="schoolYear" editable={editable && role === "admin"} onChange={onChange} caption options={["2018/2019", "2019/2020", "2020/2021", "2021/2022"]} style={{ width: "120px" }} />
+							<Field value={group.period} name="period" editable={editable && role === "admin"} onChange={onChange} style={{ width: "100px", type: "caption" }} options={[{ label: "Blok 1", value: 1 }, { label: "Blok 2", value: 2 }, { label: "Blok 3", value: 3 }, { label: "Blok 4", value: 4 }]} />
+							<Field value={group.day} name="day" editable={editable && role === "admin"} onChange={onChange} style={{ width: "150px", type: "caption" }} options={["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]} />
+							<Field value={group.schoolYear} name="schoolYear" editable={editable && role === "admin"} onChange={onChange} options={["2018/2019", "2019/2020", "2020/2021", "2021/2022"]} style={{ width: "120px", type: "caption" }} />
 						</div>
 						<div>
-							<Field value={group.enrollableFor} label="Doelgroep" style={{ width: "100%" }} name="enrollableFor" default="Iedereen" editable={editable} labelVisible onChange={onChange} />
+							<Field value={group.enrollableFor} label="Doelgroep" style={{ width: "100%", labelVisible: true }} name="enrollableFor" default="Iedereen" editable={editable} onChange={onChange} />
 						</div>
 					</div>
 					<div style={{ width: "100%" }}>
-						<Field value={group.courseDescription} name="courseDescription" label="Omschrijving" labelVisible onChange={onChange} area editable={editable} fullWidth />
-						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%" }} default="Geen voorkennis vereist" editable={editable} labelVisible onChange={onChange} />
-						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} labelVisible onChange={onChange} right integer unit="uur" />
+						<Field value={group.courseDescription} name="courseDescription" label="Omschrijving" style={{ labelVisible: true }} onChange={onChange} layout={{ area: true }} editable={editable} />
+						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%", labelVisible: true }} default="Geen voorkennis vereist" editable={editable} onChange={onChange} />
+						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} style={{ labelVisible: true, unit:"uur" }} onChange={onChange} layout={{ alignment: "right" }} validate={{ type: "integer" }} />
 					</div>
 				</div>
 				<br />
