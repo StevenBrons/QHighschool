@@ -30,8 +30,13 @@ class GroupData extends Component {
 		return (
 			<div style={{ position: "relative" }}>
 				<div style={{ display: "flex" }}>
+<<<<<<< HEAD
 					<Field value={group.courseName} name="courseName" onChange={onChange} editable={editable} style={{ flex: "5", type: "headline" }} />
 					<Field value={group.subjectId} name="subjectId" onChange={onChange} layout={{ alignment: "right" }} style={{ type: "headline" }} editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
+=======
+					<Field value={group.courseName} maxLength={50} name="courseName" onChange={onChange} headline editable={editable} style={{ flex: "5" }} />
+					<Field value={group.subjectId} name="subjectId" onChange={onChange} right headline editable={editable} options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })} />
+>>>>>>> develop
 					{
 						!editable &&
 						<Button color="secondary" style={{ position: "absolute", display: "block", top: "30px", right: "-15px", zIndex: "100" }} onClick={this.showTeacherCard}>
@@ -51,9 +56,15 @@ class GroupData extends Component {
 						</div>
 					</div>
 					<div style={{ width: "100%" }}>
+<<<<<<< HEAD
 						<Field value={group.courseDescription} name="courseDescription" label="Omschrijving" style={{ labelVisible: true }} onChange={onChange} layout={{ area: true }} editable={editable} />
 						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%", labelVisible: true }} default="Geen voorkennis vereist" editable={editable} onChange={onChange} />
 						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} style={{ labelVisible: true, unit:"uur" }} onChange={onChange} layout={{ alignment: "right" }} validate={{ type: "integer" }} />
+=======
+						<Field value={group.courseDescription} maxLength={440} name="courseDescription" label="Omschrijving" labelVisible onChange={onChange} area editable={editable} default="Deze module heeft geen omschrijving." rowsMax={10} fullWidth />
+						<Field value={group.foreknowledge} label="Vereiste voorkennis" name="foreknowledge" style={{ width: "80%" }} default="Geen voorkennis vereist" editable={editable} labelVisible onChange={onChange} />
+						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} labelVisible onChange={onChange} right integer unit="uur" />
+>>>>>>> develop
 					</div>
 				</div>
 				<br />

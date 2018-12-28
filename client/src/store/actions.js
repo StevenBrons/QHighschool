@@ -23,7 +23,7 @@ function apiErrorHandler(dispatch, message) {
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Subject.getList()") !== -1) {
+		if (getState().hasFetched.indexOf("Subject.getList()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Subject.getList()"
@@ -40,7 +40,7 @@ export function getSubjects() {
 
 export function getGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.getList()") !== -1) {
+		if (getState().hasFetched.indexOf("Group.getList()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.getList()"
@@ -57,7 +57,7 @@ export function getGroups() {
 
 export function getParticipatingGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getParticipatingGroups()") !== -1) {
+		if (getState().hasFetched.indexOf("User.getParticipatingGroups()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getParticipatingGroups()"
@@ -74,7 +74,7 @@ export function getParticipatingGroups() {
 
 export function getGroup(groupId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.get(" + groupId + ")") !== -1) {
+		if (getState().hasFetched.indexOf("Group.get(" + groupId + ")") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.get(" + groupId + ")",
@@ -91,7 +91,7 @@ export function getGroup(groupId) {
 
 export function getSelf() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getSelf()") !== -1) {
+		if (getState().hasFetched.indexOf("User.getSelf()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getSelf()"
@@ -132,7 +132,7 @@ export function getSelf() {
 
 export function getUser(userId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getUser(" + userId + ")") !== -1) {
+		if (getState().hasFetched.indexOf("User.getUser(" + userId + ")") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getUser(" + userId + ")"
@@ -166,7 +166,7 @@ export function setGroup(group) {
 				name: group.courseName,
 				description: group.courseDescription,
 				studyTime: group.studyTime,
-				foreknowledge: group.foreknowledge,
+				remarks: group.remarks,
 			}
 		}
 

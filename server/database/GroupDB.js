@@ -7,6 +7,7 @@ const Enrollment = require("../databaseDeclearations/EnrollmentDec");
 const Lesson = require("../databaseDeclearations/LessonDec");
 const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Presence = require("../databaseDeclearations/PresenceDec");
+const functionDb = require("../database/FunctionDB");
 
 class GroupDB {
 
@@ -20,13 +21,14 @@ class GroupDB {
 			enrollableFor: data.enrollableFor,
 			courseName: data.course.name,
 			courseDescription: data.course.description,
-			foreknowledge: data.course.foreknowledge,
+			remarks: data.course.remarks,
 			studyTime: data.course.studyTime,
 			subjectId: data.course.subject.id,
 			subjectName: data.course.subject.name,
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
+			evaluation: data.course.evaluations ? data.course.evaluations[0] : null,
 		}
 	}
 
@@ -34,7 +36,7 @@ class GroupDB {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 					model: Subject, attributes: ["id", "name", "description"]
 				}]
 			},
@@ -50,7 +52,7 @@ class GroupDB {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
 				return group.updateAttributes(data).then(() => {
-					this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
 		});
@@ -66,16 +68,38 @@ class GroupDB {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
-					model: Subject, attributes: ["id", "name", "description"]
-				}]
+				model: Course,
+				attributes: ["name", "description", "remarks", "studyTime"],
+				include: [
+					{
+						model: Subject, attributes: ["id", "name", "description"]
+					},
+				]
 			},
 			{
 				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
 					model: User, attributes: ["id", "displayName"],
 				}]
-			}]
-		}).then(this._mapGroup);
+			},
+			]
+		}).then(a => this._mapGroup(a));
+	}
+
+	async appendEvaluation(userId) {
+		return async function addEvaluation(group) {
+			return Evaluation.find({
+				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				where: {
+					userId: userId,
+					courseId: group.courseId
+				}
+			}).then(evaluation => {
+				return {
+					...group,
+					evaluation: evaluation
+				}
+			});
+		}
 	}
 
 	async getEnrollments(groupId) {
@@ -86,6 +110,7 @@ class GroupDB {
 			},
 			include: [{
 				model: User,
+				order: [["displayName", "DESC"]]
 			}]
 		}).then((e) => e.map((e) => e.user));
 	}
@@ -98,7 +123,8 @@ class GroupDB {
 			include: {
 				model: User,
 				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
-			}
+				order: [["displayName", "DESC"]]
+			},
 		}).then(rows => rows.map(row => row.user));
 	}
 
@@ -106,6 +132,14 @@ class GroupDB {
 		return Lesson.findAll({
 			where: {
 				courseGroupId: groupId,
+			}
+		});
+	}
+
+	async setLesson(lesson) {
+		return Lesson.findByPrimary(lesson.id).then(l => {
+			if (l.groupId === lesson.groupId) {
+				return l.update(lesson);
 			}
 		});
 	}
@@ -138,8 +172,23 @@ class GroupDB {
 		});
 	}
 
+	selectDistinct(column) {
+		return function distinct(rows) {
+			let distinct = [];
+			return rows.filter(row => {
+				if (distinct.indexOf(row[column]) == -1) {
+					distinct.push(row[column]);
+					return true;
+				} else {
+					return false;
+				}
+			});
+		}
+	}
+
 	async getEvaluations(groupId) {
 		return Evaluation.findAll({
+			order: [["id", "DESC"]],
 			include: {
 				attributes: [],
 				model: Course,
@@ -151,9 +200,21 @@ class GroupDB {
 					}
 				}
 			}
+		}).then(this.selectDistinct("userId"));
+	}
+
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp }) {
+		return Evaluation.create({
+			userId,
+			assesment,
+			type,
+			explanation,
+			updatedByIp,
+			updatedByUserId,
 		});
 	}
 
 }
 
 module.exports = new GroupDB();
+

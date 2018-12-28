@@ -55,9 +55,9 @@ class ChooseButton extends Component {
 					:
 					<div>
 						<DialogContent>
-							{this.props.group.foreknowledge && !this.props.hasChosen &&
+							{this.props.group.remarks && !this.props.hasChosen &&
 								<Typography color="error" variant="error">
-									{"Voorkennis: " + this.props.group.foreknowledge}
+									{"Voorkennis: " + this.props.group.remarks}
 								</Typography>
 							}
 							<DialogContentText>
@@ -103,7 +103,7 @@ class ChooseButton extends Component {
 
 	render() {
 		const props = this.props;
-		let dialog = this.state.dialogOpen ? this.getDialog.bind(this)(props.group.courseName, props.hasChosen, props.group.foreknowledge) : null;
+		let dialog = this.state.dialogOpen ? this.getDialog.bind(this)(props.group.courseName, props.hasChosen, props.group.remarks) : null;
 		if (props.loading) {
 			return (
 				<Progress size={30} />

@@ -9,7 +9,7 @@ const Course = connection.define('course', {
 	description: {
 		type: Sequelize.TEXT,
 	},
-	foreknowledge: {
+	remarks: {
 		type: Sequelize.TEXT,
 	},
 	studyTime: {

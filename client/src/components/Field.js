@@ -57,7 +57,19 @@ class Field extends Component {
 				return false;
 			}
 		}
+<<<<<<< HEAD
 		return true;
+=======
+		if (this.props.maxLength) {
+			if(value.length>this.props.maxLength){
+				error = true;
+			}
+		}
+
+		this.setState({
+			error,
+		});
+>>>>>>> develop
 	}
 
 	onChange(event) {
@@ -81,6 +93,11 @@ class Field extends Component {
 		let disableUnderline = style.underline || true;
 		let margin = style.margin || "none";
 		let menuItems;
+<<<<<<< HEAD
+=======
+		let rowsMax = this.props.rowsMax;
+		let label = this.props.label;
+>>>>>>> develop
 		let endAdornment;
 		let classNames = [];
 
@@ -125,10 +142,18 @@ class Field extends Component {
 
 		if (this.props.editable) {
 			disabled = false;
+<<<<<<< HEAD
 			disableUnderline = style.underline || false;
 			margin = style.margin || "normal";
 		} else {
 			if (!(style.labelVisible === true)) {
+=======
+			disableUnderline = this.props.disableUnderline || false;
+			margin = this.props.margin || "normal";
+		}
+		 else {
+			if (!this.props.labelVisible) {
+>>>>>>> develop
 				label = null;
 			}
 			if (options != null && options[0] != null && typeof options[0] !== "string") {
@@ -171,6 +196,7 @@ class Field extends Component {
 				multiline={multiline}
 				className={classNames.join(" ")}
 				label={label}
+				rowsMax={rowsMax}
 				select={options ? true : false}
 				style={{ flex: 1, ...style }}
 				onChange={this.onChange.bind(this)}

@@ -11,6 +11,7 @@ const Evaluation = connection.define('evaluation', {
 	},
 	assesment: Sequelize.STRING,
 	explanation: Sequelize.TEXT,
+	updatedByIp: Sequelize.TEXT,
 }, {
 		tableName: 'evaluation'
 	});
@@ -20,5 +21,9 @@ User.hasMany(Evaluation);
 
 Evaluation.belongsTo(Course);
 Course.hasMany(Evaluation);
+
+Evaluation.belongsTo(User, {
+	as: "updatedByUser",
+});
 
 module.exports = Evaluation;

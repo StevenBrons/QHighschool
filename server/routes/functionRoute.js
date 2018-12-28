@@ -1,17 +1,11 @@
 var express = require("express");
 var router = express.Router();
-var mainDb = require('../database/MainDB');
-
-function handleError(error, res) {
-	res.send({
-		error: error.message,
-	});
-}
+var functionDb = require('../database/FunctionDB');
 
 // router.post("/acceptEnrollements", function (req, res, next) {
 // 	if (req.user.isAdmin() && req.body.message === "confirm") {
 // 		console.log("Accepting all current enrollments");
-// 		mainDb.function.addAllEnrollmentsToGroups().then(() => {
+// 		functionDb.addAllEnrollmentsToGroups().then(() => {
 // 			res.send({
 // 				success: true,
 // 			});
@@ -22,7 +16,7 @@ function handleError(error, res) {
 router.post("/calculateLessonDates", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
 		console.log("Re-calculating all lesson dates");
-		mainDb.function.updateALLLessonDates();
+		functionDb.updateALLLessonDates();
 	}
 });
 
