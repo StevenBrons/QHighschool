@@ -48,11 +48,11 @@ class Lesson extends Component {
 						<Field style={{ fontWeight: "bold" }} value="Lesnummer" />
 						<Field style={{ fontWeight: "bold" }} value="Soort les" />
 					</td>
-					<Field style={{ flex: 4, fontWeight: "bold" }} value="Onderwerp" td />
-					<Field style={{ flex: 8, fontWeight: "bold" }} value="Activiteiten" td />
+					<Field style={{ flex: 4, fontWeight: "bold" }} value="Onderwerp" layout={{ td: true }} />
+					<Field style={{ flex: 8, fontWeight: "bold" }} value="Activiteiten" layout={{ td: true }} />
 					<td style={{ display: "flex", flexDirection: "column" }}>
-						<Field style={{ fontWeight: "bold" }} value="Datum" right />
-						<Field style={{ fontWeight: "bold" }} value="Aanwezigheid" right />
+						<Field style={{ fontWeight: "bold" }} value="Datum" layout={{ alignment: "right" }} />
+						<Field style={{ fontWeight: "bold" }} value="Aanwezigheid" layout={{ alignment: "right" }} />
 					</td>
 				</Paper>
 			);
@@ -66,7 +66,6 @@ class Lesson extends Component {
 			>
 				<td style={{ display: "flex", flexDirection: "column" }}>
 					<Field
-						variant="body1"
 						color="primary"
 						style={{ fontWeight: "bold" }}
 						value={"Les " + lesson.numberInBlock}
@@ -74,7 +73,6 @@ class Lesson extends Component {
 					<Field
 						label="Soort les"
 						name="kind"
-						variant="body1"
 						value={lesson.kind}
 						editable={this.props.editable}
 						onChange={this.handleChange}
@@ -82,38 +80,32 @@ class Lesson extends Component {
 				</td>
 				<Field
 					label="Onderwerp"
-					area
 					name="subject"
-					variant="body1"
 					style={{ flex: 4 }}
 					value={lesson.subject}
 					editable={this.props.editable}
 					onChange={this.handleChange}
-					td
+					layout={{ td: true }}
 				/>
 				<Field
 					label="Activiteiten"
-					area
 					name="activities"
-					variant="body1"
 					style={{ flex: 8 }}
 					value={lesson.activities}
 					editable={this.props.editable}
 					onChange={this.handleChange}
-					td
+					layout={{ td: true }}
 				/>
 				<td style={{ display: "flex", flexDirection: "column" }}>
 					<Field
-						variant="body1"
-						right
+						layout={{ alignment: "right" }}
 						value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
 					/>
 					<Field
 						name="presence"
 						label="Aanwezigheid"
-						labelVisible
-						right
-						variant="body1"
+						style={{ labelVisible: true }}
+						layout={{ alignment: "right" }}
 						value={lesson.presence}
 						editable={this.props.editable}
 						onChange={this.handleChange}
