@@ -139,6 +139,7 @@ class EnrollmentPopup extends Component {
 			case "cancel":
 				return this.getCancelPage();
 			case "confirm":
+			default:
 				return this.getConfirmPage();
 		}
 	}

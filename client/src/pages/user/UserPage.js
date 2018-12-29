@@ -3,9 +3,11 @@ import Page from '../Page';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { setUser } from '../../store/actions';
+import { setUser,getCookie } from '../../store/actions';
 import Field from '../../components/Field';
 import Typography from '@material-ui/core/Typography';
+import { withRouter } from 'react-router-dom';
+import queryString from "query-string";
 
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 const levels = ["VWO", "HAVO"];
@@ -17,6 +19,15 @@ class UserPage extends Component {
 		this.state = {
 			user: this.props.user,
 		};
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let s = queryString.parse(nextProps.location.search)
+		if (s.from === "login") {
+			const beforeLoginPath = getCookie("beforeLoginPath");
+			nextProps.history.push(beforeLoginPath);
+		}
+		return prevState;
 	}
 
 	handleChange(event) {
@@ -58,13 +69,13 @@ class UserPage extends Component {
 				<Field
 					label="Naam"
 					value={user.displayName}
-					style={{ type: "headline"}}
+					style={{ type: "headline" }}
 				/>
 				<Field
 					label="Rol"
 					layout={{ alignment: "right" }}
 					value={user.role}
-					/>
+				/>
 				<Divider />
 				<br />
 				<div style={{ display: "flex" }} >
@@ -145,5 +156,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(null, mapDispatchToProps)(UserPage);
+export default withRouter(connect(null, mapDispatchToProps)(UserPage));
 
