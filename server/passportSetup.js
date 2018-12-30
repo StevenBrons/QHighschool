@@ -4,6 +4,7 @@ const keys = require('./private/keys');
 const creds = keys.azureADCreds;
 const sessionDb = require('./database/SessionDB');
 const functionDb = require('./database/FunctionDB');
+const moment = require('moment');
 
 passport.serializeUser((profile, done) => {
 	sessionDb.createTokenForUser(profile).then((token) => {
@@ -51,7 +52,14 @@ passport.use(new OIDCStrategy({
 					done(null, profile);
 				});
 			} else {
-				done(null, profile);
+				let secureLogin = undefined;
+				require('./routes/authRoute').secureLogins.forEach(login => {
+					if (login.userId + "" === user.id + "" && login.validUntil.isAfter(moment())) {
+						login.signed = true;
+						secureLogin = login.token;
+					}
+				});
+				done(null, { ...profile, secureLogin });
 			}
 		}).catch((err) => {
 			done(err);

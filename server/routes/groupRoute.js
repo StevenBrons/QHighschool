@@ -117,7 +117,7 @@ router.patch("/presence", async ({ user, body }, res, next) => {
 router.post("/evaluations", function (req, res, next) {
 	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
 		groupDb.getEvaluations(req.body.groupId)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res));
 	} else {
 		authError(res);

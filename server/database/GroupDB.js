@@ -189,9 +189,10 @@ class GroupDB {
 	async getEvaluations(groupId) {
 		return Evaluation.findAll({
 			order: [["id", "DESC"]],
+			attributes: ["id","type","assesment","explanation","userId","courseId","updatedAt"],
 			include: {
-				attributes: [],
 				model: Course,
+				attributes: [],
 				include: {
 					model: Group,
 					attributes: [],
