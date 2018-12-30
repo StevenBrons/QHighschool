@@ -37,13 +37,13 @@ class GroupPage extends Component {
 				break;
 			case "teacher":
 				if (this.props.userIsMemberOfGroup) {
-					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
+					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				} else {
 					this.state.tabs = ["Lessen"];
 				}
 				break;
 			case "admin":
-				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
+				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				break;
 			default:
 				break;
@@ -125,7 +125,7 @@ class GroupPage extends Component {
 					this.props.getGroupEvaluations(group.id);
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} />
+				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} />
 			default: return null;
 		}
 

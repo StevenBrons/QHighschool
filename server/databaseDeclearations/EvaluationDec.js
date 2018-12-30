@@ -10,6 +10,22 @@ const Evaluation = connection.define('evaluation', {
 		isIn: [["decimal", "stepwise", "check"]],
 	},
 	assesment: Sequelize.STRING,
+	// --- database  ------ dutch
+	//	  check							vink ======================
+	//		failed
+	//		passed
+
+	//		decimal						cijfer ==================
+	//		1.0-10.0
+
+	//		stepwise					trapsgewijs ===============
+	//		O									onvoldoende
+	// 		V									voldoende
+	//    G									goed
+	
+	//		"" or NULL				onbekend
+	//		ND								niet deelgenomen
+
 	explanation: Sequelize.TEXT,
 	updatedByIp: Sequelize.TEXT,
 }, {

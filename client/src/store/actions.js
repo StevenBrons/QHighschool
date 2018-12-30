@@ -114,7 +114,7 @@ export function getSelf() {
 				dispatch(removeNotification(notification));
 				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
 					if (window.location.pathname !== "/login") {
-						setCookie("beforeLoginPath",window.location.pathname + window.location.search,1);
+						setCookie("beforeLoginPath",window.location.pathname + window.location.search,24);
 						document.location.href = "/login";
 					}
 				} else {
@@ -385,6 +385,13 @@ export function toggleMenu(menuState) {
 	}
 }
 
+export function setSecureLogin(secureLogin) {
+	return {
+		type: "SET_SECURE_LOGIN",
+		secureLogin,
+	}
+}
+
 export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
@@ -436,9 +443,9 @@ export function getGroupEvaluations(groupId) {
 	}
 }
 
-export function setCookie(cname, cvalue, exdays) {
+export function setCookie(cname, cvalue, exhours) {
 	var d = new Date();
-	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	d.setTime(d.getTime() + (exhours * 60 * 60 * 1000));
 	var expires = "expires=" + d.toUTCString();
 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

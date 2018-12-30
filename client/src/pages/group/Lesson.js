@@ -39,10 +39,11 @@ class Lesson extends Component {
 		if (lesson.id === -1) {
 			return (
 				<Paper
-					elevation={this.state.hover ? 4 : 2}
+					elevation={this.state.hover ? 2 : 1}
 					onMouseEnter={() => this.setState({ hover: true })}
 					onMouseLeave={() => this.setState({ hover: false })}
 					component="tr"
+					style={{ backgroundColor: "#f5f5f5" }}
 				>
 					<td style={{ display: "flex", flexDirection: "column" }}>
 						<Field style={{ fontWeight: "bold" }} value="Lesnummer" />
@@ -59,7 +60,7 @@ class Lesson extends Component {
 		}
 		return (
 			<Paper
-				elevation={this.state.hover ? 4 : 2}
+				elevation={this.state.hover ? 2 : 1}
 				onMouseEnter={() => this.setState({ hover: true })}
 				onMouseLeave={() => this.setState({ hover: false })}
 				component="tr"
@@ -67,12 +68,14 @@ class Lesson extends Component {
 				<td style={{ display: "flex", flexDirection: "column" }}>
 					<Field
 						color="primary"
+						layout={{ area: true }}
 						style={{ fontWeight: "bold" }}
 						value={"Les " + lesson.numberInBlock}
 					/>
 					<Field
 						label="Soort les"
 						name="kind"
+						layout={{ area: true }}
 						value={lesson.kind}
 						editable={this.props.editable}
 						onChange={this.handleChange}
@@ -85,7 +88,7 @@ class Lesson extends Component {
 					value={lesson.subject}
 					editable={this.props.editable}
 					onChange={this.handleChange}
-					layout={{ td: true }}
+					layout={{ td: true, area: true }}
 				/>
 				<Field
 					label="Activiteiten"
@@ -94,7 +97,7 @@ class Lesson extends Component {
 					value={lesson.activities}
 					editable={this.props.editable}
 					onChange={this.handleChange}
-					layout={{ td: true }}
+					layout={{ td: true, area: true }}
 				/>
 				<td style={{ display: "flex", flexDirection: "column" }}>
 					<Field
