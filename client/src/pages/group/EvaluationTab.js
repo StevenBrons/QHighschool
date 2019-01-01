@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import { connect } from "react-redux";
-import { setCookie, getCookie } from "../../store/actions"
+import { setCookie } from "../../store/actions"
 import Field from '../../components/Field';
 import User from '../user/User';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,6 @@ class EvaluationTab extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			evaluations: this.props.evaluations,
 			formats: [{
 				label: "vink",
 				value: "check",
@@ -57,7 +56,7 @@ class EvaluationTab extends Component {
 	}
 
 	handleEvaluationChange(event) {
-		let newEvaluations = this.state.evaluations.map((e) => {
+		let newEvaluations = this.props.evaluations.map((e) => {
 			if (e.userId === event.name) {
 				return {
 					...e,
@@ -67,14 +66,12 @@ class EvaluationTab extends Component {
 				return { ...e }
 			}
 		});
-		this.setState({
-			evaluations: newEvaluations
-		});
+		this.props.handleChange(newEvaluations);
 	}
 
 
 	handleExplanationChange(event) {
-		let newEvaluations = this.state.evaluations.map((e) => {
+		let newEvaluations = this.props.evaluations.map((e) => {
 			if (e.userId === event.name) {
 				return {
 					...e,
@@ -84,22 +81,19 @@ class EvaluationTab extends Component {
 				return { ...e }
 			}
 		});
-		this.setState({
-			evaluations: newEvaluations
-		});
+		this.props.handleChange(newEvaluations);
+
 	}
 
 	handleEvaluationTypeChange(event) {
 		let newEvaluations = [];
-		for (let i = 0; i < this.state.evaluations.length; i++) {
+		for (let i = 0; i < this.props.evaluations.length; i++) {
 			newEvaluations.push({
-				...this.state.evaluations[i],
+				...this.props.evaluations[i],
 				type: event.target.value,
 			});
 		}
-		this.setState({
-			evaluations: newEvaluations,
-		});
+		this.props.handleChange(newEvaluations);
 	}
 
 	getAssesmentField(e, editable) {
@@ -143,13 +137,12 @@ class EvaluationTab extends Component {
 	render() {
 		const style = {
 			marginTop: "10px",
-			display: "flex",
 			alignItems: "center",
 			paddingRight: "15px",
 			paddingLeft: "15px",
 			display: "flex",
 		};
-		const evaluations = this.state.evaluations;
+		const evaluations = this.props.evaluations;
 		if (evaluations.length === 0) {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
@@ -178,7 +171,7 @@ class EvaluationTab extends Component {
 
 		return (
 			<div>
-				<Paper style={{ ...style, backgroundColor: "#f5f5f5" }} component="tr">
+				<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
 					<Field
 						style={{ type: "headline", margin: "normal" }}
 						value={"Beoordelingen"}
@@ -203,7 +196,7 @@ class EvaluationTab extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		secureLogin: state.secureLogin,
-		evaluations: state.groups[ownProps.groupId].evaluations,
+		evaluations: ownProps.evaluations,
 	}
 }
 

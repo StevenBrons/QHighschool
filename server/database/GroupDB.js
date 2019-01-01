@@ -189,7 +189,7 @@ class GroupDB {
 	async getEvaluations(groupId) {
 		return Evaluation.findAll({
 			order: [["id", "DESC"]],
-			attributes: ["id","type","assesment","explanation","userId","courseId","updatedAt"],
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
 			include: {
 				model: Course,
 				attributes: [],
@@ -204,7 +204,7 @@ class GroupDB {
 		}).then(this.selectDistinct("userId"));
 	}
 
-	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp }) {
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
 		return Evaluation.create({
 			userId,
 			assesment,
@@ -212,6 +212,7 @@ class GroupDB {
 			explanation,
 			updatedByIp,
 			updatedByUserId,
+			courseId,
 		});
 	}
 

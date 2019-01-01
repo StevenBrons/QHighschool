@@ -26,7 +26,7 @@ class User extends Component {
 	}
 
 	render() {
-		if (this.props.user == null && !this.props.header) {
+		if (this.props.user == null && this.props.display !== "header") {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -90,6 +90,9 @@ function mapStateToProps(state, ownProps) {
 		}
 	} else {
 		user = state.users[id];
+	}
+	if (display === "header") {
+		console.log("SFSAFD");
 	}
 
 	return {

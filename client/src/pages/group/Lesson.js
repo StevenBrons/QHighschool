@@ -43,7 +43,7 @@ class Lesson extends Component {
 					onMouseEnter={() => this.setState({ hover: true })}
 					onMouseLeave={() => this.setState({ hover: false })}
 					component="tr"
-					style={{ backgroundColor: "#f5f5f5" }}
+					style={{ backgroundColor: "#e0e0e0" }}
 				>
 					<td style={{ display: "flex", flexDirection: "column" }}>
 						<Field style={{ fontWeight: "bold" }} value="Lesnummer" />

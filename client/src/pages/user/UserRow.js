@@ -41,7 +41,7 @@ class GroupCard extends Component {
 			user.year = "Leerjaar";
 			user.phoneNumber = "Telefoonnummer";
 			user.id = "Gebruikers ID";
-			style.backgroundColor = "#f5f5f5";
+			style.backgroundColor = "#e0e0e0";
 		}
 		return (
 			<Paper

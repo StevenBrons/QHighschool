@@ -46,10 +46,12 @@ class Field extends Component {
 				}
 				break;
 			case "decimalGrade":
-				if (value === "ND") {
+				//replace dot with comma and vice versa
+				const x = value.replace(/\./g,"_$comma$_").replace(/,/g,".").replace(/_\$comma\$_/g,",");
+				if (x === "ND") {
 					return true;
 				}
-				if (isNaN(value)) {
+				if (isNaN(x)) {
 					return false;
 				}
 				break;

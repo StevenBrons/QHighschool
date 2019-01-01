@@ -125,7 +125,7 @@ class GroupPage extends Component {
 					this.props.getGroupEvaluations(group.id);
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} />
+				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
 			default: return null;
 		}
 
@@ -149,6 +149,15 @@ class GroupPage extends Component {
 					...lessons,
 					[lesson.id]: lesson,
 				}
+			}
+		});
+	}
+
+	handleEvaluationChange = (newEvaluations) => {
+		this.setState({
+			group: {
+				...this.state.group,
+				evaluations: newEvaluations,
 			}
 		});
 	}

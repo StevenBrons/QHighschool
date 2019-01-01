@@ -50,7 +50,7 @@ class PresenceTable extends Component {
 			return <Field value={"Les " + lesson.numberInBlock} style={{ type: "title" }} layout={{ td: true, area: true }} />;
 		});
 		return (
-			<Paper component="tr" elevation={2} style={{ backgroundColor: "#f5f5f5" }} >
+			<Paper component="tr" elevation={2} style={{ backgroundColor: "#e0e0e0" }} >
 				<Field value="" layout={{ td: true, area: true }} />
 				{content}
 			</Paper>
