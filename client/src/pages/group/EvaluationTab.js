@@ -147,15 +147,25 @@ class EvaluationTab extends Component {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
 
-		const evComps = evaluations.map(evaluation => {
-			return (
-				<Paper style={style} key={evaluation.id} component="tr">
-					<User display="name" userId={evaluation.userId} />
-					{this.getAssesmentField(evaluation, this.props.editable)}
-					{this.getExplanationField(evaluation, this.props.editable)}
-				</Paper >
-			);
-		});
+		const evComps = evaluations
+			.sort((ev1, ev2) => {
+				const u1 = this.props.users[ev1.userId];
+				const u2 = this.props.users[ev2.userId];
+				if (u1 != null && u2 != null) {
+					return u1.displayName < u2.displayName;
+				} else {
+					return 1;
+				}
+			})
+			.map(evaluation => {
+				return (
+					<Paper style={style} key={evaluation.id} component="tr">
+						<User display="name" userId={evaluation.userId} />
+						{this.getAssesmentField(evaluation, this.props.editable)}
+						{this.getExplanationField(evaluation, this.props.editable)}
+					</Paper >
+				);
+			});
 
 		if (this.props.editable && this.props.secureLogin == null) {
 			return <Paper style={{ padding: "20px" }}>
@@ -179,11 +189,11 @@ class EvaluationTab extends Component {
 					<div style={{ flex: "5" }} />
 					<Field
 						label="Beoordelingsformaat"
-						style={{ type: "caption", underline: false, margin: "normal" }}
+						style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
 						layout={{ alignment: "right" }}
 						value={evaluations[0].type}
 						options={this.state.formats}
-						editable={true}
+						editable={this.props.editable}
 						onChange={this.handleEvaluationTypeChange.bind(this)}
 					/>
 				</Paper >
@@ -197,6 +207,7 @@ function mapStateToProps(state, ownProps) {
 	return {
 		secureLogin: state.secureLogin,
 		evaluations: ownProps.evaluations,
+		users: state.users,
 	}
 }
 
