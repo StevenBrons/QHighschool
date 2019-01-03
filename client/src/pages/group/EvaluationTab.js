@@ -148,15 +148,6 @@ class EvaluationTab extends Component {
 		}
 
 		const evComps = evaluations
-			.sort((ev1, ev2) => {
-				const u1 = this.props.users[ev1.userId];
-				const u2 = this.props.users[ev2.userId];
-				if (u1 != null && u2 != null) {
-					return u1.displayName < u2.displayName;
-				} else {
-					return 1;
-				}
-			})
 			.map(evaluation => {
 				return (
 					<Paper style={style} key={evaluation.id} component="tr">
@@ -206,7 +197,6 @@ class EvaluationTab extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		secureLogin: state.secureLogin,
-		evaluations: ownProps.evaluations,
 		users: state.users,
 	}
 }

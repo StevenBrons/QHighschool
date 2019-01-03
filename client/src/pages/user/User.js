@@ -91,9 +91,6 @@ function mapStateToProps(state, ownProps) {
 	} else {
 		user = state.users[id];
 	}
-	if (display === "header") {
-		console.log("SFSAFD");
-	}
 
 	return {
 		role: state.role,

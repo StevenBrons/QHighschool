@@ -148,21 +148,21 @@ async function setEvaluation(ev, req) {
 	}
 }
 
-router.patch("/evaluations", async (req, res) => {
+router.patch("/evaluations", (req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
 	const login = require('./authRoute').secureLogins.find((login) =>
 		login.token === req.body.secureLogin &&
 		login.token.signed &&
 		login.validUntil.isAfter(moment()) &&
-		login.ip === req.headers['x-forwarded-for'] || req.connection.remoteAddress
+		(login.ip === (req.headers['x-forwarded-for'] || req.connection.remoteAddress))
 	);
 	if (login != null && req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
 			.then(handleSuccess(res))
 			.catch(handleError(res));
-	}else {
+	} else {
 		if (login == null) {
-			throw authError(res);
+			authError(res);
 		}
 	}
 });

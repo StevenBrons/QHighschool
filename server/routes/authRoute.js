@@ -26,7 +26,7 @@ router.get('/login', (req, res, next) => {
 				router.secureLogins.splice(i, 1);
 				continue;
 			}
-			if (router.secureLogins[i].userId === req.user.id) {
+			if (router.secureLogins[i].userId + "" === req.user.id + "") {
 				router.secureLogins.splice(i, 1);
 				continue;
 			}
@@ -39,6 +39,7 @@ router.get('/login', (req, res, next) => {
 			signed: false,
 		});
 	}
+	console.log(router.secureLogins);
 	next();
 });
 

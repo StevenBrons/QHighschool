@@ -29,6 +29,16 @@ class CourseDB {
 		});
 	}
 
+	async getCourseidFromGroupId(groupId) {
+		return Group.findOne({
+			attributes: ["id"],
+			include: {
+				model: Course,
+				attributes: ["id"]
+			}
+		}).then(group => group.course.id);
+	}
+
 	async getGroupIdsOfCourse(courseId) {
 		return Course.findByPk(courseId, {
 			attributes: [], include: [{
