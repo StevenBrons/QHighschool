@@ -47,7 +47,7 @@ class Field extends Component {
 				break;
 			case "decimalGrade":
 				//replace dot with comma and vice versa
-				const x = value.replace(/\./g,"_$comma$_").replace(/,/g,".").replace(/_\$comma\$_/g,",");
+				const x = value.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
 				if (x === "ND") {
 					return true;
 				}
@@ -108,7 +108,6 @@ class Field extends Component {
 		if (this.props.style) {
 			switch (this.props.style.type) {
 				case "headline":
-					style.color = theme.palette.primary.main;
 					style = {
 						...style,
 						...theme.typography.headline,
@@ -127,6 +126,19 @@ class Field extends Component {
 					break;
 				default:
 					style.color = theme.palette.text.primary;
+					break;
+			}
+			switch (this.props.style.color) {
+				case "primary":
+					style.color = theme.palette.primary.main;
+					break;
+				case "secondary":
+					style.color = theme.palette.secondary.main;
+					break;
+				case "error":
+					style.color = theme.palette.error.main;
+					break;
+				default:
 					break;
 			}
 		}
@@ -252,6 +264,7 @@ Field.PropTypes = {
 			"headline",
 		]),
 		underline: PropTypes.bool,
+		color: PropTypes.oneOf("primary", "secondary", "error"),
 		unit: PropTypes.string,
 		margin: PropTypes.oneOf("none", "dense", "normal"),
 	}),

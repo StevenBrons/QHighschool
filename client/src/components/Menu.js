@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 
@@ -20,7 +21,7 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod"];
+				this.state.pages = ["aanbod", "portfolio"];
 				break;
 			case "teacher":
 				this.state.pages = ["groepen"];
@@ -48,6 +49,8 @@ class Menu extends Component {
 				return <AssignmentIcon style={{ color: c }} />;
 			case "Group":
 				return <GroupIcon style={{ color: c }} />;
+			case "Assessment":
+				return <AssessmentIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -93,14 +96,17 @@ class Menu extends Component {
 			{
 				id: "aanbod",
 				title: "Aanbod",
-				visibleTo: "student",
 				icon: "Assignment",
 			},
 			{
 				id: "groepen",
 				title: "Mijn groepen",
-				visibleTo: "teacher",
 				icon: "Group",
+			},
+			{
+				id: "portfolio",
+				title: "Portfolio",
+				icon: "Assessment",
 			},
 		];
 

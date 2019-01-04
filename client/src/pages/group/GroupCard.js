@@ -11,7 +11,7 @@ const CARD_STYLE = {
 	height: "338px",
 	padding: "15px",
 	verticalAlign: "top",
-	margin: "25px",
+	margin: "12px",
 	marginRight:"0px",
 	marginBottom:"0px",
 	display: "inline-block",
