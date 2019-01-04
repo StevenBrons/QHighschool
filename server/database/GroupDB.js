@@ -8,6 +8,7 @@ const Lesson = require("../databaseDeclearations/LessonDec");
 const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Presence = require("../databaseDeclearations/PresenceDec");
 const functionDb = require("../database/FunctionDB");
+const courseDb = require("../database/CourseDB");
 
 class GroupDB {
 
@@ -172,38 +173,56 @@ class GroupDB {
 		});
 	}
 
-	selectDistinct(column) {
-		return function distinct(rows) {
-			let distinct = [];
-			return rows.filter(row => {
-				if (distinct.indexOf(row[column]) == -1) {
-					distinct.push(row[column]);
-					return true;
-				} else {
-					return false;
-				}
-			});
-		}
-	}
-
-	async getEvaluations(groupId) {
-		return Evaluation.findAll({
+	async _findEvaluation(userId, groupId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
 			order: [["id", "DESC"]],
+			where: { userId },
 			include: {
-				attributes: [],
 				model: Course,
+				attributes: ["id"],
 				include: {
 					model: Group,
-					attributes: [],
+					attributes: ["id"],
 					where: {
 						id: groupId,
 					}
 				}
 			}
-		}).then(this.selectDistinct("userId"));
+		});
 	}
 
-	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp }) {
+	async getEvaluations(groupId) {
+		const participants = await Participant.findAll({
+			attributes: ["userId"],
+			where: { courseGroupId: groupId },
+			include: {
+				attributes: ["displayName"],
+				model: User,
+				order: [["displayName", "DESC"]],
+			},
+		});
+		const evaluations = participants
+			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
+			.map(p => this._findEvaluation(p.userId, groupId)
+				.then(async evaluation => {
+					if (evaluation == null) {
+						return {
+							type: "decimal",
+							assesment: "",
+							courseId: await courseDb.getCourseidFromGroupId(groupId),
+							explanation: "",
+							userId: p.userId,
+						}
+					}
+					delete evaluation.course;
+					return evaluation;
+				}));
+
+		return Promise.all(evaluations);
+	}
+
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
 		return Evaluation.create({
 			userId,
 			assesment,
@@ -211,6 +230,7 @@ class GroupDB {
 			explanation,
 			updatedByIp,
 			updatedByUserId,
+			courseId,
 		});
 	}
 

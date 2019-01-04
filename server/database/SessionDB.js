@@ -69,7 +69,7 @@ class SessionDB {
 				const user = loginData[0].user;
 				const groupIds = await this.getParticipatingGroupsIds(user.id);
 				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds);
-			}else {
+			} else {
 				return null;
 			}
 		});

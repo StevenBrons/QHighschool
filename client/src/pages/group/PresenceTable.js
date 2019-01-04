@@ -38,7 +38,7 @@ class PresenceTable extends Component {
 		}));
 
 		return (
-			<Paper component="tr">
+			<Paper component="tr" elevation={1}>
 				<User key={participantId} userId={participantId} display="name" />
 				{content}
 			</Paper>
@@ -50,7 +50,7 @@ class PresenceTable extends Component {
 			return <Field value={"Les " + lesson.numberInBlock} style={{ type: "title" }} layout={{ td: true, area: true }} />;
 		});
 		return (
-			<Paper component="tr">
+			<Paper component="tr" elevation={2} style={{ backgroundColor: "#e0e0e0" }} >
 				<Field value="" layout={{ td: true, area: true }} />
 				{content}
 			</Paper>

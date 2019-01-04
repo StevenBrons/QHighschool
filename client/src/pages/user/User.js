@@ -4,16 +4,29 @@ import { connect } from "react-redux";
 import UserRow from "./UserRow";
 import UserPage from "./UserPage";
 import UserCard from "./UserCard";
-import { getUser } from "../../store/actions"
+import { getUser, getCookie, setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 import Field from "../../components/Field"
+import queryString from "query-string";
 
 class User extends Component {
 
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let s = queryString.parse(nextProps.location.search);
+		if (s.secureLogin != null) {
+			nextProps.setSecureLogin(s.secureLogin);
+		}
+		if (s.from === "login") {
+			const beforeLoginPath = getCookie("beforeLoginPath");
+			nextProps.history.push(beforeLoginPath);
+		}
+		return prevState;
+	}
+
 	render() {
-		if (this.props.user == null && !this.props.header) {
+		if (this.props.user == null && this.props.display !== "header") {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -71,10 +84,6 @@ function mapStateToProps(state, ownProps) {
 	let notExists = false;
 	let user = null;
 
-	if (id == null) {
-		id = state.userId;
-	}
-
 	if (state.users == null || state.users[id] == null) {
 		if (id == null || state.hasFetched.indexOf("User.get(" + id + ")") !== -1) {
 			notExists = true;
@@ -95,6 +104,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
 	return {
+		setSecureLogin: (secureLogin) => dispatch(setSecureLogin(secureLogin)),
 		getUser: (userId) => dispatch(getUser(userId)),
 	};
 }

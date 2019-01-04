@@ -1,22 +1,62 @@
 import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
-import Progress from '../../components/Progress'
 import { connect } from "react-redux";
-import { getUser } from "../../store/actions"
+import { setCookie } from "../../store/actions"
 import Field from '../../components/Field';
+import User from '../user/User';
+import Button from '@material-ui/core/Button';
 
 class EvaluationTab extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			evaluations: this.props.evaluations,
+			formats: [{
+				label: "vink",
+				value: "check",
+				options: [{
+					label: "Gehaald",
+					value: "passed",
+				},
+				{
+					label: "Niet gehaald",
+					value: "failed",
+				},
+				{
+					label: "Niet deelgenomen",
+					value: "ND",
+				}],
+			},
+			{
+				label: "trapsgewijs",
+				value: "stepwise",
+				options: [{
+					label: "Onvoldoende",
+					value: "O",
+				},
+				{
+					label: "Voldoende",
+					value: "V",
+				},
+				{
+					label: "Goed",
+					value: "G",
+				},
+				{
+					label: "Niet deelgenomen",
+					value: "ND",
+				}],
+			}, {
+				label: "cijfer",
+				value: "decimal",
+				options: "decimal",
+			}],
 		}
 	}
 
 	handleEvaluationChange(event) {
-		let newEvaluations = this.state.evaluations.map((e) => {
+		let newEvaluations = this.props.evaluations.map((e) => {
 			if (e.userId === event.name) {
 				return {
 					...e,
@@ -26,59 +66,125 @@ class EvaluationTab extends Component {
 				return { ...e }
 			}
 		});
-		this.setState({
-			evaluations: newEvaluations
+		this.props.handleChange(newEvaluations);
+	}
+
+
+	handleExplanationChange(event) {
+		let newEvaluations = this.props.evaluations.map((e) => {
+			if (e.userId === event.name) {
+				return {
+					...e,
+					explanation: event.target.value,
+				}
+			} else {
+				return { ...e }
+			}
 		});
+		this.props.handleChange(newEvaluations);
+
 	}
 
 	handleEvaluationTypeChange(event) {
 		let newEvaluations = [];
-		for (let i = 0; i < this.state.evaluations.length; i++) {
+		for (let i = 0; i < this.props.evaluations.length; i++) {
 			newEvaluations.push({
-				...this.state.evaluations[i],
+				...this.props.evaluations[i],
 				type: event.target.value,
 			});
 		}
-		this.setState({
-			evaluations: newEvaluations,
-		});
+		this.props.handleChange(newEvaluations);
+	}
+
+	getAssesmentField(e, editable) {
+		if (e.type === "decimal") {
+			return <Field
+				style={{ underline: false, flex: 1 }}
+				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
+				layout={{ td: true }}
+				label="Beoordeling"
+				name={e.userId}
+				value={e.assesment ? e.assesment : ""}
+				editable={editable}
+				onChange={this.handleEvaluationChange.bind(this)}
+			/>
+		} else {
+			return <Field
+				style={{ underline: false, flex: 1 }}
+				name={e.userId}
+				label="Beoordeling"
+				layout={{ td: true }}
+				value={e.assesment ? e.assesment : ""}
+				options={this.state.formats.filter(f => f.value === e.type)[0].options}
+				editable={editable}
+				onChange={this.handleEvaluationChange.bind(this)}
+			/>
+		}
+	}
+
+	getExplanationField(e, editable) {
+		return <Field
+			style={{ underline: false, flex: 5 }}
+			layout={{ area: true, td: true }}
+			label={"Uitleg"}
+			name={e.userId}
+			value={e.explanation}
+			editable={editable}
+			onChange={this.handleExplanationChange.bind(this)}
+		/>
 	}
 
 	render() {
 		const style = {
-			marginTop: "20px",
-			display: "flex",
+			marginTop: "10px",
 			alignItems: "center",
+			paddingRight: "15px",
+			paddingLeft: "15px",
+			display: "flex",
 		};
-		const evaluations = this.state.evaluations;
+		const evaluations = this.props.evaluations;
 		if (evaluations.length === 0) {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
 
-		const evComps = evaluations.map(evaluation => {
-			if (this.props.users[evaluation.userId] == null) {
-				this.props.getUser(evaluation.userId);
-				return <Progress />
-			}
-			return (
-				<Paper style={style} key={evaluation.id}>
-					<Field style={{ type: "title" }} value={this.props.users[evaluation.userId].displayName} />
-					{this.getAssesmentField(evaluation)}
-					<Field style={{ type: "headline" }} value={evaluation.type} />
-				</Paper >
-			);
-		});
+		const evComps = evaluations
+			.map(evaluation => {
+				return (
+					<Paper style={style} key={evaluation.id} component="tr">
+						<User display="name" userId={evaluation.userId} />
+						{this.getAssesmentField(evaluation, this.props.editable)}
+						{this.getExplanationField(evaluation, this.props.editable)}
+					</Paper >
+				);
+			});
+
+		if (this.props.editable && this.props.secureLogin == null) {
+			return <Paper style={{ padding: "20px" }}>
+				<Field value="Log opnieuw in om de beoordelingen te bewerken" layout={{ area: true }} />
+				<Button color="primary" variant="contained" onClick={() => {
+					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
+					document.location.href = "/auth/login?secure=true";
+				}}>
+					Inloggen
+				</Button>
+			</Paper>
+		}
 
 		return (
 			<div>
-				<Paper style={style}>
+				<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
+					<Field
+						style={{ type: "headline", margin: "normal" }}
+						value={"Beoordelingen"}
+					/>
 					<div style={{ flex: "5" }} />
 					<Field
 						label="Beoordelingsformaat"
-						style={{ type: "caption", underline: false }}
+						style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
+						layout={{ alignment: "right" }}
 						value={evaluations[0].type}
-						options={["cijfer", "vink"]}
-						editable={true}
+						options={this.state.formats}
+						editable={this.props.editable}
 						onChange={this.handleEvaluationTypeChange.bind(this)}
 					/>
 				</Paper >
@@ -87,46 +193,13 @@ class EvaluationTab extends Component {
 		);
 	}
 
-	getAssesmentField(e) {
-		switch (e.type) {
-			case "vink":
-				return (
-					<Field
-						style={{ type: "headline", underline: false }}
-						value={e.assesment ? e.assesment : ""}
-						options={["Gehaald", "Niet gehaald"]}
-						editable={true}
-						name={e.userId}
-						onChange={this.handleEvaluationChange.bind(this)}
-					/>
-				);
-			case "cijfer":
-			default:
-				return (
-					<Field
-						style={{ type: "headline", underline: false }}
-						name={e.userId}
-						value={e.assesment ? e.assesment : ""}
-						editable={true}
-						onChange={this.handleEvaluationChange.bind(this)}
-					/>
-				);
-		}
-	}
-
 }
 function mapStateToProps(state, ownProps) {
 	return {
-		evaluations: state.groups[ownProps.groupId].evaluations,
+		secureLogin: state.secureLogin,
 		users: state.users,
 	}
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		getUser: (userId) => dispatch(getUser(userId)),
-	};
-}
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(EvaluationTab);
+export default connect(mapStateToProps, null)(EvaluationTab);

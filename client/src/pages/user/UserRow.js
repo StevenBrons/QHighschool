@@ -28,6 +28,7 @@ class GroupCard extends Component {
 
 	render() {
 		let user = {...this.props.user};
+		let style = {...this.state.style};
 		if (this.props.header) {
 			user.firstName = "Naam";
 			user.lastName = "";
@@ -40,13 +41,14 @@ class GroupCard extends Component {
 			user.year = "Leerjaar";
 			user.phoneNumber = "Telefoonnummer";
 			user.id = "Gebruikers ID";
+			style.backgroundColor = "#e0e0e0";
 		}
 		return (
 			<Paper
-				elevation={this.state.hover ? 4 : 2}
+				elevation={this.state.hover ? 2 : 1}
 				onMouseEnter={() => this.setState({ hover: true })}
 				onMouseLeave={() => this.setState({ hover: false })}
-				style={this.state.style}
+				style={style}
 			>
 				<div style={{
 					display: "flex",

@@ -17,7 +17,7 @@ class Field extends Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		return {
 			...prevState,
-			error: nextProps.editable? !Field.validate(nextProps.value, nextProps.validate):false,
+			error: nextProps.editable ? !Field.validate(nextProps.value, nextProps.validate) : false,
 		}
 	}
 
@@ -40,15 +40,30 @@ class Field extends Component {
 					return false;
 				}
 				break;
+			case "float":
+				if (isNaN(value)) {
+					return false;
+				}
+				break;
+			case "decimalGrade":
+				//replace dot with comma and vice versa
+				const x = value.replace(/\./g,"_$comma$_").replace(/,/g,".").replace(/_\$comma\$_/g,",");
+				if (x === "ND") {
+					return true;
+				}
+				if (isNaN(x)) {
+					return false;
+				}
+				break;
 			default: break;
 		}
 		if (rules.min) {
-			if (parseInt(value, 10) <= rules.min) {
+			if (parseFloat(value) < rules.min) {
 				return false;
 			}
 		}
 		if (rules.max) {
-			if (parseInt(value, 10) >= rules.max) {
+			if (parseFloat(value) > rules.max) {
 				return false;
 			}
 		}
@@ -92,18 +107,23 @@ class Field extends Component {
 
 		if (this.props.style) {
 			switch (this.props.style.type) {
-				case "title":
+				case "headline":
 					style.color = theme.palette.primary.main;
-					style.lineHeight = "1.16667em";
-					style.fontSize = "1.3125rem";
-					style.fontWeight = "500";
+					style = {
+						...style,
+						...theme.typography.headline,
+					};
+					style.color = theme.palette.primary.main;
+					break;
+				case "title":
+					style = {
+						...style,
+						...theme.typography.title
+					};
+					style.color = theme.palette.primary.main;
 					break;
 				case "caption":
 					style.color = theme.palette.text.secondary;
-					break;
-				case "headline":
-					style.color = theme.palette.primary.main;
-					style.fontSize = "1.2em"
 					break;
 				default:
 					style.color = theme.palette.text.primary;
@@ -167,6 +187,9 @@ class Field extends Component {
 		if (style.unit) {
 			endAdornment = <InputAdornment position="end">{style.unit}</InputAdornment>;
 		}
+		if (layout.td) {
+			style.width = "100%";
+		}
 
 		const field = (
 			<TextField
@@ -195,8 +218,9 @@ class Field extends Component {
 			</TextField>
 		);
 		if (layout.td) {
+			style.width = undefined;
 			return (
-				<td>
+				<td style={style}>
 					{field}
 				</td>
 			);

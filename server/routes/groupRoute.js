@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
+const courseDB = require('../database/CourseDB');
+const moment = require('moment');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -117,36 +119,53 @@ router.patch("/presence", async ({ user, body }, res, next) => {
 router.post("/evaluations", function (req, res, next) {
 	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
 		groupDb.getEvaluations(req.body.groupId)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res));
 	} else {
 		authError(res);
 	}
 });
 
+
 async function setEvaluation(ev, req) {
 	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	const courseId = groupDb.getGroup(ev.groupId).courseId;
-	if (req.user.inGroup(ev.groupId) && Number.isInteger(cousreId) && courseId >= 0) {
+	let isInOneGroup = false;
+	await courseDB.getGroupIdsOfCourse(ev.courseId).then(groupIds => groupIds.forEach(groupId => {
+		if (req.user.inGroup(groupId)) {
+			isInOneGroup = true;
+		}
+	}));
+	if (isInOneGroup && Number.isInteger(ev.courseId) && ev.courseId >= 0) {
 		return groupDb.setEvaluation({
 			userId: ev.userId,
 			assesment: ev.assesment,
 			explanation: ev.explanation,
 			type: ev.type,
-			courseId,
+			courseId: ev.courseId,
 			updatedByIp: ip,
 			updatedByUserId: req.user.id,
 		});
 	}
 }
 
-router.patch("/evaluations", async (req, res) => {
-	// const evaluations = JSON.parse(req.body.evaluations);
-	// if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
-	// 	return Promise.all(evaluations.map((ev) => setEvaluation(ev, req))
-	// 		.then(handleSuccess(res))
-	// 		.catch(handleError(res)));
-	// }
+router.patch("/evaluations", (req, res) => {
+	const evaluations = JSON.parse(req.body.evaluations);
+	const login = require('./authRoute').secureLogins.find((login) => {
+		return login.token === (req.body.secureLogin + "") &&
+			login.signed &&
+			login.validUntil.isAfter(moment()) &&
+			login.ip === req.connection.remoteAddress
+	}
+	);
+	if (login != null && req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
+			.then(handleSuccess(res))
+			.catch(handleError(res));
+	} else {
+		if (login == null) {
+			authError(res);
+		}
+	}
 });
 
 module.exports = router;
