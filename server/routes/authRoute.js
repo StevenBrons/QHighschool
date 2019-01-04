@@ -33,13 +33,12 @@ router.get('/login', (req, res, next) => {
 		}
 		router.secureLogins.push({
 			userId: req.user.id,
-			ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+			ip: req.connection.remoteAddress,
 			validUntil: moment().add(30, "minute"),
 			token: require('uuid/v4')(),
 			signed: false,
 		});
 	}
-	console.log(router.secureLogins);
 	next();
 });
 
@@ -54,12 +53,11 @@ function getSecureLogin(req) {
 	if (req.user == null) {
 		return "";
 	}
-	const secureLogin = router.secureLogins.filter((login) => {
+	const secureLogin = router.secureLogins.find((login) => {
 		return login.userId === req.user.id &&
 			login.validUntil.isAfter(moment()) &&
-			login.signed === true &&
-			login.ip === req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	})[0];
+			login.ip === req.connection.remoteAddress;
+	});
 	if (secureLogin != null) {
 		return "&secureLogin=" + secureLogin.token;
 	} else {

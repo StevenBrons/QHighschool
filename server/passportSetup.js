@@ -45,21 +45,20 @@ passport.use(new OIDCStrategy({
 	clockSkew: creds.clockSkew,
 	redirectUrl: creds.returnURL,
 },
-	function (iss, sub, profile, accessToken, refreshToken, done) {
-		sessionDb.getUserByEmail(profile.upn).then((user) => {
+function (iss, sub, profile, accessToken, refreshToken, done) {
+	sessionDb.getUserByEmail(profile.upn).then((user) => {
 			if (user == null) {
 				functionDb.createUser(profile).then((u) => {
 					done(null, profile);
 				});
 			} else {
-				let secureLogin = undefined;
 				require('./routes/authRoute').secureLogins.forEach(login => {
 					if (login.userId + "" === user.id + "" && login.validUntil.isAfter(moment())) {
+						console.log("c");
 						login.signed = true;
-						secureLogin = login.token;
 					}
 				});
-				done(null, { ...profile, secureLogin });
+				done(null, profile);
 			}
 		}).catch((err) => {
 			done(err);
