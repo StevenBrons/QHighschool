@@ -54,7 +54,6 @@ function (iss, sub, profile, accessToken, refreshToken, done) {
 			} else {
 				require('./routes/authRoute').secureLogins.forEach(login => {
 					if (login.userId + "" === user.id + "" && login.validUntil.isAfter(moment())) {
-						console.log("c");
 						login.signed = true;
 					}
 				});
