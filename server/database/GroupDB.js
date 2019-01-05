@@ -29,7 +29,6 @@ class GroupDB {
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
-			evaluation: data.course.evaluations ? data.course.evaluations[0] : null,
 		}
 	}
 
@@ -83,10 +82,10 @@ class GroupDB {
 				}]
 			},
 			]
-		}).then(a => this._mapGroup(a));
+		}).then(a => this._mapGroup(a))
 	}
 
-	async appendEvaluation(userId) {
+	appendEvaluation(userId) {
 		return async function addEvaluation(group) {
 			return Evaluation.find({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
@@ -97,7 +96,7 @@ class GroupDB {
 			}).then(evaluation => {
 				return {
 					...group,
-					evaluation: evaluation
+					evaluation,
 				}
 			});
 		}

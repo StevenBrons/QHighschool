@@ -77,12 +77,13 @@ class Portfolio extends Component {
 		if (!this.props.groups) {
 			this.props.getParticipatingGroups();
 		}
+
 		switch (this.state.filter) {
 			case "all":
 				if (!this.props.enrollmentIds) {
 					this.props.getEnrolLments();
 				}
-				groupIds = this.props.participatingGroupIds.concat(this.props.enrollmentIds);
+				groupIds = this.props.participatingGroupIds.concat(this.props.enrollmentIds || []);
 				break;
 			case "enrolled":
 				if (!this.props.enrollmentIds) {
@@ -91,9 +92,9 @@ class Portfolio extends Component {
 				groupIds = this.props.enrollmentIds;
 				break;
 		}
-
+		
 		let content;
-		if (!this.props.groups) {
+		if (!this.props.groups || groupIds.filter(id => this.props.groups[id] == null).length !== 0) {
 			content = <Progress />;
 		} else {
 			content = this.orderGroups(groupIds.map(id => this.props.groups[id]), function (group) {
@@ -114,9 +115,10 @@ class Portfolio extends Component {
 						editable
 						options={[
 							{ label: "Alle", value: "all" },
-							{ label: "Huidige", value: "current" },
+							// { label: "Huidige", value: "current" },
 							{ label: "Ingeschreven", value: "enrolled" },
-							{ label: "Voltooid", value: "completed" }]}
+							// { label: "Voltooid", value: "completed" }
+						]}
 						onChange={this.handleFilterChange}
 					/>
 				</Toolbar>

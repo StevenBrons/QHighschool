@@ -4,7 +4,7 @@ import map from 'lodash/map';
 
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
-import EvaluationTab from './EvaluationTab';
+import {EvaluationTab} from './Evaluation';
 import User from "../user/User"
 import Page from '../Page';
 

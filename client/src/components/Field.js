@@ -132,6 +132,9 @@ class Field extends Component {
 				case "primary":
 					style.color = theme.palette.primary.main;
 					break;
+				case "primaryContrast":
+					style.color = theme.palette.primary.contrastText;
+					break;
 				case "secondary":
 					style.color = theme.palette.secondary.main;
 					break;

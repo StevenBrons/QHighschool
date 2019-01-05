@@ -7,51 +7,94 @@ import Field from '../../components/Field';
 import User from '../user/User';
 import Button from '@material-ui/core/Button';
 
-class EvaluationTab extends Component {
+const EVALUATION_FORMATS = [{
+	label: "vink",
+	value: "check",
+	options: [{
+		label: "Gehaald",
+		value: "passed",
+	},
+	{
+		label: "Niet gehaald",
+		value: "failed",
+	},
+	{
+		label: "Niet deelgenomen",
+		value: "ND",
+	}],
+},
+{
+	label: "trapsgewijs",
+	value: "stepwise",
+	options: [{
+		label: "Onvoldoende",
+		value: "O",
+	},
+	{
+		label: "Voldoende",
+		value: "V",
+	},
+	{
+		label: "Goed",
+		value: "G",
+	},
+	{
+		label: "Niet deelgenomen",
+		value: "ND",
+	}],
+}, {
+	label: "cijfer",
+	value: "decimal",
+	options: "decimal",
+}];
+
+class Evaluation extends Component {
+
+	render() {
+		const e = this.props.evaluation;
+		let style = {
+			underline: false,
+			flex: 1,
+		};
+		if (this.props.student) {
+			style.type = "headline";
+			// style.float = "left";
+			style.width = "20%";
+			style.labelVisible = true;
+		}
+		if (e.type === "decimal") {
+			return <Field
+				style={style}
+				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
+				layout={{ td: !this.props.student }}
+				label="Beoordeling"
+				name={e.userId}
+				value={e.assesment ? e.assesment : ""}
+				editable={this.props.editable}
+				onChange={this.props.handleChange}
+			/>
+		} else {
+			return <Field
+				style={style}
+				name={e.userId}
+				label="Beoordeling"
+				layout={{ td: !this.props.student }}
+				value={e.assesment ? e.assesment : ""}
+				options={EVALUATION_FORMATS.filter(f => f.value === e.type)[0].options}
+				editable={this.props.editable}
+				onChange={this.props.handleChange}
+			/>
+		}
+	}
+
+}
+
+
+class EvaluationTab2 extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			formats: [{
-				label: "vink",
-				value: "check",
-				options: [{
-					label: "Gehaald",
-					value: "passed",
-				},
-				{
-					label: "Niet gehaald",
-					value: "failed",
-				},
-				{
-					label: "Niet deelgenomen",
-					value: "ND",
-				}],
-			},
-			{
-				label: "trapsgewijs",
-				value: "stepwise",
-				options: [{
-					label: "Onvoldoende",
-					value: "O",
-				},
-				{
-					label: "Voldoende",
-					value: "V",
-				},
-				{
-					label: "Goed",
-					value: "G",
-				},
-				{
-					label: "Niet deelgenomen",
-					value: "ND",
-				}],
-			}, {
-				label: "cijfer",
-				value: "decimal",
-				options: "decimal",
-			}],
 		}
 	}
 
@@ -96,32 +139,6 @@ class EvaluationTab extends Component {
 		this.props.handleChange(newEvaluations);
 	}
 
-	getAssesmentField(e, editable) {
-		if (e.type === "decimal") {
-			return <Field
-				style={{ underline: false, flex: 1 }}
-				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
-				layout={{ td: true }}
-				label="Beoordeling"
-				name={e.userId}
-				value={e.assesment ? e.assesment : ""}
-				editable={editable}
-				onChange={this.handleEvaluationChange.bind(this)}
-			/>
-		} else {
-			return <Field
-				style={{ underline: false, flex: 1 }}
-				name={e.userId}
-				label="Beoordeling"
-				layout={{ td: true }}
-				value={e.assesment ? e.assesment : ""}
-				options={this.state.formats.filter(f => f.value === e.type)[0].options}
-				editable={editable}
-				onChange={this.handleEvaluationChange.bind(this)}
-			/>
-		}
-	}
-
 	getExplanationField(e, editable) {
 		return <Field
 			style={{ underline: false, flex: 5 }}
@@ -152,7 +169,7 @@ class EvaluationTab extends Component {
 				return (
 					<Paper style={style} key={evaluation.id} component="tr">
 						<User display="name" userId={evaluation.userId} />
-						{this.getAssesmentField(evaluation, this.props.editable)}
+						<Evaluation editable={this.props.editable} evaluation={evaluation} handleChange={this.handleEvaluationChange.bind(this)} />
 						{this.getExplanationField(evaluation, this.props.editable)}
 					</Paper >
 				);
@@ -183,7 +200,7 @@ class EvaluationTab extends Component {
 						style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
 						layout={{ alignment: "right" }}
 						value={evaluations[0].type}
-						options={this.state.formats}
+						options={EVALUATION_FORMATS}
 						editable={this.props.editable}
 						onChange={this.handleEvaluationTypeChange.bind(this)}
 					/>
@@ -201,5 +218,6 @@ function mapStateToProps(state, ownProps) {
 	}
 }
 
+const EvaluationTab = connect(mapStateToProps, null)(EvaluationTab2)
 
-export default connect(mapStateToProps, null)(EvaluationTab);
+export { Evaluation, EvaluationTab };
