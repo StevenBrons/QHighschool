@@ -84,14 +84,14 @@ body, #root, .App {
 .menuShown {
   grid-column-start: 3;
   grid-column-end: 16;
-	-ms-grid-column-start: 3;
-	-ms-grid-column-end: 16;
+	-ms-grid-column: 3;
+	-ms-grid-column-span: 12;
 }
 
 .menuHidden {
   grid-column-start: 1;
   grid-column-end: 16;
-	-ms-grid-column-start: 1;
+	-ms-grid-column: 1;
 	-ms-grid-column-end: 16;
 }
 
@@ -134,7 +134,7 @@ table {
 
 	.menuShown {
 		grid-column-start: 2;
-		-ms-grid-column-start: 2;
+		-ms-grid-column: 2;
 	}
 
 	.HiddenOnMobile {
