@@ -38,7 +38,7 @@ class CourseSelect extends Component {
 				}
 			}
 		}
-		if (prevState.sortMethod == null && nextProps.subjects != null) {
+		if (nextProps.subjects != null) {
 			return {
 				...prevState,
 				...{
@@ -47,7 +47,11 @@ class CourseSelect extends Component {
 				}
 			};
 		} else {
-			return prevState;
+			return {
+				...prevState,
+				sortMethod: null,
+				filterMethod: "none",
+			};
 		}
 	}
 
