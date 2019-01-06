@@ -138,6 +138,8 @@ class EnrollmentPopup extends Component {
 				return this.getRemarkPage();
 			case "cancel":
 				return this.getCancelPage();
+			case "hasChosenDay":
+				return this.getDuplicatePage();
 			case "confirm":
 			default:
 				return this.getConfirmPage();
