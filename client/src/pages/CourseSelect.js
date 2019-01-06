@@ -179,7 +179,7 @@ class CourseSelect extends Component {
 							{this.getMenuItems()}
 						</List>
 					</Paper>
-					<div>
+					<div style={{padding:"12px"}}>
 						{data}
 					</div>
 				</div>

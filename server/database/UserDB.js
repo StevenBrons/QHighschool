@@ -120,23 +120,11 @@ class UserDB {
 	}
 
 	async getGroups(userId, admin) {
-		if (admin) {
-			return Group.findAll({ attributes: ["id"] })
-				.then((rows) => {
-					return Promise.all(rows.map(row => {
-						return groupDb.getGroup(row.id, userId);
-					}));
-				});
-		} else {
-			return Participant.findAll({
-				attributes: ["courseGroupId"],
-				where: { userId }
-			}).then((rows) => {
-				return Promise.all(rows.map(row => {
-					return groupDb.getGroup(row.courseGroupId, userId);
-				}));
-			});
-		}
+		const groupIds = await this.getParticipatingGroupIds(userId, admin);
+		return Promise.all(groupIds.map(groupId => {
+			return groupDb.getGroup(groupId, userId)
+				.then(groupDb.appendEvaluation(userId))
+		}));
 	}
 
 }
