@@ -121,12 +121,12 @@ class GroupCard extends Component {
 				</div>
 				{
 					group.evaluation ?
-						<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
+						<Typography style={{ maxHeight: "164px", overflow: "hidden" }} gutterBottom>
 							<b>Uitleg beoordeling: </b>
 							{group.evaluation.explanation}
 						</Typography>
 						:
-						<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
+						<Typography style={{ maxHeight: "164px", overflow: "hidden" }} gutterBottom>
 							{group.courseDescription}
 						</Typography>
 				}
