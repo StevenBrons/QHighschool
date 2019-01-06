@@ -6,8 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ChooseButton from './ChooseButton';
 import Field from '../../components/Field';
-import { Evaluation } from './Evaluation';
-import theme from '../../lib/MuiTheme'
+import { Evaluation, getEvaluationColor } from './Evaluation';
 
 const CARD_STYLE = {
 	width: "400px",
@@ -21,11 +20,11 @@ const CARD_STYLE = {
 	position: "relative",
 }
 
-const CHOOSE_BUTTON_STYLE = {
-	position: "absolute",
-	bottom: "10px",
-	right: "30px",
-}
+// const CHOOSE_BUTTON_STYLE = {
+// 	position: "absolute",
+// 	bottom: "10px",
+// 	right: "30px",
+// }
 
 class GroupCard extends Component {
 
@@ -51,13 +50,18 @@ class GroupCard extends Component {
 			marginLeft: "-15px",
 			borderBottomLeftRadius: "4px",
 			borderBottomRightRadius: "4px",
-			backgroundColor: theme.palette.primary.light
+			display: "flex",
+			padding: "5px",
+			paddingLeft: "20px",
+			paddingRight: "20px",
+			justifyContent: "space-between"
 		};
 		if (this.props.group.evaluation) {
+			style.backgroundColor = getEvaluationColor(this.props.group.evaluation);
 			return (
 				<div style={style} >
-					<Field value="Beoordeling" style={{ type: "headline",color:"primaryContrast" }} />
-					<Evaluation evaluation={this.props.group.evaluation} />
+					<Field value="Beoordeling" style={{ type: "headline", color: "primaryContrast", flex: 0.8 }} />
+					<Evaluation evaluation={this.props.group.evaluation} student />
 				</div>
 			);
 		} else {
@@ -65,19 +69,18 @@ class GroupCard extends Component {
 				<div style={style} >
 					{
 						this.props.role === "student" &&
-						<ChooseButton
-							group={this.props.group}
-							style={CHOOSE_BUTTON_STYLE}
-						/>
-					}
-					{
-						this.props.role !== "student" &&
 						<Button
 							color="secondary"
 							onClick={this.expand.bind(this)}
 						>
 							Bekijken
 						</Button>
+					}
+					{
+						this.props.role === "student" &&
+						<ChooseButton
+							group={this.props.group}
+						/>
 					}
 				</div >
 			);
@@ -116,9 +119,17 @@ class GroupCard extends Component {
 						{group.enrollableFor || "Iedereen"}
 					</Typography>
 				</div>
-				<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
-					{this.props.group.courseDescription}
-				</Typography>
+				{
+					group.evaluation ?
+						<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
+							<b>Uitleg beoordeling: </b>
+							{group.evaluation.explanation}
+						</Typography>
+						:
+						<Typography style={{ maxHeight: "200px", overflow: "hidden" }} gutterBottom>
+							{group.courseDescription}
+						</Typography>
+				}
 				{
 					this.getBottomSection()
 				}

@@ -48,6 +48,58 @@ const EVALUATION_FORMATS = [{
 	options: "decimal",
 }];
 
+function getEvaluationColor(ev) {
+	const GOOD = "#4caf50";
+	const SUFFICIENT = "#ff9800";
+	const INSUFFICIENT = "#f44336";
+	const NOT_PARTICIPATED = "#9c27b0";
+	const UNKNOWN = "#9c27b0";
+
+	switch (ev.type) {
+		case "stepwise":
+			switch (ev.assesment) {
+				case "G":
+					return GOOD;
+				case "V":
+					return SUFFICIENT;
+				case "O":
+					return INSUFFICIENT;
+				default: break;
+			}
+			break;
+		case "check":
+			switch (ev.assesment) {
+				case "passed":
+					return GOOD;
+				case "failed":
+					return INSUFFICIENT;
+				default: break;
+			}
+			break;
+		case "decimal":
+			const x = ev.assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+			if (!isNaN(x)) {
+				if (parseFloat(x) >= 7.5) {
+					return GOOD;
+				}
+				if (parseFloat(x) >= 5.5) {
+					return SUFFICIENT;
+				}
+				if (parseFloat(x) < 5.5) {
+					return INSUFFICIENT;
+				}
+			}
+			break;
+	}
+	switch (ev.assesment) {
+		case "ND":
+			return NOT_PARTICIPATED;
+		default:
+			return UNKNOWN;
+	}
+
+}
+
 class Evaluation extends Component {
 
 	render() {
@@ -56,17 +108,18 @@ class Evaluation extends Component {
 			underline: false,
 			flex: 1,
 		};
+		let layout = { td: true };
 		if (this.props.student) {
 			style.type = "headline";
-			// style.float = "left";
-			style.width = "20%";
-			style.labelVisible = true;
+			style.color = "primaryContrast"
+			layout.td = false;
+			layout.alignment = "right";
 		}
 		if (e.type === "decimal") {
 			return <Field
 				style={style}
 				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
-				layout={{ td: !this.props.student }}
+				layout={layout}
 				label="Beoordeling"
 				name={e.userId}
 				value={e.assesment ? e.assesment : ""}
@@ -78,7 +131,7 @@ class Evaluation extends Component {
 				style={style}
 				name={e.userId}
 				label="Beoordeling"
-				layout={{ td: !this.props.student }}
+				layout={layout}
 				value={e.assesment ? e.assesment : ""}
 				options={EVALUATION_FORMATS.filter(f => f.value === e.type)[0].options}
 				editable={this.props.editable}
@@ -220,4 +273,4 @@ function mapStateToProps(state, ownProps) {
 
 const EvaluationTab = connect(mapStateToProps, null)(EvaluationTab2)
 
-export { Evaluation, EvaluationTab };
+export { Evaluation, EvaluationTab, getEvaluationColor };
