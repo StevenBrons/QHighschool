@@ -4,7 +4,7 @@ import map from 'lodash/map';
 
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
-import {EvaluationTab} from './Evaluation';
+import { EvaluationTab } from './Evaluation';
 import User from "../user/User"
 import Page from '../Page';
 
@@ -79,10 +79,14 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return [<User key={"header"} display="header" />]
-					.concat((enrollmentIds.map(id => {
-						return <User key={id} userId={id} display="row" />
-					})));
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{[<User key={"header"} display="header" />]
+							.concat((enrollmentIds.map(id => {
+								return <User key={id} userId={id} display="row" />
+							})))}
+					</tbody>
+				</table>
 			case "Lessen":
 				if (lessons == null) {
 					this.props.getGroupLessons(group.id);
@@ -91,9 +95,13 @@ class GroupPage extends Component {
 				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return map({ 0: { id: -1 }, ...lessons }, lesson => {
-					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
-				});
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{map({ 0: { id: -1 }, ...lessons }, lesson => {
+							return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
+						})}
+					</tbody>
+				</table>
 			case "Deelnemers":
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
@@ -102,10 +110,14 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return [<User key={"header"} display="header" />]
-					.concat(participantIds.map(id => {
-						return <User key={id} userId={id} display="row" />
-					}));
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{[<User key={"header"} display="header" />]
+							.concat(participantIds.map(id => {
+								return <User key={id} userId={id} display="row" />
+							}))}
+					</tbody>
+				</table>
 			case "Actief":
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
@@ -249,9 +261,9 @@ class GroupPage extends Component {
 					</Tabs>
 				</AppBar>
 				<br />
-				<table style={{ width: "98%", margin: "auto" }}>
+				<div style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
-				</table>
+				</div>
 				<PageLeaveWarning giveWarning={this.state.editable} />
 			</Page>
 		);

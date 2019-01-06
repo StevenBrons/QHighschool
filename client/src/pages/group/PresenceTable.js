@@ -7,8 +7,9 @@ import { Paper } from '@material-ui/core';
 
 class PresenceTable extends Component {
 
-	createPresenceComponent(presence) {
+	createPresenceComponent(presence, i) {
 		return <Field
+			rkey={i}
 			value={presence.status}
 			options={[
 				{ label: "Actief", value: "present" },
@@ -26,19 +27,19 @@ class PresenceTable extends Component {
 	}
 
 	createRow = (participantId) => {
-		const content = map(this.props.lessons, (lesson => {
+		const content = map(this.props.lessons, ((lesson,i) => {
 			const p = filter(this.props.presence, presence => {
 				return presence.lessonId === lesson.id && presence.userId === participantId;
 			});
 			if (p.length === 1) {
-				return this.createPresenceComponent(p[0]);
+				return this.createPresenceComponent(p[0],i);
 			} else {
 				return "err";
 			}
 		}));
 
 		return (
-			<Paper component="tr" elevation={1}>
+			<Paper component="tr" elevation={1} key={"p" + participantId}>
 				<User key={participantId} userId={participantId} display="name" />
 				{content}
 			</Paper>
@@ -62,7 +63,11 @@ class PresenceTable extends Component {
 			return map(this.props.presence, (p) => p.userId).indexOf(partId) !== -1;
 		}).map(this.createRow);
 		rows.unshift(this.createLessonHeader());
-		return rows;
+		return <table>
+			<tbody>
+				{rows}
+			</tbody>
+		</table>;
 	}
 
 }

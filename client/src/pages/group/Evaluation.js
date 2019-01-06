@@ -90,6 +90,8 @@ function getEvaluationColor(ev) {
 				}
 			}
 			break;
+		default:
+			break;
 	}
 	switch (ev.assesment) {
 		case "ND":

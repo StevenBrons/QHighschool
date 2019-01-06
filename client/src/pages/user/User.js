@@ -13,6 +13,11 @@ import queryString from "query-string";
 
 class User extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let s = queryString.parse(nextProps.location.search);
 		if (s.secureLogin != null) {

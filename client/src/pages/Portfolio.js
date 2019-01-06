@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import filter from 'lodash/filter';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 
@@ -11,11 +10,7 @@ import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments, getParticipatingGroups } from '../store/actions';
 
 import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import queryString from "query-string";
 
@@ -91,8 +86,10 @@ class Portfolio extends Component {
 				}
 				groupIds = this.props.enrollmentIds;
 				break;
+			default:
+				break;
 		}
-		
+
 		let content;
 		if (!this.props.groups || groupIds.filter(id => this.props.groups[id] == null).length !== 0) {
 			content = <Progress />;
