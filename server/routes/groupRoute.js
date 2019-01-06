@@ -11,7 +11,7 @@ const handleError = handlers.handleError;
 const authError = handlers.authError;
 
 router.get("/list", function (req, res, next) {
-	groupDb.getGroups()
+	groupDb.getGroups(req.user.id)
 		.then(handleReturn(res));
 });
 

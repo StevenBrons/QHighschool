@@ -32,7 +32,7 @@ class GroupDB {
 		}
 	}
 
-	async getGroups() {
+	async getGroups(userId) {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
@@ -45,7 +45,8 @@ class GroupDB {
 					model: User, attributes: ["id", "displayName"],
 				}]
 			}]
-		}).then(data => data.map(this._mapGroup));
+		}).then(data => data.map(this._mapGroup))
+			.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
 	};
 
 	async setFullGroup(data) {

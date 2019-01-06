@@ -51,7 +51,7 @@ router.get("/enrollments", (req, res) => {
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
-	groupDb.getGroups().then(groups => {
+	groupDb.getGroups(req.user.id).then(groups => {
 		var enrollableGroups = groups.filter((group) => {
 			return group.period == 1
 		});
