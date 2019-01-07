@@ -213,7 +213,6 @@ class Field extends Component {
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
-				key={this.props.rkey || label + value}
 				className={classNames.join(" ")}
 				label={label}
 				select={options ? true : false}
