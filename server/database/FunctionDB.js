@@ -80,7 +80,7 @@ class FunctionDB {
 	}
 
 	async _addPresence(userId, groupId) {
-		return Lesson.find({ where: { groupId } })
+		return Lesson.findOne({ where: { groupId } })
 			.then(lessons => Prommise.all(lessons.map(({ id }) => {
 				return Presence.create({
 					lessonId: id,

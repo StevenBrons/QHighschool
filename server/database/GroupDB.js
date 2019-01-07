@@ -88,7 +88,7 @@ class GroupDB {
 
 	appendEvaluation(userId) {
 		return async function addEvaluation(group) {
-			return Evaluation.find({
+			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
 				where: {
 					userId: userId,
@@ -166,7 +166,7 @@ class GroupDB {
 	}
 
 	async setPresence(presence) {
-		return Presence.findById(presence.id).then(prs => {
+		return Presence.findByPk(presence.id).then(prs => {
 			prs.update({
 				status: presence.status,
 			});

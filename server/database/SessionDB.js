@@ -39,7 +39,7 @@ class SerialisedUser {
 class SessionDB {
 
 	async getUserByEmail(email) {
-		return User.find({
+		return User.findOne({
 			attributes: ["id", "role"],
 			where: {
 				email
