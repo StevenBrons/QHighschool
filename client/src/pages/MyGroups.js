@@ -8,19 +8,36 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Field from '../components/Field';
 import Paper from '@material-ui/core/Paper';
+import queryString from "query-string";
 
 class MyGroups extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			filterMethod: "period2",
+			filterMethod: "period3",
 		}
 	}
 
-	componentWillMount() {
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
+		return {
+			...prevState,
+			...{
+				filterMethod: values.filter ? values.filter : "period2",
+			}
+		};
+	}
+
+	componentDidMount() {
 		this.props.getParticipatingGroups();
 	}
+
+	handleFilterChange = event => {
+		this.props.history.push({
+			search: "filter=" + event.target.value,
+		});
+	};
 
 	render() {
 		let content;
@@ -72,7 +89,7 @@ class MyGroups extends Component {
 								{ label: "Blok 2", value: "period2" },
 								{ label: "Blok 3", value: "period3" },
 								{ label: "Blok 4", value: "period4" }]}
-							onChange={(event) => { this.setState({ filterMethod: event.target.value }) }}
+							onChange={this.handleFilterChange}
 						/>
 					</Toolbar>
 				</Paper>

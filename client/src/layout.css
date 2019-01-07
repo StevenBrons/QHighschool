@@ -41,15 +41,12 @@ body, #root, .App {
 }
 
 .Header {
-	background: rgba(195,56,107,1);
-	background: -moz-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
-	background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(195,56,107,1)), color-stop(0%, rgba(195,56,107,1)), color-stop(25%, rgba(86,140,190,1)), color-stop(100%, rgba(4,199,253,1)));
-	background: -webkit-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
-	background: -o-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
-	background: -ms-linear-gradient(-45deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
-	background: linear-gradient(135deg, rgba(195,56,107,1) 0%, rgba(195,56,107,1) 0%, rgba(86,140,190,1) 25%, rgba(4,199,253,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c3386b', endColorstr='#04c7fd', GradientType=1 );
-  grid-column: 1 / span 15;
+	background: rgb(240,131,31);
+	background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
+	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
+	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0831f",endColorstr="#00ccff",GradientType=1);
+  	grid-column: 1 / span 15;
 	grid-row: 1 / span 1;
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 15;
@@ -87,14 +84,14 @@ body, #root, .App {
 .menuShown {
   grid-column-start: 3;
   grid-column-end: 16;
-	-ms-grid-column-start: 3;
-	-ms-grid-column-end: 16;
+	-ms-grid-column: 3;
+	-ms-grid-column-span: 12;
 }
 
 .menuHidden {
   grid-column-start: 1;
   grid-column-end: 16;
-	-ms-grid-column-start: 1;
+	-ms-grid-column: 1;
 	-ms-grid-column-end: 16;
 }
 
@@ -137,7 +134,7 @@ table {
 
 	.menuShown {
 		grid-column-start: 2;
-		-ms-grid-column-start: 2;
+		-ms-grid-column: 2;
 	}
 
 	.HiddenOnMobile {

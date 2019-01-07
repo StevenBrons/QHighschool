@@ -15,8 +15,6 @@ class GroupCard extends Component {
 				width: "100%",
 				height: "auto",
 				margin: "0px",
-				marginTop: "10px",
-				marginBottom: "10px",
 				padding: "10px",
 			},
 		}
@@ -27,7 +25,8 @@ class GroupCard extends Component {
 	}
 
 	render() {
-		let user = {...this.props.user};
+		let user = { ...this.props.user };
+		let style = { ...this.state.style };
 		if (this.props.header) {
 			user.firstName = "Naam";
 			user.lastName = "";
@@ -40,57 +39,59 @@ class GroupCard extends Component {
 			user.year = "Leerjaar";
 			user.phoneNumber = "Telefoonnummer";
 			user.id = "Gebruikers ID";
+			style.backgroundColor = "#e0e0e0";
 		}
 		return (
-			<Paper
-				elevation={this.state.hover ? 4 : 2}
-				onMouseEnter={() => this.setState({ hover: true })}
-				onMouseLeave={() => this.setState({ hover: false })}
-				style={this.state.style}
-			>
-				<div style={{
-					display: "flex",
-					justifyContent: "space-between"
-				}}>
-					<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }}>
-						{user.firstName + " " + user.lastName}
-					</Typography>
-					<Typography variant="subheading" style={{ flex: 1 }}>
-						{user.school}
-					</Typography>
-					<Typography variant="body1" style={{ flex: 1 }}>
-						{user.level}
-					</Typography>
-					<Typography variant="body1" style={{ flex: 1 }}>
-						{user.role === "teacher" ? "docent" : "leerling"}
-					</Typography>
-					<Typography variant="body1" style={{ flex: 1 }}>
-						{user.profile}
-					</Typography>
-				</div>
-				{this.props.role === "admin" &&
+			<tr>
+				<Paper
+					elevation={this.state.hover ? 2 : 1}
+					onMouseEnter={() => this.setState({ hover: true })}
+					onMouseLeave={() => this.setState({ hover: false })}
+					component="td"
+					style={style}
+				>
 					<div style={{
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.email}
+						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }}>
+							{user.firstName + " " + user.lastName}
+						</Typography>
+						<Typography variant="subheading" style={{ flex: 1 }}>
+							{user.school}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.preferedEmail}
+							{user.level + " - " + user.year}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.year}
+							{user.role === "teacher" ? "docent" : "leerling"}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.phoneNumber}
-						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.id}
+							{user.profile}
 						</Typography>
 					</div>
-				}
-			</Paper >
+					{this.props.role === "admin" &&
+						<div style={{
+							display: "flex",
+							justifyContent: "space-between"
+						}}>
+							<Typography variant="body1" style={{ flex: 1 }}>
+								{user.email}
+							</Typography>
+							<Typography variant="body1" style={{ flex: 1 }}>
+								{user.preferedEmail}
+							</Typography>
+							<div style={{ flex: 1 }} />
+							<Typography variant="body1" style={{ flex: 1 }}>
+								{user.phoneNumber}
+							</Typography>
+							<Typography variant="body1" style={{ flex: 1 }}>
+								{user.id}
+							</Typography>
+						</div>
+					}
+				</Paper >
+			</tr>
 		);
 	}
 

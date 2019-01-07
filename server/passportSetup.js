@@ -2,10 +2,12 @@ const passport = require("passport");
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 const keys = require('./private/keys');
 const creds = keys.azureADCreds;
-const database = require('./database/MainDB');
+const sessionDb = require('./database/SessionDB');
+const functionDb = require('./database/FunctionDB');
+const moment = require('moment');
 
 passport.serializeUser((profile, done) => {
-	database.session.createTokenForUser(profile).then((token) => {
+	sessionDb.createTokenForUser(profile).then((token) => {
 		done(null, token);
 	}).catch((err) => {
 		console.log(err);
@@ -14,7 +16,7 @@ passport.serializeUser((profile, done) => {
 });
 
 passport.deserializeUser((token, done) => {
-	database.session.getUserByToken(token).then((user) => {
+	sessionDb.getUserByToken(token).then((user) => {
 		done(null, user);
 	}).catch((err) => {
 		console.log(err);
@@ -43,13 +45,18 @@ passport.use(new OIDCStrategy({
 	clockSkew: creds.clockSkew,
 	redirectUrl: creds.returnURL,
 },
-	function (iss, sub, profile, accessToken, refreshToken, done) {
-		database.session.getUserByEmail(profile.upn).then((user) => {
+function (iss, sub, profile, accessToken, refreshToken, done) {
+	sessionDb.getUserByEmail(profile.upn).then((user) => {
 			if (user == null) {
-				database.function.createUser(profile).then((u) => {
+				functionDb.createUser(profile).then((u) => {
 					done(null, profile);
 				});
 			} else {
+				require('./routes/authRoute').secureLogins.forEach(login => {
+					if (login.userId + "" === user.id + "" && login.validUntil.isAfter(moment())) {
+						login.signed = true;
+					}
+				});
 				done(null, profile);
 			}
 		}).catch((err) => {

@@ -7,7 +7,7 @@ import Page from './Page';
 import Progress from '../components/Progress';
 import Field from '../components/Field';
 import Group from './group/Group';
-import { getSubjects, getGroups } from '../store/actions';
+import { getSubjects, getGroups, getEnrolLments } from '../store/actions';
 
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,20 +34,24 @@ class CourseSelect extends Component {
 				...prevState,
 				...{
 					sortMethod: values.sort,
-					filterMethod: values.filter?values.filter:"none",
+					filterMethod: values.filter ? values.filter : "none",
 				}
 			}
 		}
-		if (prevState.sortMethod == null && nextProps.subjects != null) {
+		if (nextProps.subjects != null) {
 			return {
 				...prevState,
 				...{
-					filterMethod: values.filter?values.filter:"none",
+					filterMethod: values.filter ? values.filter : "none",
 					sortMethod: nextProps.subjects[Object.keys(nextProps.subjects)[0]].name,
 				}
 			};
 		} else {
-			return prevState;
+			return {
+				...prevState,
+				sortMethod: null,
+				filterMethod: "none",
+			};
 		}
 	}
 
@@ -101,23 +105,25 @@ class CourseSelect extends Component {
 		let data;
 		if (this.state.sortMethod === "enrolled") {
 			if (this.props.enrolledGroupsIds == null) {
-				data = <Progress />
-			}
-			data = this.props.enrolledGroupsIds.map((groupId) => {
-				return (
-					<Group
-						key={groupId}
-						groupId={groupId}
-						display="card"
-					/>
-				);
-			});
-			if (this.props.enrolledGroupsIds.length === 0) {
-				data = (
-					<div style={{ margin: "15px" }} >
-						Je hebt je nog niet ingeschreven.
+				data = <Progress />;
+				this.props.getEnrolLments();
+			} else {
+				data = this.props.enrolledGroupsIds.map((groupId) => {
+					return (
+						<Group
+							key={groupId}
+							groupId={groupId}
+							display="card"
+						/>
+					);
+				});
+				if (this.props.enrolledGroupsIds.length === 0) {
+					data = (
+						<div style={{ margin: "15px" }} >
+							Je hebt je nog niet ingeschreven.
 					</div>
-				)
+					)
+				}
 			}
 		} else {
 			if (this.props.subjects == null || this.props.groups == null) {
@@ -177,7 +183,7 @@ class CourseSelect extends Component {
 							{this.getMenuItems()}
 						</List>
 					</Paper>
-					<div>
+					<div style={{padding:"12px"}}>
 						{data}
 					</div>
 				</div>
@@ -203,6 +209,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		getSubjects: () => dispatch(getSubjects()),
 		getGroups: () => dispatch(getGroups()),
+		getEnrolLments: () => dispatch(getEnrolLments()),
 	};
 }
 

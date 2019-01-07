@@ -23,7 +23,7 @@ function apiErrorHandler(dispatch, message) {
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Subject.getList()") !== -1) {
+		if (getState().hasFetched.indexOf("Subject.getList()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Subject.getList()"
@@ -40,7 +40,7 @@ export function getSubjects() {
 
 export function getGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.getList()") !== -1) {
+		if (getState().hasFetched.indexOf("Group.getList()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.getList()"
@@ -57,7 +57,7 @@ export function getGroups() {
 
 export function getParticipatingGroups() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getParticipatingGroups()") !== -1) {
+		if (getState().hasFetched.indexOf("User.getParticipatingGroups()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getParticipatingGroups()"
@@ -74,7 +74,7 @@ export function getParticipatingGroups() {
 
 export function getGroup(groupId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("Group.get(" + groupId + ")") !== -1) {
+		if (getState().hasFetched.indexOf("Group.get(" + groupId + ")") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "Group.get(" + groupId + ")",
@@ -91,7 +91,7 @@ export function getGroup(groupId) {
 
 export function getSelf() {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getSelf()") !== -1) {
+		if (getState().hasFetched.indexOf("User.getSelf()") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getSelf()"
@@ -114,6 +114,7 @@ export function getSelf() {
 				dispatch(removeNotification(notification));
 				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
 					if (window.location.pathname !== "/login") {
+						setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
 						document.location.href = "/login";
 					}
 				} else {
@@ -132,7 +133,7 @@ export function getSelf() {
 
 export function getUser(userId) {
 	return (dispatch, getState) => {
-		if (!getState().hasFetched.indexOf("User.getUser(" + userId + ")") !== -1) {
+		if (getState().hasFetched.indexOf("User.getUser(" + userId + ")") === -1) {
 			dispatch({
 				type: "HAS_FETCHED",
 				call: "User.getUser(" + userId + ")"
@@ -166,7 +167,7 @@ export function setGroup(group) {
 				name: group.courseName,
 				description: group.courseDescription,
 				studyTime: group.studyTime,
-				foreknowledge: group.foreknowledge,
+				remarks: group.remarks,
 			}
 		}
 
@@ -193,6 +194,9 @@ export function setGroup(group) {
 		const oldPresence = getState().groups[group.id].presence;
 		const newPresence = group.presence;
 
+		const oldEvaluations = getState().groups[group.id].evaluations;
+		const newEvaluations = group.evaluations;
+
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
 			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
 		}
@@ -209,6 +213,19 @@ export function setGroup(group) {
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
 			Group.setLessons(newLessons).catch(apiErrorHandler(dispatch));
+		}
+
+		if (JSON.stringify(oldEvaluations) !== JSON.stringify(newEvaluations)) {
+			let changedEvaluations = [];
+			for (let i = 0; i < newEvaluations.length; i++) {
+				const evaluation = newEvaluations[i];
+				if (JSON.stringify(oldEvaluations[i]) !== JSON.stringify(evaluation)) {
+					changedEvaluations.push(evaluation);
+				}
+			}
+
+			Group.setEvaluations(changedEvaluations, getState().secureLogin)
+				.catch(apiErrorHandler(dispatch));
 		}
 
 		dispatch({
@@ -384,6 +401,13 @@ export function toggleMenu(menuState) {
 	}
 }
 
+export function setSecureLogin(secureLogin) {
+	return {
+		type: "SET_SECURE_LOGIN",
+		secureLogin,
+	}
+}
+
 export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
@@ -433,4 +457,27 @@ export function getGroupEvaluations(groupId) {
 			});
 		}).catch(apiErrorHandler(dispatch));
 	}
+}
+
+export function setCookie(cname, cvalue, exhours) {
+	var d = new Date();
+	d.setTime(d.getTime() + (exhours * 60 * 60 * 1000));
+	var expires = "expires=" + d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+export function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) === ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) === 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
 }

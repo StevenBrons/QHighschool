@@ -148,6 +148,18 @@ class GroupClass extends Data {
 		});
 	}
 
+	async setEvaluations(evaluations, secureLogin) {
+		return $.ajax({
+			url: this.getUrl() + "/evaluations",
+			type: "patch",
+			data: {
+				evaluations: JSON.stringify(evaluations),
+				secureLogin,
+			},
+			dataType: "json",
+		});
+	}
+
 	async getPresence(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/presence",

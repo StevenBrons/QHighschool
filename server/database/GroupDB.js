@@ -3,15 +3,14 @@ const Course = require("../databaseDeclearations/CourseDec");
 const Subject = require("../databaseDeclearations/SubjectDec");
 const Participant = require("../databaseDeclearations/ParticipantDec");
 const User = require("../databaseDeclearations/UserDec");
+const Enrollment = require("../databaseDeclearations/EnrollmentDec");
+const Lesson = require("../databaseDeclearations/LessonDec");
+const Evaluation = require("../databaseDeclearations/EvaluationDec");
+const Presence = require("../databaseDeclearations/PresenceDec");
+const functionDb = require("../database/FunctionDB");
+const courseDb = require("../database/CourseDB");
 
 class GroupDB {
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
 
 	_mapGroup(data) {
 		return {
@@ -23,7 +22,7 @@ class GroupDB {
 			enrollableFor: data.enrollableFor,
 			courseName: data.course.name,
 			courseDescription: data.course.description,
-			foreknowledge: data.course.foreknowledge,
+			remarks: data.course.remarks,
 			studyTime: data.course.studyTime,
 			subjectId: data.course.subject.id,
 			subjectName: data.course.subject.name,
@@ -33,11 +32,11 @@ class GroupDB {
 		}
 	}
 
-	async getGroups() {
+	async getGroups(userId) {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 					model: Subject, attributes: ["id", "name", "description"]
 				}]
 			},
@@ -46,121 +45,196 @@ class GroupDB {
 					model: User, attributes: ["id", "displayName"],
 				}]
 			}]
-		}).then(data => data.map(this._mapGroup));
+		}).then(data => data.map(this._mapGroup))
+			.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
 	};
 
 	async setFullGroup(data) {
-		const q1 = "UPDATE course_group SET courseId=?,`day`=?,period=?,schoolYear=?,enrollableFor=? WHERE id=?";
-		return this.query(q1, [data.courseId, data.day, data.period, data.schoolYear, data.enrollableFor, data.groupId]).then((rows) => {
-			if (rows.changedRows == 1) {
-				this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+		return Group.findByPrimary(data.groupId).then(group => {
+			if (group) {
+				return group.updateAttributes(data).then(() => {
+					functionDb.updateLessonDates(data.groupId, data.period, data.day);
+				});
 			}
 		});
 	}
 
 	async setGroup(data) {
-		const q1 = "UPDATE course_group SET enrollableFor=? WHERE id=?";
-		return this.query(q1, [data.enrollableFor, data.groupId]);
+		Group.findByPrimary(data.groupId).then(group => {
+			return group.updateAttributes(data);
+		});
 	}
 
 	async getGroup(groupId) {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
-					model: Subject, attributes: ["id", "name", "description"]
-				}]
+				model: Course,
+				attributes: ["name", "description", "remarks", "studyTime"],
+				include: [
+					{
+						model: Subject, attributes: ["id", "name", "description"]
+					},
+				]
 			},
 			{
 				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
 					model: User, attributes: ["id", "displayName"],
 				}]
+			},
+			]
+		}).then(a => this._mapGroup(a))
+	}
+
+	appendEvaluation(userId) {
+		return async function addEvaluation(group) {
+			return Evaluation.findOne({
+				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				where: {
+					userId: userId,
+					courseId: group.courseId
+				}
+			}).then(evaluation => {
+				return {
+					...group,
+					evaluation,
+				}
+			});
+		}
+	}
+
+	async getEnrollments(groupId) {
+		return Enrollment.findAll({
+			attributes: [],
+			where: {
+				courseGroupId: groupId
+			},
+			include: [{
+				model: User,
+				order: [["displayName", "DESC"]]
 			}]
-		}).then(this._mapGroup);
+		}).then((e) => e.map((e) => e.user));
 	}
 
-	async getEnrollments(groupId, admin) {
-		if (admin) {
-			return this.query(
-				"SELECT user_data.* FROM enrollment " +
-				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
-				, [groupId]).then(enrollments => {
-					return enrollments;
-				});
-		} else {
-			return this.query(
-				"SELECT user_data.id,user_data.displayName,user_data.school,user_data.firstName,user_data.lastName,user_data.profile,user_data.role,user_data.level FROM enrollment " +
-				"INNER JOIN user_data ON user_data.id = enrollment.studentId WHERE enrollment.groupId = ?; "
-				, [groupId]).then(enrollments => {
-					return enrollments;
-				});
-		}
-	}
-
-	async getParticipants(groupId, admin) {
-		if (admin) {
-			return this.query(
-				"SELECT user_data.* FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
-				, [groupId]).then(participants => {
-					return participants;
-				});
-		} else {
-			return this.query(
-				"SELECT user_data.id,role,school,firstName,lastName,displayName,year,profile FROM participant " +
-				"INNER JOIN user_data ON user_data.id = participant.userId WHERE participant.courseGroupId = ?; "
-				, [groupId]).then(participants => {
-					return participants;
-				});
-		}
+	async getParticipants(groupId, teacher) {
+		return Participant.findAll({
+			where: {
+				courseGroupId: groupId,
+			},
+			include: {
+				model: User,
+				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
+				order: [["displayName", "DESC"]]
+			},
+		}).then(rows => rows.map(row => row.user));
 	}
 
 	async getLessons(groupId) {
-		if (groupId >= 0) {
-			return this.query(
-				"SELECT lesson.* FROM lesson WHERE lesson.groupId = ? ",
-				[groupId]).then(lessons => {
-					return lessons;
-				});
-		} else {
-			throw new Error("groupId must be a number");
-		}
+		return Lesson.findAll({
+			where: {
+				courseGroupId: groupId,
+			}
+		});
+	}
+
+	async setLesson(lesson) {
+		return Lesson.findByPrimary(lesson.id).then(l => {
+			if (l.groupId === lesson.groupId) {
+				return l.update(lesson);
+			}
+		});
 	}
 
 	async setLessons(lessons) {
-		const q1 = "UPDATE lesson SET kind = ?, activities = ?, `subject` = ?, presence = ? WHERE id = ?";
 		return Promise.all(lessons.map((lesson) => {
-			return this.query(q1, [lesson.kind, lesson.activities, lesson.subject, lesson.presence, lesson.id]);
+			return Lesson.findByPrimary(lesson.id).then(l => {
+				return l.update(lesson);
+			});
 		}));
 	}
 
 	async getPresence(groupId) {
-		const q1 = "SELECT * FROM presence WHERE lessonId IN (SELECT id FROM lesson WHERE lesson.groupId = ?)";
-		return this.query(q1, [groupId]);
+		return Presence.findAll({
+			include: {
+				model: Lesson,
+				attributes: [],
+				where: {
+					courseGroupId: groupId,
+				}
+			}
+		});
 	}
 
 	async setPresence(presence) {
-		const q1 = "UPDATE presence SET status = ? WHERE id = ?";
-		return this.query(q1, [presence.status, presence.id]);
+		return Presence.findByPk(presence.id).then(prs => {
+			prs.update({
+				status: presence.status,
+			});
+		});
+	}
+
+	async _findEvaluation(userId, groupId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			order: [["id", "DESC"]],
+			where: { userId },
+			include: {
+				model: Course,
+				attributes: ["id"],
+				include: {
+					model: Group,
+					attributes: ["id"],
+					where: {
+						id: groupId,
+					}
+				}
+			}
+		});
 	}
 
 	async getEvaluations(groupId) {
-		const q1 = "SELECT * FROM evaluation WHERE evaluation.courseId = (SELECT course_group.courseId FROM course_group WHERE course_group.id = ?)";
-		if (groupId >= 0) {
-			return this.query(q1, [groupId]).then(evaluations => {
-				return evaluations;
-			});
-		} else {
-			throw new Error("groupId must be a number");
-		}
+		const participants = await Participant.findAll({
+			attributes: ["userId"],
+			where: { courseGroupId: groupId },
+			include: {
+				attributes: ["displayName"],
+				model: User,
+				order: [["displayName", "DESC"]],
+			},
+		});
+		const evaluations = participants
+			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
+			.map(p => this._findEvaluation(p.userId, groupId)
+				.then(async evaluation => {
+					if (evaluation == null) {
+						return {
+							type: "decimal",
+							assesment: "",
+							courseId: await courseDb.getCourseidFromGroupId(groupId),
+							explanation: "",
+							userId: p.userId,
+						}
+					}
+					delete evaluation.course;
+					return evaluation;
+				}));
+
+		return Promise.all(evaluations);
 	}
 
-	async addGroup(data) {
-		const q1 = "INSERT INTO course_group (courseId,`day`,teacherId,period,schoolYear) VALUES (?,?,?,?,?);";
-		return this.query(q1, [data.courseId, data.day, data.teacherId, data.period, data.schoolYear])
-			.then((rows) => this.mainDb.function.addLessons(rows.insertId, data.period, data.day));
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
+		return Evaluation.create({
+			userId,
+			assesment,
+			type,
+			explanation,
+			updatedByIp,
+			updatedByUserId,
+			courseId,
+		});
 	}
 
 }
 
-module.exports = GroupDB;
+module.exports = new GroupDB();
+

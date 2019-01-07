@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cookieSession = require('cookie-session');
-const expressSession = require('express-session');
 const passport = require("passport");
 
 const swaggerUi = require('swagger-ui-express');
@@ -15,14 +14,17 @@ const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
 const bodyParser = require('body-parser');
 
-const mainDec = require('./databaseDeclearations/MainDec');
-
-const UserDec = require('./databaseDeclearations/UserDec');
-const CourseDec = require('./databaseDeclearations/CourseDec');
-const SubjectDec = require('./databaseDeclearations/SubjectDec');
-const CourseGroup = require('./databaseDeclearations/CourseGroupDec');
-
-// const database = require('./database/MainDB');
+require('./databaseDeclearations/MainDec');
+require('./databaseDeclearations/UserDec');
+require('./databaseDeclearations/CourseDec');
+require('./databaseDeclearations/SubjectDec');
+require('./databaseDeclearations/CourseGroupDec');
+require('./databaseDeclearations/EnrollmentDec');
+require('./databaseDeclearations/EvaluationDec');
+require('./databaseDeclearations/LessonDec');
+require('./databaseDeclearations/PresenceDec');
+require('./databaseDeclearations/NotificationDec');
+require('./databaseDeclearations/LoggedInDec');
 
 require('./passportSetup');
 
