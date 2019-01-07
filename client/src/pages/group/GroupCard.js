@@ -20,12 +20,6 @@ const CARD_STYLE = {
 	position: "relative",
 }
 
-// const CHOOSE_BUTTON_STYLE = {
-// 	position: "absolute",
-// 	bottom: "10px",
-// 	right: "30px",
-// }
-
 class GroupCard extends Component {
 
 	constructor(props) {
@@ -67,15 +61,12 @@ class GroupCard extends Component {
 		} else {
 			return (
 				<div style={style} >
-					{
-						this.props.role === "student" &&
-						<Button
-							color="secondary"
-							onClick={this.expand.bind(this)}
-						>
-							Bekijken
-						</Button>
-					}
+					<Button
+						color="secondary"
+						onClick={this.expand.bind(this)}
+					>
+						Bekijken
+					</Button>
 					{
 						this.props.role === "student" &&
 						<ChooseButton
