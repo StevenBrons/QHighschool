@@ -217,11 +217,13 @@ export function setGroup(group) {
 
 		if (JSON.stringify(oldEvaluations) !== JSON.stringify(newEvaluations)) {
 			let changedEvaluations = [];
-			newEvaluations.forEach((evaluation, index) => {
-				if (JSON.stringify(oldEvaluations[index]) !== JSON.stringify(evaluation)) {
+			for (let i = 0; i < newEvaluations.length; i++) {
+				const evaluation = newEvaluations[i];
+				if (JSON.stringify(oldEvaluations[i]) !== JSON.stringify(evaluation)) {
 					changedEvaluations.push(evaluation);
 				}
-			});
+			}
+
 			Group.setEvaluations(changedEvaluations, getState().secureLogin)
 				.catch(apiErrorHandler(dispatch));
 		}
