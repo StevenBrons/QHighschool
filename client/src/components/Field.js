@@ -23,7 +23,7 @@ class Field extends Component {
 
 	static validate(value, rules = {}, options = [value]) {
 		switch (rules.type) {
-			case "phoneNUmber":
+			case "phoneNumber":
 				const re = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
 				if (!re.test(value)) {
 					return false;
