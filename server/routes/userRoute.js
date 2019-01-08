@@ -15,9 +15,11 @@ router.get("/self", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	userDb.getUser(req.body.userId)
-		.then(handleReturn(res))
-		.catch(handleError(res));
+	if (req.user.isAdmin()) {
+		userDb.getUser(req.body.userId)
+			.then(handleReturn(res))
+			.catch(handleError(res));
+	}
 });
 
 router.patch("/", (req, res) => {
