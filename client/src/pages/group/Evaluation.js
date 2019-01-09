@@ -77,7 +77,8 @@ function getEvaluationColor(ev) {
 			}
 			break;
 		case "decimal":
-			const x = ev.assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+			const assesment = ev.assesment ? ev.assesment : "";
+			const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
 			if (!isNaN(x)) {
 				if (parseFloat(x) >= 7.5) {
 					return GOOD;
