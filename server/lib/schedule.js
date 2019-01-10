@@ -14,7 +14,11 @@ module.exports.getLessonDate = function (period, numberInBlock, day) {
 	if (week == null) {
 		throw new Error("Schedule is wrong!");
 	}
-	return moment().year(week.year).week(week.weekNumber).day(day).toDate();
+	if (week.year !== moment().year()) {
+		return moment().year(week.year).week(week.weekNumber - 1).day(day).toDate();
+	}else {
+		return moment().year(week.year).week(week.weekNumber).day(day).toDate();
+	}
 }
 
 
