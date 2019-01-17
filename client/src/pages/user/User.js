@@ -23,7 +23,7 @@ class User extends Component {
 		if (s.secureLogin != null) {
 			nextProps.setSecureLogin(s.secureLogin);
 		}
-		if (s.from === "login" && (nextProps.user.year != null || nextProps.role !== "student")) {
+		if (s.from === "login" && nextProps.user != null && (nextProps.user.year != null || nextProps.role !== "student")) {
 			const beforeLoginPath = getCookie("beforeLoginPath");
 			nextProps.history.push(beforeLoginPath);
 		}
