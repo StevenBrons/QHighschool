@@ -28,29 +28,33 @@ module.exports = connection.define('user', {
 		validate: {
 			min: 1,
 			max: 6,
-		}
+		},
+		allowNull: true,
 	},
 	level: {
 		type: Sequelize.STRING,
 		validate: {
 			isIn: [["MAVO", "HAVO", "VWO"]],
 		},
+		allowNull: true,
 	},
 	preferedEmail: {
 		type: Sequelize.STRING,
-		validate: {
-			isEmail: true,
-		},
-		allowNull: false,
+		// validate: {
+		// 	isEmail: true,
+		// },
+		allowNull: true,
 	},
 	profile: {
 		type: Sequelize.STRING,
 		validate: {
-			isIn: [["NT", "NG", "EM","CM","NT&NG","EM&CM"]],
+			isIn: [["NT", "NG", "EM", "CM", "NT&NG", "EM&CM"]],
 		},
+		allowNull: true,
 	},
 	phoneNumber: {
 		type: Sequelize.STRING,
+		allowNull: true,
 	},
 	displayName: {
 		type: Sequelize.STRING,

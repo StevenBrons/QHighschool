@@ -50,7 +50,9 @@ class GroupCard extends Component {
 			paddingRight: "20px",
 			justifyContent: "space-between"
 		};
-		if (this.props.group.evaluation) {
+		if (this.props.group.evaluation &&
+			this.props.group.evaluation.assesment !== "" &&
+			this.props.group.evaluation.assesment !== null) {
 			style.backgroundColor = getEvaluationColor(this.props.group.evaluation);
 			return (
 				<div style={style} >

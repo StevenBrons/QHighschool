@@ -90,6 +90,7 @@ class GroupDB {
 		return async function addEvaluation(group) {
 			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				order: [["id","DESC"]],
 				where: {
 					userId: userId,
 					courseId: group.courseId

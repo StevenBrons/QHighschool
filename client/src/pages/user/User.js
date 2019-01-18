@@ -23,10 +23,10 @@ class User extends Component {
 		if (s.secureLogin != null) {
 			nextProps.setSecureLogin(s.secureLogin);
 		}
-		if (s.from === "login") {
-			const beforeLoginPath = getCookie("beforeLoginPath");
-			nextProps.history.push(beforeLoginPath);
-		}
+		// if (s.from === "login" && nextProps.user != null && (nextProps.user.year != null || nextProps.role !== "student")) {
+		// 	const beforeLoginPath = getCookie("beforeLoginPath");
+		// 	nextProps.history.push(beforeLoginPath);
+		// }
 		return prevState;
 	}
 
@@ -88,6 +88,10 @@ function mapStateToProps(state, ownProps) {
 
 	let notExists = false;
 	let user = null;
+
+	if (id == null) {
+		id = state.userId;
+	}
 
 	if (state.users == null || state.users[id] == null) {
 		if (id == null || state.hasFetched.indexOf("User.get(" + id + ")") !== -1) {

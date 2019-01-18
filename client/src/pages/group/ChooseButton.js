@@ -86,14 +86,19 @@ function mapStateToProps(state, ownProps) {
 		}
 	}
 
-	const occupiedDayIndex = state.users[state.userId].enrollmentIds.map(id => state.groups[id].day).indexOf(ownProps.group.day);
-	const hasChosenDay = occupiedDayIndex !== -1;
+	let chosenDayGroupName = -1;
+	state.users[state.userId].enrollmentIds.forEach(groupId => {
+		const group = state.groups[groupId];
+		if (group.day === ownProps.group.day && group.period === ownProps.group.period) {
+			chosenDayGroupName = group.courseName;
+		}
+	});
 
 	return {
 		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
 		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
-		hasChosenDay,
-		chosenDayGroupName: hasChosenDay ? state.groups[state.users[state.userId].enrollmentIds[occupiedDayIndex]].courseName : null,
+		hasChosenDay: chosenDayGroupName !== -1,
+		chosenDayGroupName,
 	};
 }
 
