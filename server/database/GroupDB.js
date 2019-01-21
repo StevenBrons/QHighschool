@@ -140,7 +140,7 @@ class GroupDB {
 
 	async setLesson(lesson) {
 		return Lesson.findByPrimary(lesson.id).then(l => {
-			if (l.groupId === lesson.groupId) {
+			if (l.courseGroupId === lesson.courseGroupId) {
 				return l.update(lesson);
 			}
 		});

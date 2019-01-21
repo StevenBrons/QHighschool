@@ -58,7 +58,7 @@ router.post("/lessons", function (req, res, next) {
 
 
 async function patchLesson(req, lesson) {
-	if (req.user.inGroup(lesson.groupId)) {
+	if (req.user.inGroup(lesson.courseGroupId)) {
 		return groupDb.setLesson(lesson);
 	}
 }
@@ -66,7 +66,7 @@ async function patchLesson(req, lesson) {
 router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
 	if (req.user.isTeacher() && Array.isArray(lessons) && lessons.length >= 1) {
-		Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
+		return Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
 			.then(handleSuccess(res));
 	} else {
 		throw new Error("Wrong datatypes");
