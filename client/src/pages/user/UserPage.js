@@ -12,6 +12,24 @@ import queryString from "query-string";
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 const levels = ["VWO", "HAVO"];
 
+function formatPhoneNumber(number) {
+	const nr = /^(\+31|0|0031)([1-9])([0-9][-]?[1-9][0-9]{6})$/i;
+	const match = nr.exec(number);
+	if (match) {
+		if ( match[2] === '6' ) {
+			if ( match [1] === '0' ) {
+				return '06 ' + match[3];
+			} else {
+				return match[1] + ' ' + match[2] + ' ' + match[3];
+			}
+		} else {
+			return match[1] + ' ' + match[2] + match[3];
+		}
+	} else {
+		return number;
+	}			
+}
+
 class UserPage extends Component {
 
 	constructor(props) {
@@ -124,7 +142,7 @@ class UserPage extends Component {
 					{this.props.ownProfile && <Field
 						label="Telefoonnummer"
 						name="phoneNumber"
-						value={user.phoneNumber}
+						value={formatPhoneNumber(user.phoneNumber)}
 						editable={this.props.ownProfile}
 						onChange={this.handleChange.bind(this)}
 						validate={{ type: "phoneNumber" }}
