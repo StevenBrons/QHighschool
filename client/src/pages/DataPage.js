@@ -20,7 +20,7 @@ class Login extends Component {
 		//</TEMP>
 
 		//use this function to fetch the data
-		this.props.fetchData().then(data => this.setState({ data: data }));
+		this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
 
 		return (
 			<Paper elevation={8} className="Login">
@@ -33,20 +33,42 @@ class Login extends Component {
 
 function mapStateToProps(state) {
 	return {
-		userId: state.userId,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchData: async (table) => {
+			//feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
 			switch (table) {
 				case "user_data":
-					return [["displayName", "firstName", "lastName", "role"], ["B, Steven", "Steven", "B", "admin"], ["Doe, Jon", "Jon", "Doe", "student"]];
+					return [
+						["displayName", "firstName", "lastName", "role"],
+						["B, Steven", "Steven", "B", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"]
+						["B, Steven", "Steven", "B", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"]
+						["B, Steven", "Steven", "B", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"]
+						["B, Steven", "Steven", "B", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"]
+					];
 				case "evaluation":
 				case "enrollments":
 				default:
-					return [["displayName", "type", "course"], ["B, Steven","decimal","9"], ["T, Est","decimal","6"]];
+					return [
+						["displayName", "type", "course"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+					];
 			}
 		},
 	};
