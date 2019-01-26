@@ -139,8 +139,8 @@ class GroupDB {
 	}
 
 	async setLesson(lesson) {
-		return Lesson.findByPrimary(lesson.id).then(l => {
-			if (l.groupId === lesson.groupId) {
+		return Lesson.findByPk(lesson.id).then(l => {
+			if (l.courseGroupId === lesson.courseGroupId) {
 				return l.update(lesson);
 			}
 		});
@@ -148,7 +148,7 @@ class GroupDB {
 
 	async setLessons(lessons) {
 		return Promise.all(lessons.map((lesson) => {
-			return Lesson.findByPrimary(lesson.id).then(l => {
+			return Lesson.findByPk(lesson.id).then(l => {
 				return l.update(lesson);
 			});
 		}));
