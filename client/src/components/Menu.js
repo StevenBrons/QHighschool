@@ -6,11 +6,13 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
+import ExitIcon from '@material-ui/icons/ExitToApp';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
 
@@ -22,16 +24,16 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod", "portfolio", "profiel"];
+				this.state.pages = ["aanbod", "portfolio", "profiel", "loguit"];
 				break;
 			case "teacher":
-				this.state.pages = ["groepen", "profiel"];
+				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "loguit"];
 				break;
 			default:
-				this.state.pages = ["aanbod", "profiel"];
+				this.state.pages = ["aanbod", "profiel", "loguit"];
 				break;
 		}
 	}
@@ -39,6 +41,11 @@ class Menu extends Component {
 	onClick(page) {
 		if(page=="profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
+		else if(page=="loguit"){
+			User.logout().then(() => {
+				document.location.reload();
+			});
+		}	
 		else
 			this.props.history.push("/" + page);
 	}
@@ -58,6 +65,8 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
+			case "Exit":
+				return <ExitIcon style={{color: "red"}} />;
 			default:
 				return null;
 		}
@@ -122,6 +131,11 @@ class Menu extends Component {
 				id: "profiel",
 				title: "Profiel",
 				icon: "Person",
+			},
+			{
+				id: "loguit",
+				title: "Log uit",
+				icon: "Exit",
 			},
 		];
 
