@@ -5,6 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
+import PersonIcon from '@material-ui/icons/Person';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -21,23 +22,27 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod", "portfolio"];
+				this.state.pages = ["aanbod", "portfolio", "profiel"];
 				break;
 			case "teacher":
-				this.state.pages = ["groepen"];
+				this.state.pages = ["groepen", "profiel"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod"];
+				this.state.pages = ["groepen", "aanbod", "profiel"];
 				break;
 			default:
-				this.state.pages = ["aanbod"];
+				this.state.pages = ["aanbod", "profiel"];
 				break;
 		}
 	}
 
 	onClick(page) {
-		this.props.history.push("/" + page);
+		if(page=="profiel")
+			this.props.history.push("/gebruiker/" + this.props.userId);
+		else
+			this.props.history.push("/" + page);
 	}
+
 
 	getIcon(iconName, color) {
 		let c = "black";
@@ -51,6 +56,8 @@ class Menu extends Component {
 				return <GroupIcon style={{ color: c }} />;
 			case "Assessment":
 				return <AssessmentIcon style={{ color: c }} />;
+			case "Person":
+				return <PersonIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -110,7 +117,19 @@ class Menu extends Component {
 			},
 		];
 
+		const profile = [
+			{
+				id: "profiel",
+				title: "Profiel",
+				icon: "Person",
+			},
+		];
+
 		const visiblePages = pages
+			.filter(page => this.state.pages.indexOf(page.id) !== -1)
+			.map(this.getItem.bind(this));
+
+			const visibleProfile = profile
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
@@ -118,23 +137,32 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
-					<div style={{ margin: "25%", position: "absolute", bottom: "0px" }} className="HiddenOnMobile">
-						<Typography variant="body1" style={{ textTransform: "uppercase" }}>
-							Made By
-						</Typography>
-						<img src="/images/logo_quadraam.svg" alt="Quadraam Logo" style={{ width: "100%" }} />
+					<div style={{position: "absolute", bottom: "20px", width: "100%"}}>
+						{visibleProfile}
 					</div>
-				</List>
+				</List>				
 			</Paper >
+
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	return {
-		role: state.role
-	};
-}
+	if (state.userId != null) {
+			return {
+				displayName: state.users[state.userId].displayName,
+				userId: state.userId,
+				role: state.role
+			};
+			
+		}
+		return {
+			displayName: "",
+			userId: state.userId,
+			role: state.role
+		};
+	}
+
 
 export default withRouter(connect(mapStateToProps)(Menu));
 
