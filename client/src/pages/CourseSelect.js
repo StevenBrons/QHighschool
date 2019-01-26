@@ -126,7 +126,7 @@ class CourseSelect extends Component {
 				}
 			}
 		} else {
-			if (this.props.subjects == null || this.props.groups == null) {
+			if (this.props.subjects == null || this.props.groups == null || this.props.enrolledGroups === []) {
 				data = <Progress />
 			}
 			data = this.getGroupsPerSubject(this.state.sortMethod)
