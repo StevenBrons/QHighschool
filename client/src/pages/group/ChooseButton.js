@@ -35,7 +35,6 @@ class ChooseButton extends Component {
 	render() {
 		let currentEnrollPeriod = 3; // replace with variable in database
 		const props = this.props;
-		console.log("props:" , this.props);
 		let dialog = this.state.dialogOpen ?
 			<EnrollmentPopup
 				group={props.group}
@@ -71,14 +70,14 @@ class ChooseButton extends Component {
 			);
 		} else if (props.group.period < currentEnrollPeriod){
 			return (
-				<Button disabled color="primary" onClick={() => this.handlePopup(false)} style={props.style}>
+				<Button disabled color="primary" style={props.style}>
 					Inschrijfperiode verlopen
 					{dialog}
 				</Button>
 			);
 		} else {
 			return (
-				<Button disabled color="primary" onClick={() => this.handlePopup(false)} style={props.style}>
+				<Button disabled color="primary" style={props.style}>
 					Coming Soon
 					{dialog}
 				</Button>
