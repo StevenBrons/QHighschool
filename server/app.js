@@ -48,14 +48,6 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function (req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');//a webadres
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'token');
-	res.setHeader('Access-Control-Allow-Credentials', true);
-	next();
-});
-
 app.use("/api", apiRoute);
 app.use("/auth", authRoute);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
