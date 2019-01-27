@@ -5,6 +5,7 @@ const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Group = require("../databaseDeclearations/CourseGroupDec");
 const Participant = require("../databaseDeclearations/ParticipantDec");
 const User = require("../databaseDeclearations/UserDec");
+const Op = require('sequelize').Op;
 
 class FunctionDB {
 
@@ -133,6 +134,19 @@ class FunctionDB {
 				numberInBlock: i + 1,
 			});
 		}
+	}
+
+	async getEnrollment() {
+		Enrollment.findAll({
+
+		});
+	}
+
+	async getUserData(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return User.findAll({
+			where: where,
+		});
 	}
 
 }
