@@ -3,6 +3,7 @@ const Lesson = require("../databaseDeclearations/LessonDec");
 const Presence = require("../databaseDeclearations/PresenceDec");
 const Evaluation = require("../databaseDeclearations/EvaluationDec");
 const Group = require("../databaseDeclearations/CourseGroupDec");
+const Course = require("../databaseDeclearations/CourseDec");
 const Participant = require("../databaseDeclearations/ParticipantDec");
 const User = require("../databaseDeclearations/UserDec");
 const Op = require('sequelize').Op;
@@ -137,9 +138,94 @@ class FunctionDB {
 	}
 
 	async getEnrollment() {
-		Enrollment.findAll({
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
+	}
 
+	async _findEvaluation(userId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			order: [["id", "DESC"]],
+			where: { userId },
+			include: {
+				raw: true,
+				model: Course,
+				attributes: ["id", "name"],
+			}
+		}).then(ev => {
+			let out = {
+				dataValues: {
+					...ev.dataValues,
+					courseName: ev.course.name,
+					courseGroupId: ev.course.id,
+				}
+			};
+			delete out.dataValues.course;
+			return out;
 		});
+	}
+
+	async getEvaluation(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Participant.findAll({
+			attributes: ["userId", "courseGroupId"],
+			order: [["courseGroupId", "DESC"]],
+			include: {
+				model: User,
+				where: where,
+			}
+		}).then(evs => {
+			return Promise.all(evs.map(e => this._findEvaluation(e.userId)));
+		});
+	}
+
+	async getEnrollment(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+				where: where,
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
 	}
 
 	async getUserData(school) {

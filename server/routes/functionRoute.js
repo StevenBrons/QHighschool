@@ -24,7 +24,7 @@ router.post("/calculateLessonDates", function (req, res, next) {
 
 async function formatInTable(array) {
 	const keys = Object.keys(array[0].dataValues);
-	return [keys,...array.map(obj => keys.map(key => obj.dataValues[key]))];
+	return [keys, ...array.map(obj => keys.map(key => obj.dataValues[key]))];
 }
 
 router.post("/data", function (req, res, next) {
@@ -36,14 +36,17 @@ router.post("/data", function (req, res, next) {
 				functionDb.getEvaluation(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
+				break;
 			case "enrollment":
 				functionDb.getEnrollment(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
+				break;
 			case "user_data":
 				functionDb.getUserData(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
+				break;
 		}
 	}
 
