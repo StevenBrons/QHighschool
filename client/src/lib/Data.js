@@ -220,17 +220,6 @@ class UserClass extends Data {
 		});
 	}
 
-	async getUser(userId) {
-		return $.ajax({
-			url: this.getUrl(),
-			type: "post",
-			data: {
-				userId
-			},
-			dataType: "json",
-		});
-	}
-
 	async setUser(newUser) {
 		return $.ajax({
 			url: this.getUrl(),
