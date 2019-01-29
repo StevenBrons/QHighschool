@@ -1,9 +1,10 @@
-import usersReducer  from "./usersReducer";
-import groupsReducer  from "./groupsReducer";
+import usersReducer from "./usersReducer";
+import groupsReducer from "./groupsReducer";
 
 const DEFAULT_STATE = {
 	userId: null,
 	enrollableGroups: null,
+	currentPeriod: 2,
 	subjects: null,
 	groups: null,
 	users: null,
@@ -54,8 +55,8 @@ function mainReducer(state = DEFAULT_STATE, action) {
 		default:
 			return {
 				...state,
-				users: usersReducer(state.users,action),
-				groups: groupsReducer(state.groups,action),
+				users: usersReducer(state.users, action),
+				groups: groupsReducer(state.groups, action),
 			}
 	}
 }
