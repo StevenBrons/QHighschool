@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import UserRow from "./UserRow";
 import UserPage from "./UserPage";
 import UserCard from "./UserCard";
-import { getUser, getCookie, setSecureLogin } from "../../store/actions"
+import { setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
@@ -40,7 +40,6 @@ class User extends Component {
 						</div>
 					);
 				} else {
-					this.props.getUser(this.props.userId);
 					return (
 						<div className="page">
 							<Progress />
@@ -51,7 +50,6 @@ class User extends Component {
 				if (this.props.notExists) {
 					return null;
 				} else {
-					this.props.getUser(this.props.userId);
 					return <Progress />;
 				}
 			}
@@ -114,7 +112,6 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
 	return {
 		setSecureLogin: (secureLogin) => dispatch(setSecureLogin(secureLogin)),
-		getUser: (userId) => dispatch(getUser(userId)),
 	};
 }
 
