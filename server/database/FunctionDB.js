@@ -1,11 +1,11 @@
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
-const Lesson = require("../databaseDeclearations/LessonDec");
-const Presence = require("../databaseDeclearations/PresenceDec");
-const Evaluation = require("../databaseDeclearations/EvaluationDec");
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Course = require("../databaseDeclearations/CourseDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
-const User = require("../databaseDeclearations/UserDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Presence = require("../dec/PresenceDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 
 class FunctionDB {

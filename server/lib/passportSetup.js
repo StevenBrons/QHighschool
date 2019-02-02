@@ -1,10 +1,10 @@
 const passport = require("passport");
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const keys = require('./private/keys');
+const keys = require('../private/keys');
 const creds = keys.azureADCreds;
-const sessionDb = require('./database/SessionDB');
-const functionDb = require('./database/FunctionDB');
-const secureLogin = require('./lib/secureLogin');
+const sessionDb = require('../database/SessionDB');
+const functionDb = require('../database/FunctionDB');
+const secureLogin = require('./secureLogin');
 
 passport.serializeUser((profile, done) => {
 	sessionDb.createTokenForUser(profile).then((token) => {

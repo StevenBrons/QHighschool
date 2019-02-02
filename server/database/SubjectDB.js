@@ -1,4 +1,4 @@
-const Subject = require("../databaseDeclearations/SubjectDec");
+const Subject = require("../dec/SubjectDec");
 
 class SubjectDB {
 	async getSubjects() {

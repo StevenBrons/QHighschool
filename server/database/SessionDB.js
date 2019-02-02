@@ -1,6 +1,6 @@
-const User = require("../databaseDeclearations/UserDec");
-const LoggedIn = require("../databaseDeclearations/LoggedInDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
+const User = require("../dec/UserDec");
+const LoggedIn = require("../dec/LoggedInDec");
+const Participant = require("../dec/ParticipantDec");
 
 class SerialisedUser {
 
