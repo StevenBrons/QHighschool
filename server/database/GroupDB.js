@@ -234,6 +234,11 @@ class GroupDB {
 		return Promise.all(evaluations);
 	}
 
+	async updateUserStatus(userId, lessonId, newStatus) {
+		const p = await Presence.findOne({ where: { userId, lessonId } });
+		p.update({ userStatus: newStatus });
+	}
+
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
 		return Evaluation.create({
 			userId,

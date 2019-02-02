@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
+const functionDB = require('../database/FunctionDB');
 const secureLogin = require('../lib/secureLogin');
 
 const handlers = require('./handlers');
@@ -89,12 +90,18 @@ router.post("/participants", function (req, res, next) {
 
 router.patch("/participants", function (req, res, next) {
 	if (req.user.isAdmin()) {
-		database.function.addUserToGroup(req.body.userId, req.body.groupId)
+		functionDB.addUserToGroup(req.body.userId, req.body.groupId)
 			.then(handleSuccess(res))
 			.catch(handleError(res))
 	} else {
 		authError(res);
 	}
+});
+
+router.patch("/userStatus", function (req, res, next) {
+	groupDb.updateUserStatus(req.user.id, req.body.lessonId, req.body.userStatus)
+		.then(handleSuccess(res))
+		.catch(handleError(res))
 });
 
 router.post("/presence", ({ user, body }, res) => {

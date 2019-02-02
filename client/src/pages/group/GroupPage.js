@@ -98,7 +98,7 @@ class GroupPage extends Component {
 				return <table style={{ width: "100%" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
-							return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
+							return <Lesson lesson={lesson} key={lesson.id} userIsMemberOfGroup={this.props.userIsMemberOfGroup} editable={this.state.editable} handleChange={this.handleLessonChange} />
 						})}
 					</tbody>
 				</table>
