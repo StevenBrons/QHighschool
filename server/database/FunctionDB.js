@@ -168,20 +168,26 @@ class FunctionDB {
 			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
 			order: [["id", "DESC"]],
 			where: { userId },
-			include: {
+			include: [{
 				raw: true,
 				model: Course,
 				attributes: ["id", "name"],
-			}
+			}, {
+				raw: true,
+				model: User,
+				attributes: ["displayName"],
+			}]
 		}).then(ev => {
 			let out = {
 				dataValues: {
 					...ev.dataValues,
 					courseName: ev.course.name,
 					courseGroupId: ev.course.id,
+					displayName: ev.user.displayName,
 				}
 			};
 			delete out.dataValues.course;
+			delete out.dataValues.user;
 			return out;
 		});
 	}
@@ -193,6 +199,7 @@ class FunctionDB {
 			order: [["courseGroupId", "DESC"]],
 			include: {
 				model: User,
+				attributes: ["school"],
 				where: where,
 			}
 		}).then(evs => {

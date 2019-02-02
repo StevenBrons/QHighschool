@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var functionDb = require('../database/FunctionDB');
 const handlers = require('./handlers');
+const secureLogin = require('../lib/secureLogin');
 const handleReturn = handlers.handleReturn;
 
 // router.post("/acceptEnrollements", function (req, res, next) {
@@ -30,7 +31,8 @@ async function formatInTable(array) {
 router.post("/data", function (req, res, next) {
 	const table = req.body.table; //evaluation,user_data,enrollment
 	const school = req.user.school;
-	if (req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null)) {
+	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))
+		&& secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)) {
 		switch (table) {
 			case "evaluation":
 				functionDb.getEvaluation(school)
@@ -48,8 +50,9 @@ router.post("/data", function (req, res, next) {
 					.then(handleReturn(res));
 				break;
 		}
+	} else {
+		handlers.authError(res);
 	}
-
 });
 
 module.exports = router;
