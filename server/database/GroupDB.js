@@ -144,7 +144,7 @@ class GroupDB {
 						userId: userId,
 					}
 				})));
-				return lessons.map((lesson, index) => presences[index] == null ? lesson : { dataValues: { ...lesson.dataValues, userStatus: presences[index].userStatus } });
+				return lessons.map((lesson, index) => presences[index] == null ? lesson : { ...lesson.dataValues, userStatus: presences[index].userStatus });
 			});
 		}
 	}

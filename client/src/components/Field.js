@@ -247,7 +247,7 @@ class Field extends Component {
 }
 
 
-Field.PropTypes = {
+Field.propTypes = {
 	validate: PropTypes.shape({
 		min: PropTypes.integer,
 		max: PropTypes.integer,
