@@ -51,7 +51,11 @@ router.post("/enrollments", function (req, res, next) {
 });
 
 router.post("/lessons", function (req, res, next) {
-	groupDb.getLessons(req.body.groupId)
+	let userId = req.user.id;
+	if (!req.user.inGroup(req.body.groupId)) {
+		userId = null;
+	}
+	groupDb.getLessons(req.body.groupId, userId)
 		.then(handleReturn(res))
 		.catch(handleError(res))
 });
