@@ -1,8 +1,8 @@
-const User = require('../databaseDeclearations/UserDec');
-const Enrollment = require('../databaseDeclearations/EnrollmentDec');
-const Notification = require('../databaseDeclearations/NotificationDec');
-const Participant = require('../databaseDeclearations/ParticipantDec');
-const Group = require('../databaseDeclearations/CourseGroupDec');
+const User = require('../dec/UserDec');
+const Enrollment = require('../dec/EnrollmentDec');
+const Notification = require('../dec/NotificationDec');
+const Participant = require('../dec/ParticipantDec');
+const Group = require('../dec/CourseGroupDec');
 const groupDb = require('../database/GroupDB');
 
 class UserDB {

@@ -1,10 +1,12 @@
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
-const Lesson = require("../databaseDeclearations/LessonDec");
-const Presence = require("../databaseDeclearations/PresenceDec");
-const Evaluation = require("../databaseDeclearations/EvaluationDec");
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
-const User = require("../databaseDeclearations/UserDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Presence = require("../dec/PresenceDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
+const Op = require('sequelize').Op;
 
 class FunctionDB {
 
@@ -133,6 +135,111 @@ class FunctionDB {
 				numberInBlock: i + 1,
 			});
 		}
+	}
+
+	async getEnrollment() {
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
+	}
+
+	async _findEvaluation(userId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			order: [["id", "DESC"]],
+			where: { userId },
+			include: [{
+				raw: true,
+				model: Course,
+				attributes: ["id", "name"],
+			}, {
+				raw: true,
+				model: User,
+				attributes: ["displayName"],
+			}]
+		}).then(ev => {
+			let out = {
+				dataValues: {
+					...ev.dataValues,
+					courseName: ev.course.name,
+					courseGroupId: ev.course.id,
+					displayName: ev.user.displayName,
+				}
+			};
+			delete out.dataValues.course;
+			delete out.dataValues.user;
+			return out;
+		});
+	}
+
+	async getEvaluation(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Participant.findAll({
+			attributes: ["userId", "courseGroupId"],
+			order: [["courseGroupId", "DESC"]],
+			include: {
+				model: User,
+				attributes: ["school"],
+				where: where,
+			}
+		}).then(evs => {
+			return Promise.all(evs.map(e => this._findEvaluation(e.userId)));
+		});
+	}
+
+	async getEnrollment(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+				where: where,
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
+	}
+
+	async getUserData(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return User.findAll({
+			where: where,
+		});
 	}
 
 }

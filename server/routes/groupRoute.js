@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
-const moment = require('moment');
+const secureLogin = require('../lib/secureLogin');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -150,21 +150,13 @@ async function setEvaluation(ev, req) {
 
 router.patch("/evaluations", (req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
-	const login = require('./authRoute').secureLogins.find((login) => {
-		return login.token === (req.body.secureLogin + "") &&
-			login.signed &&
-			login.validUntil.isAfter(moment()) &&
-			login.ip === req.connection.remoteAddress
-	}
-	);
-	if (login != null && req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+	if (secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress) &&
+		req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
 			.then(handleSuccess(res))
 			.catch(handleError(res));
 	} else {
-		if (login == null) {
-			authError(res);
-		}
+		authError(res);
 	}
 });
 

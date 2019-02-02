@@ -24,6 +24,7 @@ function ensureAuthenticated(req, res, next) {
 			next();
 		});
 	}
+	
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
