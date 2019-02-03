@@ -146,7 +146,7 @@ class Lesson extends Component {
 						options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
 					/>
 					{
-						this.props.userIsMemberOfGroup ? this.getOptOutButton() : null
+						this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
 					}
 				</td>
 			</Paper >
