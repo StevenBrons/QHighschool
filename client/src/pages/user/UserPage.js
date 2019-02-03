@@ -12,28 +12,6 @@ import queryString from "query-string";
 const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 const levels = ["VWO", "HAVO"];
 
-function formatPhoneNumber(number) {
-	let numberWithoutCharacters = number.replace(/\D/g,'');
-		if ( numberWithoutCharacters.length === 10 ) { // Either 06... or regional i.e. 024 ...
-			if (numberWithoutCharacters[1] === "6") { // 06...
-				return (numberWithoutCharacters.substr(0,2) + " " + numberWithoutCharacters.substr(2,8));
-			} else { // 024 ...
-				return (numberWithoutCharacters.substr(0,3) + " " + numberWithoutCharacters.substr(3,7));
-			}
-		} 
-		const mobileTest = /(0031|31)0?(6)?([0-9]+)$/gm;
-		const match = mobileTest.exec(numberWithoutCharacters);
-		if ( match ) {
-				if ( match[2] ) { // +31 06 
-				return "+31 06 " + match[3];
-			} else { // +31 ...
-				return "+31 " + match[3];
-			}
-		} else {
-			return number; // return input if unrecognizable 
-		}
-}		
-
 class UserPage extends Component {
 
 	constructor(props) {
@@ -146,7 +124,7 @@ class UserPage extends Component {
 					{this.props.ownProfile && <Field
 						label="Telefoonnummer"
 						name="phoneNumber"
-						value={formatPhoneNumber(user.phoneNumber)}
+						value={user.phoneNumber}
 						editable={this.props.ownProfile}
 						onChange={this.handleChange.bind(this)}
 						validate={{ type: "phoneNumber" }}

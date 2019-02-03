@@ -22,12 +22,34 @@ class GroupCard extends Component {
 		}
 	}
 
+	formatPhoneNumber(number = "") {
+		let numberWithoutCharacters = number.replace(/\D/g, '');
+		if (numberWithoutCharacters.length === 10) { // Either 06... or regional i.e. 024 ...
+			if (numberWithoutCharacters[1] === "6") { // 06...
+				return (numberWithoutCharacters.substr(0, 2) + " " + numberWithoutCharacters.substr(2, 8));
+			} else { // 024 ...
+				return (numberWithoutCharacters.substr(0, 3) + " " + numberWithoutCharacters.substr(3, 7));
+			}
+		}
+		const mobileTest = /(0031|31)0?(6)?([0-9]+)$/gm;
+		const match = mobileTest.exec(numberWithoutCharacters);
+		if (match) {
+			if (match[2]) { // +31 06 
+				return "+31 06 " + match[3];
+			} else { // +31 ...
+				return "+31 " + match[3];
+			}
+		} else {
+			return number; // return input if unrecognizable 
+		}
+	}
+
 	expand() {
 		this.props.history.push("/user/" + this.props.user.id)
 	}
 
 	render() {
-		let user = {...this.props.user};
+		let user = { ...this.props.user };
 		if (this.props.header) {
 			user.firstName = "Naam";
 			user.lastName = "";
@@ -79,9 +101,9 @@ class GroupCard extends Component {
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.preferedEmail}
 						</Typography>
-						<div style={{ flex : 1}} />
+						<div style={{ flex: 1 }} />
 						<Typography variant="body1" style={{ flex: 1 }}>
-							{user.phoneNumber}
+							{this.formatPhoneNumber(user.phoneNumber)}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.id}
