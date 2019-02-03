@@ -27,6 +27,7 @@ require('./dec/NotificationDec');
 require('./dec/LoggedInDec');
 
 require('./lib/passportSetup');
+require('./lib/taxi');
 
 const app = express();
 

@@ -1,0 +1,22 @@
+{
+	"maandag": [
+		{
+			"capacity": 4,
+			"stops": [
+				"Beekdal",
+				"Candea College"
+			],
+			"endHours": 16,
+			"endMinutes": 30
+		},
+		{
+			"capacity": 4,
+			"stops": [
+				"Candea College",
+				"Liemers College"
+			],
+			"endHours": 16,
+			"endMinutes": 30
+		}
+	]
+}
