@@ -98,7 +98,7 @@ class GroupPage extends Component {
 				return <table style={{ width: "100%" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
-							return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
+							return <Lesson lesson={lesson} key={lesson.id} role={this.props.role} userIsMemberOfGroup={this.props.userIsMemberOfGroup} editable={this.state.editable} handleChange={this.handleLessonChange} />
 						})}
 					</tbody>
 				</table>
@@ -135,6 +135,9 @@ class GroupPage extends Component {
 			case "Beoordeling":
 				if (evaluations == null) {
 					this.props.getGroupEvaluations(group.id);
+				}
+				if (participantIds == null || evaluations == null) {
+					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
