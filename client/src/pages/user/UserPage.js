@@ -13,22 +13,26 @@ const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
 const levels = ["VWO", "HAVO"];
 
 function formatPhoneNumber(number) {
-	const nr = /^(\+31|0|0031)([1-9])([0-9][-]?[1-9][0-9]{6})$/i;
-	const match = nr.exec(number);
-	if (match) {
-		if ( match[2] === '6' ) {
-			if ( match [1] === '0' ) {
-				return '06 ' + match[3];
-			} else {
-				return match[1] + ' ' + match[2] + ' ' + match[3];
+	let numberWithoutCharacters = number.replace(/\D/g,'');
+		if ( numberWithoutCharacters.length === 10 ) { // Either 06... or regional i.e. 024 ...
+			if (numberWithoutCharacters[1] === "6") { // 06...
+				return (numberWithoutCharacters.substr(0,2) + " " + numberWithoutCharacters.substr(2,8));
+			} else { // 024 ...
+				return (numberWithoutCharacters.substr(0,3) + " " + numberWithoutCharacters.substr(3,7));
+			}
+		} 
+		const mobileTest = /(0031|31)0?(6)?([0-9]+)$/gm;
+		const match = mobileTest.exec(numberWithoutCharacters);
+		if ( match ) {
+				if ( match[2] ) { // +31 06 
+				return "+31 06 " + match[3];
+			} else { // +31 ...
+				return "+31 " + match[3];
 			}
 		} else {
-			return match[1] + ' ' + match[2] + match[3];
+			return number; // return input if unrecognizable 
 		}
-	} else {
-		return number;
-	}			
-}
+}		
 
 class UserPage extends Component {
 

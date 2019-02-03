@@ -35,7 +35,6 @@ class ChooseButton extends Component {
 	render() {
 		let currentEnrollPeriod = 3; // replace with variable in database
 		const props = this.props;
-		console.log("props:" , this.props);
 		let dialog = this.state.dialogOpen ?
 			<EnrollmentPopup
 				group={props.group}
