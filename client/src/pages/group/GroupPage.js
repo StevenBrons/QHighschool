@@ -135,6 +135,9 @@ class GroupPage extends Component {
 			case "Beoordeling":
 				if (evaluations == null) {
 					this.props.getGroupEvaluations(group.id);
+				}
+				if (participantIds == null || evaluations == null) {
+					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
