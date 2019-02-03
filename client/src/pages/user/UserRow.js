@@ -85,10 +85,6 @@ class GroupCard extends Component {
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.level + " - " + user.year}
 						</Typography>
-						<div style={{ flex: 1 }} />
-						<Typography variant="body1" style={{ flex: 1 }}>
-							{this.formatPhoneNumber(user.phoneNumber)}
-						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }}>
 							{user.role === "teacher" ? "docent" : "leerling"}
 						</Typography>
@@ -109,7 +105,7 @@ class GroupCard extends Component {
 							</Typography>
 							<div style={{ flex: 1 }} />
 							<Typography variant="body1" style={{ flex: 1 }}>
-								{user.phoneNumber}
+								{this.formatPhoneNumber(user.phoneNumber)}
 							</Typography>
 							<Typography variant="body1" style={{ flex: 1 }}>
 								{user.id}
