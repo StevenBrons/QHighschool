@@ -1,13 +1,14 @@
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Course = require("../databaseDeclearations/CourseDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
-const User = require("../databaseDeclearations/UserDec");
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
-const Lesson = require("../databaseDeclearations/LessonDec");
-const Evaluation = require("../databaseDeclearations/EvaluationDec");
-const Presence = require("../databaseDeclearations/PresenceDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Subject = require("../dec/SubjectDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
+const courseDb = require("../database/CourseDB");
 
 class GroupDB {
 
@@ -28,11 +29,10 @@ class GroupDB {
 			subjectDescription: data.course.subject.description,
 			teacherId: data.participants[0] ? data.participants[0].user.id : null,
 			teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
-			evaluation: data.course.evaluations ? data.course.evaluations[0] : null,
 		}
 	}
 
-	async getGroups() {
+	async getGroups(userId) {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
@@ -45,7 +45,8 @@ class GroupDB {
 					model: User, attributes: ["id", "displayName"],
 				}]
 			}]
-		}).then(data => data.map(this._mapGroup));
+		}).then(data => data.map(this._mapGroup))
+			.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
 	};
 
 	async setFullGroup(data) {
@@ -82,13 +83,14 @@ class GroupDB {
 				}]
 			},
 			]
-		}).then(a => this._mapGroup(a));
+		}).then(a => this._mapGroup(a))
 	}
 
-	async appendEvaluation(userId) {
+	appendEvaluation(userId) {
 		return async function addEvaluation(group) {
-			return Evaluation.find({
+			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				order: [["id","DESC"]],
 				where: {
 					userId: userId,
 					courseId: group.courseId
@@ -96,7 +98,7 @@ class GroupDB {
 			}).then(evaluation => {
 				return {
 					...group,
-					evaluation: evaluation
+					evaluation,
 				}
 			});
 		}
@@ -137,8 +139,8 @@ class GroupDB {
 	}
 
 	async setLesson(lesson) {
-		return Lesson.findByPrimary(lesson.id).then(l => {
-			if (l.groupId === lesson.groupId) {
+		return Lesson.findByPk(lesson.id).then(l => {
+			if (l.courseGroupId === lesson.courseGroupId) {
 				return l.update(lesson);
 			}
 		});
@@ -146,7 +148,7 @@ class GroupDB {
 
 	async setLessons(lessons) {
 		return Promise.all(lessons.map((lesson) => {
-			return Lesson.findByPrimary(lesson.id).then(l => {
+			return Lesson.findByPk(lesson.id).then(l => {
 				return l.update(lesson);
 			});
 		}));
@@ -165,45 +167,63 @@ class GroupDB {
 	}
 
 	async setPresence(presence) {
-		return Presence.findById(presence.id).then(prs => {
+		return Presence.findByPk(presence.id).then(prs => {
 			prs.update({
 				status: presence.status,
 			});
 		});
 	}
 
-	selectDistinct(column) {
-		return function distinct(rows) {
-			let distinct = [];
-			return rows.filter(row => {
-				if (distinct.indexOf(row[column]) == -1) {
-					distinct.push(row[column]);
-					return true;
-				} else {
-					return false;
-				}
-			});
-		}
-	}
-
-	async getEvaluations(groupId) {
-		return Evaluation.findAll({
+	async _findEvaluation(userId, groupId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
 			order: [["id", "DESC"]],
+			where: { userId },
 			include: {
-				attributes: [],
 				model: Course,
+				attributes: ["id"],
 				include: {
 					model: Group,
-					attributes: [],
+					attributes: ["id"],
 					where: {
 						id: groupId,
 					}
 				}
 			}
-		}).then(this.selectDistinct("userId"));
+		});
 	}
 
-	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp }) {
+	async getEvaluations(groupId) {
+		const participants = await Participant.findAll({
+			attributes: ["userId"],
+			where: { courseGroupId: groupId },
+			include: {
+				attributes: ["displayName"],
+				model: User,
+				order: [["displayName", "DESC"]],
+			},
+		});
+		const evaluations = participants
+			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
+			.map(p => this._findEvaluation(p.userId, groupId)
+				.then(async evaluation => {
+					if (evaluation == null) {
+						return {
+							type: "decimal",
+							assesment: "",
+							courseId: await courseDb.getCourseidFromGroupId(groupId),
+							explanation: "",
+							userId: p.userId,
+						}
+					}
+					delete evaluation.course;
+					return evaluation;
+				}));
+
+		return Promise.all(evaluations);
+	}
+
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
 		return Evaluation.create({
 			userId,
 			assesment,
@@ -211,6 +231,7 @@ class GroupDB {
 			explanation,
 			updatedByIp,
 			updatedByUserId,
+			courseId,
 		});
 	}
 

@@ -15,7 +15,7 @@ class MyGroups extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			filterMethod: "period2",
+			filterMethod: "period3",
 		}
 	}
 

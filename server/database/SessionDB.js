@@ -1,15 +1,18 @@
-const User = require("../databaseDeclearations/UserDec");
-const LoggedIn = require("../databaseDeclearations/LoggedInDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
+const User = require("../dec/UserDec");
+const LoggedIn = require("../dec/LoggedInDec");
+const Participant = require("../dec/ParticipantDec");
 
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds) {
+	constructor(id, email, role, displayName, groupIds, school) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
 		this.displayName = displayName;
 		this.groupIds = groupIds;
+		if (this.role === "grade_admin") {
+			this.school = school;
+		}
 	}
 
 	inGroup(groupId) {
@@ -30,6 +33,13 @@ class SerialisedUser {
 		return this.role === "teacher";
 	}
 
+	isGradeAdmin() {
+		if (this.isAdmin()) {
+			return true;
+		}
+		return this.role === "grade_admin";
+	}
+
 	isStudent() {
 		return this.role === "student";
 	}
@@ -39,7 +49,7 @@ class SerialisedUser {
 class SessionDB {
 
 	async getUserByEmail(email) {
-		return User.find({
+		return User.findOne({
 			attributes: ["id", "role"],
 			where: {
 				email
@@ -62,14 +72,14 @@ class SessionDB {
 			},
 			include: {
 				model: User,
-				attributes: ["id", "email", "role", "displayName"],
+				attributes: ["id", "email", "role", "displayName", "school"],
 			}
 		}).then(async (loginData) => {
 			if (loginData.length === 1) {
 				const user = loginData[0].user;
 				const groupIds = await this.getParticipatingGroupsIds(user.id);
-				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds);
-			}else {
+				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, user.school);
+			} else {
 				return null;
 			}
 		});

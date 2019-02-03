@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
+const courseDB = require('../database/CourseDB');
+const secureLogin = require('../lib/secureLogin');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -9,7 +11,7 @@ const handleError = handlers.handleError;
 const authError = handlers.authError;
 
 router.get("/list", function (req, res, next) {
-	groupDb.getGroups()
+	groupDb.getGroups(req.user.id)
 		.then(handleReturn(res));
 });
 
@@ -56,7 +58,7 @@ router.post("/lessons", function (req, res, next) {
 
 
 async function patchLesson(req, lesson) {
-	if (req.user.inGroup(lesson.groupId)) {
+	if (req.user.inGroup(lesson.courseGroupId)) {
 		return groupDb.setLesson(lesson);
 	}
 }
@@ -64,7 +66,7 @@ async function patchLesson(req, lesson) {
 router.patch("/lessons", function (req, res, next) {
 	let lessons = JSON.parse(req.body.lessons);
 	if (req.user.isTeacher() && Array.isArray(lessons) && lessons.length >= 1) {
-		Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
+		return Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
 			.then(handleSuccess(res));
 	} else {
 		throw new Error("Wrong datatypes");
@@ -117,36 +119,45 @@ router.patch("/presence", async ({ user, body }, res, next) => {
 router.post("/evaluations", function (req, res, next) {
 	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
 		groupDb.getEvaluations(req.body.groupId)
-			.then(handleSuccess(res))
+			.then(handleReturn(res))
 			.catch(handleError(res));
 	} else {
 		authError(res);
 	}
 });
 
+
 async function setEvaluation(ev, req) {
 	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	const courseId = groupDb.getGroup(ev.groupId).courseId;
-	if (req.user.inGroup(ev.groupId) && Number.isInteger(cousreId) && courseId >= 0) {
+	let isInOneGroup = false;
+	await courseDB.getGroupIdsOfCourse(ev.courseId).then(groupIds => groupIds.forEach(groupId => {
+		if (req.user.inGroup(groupId)) {
+			isInOneGroup = true;
+		}
+	}));
+	if (isInOneGroup && Number.isInteger(ev.courseId) && ev.courseId >= 0) {
 		return groupDb.setEvaluation({
 			userId: ev.userId,
 			assesment: ev.assesment,
 			explanation: ev.explanation,
 			type: ev.type,
-			courseId,
+			courseId: ev.courseId,
 			updatedByIp: ip,
 			updatedByUserId: req.user.id,
 		});
 	}
 }
 
-router.patch("/evaluations", async (req, res) => {
-	// const evaluations = JSON.parse(req.body.evaluations);
-	// if (req.user.isTeacher() && req.user.inGroup(req.body.groupId) && Array.isArray(evaluations) && evaluations.length >= 1) {
-	// 	return Promise.all(evaluations.map((ev) => setEvaluation(ev, req))
-	// 		.then(handleSuccess(res))
-	// 		.catch(handleError(res)));
-	// }
+router.patch("/evaluations", (req, res) => {
+	const evaluations = JSON.parse(req.body.evaluations);
+	if (secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress) &&
+		req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
+			.then(handleSuccess(res))
+			.catch(handleError(res));
+	} else {
+		authError(res);
+	}
 });
 
 module.exports = router;

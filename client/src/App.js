@@ -18,6 +18,7 @@ import MyGroups from "./pages/MyGroups";
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
+import Portfolio from "./pages/Portfolio";
 
 class App extends Component {
 
@@ -52,6 +53,7 @@ class App extends Component {
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/gebruiker/:userId" component={User} />
 					<Route path="/profiel/" component={User} />
+					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={MyGroups} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>

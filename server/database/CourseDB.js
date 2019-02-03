@@ -1,5 +1,6 @@
-const Course = require("../databaseDeclearations/CourseDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
+const Course = require("../dec/CourseDec");
+const Group = require("../dec/CourseGroupDec");
+const Subject = require("../dec/SubjectDec");
 
 class CourseDB {
 
@@ -28,6 +29,25 @@ class CourseDB {
 		});
 	}
 
+	async getCourseidFromGroupId(groupId) {
+		return Group.findOne({
+			attributes: ["id"],
+			include: {
+				model: Course,
+				attributes: ["id"]
+			}
+		}).then(group => group.course.id);
+	}
+
+	async getGroupIdsOfCourse(courseId) {
+		return Course.findByPk(courseId, {
+			attributes: [], include: [{
+				model: Group,
+				attributes: ["id"],
+			}]
+		}).then((row) => row.course_groups.map(groups => groups.id));
+	}
+
 	async addCourse(data) {
 		return Course.create({
 			subjectId: data.subjectId,
@@ -48,7 +68,7 @@ class CourseDB {
 					remarks: data.remarks,
 					studyTime: data.studyTime
 				});
-			}else {
+			} else {
 				throw new Error("courseId is invalid");
 			}
 		});

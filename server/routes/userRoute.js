@@ -15,9 +15,11 @@ router.get("/self", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	userDb.getUser(req.body.userId)
-		.then(handleReturn(res))
-		.catch(handleError(res));
+	if (req.user.isAdmin()) {
+		userDb.getUser(req.body.userId)
+			.then(handleReturn(res))
+			.catch(handleError(res));
+	}
 });
 
 router.patch("/", (req, res) => {
@@ -51,9 +53,10 @@ router.get("/enrollments", (req, res) => {
 });
 
 router.get("/enrollableGroups", function (req, res, next) {
-	groupDb.getGroups().then(groups => {
+	groupDb.getGroups(req.user.id).then(groups => {
 		var enrollableGroups = groups.filter((group) => {
-			return group.period == 1
+			return group.period == 3;
+
 		});
 		return enrollableGroups;
 	}).then(handleReturn(res));

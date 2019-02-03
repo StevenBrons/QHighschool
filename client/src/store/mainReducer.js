@@ -1,5 +1,5 @@
-import usersReducer  from "./usersReducer";
-import groupsReducer  from "./groupsReducer";
+import usersReducer from "./usersReducer";
+import groupsReducer from "./groupsReducer";
 
 const DEFAULT_STATE = {
 	userId: null,
@@ -25,6 +25,11 @@ function mainReducer(state = DEFAULT_STATE, action) {
 					...state.users,
 				}
 			};
+		case "SET_SECURE_LOGIN":
+			return {
+				...state,
+				secureLogin: action.secureLogin,
+			}
 		case "ADD_NOTIFICATION":
 			return {
 				...state,
@@ -54,8 +59,8 @@ function mainReducer(state = DEFAULT_STATE, action) {
 		default:
 			return {
 				...state,
-				users: usersReducer(state.users,action),
-				groups: groupsReducer(state.groups,action),
+				users: usersReducer(state.users, action),
+				groups: groupsReducer(state.groups, action),
 			}
 	}
 }
