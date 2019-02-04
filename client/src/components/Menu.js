@@ -41,7 +41,7 @@ class Menu extends Component {
 	onClick(page) {
 		if(page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
-		else if(page=="loguit"){
+		else if(page === "loguit"){
 			User.logout().then(() => {
 				document.location.reload();
 			});

@@ -30,7 +30,7 @@ class Lesson extends Component {
 	}
 
 	getOptOutButton() {
-		if (this.props.lesson.userStatus == "absent") {
+		if (this.props.lesson.userStatus === "absent") {
 			return < div style={{ flex: 1 }}>
 				<Button
 					style={{ width: "70px", float: "right" }}

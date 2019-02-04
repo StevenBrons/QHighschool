@@ -10,7 +10,7 @@ class PresenceTable extends Component {
 	createPresenceComponent(presence, i) {
 		let options = [{ label: "Actief", value: "present" },
 		{ label: "Niet actief", value: "absent" }];
-		if (!this.props.editable && presence.userStatus == "absent") {
+		if (!this.props.editable && presence.userStatus === "absent") {
 			options[0].label = "Afgemeld";
 			options[1].label = "Afgemeld";
 		}
@@ -18,7 +18,7 @@ class PresenceTable extends Component {
 			rkey={i}
 			value={presence.status}
 			options={options}
-			label={presence.userStatus == "absent" ? "afgemeld" : undefined}
+			label={presence.userStatus === "absent" ? "afgemeld" : undefined}
 			layout={{ td: true, area: true }}
 			editable={this.props.editable}
 			onChange={(event) => {
