@@ -37,7 +37,7 @@ class Menu extends Component {
 	}
 
 	onClick(page) {
-		if(page=="profiel")
+		if(page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
 		else
 			this.props.history.push("/" + page);

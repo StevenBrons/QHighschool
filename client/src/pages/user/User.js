@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import UserRow from "./UserRow";
 import UserPage from "./UserPage";
 import UserCard from "./UserCard";
-import { getUser, getCookie, setSecureLogin } from "../../store/actions"
+import { getUser, setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'

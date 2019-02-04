@@ -35,7 +35,7 @@ class GroupData extends Component {
 					{
 						!editable &&
 						<Button color="secondary" style={{ position: "absolute", display: "block", top: "30px", right: "-15px", zIndex: "100" }} onClick={this.showTeacherCard}>
-							{group.teacherName}
+							<div>{group.teacherName}</div>
 						</Button>
 					}
 				</div>

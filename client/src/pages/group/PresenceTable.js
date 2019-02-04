@@ -46,12 +46,12 @@ class PresenceTable extends Component {
 		);
 	}
 
-	createLessonHeader() {
+	createLessonHeader = (lesson) => {
 		const content = map(this.props.lessons, lesson => {
-			return <Field value={"Les " + lesson.numberInBlock} style={{ type: "title" }} layout={{ td: true, area: true }} />;
+			return <Field value={"Les " + lesson.numberInBlock} key={lesson.id} style={{ type: "title" }} layout={{ td: true, area: true }} />;
 		});
 		return (
-			<Paper component="tr" elevation={2} style={{ backgroundColor: "#e0e0e0" }} >
+			<Paper component="tr" elevation={2} key={"l" + lesson} style={{ backgroundColor: "#e0e0e0" }} >
 				<Field value="" layout={{ td: true, area: true }} />
 				{content}
 			</Paper>
