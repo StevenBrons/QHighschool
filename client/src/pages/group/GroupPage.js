@@ -73,7 +73,6 @@ class GroupPage extends Component {
 		switch (currentTab) {
 			case "Inschrijvingen":
 				if (enrollmentIds == null) {
-					this.props.getGroupEnrollments(group.id);
 					return <Progress />;
 				}
 				if (enrollmentIds.length === 0) {
@@ -89,7 +88,6 @@ class GroupPage extends Component {
 				</table>
 			case "Lessen":
 				if (lessons == null) {
-					this.props.getGroupLessons(group.id);
 					return <Progress />;
 				}
 				if (lessons.length === 0) {
@@ -104,7 +102,6 @@ class GroupPage extends Component {
 				</table>
 			case "Deelnemers":
 				if (participantIds == null) {
-					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				if (participantIds.length === 0) {
@@ -119,31 +116,73 @@ class GroupPage extends Component {
 					</tbody>
 				</table>
 			case "Actief":
-				if (participantIds == null) {
-					this.props.getGroupParticipants(group.id);
-					return <Progress />;
-				}
-				if (lessons == null) {
-					this.props.getGroupLessons(group.id);
-					return <Progress />;
-				}
-				if (presence == null) {
-					this.props.getGroupPresence(group.id);
+				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
 				}
 				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} editable={this.state.editable} handleChange={this.handlePresenceChange} />
 			case "Beoordeling":
-				if (evaluations == null) {
-					this.props.getGroupEvaluations(group.id);
-				}
 				if (participantIds == null || evaluations == null) {
-					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
 			default: return null;
 		}
 
+	}
+
+	componentDidMount() {
+		this.getData();
+	}
+
+	componentDidUpdate() {
+		this.getData();
+	}
+
+	getData() {
+		let group = this.state.group;
+		const enrollmentIds = this.state.group.enrollmentIds;
+		const lessons = this.state.group.lessons;
+		const participantIds = this.state.group.participantIds;
+		const evaluations = this.state.group.evaluations;
+		const presence = this.state.group.presence;
+
+		switch (this.state.currentTab) {
+			case "Inschrijvingen":
+				if (enrollmentIds == null) {
+					this.props.getGroupEnrollments(group.id);
+				}
+				break;
+			case "Lessen":
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
+				}
+				break;
+			case "Deelnemers":
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				break;
+			case "Actief":
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
+				}
+				if (presence == null) {
+					this.props.getGroupPresence(group.id);
+				}
+				break;
+			case "Beoordeling":
+				if (evaluations == null) {
+					this.props.getGroupEvaluations(group.id);
+				}
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				break;
+			default: break;
+		}
 	}
 
 	handleChange = (event) => {
