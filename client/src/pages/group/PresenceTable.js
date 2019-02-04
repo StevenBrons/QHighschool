@@ -8,13 +8,17 @@ import { Paper } from '@material-ui/core';
 class PresenceTable extends Component {
 
 	createPresenceComponent(presence, i) {
+		let options = [{ label: "Actief", value: "present" },
+		{ label: "Niet actief", value: "absent" }];
+		if (!this.props.editable && presence.userStatus == "absent") {
+			options[0].label = "Afgemeld";
+			options[1].label = "Afgemeld";
+		}
 		return <Field
 			rkey={i}
 			value={presence.status}
-			options={[
-				{ label: "Actief", value: "present" },
-				{ label: "Niet actief", value: "absent" }
-			]}
+			options={options}
+			label={presence.userStatus == "absent" ? "afgemeld" : undefined}
 			layout={{ td: true, area: true }}
 			editable={this.props.editable}
 			onChange={(event) => {
@@ -27,12 +31,12 @@ class PresenceTable extends Component {
 	}
 
 	createRow = (participantId) => {
-		const content = map(this.props.lessons, ((lesson,i) => {
+		const content = map(this.props.lessons, ((lesson, i) => {
 			const p = filter(this.props.presence, presence => {
 				return presence.lessonId === lesson.id && presence.userId === participantId;
 			});
 			if (p.length === 1) {
-				return this.createPresenceComponent(p[0],i);
+				return this.createPresenceComponent(p[0], i);
 			} else {
 				return "err";
 			}

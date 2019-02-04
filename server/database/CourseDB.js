@@ -1,6 +1,6 @@
-const Course = require("../databaseDeclearations/CourseDec");
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
+const Course = require("../dec/CourseDec");
+const Group = require("../dec/CourseGroupDec");
+const Subject = require("../dec/SubjectDec");
 
 class CourseDB {
 

@@ -131,23 +131,6 @@ export function getSelf() {
 	}
 }
 
-export function getUser(userId) {
-	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("User.getUser(" + userId + ")") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "User.getUser(" + userId + ")"
-			});
-			User.getUser(userId).then((user) => {
-				dispatch({
-					type: "CHANGE_USER",
-					user,
-				});
-			}).catch(apiErrorHandler(dispatch));
-		}
-	}
-}
-
 export function setUser(user) {
 	return (dispatch, getState) => {
 		dispatch({
@@ -155,6 +138,19 @@ export function setUser(user) {
 			user,
 		});
 		User.setUser(user).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function setPresenceUserStatus(lessonId, userStatus, groupId) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: "CHANGE_PRESENCE_USER_STATUS",
+			lessonId,
+			userStatus,
+			groupId,
+		});
+		Group.setPresenceUserStatus(lessonId, userStatus)
+			.catch(apiErrorHandler(dispatch));
 	}
 }
 

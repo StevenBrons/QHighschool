@@ -1,12 +1,12 @@
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Course = require("../databaseDeclearations/CourseDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
-const User = require("../databaseDeclearations/UserDec");
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
-const Lesson = require("../databaseDeclearations/LessonDec");
-const Evaluation = require("../databaseDeclearations/EvaluationDec");
-const Presence = require("../databaseDeclearations/PresenceDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Subject = require("../dec/SubjectDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
 const courseDb = require("../database/CourseDB");
 
@@ -90,7 +90,7 @@ class GroupDB {
 		return async function addEvaluation(group) {
 			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
-				order: [["id","DESC"]],
+				order: [["id", "DESC"]],
 				where: {
 					userId: userId,
 					courseId: group.courseId
@@ -130,12 +130,23 @@ class GroupDB {
 		}).then(rows => rows.map(row => row.user));
 	}
 
-	async getLessons(groupId) {
-		return Lesson.findAll({
-			where: {
-				courseGroupId: groupId,
-			}
-		});
+	async getLessons(groupId, userId) {
+		if (userId == null) {
+			return Lesson.findAll({ where: { courseGroupId: groupId } });
+		} else {
+			return Lesson.findAll({
+				where: { courseGroupId: groupId },
+			}).then(async lessons => {
+				const presences = await Promise.all(lessons.map(lesson => Presence.findOne({
+					attributes: ["lessonId", "userId", "userStatus"],
+					where: {
+						lessonId: lesson.id,
+						userId: userId,
+					}
+				})));
+				return lessons.map((lesson, index) => presences[index] == null ? lesson : { ...lesson.dataValues, userStatus: presences[index].userStatus });
+			});
+		}
 	}
 
 	async setLesson(lesson) {
@@ -221,6 +232,11 @@ class GroupDB {
 				}));
 
 		return Promise.all(evaluations);
+	}
+
+	async updateUserStatus(userId, lessonId, newStatus) {
+		const p = await Presence.findOne({ where: { userId, lessonId } });
+		p.update({ userStatus: newStatus });
 	}
 
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {

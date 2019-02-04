@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
-const moment = require('moment');
+const functionDB = require('../database/FunctionDB');
+const secureLogin = require('../lib/secureLogin');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -51,7 +52,11 @@ router.post("/enrollments", function (req, res, next) {
 });
 
 router.post("/lessons", function (req, res, next) {
-	groupDb.getLessons(req.body.groupId)
+	let userId = req.user.id;
+	if (!req.user.inGroup(req.body.groupId)) {
+		userId = null;
+	}
+	groupDb.getLessons(req.body.groupId, userId)
 		.then(handleReturn(res))
 		.catch(handleError(res))
 });
@@ -85,12 +90,18 @@ router.post("/participants", function (req, res, next) {
 
 router.patch("/participants", function (req, res, next) {
 	if (req.user.isAdmin()) {
-		database.function.addUserToGroup(req.body.userId, req.body.groupId)
+		functionDB.addUserToGroup(req.body.userId, req.body.groupId)
 			.then(handleSuccess(res))
 			.catch(handleError(res))
 	} else {
 		authError(res);
 	}
+});
+
+router.patch("/userStatus", function (req, res, next) {
+	groupDb.updateUserStatus(req.user.id, req.body.lessonId, req.body.userStatus)
+		.then(handleSuccess(res))
+		.catch(handleError(res))
 });
 
 router.post("/presence", ({ user, body }, res) => {
@@ -150,21 +161,13 @@ async function setEvaluation(ev, req) {
 
 router.patch("/evaluations", (req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
-	const login = require('./authRoute').secureLogins.find((login) => {
-		return login.token === (req.body.secureLogin + "") &&
-			login.signed &&
-			login.validUntil.isAfter(moment()) &&
-			login.ip === req.connection.remoteAddress
-	}
-	);
-	if (login != null && req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+	if (secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress) &&
+		req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
 			.then(handleSuccess(res))
 			.catch(handleError(res));
 	} else {
-		if (login == null) {
-			authError(res);
-		}
+		authError(res);
 	}
 });
 
