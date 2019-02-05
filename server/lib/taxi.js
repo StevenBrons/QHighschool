@@ -23,6 +23,76 @@ exports.LOCATIONS = [
 	"Het Westeraam"
 ];
 
+function checkValidLocation(...locations) {
+	locations.forEach(location => {
+		if (LOCATIONS.indexOf(location) == -1) {
+			throw new Error("Location " + location + " is invalid");
+		}
+	});
+}
+
+exports.getAddress = function (location) {
+	checkValidLocation(location);
+	switch (location) {
+		case "Beekdal":
+			return "";
+		case "Candea College":
+			return "Saturnus 1 te Duiven";
+		case "Liemers College":
+			return "Heerenmäten 6, Zevenaar";
+		case "Montessori College":
+			return "";
+		case "Olympus College":
+			return "";
+		case "Produs":
+			return "";
+		case "Stedelijk Gymnasium Arnhem":
+			return "Thorbeckestraat 17, Arnhem";
+		case "Symbion":
+			return "";
+		case "'t Venster":
+			return "";
+		case "Lyceum Elst":
+		case "Het Westeraam":
+		case "Lyceum Elst||Het Westeraam":
+			return "";
+		case "Lorentz Lyceum":
+		case "Maarten van Rossem":
+		case "Maarten van Rossem||Lorentz Lyceum":
+	}
+}
+
+exports.getMeetingPoint = function (location) {
+	checkValidLocation(location);
+	switch (location) {
+		case "Beekdal":
+			return "De conciërgeloge, direct na de hoofdingang";
+		case "Candea College":
+			return "De concièrgeloge bij de leerlingeningang";
+		case "Liemers College":
+			return "Receptie van het Liemers College, bij de hoofdingang op de parkeerplaats";
+		case "Montessori College":
+			return "";
+		case "Olympus College":
+			return "";
+		case "Produs":
+			return "";
+		case "Stedelijk Gymnasium Arnhem":
+			return "Receptie van SGA, direct na de hoofdingang";
+		case "Symbion":
+			return "";
+		case "'t Venster":
+			return "";
+		case "Lyceum Elst":
+		case "Het Westeraam":
+		case "Lyceum Elst||Het Westeraam":
+			return "";
+		case "Lorentz Lyceum":
+		case "Maarten van Rossem":
+		case "Maarten van Rossem||Lorentz Lyceum":
+	}
+}
+
 exports.getDuration = function getDuration(loc1, loc2) {
 	if (loc1 === "Maarten van Rossem" || loc1 === "Lorentz Lyceum") {
 		loc1 = "Maarten van Rossem||Lorentz Lyceum";
@@ -48,7 +118,7 @@ exports.Ride = class Ride {
 	}
 
 	addStop(location, time) {
-		this.checkValidLocation(location);
+		checkValidLocation(location);
 		this.stops.push({
 			location: location,
 			time: time,
@@ -62,16 +132,8 @@ exports.Ride = class Ride {
 		return this.stops.find(stop => stop.location === location);
 	}
 
-	checkValidLocation(...locations) {
-		locations.forEach(location => {
-			if (LOCATIONS.indexOf(location) == -1) {
-				throw new Error("Location " + location + " is invalid");
-			}
-		});
-	}
-
 	addPassengerIfPossible(passenger) {
-		this.checkValidLocation(passenger.from, passenger.to);
+		checkValidLocation(passenger.from, passenger.to);
 		this.passengers.push(passenger);
 		let fits = this.checkCapacityLimit();
 		if (!fits) {

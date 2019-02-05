@@ -1,22 +1,256 @@
 {
-	"maandag": [
-		{
-			"capacity": 4,
+	"maandag": {
+		"Rit A": {
+			"capacity": 8,
 			"stops": [
-				"Beekdal",
-				"Candea College"
-			],
-			"endHours": 16,
-			"endMinutes": 30
+				{
+					"location": "Stedelijk Gymnasium Arnhem",
+					"time": "14:15",
+					"in": [
+						116,
+						12,
+						72,
+						136
+					],
+					"out": []
+				},
+				{
+					"location": "Liemers College",
+					"time": "14:40",
+					"in": [],
+					"out": [
+						116,
+						12,
+						72,
+						136
+					]
+				}
+			]
 		},
-		{
-			"capacity": 4,
+		"Rit B": {
+			"capacity": 8,
 			"stops": [
-				"Candea College",
-				"Liemers College"
-			],
-			"endHours": 16,
-			"endMinutes": 30
+				{
+					"location": "Liemers College",
+					"time": "16:20",
+					"in": [
+						116,
+						12,
+						72,
+						136
+					],
+					"out": []
+				},
+				{
+					"location": "Stedelijk Gymnasium Arnhem",
+					"time": "16:50",
+					"in": [],
+					"out": [
+						116,
+						12,
+						72,
+						136
+					]
+				}
+			]
+		},
+		"Rit C": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Candea College",
+					"time": "14:15",
+					"in": [
+						109
+					],
+					"out": []
+				},
+				{
+					"location": "Beekdal",
+					"time": "14:40",
+					"in": [],
+					"out": [
+						109
+					]
+				}
+			]
+		},
+		"Rit D": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Beekdal",
+					"time": "16:20",
+					"in": [
+						109
+					],
+					"out": []
+				},
+				{
+					"location": "Candea College",
+					"time": "16:50",
+					"in": [],
+					"out": [
+						109
+					]
+				}
+			]
 		}
-	]
+	},
+	"woensdag": {
+		"Rit E": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Liemers College",
+					"time": "15:45",
+					"in": [
+						102
+					],
+					"out": []
+				},
+				{
+					"location": "Stedelijk Gymnasium Arnhem",
+					"time": "16:15",
+					"in": [],
+					"out": [
+						102
+					]
+				}
+			]
+		},
+		"Rit F": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Stedelijk Gymnasium Arnhem",
+					"time": "18:05",
+					"in": [
+						102
+					],
+					"out": []
+				},
+				{
+					"location": "Liemers College",
+					"time": "18:40",
+					"in": [],
+					"out": [
+						102
+					]
+				}
+			]
+		},
+		"Rit G": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Beekdal Lyceum",
+					"time": "14:15",
+					"in": [
+						215,
+						220,
+						275,
+						276,
+						200
+					],
+					"out": []
+				},
+				{
+					"location": "Candea College",
+					"time": "14:40",
+					"in": [],
+					"out": [
+						215,
+						220,
+						275,
+						276,
+						200
+					]
+				}
+			]
+		},
+		"Rit H": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Candea College",
+					"time": "16:20",
+					"in": [
+						215,
+						220,
+						275,
+						276,
+						200
+					],
+					"out": []
+				},
+				{
+					"location": "Beekdal Lyceum",
+					"time": "16:50",
+					"in": [],
+					"out": [
+						215,
+						220,
+						275,
+						276,
+						200
+					]
+				}
+			]
+		},
+		"Rit I": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Liemers College",
+					"time": "16:25",
+					"in": [
+						85,
+						250,
+						281,
+						84
+					],
+					"out": []
+				},
+				{
+					"location": "Candea College",
+					"time": "16:40",
+					"in": [],
+					"out": [
+						85,
+						250,
+						281,
+						84
+					]
+				}
+			]
+		},
+		"Rit J": {
+			"capacity": 8,
+			"stops": [
+				{
+					"location": "Candea College",
+					"time": "16:25",
+					"in": [
+						85,
+						250,
+						281,
+						84
+					],
+					"out": []
+				},
+				{
+					"location": "Liemers College",
+					"time": "16:40",
+					"in": [],
+					"out": [
+						85,
+						250,
+						281,
+						84
+					]
+				}
+			]
+		}
+	}
 }
