@@ -1,18 +1,38 @@
 import React, { Component } from "react";
-import Paper from '@material-ui/core/Paper';
+import Page from "./Page";
 import Progress from '../components/Progress';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Paper, Typography } from "@material-ui/core";
+import Field from '../components/Field';
+import queryString from "query-string";
+import Toolbar from '@material-ui/core/Toolbar';
 
-class Login extends Component {
+class DataPage extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			table:"users",
 			data: null,
 		};
 	}
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
+		return {
+			...prevState,
+			...{
+				table: values.table? values.table :  "evaluations",
+			}
+		}
+	}
+
+	handleFilterChange = event => {
+		this.props.history.push({
+			search: "table=" + event.target.value,
+		});
+	};
 
 	render() {
 		//<TEMP>
@@ -20,12 +40,30 @@ class Login extends Component {
 		//</TEMP>
 
 		//use this function to fetch the data
-		this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
-
+		//this function crashes the site 
+		//this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
+		
 		return (
-			<Paper elevation={8} className="Login">
-				{this.state.data == null ? <Progress /> : null}
-			</Paper >
+			<Page>
+				<Paper elevation = {2} style= {{position: "relative"}}> 
+					<Toolbar style={{ display: "flex"}}>
+						<Typography variant = "subheading" color="textSecondary" style = {{flex: 2}}>
+							Gegevens
+						</Typography>
+						<Field
+							label="Tabel"
+							value={this.state.table}
+							editable
+							options={[
+								{ label: "Beoordelingen", value: "evaluations" },
+								{ label: "Gebruikers", value: "users" },
+								{ label: "Inschrijvingen", value: "enrollments" }]}
+							onChange={this.handleFilterChange}
+						/>
+					</Toolbar>
+				</Paper>
+					<Progress />
+			</Page>
 		);
 	}
 }
@@ -74,7 +112,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(DataPage);
 
 
 
