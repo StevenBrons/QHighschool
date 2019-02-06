@@ -6,6 +6,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -28,7 +29,10 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens"];
+				break;
+			case "grade_admin":
+				this.state.pages = ["gegevens"];
 				break;
 			default:
 				this.state.pages = ["aanbod", "profiel"];
@@ -58,6 +62,8 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
+			case "ViewColumn":
+				return <ViewColumnIcon style={{ color: c}} />;
 			default:
 				return null;
 		}
@@ -114,6 +120,11 @@ class Menu extends Component {
 				id: "portfolio",
 				title: "Portfolio",
 				icon: "Assessment",
+			},
+			{
+				id: "gegevens",
+				title: "Gegevens",
+				icon: "ViewColumn", // table_chart is more appropriate
 			},
 		];
 
