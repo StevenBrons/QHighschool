@@ -4,7 +4,7 @@ import Progress from '../components/Progress';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, Button } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
@@ -43,15 +43,18 @@ class DataPage extends Component {
 		//this function crashes the site 
 		//this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
 		
+		// <Typography variant = "subheading" color="textSecondary" style = {{flex: "1 1 auto"}}>
+		// 					Gegevens
+		// </Typography>
+
+
 		return (
 			<Page>
 				<Paper elevation = {2} style= {{position: "relative"}}> 
 					<Toolbar style={{ display: "flex"}}>
-						<Typography variant = "subheading" color="textSecondary" style = {{flex: 2}}>
-							Gegevens
-						</Typography>
+						
 						<Field
-							label="Tabel"
+							label="Gegevens"
 							value={this.state.table}
 							editable
 							options={[
@@ -60,6 +63,9 @@ class DataPage extends Component {
 								{ label: "Inschrijvingen", value: "enrollments" }]}
 							onChange={this.handleFilterChange}
 						/>
+						<Button color="primary" variant="contained" style = {{flex: "1 1 auto"}} onClick={console.log("*click*")}>
+							Haal gegevens op
+						</Button>
 					</Toolbar>
 				</Paper>
 					<Progress />
