@@ -41,8 +41,10 @@ class DataPage extends Component {
 
 		//use this function to fetch the data
 		//this function crashes the site 
-		//this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
-		
+		if (this.state.data == null) {
+			this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
+		}
+		console.log(this.state.data)
 		// <Typography variant = "subheading" color="textSecondary" style = {{flex: "1 1 auto"}}>
 		// 					Gegevens
 		// </Typography>
