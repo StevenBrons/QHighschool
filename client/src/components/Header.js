@@ -13,7 +13,6 @@ import List from '@material-ui/core/List';
 class Header extends Component {
 
 	constructor(props) {
-		console.log(props);
 		super(props);
 		this.state = { anchorEl: null };
 	}
