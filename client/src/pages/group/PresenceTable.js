@@ -15,7 +15,7 @@ class PresenceTable extends Component {
 			options[1].label = "Afgemeld";
 		}
 		return <Field
-			rkey={i}
+			key={i}
 			value={presence.status}
 			options={options}
 			label={presence.userStatus === "absent" ? "afgemeld" : undefined}

@@ -223,7 +223,7 @@ class EvaluationTab2 extends Component {
 		const evComps = evaluations
 			.map(evaluation => {
 				return (
-					<Paper style={style} key={evaluation.id} component="tr">
+					<Paper style={style} key={evaluation} component="tr">
 						<User display="name" userId={evaluation.userId} />
 						<Evaluation editable={this.props.editable} evaluation={evaluation} handleChange={this.handleEvaluationChange.bind(this)} />
 						{this.getExplanationField(evaluation, this.props.editable)}
@@ -250,7 +250,7 @@ class EvaluationTab2 extends Component {
 						style={{ type: "headline", margin: "normal" }}
 						value={"Beoordelingen"}
 					/>
-					<div style={{ flex: "5" }} />
+					<td style={{ flex: "5" }} />
 					<Field
 						label="Beoordelingsformaat"
 						style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
