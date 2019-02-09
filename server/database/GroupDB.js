@@ -236,7 +236,11 @@ class GroupDB {
 
 	async updateUserStatus(userId, lessonId, newStatus) {
 		const p = await Presence.findOne({ where: { userId, lessonId } });
-		p.update({ userStatus: newStatus });
+		if (p != null) {
+			p.update({ userStatus: newStatus });
+		} else {
+			throw new Error("No presence data available");
+		}
 	}
 
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
