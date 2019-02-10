@@ -21,6 +21,7 @@ import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
 
+
 class App extends Component {
 
 	componentWillMount() {
@@ -43,6 +44,12 @@ class App extends Component {
 				</div>
 			);
 		}
+		let startPage = "/groepen";
+		if ( this.props.role === "student" ) {
+			startPage =  "/aanbod";
+		} else if ( this.props.role === "grade_admin" ){
+			startPage = "/gegevens";
+		}
 		return (
 			<div className="App">
 				<NotificationBar />
@@ -57,7 +64,7 @@ class App extends Component {
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={MyGroups} />
 					<Route path="/gegevens/" component={DataPage} />
-					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
+					<Redirect push to={startPage} />
 				</Switch>
 			</div>
 		);
