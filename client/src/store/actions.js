@@ -1,5 +1,8 @@
 import { User, Subject, Group, Course } from "../lib/Data"
 import filter from "lodash/filter"
+import $ from "jquery";
+import keyBy from "lodash/keyBy"
+import map from "lodash/map"
 
 function apiErrorHandler(dispatch, message) {
 	return function handleError(error) {
@@ -21,6 +24,17 @@ function apiErrorHandler(dispatch, message) {
 	}
 }
 
+async function fetchData(endpoint, method, data, dispatch) {
+	return $.ajax({
+		url: "/api/" + endpoint,
+		type: method,
+		data: data,
+		dataType: "json",
+	}).then((list) => Array.isArray(list) ? keyBy(list, "id") : list)
+		.catch(apiErrorHandler(dispatch));
+}
+
+
 export function getSubjects() {
 	return (dispatch, getState) => {
 		if (getState().hasFetched.indexOf("Subject.getList()") === -1) {
@@ -28,12 +42,20 @@ export function getSubjects() {
 				type: "HAS_FETCHED",
 				call: "Subject.getList()"
 			});
-			Subject.getList().then((subjects) => {
+			fetchData("subject/list", "get", null, dispatch).then((subjects) => {
 				dispatch({
 					type: "CHANGE_SUBJECTS",
 					subjects,
 				});
-			}).catch(apiErrorHandler(dispatch));
+			})
+
+			// OLD: REMOVE THIS
+			// Subject.getList().then((subjects) => {
+			// 	dispatch({
+			// 		type: "CHANGE_SUBJECTS",
+			// 		subjects,
+			// 	});
+			// }).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
@@ -395,14 +417,24 @@ export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
 		if (index === -1) {
-			User.addEnrollment(group.id).then(() => {
+			fetchData("user/enrollments", "put", { groupId: group.id }, dispatch).then(() => {
 				dispatch({
 					type: "CHANGE_ENROLLMENTS",
 					action: "ADD",
 					userId: getState().userId,
 					groupId: group.id,
 				});
-			}).catch(apiErrorHandler(dispatch));
+			});
+
+			// OLD REMOVE THIS:
+			// User.addEnrollment(group.id).then(() => {
+			// 	dispatch({
+			// 		type: "CHANGE_ENROLLMENTS",
+			// 		action: "ADD",
+			// 		userId: getState().userId,
+			// 		groupId: group.id,
+			// 	});
+			// }).catch(apiErrorHandler(dispatch));
 		} else {
 			User.removeEnrollment(group.id).then(() => {
 				dispatch({
