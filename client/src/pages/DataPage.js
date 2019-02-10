@@ -53,10 +53,9 @@ class DataPage extends Component {
 		return (
 			<Page>
 				<Paper elevation = {2} style= {{position: "relative"}}> 
-					<Toolbar style={{ display: "flex"}}>
-						
+					<Toolbar style={{ display: "flex", width: "50%"}}>
 						<Field
-							label="Gegevens"
+							label = "Gegevens"
 							value={this.state.table}
 							editable
 							options={[
@@ -64,8 +63,9 @@ class DataPage extends Component {
 								{ label: "Gebruikers", value: "users" },
 								{ label: "Inschrijvingen", value: "enrollments" }]}
 							onChange={this.handleFilterChange}
+							style = {{flex: "2"}}
 						/>
-						<Button color="primary" variant="contained" style = {{flex: "1 1 auto"}} onClick={console.log("*click*")}>
+						<Button color="primary" variant="contained" style = {{flex: "1"}} onClick={console.log("*click*")}>
 							Haal gegevens op
 						</Button>
 					</Toolbar>
