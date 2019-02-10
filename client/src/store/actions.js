@@ -24,13 +24,13 @@ function apiErrorHandler(dispatch, message) {
 	}
 }
 
-async function fetchData(endpoint, method, data, dispatch) {
+async function fetchData(endpoint, method, data, dispatch, forceArray) {
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
 		data: data,
 		dataType: "json",
-	}).then((list) => Array.isArray(list) ? keyBy(list, "id") : list)
+	}).then((list) => (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list)
 		.catch(apiErrorHandler(dispatch));
 }
 
