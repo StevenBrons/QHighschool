@@ -27,12 +27,12 @@ require('./dec/NotificationDec');
 require('./dec/LoggedInDec');
 
 require('./lib/passportSetup');
-require('./lib/taxi');
+require('./lib/taxiSchedule');
 
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))

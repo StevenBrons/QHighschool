@@ -1,67 +1,192 @@
-const moment = require('moment');
-moment.locale('nl');
+const ejs = require('ejs');
+const fs = require('fs');
 
-exports.Ride = class Ride {
-	constructor(capacity) {
-		this.stops = [];
-		this.passengers = [];
-		this.capacity = capacity;
-	}
+const User = require('../dec/UserDec');
+const CourseGroup = require('../dec/CourseGroupDec');
+const Participant = require('../dec/ParticipantDec');
+const Lesson = require('../dec/LessonDec');
+const Presence = require('../dec/PresenceDec');
+const RIDES = require('./rides.json');
+const SCHEDULE_EJS = fs.readFileSync("../views/schedule.ejs", 'utf8');
 
-	addStop(location, time) {
-		checkValidLocation(location);
-		this.stops.push({
-			location: location,
-			time: time,
-		});
-		this.stops.sort((l1, l2) => {
-			return l1.time.isBefore(moment(l2.time));
-		});
-	}
+const PERIOD = 3;
 
-	stopsAt(location) {
-		return this.stops.find(stop => stop.location === location);
-	}
+exports.LOCATIONS = [
+	"Beekdal",
+	"Candea College",
+	"Lyceum Elst",
+	"Liemers College",
+	"Lorentz Lyceum",
+	"Maarten van Rossem",
+	"Montessori College",
+	"Olympus College",
+	"Produs",
+	"Stedelijk Gymnasium Arnhem",
+	"Symbion",
+	"'t Venster",
+	"Het Westeraam"
+];
 
-	addPassengerIfPossible(passenger) {
-		checkValidLocation(passenger.from, passenger.to);
-		this.passengers.push(passenger);
-		let fits = this.checkCapacityLimit();
-		if (!fits) {
-			this.passengers.splice(this.passengers.indexOf(passenger), 1);
+function checkValidLocation(...locations) {
+	locations.forEach(location => {
+		if (exports.LOCATIONS.indexOf(location) == -1) {
+			throw new Error("Location " + location + " is invalid");
 		}
-		return fits;
-	}
+	});
+}
 
-	checkCapacityLimit() {
-		let curPassengers = [];
-		this.stops.forEach(stop => {
-			this.passengers.forEach(passenger => {
-				if (stop.location === passenger.to && stop.time.hours() === passenger.endTime.hours() &&
-					stop.time.minutes() === passenger.endTime.minutes()) {
-					curPassengers.push(passenger);
-				}
+function getAddress(location) {
+	checkValidLocation(location);
+	switch (location) {
+		case "Beekdal":
+			return "";
+		case "Candea College":
+			return "Saturnus 1 te Duiven";
+		case "Liemers College":
+			return "Heerenmäten 6, Zevenaar";
+		case "Montessori College":
+			return "";
+		case "Olympus College":
+			return "";
+		case "Produs":
+			return "";
+		case "Stedelijk Gymnasium Arnhem":
+			return "Thorbeckestraat 17, Arnhem";
+		case "Symbion":
+			return "";
+		case "'t Venster":
+			return "";
+		case "Lyceum Elst":
+		case "Het Westeraam":
+		case "Lyceum Elst||Het Westeraam":
+			return "";
+		case "Lorentz Lyceum":
+		case "Maarten van Rossem":
+		case "Maarten van Rossem||Lorentz Lyceum":
+	}
+}
+
+function getMeetingPoint(location) {
+	checkValidLocation(location);
+	switch (location) {
+		case "Beekdal":
+			return "De conciërgeloge, direct na de hoofdingang";
+		case "Candea College":
+			return "De concièrgeloge bij de leerlingeningang";
+		case "Liemers College":
+			return "Receptie van het Liemers College, bij de hoofdingang op de parkeerplaats";
+		case "Montessori College":
+			return "";
+		case "Olympus College":
+			return "";
+		case "Produs":
+			return "";
+		case "Stedelijk Gymnasium Arnhem":
+			return "Receptie van SGA, direct na de hoofdingang";
+		case "Symbion":
+			return "";
+		case "'t Venster":
+			return "";
+		case "Lyceum Elst":
+		case "Het Westeraam":
+		case "Lyceum Elst||Het Westeraam":
+			return "";
+		case "Lorentz Lyceum":
+		case "Maarten van Rossem":
+		case "Maarten van Rossem||Lorentz Lyceum":
+	}
+}
+
+function getDuration(loc1, loc2) {
+	if (loc1 === "Maarten van Rossem" || loc1 === "Lorentz Lyceum") {
+		loc1 = "Maarten van Rossem||Lorentz Lyceum";
+	}
+	if (loc1 === "Lyceum Elst" || loc1 === "Het Westeraam") {
+		loc1 = "Lyceum Elst||Het Westeraam";
+	}
+	if (loc1 === loc2) {
+		return 0;
+	}
+	if (durations[loc1][loc2] != null) {
+		return durations[loc1][loc2];
+	} else {
+		return durations[loc2][loc1];
+	}
+}
+
+
+async function mapPassengers(id, day, week) {
+	const user = await User.findOne({ attributes: ["id", "displayName"], where: { id } });
+	const courseGroup = await CourseGroup.findOne({
+		attributes: ["id"],
+		where: { day: day, },
+		include: {
+			model: Participant,
+			where: { userId: user.id, }
+		}
+	});
+	if (user == null) {
+		return {
+			displayName: "onbekend",
+			userStatus: "onbekend",
+		}
+	}
+	const lesson = await Lesson.findOne({
+		attributes: ["id", "presence"],
+		where: {
+			courseGroupId: courseGroup.id,
+			numberInBlock: week,
+		}
+	});
+	const presence = await Presence.findOne({
+		attributes: ["userStatus"],
+		where: {
+			userId: user.id,
+			lessonId: lesson.id
+		}
+	});
+	let willBePresent = true;
+	if (lesson && lesson.presence === "unrequired") {
+		willBePresent = false;
+	}
+	if (presence && presence.userStatus === "absent") {
+		willBePresent = false;
+	}
+	return {
+		displayName: user.dataValues.displayName,
+		userStatus: willBePresent ? "aanwezig" : "niet aanwezig",
+	}
+}
+
+function getRides(userId) {
+	const allRides = [].concat(Object.keys(RIDES).map(day => RIDES[day]));
+	if (userId == -1) {
+		return allRides;
+	} else {
+		return allRides.filter(ride => {
+			const s = ride.stops.find(stop => {
+				return stop.in.indexOf(userId) !== -1;
 			});
-			curPassengers.forEach((passenger, i) => {
-				if (stop.location === passenger.from) {
-					curPassengers.splice(i, 1);
-				}
-			});
-			if (curPassengers.length > this.capacity) {
-				return false;
-			}
+			return s != null;
 		});
-		return true;
-	}
-
-}
-
-exports.Passenger = class Passenger {
-	constructor(id, from, to, endTime) {
-		this.id = id;
-		this.from = from;
-		this.to = to;
-		this.endTime = endTime;
 	}
 }
+
+exports.getSchedule = async function getSchedule(userId, week) {
+	let schedules = [];
+	const rides = getRides(userId);
+	for (ride in rides) {
+		for (let i = 0; i < ride.stops.length; i++) {
+			ride.stops[i].meetingPoint = taxi.getMeetingPoint(ride.stops[i].location);
+			ride.stops[i].address = taxi.getAddress(ride.stops[i].location);
+			ride.stops[i].in = await Promise.all(ride.stops[i].in.map((p) => mapPassengers(p, day, week)));
+			ride.stops[i].out = await Promise.all(ride.stops[i].out.map((p) => mapPassengers(p, day, week)));
+		}
+		schedules.push(ejs.render(SCHEDULE_EJS, ride, {}));
+	}
+	return schedules;
+}
+
+
+
 

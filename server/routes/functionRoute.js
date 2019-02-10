@@ -23,6 +23,13 @@ router.post("/calculateLessonDates", function (req, res, next) {
 	}
 });
 
+router.post("/calculateLessonDates", function (req, res, next) {
+	if (req.user.isAdmin() && req.body.message === "confirm") {
+		console.log("Re-calculating all lesson dates");
+		functionDb.updateALLLessonDates();
+	}
+});
+
 async function formatInTable(array) {
 	const keys = Object.keys(array[0].dataValues);
 	return [keys, ...array.map(obj => keys.map(key => obj.dataValues[key]))];
