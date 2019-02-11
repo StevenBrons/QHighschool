@@ -117,6 +117,12 @@ function getDuration(loc1, loc2) {
 
 async function mapPassengers(id, day, week) {
 	const user = await User.findOne({ attributes: ["id", "displayName"], where: { id } });
+	if (user == null) {
+		return {
+			displayName: "onbekend",
+			userStatus: "onbekend",
+		}
+	}
 	const courseGroup = await CourseGroup.findOne({
 		attributes: ["id"],
 		where: { day: day, },
@@ -125,12 +131,6 @@ async function mapPassengers(id, day, week) {
 			where: { userId: user.id, }
 		}
 	});
-	if (user == null) {
-		return {
-			displayName: "onbekend",
-			userStatus: "onbekend",
-		}
-	}
 	const lesson = await Lesson.findOne({
 		attributes: ["id", "presence"],
 		where: {
