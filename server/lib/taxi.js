@@ -7,7 +7,7 @@ const Participant = require('../dec/ParticipantDec');
 const Lesson = require('../dec/LessonDec');
 const Presence = require('../dec/PresenceDec');
 const RIDES = require('./rides.json');
-const SCHEDULE_EJS = fs.readFileSync("../views/schedule.ejs", 'utf8');
+const SCHEDULE_EJS = fs.readFileSync("./views/taxiSchedule.ejs", 'utf8');
 
 const PERIOD = 3;
 
@@ -138,19 +138,21 @@ async function mapPassengers(id, day, week) {
 			numberInBlock: week,
 		}
 	});
-	const presence = await Presence.findOne({
-		attributes: ["userStatus"],
-		where: {
-			userId: user.id,
-			lessonId: lesson.id
-		}
-	});
 	let willBePresent = true;
-	if (lesson && lesson.presence === "unrequired") {
-		willBePresent = false;
-	}
-	if (presence && presence.userStatus === "absent") {
-		willBePresent = false;
+	if (lesson != null) {
+		const presence = await Presence.findOne({
+			attributes: ["userStatus"],
+			where: {
+				userId: user.id,
+				lessonId: lesson.id
+			}
+		});
+		if (lesson && lesson.presence === "unrequired") {
+			willBePresent = false;
+		}
+		if (presence && presence.userStatus === "absent") {
+			willBePresent = false;
+		}
 	}
 	return {
 		displayName: user.dataValues.displayName,
@@ -159,7 +161,12 @@ async function mapPassengers(id, day, week) {
 }
 
 function getRides(userId) {
-	const allRides = [].concat(Object.keys(RIDES).map(day => RIDES[day]));
+	const allRides = [];
+	for (day in RIDES) {
+		for (ride in RIDES[day]) {
+			allRides.push(RIDES[day][ride]);
+		}
+	}
 	if (userId == -1) {
 		return allRides;
 	} else {
@@ -175,14 +182,14 @@ function getRides(userId) {
 exports.getSchedule = async function getSchedule(userId, week) {
 	let schedules = [];
 	const rides = getRides(userId);
-	for (ride in rides) {
-		for (let i = 0; i < ride.stops.length; i++) {
-			ride.stops[i].meetingPoint = taxi.getMeetingPoint(ride.stops[i].location);
-			ride.stops[i].address = taxi.getAddress(ride.stops[i].location);
-			ride.stops[i].in = await Promise.all(ride.stops[i].in.map((p) => mapPassengers(p, day, week)));
-			ride.stops[i].out = await Promise.all(ride.stops[i].out.map((p) => mapPassengers(p, day, week)));
+	for (let r = 0; r < rides.length; r++) {
+		for (let i = 0; i < rides[r].stops.length; i++) {
+			rides[r].stops[i].meetingPoint = getMeetingPoint(rides[r].stops[i].location);
+			rides[r].stops[i].address = getAddress(rides[r].stops[i].location);
+			rides[r].stops[i].in = await Promise.all(rides[r].stops[i].in.map((p) => mapPassengers(p, day, week)));
+			rides[r].stops[i].out = await Promise.all(rides[r].stops[i].out.map((p) => mapPassengers(p, day, week)));
 		}
-		schedules.push(ejs.render(SCHEDULE_EJS, ride, {}));
+		schedules.push(ejs.render(SCHEDULE_EJS, rides[r], {}));
 	}
 	return schedules;
 }

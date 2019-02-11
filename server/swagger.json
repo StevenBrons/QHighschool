@@ -1025,13 +1025,6 @@
         ],
         "parameters": [
           {
-            "name": "userId",
-            "in": "formData",
-            "description": "From which user to get the schedule from, -1 means all users (admin only)",
-            "required": true,
-            "type": "integer"
-          },
-          {
             "name": "week",
             "in": "formData",
             "description": "The week to get the schedule from, 0 for the base schedule",
