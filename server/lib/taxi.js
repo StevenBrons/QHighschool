@@ -131,6 +131,12 @@ async function mapPassengers(id, day, week) {
 			where: { userId: user.id, }
 		}
 	});
+	if (user == null) {
+		return {
+			displayName: user.dataValues.displayName,
+			userStatus: "onbekend",
+		}
+	}
 	const lesson = await Lesson.findOne({
 		attributes: ["id", "presence"],
 		where: {
