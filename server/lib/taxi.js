@@ -39,7 +39,7 @@ function getAddress(location) {
 	checkValidLocation(location);
 	switch (location) {
 		case "Beekdal":
-			return "";
+			return "Bernardlaan 49 in Arnhem";
 		case "Candea College":
 			return "Saturnus 1 te Duiven";
 		case "Liemers College":
@@ -59,10 +59,11 @@ function getAddress(location) {
 		case "Lyceum Elst":
 		case "Het Westeraam":
 		case "Lyceum Elst||Het Westeraam":
-			return "";
+			return "Auditorium 3 in Elst";
 		case "Lorentz Lyceum":
 		case "Maarten van Rossem":
 		case "Maarten van Rossem||Lorentz Lyceum":
+			return "Groningensingel 1245 in Arnhem";
 	}
 }
 
@@ -90,10 +91,11 @@ function getMeetingPoint(location) {
 		case "Lyceum Elst":
 		case "Het Westeraam":
 		case "Lyceum Elst||Het Westeraam":
-			return "";
+			return "bij de hoofdingang binnen";
 		case "Lorentz Lyceum":
 		case "Maarten van Rossem":
 		case "Maarten van Rossem||Lorentz Lyceum":
+			return "de leerlingenbalie, ingang links op het plein";
 	}
 }
 
