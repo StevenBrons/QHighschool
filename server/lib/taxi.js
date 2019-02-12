@@ -137,13 +137,16 @@ async function mapPassengers(id, day, week) {
 			userStatus: "onbekend",
 		}
 	}
-	const lesson = await Lesson.findOne({
-		attributes: ["id", "presence"],
-		where: {
-			courseGroupId: courseGroup.id,
-			numberInBlock: week,
-		}
-	});
+	let lesson;
+	if (courseGroup != null) {
+		lesson = await Lesson.findOne({
+			attributes: ["id", "presence"],
+			where: {
+				courseGroupId: courseGroup.id,
+				numberInBlock: week,
+			}
+		});
+	}
 	let willBePresent = true;
 	if (lesson != null) {
 		const presence = await Presence.findOne({
