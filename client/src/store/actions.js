@@ -131,23 +131,6 @@ export function getSelf() {
 	}
 }
 
-export function getUser(userId) {
-	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("User.getUser(" + userId + ")") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "User.getUser(" + userId + ")"
-			});
-			User.getUser(userId).then((user) => {
-				dispatch({
-					type: "CHANGE_USER",
-					user,
-				});
-			}).catch(apiErrorHandler(dispatch));
-		}
-	}
-}
-
 export function setUser(user) {
 	return (dispatch, getState) => {
 		dispatch({
