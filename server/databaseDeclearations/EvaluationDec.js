@@ -8,6 +8,7 @@ const Evaluation = connection.define('evaluation', {
 		type: Sequelize.STRING,
 		allowNull: false,
 		isIn: [["decimal", "stepwise", "check"]],
+		defaultValue: "decimal",
 	},
 	assesment: Sequelize.STRING,
 	// --- database  ------ dutch
@@ -22,7 +23,7 @@ const Evaluation = connection.define('evaluation', {
 	//		O									onvoldoende
 	// 		V									voldoende
 	//    G									goed
-	
+
 	//		"" or NULL				onbekend
 	//		ND								niet deelgenomen
 
