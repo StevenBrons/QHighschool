@@ -8,7 +8,7 @@ const Participant = require('../dec/ParticipantDec');
 const Lesson = require('../dec/LessonDec');
 const Presence = require('../dec/PresenceDec');
 const RIDES = require('./rides.json');
-const SCHEDULE_EJS = fs.readFileSync(path.resolve(__dirname, "../views/taxiSchedule.ejs"), 'utf8');
+const SCHEDULE_EJS = fs.readFileSync(path.resolve(__dirname, "./taxiSchedule.ejs"), 'utf8');
 
 const PERIOD = 3;
 
