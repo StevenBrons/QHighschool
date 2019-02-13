@@ -4,7 +4,7 @@ import Progress from '../components/Progress';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography, Button, Table, TableHead, TableCell, TableBody, TableRow } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
@@ -40,10 +40,19 @@ class DataPage extends Component {
 		//</TEMP>
 
 		//use this function to fetch the data
-		//this function crashes the site 
-		if (this.state.data == null) {
-			this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
-		}
+		// if (this.state.data == null) {
+		// 	this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
+		// }
+		let data = [["displayName", "firstName", "lastName", "role"],
+		["B", "Steven", "Steven", "B", "admin"],
+		["Doe","Jon", "Jon", "Doe", "student"],
+		["B", "Steven", "Steven", "B", "admin"],
+		["Doe", "Jon", "Jon", "Doe", "student"],
+		["B", "Steven", "Steven", "B", "admin"],
+		["Doe", "Jon", "Jon", "Doe", "student"],
+		["B", "Steven", "Steven", "B", "admin"],
+		["Doe", "Jon", "Jon", "Doe", "student"]];
+		// placeholder so I don't have to deal with async data
 		console.log(this.state.data)
 		// <Typography variant = "subheading" color="textSecondary" style = {{flex: "1 1 auto"}}>
 		// 					Gegevens
@@ -53,9 +62,12 @@ class DataPage extends Component {
 		return (
 			<Page>
 				<Paper elevation = {2} style= {{position: "relative"}}> 
-					<Toolbar style={{ display: "flex", width: "50%"}}>
+					<Toolbar style={{ display: "flex"}}>
+						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+							Gegevens
+          				</Typography>
 						<Field
-							label = "Gegevens"
+							label = "Gegevens van"
 							value={this.state.table}
 							editable
 							options={[
@@ -63,14 +75,31 @@ class DataPage extends Component {
 								{ label: "Gebruikers", value: "users" },
 								{ label: "Inschrijvingen", value: "enrollments" }]}
 							onChange={this.handleFilterChange}
-							style = {{flex: "2"}}
+							style = {{flex: "1 1 auto"}}
 						/>
-						<Button color="primary" variant="contained" style = {{flex: "1"}} onClick={console.log("*click*")}>
-							Haal gegevens op
-						</Button>
 					</Toolbar>
 				</Paper>
-					<Progress />
+				<br />
+					<Table>
+						<TableHead >
+							<TableCell allign ="right">Piet</TableCell>
+							<TableCell allign="right">Jan</TableCell>
+							<TableCell backgroundColor = "black" >Klaas</TableCell>
+							<TableCell>Henk</TableCell>
+							<TableCell>Pieter</TableCell>
+						</TableHead>	
+					<TableBody>
+						{data.map(row => (
+							<TableRow>
+								<TableCell>{row[0]}</TableCell>
+								<TableCell>{row[1]}</TableCell>
+								<TableCell>{row[2]}</TableCell>
+								<TableCell>{row[3]}</TableCell>
+								<TableCell>{row[4]}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+					</Table>
 			</Page>
 		);
 	}
