@@ -13,14 +13,12 @@ class DataPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			table:"users",
 			data: null,
 		};
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let values = queryString.parse(nextProps.location.search);
-		console.log("Table according to this: ", values.table);
 		return {
 			...prevState,
 			...{
@@ -38,8 +36,8 @@ class DataPage extends Component {
 		this.props.history.push({
 			search: "table=" + event.target.value,
 		});
-		this.fetchData(this.state.table).then(data => this.setState({ data: data }));
-	};
+		this.fetchData(event.target.value).then(data => this.setState({ data: data }));
+	}
 
 	fetchData = async (table) => {
 			//feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
@@ -56,8 +54,26 @@ class DataPage extends Component {
 						["Gates, Bill", "Bill", "Gates", "grade_admin"],
 						["Trump, Donald J", "Donald", "Trump", "student"]
 					];
-				case "evaluation":
+				case "evaluations":
+					return [
+						["displayName", "type", "course"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+					];
 				case "enrollments":
+					return [
+						["Vak", "Leerling", "Datum inschrijving"],
+						["Wiskunde D", "Jorrit de Boer", "14-02-2019"],
+						["Latijn", "Jorrit", "13-01-2009"]
+					];
 				default:
 					return [
 						["displayName", "type", "course"],
@@ -76,33 +92,28 @@ class DataPage extends Component {
 	}
 
 	render() {
-		//<TEMP>
-		const dropDownOption = "users"; // or "evaluations", or "enrollments"
-		//</TEMP>
-
 		let content;
-		console.log("Table of: ", this.state.table);
 		if (this.state.data == null) {
 			content = <Progress/>;
 		} else {
 			content = <Table>
 						<TableHead>
-							<TableRow>
-								{this.state.data[0].map((title) => {
+							<TableRow key ={0}>
+								{this.state.data[0].map((title,columnIndex) => {
 									return(
-										<TableCell>{title}</TableCell>
+										<TableCell key={columnIndex}>{title}</TableCell>
 									)
 								})}
 							</TableRow>
 						</TableHead> 
 						<TableBody>
 							{this.state.data.filter((_,index) => { return(index > 0); } )//take everything but the header
-								.map((row, index) => {
+								.map((row, rowIndex) => {
 									return(
-										<TableRow key={index} >
-											{row.map((cell) => {
+										<TableRow key={rowIndex + 1} >
+											{row.map((cell, columnIndex) => {
 												return(
-													<TableCell>{cell}</TableCell>
+													<TableCell key={columnIndex}>{cell}</TableCell>
 												)
 											})}
 										</TableRow>
@@ -127,16 +138,11 @@ class DataPage extends Component {
 								{ label: "Gebruikers", value: "users" },
 								{ label: "Inschrijvingen", value: "enrollments" }]}
 							onChange={this.handleFilterChange}
-							style = {{flex: "1 1 auto"}}
 						/>
 					</Toolbar>
 				</Paper>
 				<br />
-				<div>
-					<Table>
-						{content}
-					</Table>
-				</div>
+				{content}
 			</Page>
 		);
 	}
