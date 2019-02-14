@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Page from "./Page";
 import Progress from '../components/Progress';
 
-import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
@@ -17,8 +17,10 @@ class DataPage extends Component {
 			data: null,
 		};
 	}
+
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let values = queryString.parse(nextProps.location.search);
+		console.log("Table according to this: ", values.table);
 		return {
 			...prevState,
 			...{
@@ -27,21 +29,61 @@ class DataPage extends Component {
 		}
 	}
 
+	componentDidMount = () => {
+		this.fetchData(this.state.table).then(data => this.setState({ data: data }));
+	}
+	
+	
 	handleFilterChange = event => {
 		this.props.history.push({
 			search: "table=" + event.target.value,
 		});
+		this.fetchData(this.state.table).then(data => this.setState({ data: data }));
 	};
+
+	fetchData = async (table) => {
+			//feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
+			switch (table) {
+				case "users":
+					return [
+						["displayName", "firstName", "lastName", "role"],
+						["B, Steven", "Steven", "B", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"],
+						["de Boer, Jorrit", "Jorrit", "de Boer", "admin"],
+						["Doe, Jon", "Jon", "Doe", "student"],
+						["Musk, Elon", "Elon", "E", "admin"],
+						["Jobs, Steve", "Steve", "Jobs", "student"],
+						["Gates, Bill", "Bill", "Gates", "grade_admin"],
+						["Trump, Donald J", "Donald", "Trump", "student"]
+					];
+				case "evaluation":
+				case "enrollments":
+				default:
+					return [
+						["displayName", "type", "course"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"],
+						["B, Steven", "decimal", "9"],
+						["T, Est", "decimal", "6"]
+					];
+			}
+	}
 
 	render() {
 		//<TEMP>
-		const dropDownOption = "user_data"; // or "evaluations", or "enrollments"
+		const dropDownOption = "users"; // or "evaluations", or "enrollments"
 		//</TEMP>
 
 		let content;
+		console.log("Table of: ", this.state.table);
 		if (this.state.data == null) {
-			content = <Progress/>
-			this.props.fetchData(dropDownOption).then(data => this.setState({ data: data }));
+			content = <Progress/>;
 		} else {
 			content = <Table>
 						<TableHead>
@@ -100,52 +142,4 @@ class DataPage extends Component {
 	}
 }
 
-
-function mapStateToProps(state) {
-	return {
-		data: state.data,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		fetchData: async (table) => {
-			//feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
-			switch (table) {
-				case "user_data":
-					return [
-						["displayName", "firstName", "lastName", "role"],
-						["B, Steven", "Steven", "B", "admin"],
-						["Doe, Jon", "Jon", "Doe", "student"],
-						["de Boer, Jorrit", "Jorrit", "de Boer", "admin"],
-						["Doe, Jon", "Jon", "Doe", "student"],
-						["Musk, Elon", "Elon", "E", "admin"],
-						["Jobs, Steve", "Steve", "Jobs", "student"],
-						["Gates, Bill", "Bill", "Gates", "grade_admin"],
-						["Trump, Donald J", "Donald", "Trump", "student"]
-					];
-				case "evaluation":
-				case "enrollments":
-				default:
-					return [
-						["displayName", "type", "course"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"]
-					];
-			}
-		},
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DataPage);
-
-
-
+export default withRouter(DataPage);
