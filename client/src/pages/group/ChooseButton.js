@@ -102,7 +102,6 @@ class ChooseButton extends Component {
 	}
 
 	render() {
-		console.log(this.props.currentPeriod);
 		const props = this.props;
 		let dialog = this.state.dialogOpen ? this.getDialog.bind(this)(props.group.courseName, props.hasChosen, props.group.foreknowledge) : null;
 		if (props.loading) {
