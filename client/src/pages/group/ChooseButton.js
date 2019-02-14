@@ -102,6 +102,7 @@ class ChooseButton extends Component {
 	}
 
 	render() {
+		console.log(this.props.currentPeriod);
 		const props = this.props;
 		let dialog = this.state.dialogOpen ? this.getDialog.bind(this)(props.group.courseName, props.hasChosen, props.group.foreknowledge) : null;
 		if (props.loading) {
@@ -154,6 +155,7 @@ function mapStateToProps(state, ownProps) {
 		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
 		hasChosenDay,
 		chosenDayGroupName: hasChosenDay ? state.groups[state.users[state.userId].enrollmentIds[occupiedDayIndex]].courseName : null,
+		currentPeriod: state.currentPeriod,
 	};
 }
 
