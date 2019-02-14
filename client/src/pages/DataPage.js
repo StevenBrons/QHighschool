@@ -57,7 +57,7 @@ class DataPage extends Component {
 		// <Typography variant = "subheading" color="textSecondary" style = {{flex: "1 1 auto"}}>
 		// 					Gegevens
 		// </Typography>
-
+		console.log(data[0].length);
 
 		return (
 			<Page>
@@ -82,11 +82,13 @@ class DataPage extends Component {
 				<br />
 					<Table>
 						<TableHead >
-							<TableCell allign ="right">Piet</TableCell>
-							<TableCell allign="right">Jan</TableCell>
-							<TableCell backgroundColor = "black" >Klaas</TableCell>
-							<TableCell>Henk</TableCell>
-							<TableCell>Pieter</TableCell>
+							<TableRow>
+								<TableCell allign ="right">Piet</TableCell>
+								<TableCell allign="right">Jan</TableCell>
+								<TableCell backgroundcolor = "black" >Klaas</TableCell>
+								<TableCell>Henk</TableCell>
+								<TableCell>Pieter</TableCell> 
+							</TableRow>
 						</TableHead>	
 					<TableBody>
 						{data.map(row => (
