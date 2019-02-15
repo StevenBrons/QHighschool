@@ -39,6 +39,15 @@ class DataPage extends Component {
 		this.fetchData(event.target.value).then(data => this.setState({ data: data }));
 	}
 
+	generateTestData(columns, rows){
+		const template = ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "Nunc", "congue", "gravida", "ex", "nec", "facilisis", "magna", "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "Nunc", "congue", "gravida", "ex", "nec", "facilisis", "magna"];
+		let testData = [template.splice(0,columns)];
+		for ( let i = 1; i < rows; i++ ){
+			testData[i] = testData[0];
+		}
+		return testData;
+	}
+
 	fetchData = async (table) => {
 			//feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
 			switch (table) {
@@ -55,19 +64,7 @@ class DataPage extends Component {
 						["Trump, Donald J", "Donald", "Trump", "student"]
 					];
 				case "evaluations":
-					return [
-						["displayName", "type", "course"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"],
-						["B, Steven", "decimal", "9"],
-						["T, Est", "decimal", "6"]
-					];
+					return generateTestData(10,5);
 				case "enrollments":
 					return [
 						["Vak", "Leerling", "Datum inschrijving"],
