@@ -64,7 +64,7 @@ class DataPage extends Component {
 						["Trump, Donald J", "Donald", "Trump", "student"]
 					];
 				case "evaluations":
-					return generateTestData(10,5);
+					return this.generateTestData(20,100);
 				case "enrollments":
 					return [
 						["Vak", "Leerling", "Datum inschrijving"],
