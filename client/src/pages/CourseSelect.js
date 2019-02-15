@@ -38,7 +38,7 @@ class CourseSelect extends Component {
 				}
 			}
 		}
-		if (prevState.sortMethod == null && nextProps.subjects != null) {
+		if (nextProps.subjects != null) {
 			return {
 				...prevState,
 				...{
@@ -47,7 +47,11 @@ class CourseSelect extends Component {
 				}
 			};
 		} else {
-			return prevState;
+			return {
+				...prevState,
+				sortMethod: null,
+				filterMethod: "none",
+			};
 		}
 	}
 
@@ -122,7 +126,7 @@ class CourseSelect extends Component {
 				}
 			}
 		} else {
-			if (this.props.subjects == null || this.props.groups == null) {
+			if (this.props.subjects == null || this.props.groups == null || this.props.enrolledGroups === []) {
 				data = <Progress />
 			}
 			data = this.getGroupsPerSubject(this.state.sortMethod)
@@ -179,7 +183,7 @@ class CourseSelect extends Component {
 							{this.getMenuItems()}
 						</List>
 					</Paper>
-					<div>
+					<div style={{padding:"12px"}}>
 						{data}
 					</div>
 				</div>

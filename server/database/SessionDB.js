@@ -1,11 +1,18 @@
+const User = require("../dec/UserDec");
+const LoggedIn = require("../dec/LoggedInDec");
+const Participant = require("../dec/ParticipantDec");
+
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds) {
+	constructor(id, email, role, displayName, groupIds, school) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
 		this.displayName = displayName;
 		this.groupIds = groupIds;
+		if (this.role === "grade_admin") {
+			this.school = school;
+		}
 	}
 
 	inGroup(groupId) {
@@ -26,6 +33,13 @@ class SerialisedUser {
 		return this.role === "teacher";
 	}
 
+	isGradeAdmin() {
+		if (this.isAdmin()) {
+			return true;
+		}
+		return this.role === "grade_admin";
+	}
+
 	isStudent() {
 		return this.role === "student";
 	}
@@ -34,57 +48,37 @@ class SerialisedUser {
 
 class SessionDB {
 
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
-
 	async getUserByEmail(email) {
-		return this.query(
-			"SELECT id,role FROM user_data WHERE email = ?",
-			[email]
-		).then((rows) => {
-			if (rows.length === 1) {
-				return rows[0]
-			} else {
-				return null;
+		return User.findOne({
+			attributes: ["id", "role"],
+			where: {
+				email
 			}
+		}).then((user) => {
+			return user
 		});
 	}
 
+	async getParticipatingGroupsIds(userId) {
+		return Participant.findAll({ where: { userId }, attributes: ["courseGroupId"] })
+			.map(u => u.courseGroupId + "");
+	}
+
 	async getUserByToken(token) {
-		return this.query(
-			"SELECT id, " +
-			"email, " +
-			"role, " +
-			"displayName " +
-			"FROM user_data " +
-			"WHERE id IN " +
-			"	 (SELECT userId " +
-			"		FROM loggedin " +
-			"		WHERE token = ? AND active = 1);",
-			[token]
-		).then(async (rows) => {
-			if (rows.length === 1) {
-				let user = rows[0];
-				return this.query(
-					"		SELECT  " +
-					"				course_group.id " +
-					"		FROM " +
-					"				course_group " +
-					"		WHERE " +
-					"				course_group.id IN (SELECT  " +
-					"								courseGroupId " +
-					"						FROM " +
-					"								participant " +
-					"						WHERE " +
-					"								participant.userId = ?) ", [user.id])
-					.then(rs => {
-						return new SerialisedUser(user.id, user.email, user.role, user.displayName, rs.map(row => row.id + ""));
-					});
+		return LoggedIn.findAll({
+			where: {
+				token,
+				active: true,
+			},
+			include: {
+				model: User,
+				attributes: ["id", "email", "role", "displayName", "school"],
+			}
+		}).then(async (loginData) => {
+			if (loginData.length === 1) {
+				const user = loginData[0].user;
+				const groupIds = await this.getParticipatingGroupsIds(user.id);
+				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, user.school);
 			} else {
 				return null;
 			}
@@ -92,31 +86,25 @@ class SessionDB {
 	}
 
 	async createTokenForUser(profile) {
-		const token = require('uuid/v4')();
-		const q1 =
-			"INSERT INTO loggedin (userId, token,ip,date,active) " +
-			"VALUES ( " +
-			"					(SELECT id " +
-			"					 FROM user_data " +
-			"					 WHERE email = ?),?,?,NOW(),1)";
-
+		const userId = (await User.findOne({ where: { email: profile.upn }, attributes: ["id"] })).id;
+		const token = require('uuid/v4')()
 		await this.destroySession(profile.upn);
-		await this.query(q1, [profile.upn, token, profile._json.ipaddr]);
-
+		await LoggedIn.create({
+			userId,
+			token,
+			ip: profile._json.ipaddr,
+			active: true,
+		});
 		return token;
 	}
 
 	async destroySession(email) {
-		const q1 =
-			"UPDATE loggedin " +
-			"SET active=0 " +
-			"WHERE userId = " +
-			"    (SELECT id " +
-			"     FROM user_data " +
-			"     WHERE email = ?) ";
-		return this.query(q1, [email]);
+		const userId = (await User.findOne({ where: { email }, attributes: ["id"] })).id;
+		return LoggedIn.update({
+			active: false,
+		}, { where: { userId } });
 	}
 
 }
 
-module.exports = SessionDB;
+module.exports = new SessionDB();

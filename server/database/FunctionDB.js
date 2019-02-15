@@ -1,13 +1,14 @@
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Presence = require("../dec/PresenceDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
+const Op = require('sequelize').Op;
 
 class FunctionDB {
-	constructor(mainDb) {
-		this.mainDb = mainDb;
-	}
-
-	async query(sqlString, value) {
-		return this.mainDb.connection.query(sqlString, value);
-	}
 
 	async createUser(profile) {
 
@@ -18,6 +19,8 @@ class FunctionDB {
 			displayName: profile.displayName,
 			school: null,
 			role: "student",
+			createIp: profile._json.ipaddr,
+			preferedEmail: profile.upn,
 		}
 
 		if (/beekdallyceum\.nl$/g.test(user.email)) { user.school = "Beekdal" };
@@ -58,15 +61,7 @@ class FunctionDB {
 			user.role = "teacher";
 		}
 
-		return this.query(
-			"INSERT INTO user_data " +
-			"(email,role,firstName,lastName,displayName,school,createIp,createDate) VALUES" +
-			"(?,?,?,?,?,?,?,NOW())",
-			[user.email, user.role, user.firstName, user.lastName, user.displayName, user.school, profile._json.ipaddr]
-		).then(() => {
-			return user;
-		});
-
+		return User.create(user);
 	}
 
 	async addAllEnrollmentsToGroups() {
@@ -87,73 +82,169 @@ class FunctionDB {
 	}
 
 	async _addPresence(userId, groupId) {
-		const q1 = "SELECT id FROM lesson WHERE lesson.groupId = ?";
-		const q2 = "INSERT INTO presence (lessonId,studentId) VALUES (?,?)";
-		return this.query(q1, [groupId])
-			.then((rows) => {
-				const prs = rows.map((row) => {
-					return this.query(q2, [row.id, userId]);
+		return Lesson.findAll({ where: { courseGroupId: groupId } })
+			.then(lessons => Promise.all(lessons.map(({ id }) => {
+				return Presence.create({
+					lessonId: id,
+					userId,
 				});
-				return Promise.all(prs);
-			});
+			})));
 	}
 
 	async _addEvaluation(userId, groupId) {
-		return this.query(
-			"INSERT INTO evaluation " +
-			"(userId,courseId,assesment,explanation) VALUES " +
-			"(?, " +
-			"(SELECT courseId FROM course_group WHERE course_group.id = ?), " +
-			"NULL, NULL)",
-			[userId, groupId]);
+		return Group.findByPrimary(groupId, { attributes: ["courseId"] })
+			.then((courseId) => Evaluation.create({
+				userId,
+				courseId
+			}));
 	}
 
 	async _addParticipant(userId, groupId) {
-		return this.query(
-			"INSERT INTO participant " +
-			"(userId,courseGroupId) VALUES" +
-			"(?,?)",
-			[userId, groupId]);
+		return Participant.create({
+			userId,
+			courseGroupId: groupId,
+		});
 	}
 
 	async updateALLLessonDates() {
-		return this.query("SELECT id,period,day FROM course_group").then((rows) => {
-			rows.map(({id,period,day}) => {
-				this.updateLessonDates(id,period,day);
-			});
-		});
+		return Group.findAll({ attributes: ["id", "period", "day"] })
+			.then(rows => rows.map(({ id, period, day }) => {
+				this.updateLessonDates(id, period, day);
+			}));
 	}
 
 	async updateLessonDates(groupId, period, day) {
 		const schedule = require("../lib/schedule");
 		for (let i = 0; i < 8; i++) {
-			const q2 = "UPDATE lesson set date = ? WHERE groupId = ? AND numberInBlock = ?";
-			await this.query(q2, [schedule.getLessonDate(period, i + 1, day), groupId, i + 1]);
+			const date = schedule.getLessonDate(period, i + 1, day);
+			await Lesson.update({ date }, {
+				where: {
+					courseGroupId: groupId,
+					numberInBlock: i + 1
+				}
+			});
 		}
 	}
 
 	async addLessons(groupId, period, day) {
 		const schedule = require("../lib/schedule");
-
 		for (let i = 0; i < 8; i++) {
-			const q2 = "INSERT INTO lesson (groupId,date,kind,activities,numberInBlock) VALUES (?,?,?,?,?)";
-			await this.query(q2, [groupId, schedule.getLessonDate(period, i + 1, day), "", "", i + 1]);
+			await Lesson.create({
+				courseGroupId: groupId,
+				date: schedule.getLessonDate(period, i + 1, day),
+				numberInBlock: i + 1,
+			});
 		}
 	}
 
-	async addAllLessons() {
-		const q1 = "SELECT id,period,day FROM course_group"
-		this.query(q1).then((rows) => {
-			rows.map((row) => {
-				this.addLessons(row.id, row.period, row.day);
-			});
+	async getEnrollment() {
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
+	}
+
+	async _findEvaluation(userId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			order: [["id", "DESC"]],
+			where: { userId },
+			include: [{
+				raw: true,
+				model: Course,
+				attributes: ["id", "name"],
+			}, {
+				raw: true,
+				model: User,
+				attributes: ["displayName"],
+			}]
+		}).then(ev => {
+			let out = {
+				dataValues: {
+					...ev.dataValues,
+					courseName: ev.course.name,
+					courseGroupId: ev.course.id,
+					displayName: ev.user.displayName,
+				}
+			};
+			delete out.dataValues.course;
+			delete out.dataValues.user;
+			return out;
 		});
 	}
 
+	async getEvaluation(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Participant.findAll({
+			attributes: ["userId", "courseGroupId"],
+			order: [["courseGroupId", "DESC"]],
+			include: {
+				model: User,
+				attributes: ["school"],
+				where: where,
+			}
+		}).then(evs => {
+			return Promise.all(evs.map(e => this._findEvaluation(e.userId)));
+		});
+	}
+
+	async getEnrollment(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return Enrollment.findAll({
+			include: [{
+				model: Group,
+				attributes: ["id"],
+				include: [{
+					model: Course,
+					attributes: ["name"],
+				}],
+			}, {
+				model: User,
+				attributes: ["displayName", "school", "year", "level"],
+				where: where,
+			}]
+		}).then(enrl => enrl.map(e => {
+			return {
+				dataValues: {
+					...e.user.dataValues,
+					courseName: e.course_group.course.name,
+					courseGroupId: e.course_group.id,
+					id: e.id,
+					createdAt: e.createdAt,
+				}
+			}
+		}));
+	}
+
+	async getUserData(school) {
+		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
+		return User.findAll({
+			where: where,
+		});
+	}
 
 }
 
 
 
-module.exports = FunctionDB;
+module.exports = new FunctionDB();
 

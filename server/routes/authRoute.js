@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const moment = require("moment");
+const secureLogin = require("../lib/secureLogin");
 
 router.get('/logout', (req, res) => {
 	req.logout();
@@ -10,11 +12,23 @@ router.get('/logout', (req, res) => {
 	});
 });
 
+router.get("/success", (req, res, next) => {
+	res.redirect("/profiel?from=login" + secureLogin.getToken(req));
+});
+
+router.get('/login', (req, res, next) => {
+	if (req.query.secure === "true" && req.user != null && req.user.id != null) {
+		secureLogin.removeByUserId(req.user.id);
+		secureLogin.add(req.user.id, req.connection.remoteAddress);
+	}
+	next();
+});
+
 //Step 1: User goes to login page and is redirected to Azure AD
 router.get('/login', passport.authenticate('azuread-openidconnect', {
 	failureRedirect: '/login'
 }), (req, res) => {
-	res.redirect('/profiel');
+	res.redirect('/auth/success');
 });
 
 router.get('/openid/return',
@@ -22,7 +36,7 @@ router.get('/openid/return',
 		passport.authenticate('azuread-openidconnect', {
 			response: res,                      // required
 			failureRedirect: '/error2',
-			successRedirect: '/profiel',
+			successRedirect: '/auth/success',
 		})(req, res, next);
 	});
 
@@ -30,9 +44,9 @@ router.post('/openid/return',
 	function (req, res, next) {
 		passport.authenticate('azuread-openidconnect', {
 			response: res,                      // required
-			successRedirect: '/profiel',
+			successRedirect: '/auth/success',
 			failureRedirect: '/error1',
-			failureFlash: true,
+			failureFlash: false,
 			// session: false,
 		})(req, res, next);
 	});

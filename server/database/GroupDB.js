@@ -1,12 +1,14 @@
-const Group = require("../databaseDeclearations/CourseGroupDec");
-const Course = require("../databaseDeclearations/CourseDec");
-const Subject = require("../databaseDeclearations/SubjectDec");
-const Participant = require("../databaseDeclearations/ParticipantDec");
-const User = require("../databaseDeclearations/UserDec");
-const Enrollment = require("../databaseDeclearations/EnrollmentDec");
-const Lesson = require("../databaseDeclearations/LessonDec");
-const Evaluation = require("../databaseDeclearations/EvaluationDec");
-const Presence = require("../databaseDeclearations/PresenceDec");
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const Subject = require("../dec/SubjectDec");
+const Participant = require("../dec/ParticipantDec");
+const User = require("../dec/UserDec");
+const Enrollment = require("../dec/EnrollmentDec");
+const Lesson = require("../dec/LessonDec");
+const Evaluation = require("../dec/EvaluationDec");
+const Presence = require("../dec/PresenceDec");
+const functionDb = require("../database/FunctionDB");
+const courseDb = require("../database/CourseDB");
 
 class GroupDB {
 
@@ -20,7 +22,7 @@ class GroupDB {
 			enrollableFor: data.enrollableFor,
 			courseName: data.course.name,
 			courseDescription: data.course.description,
-			foreknowledge: data.course.foreknowledge,
+			remarks: data.course.remarks,
 			studyTime: data.course.studyTime,
 			subjectId: data.course.subject.id,
 			subjectName: data.course.subject.name,
@@ -30,11 +32,11 @@ class GroupDB {
 		}
 	}
 
-	async getGroups() {
+	async getGroups(userId) {
 		return Group.findAll({
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
+				model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 					model: Subject, attributes: ["id", "name", "description"]
 				}]
 			},
@@ -43,14 +45,15 @@ class GroupDB {
 					model: User, attributes: ["id", "displayName"],
 				}]
 			}]
-		}).then(data => data.map(this._mapGroup));
+		}).then(data => data.map(this._mapGroup))
+			.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
 	};
 
 	async setFullGroup(data) {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
 				return group.updateAttributes(data).then(() => {
-					this.mainDb.function.updateLessonDates(data.groupId, data.period, data.day);
+					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
 		});
@@ -66,16 +69,39 @@ class GroupDB {
 		return Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
-				model: Course, attributes: ["name", "description", "foreknowledge", "studyTime"], include: [{
-					model: Subject, attributes: ["id", "name", "description"]
-				}]
+				model: Course,
+				attributes: ["name", "description", "remarks", "studyTime"],
+				include: [
+					{
+						model: Subject, attributes: ["id", "name", "description"]
+					},
+				]
 			},
 			{
 				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
 					model: User, attributes: ["id", "displayName"],
 				}]
-			}]
-		}).then(this._mapGroup);
+			},
+			]
+		}).then(a => this._mapGroup(a))
+	}
+
+	appendEvaluation(userId) {
+		return async function addEvaluation(group) {
+			return Evaluation.findOne({
+				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+				order: [["id", "DESC"]],
+				where: {
+					userId: userId,
+					courseId: group.courseId
+				}
+			}).then(evaluation => {
+				return {
+					...group,
+					evaluation,
+				}
+			});
+		}
 	}
 
 	async getEnrollments(groupId) {
@@ -86,6 +112,7 @@ class GroupDB {
 			},
 			include: [{
 				model: User,
+				order: [["displayName", "DESC"]]
 			}]
 		}).then((e) => e.map((e) => e.user));
 	}
@@ -98,21 +125,41 @@ class GroupDB {
 			include: {
 				model: User,
 				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
-			}
+				order: [["displayName", "DESC"]]
+			},
 		}).then(rows => rows.map(row => row.user));
 	}
 
-	async getLessons(groupId) {
-		return Lesson.findAll({
-			where: {
-				courseGroupId: groupId,
+	async getLessons(groupId, userId) {
+		if (userId == null) {
+			return Lesson.findAll({ where: { courseGroupId: groupId } });
+		} else {
+			return Lesson.findAll({
+				where: { courseGroupId: groupId },
+			}).then(async lessons => {
+				const presences = await Promise.all(lessons.map(lesson => Presence.findOne({
+					attributes: ["lessonId", "userId", "userStatus"],
+					where: {
+						lessonId: lesson.id,
+						userId: userId,
+					}
+				})));
+				return lessons.map((lesson, index) => presences[index] == null ? lesson : { ...lesson.dataValues, userStatus: presences[index].userStatus });
+			});
+		}
+	}
+
+	async setLesson(lesson) {
+		return Lesson.findByPk(lesson.id).then(l => {
+			if (l.courseGroupId === lesson.courseGroupId) {
+				return l.update(lesson);
 			}
 		});
 	}
 
 	async setLessons(lessons) {
 		return Promise.all(lessons.map((lesson) => {
-			return Lesson.findByPrimary(lesson.id).then(l => {
+			return Lesson.findByPk(lesson.id).then(l => {
 				return l.update(lesson);
 			});
 		}));
@@ -131,21 +178,24 @@ class GroupDB {
 	}
 
 	async setPresence(presence) {
-		return Presence.findById(presence.id).then(prs => {
+		return Presence.findByPk(presence.id).then(prs => {
 			prs.update({
 				status: presence.status,
 			});
 		});
 	}
 
-	async getEvaluations(groupId) {
-		return Evaluation.findAll({
+	async _findEvaluation(userId, groupId) {
+		return Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			order: [["id", "DESC"]],
+			where: { userId },
 			include: {
-				attributes: [],
 				model: Course,
+				attributes: ["id"],
 				include: {
 					model: Group,
-					attributes: [],
+					attributes: ["id"],
 					where: {
 						id: groupId,
 					}
@@ -154,6 +204,58 @@ class GroupDB {
 		});
 	}
 
+	async getEvaluations(groupId) {
+		const participants = await Participant.findAll({
+			attributes: ["userId"],
+			where: { courseGroupId: groupId },
+			include: {
+				attributes: ["displayName"],
+				model: User,
+				order: [["displayName", "DESC"]],
+			},
+		});
+		const evaluations = participants
+			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
+			.map(p => this._findEvaluation(p.userId, groupId)
+				.then(async evaluation => {
+					if (evaluation == null) {
+						return {
+							type: "decimal",
+							assesment: "",
+							courseId: await courseDb.getCourseidFromGroupId(groupId),
+							explanation: "",
+							userId: p.userId,
+						}
+					}
+					delete evaluation.course;
+					return evaluation;
+				}));
+
+		return Promise.all(evaluations);
+	}
+
+	async updateUserStatus(userId, lessonId, newStatus) {
+		const p = await Presence.findOne({ where: { userId, lessonId } });
+		if (p != null) {
+			p.update({ userStatus: newStatus });
+		} else {
+			throw new Error("No presence data available");
+		}
+	}
+
+	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
+		return Evaluation.create({
+			userId,
+			assesment,
+			type,
+			explanation,
+			updatedByIp,
+			updatedByUserId,
+			courseId,
+		});
+	}
+
 }
 
 module.exports = new GroupDB();
+

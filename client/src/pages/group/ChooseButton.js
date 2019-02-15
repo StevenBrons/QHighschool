@@ -4,12 +4,7 @@ import Clear from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
 import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../../store/actions';
 import Progress from '../../components/Progress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
+import EnrollmentPopup from './EnrollmentPopup';
 
 class ChooseButton extends Component {
 
@@ -17,93 +12,39 @@ class ChooseButton extends Component {
 		super(props);
 		this.props.getEnrollableGroups();
 		this.props.getEnrolLments();
-
 		this.state = {
 			dialogOpen: false,
 		}
 	}
 
-	getDialog() {
-		return (
-			<Dialog
-				open={this.state.dialogOpen}
-				keepMounted
-			>
-				<DialogTitle>
-					Inschrijven
-				</DialogTitle>
-				{this.props.hasChosenDay && !this.props.hasChosen ?
-					<div>
-						<DialogContent>
-							<DialogContentText>
-								<Typography color="error" style={{ fontSize: "16px" }}>
-									{"Je hebt al een module gekozen voor " + this.props.group.day + "!"}
-								</Typography>
-								Schrijf je eerst uit voor de module
-								<Typography color="primary" variant="title" style={{ fontSize: "16px", display: "inline-block", margin: "5px" }}>
-									{this.props.chosenDayGroupName}
-								</Typography>
-								om je in te kunnen schrijven
-							</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button color="primary" variant="contained">
-								Sluiten
-							</Button>
-						</DialogActions>
-					</div>
-					:
-					<div>
-						<DialogContent>
-							{this.props.group.foreknowledge && !this.props.hasChosen &&
-								<Typography color="error" variant="error">
-									{"Voorkennis: " + this.props.group.foreknowledge}
-								</Typography>
-							}
-							<DialogContentText>
-								{this.props.hasChosen ?
-									"Weet je zeker dat je wilt uitschrijven voor de module" :
-									"Weet je zeker dat je wilt inschrijven voor de module"
-								}
-								<Typography color="primary" variant="title" style={{ fontSize: "16px", display: "inline", margin: "5px" }}>
-									{this.props.group.courseName}
-								</Typography>
-								?
-							</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button color="default">
-								Annuleren
-					</Button>
-							{this.props.hasChosen ?
-								<Button onClick={() => this.handleEnroll()} color="primary">
-									Uitschrijven
-							<Clear />
-								</Button> :
-								<Button onClick={() => this.handleEnroll()} variant="contained" color="primary">
-									Inschrijven
-							</Button>
-							}
-						</DialogActions>
-					</div>
-				}
-			</Dialog>
-		);
+	preventPopupClose(preventClose) {
+		this.preventClose = preventClose;
 	}
 
-	handleEnroll() {
-		this.props.toggleEnrollment(this.props.group);
-	}
-
-	onButtonClick() {
-		this.setState({
-			dialogOpen: !this.state.dialogOpen,
-		});
+	handlePopup(doEnroll) {
+		if (doEnroll) {
+			this.props.toggleEnrollment(this.props.group);
+		}
+		if (!this.preventClose) {
+			this.setState({
+				dialogOpen: !this.state.dialogOpen,
+			});
+		}
 	}
 
 	render() {
+		let currentEnrollPeriod = 3; // replace with variable in database
 		const props = this.props;
-		let dialog = this.state.dialogOpen ? this.getDialog.bind(this)(props.group.courseName, props.hasChosen, props.group.foreknowledge) : null;
+		let dialog = this.state.dialogOpen ?
+			<EnrollmentPopup
+				group={props.group}
+				hasChosen={props.hasChosen}
+				handlePopup={this.handlePopup.bind(this)}
+				hasChosenDay={props.hasChosenDay}
+				chosenDayGroupName={props.chosenDayGroupName}
+				preventPopupClose={this.preventPopupClose.bind(this)}
+			/> : null;
+
 		if (props.loading) {
 			return (
 				<Progress size={30} />
@@ -112,7 +53,7 @@ class ChooseButton extends Component {
 
 		if (props.hasChosen) {
 			return (
-				<Button color="primary" onClick={() => this.onButtonClick()} style={props.style}>
+				<Button color="primary" onClick={() => this.handlePopup(false)} style={props.style}>
 					{"Ingeschreven"}
 					<Clear />
 					{dialog}
@@ -122,14 +63,21 @@ class ChooseButton extends Component {
 
 		if (this.props.canChoose) {
 			return (
-				<Button color="primary" variant="contained" onClick={() => this.onButtonClick()} style={this.props.style}>
+				<Button color="primary" variant="contained" onClick={() => this.handlePopup(false)} style={this.props.style}>
 					{"Inschrijven" + (this.props.hasChosenDay ? "*" : "")}
+					{dialog}
+				</Button>
+			);
+		} else if (props.group.period < currentEnrollPeriod){
+			return (
+				<Button disabled color="primary" style={props.style}>
+					Inschrijfperiode verlopen
 					{dialog}
 				</Button>
 			);
 		} else {
 			return (
-				<Button disabled color="primary" onClick={() => this.onButtonClick()} style={props.style}>
+				<Button disabled color="primary" style={props.style}>
 					Coming Soon
 					{dialog}
 				</Button>
@@ -146,14 +94,19 @@ function mapStateToProps(state, ownProps) {
 		}
 	}
 
-	const occupiedDayIndex = state.users[state.userId].enrollmentIds.map(id => state.groups[id].day).indexOf(ownProps.group.day);
-	const hasChosenDay = occupiedDayIndex !== -1;
+	let chosenDayGroupName = -1;
+	state.users[state.userId].enrollmentIds.forEach(groupId => {
+		const group = state.groups[groupId];
+		if (group.day === ownProps.group.day && group.period === ownProps.group.period) {
+			chosenDayGroupName = group.courseName;
+		}
+	});
 
 	return {
 		canChoose: state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
 		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
-		hasChosenDay,
-		chosenDayGroupName: hasChosenDay ? state.groups[state.users[state.userId].enrollmentIds[occupiedDayIndex]].courseName : null,
+		hasChosenDay: chosenDayGroupName !== -1,
+		chosenDayGroupName,
 		currentPeriod: state.currentPeriod,
 	};
 }

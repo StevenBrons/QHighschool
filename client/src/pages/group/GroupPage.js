@@ -4,7 +4,7 @@ import map from 'lodash/map';
 
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
-import EvaluationTab from './EvaluationTab';
+import { EvaluationTab } from './Evaluation';
 import User from "../user/User"
 import Page from '../Page';
 
@@ -37,13 +37,13 @@ class GroupPage extends Component {
 				break;
 			case "teacher":
 				if (this.props.userIsMemberOfGroup) {
-					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
+					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				} else {
 					this.state.tabs = ["Lessen"];
 				}
 				break;
 			case "admin":
-				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief"];
+				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				break;
 			default:
 				break;
@@ -73,62 +73,116 @@ class GroupPage extends Component {
 		switch (currentTab) {
 			case "Inschrijvingen":
 				if (enrollmentIds == null) {
-					this.props.getGroupEnrollments(group.id);
 					return <Progress />;
 				}
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return [<User key={"header"} display="header" />]
-					.concat((enrollmentIds.map(id => {
-						return <User key={id} userId={id} display="row" />
-					})));
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{[<User key={"header"} display="header" />]
+							.concat((enrollmentIds.map(id => {
+								return <User key={id} userId={id} display="row" />
+							})))}
+					</tbody>
+				</table>
 			case "Lessen":
 				if (lessons == null) {
-					this.props.getGroupLessons(group.id);
 					return <Progress />;
 				}
 				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return map({ 0: { id: -1 }, ...lessons }, lesson => {
-					return <Lesson lesson={lesson} key={lesson.id} editable={this.state.editable} handleChange={this.handleLessonChange} />
-				});
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{map({ 0: { id: -1 }, ...lessons }, lesson => {
+							return <Lesson lesson={lesson} key={lesson.id} role={this.props.role} userIsMemberOfGroup={this.props.userIsMemberOfGroup} editable={this.state.editable} handleChange={this.handleLessonChange} />
+						})}
+					</tbody>
+				</table>
 			case "Deelnemers":
 				if (participantIds == null) {
-					this.props.getGroupParticipants(group.id);
 					return <Progress />;
 				}
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return [<User key={"header"} display="header" />]
-					.concat(participantIds.map(id => {
-						return <User key={id} userId={id} display="row" />
-					}));
+				return <table style={{ width: "100%" }}>
+					<tbody>
+						{[<User key={"header"} display="header" />]
+							.concat(participantIds.map(id => {
+								return <User key={id} userId={id} display="row" />
+							}))}
+					</tbody>
+				</table>
 			case "Actief":
-				if (participantIds == null) {
-					this.props.getGroupParticipants(group.id);
-					return <Progress />;
-				}
-				if (lessons == null) {
-					this.props.getGroupLessons(group.id);
-					return <Progress />;
-				}
-				if (presence == null) {
-					this.props.getGroupPresence(group.id);
+				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
 				}
 				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} editable={this.state.editable} handleChange={this.handlePresenceChange} />
 			case "Beoordeling":
-				if (evaluations == null) {
-					this.props.getGroupEvaluations(group.id);
+				if (participantIds == null || evaluations == null) {
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} />
+				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
 			default: return null;
 		}
 
+	}
+
+	componentDidMount() {
+		this.getData();
+	}
+
+	componentDidUpdate() {
+		this.getData();
+	}
+
+	getData() {
+		let group = this.state.group;
+		const enrollmentIds = this.state.group.enrollmentIds;
+		const lessons = this.state.group.lessons;
+		const participantIds = this.state.group.participantIds;
+		const evaluations = this.state.group.evaluations;
+		const presence = this.state.group.presence;
+
+		switch (this.state.currentTab) {
+			case "Inschrijvingen":
+				if (enrollmentIds == null) {
+					this.props.getGroupEnrollments(group.id);
+				}
+				break;
+			case "Lessen":
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
+				}
+				break;
+			case "Deelnemers":
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				break;
+			case "Actief":
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				if (lessons == null) {
+					this.props.getGroupLessons(group.id);
+				}
+				if (presence == null) {
+					this.props.getGroupPresence(group.id);
+				}
+				break;
+			case "Beoordeling":
+				if (evaluations == null) {
+					this.props.getGroupEvaluations(group.id);
+				}
+				if (participantIds == null) {
+					this.props.getGroupParticipants(group.id);
+				}
+				break;
+			default: break;
+		}
 	}
 
 	handleChange = (event) => {
@@ -149,6 +203,15 @@ class GroupPage extends Component {
 					...lessons,
 					[lesson.id]: lesson,
 				}
+			}
+		});
+	}
+
+	handleEvaluationChange = (newEvaluations) => {
+		this.setState({
+			group: {
+				...this.state.group,
+				evaluations: newEvaluations,
 			}
 		});
 	}
@@ -240,9 +303,9 @@ class GroupPage extends Component {
 					</Tabs>
 				</AppBar>
 				<br />
-				<table style={{ width: "98%", margin: "auto" }}>
+				<div style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}
-				</table>
+				</div>
 				<PageLeaveWarning giveWarning={this.state.editable} />
 			</Page>
 		);

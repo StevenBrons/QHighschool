@@ -81,6 +81,18 @@ class GroupClass extends Data {
 		});
 	}
 
+	async setPresenceUserStatus(lessonId, userStatus) {
+		return $.ajax({
+			url: this.getUrl() + "/userStatus",
+			type: "patch",
+			data: {
+				lessonId,
+				userStatus,
+			},
+			dataType: "json",
+		});
+	}
+
 	async getEnrollments(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/enrollments",
@@ -148,6 +160,18 @@ class GroupClass extends Data {
 		});
 	}
 
+	async setEvaluations(evaluations, secureLogin) {
+		return $.ajax({
+			url: this.getUrl() + "/evaluations",
+			type: "patch",
+			data: {
+				evaluations: JSON.stringify(evaluations),
+				secureLogin,
+			},
+			dataType: "json",
+		});
+	}
+
 	async getPresence(groupId) {
 		return $.ajax({
 			url: this.getUrl() + "/presence",
@@ -204,17 +228,6 @@ class UserClass extends Data {
 		return $.ajax({
 			url: this.getUrl() + "/self",
 			type: "get",
-			dataType: "json",
-		});
-	}
-
-	async getUser(userId) {
-		return $.ajax({
-			url: this.getUrl(),
-			type: "post",
-			data: {
-				userId
-			},
 			dataType: "json",
 		});
 	}
