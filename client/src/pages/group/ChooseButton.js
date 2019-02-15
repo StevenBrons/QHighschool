@@ -33,7 +33,6 @@ class ChooseButton extends Component {
 	}
 
 	render() {
-		let currentEnrollPeriod = 3; // replace with variable in database
 		const props = this.props;
 		let dialog = this.state.dialogOpen ?
 			<EnrollmentPopup
@@ -68,7 +67,7 @@ class ChooseButton extends Component {
 					{dialog}
 				</Button>
 			);
-		} else if (props.group.period < currentEnrollPeriod){
+		} else if (props.group.period < this.props.currentPeriod){
 			return (
 				<Button disabled color="primary" style={props.style}>
 					Inschrijfperiode verlopen

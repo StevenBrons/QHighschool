@@ -24,7 +24,7 @@ class MyGroups extends Component {
 		return {
 			...prevState,
 			...{
-				filterMethod: values.filter ? values.filter : "period2",
+				filterMethod: values.filter ? values.filter : ("period" + nextProps.currentPeriod),
 			}
 		};
 	}
