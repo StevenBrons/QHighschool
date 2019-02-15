@@ -4,6 +4,7 @@ import groupsReducer from "./groupsReducer";
 const DEFAULT_STATE = {
 	userId: null,
 	enrollableGroups: null,
+	currentPeriod: 3,
 	subjects: null,
 	groups: null,
 	users: null,
