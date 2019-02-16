@@ -82,8 +82,8 @@ class FunctionDB {
 	}
 
 	async _addPresence(userId, groupId) {
-		return Lesson.findOne({ where: { groupId } })
-			.then(lessons => Prommise.all(lessons.map(({ id }) => {
+		return Lesson.findAll({ where: { courseGroupId: groupId } })
+			.then(lessons => Promise.all(lessons.map(({ id }) => {
 				return Presence.create({
 					lessonId: id,
 					userId,
@@ -92,7 +92,7 @@ class FunctionDB {
 	}
 
 	async _addEvaluation(userId, groupId) {
-		return Group.findByPrimary(groupId, { attributes: courseId })
+		return Group.findByPrimary(groupId, { attributes: ["courseId"] })
 			.then((courseId) => Evaluation.create({
 				userId,
 				courseId

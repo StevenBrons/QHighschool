@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import theme from '../lib/MuiTheme'
 import MenuItem from '@material-ui/core/MenuItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PropTypes from 'prop-types';
 
-class Field extends Component {
+class Field extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -247,17 +247,17 @@ class Field extends Component {
 }
 
 
-Field.PropTypes = {
+Field.propTypes = {
 	validate: PropTypes.shape({
-		min: PropTypes.integer,
-		max: PropTypes.integer,
-		type: PropTypes.oneOf("phoneNumber", "email", "integer"),
+		min: PropTypes.number,
+		max: PropTypes.number,
+		type: PropTypes.oneOf(["phoneNumber", "email", "integer", "decimalGrade"]),
 		notEmpty: PropTypes.bool,
-		maxLength: PropTypes.integer,
+		maxLength: PropTypes.number,
 	}),
 	value: PropTypes.oneOfType([
 		PropTypes.string,
-		PropTypes.integer,
+		PropTypes.number,
 	]),
 	style: PropTypes.shape({
 		labelVisible: PropTypes.bool,
@@ -267,24 +267,25 @@ Field.PropTypes = {
 			"headline",
 		]),
 		underline: PropTypes.bool,
-		color: PropTypes.oneOf("primary", "secondary", "error"),
+		color: PropTypes.oneOf(["primary", "primaryContrast", "secondary", "error"]),
 		unit: PropTypes.string,
-		margin: PropTypes.oneOf("none", "dense", "normal"),
+		margin: PropTypes.oneOf(["none", "dense", "normal"]),
 	}),
 	layout: PropTypes.shape({
 		area: PropTypes.bool,
-		alignment: PropTypes.oneOf("left", "right"),
+		alignment: PropTypes.oneOf(["left", "right"]),
 		td: PropTypes.bool,
 	}),
 	label: PropTypes.string,
-	options: PropTypes.arrayOf(
-		PropTypes.oneOf(
-			PropTypes.shape({
-				value: PropTypes.string,
-				label: PropTypes.string,
-			}),
-			PropTypes.string
-		)),
+	options: PropTypes.any,
+	// PropTypes.arrayOf(
+	// 	PropTypes.oneOfType([
+	// 		PropTypes.shape({
+	// 			value: PropTypes.string,
+	// 			label: PropTypes.string,
+	// 		}),
+	// 		PropTypes.string,
+	// 	])),
 	editable: PropTypes.bool,
 	default: PropTypes.string,
 };

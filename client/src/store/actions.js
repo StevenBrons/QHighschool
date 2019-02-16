@@ -141,6 +141,19 @@ export function setUser(user) {
 	}
 }
 
+export function setPresenceUserStatus(lessonId, userStatus, groupId) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: "CHANGE_PRESENCE_USER_STATUS",
+			lessonId,
+			userStatus,
+			groupId,
+		});
+		Group.setPresenceUserStatus(lessonId, userStatus)
+			.catch(apiErrorHandler(dispatch));
+	}
+}
+
 export function setGroup(group) {
 	return (dispatch, getState) => {
 		function getCourse(group) {

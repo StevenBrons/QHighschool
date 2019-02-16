@@ -90,7 +90,7 @@ class GroupDB {
 		return async function addEvaluation(group) {
 			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
-				order: [["id","DESC"]],
+				order: [["id", "DESC"]],
 				where: {
 					userId: userId,
 					courseId: group.courseId
@@ -130,12 +130,23 @@ class GroupDB {
 		}).then(rows => rows.map(row => row.user));
 	}
 
-	async getLessons(groupId) {
-		return Lesson.findAll({
-			where: {
-				courseGroupId: groupId,
-			}
-		});
+	async getLessons(groupId, userId) {
+		if (userId == null) {
+			return Lesson.findAll({ where: { courseGroupId: groupId } });
+		} else {
+			return Lesson.findAll({
+				where: { courseGroupId: groupId },
+			}).then(async lessons => {
+				const presences = await Promise.all(lessons.map(lesson => Presence.findOne({
+					attributes: ["lessonId", "userId", "userStatus"],
+					where: {
+						lessonId: lesson.id,
+						userId: userId,
+					}
+				})));
+				return lessons.map((lesson, index) => presences[index] == null ? lesson : { ...lesson.dataValues, userStatus: presences[index].userStatus });
+			});
+		}
 	}
 
 	async setLesson(lesson) {
@@ -221,6 +232,15 @@ class GroupDB {
 				}));
 
 		return Promise.all(evaluations);
+	}
+
+	async updateUserStatus(userId, lessonId, newStatus) {
+		const p = await Presence.findOne({ where: { userId, lessonId } });
+		if (p != null) {
+			p.update({ userStatus: newStatus });
+		} else {
+			throw new Error("No presence data available");
+		}
 	}
 
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
