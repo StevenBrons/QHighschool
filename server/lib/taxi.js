@@ -149,7 +149,7 @@ async function mapPassengers(id, day, week) {
 		});
 	}
 	let status = "onbekend";
-	if (week == 0) {
+	if (week === 0) {
 		status = "";
 	}
 	if (lesson != null) {
@@ -207,7 +207,9 @@ exports.getSchedule = async function getSchedule(userId, week) {
 	let schedules = [];
 	const rides = getRides(userId);
 	for (let r = 0; r < rides.length; r++) {
-		schedules.push(ejs.render(SCHEDULE_EJS, await prepareRide(rides[r],week), {}));
+		let htmlSchedule = ejs.render(SCHEDULE_EJS, await prepareRide(rides[r],week), {});
+		htmlSchedule = htmlSchedule.replace(/[\t\r\n]/g,"");
+		schedules.push(htmlSchedule);
 	}
 	return schedules;
 }

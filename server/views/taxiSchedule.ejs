@@ -1,19 +1,14 @@
+<h3>
+	<%= name %>
+	<div style="float:right">
+		<%= day %>
+	</div>
+</h3>
 <table>
-	<tr>
-		<th>
-			<%= name %>
-		</th>
-		<td>
-		</td>
-		<th>
-			<%= day %>
-		</th>
-	</tr>
 	<% for (let i = 0; i < stops.length; i++) {%>
 		<tr>
 			<th>
-				Stop
-				<%= i%>
+				Stop <%= (i + 1)%>
 			</th>
 			<th>
 				<%= stops[i].location%>
@@ -26,8 +21,10 @@
 			<td colspan="3">
 				<b>Adres: </b>
 				<%= stops[i].address %>
-				<b>Verzamelplaats: </b>
-				<%= stops[i].meetingPoint %>
+				<div style="float:right">
+					<b>Verzamelplaats: </b>
+					<%= stops[i].meetingPoint %>
+				</div>
 			</td>
 		</tr>
 		<% for (let j = 0; j < stops[i].in.length; j++) {%>
