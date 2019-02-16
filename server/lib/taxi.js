@@ -148,7 +148,7 @@ async function mapPassengers(id, day, week) {
 			}
 		});
 	}
-	let willBePresent = true;
+	let presence = "aanwezig";
 	if (lesson != null) {
 		const presence = await Presence.findOne({
 			attributes: ["userStatus"],
@@ -158,24 +158,22 @@ async function mapPassengers(id, day, week) {
 			}
 		});
 		if (lesson && lesson.presence === "unrequired") {
-			willBePresent = false;
+			willBePresent = "geen les";
 		}
 		if (presence && presence.userStatus === "absent") {
-			willBePresent = false;
+			willBePresent = "afgemeld";
 		}
 	}
 	return {
 		displayName: user.dataValues.displayName,
-		userStatus: willBePresent ? "aanwezig" : "niet aanwezig",
+		userStatus: presence,
 	}
 }
 
 function getRides(userId) {
 	const allRides = [];
-	for (day in RIDES) {
-		for (ride in RIDES[day]) {
-			allRides.push(RIDES[day][ride]);
-		}
+	for (ride in RIDES) {
+		allRides.push(RIDES[ride]);
 	}
 	if (userId == -1) {
 		return allRides;
@@ -189,17 +187,22 @@ function getRides(userId) {
 	}
 }
 
+async function prepareRide(ride, week) {
+	const r = JSON.parse(JSON.stringify(ride));
+	for (let i = 0; i < r.stops.length; i++) {
+		r.stops[i].meetingPoint = getMeetingPoint(r.stops[i].location);
+		r.stops[i].address = getAddress(r.stops[i].location);
+		r.stops[i].in = await Promise.all(r.stops[i].in.map((p) => mapPassengers(p, r.day, week)));
+		r.stops[i].out = await Promise.all(r.stops[i].out.map((p) => mapPassengers(p, r.day, week)));
+	}
+	return r;
+}
+
 exports.getSchedule = async function getSchedule(userId, week) {
 	let schedules = [];
 	const rides = getRides(userId);
 	for (let r = 0; r < rides.length; r++) {
-		for (let i = 0; i < rides[r].stops.length; i++) {
-			rides[r].stops[i].meetingPoint = getMeetingPoint(rides[r].stops[i].location);
-			rides[r].stops[i].address = getAddress(rides[r].stops[i].location);
-			rides[r].stops[i].in = await Promise.all(rides[r].stops[i].in.map((p) => mapPassengers(p, day, week)));
-			rides[r].stops[i].out = await Promise.all(rides[r].stops[i].out.map((p) => mapPassengers(p, day, week)));
-		}
-		schedules.push(ejs.render(SCHEDULE_EJS, rides[r], {}));
+		schedules.push(ejs.render(SCHEDULE_EJS, await prepareRide(rides[r],week), {}));
 	}
 	return schedules;
 }
