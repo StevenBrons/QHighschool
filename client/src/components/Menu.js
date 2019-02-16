@@ -7,6 +7,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitIcon from '@material-ui/icons/ExitToApp';
+import LocalTaxi from '@material-ui/icons/LocalTaxi';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -30,7 +31,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "loguit"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "loguit", "taxi"];
 				break;
 			default:
 				this.state.pages = ["aanbod", "profiel", "loguit"];
@@ -39,13 +40,13 @@ class Menu extends Component {
 	}
 
 	onClick(page) {
-		if(page === "profiel")
+		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
-		else if(page === "loguit"){
+		else if (page === "loguit") {
 			User.logout().then(() => {
 				document.location.reload();
 			});
-		}	
+		}
 		else
 			this.props.history.push("/" + page);
 	}
@@ -66,7 +67,9 @@ class Menu extends Component {
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
 			case "Exit":
-				return <ExitIcon style={{color: "red"}} />;
+				return <ExitIcon style={{ color: "red" }} />;
+			case "Taxi":
+				return <LocalTaxi style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -124,6 +127,11 @@ class Menu extends Component {
 				title: "Portfolio",
 				icon: "Assessment",
 			},
+			{
+				id: "taxi",
+				title: "Taxi",
+				icon: "Taxi",
+			},
 		];
 
 		const profile = [
@@ -143,7 +151,7 @@ class Menu extends Component {
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
-			const visibleProfile = profile
+		const visibleProfile = profile
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
@@ -151,10 +159,10 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
-					<div style={{position: "absolute", bottom: "20px", width: "100%"}}>
+					<div style={{ position: "absolute", bottom: "20px", width: "100%" }}>
 						{visibleProfile}
 					</div>
-				</List>				
+				</List>
 			</Paper >
 
 		);
@@ -163,19 +171,19 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
 	if (state.userId != null) {
-			return {
-				displayName: state.users[state.userId].displayName,
-				userId: state.userId,
-				role: state.role
-			};
-			
-		}
 		return {
-			displayName: "",
+			displayName: state.users[state.userId].displayName,
 			userId: state.userId,
 			role: state.role
 		};
+
 	}
+	return {
+		displayName: "",
+		userId: state.userId,
+		role: state.role
+	};
+}
 
 
 export default withRouter(connect(mapStateToProps)(Menu));

@@ -14,6 +14,7 @@ import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 import User from "./pages/user/User";
 import MyGroups from "./pages/MyGroups";
+import Taxi from "./pages/Taxi";
 
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
@@ -55,6 +56,7 @@ class App extends Component {
 					<Route path="/profiel/" component={User} />
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={MyGroups} />
+					<Route path="/taxi/" component={Taxi} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>
 			</div>

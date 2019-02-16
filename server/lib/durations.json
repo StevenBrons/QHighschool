@@ -1,0 +1,79 @@
+{
+	"Beekdal": {
+		"Candea College": 15,
+		"Lyceum Elst||Het Westeraam": 18,
+		"Liemers College": 16,
+		"Maarten van Rossem||Lorentz Lyceum": 14,
+		"Montessori College": 1,
+		"Olympus College": 11,
+		"Produs": 15,
+		"Stedelijk Gymnasium Arnhem": 8,
+		"Symbion": 21,
+		"'t Venster": 6
+	},
+	"Candea College": {
+		"Lyceum Elst||Het Westeraam": 20,
+		"Liemers College": 10,
+		"Maarten van Rossem||Lorentz Lyceum": 15,
+		"Montessori College": 20,
+		"Olympus College": 15,
+		"Produs": 18,
+		"Stedelijk Gymnasium Arnhem": 13,
+		"Symbion": 15,
+		"'t Venster": 16
+	},
+	"Lyceum Elst||Het Westeraam": {
+		"Liemers College": 22,
+		"Maarten van Rossem||Lorentz Lyceum": 8,
+		"Montessori College": 16,
+		"Olympus College": 8,
+		"Produs": 8,
+		"Stedelijk Gymnasium Arnhem": 14,
+		"Symbion": 26,
+		"'t Venster": 16
+	},
+	"Liemers College": {
+		"Maarten van Rossem||Lorentz Lyceum": 20,
+		"Montessori College": 23,
+		"Olympus College": 19,
+		"Produs": 22,
+		"Stedelijk Gymnasium Arnhem": 19,
+		"Symbion": 12,
+		"'t Venster": 19
+	},
+	"Maarten van Rossem||Lorentz Lyceum": {
+		"Montessori College": 14,
+		"Olympus College": 1,
+		"Produs": 1,
+		"Stedelijk Gymnasium Arnhem": 1,
+		"Symbion": 1,
+		"'t Venster": 1
+	},
+	"Montessori College": {
+		"Olympus College": 4,
+		"Produs": 7,
+		"Stedelijk Gymnasium Arnhem": 11,
+		"Symbion": 22,
+		"'t Venster": 13
+	},
+	"Olympus College": {
+		"Produs": 6,
+		"Stedelijk Gymnasium Arnhem": 7,
+		"Symbion": 20,
+		"'t Venster": 9
+	},
+	"Produs": {
+		"Stedelijk Gymnasium Arnhem": 12,
+		"Symbion": 24,
+		"'t Venster": 14
+	},
+	"Stedelijk Gymnasium Arnhem": {
+		"Symbion": 21,
+		"'t Venster": 8
+	},
+	"Symbion": {
+		"'t Venster": 21
+	},
+	"'t Venster": {
+	}
+}
