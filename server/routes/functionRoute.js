@@ -33,10 +33,10 @@ router.post("/calculateLessonDates", function (req, res, next) {
 
 router.post("/taxi", function (req, res, next) {
 	if (req.user.isAdmin()) {
-		taxi.getSchedule(-1)
+		taxi.getSchedule(-1,req.body.week)
 			.then(s => handleReturn(res)(s.join("\n")));
 	} else {
-		taxi.getSchedule(req.user.id)
+		taxi.getSchedule(req.user.id,req.body.week)
 			.then(s => handleReturn(res)(s.join("\n")));
 	}
 });

@@ -148,7 +148,10 @@ async function mapPassengers(id, day, week) {
 			}
 		});
 	}
-	let presence = "aanwezig";
+	let status = "onbekend";
+	if (week == 0) {
+		status = "";
+	}
 	if (lesson != null) {
 		const presence = await Presence.findOne({
 			attributes: ["userStatus"],
@@ -158,15 +161,17 @@ async function mapPassengers(id, day, week) {
 			}
 		});
 		if (lesson && lesson.presence === "unrequired") {
-			willBePresent = "geen les";
+			status = "geen les";
+		}else {
+			status = "aanwezig";
 		}
 		if (presence && presence.userStatus === "absent") {
-			willBePresent = "afgemeld";
+			status = "afgemeld";
 		}
 	}
 	return {
 		displayName: user.dataValues.displayName,
-		userStatus: presence,
+		userStatus: status,
 	}
 }
 
