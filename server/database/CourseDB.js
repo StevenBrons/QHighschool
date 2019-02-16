@@ -30,7 +30,7 @@ class CourseDB {
 	}
 
 	async getCourseidFromGroupId(groupId) {
-		return Group.findOne({
+		return Group.findByPK(groupId, {
 			attributes: ["id"],
 			include: {
 				model: Course,

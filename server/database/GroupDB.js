@@ -222,7 +222,7 @@ class GroupDB {
 						return {
 							type: "decimal",
 							assesment: "",
-							courseId: await courseDb.getCourseidFromGroupId(groupId),
+							courseId: await courseDb.getCourseIdFromGroupId(groupId),
 							explanation: "",
 							userId: p.userId,
 						}
