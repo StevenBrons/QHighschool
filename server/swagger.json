@@ -1013,6 +1013,35 @@
         }
       }
     },
+    "/function/taxi": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "taxi",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "week",
+            "in": "formData",
+            "description": "The week to get the schedule from, 0 for the base schedule",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
     "/function/calculateLessonDates": {
       "post": {
         "tags": [
@@ -1030,6 +1059,47 @@
             "description": "Confirm action",
             "required": true,
             "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/data": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Reset all lesson dates",
+        "operationId": "getData",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "secureLogin",
+            "in": "formData",
+            "description": "secure login token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "table",
+            "in": "formData",
+            "description": "the table to read",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "evaluation",
+              "user_data",
+              "enrollment"
+            ]
           }
         ],
         "produces": [

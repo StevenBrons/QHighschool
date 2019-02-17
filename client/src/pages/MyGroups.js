@@ -15,7 +15,7 @@ class MyGroups extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			filterMethod: "period3",
+			filterMethod: "period" + this.props.currentPeriod,
 		}
 	}
 
@@ -24,7 +24,7 @@ class MyGroups extends Component {
 		return {
 			...prevState,
 			...{
-				filterMethod: values.filter ? values.filter : "period2",
+				filterMethod: values.filter ? values.filter : ("period" + nextProps.currentPeriod),
 			}
 		};
 	}
@@ -100,16 +100,16 @@ class MyGroups extends Component {
 }
 
 function mapStateToProps(state) {
+	let groups;
 	if (state.groups == null || state.users[state.userId].participatingGroupIds == null) {
-		return {
-			groups: null,
-		}
+		groups = null;
 	} else {
-		return {
-			groups: state.users[state.userId].participatingGroupIds.map((id) => state.groups[id]),
-		};
+		groups = state.users[state.userId].participatingGroupIds.map((id) => state.groups[id])
 	}
-
+	return {
+		groups: groups,
+		currentPeriod: state.currentPeriod,
+	}
 }
 
 function mapDispatchToProps(dispatch) {

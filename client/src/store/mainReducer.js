@@ -4,6 +4,7 @@ import groupsReducer from "./groupsReducer";
 const DEFAULT_STATE = {
 	userId: null,
 	enrollableGroups: null,
+	currentPeriod: 3,
 	subjects: null,
 	groups: null,
 	users: null,
@@ -56,6 +57,10 @@ function mainReducer(state = DEFAULT_STATE, action) {
 			return { ...state, enrollableGroups: action.enrollableGroups };
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: { ...state.subjects, ...action.subjects } };
+		case "CHANGE_PRESENCE_USER_STATUS":
+			let lessons = state.groups[action.groupId].lessons;
+			lessons[action.lessonId].userStatus = action.userStatus;
+			return { ...state, lessons }
 		default:
 			return {
 				...state,

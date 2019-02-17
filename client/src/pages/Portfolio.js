@@ -60,7 +60,7 @@ class Portfolio extends Component {
 				display="card" />
 		);
 
-		return <div style={{ padding: "10px" }}>
+		return <div key={name} style={{ padding: "10px" }}>
 			<Field value={name} style={{ type: "headline", color: "secondary" }} layout={{ area: true }} />
 			{groups}
 			<Divider style={{ marginTop: "20px" }} />

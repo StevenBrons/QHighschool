@@ -5,11 +5,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
+import PersonIcon from '@material-ui/icons/Person';
+import ExitIcon from '@material-ui/icons/ExitToApp';
+import LocalTaxi from '@material-ui/icons/LocalTaxi';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
 
@@ -21,23 +25,32 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod", "portfolio"];
+				this.state.pages = ["aanbod", "portfolio", "profiel", "loguit"];
 				break;
 			case "teacher":
-				this.state.pages = ["groepen"];
+				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "loguit", "taxi"];
 				break;
 			default:
-				this.state.pages = ["aanbod"];
+				this.state.pages = ["aanbod", "profiel", "loguit"];
 				break;
 		}
 	}
 
 	onClick(page) {
-		this.props.history.push("/" + page);
+		if (page === "profiel")
+			this.props.history.push("/gebruiker/" + this.props.userId);
+		else if (page === "loguit") {
+			User.logout().then(() => {
+				document.location.reload();
+			});
+		}
+		else
+			this.props.history.push("/" + page);
 	}
+
 
 	getIcon(iconName, color) {
 		let c = "black";
@@ -51,6 +64,12 @@ class Menu extends Component {
 				return <GroupIcon style={{ color: c }} />;
 			case "Assessment":
 				return <AssessmentIcon style={{ color: c }} />;
+			case "Person":
+				return <PersonIcon style={{ color: c }} />;
+			case "Exit":
+				return <ExitIcon style={{ color: "red" }} />;
+			case "Taxi":
+				return <LocalTaxi style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -108,9 +127,31 @@ class Menu extends Component {
 				title: "Portfolio",
 				icon: "Assessment",
 			},
+			{
+				id: "taxi",
+				title: "Taxi",
+				icon: "Taxi",
+			},
+		];
+
+		const profile = [
+			{
+				id: "profiel",
+				title: "Profiel",
+				icon: "Person",
+			},
+			{
+				id: "loguit",
+				title: "Log uit",
+				icon: "Exit",
+			},
 		];
 
 		const visiblePages = pages
+			.filter(page => this.state.pages.indexOf(page.id) !== -1)
+			.map(this.getItem.bind(this));
+
+		const visibleProfile = profile
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
@@ -118,23 +159,32 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
-					<div style={{ margin: "25%", position: "absolute", bottom: "0px" }} className="HiddenOnMobile">
-						<Typography variant="body1" style={{ textTransform: "uppercase" }}>
-							Made By
-						</Typography>
-						<img src="/images/logo_quadraam.svg" alt="Quadraam Logo" style={{ width: "100%" }} />
+					<div style={{ position: "absolute", bottom: "20px", width: "100%" }}>
+						{visibleProfile}
 					</div>
 				</List>
 			</Paper >
+
 		);
 	}
 }
 
 function mapStateToProps(state) {
+	if (state.userId != null) {
+		return {
+			displayName: state.users[state.userId].displayName,
+			userId: state.userId,
+			role: state.role
+		};
+
+	}
 	return {
+		displayName: "",
+		userId: state.userId,
 		role: state.role
 	};
 }
+
 
 export default withRouter(connect(mapStateToProps)(Menu));
 

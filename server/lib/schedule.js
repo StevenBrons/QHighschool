@@ -1,11 +1,6 @@
 var moment = require('moment');
 moment.locale('nl');
 
-//Dear future me:
-//If you want to change the schedule for the next schoolyear
-//first of all, change the big array down below
-//secondly, change the GroupDB.addGroup function so that the first block has 8 lessons
-
 module.exports.getLessonDate = function (period, numberInBlock, day) {
 	const week = module.exports.schedule.filter((week) => {
 		return ((week.period + "") === (period + "") && (week.numberInBlock + "") === (numberInBlock + ""));
