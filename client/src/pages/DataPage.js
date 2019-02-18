@@ -93,12 +93,12 @@ class DataPage extends Component {
 		if (this.state.data == null) {
 			content = <Progress/>;
 		} else {
-			content = <Table>
+			content = <Table style={{top:0}}>
 						<TableHead>
-							<TableRow key ={0}>
+							<TableRow key ={0} >
 								{this.state.data[0].map((title,columnIndex) => {
 									return(
-										<TableCell key={columnIndex}>{title}</TableCell>
+										<TableCell key={columnIndex} style={{backgroundColor:"LightGray", position:"sticky",top:-15}}> {title} </TableCell>
 									)
 								})}
 							</TableRow>
