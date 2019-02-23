@@ -7,6 +7,8 @@ import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } f
 import Field from '../components/Field';
 import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import { setCookie } from "../store/actions"
 
 class DataPage extends Component {
 
@@ -89,6 +91,19 @@ class DataPage extends Component {
 	}
 
 	render() {
+		if (this.props.secureLogin == null) {
+			return <Page><Paper style={{padding:"20px"}}>
+				<Field value="Log opnieuw in om de gegevens te zien" layout={{ area: true }} />
+				<Button color="primary" variant="contained" onClick={() => {
+					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
+					document.location.href = "/auth/login?secure=true";
+				}}>
+					Inloggen
+				</Button>
+			</Paper>
+			</Page>
+		}
+
 		let content;
 		if (this.state.data == null) {
 			content = <Progress/>;
@@ -142,6 +157,12 @@ class DataPage extends Component {
 				{content}
 			</Page>
 		);
+	}
+}
+
+function mapStateToProps(state, ownProps) {
+	return {
+		secureLogin: state.secureLogin,
 	}
 }
 
