@@ -3,6 +3,7 @@ import Page from "./Page";
 import Progress from '../components/Progress';
 
 import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
@@ -166,4 +167,4 @@ function mapStateToProps(state, ownProps) {
 	}
 }
 
-export default withRouter(DataPage);
+export default withRouter(connect(mapStateToProps)(DataPage));
