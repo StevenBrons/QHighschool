@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const moment = require("moment");
 const secureLogin = require("../lib/secureLogin");
+const sessionDb = require("../database/SessionDB");
 
-router.get('/logout', (req, res) => {
+router.get('/logout', async (req, res) => {
 	req.logout();
+	await sessionDb.destroySession(req.user.email);
 	res.send({
 		success: true,
 		message: "You logged out",

@@ -3,6 +3,7 @@ const Lesson = require("../dec/LessonDec");
 const Presence = require("../dec/PresenceDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
+const LoggedIn = require("../dec/LoggedInDec");
 const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
@@ -239,6 +240,20 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
+		});
+	}
+
+	async setAlias(token, oldUserId, newUserId) {
+		return LoggedIn.findOne({
+			where: {
+				token: token,
+				active: true,
+				userId: oldUserId,
+			}
+		}).then(login => {
+			login.update({
+				userId: newUserId,
+			});
 		});
 	}
 

@@ -1013,6 +1013,42 @@
         }
       }
     },
+    "/function/alias": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "setAlias",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "secureLogin",
+            "in": "formData",
+            "description": "secure login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "userId to alias as",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
     "/function/taxi": {
       "post": {
         "tags": [
