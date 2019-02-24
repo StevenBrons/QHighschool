@@ -67,7 +67,7 @@ class DataPage extends Component {
 						["Trump, Donald J", "Donald", "Trump", "student"]
 					];
 				case "evaluations":
-					return this.generateTestData(20,100);
+					return this.generateTestData(10,130);
 				case "enrollments":
 					return [
 						["Vak", "Leerling", "Datum inschrijving"],
@@ -104,17 +104,16 @@ class DataPage extends Component {
 			</Paper>
 			</Page>
 		}
-
 		let content;
 		if (this.state.data == null) {
 			content = <Progress/>;
 		} else {
-			content = <Table style={{top:0}}>
-						<TableHead>
-							<TableRow key ={0} >
+			content = <Table  >
+						<TableHead style = {{backgroundColor: "#e0e0e0"}}>
+							<TableRow key ={0}  >
 								{this.state.data[0].map((title,columnIndex) => {
 									return(
-										<TableCell key={columnIndex} style={{backgroundColor:"LightGray", position:"sticky",top:-15}}> {title} </TableCell>
+										<TableCell key={columnIndex} style={{color:"black", fontSize:13}}>{title}</TableCell>
 									)
 								})}
 							</TableRow>
@@ -123,10 +122,10 @@ class DataPage extends Component {
 							{this.state.data.filter((_,index) => { return(index > 0); } )//take everything but the header
 								.map((row, rowIndex) => {
 									return(
-										<TableRow key={rowIndex + 1} >
+										<TableRow key={rowIndex + 1}  >
 											{row.map((cell, columnIndex) => {
 												return(
-													<TableCell key={columnIndex}>{cell}</TableCell>
+													<TableCell key={columnIndex} >{cell}</TableCell>
 												)
 											})}
 										</TableRow>
@@ -137,7 +136,7 @@ class DataPage extends Component {
 		}
 		return (
 			<Page>
-				<Paper elevation = {2} style= {{position: "relative"}}> 
+				<Paper elevation = {2}  > 
 					<Toolbar style={{ display: "flex"}}>
 						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Gegevens
@@ -154,8 +153,10 @@ class DataPage extends Component {
 						/>
 					</Toolbar>
 				</Paper>
-				<br />
-				{content}
+				<br/>
+				<Paper elevation={1} style={{overflow:"auto"}}>
+					{content}
+				</Paper>
 			</Page>
 		);
 	}
