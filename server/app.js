@@ -14,24 +14,25 @@ const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
 const bodyParser = require('body-parser');
 
-require('./databaseDeclearations/MainDec');
-require('./databaseDeclearations/UserDec');
-require('./databaseDeclearations/CourseDec');
-require('./databaseDeclearations/SubjectDec');
-require('./databaseDeclearations/CourseGroupDec');
-require('./databaseDeclearations/EnrollmentDec');
-require('./databaseDeclearations/EvaluationDec');
-require('./databaseDeclearations/LessonDec');
-require('./databaseDeclearations/PresenceDec');
-require('./databaseDeclearations/NotificationDec');
-require('./databaseDeclearations/LoggedInDec');
+require('./dec/MainDec');
+require('./dec/UserDec');
+require('./dec/CourseDec');
+require('./dec/SubjectDec');
+require('./dec/CourseGroupDec');
+require('./dec/EnrollmentDec');
+require('./dec/EvaluationDec');
+require('./dec/LessonDec');
+require('./dec/PresenceDec');
+require('./dec/NotificationDec');
+require('./dec/LoggedInDec');
 
-require('./passportSetup');
+require('./lib/passportSetup');
+require('./lib/taxi');
 
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -48,21 +49,9 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function (req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');//a webadres
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'token');
-	res.setHeader('Access-Control-Allow-Credentials', true);
-	next();
-});
-
 app.use("/api", apiRoute);
 app.use("/auth", authRoute);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use("/error", (req, res, next) => {
-	res.send("error");
-});
 
 app.use(function (req, res, next) {
 	next(createError(404));

@@ -15,6 +15,7 @@ import Group from "./pages/group/Group";
 import User from "./pages/user/User";
 import MyGroups from "./pages/MyGroups";
 import DataPage from "./pages/DataPage";
+import Taxi from "./pages/Taxi";
 
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
@@ -65,6 +66,8 @@ class App extends Component {
 					<Route path="/groepen/" component={MyGroups} />
 					<Route path="/gegevens/" component={DataPage} />
 					<Redirect push to={startPage} />
+					<Route path="/taxi/" component={Taxi} />
+					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 				</Switch>
 			</div>
 		);

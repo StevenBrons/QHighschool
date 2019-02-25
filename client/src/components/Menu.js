@@ -6,12 +6,18 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentIcon from '@material-ui/icons/Assignment'; 
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
+<<<<<<< HEAD
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+=======
+import ExitIcon from '@material-ui/icons/ExitToApp';
+import LocalTaxi from '@material-ui/icons/LocalTaxi';
+>>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
 
@@ -23,26 +29,31 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod", "portfolio", "profiel"];
+				this.state.pages = ["aanbod", "portfolio", "profiel", "loguit"];
 				break;
 			case "teacher":
-				this.state.pages = ["groepen", "profiel"];
+				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens","taxi","loguit"];
 				break;
 			case "grade_admin":
-				this.state.pages = ["gegevens","profiel"];
+				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
 				break;
 			default:
-				this.state.pages = ["aanbod", "profiel"];
+				this.state.pages = ["aanbod", "profiel", "loguit"];
 				break;
 		}
 	}
 
 	onClick(page) {
-		if(page=="profiel")
+		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
+		else if (page === "loguit") {
+			User.logout().then(() => {
+				document.location.reload();
+			});
+		}
 		else
 			this.props.history.push("/" + page);
 	}
@@ -62,8 +73,15 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
+<<<<<<< HEAD
 			case "ViewColumn":
 				return <ViewColumnIcon style={{ color: c}} />;
+=======
+			case "Exit":
+				return <ExitIcon style={{ color: "red" }} />;
+			case "Taxi":
+				return <LocalTaxi style={{ color: c }} />;
+>>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
 			default:
 				return null;
 		}
@@ -122,9 +140,15 @@ class Menu extends Component {
 				icon: "Assessment",
 			},
 			{
+<<<<<<< HEAD
 				id: "gegevens",
 				title: "Gegevens",
 				icon: "ViewColumn", // table_chart is more appropriate
+=======
+				id: "taxi",
+				title: "Taxi",
+				icon: "Taxi",
+>>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
 			},
 		];
 
@@ -134,13 +158,18 @@ class Menu extends Component {
 				title: "Profiel",
 				icon: "Person",
 			},
+			{
+				id: "loguit",
+				title: "Log uit",
+				icon: "Exit",
+			},
 		];
 
 		const visiblePages = pages
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
-			const visibleProfile = profile
+		const visibleProfile = profile
 			.filter(page => this.state.pages.indexOf(page.id) !== -1)
 			.map(this.getItem.bind(this));
 
@@ -148,10 +177,10 @@ class Menu extends Component {
 			<Paper elevation={8} className="Menu">
 				<List component="nav" style={{ height: "100%" }}>
 					{visiblePages}
-					<div style={{position: "absolute", bottom: "20px", width: "100%"}}>
+					<div style={{ position: "absolute", bottom: "20px", width: "100%" }}>
 						{visibleProfile}
 					</div>
-				</List>				
+				</List>
 			</Paper >
 
 		);
@@ -160,19 +189,19 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
 	if (state.userId != null) {
-			return {
-				displayName: state.users[state.userId].displayName,
-				userId: state.userId,
-				role: state.role
-			};
-			
-		}
 		return {
-			displayName: "",
+			displayName: state.users[state.userId].displayName,
 			userId: state.userId,
 			role: state.role
 		};
+
 	}
+	return {
+		displayName: "",
+		userId: state.userId,
+		role: state.role
+	};
+}
 
 
 export default withRouter(connect(mapStateToProps)(Menu));

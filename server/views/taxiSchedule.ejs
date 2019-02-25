@@ -1,0 +1,57 @@
+<h3>
+	<%= name %>
+	<div style="float:right">
+		<%= day %>
+	</div>
+</h3>
+<table>
+	<% for (let i = 0; i < stops.length; i++) {%>
+		<tr>
+			<th>
+				Stop <%= (i + 1)%>
+			</th>
+			<th>
+				<%= stops[i].location%>
+			</th>
+			<th>
+				<%= stops[i].time%>
+			</th>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<b>Adres: </b>
+				<%= stops[i].address %>
+				<div style="float:right">
+					<b>Verzamelplaats: </b>
+					<%= stops[i].meetingPoint %>
+				</div>
+			</td>
+		</tr>
+		<% for (let j = 0; j < stops[i].in.length; j++) {%>
+			<tr>
+					<td>
+						In
+					</td>
+					<td>
+						<%= stops[i].in[j].displayName%>
+					</td>
+					<td>
+						<%= stops[i].in[j].userStatus%>
+					</td>
+				</tr>
+		<% } %>
+		<% for (let j = 0; j < stops[i].out.length; j++) {%>
+			<tr>
+					<td>
+						Uit
+					</td>
+					<td>
+						<%= stops[i].out[j].displayName%>
+					</td>
+					<td>
+						<%= stops[i].out[j].userStatus%>
+					</td>
+				</tr>
+		<% } %>
+	<% } %>
+</table>
