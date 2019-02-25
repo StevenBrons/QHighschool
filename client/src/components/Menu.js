@@ -3,15 +3,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import AssignmentIcon from '@material-ui/icons/Assignment'; 
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
-<<<<<<< HEAD
-import ViewColumnIcon from '@material-ui/icons/ViewColumn';
-=======
 import ExitIcon from '@material-ui/icons/ExitToApp';
 import LocalTaxi from '@material-ui/icons/LocalTaxi';
->>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -35,7 +32,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens","taxi","loguit"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "loguit"];
 				break;
 			case "grade_admin":
 				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
@@ -73,15 +70,12 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
-<<<<<<< HEAD
 			case "ViewColumn":
-				return <ViewColumnIcon style={{ color: c}} />;
-=======
+				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
 				return <ExitIcon style={{ color: "red" }} />;
 			case "Taxi":
 				return <LocalTaxi style={{ color: c }} />;
->>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
 			default:
 				return null;
 		}
@@ -140,15 +134,14 @@ class Menu extends Component {
 				icon: "Assessment",
 			},
 			{
-<<<<<<< HEAD
 				id: "gegevens",
 				title: "Gegevens",
 				icon: "ViewColumn", // table_chart is more appropriate
-=======
+			}, 
+			{
 				id: "taxi",
 				title: "Taxi",
 				icon: "Taxi",
->>>>>>> 61cd17ac119a97845eeadb6f9d199cbed29b37fd
 			},
 		];
 

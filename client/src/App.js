@@ -65,9 +65,9 @@ class App extends Component {
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={MyGroups} />
 					<Route path="/gegevens/" component={DataPage} />
-					<Redirect push to={startPage} />
 					<Route path="/taxi/" component={Taxi} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
+					<Redirect push to={startPage} />
 				</Switch>
 			</div>
 		);
