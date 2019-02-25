@@ -67,7 +67,7 @@ class DataPage extends Component {
 						["Trump, Donald J", "Donald", "Trump", "student"]
 					];
 				case "evaluations":
-					return this.generateTestData(10,130);
+					return this.generateTestData(15,50);
 				case "enrollments":
 					return [
 						["Vak", "Leerling", "Datum inschrijving"],
@@ -106,61 +106,73 @@ class DataPage extends Component {
 		}
 		let content;
 		if (this.state.data == null) {
-			content = <Progress/>;
+			content= <Progress/>;
 		} else {
-			content = <Table  >
-						<TableHead style = {{backgroundColor: "#e0e0e0"}}>
-							<TableRow key ={0}  >
-								{this.state.data[0].map((title,columnIndex) => {
-									return(
-										<TableCell key={columnIndex} style={{color:"black", fontSize:13}}>{title}</TableCell>
-									)
-								})}
-							</TableRow>
-						</TableHead> 
-						<TableBody>
-							{this.state.data.filter((_,index) => { return(index > 0); } )//take everything but the header
-								.map((row, rowIndex) => {
-									return(
-										<TableRow key={rowIndex + 1}  >
-											{row.map((cell, columnIndex) => {
-												return(
-													<TableCell key={columnIndex} >{cell}</TableCell>
-												)
-											})}
-										</TableRow>
-									)
-							})} 
-						</TableBody>
-					</Table>
+			content = 
+			<Table>
+        <TableHead>
+          <TableRow key ={0}>
+            {this.state.data[0].map((title,columnIndex) => {
+              return(
+                <TableCell key={columnIndex} style={{color:"black",
+                                                      backgroundColor: "#e0e0e0",
+                                                      fontSize:13,
+                                                      WebKitPosition:"sticky",//for safari
+                                                      position:"sticky",
+                                                      top:0 }}>
+                                                      {title}
+                </TableCell>
+              )
+          })}
+					</TableRow>
+				</TableHead> 
+				<TableBody>
+					{this.state.data.filter((_,index) => { return(index > 0); } )//take everything but the header
+						.map((row, rowIndex) => {
+							return(
+								<TableRow key={rowIndex + 1}>
+									{row.map((cell, columnIndex) => {
+										return(
+											<TableCell key={columnIndex} >{cell}</TableCell>
+										)
+									})}
+								</TableRow>
+							)
+					})} 
+				</TableBody>
+			</Table>
 		}
 		return (
-			<Page>
-				<Paper elevation = {2}  > 
-					<Toolbar style={{ display: "flex"}}>
-						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
-							Gegevens
-          				</Typography>
-						<Field
-							label = "Gegevens van"
-							value={this.state.table}
-							editable
-							options={[
-								{ label: "Beoordelingen", value: "evaluations" },
-								{ label: "Gebruikers", value: "users" },
-								{ label: "Inschrijvingen", value: "enrollments" }]}
-							onChange={this.handleFilterChange}
-						/>
-					</Toolbar>
-				</Paper>
-				<br/>
-				<Paper elevation={1} style={{overflow:"auto"}}>
-					{content}
-				</Paper>
+			<Page >
+				<div style={{display:"flex",flexDirection:"column", maxHeight:"100%"}}>
+          <Paper elevation = {2}  > 
+            <Toolbar style={{ display: "flex"}}>
+              <Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+                Gegevens
+                    </Typography>
+              <Field
+                label = "Gegevens van"
+                value={this.state.table}
+                editable
+                options={[
+                  { label: "Beoordelingen", value: "evaluations" },
+                  { label: "Gebruikers", value: "users" },
+                  { label: "Inschrijvingen", value: "enrollments" }]}
+                onChange={this.handleFilterChange}
+              />
+            </Toolbar>
+          </Paper>
+          <br/>
+          <Paper elevation={1} style={{ overflow:"auto", flexGrow:1}}>
+            {content}
+          </Paper>
+        </div>
 			</Page>
 		);
 	}
 }
+
+
 
 function mapStateToProps(state, ownProps) {
 	return {
