@@ -114,13 +114,11 @@ class DataPage extends Component {
           <TableRow key ={0}>
             {this.state.data[0].map((title,columnIndex) => {
               return(
-                <TableCell key={columnIndex} style={{color:"black",
-                                                      backgroundColor: "#e0e0e0",
-                                                      fontSize:13,
-                                                      WebKitPosition:"sticky",//for safari
-                                                      position:"sticky",
-                                                      top:0 }}>
-                                                      {title}
+                <TableCell key={columnIndex} class="positionSticky" style={{color:"black",
+																			backgroundColor: "#e0e0e0",
+																			fontSize:13,
+																			top:0 }}>
+					                                                      {title}
                 </TableCell>
               )
           })}

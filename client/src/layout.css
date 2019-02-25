@@ -103,6 +103,11 @@ table {
 	border-spacing: 0px 10px
 }
 
+.positionSticky {
+	position: sticky;
+	position: -webkit-sticky;
+}
+
 /* Small Monitors: 
 	(Reduced padding and margins)
 */
