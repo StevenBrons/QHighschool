@@ -104,26 +104,30 @@ class DataPage extends Component {
 			</Paper>
 			</Page>
 		}
-		let content;
+    let contentHeader;
+    let contentBody;
 		if (this.state.data == null) {
-			content= <Progress/>;
+			contentBody= <Progress/>;
 		} else {
-			content = 
+			contentHeader = 
 			<Table>
         <TableHead>
           <TableRow key ={0}>
             {this.state.data[0].map((title,columnIndex) => {
               return(
-                <TableCell key={columnIndex} class="positionSticky" style={{color:"black",
-																			backgroundColor: "#e0e0e0",
-																			fontSize:13,
-																			top:0 }}>
-					                                                      {title}
+                <TableCell key={columnIndex} style={{color:"black",
+                                                    backgroundColor: "#e0e0e0",
+                                                    fontSize:13,
+                                                    top:0 }}>
+					                                          {title}
                 </TableCell>
               )
           })}
 					</TableRow>
 				</TableHead> 
+      </Table>
+      contentBody =
+      <Table>
 				<TableBody>
 					{this.state.data.filter((_,index) => { return(index > 0); } )//take everything but the header
 						.map((row, rowIndex) => {
@@ -161,10 +165,17 @@ class DataPage extends Component {
             </Toolbar>
           </Paper>
           <br/>
-          <Paper elevation={1} style={{ overflow:"auto", flexGrow:1}}>
-            {content}
+          <Paper elevation={1} style={{ overflowY:"hidden",overflowX:"auto", display:"flex"  }}>
+            <div >
+              <div>
+                {contentHeader}
+              </div>
+              <div style={{overflow:"auto", flexGrow:1, height:"100%" , width:"100%"}}>
+                {contentBody}
+              </div>
+            </div> 
           </Paper>
-        </div>
+         </div>
 			</Page>
 		);
 	}
