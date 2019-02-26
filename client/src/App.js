@@ -14,12 +14,14 @@ import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 import User from "./pages/user/User";
 import MyGroups from "./pages/MyGroups";
+import DataPage from "./pages/DataPage";
 import Taxi from "./pages/Taxi";
 
 import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
+
 
 class App extends Component {
 
@@ -43,6 +45,12 @@ class App extends Component {
 				</div>
 			);
 		}
+		let startPage = "/groepen";
+		if ( this.props.role === "student" ) {
+			startPage =  "/aanbod";
+		} else if ( this.props.role === "grade_admin" ){
+			startPage = "/gegevens";
+		}
 		return (
 			<div className="App">
 				<NotificationBar />
@@ -56,8 +64,10 @@ class App extends Component {
 					<Route path="/profiel/" component={User} />
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={MyGroups} />
+					<Route path="/gegevens/" component={DataPage} />
 					<Route path="/taxi/" component={Taxi} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
+					<Redirect push to={startPage} />
 				</Switch>
 			</div>
 		);
