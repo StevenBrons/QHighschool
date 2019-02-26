@@ -8,8 +8,11 @@ import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } f
 import Field from '../components/Field';
 import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
+<<<<<<< HEAD
 import Button from '@material-ui/core/Button';
 import { setCookie } from '../store/actions';
+=======
+>>>>>>> 93e87b8c1f67e9d7b1b33bf1c935a1365310fd39
 
 class DataPage extends Component {
 
