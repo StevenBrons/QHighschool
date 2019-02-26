@@ -105,45 +105,45 @@ class DataPage extends Component {
 			</Paper>
 			</Page>
 		}
-		let contentHeader;
-		let contentBody;
+		let content;
 		if (this.state.data == null) {
-			contentBody = <Progress />;
+			content = <Progress />;
 		} else {
-			contentHeader =
-				<TableHead>
-					<TableRow key={0}>
-						{this.state.data[0].map((title, columnIndex) => {
-							return (
-								<TableCell key={columnIndex} style={{
-									color: "black",
-									backgroundColor: "#e0e0e0",
-									fontSize: 13,
-									top: 0
-								}}>
-									{title}
-								</TableCell>
-							)
-						})}
-					</TableRow>
-				</TableHead>
-			contentBody =
-				<TableBody>
-					{
-						this.state.data.filter((_, index) => { return (index > 0); })//take everything but the header
-							.map((row, rowIndex) => {
+			content =
+				<Table style={{ padding: "20px", marginTop: "100px" }}>
+					<TableHead>
+						<TableRow key={0}>
+							{this.state.data[0].map((title, columnIndex) => {
 								return (
-									<TableRow key={rowIndex + 1}>
-										{row.map((cell, columnIndex) => {
-											return (
-												<TableCell key={columnIndex} >{cell}</TableCell>
-											)
-										})}
-									</TableRow>
+									<TableCell key={columnIndex} style={{
+										color: "black",
+										backgroundColor: "#e0e0e0",
+										fontSize: 13,
+										top: 0
+									}}>
+										{title}
+									</TableCell>
 								)
-							})
-					}
-				</ TableBody>
+							})}
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{
+							this.state.data.filter((_, index) => { return (index > 0); })//take everything but the header
+								.map((row, rowIndex) => {
+									return (
+										<TableRow key={rowIndex + 1}>
+											{row.map((cell, columnIndex) => {
+												return (
+													<TableCell key={columnIndex} >{cell}</TableCell>
+												)
+											})}
+										</TableRow>
+									)
+								})
+						}
+					</ TableBody>
+				</Table>
 		}
 		return (
 			<Page >
@@ -164,11 +164,7 @@ class DataPage extends Component {
 						/>
 					</Toolbar>
 				</Paper>
-				<br />
-				<Table style={{ padding: "20px", marginTop: "80px" }}>
-					{contentHeader}
-					{contentBody}
-				</Table>
+				{content}
 			</Page>
 		);
 	}
