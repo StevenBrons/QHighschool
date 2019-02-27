@@ -43,12 +43,14 @@ class DataPage extends Component {
 		this.fetchData(event.target.value).then(data => this.setState({ data: data }));
 	}
 
-	generateTestData(columns, rows) {
-		const template = ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "Nunc", "congue", "gravida", "ex", "nec", "facilisis", "magna", "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "Nunc", "congue", "gravida", "ex", "nec", "facilisis", "magna"];
-		let testData = [template.splice(0, columns)];
-		for (let i = 1; i < rows; i++) {
-			testData[i] = testData[0];
+	generateTestData(rows) {
+		const names = ["de Boer, Jorrit", "B, Steven", "Doe, Jon", "Musk, Elon", "Jobs, Steve", "Gates, Bill", "Trump, Donald J"];
+		const subjects = ["Introductie Informatica", "Basis van Programmeren", "Keuzemodules", "Databases en SQL", "Programmeren met Python", "Cryptografie"]; 
+		let testData = [["displayName", "subject", "grade"]];
+		for ( let i = 0; i < rows; i ++ ) {
+			testData.push([names[Math.floor(Math.random() * names.length)], (Math.floor(Math.random() * 10)) + 1, subjects[Math.floor(Math.random() * subjects.length)]])
 		}
+		console.log(testData);
 		return testData;
 	}
 
@@ -68,7 +70,7 @@ class DataPage extends Component {
 					["Trump, Donald J", "Donald", "Trump", "student"]
 				];
 			case "evaluations":
-				return this.generateTestData(15, 50);
+				return this.generateTestData(100);
 			case "enrollments":
 				return [
 					["Vak", "Leerling", "Datum inschrijving"],
