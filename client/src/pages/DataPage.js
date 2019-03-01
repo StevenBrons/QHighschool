@@ -4,7 +4,7 @@ import Progress from '../components/Progress';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow } from "@material-ui/core";
+import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, TableSortLabel } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
@@ -46,6 +46,10 @@ class DataPage extends Component {
 			search: "table=" + event.target.value,
 		});
 		this.fetchData(event.target.value, splitValues[event.target.value]).then(data => this.setState({ data: data }));
+	}
+
+	handleSortChange = (tableIndex,columnIndex) => event => {
+		console.log("We're sorting table with index " + tableIndex + " on index column " + columnIndex);
 	}
 
 	generateTestData(rows) {
@@ -138,21 +142,25 @@ class DataPage extends Component {
 		if (this.state.data == null) {
 			content = <Progress />;
 		} else {
-			content = (this.state.data).map((table, index) => {
+			content = (this.state.data).map((table, tableIndex) => {
 				return(
-					<Table key={index} style={ index === 0 ? {  marginTop: "100px" } : {marginTop: "50px"}}>
+					<Table key={tableIndex} style={ tableIndex === 0 ? {  marginTop: "100px" } : {marginTop: "50px"}}>
 						<TableHead>
 							<TableRow key={0}>
 								{table[0].map((title, columnIndex) => {
 									return (
-										<TableCell key={columnIndex} style={{
-											color: "black",
-											backgroundColor: "#e0e0e0",
-											fontSize: 13,
-											top: 0
-										}}>
-											{title}
-										</TableCell>
+											<TableCell key={columnIndex} style={{
+												color: "black",
+												backgroundColor: "#e0e0e0",
+												fontSize: 13,
+												top: 0
+											}}>
+												<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+													<TableSortLabel active={true} direction="asc" onClick={this.handleSortChange(tableIndex, columnIndex)}>
+														{title}
+													</TableSortLabel>
+												</Tooltip>
+											</TableCell>
 									)
 								})}
 							</TableRow>
