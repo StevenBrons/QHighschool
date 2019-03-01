@@ -21,7 +21,7 @@ class DataPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: null,
+			tables: null,
 			horizontalScroll: 0,
 		};
 	}
@@ -31,35 +31,35 @@ class DataPage extends Component {
 		return {
 			...prevState,
 			...{
-				table: values.table ? values.table : "evaluations",
+				data: values.data ? values.data : "evaluations",
 			}
 		}
 	}
 
 	componentDidMount = () => {
-		this.fetchData(this.state.table, splitValues[this.state.table]).then(data => this.setState({ data: data }));
+		this.fetchData(this.state.data, splitValues[this.state.data]).then(tables => this.setState({ tables: tables }));
 	}
 
 
 	handleFilterChange = event => {
 		this.props.history.push({
-			search: "table=" + event.target.value,
+			search: "data=" + event.target.value,
 		});
-		this.fetchData(event.target.value, splitValues[event.target.value]).then(data => this.setState({ data: data }));
+		this.fetchData(event.target.value, splitValues[event.target.value]).then(tables => this.setState({ tables: tables }));
 	}
 
 	handleSortChange = (tableIndex,columnIndex) => event => {
 		console.log("We're sorting table with index " + tableIndex + " on index column " + columnIndex);
 	}
 
-	generateTestData(rows) {
+	generateTestTables(rows) {
 		const names = ["de Boer, Jorrit", "B, Steven", "Doe, Jon", "Musk, Elon", "Jobs, Steve", "Gates, Bill", "Trump, Donald J"];
 		const subjects = ["Introductie Informatica", "Basis van Programmeren", "Keuzemodules", "Databases en SQL", "Programmeren met Python", "Cryptografie"]; 
-		let testData = [["displayName",  "grade", "subject",]];
+		let testTables = [["displayName",  "grade", "subject",]];
 		for ( let i = 0; i < rows; i ++ ) {
-			testData.push([names[Math.floor(Math.random() * names.length)], (Math.floor(Math.random() * 10)) + 1, subjects[Math.floor(Math.random() * subjects.length)]])
+			testTables.push([names[Math.floor(Math.random() * names.length)], (Math.floor(Math.random() * 10)) + 1, subjects[Math.floor(Math.random() * subjects.length)]])
 		}
-		return testData;
+		return testTables;
 	}
 
 	splitTable  = (table, splitValue) => {
@@ -80,12 +80,12 @@ class DataPage extends Component {
 		}
 	}
 
-	fetchData = async (table, splitValue) => {
+	fetchData = async (data, splitValue) => {
     //feel free to create some better test-data, (to test responsiveness, and, potentialy 12+ columns!)
-    let data;
-		switch (table) {
+    let tables;
+		switch (data) {
 			case "users":
-        data = [
+        tables = [
 					["displayName", "firstName", "lastName", "role"],
 					["B, Steven", "Steven", "B", "admin"],
 					["Doe, Jon", "Jon", "Doe", "student"],
@@ -97,18 +97,18 @@ class DataPage extends Component {
 					["Trump, Donald J", "Donald", "Trump", "student"]
         ];
         break;
-      case "evaluations":
-        data = this.generateTestData(200);
+			case "evaluations":
+				tables = this.generateTestTables(200);
         break
 			case "enrollments":
-				data =[
+				tables =[
 					["Vak", "Leerling", "Datum inschrijving"],
 					["Wiskunde D", "Jorrit de Boer", "14-02-2019"],
 					["Latijn", "Jorrit", "13-01-2009"]
         ];
         break;
 			default:
-				data = [
+				tables = [
 					["displayName", "type", "course"],
 					["B, Steven", "decimal", "9"],
 					["T, Est", "decimal", "6"],
@@ -122,7 +122,7 @@ class DataPage extends Component {
 					["T, Est", "decimal", "6"]
 				];
     }
-    return this.splitTable(data, splitValue);
+    return this.splitTable(tables, splitValue);
 	}
 
 	render() {
@@ -139,10 +139,10 @@ class DataPage extends Component {
 			</Page>
 		}
     let content;
-		if (this.state.data == null) {
+		if (this.state.tables == null) {
 			content = <Progress />;
 		} else {
-			content = (this.state.data).map((table, tableIndex) => {
+			content = (this.state.tables).map((table, tableIndex) => {
 				return(
 					<Table key={tableIndex} style={ tableIndex === 0 ? {  marginTop: "100px" } : {marginTop: "50px"}}>
 						<TableHead>
@@ -193,7 +193,7 @@ class DataPage extends Component {
             </Typography>
 						<Field
 							label="Gegevens van"
-							value={this.state.table}
+							value={this.state.data}
 							editable
 							options={[
 								{ label: "Beoordelingen", value: "evaluations" },
