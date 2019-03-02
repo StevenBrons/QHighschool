@@ -22,7 +22,8 @@ class DataPage extends Component {
 		super(props);
 		this.state = {
 			tables: null,
-			horizontalScroll: 0,
+			tableSortColumns: {},
+			tableSortDirections: {},
 		};
 	}
 
@@ -45,11 +46,47 @@ class DataPage extends Component {
 		this.props.history.push({
 			search: "data=" + event.target.value,
 		});
-		this.fetchData(event.target.value, splitValues[event.target.value]).then(tables => this.setState({ tables: tables }));
+		this.fetchData(event.target.value, splitValues[event.target.value]).then(tables => this.setState({ tables: tables, tableSortColumns: Array(tables.length) }));
 	}
 
-	handleSortChange = (tableIndex,columnIndex) => event => {
-		console.log("We're sorting table with index " + tableIndex + " on index column " + columnIndex);
+	sort = (tableIndex) => {
+		let table = this.state.tables[tableIndex];
+		const header = table.splice(0,1);// remove header
+		const column = this.state.tableSortColumns[tableIndex];
+		const order = this.state.tableSortDirections[tableIndex];
+		console.log("Sorting table " + tableIndex + " on column " + column + " with order "+ order );
+		table.sort( (a,b) => {
+			let cmp = a[column] > b[column] ? 1 : (a[column] < b[column] ? -1 : 0);
+			return order === "asc" ? cmp : -cmp;
+		})
+		table.unshift(header[0]);//add header again
+
+		this.setState(prevState =>{//update only the correct table
+			let newTables = prevState.tables;
+			newTables[tableIndex] = table;
+			return {
+				tables:newTables,
+			}
+		});
+	}
+
+	handleSortChange = (tableIndex,columnIndex) => {
+    let direction = "desc";
+
+    if (this.state.tableSortColumns[tableIndex] === columnIndex && this.state.tableSortDirections[tableIndex] === 'desc') {
+      direction = "asc";
+    }
+
+     this.setState(prevState => ({//update the correct elements of the arrays of the state
+        tableSortColumns: {
+            ...prevState.tableSortColumns,
+						[tableIndex]: columnIndex,
+					},
+				tableSortDirections: {
+					...prevState.tableSortDirections,
+					[tableIndex]: direction,
+				}
+		}),() => this.sort(tableIndex));// when setting state is done start sorting
 	}
 
 	generateTestTables(rows) {
@@ -63,12 +100,12 @@ class DataPage extends Component {
 	}
 
 	splitTable  = (table, splitValue) => {
-    let splitIndex = table[0].findIndex(x => x === splitValue);
+		let splitIndex = table[0].findIndex(x => x === splitValue);
 		if ( splitIndex < 0 ) {
 			return [table];
 		} else {
 			let tables = [[table[0], table[1]]];//initialize the tables with one table that has a header and a row
-			for ( let i = 1; i < table.length; i ++ ) {
+			for ( let i = 2; i < table.length; i ++ ) {
         let tableIndex = tables.findIndex(halfSplitTable => halfSplitTable[1][splitIndex] === table[i][splitIndex] ); // see in what table this row has to go
 				if ( tableIndex < 0 ) {
 					tables.push([table[0]]); // add a new table with a new header if a new value is found
@@ -76,6 +113,7 @@ class DataPage extends Component {
 				} 
 				tables[tableIndex].push(table[i]); // add row to correct table
 			}
+			this.setState({tableSortColumns: Array(tables.length)});
 			return tables;
 		}
 	}
@@ -90,7 +128,7 @@ class DataPage extends Component {
 					["B, Steven", "Steven", "B", "admin"],
 					["Doe, Jon", "Jon", "Doe", "student"],
 					["de Boer, Jorrit", "Jorrit", "de Boer", "admin"],
-					["Doe, Jon", "Jon", "Doe", "student"],
+					["Doe, Jon", "Jon", "5", "student"],
 					["Musk, Elon", "Elon", "E", "admin"],
 					["Jobs, Steve", "Steve", "Jobs", "student"],
 					["Gates, Bill", "Bill", "Gates", "grade_admin"],
@@ -98,7 +136,7 @@ class DataPage extends Component {
         ];
         break;
 			case "evaluations":
-				tables = this.generateTestTables(200);
+				tables = this.generateTestTables(50);
         break
 			case "enrollments":
 				tables =[
@@ -156,7 +194,10 @@ class DataPage extends Component {
 												top: 0
 											}}>
 												<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-													<TableSortLabel active={true} direction="asc" onClick={this.handleSortChange(tableIndex, columnIndex)}>
+													<TableSortLabel active = { this.state.tableSortColumns[tableIndex] === columnIndex}
+																					direction={ this.state.tableSortDirections[tableIndex] }
+																					onClick={event => this.handleSortChange(tableIndex, columnIndex)}
+																					style={{zIndex:0}}>
 														{title}
 													</TableSortLabel>
 												</Tooltip>
@@ -186,7 +227,7 @@ class DataPage extends Component {
 		}
 		return (
 			<Page >
-				<Paper elevation={2} style={{ position: "absolute", width: "80%" }}>
+				<Paper elevation={2} style={{ position: "absolute", width: "80%", zIndex:1 }}>
 					<Toolbar style={{ display: "flex" }}>
 						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Gegevens
