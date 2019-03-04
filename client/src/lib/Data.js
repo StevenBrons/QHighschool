@@ -211,6 +211,25 @@ class SubjectClass extends Data {
 
 }
 
+class FunctionClass extends Data {
+	getUrl() {
+		return this.url + "function";
+	}
+
+	async setAlias(userId, secureLogin) {
+		return $.ajax({
+			url: this.getUrl() + "/alias",
+			type: "post",
+			data: {
+				userId,
+				secureLogin,
+			},
+			dataType: "json",
+		});
+	}
+
+}
+
 class UserClass extends Data {
 	getUrl() {
 		return this.url + "user";
@@ -292,7 +311,8 @@ const User = Data.User = new UserClass();
 const Course = Data.Course = new CourseClass();
 const Subject = Data.Subject = new SubjectClass();
 const Group = Data.Group = new GroupClass();
+const Function = Data.Function = new FunctionClass();
 
 const d = new Data();
 export default d;
-export { User, Course, Subject, Group }
+export { User, Course, Subject, Group, Function }

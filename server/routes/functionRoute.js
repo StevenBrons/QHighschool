@@ -5,6 +5,7 @@ var taxi = require('../lib/taxi');
 const handlers = require('./handlers');
 const secureLogin = require('../lib/secureLogin');
 const handleReturn = handlers.handleReturn;
+const authError = handlers.authError;
 const handleSuccess = handlers.handleSuccess;
 
 router.post("/acceptEnrollements", function (req, res, next) {
@@ -48,6 +49,8 @@ router.post("/alias", function (req, res, next) {
 			functionDb.setAlias(req.user.token, req.user.id, req.body.userId)
 				.then(handleSuccess(res));
 		}
+	} else {
+		authError(res);
 	}
 });
 

@@ -7,7 +7,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitIcon from '@material-ui/icons/ExitToApp';
-import LocalTaxi from '@material-ui/icons/LocalTaxi';
+import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
+import DvrIcon from '@material-ui/icons/Dvr';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
@@ -32,7 +33,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "loguit"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "bediening", "loguit"];
 				break;
 			case "grade_admin":
 				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
@@ -75,7 +76,9 @@ class Menu extends Component {
 			case "Exit":
 				return <ExitIcon style={{ color: "red" }} />;
 			case "Taxi":
-				return <LocalTaxi style={{ color: c }} />;
+				return <LocalTaxiIcon style={{ color: c }} />;
+			case "Bediening":
+				return <DvrIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -137,11 +140,16 @@ class Menu extends Component {
 				id: "gegevens",
 				title: "Gegevens",
 				icon: "ViewColumn", // table_chart is more appropriate
-			}, 
+			},
 			{
 				id: "taxi",
 				title: "Taxi",
 				icon: "Taxi",
+			},
+			{
+				id: "bediening",
+				title: "Bediening",
+				icon: "Bediening",
 			},
 		];
 
