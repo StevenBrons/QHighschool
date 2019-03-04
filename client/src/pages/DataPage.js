@@ -10,6 +10,7 @@ import queryString from "query-string";
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { setCookie } from '../store/actions';
+import EnsureSecureLogin from "../components/EnsureSecureLogin";
 
 const splitValues = {
 	users: "role",
@@ -164,18 +165,6 @@ class DataPage extends Component {
 	}
 
 	render() {
-		if (this.props.secureLogin == null) {
-			return <Page><Paper style={{ padding: "20px" }}>
-				<Field value="Log opnieuw in om de gegevens te zien" layout={{ area: true }} />
-				<Button color="primary" variant="contained" onClick={() => {
-					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-					document.location.href = "/auth/login?secure=true";
-				}}>
-					Inloggen
-				</Button>
-			</Paper>
-			</Page>
-		}
     let content;
 		if (this.state.tables == null) {
 			content = <Progress />;
@@ -227,25 +216,28 @@ class DataPage extends Component {
 		}
 		return (
 			<Page >
-				<Paper elevation={2} style={{ position: "absolute", width: "80%", zIndex:1 }}>
-					<Toolbar style={{ display: "flex" }}>
-						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
-							Gegevens
-            </Typography>
-						<Field
-							label="Gegevens van"
-							value={this.state.data}
-							editable
-							options={[
-								{ label: "Beoordelingen", value: "evaluations" },
-								{ label: "Gebruikers", value: "users" },
-								{ label: "Inschrijvingen", value: "enrollments" }]}
-							onChange={this.handleFilterChange}
-						/>
-					</Toolbar>
-				</Paper>
-				{content}
+				<EnsureSecureLogin>	
+					<Paper elevation={2} style={{ position: "absolute", width: "80%", zIndex:1 }}>
+						<Toolbar style={{ display: "flex" }}>
+							<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+								Gegevens
+							</Typography>
+							<Field
+								label="Gegevens van"
+								value={this.state.data}
+								editable
+								options={[
+									{ label: "Beoordelingen", value: "evaluations" },
+									{ label: "Gebruikers", value: "users" },
+									{ label: "Inschrijvingen", value: "enrollments" }]}
+								onChange={this.handleFilterChange}
+							/>
+						</Toolbar>
+					</Paper>
+					{content}
+				</EnsureSecureLogin>
 			</Page>
+
 		);
 	}
 }
