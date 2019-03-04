@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import { connect } from "react-redux";
-import { setCookie } from "../../store/actions"
 import Field from '../../components/Field';
 import User from '../user/User';
-import Button from '@material-ui/core/Button';
+import EnsureSecureLogin from '../../components/EnsureSecureLogin';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
@@ -192,51 +191,40 @@ class EvaluationTab2 extends Component {
 				);
 			});
 
-		if (this.props.editable && this.props.secureLogin == null) {
-			return <Paper style={{ padding: "20px" }}>
-				<Field value="Log opnieuw in om de beoordelingen te bewerken" layout={{ area: true }} />
-				<Button color="primary" variant="contained" onClick={() => {
-					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-					document.location.href = "/auth/login?secure=true";
-				}}>
-					Inloggen
-				</Button>
-			</Paper>
-		}
-
 		return (
-			<table style={{ width: "100%" }}>
-				<tbody>
-					<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
-						<td>
-							<Field
-								style={{ type: "headline", margin: "normal" }}
-								value={"Beoordelingen"}
-							/>
-						</td>
-						<td style={{ flex: "5" }} />
-						<td>
-							<Field
-								label="Beoordelingsformaat"
-								style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
-								layout={{ alignment: "right" }}
-								value={evaluations[0].type}
-								options={EVALUATION_FORMATS}
-								editable={this.props.editable}
-								onChange={this.handleEvaluationTypeChange.bind(this)}
-							/>
-						</td>
-					</Paper >
-					{evComps}
-				</tbody>
-			</table >
+			<EnsureSecureLogin active={this.props.editable}>
+				<table style={{ width: "100%" }}>
+					<tbody>
+						<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
+							<td>
+								<Field
+									style={{ type: "headline", margin: "normal" }}
+									value={"Beoordelingen"}
+								/>
+							</td>
+							<td style={{ flex: "5" }} />
+							<td>
+								<Field
+									label="Beoordelingsformaat"
+									style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
+									layout={{ alignment: "right" }}
+									value={evaluations[0].type}
+									options={EVALUATION_FORMATS}
+									editable={this.props.editable}
+									onChange={this.handleEvaluationTypeChange.bind(this)}
+								/>
+							</td>
+						</Paper >
+						{evComps}
+					</tbody>
+				</table >
+			</EnsureSecureLogin>
 		);
 	}
 
 }
 function mapStateToProps(state, ownProps) {
 	return {
-		secureLogin: state.secureLogin,
 		users: state.users,
 	}
 }
