@@ -8,7 +8,7 @@ import Field from "../components/Field"
 class EnsureSecureLogin extends Component {
 
 	render() {
-		if (this.props.active && this.props.secureLogin == null) {
+		if (!(this.props.active === false) && this.props.secureLogin == null) {
 			return <Paper style={{ padding: "20px" }}>
 				<Field value="Log opnieuw in om de beoordelingen te bewerken" layout={{ area: true }} />
 				<Button color="primary" variant="contained" onClick={() => {
