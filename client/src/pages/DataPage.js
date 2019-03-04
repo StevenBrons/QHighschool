@@ -4,12 +4,9 @@ import Progress from '../components/Progress';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, TableSortLabel } from "@material-ui/core";
+import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, TableSortLabel, Toolbar, Button } from "@material-ui/core";
 import Field from '../components/Field';
 import queryString from "query-string";
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import { setCookie } from '../store/actions';
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
 
 const splitValues = {
@@ -222,6 +219,9 @@ class DataPage extends Component {
 							<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 								Gegevens
 							</Typography>
+							<Button variant="contained" color="primary" style={{margin:"0 10px"}}>
+								Download 
+							</Button>
 							<Field
 								label="Gegevens van"
 								value={this.state.data}
