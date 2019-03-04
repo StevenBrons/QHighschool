@@ -8,6 +8,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitIcon from '@material-ui/icons/ExitToApp';
 import LocalTaxi from '@material-ui/icons/LocalTaxi';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
@@ -31,7 +32,10 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "loguit", "taxi"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "loguit"];
+				break;
+			case "grade_admin":
+				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
 				break;
 			default:
 				this.state.pages = ["aanbod", "profiel", "loguit"];
@@ -66,6 +70,8 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
+			case "ViewColumn":
+				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
 				return <ExitIcon style={{ color: "red" }} />;
 			case "Taxi":
@@ -127,6 +133,11 @@ class Menu extends Component {
 				title: "Portfolio",
 				icon: "Assessment",
 			},
+			{
+				id: "gegevens",
+				title: "Gegevens",
+				icon: "ViewColumn", // table_chart is more appropriate
+			}, 
 			{
 				id: "taxi",
 				title: "Taxi",

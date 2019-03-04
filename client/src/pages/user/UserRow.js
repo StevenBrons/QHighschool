@@ -20,7 +20,10 @@ class GroupCard extends Component {
 		}
 	}
 
-	formatPhoneNumber(number = "") {
+	formatPhoneNumber(number) {
+		if (number == null || number === undefined) {
+			number = "";
+		}
 		let numberWithoutCharacters = number.replace(/\D/g, '');
 		if (numberWithoutCharacters.length === 10) { // Either 06... or regional i.e. 024 ...
 			if (numberWithoutCharacters[1] === "6") { // 06...
