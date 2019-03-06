@@ -8,6 +8,7 @@ import { Paper, Typography, Table, TableHead, TableCell, TableBody, TableRow, To
 import Field from '../components/Field';
 import queryString from "query-string";
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
+import Excel from "exceljs/dist/es5/exceljs.browser";
 
 const splitValues = {
 	users: "role",
@@ -125,7 +126,7 @@ class DataPage extends Component {
 					["displayName", "firstName", "lastName", "role"],
 					["B, Steven", "Steven", "B", "admin"],
 					["Doe, Jon", "Jon", "Doe", "student"],
-					["de Boer, Jorrit", "Jorrit", "de Boer", "admin"],
+					["de Boer, Jorrit", null,"de Boer", "admin"],
 					["Doe, Jon", "Jon", "5", "student"],
 					["Musk, Elon", "Elon", "E", "admin"],
 					["Jobs, Steve", "Steve", "Jobs", "student"],
@@ -159,6 +160,54 @@ class DataPage extends Component {
 				];
     }
     return this.splitTable(tables, splitValue);
+	}
+
+	downloadTables = () => {
+		const tables = this.state.tables;
+    let workbook = new Excel.Workbook();
+		const splitIndex = tables[0][0].findIndex(x => x === splitValues[this.state.data]);
+    for ( let i = 0; i < tables.length; i++ )  {// add all the tables to a different sheet
+      let sheet = workbook.addWorksheet(tables[i][1][splitIndex]);// the sheet has the name of the value it's split on. I.e when splitting on courses every page is called what course it contains
+      sheet.addRows(tables[i]);
+      for ( let j = 1; j <= tables[i][0].length; j++) {
+        sheet.getColumn(j).width = tables[i][0][j-1].length < 10 ? 10: tables[i][0][j-1].length + 2;//set each column to at least fit the header
+      }
+    }
+
+    let filename = (new Date()).toLocaleDateString() + ".xlsx";
+    switch (this.state.data) {
+      case "users":
+        filename = "Gebruikers " + filename;
+        break;
+      case "enrollments":
+        filename = "Inschrijvingen " + filename;
+        break;
+      default:
+        filename = "Beoordelingen " + filename;
+    }
+		this.downloadWorkbook(workbook, filename );//gives for example: "Gebruikers 3/3/2019.xlsx"
+	}
+
+	downloadWorkbook = (workbook, fileName) => {
+		workbook.xlsx.writeBuffer( {
+                base64: true
+            })
+            .then( function (xls64) {
+                var a = document.createElement("a");
+                var data = new Blob([xls64], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                var url = URL.createObjectURL(data);
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    }, 0);
+            }) 
+            .catch(function(error) {
+                console.log("Something went wrong with downloading the excel file: " + error.message);
+            });
 	}
 
 	render() {
@@ -219,7 +268,7 @@ class DataPage extends Component {
 							<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 								Gegevens
 							</Typography>
-							<Button variant="contained" color="primary" style={{margin:"0 10px"}}>
+                        <Button variant="contained" color="primary" onClick={this.downloadTables} style={{margin:"0 10px"}}>
 								Download 
 							</Button>
 							<Field
