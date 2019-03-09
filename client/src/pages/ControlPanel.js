@@ -53,10 +53,17 @@ class ControlPanel extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		users: state.users,
 	}
 }
 
-export default connect(mapStateToProps)(ControlPanel);
+function mapDispatchToProps(dispatch) {
+	return {
+		addSubject: async (name, description) => { console.log("ADD SUBJECT"); return { sucess: true } },
+		addCourse: async (name, subjectId) => { console.log("ADD COURSE"); return { sucess: true } },
+		addGroup: async (courseId, userId) => { console.log("ADD GROUP"); return { sucess: true } },
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
 
 
