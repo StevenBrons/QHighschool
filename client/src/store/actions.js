@@ -1,4 +1,4 @@
-import { User, Subject, Group, Course } from "../lib/Data"
+import { User, Subject, Group, Course, Function } from "../lib/Data"
 import filter from "lodash/filter"
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
@@ -57,6 +57,16 @@ export function getSubjects() {
 			// 	});
 			// }).catch(apiErrorHandler(dispatch));
 		}
+	}
+}
+
+export function setAlias(userId) {
+	return (dispatch, getState) => {
+		Function.setAlias(userId, getState().secureLogin)
+			.then(() => {
+				document.location.reload();
+			})
+			.catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -160,6 +170,19 @@ export function setUser(user) {
 			user,
 		});
 		User.setUser(user).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function setPresenceUserStatus(lessonId, userStatus, groupId) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: "CHANGE_PRESENCE_USER_STATUS",
+			lessonId,
+			userStatus,
+			groupId,
+		});
+		Group.setPresenceUserStatus(lessonId, userStatus)
+			.catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -382,6 +405,25 @@ export function getGroupParticipants(groupId) {
 				users: participants,
 			});
 		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getAllUsers() {
+	return (dispatch, getState) => {
+		if (getState().hasFetched.indexOf("User.list()") !== -1) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "User.list()"
+		});
+		User.getList()
+			.then((users) => {
+				dispatch({
+					type: "CHANGE_USERS",
+					users: users,
+				});
+			});
 	}
 }
 

@@ -23,7 +23,7 @@ class CourseSelect extends Component {
 		super(props);
 		this.state = {
 			sortMethod: null,
-			filterMethod: "none",
+			filterMethod: "period" + props.currentPeriod,
 		}
 	}
 
@@ -34,7 +34,7 @@ class CourseSelect extends Component {
 				...prevState,
 				...{
 					sortMethod: values.sort,
-					filterMethod: values.filter ? values.filter : "none",
+					filterMethod: values.filter ? values.filter : "period" + nextProps.currentPeriod,
 				}
 			}
 		}
@@ -42,7 +42,7 @@ class CourseSelect extends Component {
 			return {
 				...prevState,
 				...{
-					filterMethod: values.filter ? values.filter : "none",
+					filterMethod: values.filter ? values.filter : "period" + nextProps.currentPeriod,
 					sortMethod: nextProps.subjects[Object.keys(nextProps.subjects)[0]].name,
 				}
 			};
@@ -198,6 +198,7 @@ class CourseSelect extends Component {
 function mapStateToProps(state) {
 	return {
 		role: state.role,
+		currentPeriod: state.currentPeriod,
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
 		subjects: state.subjects,

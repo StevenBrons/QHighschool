@@ -1,1433 +1,1521 @@
 {
-	"swagger": "2.0",
-	"info": {
-		"description": "This is the api-documentation of the QHighschool api",
-		"version": "1.0.0",
-		"title": "QHighschool api",
-		"contact": {
-			"email": "steven.bronsveld@gmail.com"
-		}
-	},
-	"basePath": "/api",
-	"tags": [
-		{
-			"name": "User",
-			"description": "The user api"
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the api-documentation of the QHighschool api",
+    "version": "1.0.0",
+    "title": "QHighschool api",
+    "contact": {
+      "email": "steven.bronsveld@gmail.com"
+    }
+  },
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "User",
+      "description": "The user api"
+    },
+    {
+      "name": "Course",
+      "description": "The course"
+    },
+    {
+      "name": "Subject",
+      "description": "The subject api"
+    },
+    {
+      "name": "Group",
+      "description": "The group api"
+    },
+    {
+      "name": "Function",
+      "description": "The function api"
+    }
+  ],
+  "paths": {
+    "/course/list": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Get list of all courses",
+        "operationId": "getCourses",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/course": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Get course data",
+        "operationId": "getCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The courseId of the course to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Add course",
+        "operationId": "addCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "remarks",
+            "in": "formData",
+            "description": "The remarks for course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studyTime",
+            "in": "formData",
+            "description": "The studyTime for course",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The subjectId of the subject the course belongs to",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Add course",
+        "operationId": "setCourse",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The id of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "remarks",
+            "in": "formData",
+            "description": "The remarks for course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studyTime",
+            "in": "formData",
+            "description": "The studyTime for course",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The subjectId of the subject the course belongs to",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          }
+        }
+      }
+    },
+    "/group/list": {
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get list of all courses",
+        "operationId": "getGroups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get group data",
+        "operationId": "getGroup",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId of the course to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Change group data",
+        "operationId": "setGroup",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "courseId",
+            "in": "formData",
+            "description": "The new courseId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "formData",
+            "description": "The new day",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "maandag",
+              "dinsdag",
+              "woensdag",
+              "donderdag",
+              "vrijdag",
+              "zaterdag",
+              "zondag"
+            ]
+          },
+          {
+            "name": "schoolYear",
+            "in": "formData",
+            "description": "The new schoolYear",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "2018/2019",
+              "2019/2020",
+              "2020/2021",
+              "2021/2022"
+            ]
+          },
+          {
+            "name": "enrollableFor",
+            "in": "formData",
+            "description": "A comma seperated string of allowed levels/years",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "period",
+            "in": "formData",
+            "description": "The new period",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        }
+      }
+    },
+    "/group/enrollments": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get enrollements for the group",
+        "operationId": "getGroupEnrollments",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the enrollments from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group/participants": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants of the group",
+        "operationId": "getGroupParticipants",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the participants from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Add a new participant to a group",
+        "operationId": "addGroupParticipant",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId to add in the group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to add the user in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/group/evaluations": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants evaluation",
+        "operationId": "getEvaluation",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the evaluation from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluation"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Set evaluation for group",
+        "operationId": "setEvaluation",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "test",
+            "in": "body",
+            "description": "The groupId to change the evaluation from",
+            "schema": {
+              "type": "object",
+              "required": [
+                "presence"
+              ],
+              "properties": {
+                "evaluations": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Evaluation"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group/lessons": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get lessons of group",
+        "operationId": "getLessons",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the lessons from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Lesson"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Patch lessons of group",
+        "operationId": "setLessons",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "body",
+            "description": "The groupId to get the lessons from",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LessonEdit"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/group/presence": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get participants presence",
+        "operationId": "getPresence",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId to get the presence from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Set participants presence",
+        "operationId": "setPresence",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "test",
+            "in": "body",
+            "description": "The groupId to change the presence from",
+            "schema": {
+              "type": "object",
+              "required": [
+                "groupId",
+                "presence"
+              ],
+              "properties": {
+                "groupId": {
+                  "type": "string"
+                },
+                "presence": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Presence"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Presence"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subject/list": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "summary": "Get list of subjects",
+        "operationId": "getSubjects",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subject": {
+      "post": {
+        "tags": [
+          "Subject"
+        ],
+        "summary": "Get subject data",
+        "operationId": "getSubject",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "formData",
+            "description": "The subjectId of the subject to get information from",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Subject"
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user data",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId of the user to get",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user data",
+        "operationId": "setUser",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "preferedEmail",
+            "in": "formData",
+            "description": "The new prefered email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "description": "The profile of the student",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "year",
+            "in": "formData",
+            "description": "The schoolyear the student is in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "level",
+            "in": "formData",
+            "description": "The level of the student",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phoneNumber",
+            "in": "formData",
+            "description": "Thephone number of the student",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/user/self": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get own user data",
+        "operationId": "getSelf",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Self"
+            }
+          }
+        }
+      }
 		},
-		{
-			"name": "Course",
-			"description": "The course"
-		},
-		{
-			"name": "Subject",
-			"description": "The subject api"
-		},
-		{
-			"name": "Group",
-			"description": "The group api"
-		},
-		{
-			"name": "Function",
-			"description": "The function api"
-		}
-	],
-	"paths": {
-		"/course/list": {
-			"get": {
-				"tags": [
-					"Course"
-				],
-				"summary": "Get list of all courses",
-				"operationId": "getCourses",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Course"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/course": {
-			"post": {
-				"tags": [
-					"Course"
-				],
-				"summary": "Get course data",
-				"operationId": "getCourse",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "courseId",
-						"in": "formData",
-						"description": "The courseId of the course to get information from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Course"
-						}
-					}
-				}
-			},
-			"put": {
-				"tags": [
-					"Course"
-				],
-				"summary": "Add course",
-				"operationId": "addCourse",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "name",
-						"in": "formData",
-						"description": "The name of the course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "description",
-						"in": "formData",
-						"description": "The description of the course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "remarks",
-						"in": "formData",
-						"description": "The remarks for course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "studyTime",
-						"in": "formData",
-						"description": "The studyTime for course",
-						"required": true,
-						"type": "integer"
-					},
-					{
-						"name": "subjectId",
-						"in": "formData",
-						"description": "The subjectId of the subject the course belongs to",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Course"
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Course"
-				],
-				"summary": "Add course",
-				"operationId": "setCourse",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "courseId",
-						"in": "formData",
-						"description": "The id of the course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "name",
-						"in": "formData",
-						"description": "The name of the course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "description",
-						"in": "formData",
-						"description": "The description of the course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "remarks",
-						"in": "formData",
-						"description": "The remarks for course",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "studyTime",
-						"in": "formData",
-						"description": "The studyTime for course",
-						"required": true,
-						"type": "integer"
-					},
-					{
-						"name": "subjectId",
-						"in": "formData",
-						"description": "The subjectId of the subject the course belongs to",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Course"
-						}
-					}
-				}
-			}
-		},
-		"/group/list": {
-			"get": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get list of all courses",
-				"operationId": "getGroups",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Group"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/group": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get group data",
-				"operationId": "getGroup",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId of the course to get information from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Group"
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Change group data",
-				"operationId": "setGroup",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "courseId",
-						"in": "formData",
-						"description": "The new courseId",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "day",
-						"in": "formData",
-						"description": "The new day",
-						"required": false,
-						"type": "string",
-						"enum": [
-							"maandag",
-							"dinsdag",
-							"woensdag",
-							"donderdag",
-							"vrijdag",
-							"zaterdag",
-							"zondag"
-						]
-					},
-					{
-						"name": "schoolYear",
-						"in": "formData",
-						"description": "The new schoolYear",
-						"required": false,
-						"type": "string",
-						"enum": [
-							"2018/2019",
-							"2019/2020",
-							"2020/2021",
-							"2021/2022"
-						]
-					},
-					{
-						"name": "enrollableFor",
-						"in": "formData",
-						"description": "A comma seperated string of allowed levels/years",
-						"required": false,
-						"type": "string"
-					},
-					{
-						"name": "period",
-						"in": "formData",
-						"description": "The new period",
-						"required": false,
-						"type": "integer"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Group"
-						}
-					}
-				}
-			}
-		},
-		"/group/enrollments": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get enrollements for the group",
-				"operationId": "getGroupEnrollments",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to get the enrollments from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/User"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/group/participants": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get participants of the group",
-				"operationId": "getGroupParticipants",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to get the participants from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/User"
-							}
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Add a new participant to a group",
-				"operationId": "addGroupParticipant",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "userId",
-						"in": "formData",
-						"description": "The userId to add in the group",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to add the user in",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		},
-		"/group/evaluations": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get participants evaluation",
-				"operationId": "getEvaluation",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to get the evaluation from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Evaluation"
-							}
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Set evaluation for group",
-				"operationId": "setEvaluation",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "test",
-						"in": "body",
-						"description": "The groupId to change the evaluation from",
-						"schema": {
-							"type": "object",
-							"required": [
-								"presence"
-							],
-							"properties": {
-								"evaluations": {
-									"type": "array",
-									"items": {
-										"$ref": "#/definitions/Evaluation"
-									}
-								}
-							}
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"type": "array",
-								"items": {
-									"$ref": "#/definitions/Presence"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/group/lessons": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get lessons of group",
-				"operationId": "getLessons",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to get the lessons from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Lesson"
-							}
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Patch lessons of group",
-				"operationId": "setLessons",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "body",
-						"description": "The groupId to get the lessons from",
-						"required": true,
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/LessonEdit"
-							}
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		},
-		"/group/presence": {
-			"post": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Get participants presence",
-				"operationId": "getPresence",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId to get the presence from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"type": "array",
-								"items": {
-									"$ref": "#/definitions/Presence"
-								}
-							}
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Group"
-				],
-				"summary": "Set participants presence",
-				"operationId": "setPresence",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "test",
-						"in": "body",
-						"description": "The groupId to change the presence from",
-						"schema": {
-							"type": "object",
-							"required": [
-								"groupId",
-								"presence"
-							],
-							"properties": {
-								"groupId": {
-									"type": "string"
-								},
-								"presence": {
-									"type": "array",
-									"items": {
-										"$ref": "#/definitions/Presence"
-									}
-								}
-							}
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"type": "array",
-								"items": {
-									"$ref": "#/definitions/Presence"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/subject/list": {
-			"get": {
-				"tags": [
-					"Subject"
-				],
-				"summary": "Get list of subjects",
-				"operationId": "getSubjects",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Subject"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/subject": {
-			"post": {
-				"tags": [
-					"Subject"
-				],
-				"summary": "Get subject data",
-				"operationId": "getSubject",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "subjectId",
-						"in": "formData",
-						"description": "The subjectId of the subject to get information from",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Subject"
-						}
-					}
-				}
-			}
-		},
-		"/user": {
-			"post": {
-				"tags": [
-					"User"
-				],
-				"summary": "Get user data",
-				"operationId": "getUser",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/User"
-						}
-					}
-				},
-				"parameters": [
-					{
-						"name": "userId",
-						"in": "formData",
-						"description": "The userId of the user to get",
-						"required": false,
-						"type": "string"
-					}
-				]
-			},
-			"patch": {
-				"tags": [
-					"User"
-				],
-				"summary": "Update user data",
-				"operationId": "setUser",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "preferedEmail",
-						"in": "formData",
-						"description": "The new prefered email",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "profile",
-						"in": "formData",
-						"description": "The profile of the student",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "year",
-						"in": "formData",
-						"description": "The schoolyear the student is in",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "level",
-						"in": "formData",
-						"description": "The level of the student",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "phoneNumber",
-						"in": "formData",
-						"description": "Thephone number of the student",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/User"
-						}
-					}
-				}
-			}
-		},
-		"/user/self": {
-			"get": {
-				"tags": [
-					"User"
-				],
-				"summary": "Get own user data",
-				"operationId": "getSelf",
-				"produces": [
-					"application/json"
-				],
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"$ref": "#/definitions/Self"
-						}
-					}
-				}
-			}
-		},
-		"/user/groups": {
-			"get": {
-				"tags": [
-					"User"
-				],
-				"summary": "Get list of groups the user participates in",
-				"operationId": "getParticipatingGroups",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Group"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/user/enrollableGroups": {
-			"get": {
-				"tags": [
-					"User"
-				],
-				"summary": "Get list of groups to choose from",
-				"operationId": "getChoices",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/Group"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/user/enrollments": {
-			"get": {
-				"tags": [
-					"User"
-				],
-				"summary": "Get choices",
-				"operationId": "getEnrollments",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation",
-						"schema": {
-							"type": "array",
-							"maxLength": 5,
-							"items": {
-								"$ref": "#/definitions/Group"
-							}
-						}
-					}
-				}
-			},
-			"put": {
-				"tags": [
-					"User"
-				],
-				"summary": "Add enrollment",
-				"operationId": "addEnrollment",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId of the group to add",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			},
-			"delete": {
-				"tags": [
-					"User"
-				],
-				"summary": "Delete enrollment",
-				"operationId": "removeEnrollment",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "groupId",
-						"in": "formData",
-						"description": "The groupId of the group to remove",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		},
-		"/function/acceptEnrollements": {
-			"post": {
-				"tags": [
-					"Function"
-				],
-				"summary": "Get list of groups the user participates in",
-				"operationId": "acceptEnrollments",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "message",
-						"in": "formData",
-						"description": "Confirm action",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		},
-		"/function/calculateLessonDates": {
-			"post": {
-				"tags": [
-					"Function"
-				],
-				"summary": "Reset all lesson dates",
-				"operationId": "calculateLessonDates",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "message",
-						"in": "formData",
-						"description": "Confirm action",
-						"required": true,
-						"type": "string"
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		},
-		"/function/data": {
-			"post": {
-				"tags": [
-					"Function"
-				],
-				"summary": "Reset all lesson dates",
-				"operationId": "getData",
-				"consumes": [
-					"application/x-www-form-urlencoded"
-				],
-				"parameters": [
-					{
-						"name": "secureLogin",
-						"in": "formData",
-						"description": "secure login token",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"name": "table",
-						"in": "formData",
-						"description": "the table to read",
-						"required": true,
-						"type": "string",
-						"enum": [
-							"evaluation",
-							"user_data",
-							"enrollment"
-						]
-					}
-				],
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "successful operation"
-					}
-				}
-			}
-		}
-	},
-	"definitions": {
-		"Course": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"subjectId": {
-					"type": "string"
-				},
-				"subjectName": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"description": {
-					"type": "string"
-				},
-				"remarks": {
-					"type": "string"
-				},
-				"studyTime": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "Course"
-			}
-		},
-		"Subject": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"description": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "Course"
-			}
-		},
-		"User": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"role": {
-					"type": "string"
-				},
-				"school": {
-					"type": "string"
-				},
-				"firstName": {
-					"type": "string"
-				},
-				"lastName": {
-					"type": "string"
-				},
-				"year": {
-					"type": "integer",
-					"format": "int64"
-				},
-				"level": {
-					"type": "string",
-					"enum": [
-						"vwo",
-						"havo",
-						"mavo"
-					]
-				},
-				"preferedEmail": {
-					"type": "string"
-				},
-				"profile": {
-					"type": "string"
-				},
-				"phoneNumber": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "User"
-			}
-		},
-		"Self": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"role": {
-					"type": "string"
-				},
-				"school": {
-					"type": "string"
-				},
-				"firstName": {
-					"type": "string"
-				},
-				"lastName": {
-					"type": "string"
-				},
-				"year": {
-					"type": "integer",
-					"format": "int64"
-				},
-				"level": {
-					"type": "string",
-					"enum": [
-						"vwo",
-						"havo",
-						"mavo"
-					]
-				},
-				"profile": {
-					"type": "string"
-				},
-				"notifications": {
-					"type": "array",
-					"items": {
-						"$ref": "#/definitions/Notification"
-					}
-				}
-			},
-			"xml": {
-				"name": "User"
-			}
-		},
-		"Group": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"teacherId": {
-					"type": "string"
-				},
-				"teacherName": {
-					"type": "string"
-				},
-				"day": {
-					"type": "string",
-					"enum": [
-						"maandag",
-						"dinsdag",
-						"woensdag",
-						"donderdag",
-						"vrijdag"
-					]
-				},
-				"schoolYear": {
-					"type": "string",
-					"enum": [
-						"2018/2019",
-						"2019/2020",
-						"2021/2022",
-						"2023/2024"
-					]
-				},
-				"period": {
-					"type": "integer"
-				},
-				"courseId": {
-					"type": "integer"
-				},
-				"courseName": {
-					"type": "string"
-				},
-				"courseDescription": {
-					"type": "string"
-				},
-				"subjectId": {
-					"type": "integer"
-				},
-				"subjectName": {
-					"type": "string"
-				},
-				"subjectDescription": {
-					"type": "string"
-				},
-				"enrollableFor": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "Group"
-			}
-		},
-		"Evaluation": {
-			"type": "object",
-			"properties": {
-				"groupId": {
-					"type": "integer"
-				},
-				"userId": {
-					"type": "integer"
-				},
-				"type": {
-					"type": "string"
-				},
-				"assesement": {
-					"type": "string"
-				},
-				"explanation": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "Evaluation"
-			}
-		},
-		"Presence": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "string"
-				},
-				"lessonId": {
-					"type": "string"
-				},
-				"studentId": {
-					"type": "string"
-				},
-				"status": {
-					"type": "string",
-					"enum": [
-						"present",
-						"absent"
-					]
-				},
-				"explanation": {
-					"type": "string"
-				}
-			},
-			"xml": {
-				"name": "Evaluation"
-			}
-		},
-		"Lesson": {
-			"type": "object",
-			"properties": {
-				"lessonId": {
-					"type": "integer"
-				},
-				"groupId": {
-					"type": "integer"
-				},
-				"data": {
-					"type": "string"
-				},
-				"date": {
-					"type": "string"
-				},
-				"kind": {
-					"type": "string"
-				},
-				"activities": {
-					"type": "string"
-				},
-				"numerInBlock": {
-					"type": "integer"
-				},
-				"presence": {
-					"type": "string",
-					"enum": [
-						"required",
-						"optional",
-						"unrequired"
-					]
-				}
-			},
-			"xml": {
-				"name": "Lesson"
-			}
-		},
-		"LessonEdit": {
-			"type": "object",
-			"properties": {
-				"groupId": {
-					"type": "integer"
-				},
-				"kind": {
-					"type": "string"
-				},
-				"activities": {
-					"type": "string"
-				},
-				"subject": {
-					"type": "string"
-				},
-				"presence": {
-					"type": "string",
-					"enum": [
-						"required",
-						"optional",
-						"unrequired"
-					]
-				}
-			},
-			"xml": {
-				"name": "LessonEdit"
-			}
-		},
-		"Notification": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "integer"
-				},
-				"priority": {
-					"type": "string",
-					"description": "How important is the notification, high for red persistant, medium for orange temporary, low for gray temporary.",
-					"enum": [
-						"high",
-						"medium",
-						"low"
-					]
-				},
-				"scope": {
-					"type": "string",
-					"description": "the RegEx that the adress has to conform to for the appearance of this notification"
-				},
-				"message": {
-					"type": "string",
-					"description": "the message to send"
-				},
-				"type": {
-					"type": "string",
-					"enum": [
-						"bar",
-						"alert"
-					]
-				}
-			},
-			"xml": {
-				"name": "Lesson"
-			}
-		}
-	}
+		"/user/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get all users",
+        "operationId": "getAllUsers",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/user/groups": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "getParticipatingGroups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/enrollableGroups": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get list of groups to choose from",
+        "operationId": "getChoices",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/enrollments": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get choices",
+        "operationId": "getEnrollments",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "maxLength": 5,
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add enrollment",
+        "operationId": "addEnrollment",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId of the group to add",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete enrollment",
+        "operationId": "removeEnrollment",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "formData",
+            "description": "The groupId of the group to remove",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/acceptEnrollements": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "acceptEnrollments",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "message",
+            "in": "formData",
+            "description": "Confirm action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/alias": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "setAlias",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "secureLogin",
+            "in": "formData",
+            "description": "secure login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "userId to alias as",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/taxi": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "taxi",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "week",
+            "in": "formData",
+            "description": "The week to get the schedule from, 0 for the base schedule",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/calculateLessonDates": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Reset all lesson dates",
+        "operationId": "calculateLessonDates",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "message",
+            "in": "formData",
+            "description": "Confirm action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/data": {
+      "post": {
+        "tags": [
+          "Function"
+        ],
+        "summary": "Reset all lesson dates",
+        "operationId": "getData",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "secureLogin",
+            "in": "formData",
+            "description": "secure login token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "table",
+            "in": "formData",
+            "description": "the table to read",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "evaluation",
+              "user_data",
+              "enrollment"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Course": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "subjectId": {
+          "type": "string"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "remarks": {
+          "type": "string"
+        },
+        "studyTime": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
+    "Subject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "vwo",
+            "havo",
+            "mavo"
+          ]
+        },
+        "preferedEmail": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Self": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "vwo",
+            "havo",
+            "mavo"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "teacherName": {
+          "type": "string"
+        },
+        "day": {
+          "type": "string",
+          "enum": [
+            "maandag",
+            "dinsdag",
+            "woensdag",
+            "donderdag",
+            "vrijdag"
+          ]
+        },
+        "schoolYear": {
+          "type": "string",
+          "enum": [
+            "2018/2019",
+            "2019/2020",
+            "2021/2022",
+            "2023/2024"
+          ]
+        },
+        "period": {
+          "type": "integer"
+        },
+        "courseId": {
+          "type": "integer"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "courseDescription": {
+          "type": "string"
+        },
+        "subjectId": {
+          "type": "integer"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "subjectDescription": {
+          "type": "string"
+        },
+        "enrollableFor": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Group"
+      }
+    },
+    "Evaluation": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "assesement": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Evaluation"
+      }
+    },
+    "Presence": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "lessonId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "present",
+            "absent"
+          ]
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Evaluation"
+      }
+    },
+    "Lesson": {
+      "type": "object",
+      "properties": {
+        "lessonId": {
+          "type": "integer"
+        },
+        "groupId": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "activities": {
+          "type": "string"
+        },
+        "numerInBlock": {
+          "type": "integer"
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "required",
+            "optional",
+            "unrequired"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Lesson"
+      }
+    },
+    "LessonEdit": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "integer"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "activities": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "required",
+            "optional",
+            "unrequired"
+          ]
+        }
+      },
+      "xml": {
+        "name": "LessonEdit"
+      }
+    },
+    "Notification": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "priority": {
+          "type": "string",
+          "description": "How important is the notification, high for red persistant, medium for orange temporary, low for gray temporary.",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "description": "the RegEx that the adress has to conform to for the appearance of this notification"
+        },
+        "message": {
+          "type": "string",
+          "description": "the message to send"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "bar",
+            "alert"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Lesson"
+      }
+    }
+  }
 }

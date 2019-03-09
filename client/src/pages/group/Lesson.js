@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import Field from '../../components/Field';
+import { Button } from '@material-ui/core';
+import { setPresenceUserStatus } from "../../store/actions";
+import { connect } from "react-redux";
 
 class Lesson extends Component {
 
@@ -25,6 +28,34 @@ class Lesson extends Component {
 	getWeekdayString(number) {
 		return ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"][number];
 	}
+
+	getOptOutButton() {
+		if (this.props.lesson.userStatus === "absent") {
+			return < div style={{ flex: 1 }}>
+				<Button
+					style={{ width: "70px", float: "right" }}
+					size="small"
+					mini
+					color="primary"
+					onClick={() => this.props.setPresenceUserStatus(this.props.lesson.id, "present", this.props.lesson.courseGroupId)}
+				>
+					Aanmelden
+				</Button>
+			</div>
+		}
+		return < div style={{ flex: 1 }}>
+			<Button
+				style={{ width: "70px", float: "right" }}
+				size="small"
+				mini
+				color="secondary"
+				onClick={() => this.props.setPresenceUserStatus(this.props.lesson.id, "absent", this.props.lesson.courseGroupId)}
+			>
+				Afmelden
+			</Button>
+		</div>
+	}
+
 
 	handleChange = (event) => {
 		this.props.handleChange({
@@ -114,14 +145,21 @@ class Lesson extends Component {
 						onChange={this.handleChange}
 						options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
 					/>
+					{
+						this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
+					}
 				</td>
-			</Paper>
+			</Paper >
 		);
 	}
 
 
 }
 
+function mapDispatchToProps(dispatch) {
+	return {
+		setPresenceUserStatus: (lessonId, userStatus, groupId) => dispatch(setPresenceUserStatus(lessonId, userStatus, groupId)),
+	};
+}
 
-export default Lesson;
-
+export default connect(null, mapDispatchToProps)(Lesson);

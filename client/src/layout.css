@@ -103,6 +103,21 @@ table {
 	border-spacing: 0px 10px
 }
 
+.taxiScheduleHolder table {
+	width: 100%;
+	margin-bottom: 60px;
+}
+
+.taxiScheduleHolder th {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+
+.taxiScheduleHolder td {
+	margin: 0px;
+	padding: 0px;
+}
+
 /* Small Monitors: 
 	(Reduced padding and margins)
 */

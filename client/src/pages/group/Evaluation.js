@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import { connect } from "react-redux";
-import { setCookie } from "../../store/actions"
 import Field from '../../components/Field';
 import User from '../user/User';
-import Button from '@material-ui/core/Button';
+import EnsureSecureLogin from '../../components/EnsureSecureLogin';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
@@ -49,58 +48,19 @@ const EVALUATION_FORMATS = [{
 }];
 
 function getEvaluationColor(ev) {
-	const GOOD = "#4caf50";
-	const SUFFICIENT = "#ff9800";
-	const INSUFFICIENT = "#f44336";
-	const NOT_PARTICIPATED = "#9c27b0";
-	const UNKNOWN = "#9c27b0";
-
+	if (ev.assesment === "ND" || ev.assesment == null) {
+		return "#673ab7";
+	}
 	switch (ev.type) {
 		case "stepwise":
-			switch (ev.assesment) {
-				case "G":
-					return GOOD;
-				case "V":
-					return SUFFICIENT;
-				case "O":
-					return INSUFFICIENT;
-				default: break;
-			}
-			break;
+			return "#3f51b5";
 		case "check":
-			switch (ev.assesment) {
-				case "passed":
-					return GOOD;
-				case "failed":
-					return INSUFFICIENT;
-				default: break;
-			}
-			break;
+			return "#009688";
 		case "decimal":
-			const assesment = ev.assesment ? ev.assesment : "";
-			const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
-			if (!isNaN(x)) {
-				if (parseFloat(x) >= 7.5) {
-					return GOOD;
-				}
-				if (parseFloat(x) >= 5.5) {
-					return SUFFICIENT;
-				}
-				if (parseFloat(x) < 5.5) {
-					return INSUFFICIENT;
-				}
-			}
-			break;
+			return "#00bcd4"
 		default:
-			break;
+			return "#673ab7";
 	}
-	switch (ev.assesment) {
-		case "ND":
-			return NOT_PARTICIPATED;
-		default:
-			return UNKNOWN;
-	}
-
 }
 
 class Evaluation extends Component {
@@ -223,7 +183,7 @@ class EvaluationTab2 extends Component {
 		const evComps = evaluations
 			.map(evaluation => {
 				return (
-					<Paper style={style} key={evaluation.id} component="tr">
+					<Paper style={style} key={evaluation.userId} component="tr">
 						<User display="name" userId={evaluation.userId} />
 						<Evaluation editable={this.props.editable} evaluation={evaluation} handleChange={this.handleEvaluationChange.bind(this)} />
 						{this.getExplanationField(evaluation, this.props.editable)}
@@ -231,45 +191,40 @@ class EvaluationTab2 extends Component {
 				);
 			});
 
-		if (this.props.editable && this.props.secureLogin == null) {
-			return <Paper style={{ padding: "20px" }}>
-				<Field value="Log opnieuw in om de beoordelingen te bewerken" layout={{ area: true }} />
-				<Button color="primary" variant="contained" onClick={() => {
-					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-					document.location.href = "/auth/login?secure=true";
-				}}>
-					Inloggen
-				</Button>
-			</Paper>
-		}
-
 		return (
-			<div>
-				<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
-					<Field
-						style={{ type: "headline", margin: "normal" }}
-						value={"Beoordelingen"}
-					/>
-					<div style={{ flex: "5" }} />
-					<Field
-						label="Beoordelingsformaat"
-						style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
-						layout={{ alignment: "right" }}
-						value={evaluations[0].type}
-						options={EVALUATION_FORMATS}
-						editable={this.props.editable}
-						onChange={this.handleEvaluationTypeChange.bind(this)}
-					/>
-				</Paper >
-				{evComps}
-			</div >
+			<EnsureSecureLogin active={this.props.editable}>
+				<table style={{ width: "100%" }}>
+					<tbody>
+						<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
+							<td>
+								<Field
+									style={{ type: "headline", margin: "normal" }}
+									value={"Beoordelingen"}
+								/>
+							</td>
+							<td style={{ flex: "5" }} />
+							<td>
+								<Field
+									label="Beoordelingsformaat"
+									style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
+									layout={{ alignment: "right" }}
+									value={evaluations[0].type}
+									options={EVALUATION_FORMATS}
+									editable={this.props.editable}
+									onChange={this.handleEvaluationTypeChange.bind(this)}
+								/>
+							</td>
+						</Paper >
+						{evComps}
+					</tbody>
+				</table >
+			</EnsureSecureLogin>
 		);
 	}
 
 }
 function mapStateToProps(state, ownProps) {
 	return {
-		secureLogin: state.secureLogin,
 		users: state.users,
 	}
 }

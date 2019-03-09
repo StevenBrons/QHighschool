@@ -3,6 +3,7 @@ const Lesson = require("../dec/LessonDec");
 const Presence = require("../dec/PresenceDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
+const LoggedIn = require("../dec/LoggedInDec");
 const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
@@ -65,44 +66,65 @@ class FunctionDB {
 	}
 
 	async addAllEnrollmentsToGroups() {
-		await Enrollment.findAll().then((rows) => {
-			rows.map((enrollment) => {
-				if (enrollment.accepted === "false") {
-					this.addUserToGroup(enrollment.userId, enrollment.groupId);
-				}
-			});
+		const enrollments = await Enrollment.findAll();
+		const userAdds = enrollments.map((enrollment) => {
+			if (enrollment.accepted === "false") {
+				return this.addUserToGroup(enrollment.userId, enrollment.courseGroupId);
+			}
 		});
+		await Promise.all(userAdds);
+		await Promise.all(enrollments.map(e => e.update({
+			accepted: "true",
+		})));
 		return true;
 	}
 
-	async addUserToGroup(userId, groupId) {
-		await this._addParticipant(userId, groupId);
-		await this._addEvaluation(userId, groupId);
-		await this._addPresence(userId, groupId);
+	async addUserToGroup(userId, courseGroupId) {
+		console.log("Adding " + userId + " to " + courseGroupId);
+		await this._addParticipant(userId, courseGroupId);
+		await this._addEvaluation(userId, courseGroupId);
+		await this._addPresence(userId, courseGroupId);
 	}
 
-	async _addPresence(userId, groupId) {
-		return Lesson.findOne({ where: { groupId } })
-			.then(lessons => Prommise.all(lessons.map(({ id }) => {
-				return Presence.create({
-					lessonId: id,
-					userId,
+	async _addPresence(userId, courseGroupId) {
+		return Lesson.findAll({ where: { courseGroupId } })
+			.then(lessons => Promise.all(lessons.map(({ id }) => {
+				return Presence.findOrCreate({
+					where: {
+						lessonId: id,
+						userId,
+					}, defaults: {
+						lessonId: id,
+						userId,
+					}
 				});
 			})));
 	}
 
-	async _addEvaluation(userId, groupId) {
-		return Group.findByPrimary(groupId, { attributes: courseId })
-			.then((courseId) => Evaluation.create({
-				userId,
-				courseId
+	async _addEvaluation(userId, courseGroupId) {
+		return Group.findByPk(courseGroupId, { attributes: ["courseId"] })
+			.then(({ courseId }) => Evaluation.findOrCreate({
+				where: {
+					userId,
+					courseId
+				},
+				defaults: {
+					userId,
+					courseId
+				}
 			}));
 	}
 
-	async _addParticipant(userId, groupId) {
-		return Participant.create({
-			userId,
-			courseGroupId: groupId,
+	async _addParticipant(userId, courseGroupId) {
+		return Participant.findOrCreate({
+			where: {
+				userId,
+				courseGroupId,
+			},
+			defaults: {
+				userId,
+				courseGroupId,
+			}
 		});
 	}
 
@@ -239,6 +261,20 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
+		});
+	}
+
+	async setAlias(token, oldUserId, newUserId) {
+		return LoggedIn.findOne({
+			where: {
+				token: token,
+				active: true,
+				userId: oldUserId,
+			}
+		}).then(login => {
+			login.update({
+				userId: newUserId,
+			});
 		});
 	}
 
