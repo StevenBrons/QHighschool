@@ -40,7 +40,6 @@ class DataPage extends Component {
 		this.fetchData(this.state.data, splitValues[this.state.data]).then(tables => this.setState({ tables: tables }));
 	}
 
-
 	handleFilterChange = event => {
 		this.props.history.push({
 			search: "data=" + event.target.value,
@@ -50,32 +49,24 @@ class DataPage extends Component {
 
 	sort = (tableIndex) => {
 		let table = this.state.tables[tableIndex];
-		const header = table.splice(0,1);// remove header
 		const column = this.state.tableSortColumns[tableIndex];
 		const order = this.state.tableSortDirections[tableIndex];
-		console.log("Sorting table " + tableIndex + " on column " + column + " with order "+ order );
-		table.sort( (a,b) => {
+
+		table = [table[0]].concat(table.slice(1,table.length).sort( (a,b) => {//Only sort the slice 1-table.length because the header has to stick
 			let cmp = a[column] > b[column] ? 1 : (a[column] < b[column] ? -1 : 0);
 			return order === "asc" ? cmp : -cmp;
-		})
-		table.unshift(header[0]);//add header again
+		}));
 
-		this.setState(prevState =>{//update only the correct table
-			let newTables = prevState.tables;
-			newTables[tableIndex] = table;
-			return {
-				tables:newTables,
-			}
-		});
+		this.setState(prevState => ({
+			tables:[
+				...prevState.tables.slice(0,tableIndex),
+				table,
+				...prevState.tables.slice(tableIndex + 1),
+			]
+		}))
 	}
 
 	handleSortChange = (tableIndex,columnIndex) => {
-    let direction = "desc";
-
-    if (this.state.tableSortColumns[tableIndex] === columnIndex && this.state.tableSortDirections[tableIndex] === 'desc') {
-      direction = "asc";
-    }
-
      this.setState(prevState => ({//update the correct elements of the arrays of the state
         tableSortColumns: {
             ...prevState.tableSortColumns,
@@ -83,7 +74,7 @@ class DataPage extends Component {
 					},
 				tableSortDirections: {
 					...prevState.tableSortDirections,
-					[tableIndex]: direction,
+					[tableIndex]: prevState.tableSortDirections[tableIndex] === 'desc' && prevState.tableSortColumns[tableIndex] === columnIndex ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
 				}
 		}),() => this.sort(tableIndex));// when setting state is done start sorting
 	}
@@ -102,19 +93,17 @@ class DataPage extends Component {
 		let splitIndex = table[0].findIndex(x => x === splitValue);
 		if ( splitIndex < 0 ) {
 			return [table];
-		} else {
-			let tables = [[table[0], table[1]]];//initialize the tables with one table that has a header and a row
-			for ( let i = 2; i < table.length; i ++ ) {
-        let tableIndex = tables.findIndex(halfSplitTable => halfSplitTable[1][splitIndex] === table[i][splitIndex] ); // see in what table this row has to go
-				if ( tableIndex < 0 ) {
-					tables.push([table[0]]); // add a new table with a new header if a new value is found
-					tableIndex = tables.length - 1;
-				} 
-				tables[tableIndex].push(table[i]); // add row to correct table
-			}
-			this.setState({tableSortColumns: Array(tables.length)});
-			return tables;
+		} 
+		let tables = [[table[0], table[1]]];//initialize the tables with one table that has a header and a row
+		for ( let i = 2; i < table.length; i ++ ) {
+			let tableIndex = tables.findIndex(halfSplitTable => halfSplitTable[1][splitIndex] === table[i][splitIndex] ); // see in what table this row has to go
+			if ( tableIndex < 0 ) {
+				tables.push([table[0]]); // add a new table with a new header if a new value is found
+				tableIndex = tables.length - 1;
+			} 
+			tables[tableIndex].push(table[i]); // add row to correct table
 		}
+		return tables;
 	}
 
 	fetchData = async (data, splitValue) => {
@@ -174,40 +163,31 @@ class DataPage extends Component {
       }
     }
 
-    let filename = (new Date()).toLocaleDateString() + ".xlsx";
-    switch (this.state.data) {
-      case "users":
-        filename = "Gebruikers " + filename;
-        break;
-      case "enrollments":
-        filename = "Inschrijvingen " + filename;
-        break;
-      default:
-        filename = "Beoordelingen " + filename;
-    }
+		const filenamePrefixes = {users:"Gebruikers ", enrollments:"Inschrijvingen ", evaluations:"Beoordelingen "};
+		let filename = filenamePrefixes[this.state.data] + (new Date()).toLocaleDateString() + ".xlsx";
 		this.downloadWorkbook(workbook, filename );//gives for example: "Gebruikers 3/3/2019.xlsx"
 	}
 
-	downloadWorkbook = (workbook, fileName) => {
+	downloadWorkbook = (workbook, fileName) => {//magic
 		workbook.xlsx.writeBuffer( {
-                base64: true
-            })
-            .then( function (xls64) {
-                var a = document.createElement("a");
-                var data = new Blob([xls64], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-                var url = URL.createObjectURL(data);
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(function() {
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }, 0);
-            }) 
-            .catch(function(error) {
-                console.log("Something went wrong with downloading the excel file: " + error.message);
-            });
+			base64: true
+		})
+		.then( function (xls64) {
+			var a = document.createElement("a");
+			var data = new Blob([xls64], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+			var url = URL.createObjectURL(data);
+			a.href = url;
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			setTimeout(function() {
+				document.body.removeChild(a);
+				window.URL.revokeObjectURL(url);
+			}, 0);
+		}) 
+		.catch(function(error) {
+			console.log("Something went wrong with downloading the excel file: " + error.message);
+		});
 	}
 
 	render() {
@@ -286,12 +266,9 @@ class DataPage extends Component {
 					{content}
 				</EnsureSecureLogin>
 			</Page>
-
 		);
 	}
 }
-
-
 
 function mapStateToProps(state, ownProps) {
 	return {
