@@ -9,7 +9,6 @@ const DEFAULT_STATE = {
 	groups: null,
 	users: null,
 	showMenu: true,
-	secureLogin: "9f4bfa1d-287d-40f7-b354-b9ea6c23d68df",
 	notifications: [],
 	hasFetched: [],
 }

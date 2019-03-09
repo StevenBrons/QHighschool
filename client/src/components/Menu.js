@@ -8,7 +8,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitIcon from '@material-ui/icons/ExitToApp';
 import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
-import DvrIcon from '@material-ui/icons/Dvr';
+import BuildIcon from '@material-ui/icons/Build';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
@@ -33,7 +33,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "bediening", "loguit"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "beheer", "loguit"];
 				break;
 			case "grade_admin":
 				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
@@ -77,8 +77,8 @@ class Menu extends Component {
 				return <ExitIcon style={{ color: "red" }} />;
 			case "Taxi":
 				return <LocalTaxiIcon style={{ color: c }} />;
-			case "Bediening":
-				return <DvrIcon style={{ color: c }} />;
+			case "Beheer":
+				return <BuildIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -147,9 +147,9 @@ class Menu extends Component {
 				icon: "Taxi",
 			},
 			{
-				id: "bediening",
-				title: "Bediening",
-				icon: "Bediening",
+				id: "beheer",
+				title: "Beheer",
+				icon: "Beheer",
 			},
 		];
 

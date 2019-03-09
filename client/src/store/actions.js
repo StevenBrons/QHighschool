@@ -386,6 +386,25 @@ export function getGroupParticipants(groupId) {
 	}
 }
 
+export function getAllUsers() {
+	return (dispatch, getState) => {
+		if (getState().hasFetched.indexOf("User.list()") !== -1) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "User.list()"
+		});
+		User.getList()
+			.then((users) => {
+				dispatch({
+					type: "CHANGE_USERS",
+					users: users,
+				});
+			});
+	}
+}
+
 export function addNotification(notification) {
 	return {
 		type: "ADD_NOTIFICATION",
