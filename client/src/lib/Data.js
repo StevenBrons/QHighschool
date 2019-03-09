@@ -260,6 +260,14 @@ class UserClass extends Data {
 		});
 	}
 
+	async getList() {
+		return $.ajax({
+			url: this.getUrl() + "/list",
+			type: "get",
+			dataType: "json",
+		}).then((list) => keyBy(list, "id"));
+	}
+
 	async getParticipatingGroups() {
 		return $.ajax({
 			url: this.getUrl() + "/groups",

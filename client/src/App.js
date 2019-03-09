@@ -67,7 +67,7 @@ class App extends Component {
 					<Route path="/groepen/" component={MyGroups} />
 					<Route path="/gegevens/" component={DataPage} />
 					<Route path="/taxi/" component={Taxi} />
-					<Route path="/bediening/" component={ControlPanel} />
+					<Route path="/beheer/" component={ControlPanel} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 					<Redirect push to={startPage} />
 				</Switch>
