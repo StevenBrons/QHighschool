@@ -1,4 +1,4 @@
-import { User, Subject, Group, Course } from "../lib/Data"
+import { User, Subject, Group, Course, Function } from "../lib/Data"
 import filter from "lodash/filter"
 
 function apiErrorHandler(dispatch, message) {
@@ -35,6 +35,16 @@ export function getSubjects() {
 				});
 			}).catch(apiErrorHandler(dispatch));
 		}
+	}
+}
+
+export function setAlias(userId) {
+	return (dispatch, getState) => {
+		Function.setAlias(userId, getState().secureLogin)
+			.then(() => {
+				document.location.reload();
+			})
+			.catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -373,6 +383,25 @@ export function getGroupParticipants(groupId) {
 				users: participants,
 			});
 		}).catch(apiErrorHandler(dispatch));
+	}
+}
+
+export function getAllUsers() {
+	return (dispatch, getState) => {
+		if (getState().hasFetched.indexOf("User.list()") !== -1) {
+			return;
+		}
+		dispatch({
+			type: "HAS_FETCHED",
+			call: "User.list()"
+		});
+		User.getList()
+			.then((users) => {
+				dispatch({
+					type: "CHANGE_USERS",
+					users: users,
+				});
+			});
 	}
 }
 

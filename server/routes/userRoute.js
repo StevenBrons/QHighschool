@@ -67,4 +67,11 @@ router.get("/groups", (req, res) => {
 		.then(handleReturn(res));
 });
 
+router.get("/list", (req, res) => {
+	if (req.user.isAdmin()) {
+		userDb.getList()
+			.then(handleReturn(res));
+	}
+});
+
 module.exports = router;
