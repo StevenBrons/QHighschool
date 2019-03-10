@@ -12,6 +12,9 @@ import { removeNotification } from '../store/actions';
 
 class NotificationBar extends Component {
 
+	//dit hele component mag dus weg, misschien is het wel handig om dit als uitgangspunt te gebruiken
+
+
 	render() {
 		let className = "";
 		if (this.props.showMenu) {

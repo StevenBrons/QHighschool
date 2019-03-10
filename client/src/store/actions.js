@@ -6,10 +6,10 @@ function apiErrorHandler(dispatch, message) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
-				id: -1,
 				priority: "high",
 				type: "bar",
 				message: message ? message : "Er is iets mis gegaan",
+				scope: ".",
 			}
 		});
 		dispatch({
