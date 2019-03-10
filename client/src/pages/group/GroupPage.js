@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import map from 'lodash/map';
 
+import { connect } from "react-redux";
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
 import { EvaluationTab } from './Evaluation';
@@ -159,6 +160,7 @@ class GroupPage extends Component {
 	sort = () => {
 		const tab = this.state.currentTab;
 		let arrayToSort;
+		console.log(this.props.users);
 		switch (tab) {
 			case "Inschrijvingen": 
 				arrayToSort = this.state.group.enrollmentIds;
@@ -357,6 +359,11 @@ class GroupPage extends Component {
 
 }
 
+function mapStateToProps(state) {
+	return{
+		users: state.users,
+	};
+}
 
-export default withRouter(GroupPage);
+export default withRouter(connect(mapStateToProps)(GroupPage));
 
