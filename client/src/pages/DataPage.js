@@ -1,22 +1,25 @@
 import React, { Component } from "react";
-import Page from "./Page";
-import Progress from '../components/Progress';
-
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
 	Paper, Typography, Table, TableHead, TableCell,
 	TableBody, TableRow, Tooltip, TableSortLabel, Toolbar, Button
 } from "@material-ui/core";
-import Field from '../components/Field';
 import queryString from "query-string";
-import EnsureSecureLogin from "../components/EnsureSecureLogin";
 import Excel from "exceljs/dist/es5/exceljs.browser";
+
+import Page from "./Page";
+import Progress from '../components/Progress';
+import Field from '../components/Field';
+import EnsureSecureLogin from "../components/EnsureSecureLogin";
+import $ from "jquery";
 
 const splitValues = {
 	users: "role",
-	evaluations: "subject",
-	enrolments: null,
+	evaluations: "groupId",
+	enrolments: "period",
 }
+
 class DataPage extends Component {
 
 	constructor(props) {
@@ -84,16 +87,6 @@ class DataPage extends Component {
 		}), () => this.sort(tableIndex)); // when setting state is done start sorting
 	}
 
-	generateTestTables(rows) {
-		const names = ["de Boer, Jorrit", "B, Steven", "Doe, Jon", "Musk, Elon", "Jobs, Steve", "Gates, Bill", "Trump, Donald J"];
-		const subjects = ["Introductie Informatica", "Basis van Programmeren", "Keuzemodules", "Databases en SQL", "Programmeren met Python", "Cryptografie"];
-		let testTables = [["displayName", "grade", "subject",]];
-		for (let i = 0; i < rows; i++) {
-			testTables.push([names[Math.floor(Math.random() * names.length)], (Math.floor(Math.random() * 10)) + 1, subjects[Math.floor(Math.random() * subjects.length)]])
-		}
-		return testTables;
-	}
-
 	splitTable = (table, splitValue) => {
 		let splitIndex = table[0].findIndex(x => x === splitValue);
 		if (splitIndex < 0) {
@@ -111,48 +104,17 @@ class DataPage extends Component {
 		return tables;
 	}
 
-	fetchData = async (data) => {
-		let tables;
-		switch (data) {
-			case "users":
-				tables = [
-					["displayName", "firstName", "lastName", "role"],
-					["B, Steven", "Steven", "B", "admin"],
-					["Doe, Jon", "Jon", "Doe", "student"],
-					["de Boer, Jorrit", null, "de Boer", "admin"],
-					["Doe, Jon", "Jon", "5", "student"],
-					["Musk, Elon", "Elon", "E", "admin"],
-					["Jobs, Steve", "Steve", "Jobs", "student"],
-					["Gates, Bill", "Bill", "Gates", "grade_admin"],
-					["Trump, Donald J", "Donald", "Trump", "student"]
-				];
-				break;
-			case "evaluations":
-				tables = this.generateTestTables(50);
-				break
-			case "enrollments":
-				tables = [
-					["Vak", "Leerling", "Datum inschrijving"],
-					["Wiskunde D", "Jorrit de Boer", "14-02-2019"],
-					["Latijn", "Jorrit", "13-01-2009"]
-				];
-				break;
-			default:
-				tables = [
-					["displayName", "type", "course"],
-					["B, Steven", "decimal", "9"],
-					["T, Est", "decimal", "6"],
-					["B, Steven", "decimal", "9"],
-					["T, Est", "decimal", "6"],
-					["B, Steven", "decimal", "9"],
-					["T, Est", "decimal", "6"],
-					["B, Steven", "decimal", "9"],
-					["T, Est", "decimal", "6"],
-					["B, Steven", "decimal", "9"],
-					["T, Est", "decimal", "6"]
-				];
-		}
-		return tables;
+	fetchData = (table) => {
+		console.log(table);
+		return $.ajax({
+			url: "api/function/data",
+			type: "post",
+			data: {
+				table,
+				secureLogin: this.props.secureLogin,
+			},
+			dataType: "json",
+		});
 	}
 
 	downloadTables = () => {
@@ -275,4 +237,10 @@ class DataPage extends Component {
 	}
 }
 
-export default withRouter(DataPage);
+function mapStateToProps(state) {
+	return {
+		secureLogin: state.secureLogin,
+	}
+}
+
+export default withRouter(connect(mapStateToProps, null)(DataPage));

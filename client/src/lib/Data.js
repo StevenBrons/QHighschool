@@ -10,7 +10,6 @@ class Data {
 			this.url = "/api/";
 		}
 	}
-
 }
 
 class CourseClass extends Data {
