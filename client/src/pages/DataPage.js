@@ -105,7 +105,6 @@ class DataPage extends Component {
 	}
 
 	fetchData = (table) => {
-		console.log(table);
 		return $.ajax({
 			url: "api/function/data",
 			type: "post",
