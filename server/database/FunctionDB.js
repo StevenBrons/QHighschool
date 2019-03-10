@@ -254,7 +254,7 @@ class FunctionDB {
 		return Enrollment.findAll({
 			include: [{
 				model: Group,
-				attributes: ["id"],
+				attributes: ["id", "period"],
 				include: [{
 					model: Course,
 					attributes: ["name"],
@@ -268,6 +268,7 @@ class FunctionDB {
 			return {
 				dataValues: {
 					...e.user.dataValues,
+					period: e.course_group.period,
 					courseName: e.course_group.course.name,
 					courseGroupId: e.course_group.id,
 					id: e.id,
