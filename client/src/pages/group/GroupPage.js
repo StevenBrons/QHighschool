@@ -26,6 +26,16 @@ class GroupPage extends Component {
 		this.state = {
 			editable: false,
 			group: this.props.group,
+			sortValues: {//possible start sort values
+				Deelnemers: "",
+				Inschrijvingen:"",
+				Beoordeling: "",
+			},
+			sortDirections: {
+				Deelnemers: "",
+				Inschrijvingen:"",
+				Beoordeling: "",
+			},
 		}
 		switch (this.props.role) {
 			case "student":
@@ -80,7 +90,7 @@ class GroupPage extends Component {
 				}
 				return <table style={{ width: "100%" }}>
 					<tbody>
-						{[<User key={"header"} display="header" />]
+						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} />]
 							.concat((enrollmentIds.map(id => {
 								return <User key={id} userId={id} display="row" />
 							})))}
@@ -109,7 +119,7 @@ class GroupPage extends Component {
 				}
 				return <table style={{ width: "100%" }}>
 					<tbody>
-						{[<User key={"header"} display="header" />]
+						{[<User key={"header"} display="header" onSortChange={this.handleSortChange}/>]
 							.concat(participantIds.map(id => {
 								return <User key={id} userId={id} display="row" />
 							}))}
@@ -128,6 +138,40 @@ class GroupPage extends Component {
 			default: return null;
 		}
 
+	}
+
+	handleSortChange = (value) =>  {
+		const tab = this.state.currentTab;
+		this.setState( prevState => ({
+			sortValues: {
+				...prevState.sortColumns,
+				[tab]:value,
+			},
+			sortDirections: {
+				...prevState.sortDirections,
+				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
+
+			},
+		}), this.sort);
+		console.log("Sorting " + tab + " on " + value );
+	}
+
+	sort = () => {
+		const tab = this.state.currentTab;
+		let arrayToSort;
+		switch (tab) {
+			case "Inschrijvingen": 
+				arrayToSort = this.state.group.enrollmentIds;
+				break;
+			case "Deelnemers": 
+				arrayToSort = this.state.group.participantIds;
+				break;
+			default:
+				arrayToSort = this.state.group.evaluations;
+		}
+		const value = this.state.sortValues[tab];
+		const direction = this.state.sortDirections[tab];
+		console.log("We're going to sort " + arrayToSort + " " + direction + " on "  + value);
 	}
 
 	componentDidMount() {

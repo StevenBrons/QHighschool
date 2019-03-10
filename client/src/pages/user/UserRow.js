@@ -79,19 +79,19 @@ class GroupCard extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }}>
+						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} onClick={() => this.props.onSortChange("name")}>
 							{user.firstName + " " + user.lastName}
 						</Typography>
-						<Typography variant="subheading" style={{ flex: 1 }}>
+						<Typography variant="subheading" style={{ flex: 1 }} onClick={() => this.props.onSortChange("school")}>
 							{user.school}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }}>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("levelAndYear")}>
 							{user.level + " - " + user.year}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }}>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("role")}>
 							{user.role === "teacher" ? "docent" : "leerling"}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }}>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("profile")}>
 							{user.profile}
 						</Typography>
 					</div>
@@ -100,17 +100,17 @@ class GroupCard extends Component {
 							display: "flex",
 							justifyContent: "space-between"
 						}}>
-							<Typography variant="body1" style={{ flex: 1 }}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("email")}>
 								{user.email}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferredEmail")}>
 								{user.preferedEmail}
 							</Typography>
 							<div style={{ flex: 1 }} />
-							<Typography variant="body1" style={{ flex: 1 }}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("phoneNumber")}>
 								{this.formatPhoneNumber(user.phoneNumber)}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("id")}>
 								{user.id}
 							</Typography>
 						</div>
