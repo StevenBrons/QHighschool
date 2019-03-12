@@ -151,7 +151,6 @@ class GroupPage extends Component {
 			sortDirections: {
 				...prevState.sortDirections,
 				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
-
 			},
 		}), this.sort);
 		console.log("Sorting " + tab + " on " + value );
@@ -159,21 +158,42 @@ class GroupPage extends Component {
 
 	sort = () => {
 		const tab = this.state.currentTab;
-		let arrayToSort;
-		console.log(this.props.users);
-		switch (tab) {
-			case "Inschrijvingen": 
-				arrayToSort = this.state.group.enrollmentIds;
-				break;
-			case "Deelnemers": 
-				arrayToSort = this.state.group.participantIds;
-				break;
-			default:
-				arrayToSort = this.state.group.evaluations;
-		}
+		const arrayNames = {"Inschrijvingen":"enrollmentIds", "Deelnemers":"participantIds", "Beoordelingen":"evaluations"};
+		const arrayName = arrayNames[tab];
+		let arrayToSort = this.state.group[arrayName];
 		const value = this.state.sortValues[tab];
 		const direction = this.state.sortDirections[tab];
-		console.log("We're going to sort " + arrayToSort + " " + direction + " on "  + value);
+		const users = this.props.users;
+		switch ( value ) {
+			case "name":
+				arrayToSort.sort((a,b) => {
+					a = (users[a]["firstName"] + users[a]["lastName"]).toLowerCase();
+					b = (users[b]["firstName"] + users[b]["lastName"]).toLowerCase();
+					let cmp = a > b ? 1 : a < b? -1 : 0;
+					return direction === "asc" ? cmp : -cmp;
+				})
+				break;
+			case "levelAndYear":
+				arrayToSort.sort((a,b) => {
+					a = (users[a]["level"] + users[a]["year"]).toString();// to string because otherwise no level and year would result in a being an integer
+					b = (users[b]["level"] + users[b]["year"]).toString();
+					let cmp = a > b ? 1 : a < b? -1 : 0;
+					return direction === "asc" ? cmp : -cmp;
+				})
+				break;
+			default:
+				arrayToSort.sort((a,b) => {
+					a = users[a][value];
+					b = users[b][value];
+					console.log( a + "<" + b + "?:" + (a < b));
+					let cmp = a > b ? 1 : (a < b ? -1 : 0);
+					return direction === "asc" ? cmp : -cmp;
+				})
+		}
+		this.setState({
+			arrayName: arrayToSort,
+		})
+		console.log("We've sorted " + arrayToSort + " " + direction + " on "  + value);
 	}
 
 	componentDidMount() {
