@@ -91,7 +91,7 @@ class GroupPage extends Component {
 				}
 				return <table style={{ width: "100%" }}>
 					<tbody>
-						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} />]
+						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
 							.concat((enrollmentIds.map(id => {
 								return <User key={id} userId={id} display="row" />
 							})))}
@@ -120,7 +120,7 @@ class GroupPage extends Component {
 				}
 				return <table style={{ width: "100%" }}>
 					<tbody>
-						{[<User key={"header"} display="header" onSortChange={this.handleSortChange}/>]
+						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
 							.concat(participantIds.map(id => {
 								return <User key={id} userId={id} display="row" />
 							}))}
@@ -145,7 +145,7 @@ class GroupPage extends Component {
 		const tab = this.state.currentTab;
 		this.setState( prevState => ({
 			sortValues: {
-				...prevState.sortColumns,
+				...prevState.sortValues,
 				[tab]:value,
 			},
 			sortDirections: {
@@ -153,7 +153,6 @@ class GroupPage extends Component {
 				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
 			},
 		}), this.sort);
-		console.log("Sorting " + tab + " on " + value );
 	}
 
 	sort = () => {
@@ -316,7 +315,6 @@ class GroupPage extends Component {
 		const editable = this.state.editable;
 		const role = this.props.role;
 		let group = this.state.group;
-
 		return (
 			<Page>
 				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />

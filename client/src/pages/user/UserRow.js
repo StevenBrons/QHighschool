@@ -54,6 +54,9 @@ class GroupCard extends Component {
 		let style = { ...this.state.style };
 		if (this.props.header) {
 			style.backgroundColor = "#e0e0e0";
+			let sortValue = this.props.sortValue;
+			let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
+			console.log(sortDirection);
 			return (
 			<tr>
 				<Paper
@@ -69,8 +72,8 @@ class GroupCard extends Component {
 					}}>
 						<Typography variant="title" color="primary" style={{ flex: 1}} >
 							<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={true}
-                  direction={"asc"}
+                <TableSortLabel active={sortValue === "name"}
+                  direction={sortDirection}
                   onClick={() => this.props.onSortChange("name")}
                   style={{color:"inherit"}} >
                   Naam
@@ -79,8 +82,8 @@ class GroupCard extends Component {
 						</Typography>
 						<Typography variant="subheading" style={{ flex: 1 }} >
               <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={true}
-                  direction={"asc"}
+                <TableSortLabel active={sortValue === "school"}
+                  direction={sortDirection}
                   onClick={() => this.props.onSortChange("school")} >
                   School 
                 </TableSortLabel>
@@ -88,8 +91,8 @@ class GroupCard extends Component {
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
               <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={true}
-                  direction={"asc"}
+                <TableSortLabel active={sortValue === "levelAndYear"}
+                  direction={sortDirection}
                   onClick={() => this.props.onSortChange("levelAndYear")} >
                   Niveau - Leerjaar 
                 </TableSortLabel>
@@ -97,8 +100,8 @@ class GroupCard extends Component {
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
               <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={true}
-                  direction={"asc"}
+                <TableSortLabel active={sortValue === "role"}
+                  direction={sortDirection}
                   onClick={() => this.props.onSortChange("role")} >
                   Rol
                 </TableSortLabel>
@@ -106,8 +109,8 @@ class GroupCard extends Component {
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
               <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={true}
-                  direction={"asc"}
+                <TableSortLabel active={sortValue === "profile"}
+                  direction={sortDirection}
                   onClick={() => this.props.onSortChange("profile")} >
                   Profiel 
                 </TableSortLabel>
@@ -121,8 +124,8 @@ class GroupCard extends Component {
 						}}>
 							<Typography variant="body1" style={{ flex: 1 }} >
                 <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={true}
-                    direction={"asc"}
+                  <TableSortLabel active={sortValue === "email"}
+                    direction={sortDirection}
                     onClick={() => this.props.onSortChange("email")} >
                     Office Email
                   </TableSortLabel>
@@ -130,8 +133,8 @@ class GroupCard extends Component {
 							</Typography>
 							<Typography variant="body1" style={{ flex: 1 }} >
                 <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={true}
-                    direction={"asc"}
+                  <TableSortLabel active={sortValue === "preferedEmail"}
+                    direction={sortDirection}
                     onClick={() => this.props.onSortChange("preferedEmail")} >
                     Voorkeurs email 
                   </TableSortLabel>
@@ -140,8 +143,8 @@ class GroupCard extends Component {
 							<div style={{ flex: 1 }} />
 							<Typography variant="body1" style={{ flex: 1 }} >
                 <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={true}
-                    direction={"asc"}
+                  <TableSortLabel active={sortValue === "phoneNumber"}
+                    direction={sortDirection}
                     onClick={() => this.props.onSortChange("phoneNumber")} >
                     Telefoonnummer
                   </TableSortLabel>
@@ -149,8 +152,8 @@ class GroupCard extends Component {
 							</Typography>
 							<Typography variant="body1" style={{ flex: 1 }} >
                 <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={true}
-                    direction={"asc"}
+                  <TableSortLabel active={sortValue === "id"}
+                    direction={sortDirection}
                     onClick={() => this.props.onSortChange("id")} >
                     Gebruikers ID
                   </TableSortLabel>
