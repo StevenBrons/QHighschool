@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import {Typography, Tooltip, TableSortLabel} from '@material-ui/core';
 
 class GroupCard extends Component {
 
@@ -53,24 +53,6 @@ class GroupCard extends Component {
 		let user = { ...this.props.user };
 		let style = { ...this.state.style };
 		if (this.props.header) {
-			return (
-				<tr>
-					<Paper>
-						<h1>Coming soon</h1>
-					</Paper>
-				</tr>
-			)
-			user.firstName = "Naam";
-			user.lastName = "";
-			user.school = "School";
-			user.level = "Niveau";
-			user.role = "Rol";
-			user.profile = "Profiel";
-			user.email = "Office Email";
-			user.preferedEmail = "Voorkeurs email";
-			user.year = "Leerjaar";
-			user.phoneNumber = "Telefoonnummer";
-			user.id = "Gebruikers ID";
 			style.backgroundColor = "#e0e0e0";
 			return (
 			<tr>
@@ -85,20 +67,51 @@ class GroupCard extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} onClick={() => this.props.onSortChange("name")}>
-							Naam
+						<Typography variant="title" color="primary" style={{ flex: 1}} >
+							<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                <TableSortLabel active={true}
+                  direction={"asc"}
+                  onClick={() => this.props.onSortChange("name")}
+                  style={{color:"inherit"}} >
+                  Naam
+                </TableSortLabel>
+              </Tooltip>
 						</Typography>
-						<Typography variant="subheading" style={{ flex: 1 }} onClick={() => this.props.onSortChange("school")}>
-							School
+						<Typography variant="subheading" style={{ flex: 1 }} >
+              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                <TableSortLabel active={true}
+                  direction={"asc"}
+                  onClick={() => this.props.onSortChange("school")} >
+                  School 
+                </TableSortLabel>
+              </Tooltip>
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("levelAndYear")}>
-							Niveau - Leerjaar
+						<Typography variant="body1" style={{ flex: 1 }} >
+              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                <TableSortLabel active={true}
+                  direction={"asc"}
+                  onClick={() => this.props.onSortChange("levelAndYear")} >
+                  Niveau - Leerjaar 
+                </TableSortLabel>
+              </Tooltip>
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("role")}>
-							Rol
+						<Typography variant="body1" style={{ flex: 1 }} >
+              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                <TableSortLabel active={true}
+                  direction={"asc"}
+                  onClick={() => this.props.onSortChange("role")} >
+                  Rol
+                </TableSortLabel>
+              </Tooltip>
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("profile")}>
-							Profiel
+						<Typography variant="body1" style={{ flex: 1 }} >
+              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                <TableSortLabel active={true}
+                  direction={"asc"}
+                  onClick={() => this.props.onSortChange("profile")} >
+                  Profiel 
+                </TableSortLabel>
+              </Tooltip>
 						</Typography>
 					</div>
 					{this.props.role === "admin" &&
@@ -106,18 +119,42 @@ class GroupCard extends Component {
 							display: "flex",
 							justifyContent: "space-between"
 						}}>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("email")}>
-								Office Email
+							<Typography variant="body1" style={{ flex: 1 }} >
+                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                  <TableSortLabel active={true}
+                    direction={"asc"}
+                    onClick={() => this.props.onSortChange("email")} >
+                    Office Email
+                  </TableSortLabel>
+                </Tooltip>
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferedEmail")}>
-								Voorkeurs email
+							<Typography variant="body1" style={{ flex: 1 }} >
+                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                  <TableSortLabel active={true}
+                    direction={"asc"}
+                    onClick={() => this.props.onSortChange("preferedEmail")} >
+                    Voorkeurs email 
+                  </TableSortLabel>
+                </Tooltip>
 							</Typography>
 							<div style={{ flex: 1 }} />
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("phoneNumber")}>
-								Telefoonnummer
+							<Typography variant="body1" style={{ flex: 1 }} >
+                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                  <TableSortLabel active={true}
+                    direction={"asc"}
+                    onClick={() => this.props.onSortChange("phoneNumber")} >
+                    Telefoonnummer
+                  </TableSortLabel>
+                </Tooltip>
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("id")}>
-								Gebruikers ID
+							<Typography variant="body1" style={{ flex: 1 }} >
+                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                  <TableSortLabel active={true}
+                    direction={"asc"}
+                    onClick={() => this.props.onSortChange("id")} >
+                    Gebruikers ID
+                  </TableSortLabel>
+                </Tooltip>
 							</Typography>
 						</div>
 					}
@@ -138,19 +175,19 @@ class GroupCard extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} onClick={() => this.props.onSortChange("name")}>
+						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} >
 							{user.firstName + " " + user.lastName}
 						</Typography>
-						<Typography variant="subheading" style={{ flex: 1 }} onClick={() => this.props.onSortChange("school")}>
+						<Typography variant="subheading" style={{ flex: 1 }} >
 							{user.school}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("levelAndYear")}>
+						<Typography variant="body1" style={{ flex: 1 }} >
 							{user.level + " - " + user.year}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("role")}>
+						<Typography variant="body1" style={{ flex: 1 }} >
 							{user.role === "teacher" ? "docent" : "leerling"}
 						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("profile")}>
+						<Typography variant="body1" style={{ flex: 1 }} >
 							{user.profile}
 						</Typography>
 					</div>
@@ -159,17 +196,17 @@ class GroupCard extends Component {
 							display: "flex",
 							justifyContent: "space-between"
 						}}>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("email")}>
+							<Typography variant="body1" style={{ flex: 1 }} >
 								{user.email}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferedEmail")}>
+							<Typography variant="body1" style={{ flex: 1 }} >
 								{user.preferedEmail}
 							</Typography>
 							<div style={{ flex: 1 }} />
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("phoneNumber")}>
+							<Typography variant="body1" style={{ flex: 1 }} >
 								{this.formatPhoneNumber(user.phoneNumber)}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("id")}>
+							<Typography variant="body1" style={{ flex: 1 }} >
 								{user.id}
 							</Typography>
 						</div>
