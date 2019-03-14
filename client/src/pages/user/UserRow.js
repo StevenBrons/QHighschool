@@ -65,6 +65,58 @@ class GroupCard extends Component {
 			user.phoneNumber = "Telefoonnummer";
 			user.id = "Gebruikers ID";
 			style.backgroundColor = "#e0e0e0";
+			return (
+			<tr>
+				<Paper
+					elevation={this.state.hover ? 2 : 1}
+					onMouseEnter={() => this.setState({ hover: true })}
+					onMouseLeave={() => this.setState({ hover: false })}
+					component="td"
+					style={style}
+				>
+					<div style={{
+						display: "flex",
+						justifyContent: "space-between"
+					}}>
+						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} onClick={() => this.props.onSortChange("name")}>
+							Naam
+						</Typography>
+						<Typography variant="subheading" style={{ flex: 1 }} onClick={() => this.props.onSortChange("school")}>
+							School
+						</Typography>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("levelAndYear")}>
+							Niveau - Leerjaar
+						</Typography>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("role")}>
+							Rol
+						</Typography>
+						<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("profile")}>
+							Profiel
+						</Typography>
+					</div>
+					{this.props.role === "admin" &&
+						<div style={{
+							display: "flex",
+							justifyContent: "space-between"
+						}}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("email")}>
+								Office Email
+							</Typography>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferedEmail")}>
+								Voorkeurs email
+							</Typography>
+							<div style={{ flex: 1 }} />
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("phoneNumber")}>
+								Telefoonnummer
+							</Typography>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("id")}>
+								Gebruikers ID
+							</Typography>
+						</div>
+					}
+				</Paper >
+			</tr>
+			)
 		}
 		return (
 			<tr>
