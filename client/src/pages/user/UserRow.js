@@ -53,6 +53,13 @@ class GroupCard extends Component {
 		let user = { ...this.props.user };
 		let style = { ...this.state.style };
 		if (this.props.header) {
+			return (
+				<tr>
+					<Paper>
+						<h1>Coming soon</h1>
+					</Paper>
+				</tr>
+			)
 			user.firstName = "Naam";
 			user.lastName = "";
 			user.school = "School";
