@@ -103,7 +103,7 @@ class GroupCard extends Component {
 							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("email")}>
 								{user.email}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferredEmail")}>
+							<Typography variant="body1" style={{ flex: 1 }} onClick={() => this.props.onSortChange("preferedEmail")}>
 								{user.preferedEmail}
 							</Typography>
 							<div style={{ flex: 1 }} />

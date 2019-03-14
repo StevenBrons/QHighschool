@@ -164,36 +164,26 @@ class GroupPage extends Component {
 		const value = this.state.sortValues[tab];
 		const direction = this.state.sortDirections[tab];
 		const users = this.props.users;
-		switch ( value ) {
-			case "name":
-				arrayToSort.sort((a,b) => {
+		arrayToSort.sort((a,b) => {
+			switch(value) {
+				case "name":
 					a = (users[a]["firstName"] + users[a]["lastName"]).toLowerCase();
-					b = (users[b]["firstName"] + users[b]["lastName"]).toLowerCase();
-					let cmp = a > b ? 1 : a < b? -1 : 0;
-					return direction === "asc" ? cmp : -cmp;
-				})
-				break;
-			case "levelAndYear":
-				arrayToSort.sort((a,b) => {
+					b = (users[b]["firstName"] + users[b]["lastName"]).toLowerCase()
+					break;
+				case "levelAndYear":
 					a = (users[a]["level"] + users[a]["year"]).toString();// to string because otherwise no level and year would result in a being an integer
 					b = (users[b]["level"] + users[b]["year"]).toString();
-					let cmp = a > b ? 1 : a < b? -1 : 0;
-					return direction === "asc" ? cmp : -cmp;
-				})
-				break;
-			default:
-				arrayToSort.sort((a,b) => {
+					break;
+				default:
 					a = users[a][value];
 					b = users[b][value];
-					console.log( a + "<" + b + "?:" + (a < b));
-					let cmp = a > b ? 1 : (a < b ? -1 : 0);
-					return direction === "asc" ? cmp : -cmp;
-				})
-		}
+			}
+			let cmp = (a===null || a===undefined)-(b===null || b===undefined) || +(a>b)||-(a<b);
+			return direction === "asc"? cmp : -cmp;
+		})
 		this.setState({
 			arrayName: arrayToSort,
 		})
-		console.log("We've sorted " + arrayToSort + " " + direction + " on "  + value);
 	}
 
 	componentDidMount() {
