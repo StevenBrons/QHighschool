@@ -135,7 +135,7 @@ class GroupPage extends Component {
 				if (participantIds == null || evaluations == null) {
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
+				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} sortValue={this.state.sortValues[currentTab]} sortDirection={this.state.sortDirections[currentTab]} onSortChange={this.handleSortChange}/>
 			default: return null;
 		}
 
@@ -156,6 +156,7 @@ class GroupPage extends Component {
 	}
 
 	sort = () => {
+		console.log(this.state.group.evaluations);
 		const tab = this.state.currentTab;
 		const arrayNames = {"Inschrijvingen":"enrollmentIds", "Deelnemers":"participantIds", "Beoordelingen":"evaluations"};
 		const arrayName = arrayNames[tab];

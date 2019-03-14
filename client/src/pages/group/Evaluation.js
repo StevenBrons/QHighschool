@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
+import { Tooltip, TableSortLabel, Typography } from '@material-ui/core';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
@@ -168,6 +169,8 @@ class EvaluationTab2 extends Component {
 	}
 
 	render() {
+		let sortValue = this.props.sortValue;
+		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
 		const style = {
 			marginTop: "10px",
 			alignItems: "center",
@@ -196,11 +199,26 @@ class EvaluationTab2 extends Component {
 				<table style={{ width: "100%" }}>
 					<tbody>
 						<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
-							<td>
-								<Field
-									style={{ type: "headline", margin: "normal" }}
-									value={"Beoordelingen"}
-								/>
+							<td style={{paddingLeft:"15px"}}>
+								<Typography type="title" color="primary" style={{padding:"5px 0"}} >
+									<Tooltip  title="Sorteer" enterDelay={300} placement="bottom-start">
+									<TableSortLabel active={sortValue === "evaluations"} 
+													onClick={() => this.props.onSortChange("evaluations")}
+													direction={sortDirection}
+													style={{color:"inherit", fontSize:"1.5rem",  }}>
+											Beoordelingen
+									</TableSortLabel>
+									</Tooltip>	
+								</Typography>
+								<div>
+									<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+										<TableSortLabel active={sortValue === "name"}
+														onClick={() => this.props.onSortChange("name")}
+														direction={sortDirection}>
+											Naam
+										</TableSortLabel>
+									</Tooltip>
+								</div>
 							</td>
 							<td style={{ flex: "5" }} />
 							<td>
