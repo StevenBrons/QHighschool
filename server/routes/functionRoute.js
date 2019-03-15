@@ -5,6 +5,7 @@ var taxi = require('../lib/taxi');
 const handlers = require('./handlers');
 const secureLogin = require('../lib/secureLogin');
 const handleReturn = handlers.handleReturn;
+const handleError = handlers.handleError;
 const authError = handlers.authError;
 const handleSuccess = handlers.handleSuccess;
 
@@ -56,7 +57,7 @@ router.post("/alias", function (req, res, next) {
 
 async function formatInTable(array) {
 	const keys = Object.keys(array[0].dataValues);
-	return [keys, ...array.map(obj => keys.map(key => obj.dataValues[key]))];
+	return [keys, ...array.map(obj => keys.map(key => obj.dataValues[key]))]
 }
 
 router.post("/data", function (req, res, next) {
@@ -65,21 +66,25 @@ router.post("/data", function (req, res, next) {
 	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))
 		&& secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)) {
 		switch (table) {
-			case "evaluation":
+			case "evaluations":
 				functionDb.getEvaluation(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
 				break;
-			case "enrollment":
+			case "enrollments":
 				functionDb.getEnrollment(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
 				break;
-			case "user_data":
+			case "users":
 				functionDb.getUserData(school)
 					.then(formatInTable)
 					.then(handleReturn(res));
 				break;
+			default:
+				handleError(res)({
+					message: "invalid table: " + table,
+				});
 		}
 	} else {
 		handlers.authError(res);

@@ -74,7 +74,7 @@ function getMeetingPoint(location) {
 		case "Candea College":
 			return "De concièrgeloge bij de leerlingeningang";
 		case "Liemers College":
-			return "Receptie van het Liemers College, bij de hoofdingang op de parkeerplaats";
+			return "Receptie van het Liemers College";
 		case "Montessori College":
 			return "";
 		case "Olympus College":

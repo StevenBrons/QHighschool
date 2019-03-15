@@ -185,26 +185,46 @@ class FunctionDB {
 		}));
 	}
 
-	async _findEvaluation(userId) {
+	async _findEvaluation(userId, groupId) {
 		return Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
+			attributes: ["id", "type", "assesment", "explanation", "userId", "updatedAt"],
 			order: [["id", "DESC"]],
 			where: { userId },
 			include: [{
 				raw: true,
 				model: Course,
 				attributes: ["id", "name"],
+				include: {
+					model: Group,
+					attributes: ["id"],
+					where: {
+						id: groupId,
+					}
+				},
 			}, {
 				raw: true,
 				model: User,
 				attributes: ["displayName"],
 			}]
 		}).then(ev => {
+			if (ev == null) {
+				return {
+					dataValues: {
+						"id": -Math.floor(Math.random() * 1000),
+						"type": "",
+						"assesment": "",
+						"explanation": "",
+						"userId": userId,
+						"groupId": groupId,
+						"updatedAt": "",
+					}
+				}
+			}
 			let out = {
 				dataValues: {
 					...ev.dataValues,
 					courseName: ev.course.name,
-					courseGroupId: ev.course.id,
+					groupId: groupId,
 					displayName: ev.user.displayName,
 				}
 			};
@@ -219,13 +239,13 @@ class FunctionDB {
 		return Participant.findAll({
 			attributes: ["userId", "courseGroupId"],
 			order: [["courseGroupId", "DESC"]],
-			include: {
+			include: [{
 				model: User,
 				attributes: ["school"],
 				where: where,
-			}
+			}],
 		}).then(evs => {
-			return Promise.all(evs.map(e => this._findEvaluation(e.userId)));
+			return Promise.all(evs.map(e => this._findEvaluation(e.userId, e.courseGroupId)));
 		});
 	}
 
@@ -234,7 +254,7 @@ class FunctionDB {
 		return Enrollment.findAll({
 			include: [{
 				model: Group,
-				attributes: ["id"],
+				attributes: ["id", "period"],
 				include: [{
 					model: Course,
 					attributes: ["name"],
@@ -248,6 +268,7 @@ class FunctionDB {
 			return {
 				dataValues: {
 					...e.user.dataValues,
+					period: e.course_group.period,
 					courseName: e.course_group.course.name,
 					courseGroupId: e.course_group.id,
 					id: e.id,
