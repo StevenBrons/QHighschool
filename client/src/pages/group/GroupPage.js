@@ -8,6 +8,7 @@ import Lesson from './Lesson';
 import { EvaluationTab } from './Evaluation';
 import User from "../user/User"
 import Page from '../Page';
+import UserList from "../user/UserList"
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -89,14 +90,16 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <table style={{ width: "100%" }}>
-					<tbody>
-						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
-							.concat((enrollmentIds.map(id => {
-								return <User key={id} userId={id} display="row" />
-							})))}
-					</tbody>
-				</table>
+				return <UserList userIds={enrollmentIds}/>;
+				//<table style={{ width: "100%" }}>
+					//<tbody>
+						//<UserList userIds={enrollmentIds}/>
+						//{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
+							//.concat((enrollmentIds.map(id => {
+								//return <User key={id} userId={id} display="row" />
+							//})))}
+					//</tbody>
+				//</table>
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -155,36 +158,6 @@ class GroupPage extends Component {
 		}), this.sort);
 	}
 
-	sort = () => {
-		console.log(this.state.group.evaluations);
-		const tab = this.state.currentTab;
-		const arrayNames = {"Inschrijvingen":"enrollmentIds", "Deelnemers":"participantIds", "Beoordelingen":"evaluations"};
-		const arrayName = arrayNames[tab];
-		let arrayToSort = this.state.group[arrayName];
-		const value = this.state.sortValues[tab];
-		const direction = this.state.sortDirections[tab];
-		const users = this.props.users;
-		arrayToSort.sort((a,b) => {
-			switch(value) {
-				case "name":
-					a = (users[a]["firstName"] + users[a]["lastName"]).toLowerCase();
-					b = (users[b]["firstName"] + users[b]["lastName"]).toLowerCase()
-					break;
-				case "levelAndYear":
-					a = (users[a]["level"] + users[a]["year"]).toString();// to string because otherwise no level and year would result in a being an integer
-					b = (users[b]["level"] + users[b]["year"]).toString();
-					break;
-				default:
-					a = users[a][value];
-					b = users[b][value];
-			}
-			let cmp = (a===null || a===undefined)-(b===null || b===undefined) || +(a>b)||-(a<b);
-			return direction === "asc"? cmp : -cmp;
-		})
-		this.setState({
-			arrayName: arrayToSort,
-		})
-	}
 
 	componentDidMount() {
 		this.getData();
@@ -368,11 +341,7 @@ class GroupPage extends Component {
 
 }
 
-function mapStateToProps(state) {
-	return{
-		users: state.users,
-	};
-}
 
-export default withRouter(connect(mapStateToProps)(GroupPage));
+
+export default withRouter(GroupPage);
 
