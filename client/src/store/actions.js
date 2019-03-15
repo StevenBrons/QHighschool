@@ -1,4 +1,3 @@
-import { User, Group } from "../lib/Data"
 import filter from "lodash/filter"
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
@@ -178,8 +177,7 @@ export function setPresenceUserStatus(lessonId, userStatus, groupId) {
 			userStatus,
 			groupId,
 		});
-		fetchData("group/userStatus", "patch", {lessonId: lessonId, userStatus: userStatus}, dispatch);
-		//WERKT NIET!
+		fetchData("group/userStatus", "patch", { lessonId: lessonId, userStatus: userStatus }, dispatch);
 	}
 }
 
@@ -223,23 +221,25 @@ export function setGroup(group) {
 		const newEvaluations = group.evaluations;
 
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
-			fetchData("course/", "patch", {newCourse: newCourse}, dispatch);
+			fetchData("course/", "patch", newCourse, dispatch);
 		}
 		if (JSON.stringify(oldCourseGroup) !== JSON.stringify(newCourseGroup)) {
-			fetchData("group/", "patch", {groupData: newCourseGroup}, dispatch);
+			fetchData("group/", "patch", newCourseGroup, dispatch);
 		}
 
 		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
 			const changedPresenceObjs = filter(newPresence, (presence) => {
 				return JSON.stringify(presence) !== JSON.stringify(oldPresence[presence.id]);
 			});
-			fetchData("group/presence", "patch", 
-			{presence: JSON.stringify(map(changedPresenceObjs, (changedPresenceObjs) => { return changedPresenceObjs })),
-			groupId: group.id}, dispatch);
+			fetchData("group/presence", "patch",
+				{
+					presence: JSON.stringify(map(changedPresenceObjs, (changedPresenceObjs) => { return changedPresenceObjs })),
+					groupId: group.id
+				}, dispatch);
 		}
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
-			fetchData("group/lessons", "patch", {lessons: JSON.stringify(map(newLessons, (lesson) => { return lesson })),}, dispatch);
+			fetchData("group/lessons", "patch", { lessons: JSON.stringify(map(newLessons, (lesson) => { return lesson })), }, dispatch);
 		}
 
 		if (JSON.stringify(oldEvaluations) !== JSON.stringify(newEvaluations)) {
@@ -251,8 +251,10 @@ export function setGroup(group) {
 				}
 			}
 
-			fetchData("group/evaluations", "patch", {evaluations: JSON.stringify(changedEvaluations),
-				secureLogin: getState().secureLogin});
+			fetchData("group/evaluations", "patch", {
+				evaluations: JSON.stringify(changedEvaluations),
+				secureLogin: getState().secureLogin
+			});
 		}
 
 		dispatch({
@@ -271,12 +273,13 @@ export function getEnrollableGroups() {
 			type: "HAS_FETCHED",
 			call: "User.getEnrolllableGroups()"
 		});
-		User.getEnrolllableGroups.then((enrollableGroups) => {
-			dispatch({
-				type: "CHANGE_ENROLLABLE_GROUPS",
-				enrollableGroups,
+		fetchData("user/enrollableGroups", "get", null, dispatch, true)
+			.then((enrollableGroups) => {
+				dispatch({
+					type: "CHANGE_ENROLLABLE_GROUPS",
+					enrollableGroups,
+				});
 			});
-		});
 	}
 }
 
@@ -370,7 +373,7 @@ export function getGroupPresence(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getPresence(" + groupId + ")"
 		});
-		fetchData("group/presence", "post", {groupId: groupId}, dispatch)
+		fetchData("group/presence", "post", { groupId: groupId }, dispatch)
 			.then((presence) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -395,7 +398,7 @@ export function getGroupParticipants(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getParticipants(" + groupId + ")"
 		});
-		fetchData("group/participants", "post", {groupId: groupId}, dispatch)
+		fetchData("group/participants", "post", { groupId: groupId }, dispatch)
 			.then((participants) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -499,7 +502,7 @@ export function getGroupEvaluations(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getEvaluations(" + groupId + ")"
 		});
-		Group.getEvaluations(groupId).then((evaluations) => {
+		fetchData("group/evaluations", "post", { groupId }, dispatch, true).then((evaluations) => {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
