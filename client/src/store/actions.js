@@ -1,4 +1,4 @@
-import { User, Subject, Group, Course, Function } from "../lib/Data"
+import { User, Group } from "../lib/Data"
 import filter from "lodash/filter"
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
@@ -24,7 +24,7 @@ function apiErrorHandler(dispatch, message) {
 	}
 }
 
-async function fetchData(endpoint, method, data, dispatch, forceArray) {
+export async function fetchData(endpoint, method, data, dispatch, forceArray) {
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
@@ -42,20 +42,13 @@ export function getSubjects() {
 				type: "HAS_FETCHED",
 				call: "Subject.getList()"
 			});
-			fetchData("subject/list", "get", null, dispatch).then((subjects) => {
-				dispatch({
-					type: "CHANGE_SUBJECTS",
-					subjects,
+			fetchData("subject/list", "get", null, dispatch)
+				.then((subjects) => {
+					dispatch({
+						type: "CHANGE_SUBJECTS",
+						subjects,
+					});
 				});
-			})
-
-			// OLD: REMOVE THIS
-			// Subject.getList().then((subjects) => {
-			// 	dispatch({
-			// 		type: "CHANGE_SUBJECTS",
-			// 		subjects,
-			// 	});
-			// }).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
@@ -77,12 +70,13 @@ export function getGroups() {
 				type: "HAS_FETCHED",
 				call: "Group.getList()"
 			});
-			Group.getList().then((groups) => {
-				dispatch({
-					type: "CHANGE_GROUPS",
-					groups,
+			fetchData("group/list", "get", null, dispatch)
+				.then((groups) => {
+					dispatch({
+						type: "CHANGE_GROUPS",
+						groups,
+					});
 				});
-			}).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
@@ -94,12 +88,13 @@ export function getParticipatingGroups() {
 				type: "HAS_FETCHED",
 				call: "User.getParticipatingGroups()"
 			});
-			User.getParticipatingGroups().then((groups) => {
-				dispatch({
-					type: "CHANGE_GROUPS",
-					groups,
+			fetchData("user/groups", "get", null, dispatch)
+				.then((groups) => {
+					dispatch({
+						type: "CHANGE_GROUPS",
+						groups,
+					});
 				});
-			}).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
@@ -111,12 +106,13 @@ export function getGroup(groupId) {
 				type: "HAS_FETCHED",
 				call: "Group.get(" + groupId + ")",
 			});
-			Group.get(groupId).then((group) => {
-				dispatch({
-					type: "CHANGE_GROUPS",
-					groups: { [groupId]: group }
+			fetchData("group", "post", { groupId: groupId }, dispatch)
+				.then((group) => {
+					dispatch({
+						type: "CHANGE_GROUPS",
+						groups: { [groupId]: group }
+					});
 				});
-			}).catch(apiErrorHandler(dispatch));
 		}
 	}
 }
@@ -136,29 +132,30 @@ export function getSelf() {
 				scope: ".",
 			};
 			dispatch(addNotification(notification));
-			User.getSelf().then((user) => {
-				dispatch({
-					type: "SET_SELF",
-					user,
-				});
-				dispatch(removeNotification(notification));
-			}).catch((error) => {
-				dispatch(removeNotification(notification));
-				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
-					if (window.location.pathname !== "/login") {
-						setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-						document.location.href = "/login";
+			fetchData("user/self", "get", null, dispatch)
+				.then((user) => {
+					dispatch({
+						type: "SET_SELF",
+						user,
+					});
+					dispatch(removeNotification(notification));
+				}).catch((error) => {
+					dispatch(removeNotification(notification));
+					if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
+						if (window.location.pathname !== "/login") {
+							setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
+							document.location.href = "/login";
+						}
+					} else {
+						dispatch(toggleMenu(false));
+						dispatch(addNotification({
+							id: -1,
+							priority: "high",
+							type: "bar",
+							message: "Kan geen verbinding met de server maken",
+						}));
 					}
-				} else {
-					dispatch(toggleMenu(false));
-					dispatch(addNotification({
-						id: -1,
-						priority: "high",
-						type: "bar",
-						message: "Kan geen verbinding met de server maken",
-					}));
-				}
-			});
+				});
 		}
 	}
 }
@@ -169,7 +166,7 @@ export function setUser(user) {
 			type: "CHANGE_USER",
 			user,
 		});
-		User.setUser(user).catch(apiErrorHandler(dispatch));
+		fetchData("user", "patch", user, dispatch);
 	}
 }
 
@@ -181,8 +178,8 @@ export function setPresenceUserStatus(lessonId, userStatus, groupId) {
 			userStatus,
 			groupId,
 		});
-		Group.setPresenceUserStatus(lessonId, userStatus)
-			.catch(apiErrorHandler(dispatch));
+		fetchData("group/userStatus", "patch", {lessonId: lessonId, userStatus: userStatus}, dispatch);
+		//WERKT NIET!
 	}
 }
 
@@ -226,21 +223,23 @@ export function setGroup(group) {
 		const newEvaluations = group.evaluations;
 
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
-			Course.setCourse(newCourse).catch(apiErrorHandler(dispatch));
+			fetchData("course/", "patch", {newCourse: newCourse}, dispatch);
 		}
 		if (JSON.stringify(oldCourseGroup) !== JSON.stringify(newCourseGroup)) {
-			Group.setGroup(newCourseGroup).catch(apiErrorHandler(dispatch));
+			fetchData("group/", "patch", {groupData: newCourseGroup}, dispatch);
 		}
 
 		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
 			const changedPresenceObjs = filter(newPresence, (presence) => {
 				return JSON.stringify(presence) !== JSON.stringify(oldPresence[presence.id]);
 			});
-			Group.setPresence(changedPresenceObjs, group.id).catch(apiErrorHandler(dispatch));
+			fetchData("group/presence", "patch", 
+			{presence: JSON.stringify(map(changedPresenceObjs, (changedPresenceObjs) => { return changedPresenceObjs })),
+			groupId: group.id}, dispatch);
 		}
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
-			Group.setLessons(newLessons).catch(apiErrorHandler(dispatch));
+			fetchData("group/lessons", "patch", {lessons: JSON.stringify(map(newLessons, (lesson) => { return lesson })),}, dispatch);
 		}
 
 		if (JSON.stringify(oldEvaluations) !== JSON.stringify(newEvaluations)) {
@@ -252,8 +251,8 @@ export function setGroup(group) {
 				}
 			}
 
-			Group.setEvaluations(changedEvaluations, getState().secureLogin)
-				.catch(apiErrorHandler(dispatch));
+			fetchData("group/evaluations", "patch", {evaluations: JSON.stringify(changedEvaluations),
+				secureLogin: getState().secureLogin});
 		}
 
 		dispatch({
@@ -272,12 +271,12 @@ export function getEnrollableGroups() {
 			type: "HAS_FETCHED",
 			call: "User.getEnrolllableGroups()"
 		});
-		User.getEnrolllableGroups().then((enrollableGroups) => {
+		User.getEnrolllableGroups.then((enrollableGroups) => {
 			dispatch({
 				type: "CHANGE_ENROLLABLE_GROUPS",
 				enrollableGroups,
 			});
-		}).catch(apiErrorHandler(dispatch));
+		});
 	}
 }
 
@@ -290,17 +289,18 @@ export function getEnrolLments() {
 			type: "HAS_FETCHED",
 			call: "User.getEnrollments()"
 		});
-		User.getEnrollments().then((enrollments) => {
-			dispatch({
-				type: "CHANGE_GROUPS",
-				groups: enrollments,
+		fetchData("user/enrollments", "get", null, dispatch)
+			.then((enrollments) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups: enrollments,
+				});
+				dispatch({
+					type: "CHANGE_ENROLLMENTS",
+					userId: getState().userId,
+					enrollmentIds: Object.keys(enrollments),
+				});
 			});
-			dispatch({
-				type: "CHANGE_ENROLLMENTS",
-				userId: getState().userId,
-				enrollmentIds: Object.keys(enrollments),
-			});
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -316,19 +316,20 @@ export function getGroupEnrollments(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getEnrollments(" + groupId + ")"
 		});
-		Group.getEnrollments(groupId).then((enrollments) => {
-			dispatch({
-				type: "CHANGE_GROUP",
-				group: {
-					id: groupId,
-					enrollmentIds: Object.keys(enrollments).map(id => parseInt(id, 10)),
-				}
+		fetchData("group/enrollments", "post", { groupId: groupId }, dispatch)
+			.then((enrollments) => {
+				dispatch({
+					type: "CHANGE_GROUP",
+					group: {
+						id: groupId,
+						enrollmentIds: Object.keys(enrollments).map(id => parseInt(id, 10)),
+					}
+				});
+				dispatch({
+					type: "CHANGE_USERS",
+					users: enrollments,
+				});
 			});
-			dispatch({
-				type: "CHANGE_USERS",
-				users: enrollments,
-			});
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -344,15 +345,16 @@ export function getGroupLessons(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getLessons(" + groupId + ")"
 		});
-		Group.getLessons(groupId).then((lessons) => {
-			dispatch({
-				type: "CHANGE_GROUP",
-				group: {
-					id: groupId,
-					lessons,
-				}
+		fetchData("group/lessons", "post", { groupId: groupId }, dispatch)
+			.then((lessons) => {
+				dispatch({
+					type: "CHANGE_GROUP",
+					group: {
+						id: groupId,
+						lessons,
+					}
+				});
 			});
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -368,15 +370,16 @@ export function getGroupPresence(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getPresence(" + groupId + ")"
 		});
-		Group.getPresence(groupId).then((presence) => {
-			dispatch({
-				type: "CHANGE_GROUP",
-				group: {
-					id: groupId,
-					presence,
-				}
+		fetchData("group/presence", "post", {groupId: groupId}, dispatch)
+			.then((presence) => {
+				dispatch({
+					type: "CHANGE_GROUP",
+					group: {
+						id: groupId,
+						presence,
+					}
+				});
 			});
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -392,19 +395,20 @@ export function getGroupParticipants(groupId) {
 			type: "HAS_FETCHED",
 			call: "Group.getParticipants(" + groupId + ")"
 		});
-		Group.getParticipants(groupId).then((participants) => {
-			dispatch({
-				type: "CHANGE_GROUP",
-				group: {
-					id: groupId,
-					participantIds: Object.keys(participants).map(id => parseInt(id, 10)),
-				}
+		fetchData("group/participants", "post", {groupId: groupId}, dispatch)
+			.then((participants) => {
+				dispatch({
+					type: "CHANGE_GROUP",
+					group: {
+						id: groupId,
+						participantIds: Object.keys(participants).map(id => parseInt(id, 10)),
+					}
+				});
+				dispatch({
+					type: "CHANGE_USERS",
+					users: participants,
+				});
 			});
-			dispatch({
-				type: "CHANGE_USERS",
-				users: participants,
-			});
-		}).catch(apiErrorHandler(dispatch));
 	}
 }
 
@@ -417,11 +421,11 @@ export function getAllUsers() {
 			type: "HAS_FETCHED",
 			call: "User.list()"
 		});
-		User.getList()
+		fetchData("user/list", "get", null, dispatch)
 			.then((users) => {
 				dispatch({
 					type: "CHANGE_USERS",
-					users: users,
+					users,
 				});
 			});
 	}
@@ -459,34 +463,25 @@ export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
 		if (index === -1) {
-			fetchData("user/enrollments", "put", { groupId: group.id }, dispatch).then(() => {
-				dispatch({
-					type: "CHANGE_ENROLLMENTS",
-					action: "ADD",
-					userId: getState().userId,
-					groupId: group.id,
+			fetchData("user/enrollments", "put", { groupId: group.id }, dispatch)
+				.then(() => {
+					dispatch({
+						type: "CHANGE_ENROLLMENTS",
+						action: "ADD",
+						userId: getState().userId,
+						groupId: group.id,
+					});
 				});
-			});
-
-			// OLD REMOVE THIS:
-			// User.addEnrollment(group.id).then(() => {
-			// 	dispatch({
-			// 		type: "CHANGE_ENROLLMENTS",
-			// 		action: "ADD",
-			// 		userId: getState().userId,
-			// 		groupId: group.id,
-			// 	});
-			// }).catch(apiErrorHandler(dispatch));
 		} else {
-			fetchData("user/enrollments", "delete", { groupId: group.id }, dispatch).then(() => {
-				dispatch({
-					type: "CHANGE_ENROLLMENTS",
-					action: "REMOVE",
-					userId: getState().userId,
-					groupId: group.id,
+			fetchData("user/enrollments", "delete", { groupId: group.id }, dispatch)
+				.then(() => {
+					dispatch({
+						type: "CHANGE_ENROLLMENTS",
+						action: "REMOVE",
+						userId: getState().userId,
+						groupId: group.id,
+					});
 				});
-			});
-
 		}
 	}
 }
@@ -529,7 +524,7 @@ export function getCookie(cname) {
 	var ca = decodedCookie.split(';');
 	for (var i = 0; i < ca.length; i++) {
 		var c = ca[i];
-		while (c.charAt(0) === ' ') 
+		while (c.charAt(0) === ' ')
 			c = c.substring(1);
 		if (c.indexOf(name) === 0)
 			return c.substring(name.length, c.length);

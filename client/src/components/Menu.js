@@ -15,9 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
+import {fetchData} from '../store/actions';
 
 class Menu extends Component {
 
@@ -48,7 +48,7 @@ class Menu extends Component {
 		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
 		else if (page === "loguit") {
-			User.logout().then(() => {
+			this.props.fetchData("/auth/logout","get",null).then(() => {
 				document.location.reload();
 			});
 		}
@@ -205,5 +205,11 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(Menu));
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchData: (a,b,c,d) => dispatch(fetchData(a,b,c,d,dispatch)),
+	}
+}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Menu));
 
