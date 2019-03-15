@@ -24,6 +24,10 @@ function apiErrorHandler(dispatch, message) {
 }
 
 export async function fetchData(endpoint, method, data, dispatch, forceArray) {
+	dispatch({
+		type: "HAS_FETCHED",
+		call: endpoint,
+	});
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
@@ -36,19 +40,13 @@ export async function fetchData(endpoint, method, data, dispatch, forceArray) {
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("Subject.getList()") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "Subject.getList()"
-			});
-			fetchData("subject/list", "get", null, dispatch)
-				.then((subjects) => {
-					dispatch({
-						type: "CHANGE_SUBJECTS",
-						subjects,
-					});
+		fetchData("subject/list", "get", null, dispatch)
+			.then((subjects) => {
+				dispatch({
+					type: "CHANGE_SUBJECTS",
+					subjects,
 				});
-		}
+			});
 	}
 }
 
@@ -64,98 +62,74 @@ export function setAlias(userId) {
 
 export function getGroups() {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("Group.getList()") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "Group.getList()"
-			});
-			fetchData("group/list", "get", null, dispatch)
-				.then((groups) => {
-					dispatch({
-						type: "CHANGE_GROUPS",
-						groups,
-					});
+		fetchData("group/list", "get", null, dispatch)
+			.then((groups) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups,
 				});
-		}
+			});
 	}
 }
 
 export function getParticipatingGroups() {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("User.getParticipatingGroups()") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "User.getParticipatingGroups()"
-			});
-			fetchData("user/groups", "get", null, dispatch)
-				.then((groups) => {
-					dispatch({
-						type: "CHANGE_GROUPS",
-						groups,
-					});
+		fetchData("user/groups", "get", null, dispatch)
+			.then((groups) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups,
 				});
-		}
+			});
 	}
 }
 
 export function getGroup(groupId) {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("Group.get(" + groupId + ")") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "Group.get(" + groupId + ")",
-			});
-			fetchData("group", "post", { groupId: groupId }, dispatch)
-				.then((group) => {
-					dispatch({
-						type: "CHANGE_GROUPS",
-						groups: { [groupId]: group }
-					});
+		fetchData("group", "post", { groupId: groupId }, dispatch)
+			.then((group) => {
+				dispatch({
+					type: "CHANGE_GROUPS",
+					groups: { [groupId]: group }
 				});
-		}
+			});
 	}
 }
 
 export function getSelf() {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("User.getSelf()") === -1) {
-			dispatch({
-				type: "HAS_FETCHED",
-				call: "User.getSelf()"
-			});
-			const notification = {
-				id: -96,
-				priority: "low",
-				type: "bar",
-				message: "Bezig met laden",
-				scope: ".",
-			};
-			dispatch(addNotification(notification));
-			fetchData("user/self", "get", null, dispatch)
-				.then((user) => {
-					dispatch({
-						type: "SET_SELF",
-						user,
-					});
-					dispatch(removeNotification(notification));
-				}).catch((error) => {
-					dispatch(removeNotification(notification));
-					if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
-						if (window.location.pathname !== "/login") {
-							setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-							document.location.href = "/login";
-						}
-					} else {
-						dispatch(toggleMenu(false));
-						dispatch(addNotification({
-							id: -1,
-							priority: "high",
-							type: "bar",
-							message: "Kan geen verbinding met de server maken",
-						}));
-					}
+		const notification = {
+			id: -96,
+			priority: "low",
+			type: "bar",
+			message: "Bezig met laden",
+			scope: ".",
+		};
+		dispatch(addNotification(notification));
+		fetchData("user/self", "get", null, dispatch)
+			.then((user) => {
+				dispatch({
+					type: "SET_SELF",
+					user,
 				});
-		}
+				dispatch(removeNotification(notification));
+			}).catch((error) => {
+				dispatch(removeNotification(notification));
+				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
+					if (window.location.pathname !== "/login") {
+						setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
+						document.location.href = "/login";
+					}
+				} else {
+					dispatch(toggleMenu(false));
+					dispatch(addNotification({
+						id: -1,
+						priority: "high",
+						type: "bar",
+						message: "Kan geen verbinding met de server maken",
+					}));
+				}
+			});
 	}
 }
 
@@ -266,13 +240,6 @@ export function setGroup(group) {
 
 export function getEnrollableGroups() {
 	return (dispatch, getState) => {
-		if (getState().enrollableGroups != null || getState().hasFetched.indexOf("User.getEnrolllableGroups()") !== -1) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "User.getEnrolllableGroups()"
-		});
 		fetchData("user/enrollableGroups", "get", null, dispatch, true)
 			.then((enrollableGroups) => {
 				dispatch({
@@ -285,13 +252,6 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		if (getState().users[getState().userId].enrollmentIds != null || getState().hasFetched.indexOf("User.getEnrollments()") !== -1) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "User.getEnrollments()"
-		});
 		fetchData("user/enrollments", "get", null, dispatch)
 			.then((enrollments) => {
 				dispatch({
@@ -309,16 +269,6 @@ export function getEnrolLments() {
 
 export function getGroupEnrollments(groupId) {
 	return (dispatch, getState) => {
-		if (
-			getState().groups[groupId].enrollmentIds != null ||
-			getState().hasFetched.indexOf("Group.getEnrollments(" + groupId + ")") !== -1
-		) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "Group.getEnrollments(" + groupId + ")"
-		});
 		fetchData("group/enrollments", "post", { groupId: groupId }, dispatch)
 			.then((enrollments) => {
 				dispatch({
@@ -338,16 +288,6 @@ export function getGroupEnrollments(groupId) {
 
 export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
-		if (
-			getState().groups[groupId].lessons != null ||
-			getState().hasFetched.indexOf("Group.getLessons(" + groupId + ")") !== -1
-		) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "Group.getLessons(" + groupId + ")"
-		});
 		fetchData("group/lessons", "post", { groupId: groupId }, dispatch)
 			.then((lessons) => {
 				dispatch({
@@ -363,16 +303,6 @@ export function getGroupLessons(groupId) {
 
 export function getGroupPresence(groupId) {
 	return (dispatch, getState) => {
-		if (
-			getState().groups[groupId].presence != null ||
-			getState().hasFetched.indexOf("Group.getPresence(" + groupId + ")") !== -1
-		) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "Group.getPresence(" + groupId + ")"
-		});
 		fetchData("group/presence", "post", { groupId: groupId }, dispatch)
 			.then((presence) => {
 				dispatch({
@@ -388,16 +318,6 @@ export function getGroupPresence(groupId) {
 
 export function getGroupParticipants(groupId) {
 	return (dispatch, getState) => {
-		if (
-			getState().groups[groupId].participantIds != null ||
-			getState().hasFetched.indexOf("Group.getParticipants(" + groupId + ")") !== -1
-		) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "Group.getParticipants(" + groupId + ")"
-		});
 		fetchData("group/participants", "post", { groupId: groupId }, dispatch)
 			.then((participants) => {
 				dispatch({
@@ -417,13 +337,6 @@ export function getGroupParticipants(groupId) {
 
 export function getAllUsers() {
 	return (dispatch, getState) => {
-		if (getState().hasFetched.indexOf("User.list()") !== -1) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "User.list()"
-		});
 		fetchData("user/list", "get", null, dispatch)
 			.then((users) => {
 				dispatch({
@@ -492,16 +405,6 @@ export function toggleEnrollment(group) {
 
 export function getGroupEvaluations(groupId) {
 	return (dispatch, getState) => {
-		if (
-			getState().groups[groupId].evaluations != null ||
-			getState().hasFetched.indexOf("Group.getEvaluations(" + groupId + ")") !== -1
-		) {
-			return;
-		}
-		dispatch({
-			type: "HAS_FETCHED",
-			call: "Group.getEvaluations(" + groupId + ")"
-		});
 		fetchData("group/evaluations", "post", { groupId }, dispatch, true).then((evaluations) => {
 			dispatch({
 				type: "CHANGE_GROUP",
@@ -510,7 +413,7 @@ export function getGroupEvaluations(groupId) {
 					evaluations: evaluations,
 				}
 			});
-		}).catch(apiErrorHandler(dispatch));
+		});
 	}
 }
 
