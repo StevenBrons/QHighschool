@@ -19,10 +19,25 @@ class UserList extends Component {
         }
     }
 
-    getHeader = () => {
-        let style = {...this.state.style};
+    headerTitle(variant, value, title) { 
         let sortValue = this.props.sortValue;
         let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
+        return (
+            <Typography variant={variant} color={variant==="title" ? "primary" : "default"} style={{ flex: 1}} >
+                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+                    <TableSortLabel active={sortValue === value}
+                    direction={sortDirection}
+                    onClick={() => this.props.onSortChange(value)}
+                    style={{color:"inherit"}} >
+                   {title}
+                    </TableSortLabel>
+                </Tooltip>
+            </Typography>
+    )
+    }
+
+    getHeader = () => {
+        let style = {...this.state.style};
         return (
 			<tr>
 				<Paper
@@ -36,104 +51,29 @@ class UserList extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="title" color="primary" style={{ flex: 1}} >
-							<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={sortValue === "name"}
-                  direction={sortDirection}
-                  onClick={() => this.props.onSortChange("name")}
-                  style={{color:"inherit"}} >
-                  Naam
-                </TableSortLabel>
-              </Tooltip>
-						</Typography>
-						<Typography variant="subheading" style={{ flex: 1 }} >
-              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={sortValue === "school"}
-                  direction={sortDirection}
-                  onClick={() => this.props.onSortChange("school")} >
-                  School 
-                </TableSortLabel>
-              </Tooltip>
-						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} >
-              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={sortValue === "levelAndYear"}
-                  direction={sortDirection}
-                  onClick={() => this.props.onSortChange("levelAndYear")} >
-                  Niveau - Leerjaar 
-                </TableSortLabel>
-              </Tooltip>
-						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} >
-              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={sortValue === "role"}
-                  direction={sortDirection}
-                  onClick={() => this.props.onSortChange("role")} >
-                  Rol
-                </TableSortLabel>
-              </Tooltip>
-						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} >
-              <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                <TableSortLabel active={sortValue === "profile"}
-                  direction={sortDirection}
-                  onClick={() => this.props.onSortChange("profile")} >
-                  Profiel 
-                </TableSortLabel>
-              </Tooltip>
-						</Typography>
-					</div>
-					{this.props.role === "admin" &&
+                    {this.headerTitle("title","name","Naam")}
+                    {this.headerTitle("subheading", "school", "School")}
+                    {this.headerTitle("body1", "levelAndYear","Niveau - Leerjaar")}
+                    {this.headerTitle("body1", "role", "Rol")}
+                    {this.headerTitle("body1", "profile","Profiel")}
+                    </div>
+                    {this.props.role === "admin" &&
 						<div style={{
 							display: "flex",
 							justifyContent: "space-between"
 						}}>
-							<Typography variant="body1" style={{ flex: 1 }} >
-                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={sortValue === "email"}
-                    direction={sortDirection}
-                    onClick={() => this.props.onSortChange("email")} >
-                    Office Email
-                  </TableSortLabel>
-                </Tooltip>
-							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} >
-                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={sortValue === "preferedEmail"}
-                    direction={sortDirection}
-                    onClick={() => this.props.onSortChange("preferedEmail")} >
-                    Voorkeurs email 
-                  </TableSortLabel>
-                </Tooltip>
-							</Typography>
-							<div style={{ flex: 1 }} />
-							<Typography variant="body1" style={{ flex: 1 }} >
-                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={sortValue === "phoneNumber"}
-                    direction={sortDirection}
-                    onClick={() => this.props.onSortChange("phoneNumber")} >
-                    Telefoonnummer
-                  </TableSortLabel>
-                </Tooltip>
-							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} >
-                <Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
-                  <TableSortLabel active={sortValue === "id"}
-                    direction={sortDirection}
-                    onClick={() => this.props.onSortChange("id")} >
-                    Gebruikers ID
-                  </TableSortLabel>
-                </Tooltip>
-							</Typography>
-						</div>
-					}
+                        {this.headerTitle("body1","email","Office Email")}
+                        {this.headerTitle("body1","preferedEmail","Voorkeurs email")}
+						<div style={{ flex: 1 }} />
+                        {this.headerTitle("body1", "phoneNumber","Telefoonnummer")}
+                        {this.headerTitle("body1","id","Gebruikers ID")}
+                        </div>}
 				</Paper >
 			</tr>
         )
     }
 
 	sortIds = () => {
-        console.log("sorting");
 		const value = this.props.sortValue;
         const direction = this.props.sortDirection;
         const users = this.props.users;

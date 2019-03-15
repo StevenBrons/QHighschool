@@ -89,15 +89,6 @@ class GroupPage extends Component {
 					return "Er zijn geen inschrijvingen";
 				}
 				return <UserList userIds={enrollmentIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>;
-				//<table style={{ width: "100%" }}>
-					//<tbody>
-						//<UserList userIds={enrollmentIds}/>
-						//{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
-							//.concat((enrollmentIds.map(id => {
-								//return <User key={id} userId={id} display="row" />
-							//})))}
-					//</tbody>
-				//</table>
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -120,14 +111,6 @@ class GroupPage extends Component {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
 				return <UserList userIds={participantIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>
-				//<table style={{ width: "100%" }}>
-					//<tbody>
-						//{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
-							//.concat(participantIds.map(id => {
-								//return <User key={id} userId={id} display="row" />
-							//}))}
-					//</tbody>
-				//</table>
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
