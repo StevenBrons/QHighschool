@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import map from 'lodash/map';
 
-import { connect } from "react-redux";
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
 import { EvaluationTab } from './Evaluation';
-import User from "../user/User"
 import Page from '../Page';
 import UserList from "../user/UserList"
 
@@ -90,7 +88,7 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <UserList userIds={enrollmentIds}/>;
+				return <UserList userIds={enrollmentIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>;
 				//<table style={{ width: "100%" }}>
 					//<tbody>
 						//<UserList userIds={enrollmentIds}/>
@@ -121,14 +119,15 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return <table style={{ width: "100%" }}>
-					<tbody>
-						{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
-							.concat(participantIds.map(id => {
-								return <User key={id} userId={id} display="row" />
-							}))}
-					</tbody>
-				</table>
+				return <UserList userIds={participantIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>
+				//<table style={{ width: "100%" }}>
+					//<tbody>
+						//{[<User key={"header"} display="header" onSortChange={this.handleSortChange} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]}/>]
+							//.concat(participantIds.map(id => {
+								//return <User key={id} userId={id} display="row" />
+							//}))}
+					//</tbody>
+				//</table>
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
@@ -155,7 +154,7 @@ class GroupPage extends Component {
 				...prevState.sortDirections,
 				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
 			},
-		}), this.sort);
+		}));
 	}
 
 

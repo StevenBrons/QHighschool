@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import {Typography, Tooltip, TableSortLabel} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 
 class GroupCard extends Component {
 
@@ -52,12 +52,6 @@ class GroupCard extends Component {
 	render() {
 		let user = { ...this.props.user };
 		let style = { ...this.state.style };
-		if (this.props.header) {
-			style.backgroundColor = "#e0e0e0";
-			let sortValue = this.props.sortValue;
-			let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
-			console.log(this.props);
-		}
 		return (
 			<tr>
 				<Paper

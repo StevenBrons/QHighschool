@@ -2,7 +2,6 @@ import React ,{ Component } from "react";
 import { connect } from "react-redux";
 import {Typography, Tooltip, TableSortLabel, Paper} from '@material-ui/core';
 import User from "./User";
-import Progress from '../../components/Progress'
 
 class UserList extends Component {
     
@@ -22,9 +21,8 @@ class UserList extends Component {
 
     getHeader = () => {
         let style = {...this.state.style};
-        console.log(style);
-        let sortValue = "Naam";
-        let sortDirection = "asc";
+        let sortValue = this.props.sortValue;
+        let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
         return (
 			<tr>
 				<Paper
@@ -134,24 +132,15 @@ class UserList extends Component {
         )
     }
 
-    getUserRows = () => {
-        const userIds = this.props.userIds;
-        console.log(userIds);
-        if ( userIds == null ){
-            return <Progress/>;
-        }
-        return (
-            userIds.map(id => {
-                return <User key={id} userId={id} display="row" />
-            })
-        )
-    }
-
-	sort = () => {
+	sortIds = () => {
+        console.log("sorting");
 		const value = this.props.sortValue;
-		const direction = this.props.sortDirection;
+        const direction = this.props.sortDirection;
         const users = this.props.users;
         const userIds = this.props.userIds;
+        if ( value === "") {
+            return userIds;
+        }
 		userIds.sort((a,b) => {
 			switch(value) {
 				case "name":
@@ -169,15 +158,14 @@ class UserList extends Component {
 			let cmp = (a===null || a===undefined)-(b===null || b===undefined) || +(a>b)||-(a<b);
 			return direction === "asc"? cmp : -cmp;
 		})
-		this.setState({
-			userIds: userIds,
-		})
+		return userIds;
 	}
 
     render() {
-    const header = this.getHeader();
-    const users = this.getUserRows();
-    console.log(this.props.userIds);
+        const header = this.getHeader();
+        const users = this.sortIds().map(id => {
+                return <User key={id} userId={id} display="row" />
+            });
         return (
             <table style={{width:"100%"}}>
                 <tbody>
