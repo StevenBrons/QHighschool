@@ -27,6 +27,7 @@ class GroupPage extends Component {
 			editable: false,
 			group: this.props.group,
 		}
+
 		switch (this.props.role) {
 			case "student":
 				if (this.props.userIsMemberOfGroup) {
@@ -78,10 +79,7 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <UserList
-					userIds={enrollmentIds}
-					onSortChange={this.handleSortChange}
-				/>;
+				return <UserList userIds={enrollmentIds} />;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -110,10 +108,7 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return <UserList
-					userIds={participantIds}
-					onSortChange={this.handleSortChange}
-				/>
+				return <UserList userIds={participantIds} />
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
@@ -134,29 +129,11 @@ class GroupPage extends Component {
 					groupId={group.id}
 					editable={this.state.editable}
 					handleChange={this.handleEvaluationChange}
-					sortValue={this.state.sortValues[currentTab]}
-					sortDirection={this.state.sortDirections[currentTab]}
-					onSortChange={this.handleSortChange}
 				/>
 			default: return null;
 		}
 
 	}
-
-	handleSortChange = (value) => {
-		const tab = this.state.currentTab;
-		this.setState(prevState => ({
-			sortValues: {
-				...prevState.sortValues,
-				[tab]: value,
-			},
-			sortDirections: {
-				...prevState.sortDirections,
-				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
-			},
-		}));
-	}
-
 
 	componentDidMount() {
 		this.getData();
