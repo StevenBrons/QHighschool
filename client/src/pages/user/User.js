@@ -31,7 +31,7 @@ class User extends Component {
 	}
 
 	render() {
-		if (this.props.user == null && this.props.display !== "header") {
+		if (this.props.user == null ) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (
@@ -65,10 +65,6 @@ class User extends Component {
 			case "row":
 				return (
 					<UserRow {...this.props} />
-				);
-			case "header":
-				return (
-					<UserRow {...this.props} header />
 				);
 			case "card":
 			default:
