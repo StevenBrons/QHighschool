@@ -186,14 +186,14 @@ class EvaluationTab2 extends Component {
 			evaluations.sort((a, b) => {
 				a = (users[a["userId"]]["displayName"]).toLowerCase();
 				b = (users[b["userId"]]["displayName"]).toLowerCase();
-				let cmp = (b === null || b === undefined) - (a === null || a === undefined) || +(a > b) || -(a < b);
+				let cmp = (b == null) - (a == null) || +(a > b) || -(a < b);
 				return sortDirection === "asc" ? cmp : -cmp;
 			})
 		} else if (sortValue === "evaluations") {
 			evaluations.sort((a, b) => {
 				a = a["assesment"];
 				b = b["assesment"];
-				let cmp = (b === null || b === undefined) - (a === null || a === undefined) || +(a > b) || -(a < b);
+				let cmp = (b === null) - (a == null) || +(a > b) || -(a < b);
 				return sortDirection === "asc" ? cmp : -cmp;
 			})
 		}

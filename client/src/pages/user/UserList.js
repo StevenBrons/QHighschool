@@ -104,7 +104,7 @@ class UserList extends Component {
 					a = users[a][value];
 					b = users[b][value];
 			}
-			let cmp = (b === null || b === undefined) - (a === null || a === undefined) || +(a > b) || -(a < b);
+			let cmp = (b == null) - (a == null) || +(a > b) || -(a < b);
 			return direction === "asc" ? cmp : -cmp;
 		})
 		return userIds;
