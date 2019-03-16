@@ -105,8 +105,6 @@ class GroupCard extends Component {
 			</tr>
 		);
 	}
-
-
 }
 
 
