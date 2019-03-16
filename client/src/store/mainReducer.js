@@ -10,6 +10,7 @@ const DEFAULT_STATE = {
 	users: null,
 	showMenu: true,
 	notifications: [],
+	secureLogin: "a",
 	hasFetched: [],
 }
 
