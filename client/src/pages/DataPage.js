@@ -63,7 +63,7 @@ class DataPage extends Component {
 			//Only sort the slice 1-table.length because the header has to stick
 			a = a[column];
 			b = b[column];
-			const cmp = (a===null || a===undefined)-(b===null || b===undefined) || +(a>b)||-(a<b);
+			const cmp = (b===null || b===undefined) - (a===null || a===undefined)|| +(a>b)||-(a<b);
 			return order === "asc" ? cmp : -cmp;
 		}));
 
