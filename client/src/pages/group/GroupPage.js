@@ -26,16 +26,6 @@ class GroupPage extends Component {
 		this.state = {
 			editable: false,
 			group: this.props.group,
-			sortValues: {//possible start sort values
-				Deelnemers: "",
-				Inschrijvingen:"",
-				Beoordeling: "",
-			},
-			sortDirections: {
-				Deelnemers: "",
-				Inschrijvingen:"",
-				Beoordeling: "",
-			},
 		}
 		switch (this.props.role) {
 			case "student":
@@ -88,7 +78,10 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <UserList userIds={enrollmentIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>;
+				return <UserList
+					userIds={enrollmentIds}
+					onSortChange={this.handleSortChange}
+				/>;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -99,7 +92,14 @@ class GroupPage extends Component {
 				return <table style={{ width: "100%" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
-							return <Lesson lesson={lesson} key={lesson.id} role={this.props.role} userIsMemberOfGroup={this.props.userIsMemberOfGroup} editable={this.state.editable} handleChange={this.handleLessonChange} />
+							return <Lesson
+								lesson={lesson}
+								key={lesson.id}
+								role={this.props.role}
+								userIsMemberOfGroup={this.props.userIsMemberOfGroup}
+								editable={this.state.editable}
+								handleChange={this.handleLessonChange}
+							/>
 						})}
 					</tbody>
 				</table>
@@ -110,28 +110,45 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return <UserList userIds={participantIds} sortDirection={this.state.sortDirections[currentTab]} sortValue={this.state.sortValues[currentTab]} onSortChange={this.handleSortChange}/>
+				return <UserList
+					userIds={participantIds}
+					onSortChange={this.handleSortChange}
+				/>
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
 				}
-				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} editable={this.state.editable} handleChange={this.handlePresenceChange} />
+				return <PresenceTable
+					participantIds={participantIds}
+					lessons={lessons}
+					presence={presence}
+					editable={this.state.editable}
+					handleChange={this.handlePresenceChange}
+				/>
 			case "Beoordeling":
 				if (participantIds == null || evaluations == null) {
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} sortValue={this.state.sortValues[currentTab]} sortDirection={this.state.sortDirections[currentTab]} onSortChange={this.handleSortChange}/>
+				return <EvaluationTab
+					evaluations={evaluations}
+					groupId={group.id}
+					editable={this.state.editable}
+					handleChange={this.handleEvaluationChange}
+					sortValue={this.state.sortValues[currentTab]}
+					sortDirection={this.state.sortDirections[currentTab]}
+					onSortChange={this.handleSortChange}
+				/>
 			default: return null;
 		}
 
 	}
 
-	handleSortChange = (value) =>  {
+	handleSortChange = (value) => {
 		const tab = this.state.currentTab;
-		this.setState( prevState => ({
+		this.setState(prevState => ({
 			sortValues: {
 				...prevState.sortValues,
-				[tab]:value,
+				[tab]: value,
 			},
 			sortDirections: {
 				...prevState.sortDirections,
