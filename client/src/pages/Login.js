@@ -138,7 +138,7 @@ class Login extends Component{
 					<Typography gutterBottom variant="headline" color="primary">
 						Log in
 					</Typography>
-					<Typography variant="display">
+					<Typography variant="subtitle1">
 						Gebruik je school-email om in te loggen:
 					</Typography>
 					<br />

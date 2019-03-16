@@ -1155,9 +1155,9 @@
             "required": true,
             "type": "string",
             "enum": [
-              "evaluation",
-              "user_data",
-              "enrollment"
+              "evaluations",
+              "users",
+              "enrollments"
             ]
           }
         ],
