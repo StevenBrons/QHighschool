@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
-import Paper from '@material-ui/core/Paper';
 import { connect } from "react-redux";
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
-import { Tooltip, TableSortLabel, Typography } from '@material-ui/core';
+import { Tooltip, TableSortLabel, Typography,Paper } from '@material-ui/core';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
