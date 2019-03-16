@@ -61,7 +61,9 @@ class DataPage extends Component {
 
 		table = [table[0]].concat(table.slice(1, table.length).sort((a, b) => {
 			//Only sort the slice 1-table.length because the header has to stick
-			let cmp = a[column] > b[column] ? 1 : (a[column] < b[column] ? -1 : 0);
+			a = a[column];
+			b = b[column];
+			const cmp = (b===null || b===undefined) - (a===null || a===undefined)|| +(a>b)||-(a<b);
 			return order === "asc" ? cmp : -cmp;
 		}));
 

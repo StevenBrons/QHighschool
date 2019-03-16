@@ -5,8 +5,8 @@ import map from 'lodash/map';
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
 import { EvaluationTab } from './Evaluation';
-import User from "../user/User"
 import Page from '../Page';
+import UserList from "../user/UserList"
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -78,14 +78,10 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <table style={{ width: "100%" }}>
-					<tbody>
-						{[<User key={"header"} display="header" />]
-							.concat((enrollmentIds.map(id => {
-								return <User key={id} userId={id} display="row" />
-							})))}
-					</tbody>
-				</table>
+				return <UserList
+					userIds={enrollmentIds}
+					onSortChange={this.handleSortChange}
+				/>;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -96,7 +92,14 @@ class GroupPage extends Component {
 				return <table style={{ width: "100%" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
-							return <Lesson lesson={lesson} key={lesson.id} role={this.props.role} userIsMemberOfGroup={this.props.userIsMemberOfGroup} editable={this.state.editable} handleChange={this.handleLessonChange} />
+							return <Lesson
+								lesson={lesson}
+								key={lesson.id}
+								role={this.props.role}
+								userIsMemberOfGroup={this.props.userIsMemberOfGroup}
+								editable={this.state.editable}
+								handleChange={this.handleLessonChange}
+							/>
 						})}
 					</tbody>
 				</table>
@@ -107,28 +110,53 @@ class GroupPage extends Component {
 				if (participantIds.length === 0) {
 					return "Er zijn nog geen deelnemers toegevoegd";
 				}
-				return <table style={{ width: "100%" }}>
-					<tbody>
-						{[<User key={"header"} display="header" />]
-							.concat(participantIds.map(id => {
-								return <User key={id} userId={id} display="row" />
-							}))}
-					</tbody>
-				</table>
+				return <UserList
+					userIds={participantIds}
+					onSortChange={this.handleSortChange}
+				/>
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
 				}
-				return <PresenceTable participantIds={participantIds} lessons={lessons} presence={presence} editable={this.state.editable} handleChange={this.handlePresenceChange} />
+				return <PresenceTable
+					participantIds={participantIds}
+					lessons={lessons}
+					presence={presence}
+					editable={this.state.editable}
+					handleChange={this.handlePresenceChange}
+				/>
 			case "Beoordeling":
 				if (participantIds == null || evaluations == null) {
 					return <Progress />;
 				}
-				return <EvaluationTab evaluations={evaluations} groupId={group.id} editable={this.state.editable} handleChange={this.handleEvaluationChange} />
+				return <EvaluationTab
+					evaluations={evaluations}
+					groupId={group.id}
+					editable={this.state.editable}
+					handleChange={this.handleEvaluationChange}
+					sortValue={this.state.sortValues[currentTab]}
+					sortDirection={this.state.sortDirections[currentTab]}
+					onSortChange={this.handleSortChange}
+				/>
 			default: return null;
 		}
 
 	}
+
+	handleSortChange = (value) => {
+		const tab = this.state.currentTab;
+		this.setState(prevState => ({
+			sortValues: {
+				...prevState.sortValues,
+				[tab]: value,
+			},
+			sortDirections: {
+				...prevState.sortDirections,
+				[tab]: prevState.sortDirections[tab] === "desc" && prevState.sortValues[tab] === value ? "asc" : "desc",// if this columns was selected and ordering desc, change to asc else desc
+			},
+		}));
+	}
+
 
 	componentDidMount() {
 		this.getData();
@@ -260,7 +288,6 @@ class GroupPage extends Component {
 		const editable = this.state.editable;
 		const role = this.props.role;
 		let group = this.state.group;
-
 		return (
 			<Page>
 				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />
@@ -312,6 +339,7 @@ class GroupPage extends Component {
 	}
 
 }
+
 
 
 export default withRouter(GroupPage);
