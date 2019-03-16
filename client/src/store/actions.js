@@ -61,7 +61,7 @@ export function setAlias(userId) {
 }
 
 export function getGroups() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/list", "get", null, dispatch)
 			.then((groups) => {
 				dispatch({
@@ -73,7 +73,7 @@ export function getGroups() {
 }
 
 export function getParticipatingGroups() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("user/groups", "get", null, dispatch)
 			.then((groups) => {
 				dispatch({
@@ -85,7 +85,7 @@ export function getParticipatingGroups() {
 }
 
 export function getGroup(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group", "post", { groupId: groupId }, dispatch)
 			.then((group) => {
 				dispatch({
@@ -97,7 +97,7 @@ export function getGroup(groupId) {
 }
 
 export function getSelf() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		const notification = {
 			id: -96,
 			priority: "low",
@@ -134,7 +134,7 @@ export function getSelf() {
 }
 
 export function setUser(user) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		dispatch({
 			type: "CHANGE_USER",
 			user,
@@ -144,7 +144,7 @@ export function setUser(user) {
 }
 
 export function setPresenceUserStatus(lessonId, userStatus, groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		dispatch({
 			type: "CHANGE_PRESENCE_USER_STATUS",
 			lessonId,
@@ -239,7 +239,7 @@ export function setGroup(group) {
 }
 
 export function getEnrollableGroups() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("user/enrollableGroups", "get", null, dispatch, true)
 			.then((enrollableGroups) => {
 				dispatch({
@@ -268,7 +268,7 @@ export function getEnrolLments() {
 }
 
 export function getGroupEnrollments(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/enrollments", "post", { groupId: groupId }, dispatch)
 			.then((enrollments) => {
 				dispatch({
@@ -287,7 +287,7 @@ export function getGroupEnrollments(groupId) {
 }
 
 export function getGroupLessons(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/lessons", "post", { groupId: groupId }, dispatch)
 			.then((lessons) => {
 				dispatch({
@@ -302,7 +302,7 @@ export function getGroupLessons(groupId) {
 }
 
 export function getGroupPresence(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/presence", "post", { groupId: groupId }, dispatch)
 			.then((presence) => {
 				dispatch({
@@ -317,7 +317,7 @@ export function getGroupPresence(groupId) {
 }
 
 export function getGroupParticipants(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/participants", "post", { groupId: groupId }, dispatch)
 			.then((participants) => {
 				dispatch({
@@ -336,7 +336,7 @@ export function getGroupParticipants(groupId) {
 }
 
 export function getAllUsers() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("user/list", "get", null, dispatch)
 			.then((users) => {
 				dispatch({
@@ -404,7 +404,7 @@ export function toggleEnrollment(group) {
 
 
 export function getGroupEvaluations(groupId) {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		fetchData("group/evaluations", "post", { groupId }, dispatch, true).then((evaluations) => {
 			dispatch({
 				type: "CHANGE_GROUP",
