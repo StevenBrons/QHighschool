@@ -168,6 +168,29 @@ class EvaluationTab2 extends Component {
 		/>
 	}
 
+	sortEvaluations = () => {
+		let evaluations = this.props.evaluations;
+		const sortValue = this.props.sortValue;
+		const users = this.props.users;
+		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
+		if( sortValue === "name" ) {
+			evaluations.sort((a,b) => {
+				a = (users[a["userId"]]["displayName"]).toLowerCase();
+				b = (users[b["userId"]]["displayName"]).toLowerCase();
+				let cmp = (b===null || b===undefined)-(a===null || a===undefined) || +(a>b)||-(a<b);
+				return sortDirection === "asc"? cmp : -cmp;
+			})
+		} else if ( sortValue === "evaluations" ) {
+			evaluations.sort((a,b) => {
+				a = a["assesment"];	
+				b = b["assesment"];
+				let cmp = (b===null || b===undefined)-(a===null || a===undefined) || +(a>b)||-(a<b);
+				return sortDirection === "asc"? cmp : -cmp;
+			})
+		}
+		return evaluations;
+	}
+
 	render() {
 		let sortValue = this.props.sortValue;
 		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
@@ -182,8 +205,7 @@ class EvaluationTab2 extends Component {
 		if (evaluations.length === 0) {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
-
-		const evComps = evaluations
+		const evComps = this.sortEvaluations()
 			.map(evaluation => {
 				return (
 					<Paper style={style} key={evaluation.userId} component="tr">
