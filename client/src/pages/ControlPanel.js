@@ -5,11 +5,10 @@ import Progress from '../components/Progress'
 import map from 'lodash/map';
 
 import { connect } from 'react-redux';
-import { setAlias } from "../store/actions"
 import SelectUser from '../components/SelectUser';
 import { Divider, Toolbar, Button, Paper, Typography } from '@material-ui/core';
 import Field from '../components/Field';
-import { getSubjects } from '../store/actions';
+import { getSubjects, setAlias} from '../store/actions';
 
 class ControlPanel extends Component {
 
@@ -130,8 +129,8 @@ class ControlPanel extends Component {
 								Nieuw vak:
 							</Typography>
 							<div style={{display:"flex"}}>
-								<Field name="name" label={"Naam"} value={subject.name} onChange={this.handleSubjectChange} editable={true} />
-								<Field name="description" label="Omschrijving" value={subject.description} onChange={this.handleSubjectChange} editable={true} style={{flex:"5"}} />
+								<Field name="name" label={"Naam"} value={subject.name} onChange={this.handleSubjectChange} editable={true} validate={{maxLength:50}} />
+								<Field name="description" label="Omschrijving" value={subject.description} onChange={this.handleSubjectChange} editable={true} style={{flex:"5"}} validate={{maxLength:440}} />
 								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={this.addSubject}>
 									Voeg toe	
 								</Button>
@@ -141,7 +140,7 @@ class ControlPanel extends Component {
 								Nieuwe module:
 							</Typography>
 							<div >
-								<Field name="name" label={"Naam"} value={course.name} onChange={this.handleCourseChange} editable={true} />
+								<Field name="name" label={"Naam"} value={course.name} onChange={this.handleCourseChange} editable={true} validate={{maxLength:50}} />
 								{subjectPicker}
 								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={this.addCourse}>
 									Voeg toe	
@@ -167,7 +166,6 @@ class ControlPanel extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		subjects: state.subjects,
-		courses: state.courses,
 	}
 }
 
