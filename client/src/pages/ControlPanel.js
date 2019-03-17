@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SelectUser from '../components/SelectUser';
 import { Divider, Toolbar, Button, Paper, Typography } from '@material-ui/core';
 import Field from '../components/Field';
-import { getSubjects, setAlias} from '../store/actions';
+import { getSubjects, setAlias, addNotification } from '../store/actions';
 
 class ControlPanel extends Component {
 
@@ -45,25 +45,75 @@ class ControlPanel extends Component {
 		});
 	}
 
+	notification = (typeObjectAdded, succes) => {
+		// if ( succes ) {
+		// 	this.props.addNotification(
+		// 		{
+		// 			priority:"low",
+		// 			type:"bar",
+		// 			message:typeObjectAdded + "succesvol toegevoegd!",
+		// 			scope: "beheer",
+		// 		}
+		// 	)
+		// } else {
+		// 	this.props.addNotification(
+		// 		{
+		// 			priority:"medium",
+		// 			type:"bar",
+		// 			message:"Er is iets misgegaan. " + typeObjectAdded + " is niet toegevoegd.",
+		// 			scope:"beheer",
+		// 		}
+		// 	)
+		// }
+	}
+
+
 	addSubject = () => {
 		const subject = this.state.subject;
-		this.props.addSubject(subject.name,subject.description);
-		// handle succes/ no succes
-		// clear fields
+		this.props.addSubject(subject.name,subject.description)
+			.then(succes => {
+				if (succes) {
+					this.setState({
+						subject: {
+							name: "",
+							description: "",
+						},			
+					})
+				} 
+				this.notification("Vak", succes);
+			})
 	}
 
 	addCourse = () => {
 		const course = this.state.course;
-		this.props.addCourse(course.name, course.subjectId);
-		// handle succes/ no succes
-		// clear fields
+		this.props.addCourse(course.name, course.subjectId)
+			.then(succes => {
+				if (succes) {
+					this.setState({
+						course: {
+							name: "",
+							subjectId:null,
+						},			
+					})
+				} 
+				this.notification("Module", succes);
+			})
 	}
 
 	addGroup = () => {
 		const group = this.state.course;
-		this.props.addGroup(group.courseId, group.teacherId);
-		// handle succes/ no succes
-		// clear fields
+		this.props.addGroup(group.courseId, group.teacherId)
+			.then(succes => {
+				if (succes) {
+					this.setState({
+						group: {
+							courseId: null,
+							teacherId: null,
+						},			
+					})
+				}
+				this.notification("Groep", succes);
+			})
 	}
 
 
@@ -88,13 +138,20 @@ class ControlPanel extends Component {
 
 	handleGroupTeacherChange = (userId, displayName) => {
 		this.setState(prevState => ({
-			fieldValues: {
-				...prevState.fieldValues, groupTeacher:displayName, }
+			group: {
+				...prevState.group, 
+				teacherId:userId, 
+			}
 		}));
 	}
 
 	handleGroupCourseChange = (event) => {
-
+		this.setState(prevState => ({
+			group: {
+				...prevState.group,
+				courseId: event.target.value,
+			}
+		}))
 	}
 
 	render() {
@@ -151,8 +208,8 @@ class ControlPanel extends Component {
 								Nieuwe groep:
 							</Typography>
 							<div >
-								<Field name="module" label={"Module"} value={group.handleGroupCourseChange} options={["Webdesign", "Wat is leven?", "Cryptografie"]} onChange={this.hanleChange} editable={true} style={{minWidth:"250px"}} />
-								<SelectUser name="teacher" value={group.handleGroupTeacherChange} onChange={this.handleTeacherChange} />
+								<Field name="module" label={"Module"} value={group.courseId} options={["Webdesign", "Wat is leven?", "Cryptografie"]} onChange={this.handleGroupCourseChange} editable={true} style={{minWidth:"250px"}} />
+								<SelectUser name="teacher" value={group.teacherId} onChange={this.handleGroupTeacherChange} />
 								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={this.addGroup}>
 									Voeg toe	
 								</Button>
@@ -163,7 +220,7 @@ class ControlPanel extends Component {
 	}
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
 	return {
 		subjects: state.subjects,
 	}
@@ -175,6 +232,7 @@ function mapDispatchToProps(dispatch) {
 		addCourse: async (name, subjectId) => { console.log("ADD COURSE"); return { sucess: true } },
 		addGroup: async (courseId, userId) => { console.log("ADD GROUP"); return { sucess: true } },
 		getSubjects: () => dispatch(getSubjects()),
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	}
 }
 
