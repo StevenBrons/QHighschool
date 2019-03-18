@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SelectUser from '../components/SelectUser';
 import { Divider, Toolbar, Button, Paper, Typography } from '@material-ui/core';
 import Field from '../components/Field';
-import { getSubjects, setAlias, addNotification } from '../store/actions';
+import { getSubjects, setAlias, addNotification, getGroups } from '../store/actions';
 
 class ControlPanel extends Component {
 
@@ -32,6 +32,7 @@ class ControlPanel extends Component {
 	}
 
 	componentDidMount() {
+		this.props.getGroups();
 		this.props.getSubjects();
 	}
 
@@ -101,7 +102,7 @@ class ControlPanel extends Component {
 	}
 
 	addGroup = () => {
-		const group = this.state.course;
+		const group = this.state.group;
 		this.props.addGroup(group.courseId, group.teacherId)
 			.then(succes => {
 				if (succes) {
@@ -159,11 +160,17 @@ class ControlPanel extends Component {
 		const course = this.state.course;
 		const group = this.state.group;
 		const subjects = this.props.subjects;
-		let subjectPicker;
+		const courses = this.props.groups; // DIT MOET this.props.courses worden
+		let subjectPicker, coursePicker;
 		if ( subjects == null ) {
 			subjectPicker = <Progress/>;
 		} else {
 			subjectPicker = <Field value={course.subjectId} name="subjectId" label="Vak" onChange={this.handleCourseChange} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{minWidth:"200px"}} />
+		}
+		if ( courses == null ) {
+			coursePicker = <Progress/>;
+		} else { 
+			coursePicker = <Field value={group.courseId} name="module" label="Module" onChange={this.handleGroupCourseChange} editable={true} options={map(courses, (course) => { return { value: course.courseId, label: course.courseName } })} style={{minWidth:"200px"}} />
 		}
 		return (
 			<Page>
@@ -208,7 +215,7 @@ class ControlPanel extends Component {
 								Nieuwe groep:
 							</Typography>
 							<div >
-								<Field name="module" label={"Module"} value={group.courseId} options={["Webdesign", "Wat is leven?", "Cryptografie"]} onChange={this.handleGroupCourseChange} editable={true} style={{minWidth:"250px"}} />
+								{coursePicker}
 								<SelectUser name="teacher" value={group.teacherId} onChange={this.handleGroupTeacherChange} />
 								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={this.addGroup}>
 									Voeg toe	
@@ -223,19 +230,19 @@ class ControlPanel extends Component {
 function mapStateToProps(state) {
 	return {
 		subjects: state.subjects,
+		groups: state.groups,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		addSubject: async (name, description) => { console.log("ADD SUBJECT"); return { sucess: true } },
-		addCourse: async (name, subjectId) => { console.log("ADD COURSE"); return { sucess: true } },
-		addGroup: async (courseId, userId) => { console.log("ADD GROUP"); return { sucess: true } },
+		addSubject: async (name, description) => { console.log("ADD SUBJECT with name: " + name + ", and description: "+ description); return { sucess: true } },
+		addCourse: async (name, subjectId) => { console.log("ADD COURSE with name: "+ name + ", and subjectId: " + subjectId); return { sucess: true } },
+		addGroup: async (courseId, userId) => { console.log("ADD GROUP with courseId: " + courseId + ", and userId: "+ userId); return { sucess: true } },
 		getSubjects: () => dispatch(getSubjects()),
+		getGroups: () => dispatch(getGroups()),
 		addNotification: (notification) => dispatch(addNotification(notification)),
 	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
-
-
