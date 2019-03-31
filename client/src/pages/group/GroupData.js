@@ -52,7 +52,7 @@ class GroupData extends Component {
 					</div>
 					<div style={{ width: "100%" }}>
 						<Field value={group.courseDescription} validate={{ maxLength: 440 }} name="courseDescription" label="Omschrijving" style={{ labelVisible: true }} onChange={onChange} layout={{ area: true }} editable={editable} />
-						<Field value={group.foreknowledge} label="Opmerkingen" name="foreknowledge" style={{ width: "80%", labelVisible: true }} default="Geen voorkennis vereist" editable={editable} onChange={onChange} />
+						<Field value={group.remarks} label="Opmerkingen" name="remarks" style={{ width: "80%", labelVisible: true }} default="Geen voorkennis vereist" editable={editable} onChange={onChange} />
 						<Field value={group.studyTime} label="Studietijd" name="studyTime" default="onbekend" editable={editable} style={{ labelVisible: true, unit: "uur" }} onChange={onChange} layout={{ alignment: "right" }} validate={{ type: "integer" }} />
 					</div>
 				</div>

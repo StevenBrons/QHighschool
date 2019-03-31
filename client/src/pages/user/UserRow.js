@@ -21,7 +21,7 @@ class GroupCard extends Component {
 	}
 
 	formatPhoneNumber(number) {
-		if (number == null || number === undefined) {
+		if (number == null) {
 			number = "";
 		}
 		let numberWithoutCharacters = number.replace(/\D/g, '');

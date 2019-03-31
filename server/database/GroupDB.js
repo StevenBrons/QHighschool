@@ -126,7 +126,7 @@ class GroupDB {
 				model: User,
 				attributes: teacher ?
 					["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level", "preferedEmail", "phoneNumber", "email"] :
-					["id", "role", "displayName"],
+					["id", "role", "displayName", "firstName", "lastName","level","profile","year"],
 				order: [["displayName", "DESC"]]
 			},
 		}).then(rows => rows.map(row => row.user));
