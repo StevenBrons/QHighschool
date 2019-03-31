@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
-import {fetchData} from '../store/actions';
+import $ from "jquery";
 
 class Menu extends Component {
 
@@ -44,13 +44,21 @@ class Menu extends Component {
 		}
 	}
 
+	logout() {
+		return $.ajax({
+			url: "/auth/logout",
+			type: "get",
+			dataType: "json",
+		}).then(() => {
+			document.location.reload();
+		});
+	}
+
 	onClick(page) {
 		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
 		else if (page === "loguit") {
-			this.props.fetchData("/auth/logout","get",null).then(() => {
-				document.location.reload();
-			});
+			this.logout();
 		}
 		else
 			this.props.history.push("/" + page);
@@ -204,12 +212,5 @@ function mapStateToProps(state) {
 	};
 }
 
-
-function mapDispatchToProps(dispatch) {
-	return {
-		fetchData: (a,b,c,d) => dispatch(fetchData(a,b,c,d,dispatch)),
-	}
-}
-
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Menu));
+export default withRouter(connect(mapStateToProps, null)(Menu));
 

@@ -3,30 +3,41 @@ import $ from "jquery";
 import keyBy from "lodash/keyBy"
 import map from "lodash/map"
 
-function apiErrorHandler(dispatch, message) {
-	return function handleError(error) {
+function apiErrorHandler(dispatch) {
+	return function handleError({ responseJSON }) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
-				id: -1,
+				id: Math.random(),
 				priority: "high",
 				type: "bar",
-				message: message ? message : "Er is iets mis gegaan",
+				message: responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
 			}
 		});
 		dispatch({
 			type: "FATAL_ERROR",
-			error: error.name,
-			message: error.message,
+			error: responseJSON.error,
+			message: responseJSON.message,
 		});
-		throw error;
+		throw responseJSON;
 	}
 }
 
-export async function fetchData(endpoint, method, data, dispatch, forceArray) {
-	dispatch({
-		type: "HAS_FETCHED",
+export async function fetchData(endpoint, method, data, dispatch, getState, forceArray) {
+	const f = {
 		call: endpoint,
+		method: method,
+		data: data,
+	}
+	for (let i = 0; i < getState().hasFetched.length; i++) {
+		const o = getState().hasFetched[i];
+		if (o.data === f.data && o.call === f.call && o.method === f.method) {
+			return Promise.reject(new Error("Duplicate api call"));
+		}
+	};
+	dispatch({
+		...f,
+		type: "HAS_FETCHED",
 	});
 	return $.ajax({
 		url: "/api/" + endpoint,
@@ -40,7 +51,7 @@ export async function fetchData(endpoint, method, data, dispatch, forceArray) {
 
 export function getSubjects() {
 	return (dispatch, getState) => {
-		fetchData("subject/list", "get", null, dispatch)
+		fetchData("subject/list", "get", null, dispatch, getState)
 			.then((subjects) => {
 				dispatch({
 					type: "CHANGE_SUBJECTS",
@@ -52,17 +63,16 @@ export function getSubjects() {
 
 export function setAlias(userId) {
 	return (dispatch, getState) => {
-		Function.setAlias(userId, getState().secureLogin)
+		fetchData("function/alias", "post", { userId, secureLogin: getState().secureLogin }, dispatch, getState)
 			.then(() => {
 				document.location.reload();
 			})
-			.catch(apiErrorHandler(dispatch));
 	}
 }
 
 export function getGroups() {
-	return (dispatch) => {
-		fetchData("group/list", "get", null, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group/list", "get", null, dispatch, getState)
 			.then((groups) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
@@ -73,8 +83,8 @@ export function getGroups() {
 }
 
 export function getParticipatingGroups() {
-	return (dispatch) => {
-		fetchData("user/groups", "get", null, dispatch)
+	return (dispatch, getState) => {
+		fetchData("user/groups", "get", null, dispatch, getState)
 			.then((groups) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
@@ -85,8 +95,8 @@ export function getParticipatingGroups() {
 }
 
 export function getGroup(groupId) {
-	return (dispatch) => {
-		fetchData("group", "post", { groupId: groupId }, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group", "post", { groupId: groupId }, dispatch, getState)
 			.then((group) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
@@ -97,7 +107,7 @@ export function getGroup(groupId) {
 }
 
 export function getSelf() {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		const notification = {
 			id: -96,
 			priority: "low",
@@ -106,7 +116,7 @@ export function getSelf() {
 			scope: ".",
 		};
 		dispatch(addNotification(notification));
-		fetchData("user/self", "get", null, dispatch)
+		fetchData("user/self", "get", null, dispatch, getState)
 			.then((user) => {
 				dispatch({
 					type: "SET_SELF",
@@ -115,7 +125,7 @@ export function getSelf() {
 				dispatch(removeNotification(notification));
 			}).catch((error) => {
 				dispatch(removeNotification(notification));
-				if (error != null && error.responseJSON != null && error.responseJSON.error === "Authentication Error") {
+				if (error != null && error.error === "Authentication Error") {
 					if (window.location.pathname !== "/login") {
 						setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
 						document.location.href = "/login";
@@ -134,24 +144,24 @@ export function getSelf() {
 }
 
 export function setUser(user) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		dispatch({
 			type: "CHANGE_USER",
 			user,
 		});
-		fetchData("user", "patch", user, dispatch);
+		fetchData("user", "patch", user, dispatch, getState);
 	}
 }
 
 export function setPresenceUserStatus(lessonId, userStatus, groupId) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		dispatch({
 			type: "CHANGE_PRESENCE_USER_STATUS",
 			lessonId,
 			userStatus,
 			groupId,
 		});
-		fetchData("group/userStatus", "patch", { lessonId: lessonId, userStatus: userStatus }, dispatch);
+		fetchData("group/userStatus", "patch", { lessonId: lessonId, userStatus: userStatus }, dispatch, getState);
 	}
 }
 
@@ -195,10 +205,10 @@ export function setGroup(group) {
 		const newEvaluations = group.evaluations;
 
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
-			fetchData("course/", "patch", newCourse, dispatch);
+			fetchData("course/", "patch", newCourse, dispatch, getState);
 		}
 		if (JSON.stringify(oldCourseGroup) !== JSON.stringify(newCourseGroup)) {
-			fetchData("group/", "patch", newCourseGroup, dispatch);
+			fetchData("group/", "patch", newCourseGroup, dispatch, getState);
 		}
 
 		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {
@@ -209,11 +219,11 @@ export function setGroup(group) {
 				{
 					presence: JSON.stringify(map(changedPresenceObjs, (changedPresenceObjs) => { return changedPresenceObjs })),
 					groupId: group.id
-				}, dispatch);
+				}, dispatch, getState);
 		}
 
 		if (newLessons != null && JSON.stringify(oldLessons) !== JSON.stringify(newLessons)) {
-			fetchData("group/lessons", "patch", { lessons: JSON.stringify(map(newLessons, (lesson) => { return lesson })), }, dispatch);
+			fetchData("group/lessons", "patch", { lessons: JSON.stringify(map(newLessons, (lesson) => { return lesson })), }, dispatch, getState);
 		}
 
 		if (JSON.stringify(oldEvaluations) !== JSON.stringify(newEvaluations)) {
@@ -228,7 +238,7 @@ export function setGroup(group) {
 			fetchData("group/evaluations", "patch", {
 				evaluations: JSON.stringify(changedEvaluations),
 				secureLogin: getState().secureLogin
-			});
+			}, dispatch, getState);
 		}
 
 		dispatch({
@@ -239,8 +249,8 @@ export function setGroup(group) {
 }
 
 export function getEnrollableGroups() {
-	return (dispatch) => {
-		fetchData("user/enrollableGroups", "get", null, dispatch, true)
+	return (dispatch, getState) => {
+		fetchData("user/enrollableGroups", "get", null, dispatch, getState, true)
 			.then((enrollableGroups) => {
 				dispatch({
 					type: "CHANGE_ENROLLABLE_GROUPS",
@@ -252,7 +262,7 @@ export function getEnrollableGroups() {
 
 export function getEnrolLments() {
 	return (dispatch, getState) => {
-		fetchData("user/enrollments", "get", null, dispatch)
+		fetchData("user/enrollments", "get", null, dispatch, getState)
 			.then((enrollments) => {
 				dispatch({
 					type: "CHANGE_GROUPS",
@@ -268,8 +278,8 @@ export function getEnrolLments() {
 }
 
 export function getGroupEnrollments(groupId) {
-	return (dispatch) => {
-		fetchData("group/enrollments", "post", { groupId: groupId }, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group/enrollments", "post", { groupId: groupId }, dispatch, getState)
 			.then((enrollments) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -287,8 +297,8 @@ export function getGroupEnrollments(groupId) {
 }
 
 export function getGroupLessons(groupId) {
-	return (dispatch) => {
-		fetchData("group/lessons", "post", { groupId: groupId }, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group/lessons", "post", { groupId: groupId }, dispatch, getState)
 			.then((lessons) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -302,8 +312,8 @@ export function getGroupLessons(groupId) {
 }
 
 export function getGroupPresence(groupId) {
-	return (dispatch) => {
-		fetchData("group/presence", "post", { groupId: groupId }, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group/presence", "post", { groupId: groupId }, dispatch, getState)
 			.then((presence) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -317,8 +327,8 @@ export function getGroupPresence(groupId) {
 }
 
 export function getGroupParticipants(groupId) {
-	return (dispatch) => {
-		fetchData("group/participants", "post", { groupId: groupId }, dispatch)
+	return (dispatch, getState) => {
+		fetchData("group/participants", "post", { groupId: groupId }, dispatch, getState)
 			.then((participants) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -336,8 +346,8 @@ export function getGroupParticipants(groupId) {
 }
 
 export function getAllUsers() {
-	return (dispatch) => {
-		fetchData("user/list", "get", null, dispatch)
+	return (dispatch, getState) => {
+		fetchData("user/list", "get", null, dispatch, getState)
 			.then((users) => {
 				dispatch({
 					type: "CHANGE_USERS",
@@ -379,7 +389,7 @@ export function toggleEnrollment(group) {
 	return (dispatch, getState) => {
 		const index = getState().users[getState().userId].enrollmentIds.indexOf(group.id);
 		if (index === -1) {
-			fetchData("user/enrollments", "put", { groupId: group.id }, dispatch)
+			fetchData("user/enrollments", "put", { groupId: group.id }, dispatch, getState)
 				.then(() => {
 					dispatch({
 						type: "CHANGE_ENROLLMENTS",
@@ -389,7 +399,7 @@ export function toggleEnrollment(group) {
 					});
 				});
 		} else {
-			fetchData("user/enrollments", "delete", { groupId: group.id }, dispatch)
+			fetchData("user/enrollments", "delete", { groupId: group.id }, dispatch, getState)
 				.then(() => {
 					dispatch({
 						type: "CHANGE_ENROLLMENTS",
@@ -404,8 +414,8 @@ export function toggleEnrollment(group) {
 
 
 export function getGroupEvaluations(groupId) {
-	return (dispatch) => {
-		fetchData("group/evaluations", "post", { groupId }, dispatch, true).then((evaluations) => {
+	return (dispatch, getState) => {
+		fetchData("group/evaluations", "post", { groupId }, dispatch, getState, true).then((evaluations) => {
 			dispatch({
 				type: "CHANGE_GROUP",
 				group: {
