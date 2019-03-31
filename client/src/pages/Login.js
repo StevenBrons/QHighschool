@@ -100,7 +100,7 @@ class Login extends Component {
 
 	login() {
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			document.location.href = "localhost:26194/auth/login"
+			document.location.href = "http://localhost:26194/auth/login"
 		} else {
 			document.location.href = "/auth/login"
 		}

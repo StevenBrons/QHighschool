@@ -14,7 +14,7 @@ class EnsureSecureLogin extends Component {
 				<Button color="primary" variant="contained" onClick={() => {
 					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
 					if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-						document.location.href = "localhost:26194/auth/login?secure=true";
+						document.location.href = "http://localhost:26194/auth/login?secure=true";
 					} else {
 						document.location.href = "/auth/login?secure=true";
 					}
