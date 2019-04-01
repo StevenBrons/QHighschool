@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import EnsureSecureLogin from '../components/EnsureSecureLogin';
 import Page from './Page';
-import Progress from '../components/Progress'
 import map from 'lodash/map';
 
 import { connect } from 'react-redux';
@@ -31,6 +30,7 @@ class ControlPanel extends Component {
 		super(props);
 		this.state = {
 			aliasId: null,
+			addType: "group",
 			subject: initialValues.subject,
 			course: initialValues.course,
 			group: initialValues.group,
@@ -110,23 +110,52 @@ class ControlPanel extends Component {
 		}))
 	}
 
+	handleTypeChange = event => {
+		this.setState({
+			addType: event.target.value,
+		})
+	}
+
 	render() {
 		const subject = this.state.subject;
 		const course = this.state.course;
 		const group = this.state.group;
-		const subjects = this.props.subjects;
-		const courses = this.props.groups; // DIT MOET this.props.courses worden
-		let subjectPicker, coursePicker;
-		if ( subjects == null ) {
-			subjectPicker = <Progress/>;
-		} else {
-			subjectPicker = <Field value={course.subjectId} name="subjectId" label="Vak" onChange={(event) => {this.handleChange(event, "course")}} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{minWidth:"200px"}} />
+		const addType = this.state.addType;
+		const subjects = this.props.subjects || {};
+		const courses = this.props.groups || {}; // DIT MOET this.props.courses worden
+		let addView;
+		switch (addType) {
+			case "subject":
+				addView = <div>
+								<div style={{display:"flex"}}>
+										<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} validate={{maxLength:50}} />
+										<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} style={{flex:"5"}} validate={{maxLength:440}} />
+										<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("subject")}}>
+											Voeg toe	
+										</Button>
+								</div>
+							</div>
+				break;
+			case "course":
+				addView = <div>
+							<Field name="name" label={"Naam"} value={course.name} onChange={(event) => {this.handleChange(event, "course")}} editable={true} validate={{maxLength:50}} />
+							<Field value={course.subjectId} name="subjectId" label="Vak" onChange={(event) => {this.handleChange(event, "course")}} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{minWidth:"200px"}} />
+							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("course")}}>
+								Voeg toe	
+							</Button>
+						</div>
+				break;
+			default: //group
+				addView = <div>
+							<Field value={group.courseId} name="courseId" label="Module" onChange={(event) => {this.handleChange(event, "group")}} editable={true} options={map(courses, (course) => { return { value: course.courseId, label: course.courseName } })} style={{minWidth:"200px"}} />
+							<SelectUser name="teacher" value={group.teacherId} onChange={(userId) => {let event= {target: {value: userId}, name:"teacherId"}; this.handleChange(event, "group")}} />
+							{/* for the SelectUsers's onChange we fake an 'event' because SelectUser is special */}
+							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("group")}}>
+								Voeg toe	
+							</Button>
+						</div>
 		}
-		if ( courses == null ) {
-			coursePicker = <Progress/>;
-		} else { 
-			coursePicker = <Field value={group.courseId} name="courseId" label="Module" onChange={(event) => {this.handleChange(event, "group")}} editable={true} options={map(courses, (course) => { return { value: course.courseId, label: course.courseName } })} style={{minWidth:"200px"}} />
-		}
+		
 		return (
 			<Page>
 				<EnsureSecureLogin>
@@ -144,39 +173,13 @@ class ControlPanel extends Component {
 						<Button variant="contained" color="primary" disabled={this.state.aliasId == null} onClick={this.loginUsingAlias}>Login in met alias</Button>
 					</div>
 					<Divider/>
-							<Typography variant="headline" color="primary" style={{margin:"12px"}}>
-								Nieuw vak:
-							</Typography>
-							<div style={{display:"flex"}}>
-								<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} validate={{maxLength:50}} />
-								<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} style={{flex:"5"}} validate={{maxLength:440}} />
-								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("subject")}}>
-									Voeg toe	
-								</Button>
-							</div>
-					<Divider/>
-							<Typography variant="headline" color="primary" style={{margin:"12px"}}>
-								Nieuwe module:
-							</Typography>
-							<div >
-								<Field name="name" label={"Naam"} value={course.name} onChange={(event) => {this.handleChange(event, "course")}} editable={true} validate={{maxLength:50}} />
-								{subjectPicker}
-								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("course")}}>
-									Voeg toe	
-								</Button>
-							</div>
-					<Divider/>
-							<Typography variant="headline" color="primary" style={{margin:"12px"}}>
-								Nieuwe groep:
-							</Typography>
-							<div >
-								{coursePicker}
-								<SelectUser name="teacher" value={group.teacherId} onChange={(userId) => {let event= {target: {value: userId}, name:"teacherId"}; this.handleChange(event, "group")}} />
-								{/* for the SelectUsers's onChange we fake an 'event' because SelectUser is special */}
-								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("group")}}>
-									Voeg toe	
-								</Button>
-							</div>
+					<div >
+						<Typography variant="headline" color="primary" style={{margin:"12px", float:"left"}}>
+							Nieuw:
+						</Typography>
+						<Field value={addType} name="addType" color="inherit" editable={true} onChange={this.handleTypeChange} options={[{value:"course", label:"Module"},{value:"subject",label:"Vak"},{value:"group",label:"Groep"}]} style={{minWidth:"200px" , maxWidth:"400px"}} />
+					</div>
+					{addView}
 				</EnsureSecureLogin>
 			</Page>
 		);
