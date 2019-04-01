@@ -353,7 +353,7 @@ export function getAllUsers() {
 					type: "CHANGE_USERS",
 					users,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 

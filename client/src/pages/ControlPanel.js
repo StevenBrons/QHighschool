@@ -204,7 +204,8 @@ function mapDispatchToProps(dispatch) {
 		addGroup: async (courseId, userId) => { console.log("ADD GROUP with courseId: " + courseId + ", and userId: "+ userId); return { success: true } },
 		getSubjects: () => dispatch(getSubjects()),
 		getGroups: () => dispatch(getGroups()),
-		addNotification: (notification) => dispatch(addNotification(notification)),
+    addNotification: (notification) => dispatch(addNotification(notification)),
+    dispatch:dispatch,
 	}
 }
 
