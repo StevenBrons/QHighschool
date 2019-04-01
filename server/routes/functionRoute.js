@@ -64,7 +64,7 @@ router.post("/data", function (req, res, next) {
 	const table = req.body.table; //evaluation,user_data,enrollment
 	const school = req.user.school;
 	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))
-	) {//&& secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)
+		&& secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)) {
 		switch (table) {
 			case "evaluations":
 				functionDb.getEvaluation(school)
