@@ -169,6 +169,7 @@ class ControlPanel extends Component {
 						</Toolbar>
 					</Paper>
 					<div style={{margin:"10px 0"}}>
+						<SelectUser onChange={this.handleAliasChange} />
 						<Button variant="contained" color="primary" disabled={this.state.aliasId == null} onClick={this.loginUsingAlias}>Login in met alias</Button>
 					</div>
 					<Divider/>
