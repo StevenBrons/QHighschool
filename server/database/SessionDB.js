@@ -4,7 +4,7 @@ const Participant = require("../dec/ParticipantDec");
 
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds, school) {
+	constructor(id, email, role, displayName, groupIds, school, token) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
@@ -13,6 +13,7 @@ class SerialisedUser {
 		if (this.role === "grade_admin") {
 			this.school = school;
 		}
+		this.token = token;
 	}
 
 	inGroup(groupId) {
@@ -78,7 +79,7 @@ class SessionDB {
 			if (loginData.length === 1) {
 				const user = loginData[0].user;
 				const groupIds = await this.getParticipatingGroupsIds(user.id);
-				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, user.school);
+				return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, user.school, token);
 			} else {
 				return null;
 			}

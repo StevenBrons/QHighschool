@@ -7,15 +7,17 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitIcon from '@material-ui/icons/ExitToApp';
-import LocalTaxi from '@material-ui/icons/LocalTaxi';
+import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
+import BuildIcon from '@material-ui/icons/Build';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
+import $ from "jquery";
 
 class Menu extends Component {
 
@@ -31,7 +33,10 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "profiel", "loguit"];
 				break;
 			case "admin":
-				this.state.pages = ["groepen", "aanbod", "profiel", "loguit", "taxi"];
+				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "beheer", "loguit"];
+				break;
+			case "grade_admin":
+				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
 				break;
 			default:
 				this.state.pages = ["aanbod", "profiel", "loguit"];
@@ -39,13 +44,21 @@ class Menu extends Component {
 		}
 	}
 
+	logout() {
+		return $.ajax({
+			url: "/auth/logout",
+			type: "get",
+			dataType: "json",
+		}).then(() => {
+			document.location.reload();
+		});
+	}
+
 	onClick(page) {
 		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
 		else if (page === "loguit") {
-			User.logout().then(() => {
-				document.location.reload();
-			});
+			this.logout();
 		}
 		else
 			this.props.history.push("/" + page);
@@ -66,10 +79,14 @@ class Menu extends Component {
 				return <AssessmentIcon style={{ color: c }} />;
 			case "Person":
 				return <PersonIcon style={{ color: c }} />;
+			case "ViewColumn":
+				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
 				return <ExitIcon style={{ color: "red" }} />;
 			case "Taxi":
-				return <LocalTaxi style={{ color: c }} />;
+				return <LocalTaxiIcon style={{ color: c }} />;
+			case "Beheer":
+				return <BuildIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -128,9 +145,19 @@ class Menu extends Component {
 				icon: "Assessment",
 			},
 			{
+				id: "gegevens",
+				title: "Gegevens",
+				icon: "ViewColumn", // table_chart is more appropriate
+			},
+			{
 				id: "taxi",
 				title: "Taxi",
 				icon: "Taxi",
+			},
+			{
+				id: "beheer",
+				title: "Beheer",
+				icon: "Beheer",
 			},
 		];
 
@@ -185,6 +212,5 @@ function mapStateToProps(state) {
 	};
 }
 
-
-export default withRouter(connect(mapStateToProps)(Menu));
+export default withRouter(connect(mapStateToProps, null)(Menu));
 

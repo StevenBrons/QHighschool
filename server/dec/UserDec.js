@@ -33,9 +33,9 @@ module.exports = connection.define('user', {
 	},
 	level: {
 		type: Sequelize.STRING,
-		validate: {
-			isIn: [["MAVO", "HAVO", "VWO"]],
-		},
+		// validate: {
+		// 	isIn: [["MAVO", "HAVO", "VWO"]],
+		// },
 		allowNull: true,
 	},
 	preferedEmail: {
@@ -47,9 +47,9 @@ module.exports = connection.define('user', {
 	},
 	profile: {
 		type: Sequelize.STRING,
-		validate: {
-			isIn: [["NT", "NG", "EM", "CM", "NT&NG", "EM&CM"]],
-		},
+		// validate: {
+		// 	isIn: [["NT", "NG", "EM", "CM", "NT&NG", "EM&CM"]],
+		// },
 		allowNull: true,
 	},
 	phoneNumber: {

@@ -101,6 +101,7 @@ class Field extends React.Component {
 		let options = this.props.options;
 		let disableUnderline = style.underline || true;
 		let margin = style.margin || "none";
+		let marginPx = 0;
 		let menuItems;
 		let endAdornment;
 		let classNames = [];
@@ -205,18 +206,27 @@ class Field extends React.Component {
 		if (layout.td) {
 			style.width = "100%";
 		}
+		switch (margin) {
+			case "dense":
+				marginPx = 5;
+				break;
+			case "normal":
+				marginPx = 12;
+				break;
+			default:
+		}
 
 		const field = (
 			<TextField
 				value={value}
-				margin={margin}
+				margin="none"
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
 				className={classNames.join(" ")}
 				label={label}
 				select={options ? true : false}
-				style={{ flex: 1, ...style }}
+				style={{ flex: 1, ...style, margin: marginPx }}
 				onChange={this.onChange.bind(this)}
 				error={this.state.error}
 				InputProps={{
