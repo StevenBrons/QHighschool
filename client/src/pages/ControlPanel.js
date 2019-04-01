@@ -4,6 +4,7 @@ import Page from './Page';
 import map from 'lodash/map';
 
 import { connect } from 'react-redux';
+import queryString from "query-string";
 import SelectUser from '../components/SelectUser';
 import { Divider, Toolbar, Button, Paper, Typography } from '@material-ui/core';
 import Field from '../components/Field';
@@ -34,6 +35,16 @@ class ControlPanel extends Component {
 			subject: initialValues.subject,
 			course: initialValues.course,
 			group: initialValues.group,
+		}
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let values = queryString.parse(nextProps.location.search);
+		return {
+			...prevState,
+			...{
+				addType: values.addType ? values.addType: "subject",
+			}
 		}
 	}
 
@@ -111,9 +122,9 @@ class ControlPanel extends Component {
 	}
 
 	handleTypeChange = event => {
-		this.setState({
-			addType: event.target.value,
-		})
+		this.props.history.push({
+			search: "addType=" + event.target.value,
+		});
 	}
 
 	render() {
