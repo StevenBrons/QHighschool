@@ -31,7 +31,6 @@ class ControlPanel extends Component {
 		super(props);
 		this.state = {
 			aliasId: null,
-			addType: "group",
 			subject: initialValues.subject,
 			course: initialValues.course,
 			group: initialValues.group,
@@ -142,8 +141,6 @@ class ControlPanel extends Component {
 								<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} validate={{maxLength:50}} />
 								<br/>
 								<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => {this.handleChange(event, "subject")}} editable={true}  validate={{maxLength:440}} layout={{area:true}} />
-								<br/>
-								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("subject")}}> Voeg toe	</Button>
 							</div>
 				break;
 			case "course":
@@ -151,8 +148,6 @@ class ControlPanel extends Component {
 							<Field name="name" label={"Naam"} value={course.name} onChange={(event) => {this.handleChange(event, "course")}} editable={true} validate={{maxLength:50}} style={{flex:"1"}}/>
               				<br/>
 							<Field value={course.subjectId} name="subjectId" label="Vak" onChange={(event) => {this.handleChange(event, "course")}} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{minWidth:"200px"}} />
-              				<br/>
-							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("course")}}> Voeg toe	</Button>
 						</div>
 				break;
 			default: //group
@@ -161,11 +156,8 @@ class ControlPanel extends Component {
               				<br/>
 							<SelectUser name="teacher" value={group.teacherId} onChange={(userId) => {let event= {target: {value: userId}, name:"teacherId"}; this.handleChange(event, "group")}} />
 							{/* for the SelectUsers's onChange we fake an 'event' because SelectUser is special */}
-              				<br/>
-							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("group")}}> Voeg toe	</Button>
 						</div>
-		}
-		
+		} 
 		return (
 			<Page>
 				<EnsureSecureLogin>
@@ -191,6 +183,7 @@ class ControlPanel extends Component {
 						<Field value={addType} name="addType" editable={true} onChange={this.handleTypeChange} options={[{value:"course", label:"Module"},{value:"subject",label:"Vak"},{value:"group",label:"Groep"}]} style={{minWidth:"200px" , maxWidth:"400px", type:"title" }} />
 					</div>
 					{addView}
+					<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add(addType)}}> Voeg toe	</Button>
 				</EnsureSecureLogin>
 			</Page>
 		);
