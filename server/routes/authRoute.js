@@ -5,8 +5,8 @@ const secureLogin = require("../lib/secureLogin");
 const sessionDb = require("../database/SessionDB");
 
 router.get('/logout', async (req, res) => {
-	req.logout();
 	await sessionDb.destroySession(req.user.email);
+	req.logout();
 	res.send({
 		success: true,
 		message: "You logged out",

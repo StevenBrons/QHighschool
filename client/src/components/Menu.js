@@ -15,9 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { User } from '../lib/Data';
 import Typography from '@material-ui/core/Typography';
 import theme from '../lib/MuiTheme';
+import $ from "jquery";
 
 class Menu extends Component {
 
@@ -44,13 +44,21 @@ class Menu extends Component {
 		}
 	}
 
+	logout() {
+		return $.ajax({
+			url: "/auth/logout",
+			type: "get",
+			dataType: "json",
+		}).then(() => {
+			document.location.reload();
+		});
+	}
+
 	onClick(page) {
 		if (page === "profiel")
 			this.props.history.push("/gebruiker/" + this.props.userId);
 		else if (page === "loguit") {
-			User.logout().then(() => {
-				document.location.reload();
-			});
+			this.logout();
 		}
 		else
 			this.props.history.push("/" + page);
@@ -204,6 +212,5 @@ function mapStateToProps(state) {
 	};
 }
 
-
-export default withRouter(connect(mapStateToProps)(Menu));
+export default withRouter(connect(mapStateToProps, null)(Menu));
 

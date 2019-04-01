@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -8,7 +8,7 @@ import { toggleMenu } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-class Login extends Component{
+class Login extends Component {
 
 	constructor(props) {
 		super(props);
@@ -99,12 +99,16 @@ class Login extends Component{
 	}
 
 	login() {
-		document.location.href = "/auth/login"
+		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+			document.location.href = "http://localhost:26194/auth/login"
+		} else {
+			document.location.href = "/auth/login"
+		}
 	}
 
 	generateColoredEmail(schoolShort, studentNumber, school) {
 		return (
-			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace"}}>
+			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace" }}>
 				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
 					{schoolShort}
 				</span>
@@ -138,7 +142,7 @@ class Login extends Component{
 					<Typography gutterBottom variant="headline" color="primary">
 						Log in
 					</Typography>
-					<Typography variant="display">
+					<Typography variant="subheading">
 						Gebruik je school-email om in te loggen:
 					</Typography>
 					<br />
