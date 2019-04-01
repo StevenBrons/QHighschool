@@ -122,37 +122,36 @@ class ControlPanel extends Component {
 		const group = this.state.group;
 		const addType = this.state.addType;
 		const subjects = this.props.subjects || {};
-		const courses = this.props.groups || {}; // DIT MOET this.props.courses worden
+		let courses = {}; 
+		map(this.props.groups, (group) => { courses[group.courseId]=group.courseName }); //map groups to unique courses
 		let addView;
 		switch (addType) {
 			case "subject":
 				addView = <div>
-								<div style={{display:"flex"}}>
-										<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} validate={{maxLength:50}} />
-										<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} style={{flex:"5"}} validate={{maxLength:440}} />
-										<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("subject")}}>
-											Voeg toe	
-										</Button>
-								</div>
+								<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => {this.handleChange(event, "subject")}} editable={true} validate={{maxLength:50}} />
+								<br/>
+								<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => {this.handleChange(event, "subject")}} editable={true}  validate={{maxLength:440}} layout={{area:true}} />
+								<br/>
+								<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("subject")}}> Voeg toe	</Button>
 							</div>
 				break;
 			case "course":
-				addView = <div>
-							<Field name="name" label={"Naam"} value={course.name} onChange={(event) => {this.handleChange(event, "course")}} editable={true} validate={{maxLength:50}} />
+				addView = <div >
+							<Field name="name" label={"Naam"} value={course.name} onChange={(event) => {this.handleChange(event, "course")}} editable={true} validate={{maxLength:50}} style={{flex:"1"}}/>
+              				<br/>
 							<Field value={course.subjectId} name="subjectId" label="Vak" onChange={(event) => {this.handleChange(event, "course")}} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{minWidth:"200px"}} />
-							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("course")}}>
-								Voeg toe	
-							</Button>
+              				<br/>
+							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("course")}}> Voeg toe	</Button>
 						</div>
 				break;
 			default: //group
 				addView = <div>
-							<Field value={group.courseId} name="courseId" label="Module" onChange={(event) => {this.handleChange(event, "group")}} editable={true} options={map(courses, (course) => { return { value: course.courseId, label: course.courseName } })} style={{minWidth:"200px"}} />
+							<Field value={group.courseId} name="courseId" label="Module" onChange={(event) => {this.handleChange(event, "group")}} editable={true} options={Object.keys(courses).map((key) => {return {value:key, label:courses[key] }})} style={{minWidth:"200px"}} />
+              				<br/>
 							<SelectUser name="teacher" value={group.teacherId} onChange={(userId) => {let event= {target: {value: userId}, name:"teacherId"}; this.handleChange(event, "group")}} />
 							{/* for the SelectUsers's onChange we fake an 'event' because SelectUser is special */}
-							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("group")}}>
-								Voeg toe	
-							</Button>
+              				<br/>
+							<Button variant="contained" color="primary" style={{height:"37px", margin:"12px"}} onClick={() => {this.add("group")}}> Voeg toe	</Button>
 						</div>
 		}
 		
@@ -174,10 +173,10 @@ class ControlPanel extends Component {
 					</div>
 					<Divider/>
 					<div >
-						<Typography variant="headline" color="primary" style={{margin:"12px", float:"left"}}>
-							Nieuw:
+						<Typography variant="title" color="primary" style={{margin:"18px 12px", float:"left"}}>
+							Nieuw(e):
 						</Typography>
-						<Field value={addType} name="addType" color="inherit" editable={true} onChange={this.handleTypeChange} options={[{value:"course", label:"Module"},{value:"subject",label:"Vak"},{value:"group",label:"Groep"}]} style={{minWidth:"200px" , maxWidth:"400px"}} />
+						<Field value={addType} name="addType" editable={true} onChange={this.handleTypeChange} options={[{value:"course", label:"Module"},{value:"subject",label:"Vak"},{value:"group",label:"Groep"}]} style={{minWidth:"200px" , maxWidth:"400px", type:"title" }} />
 					</div>
 					{addView}
 				</EnsureSecureLogin>
