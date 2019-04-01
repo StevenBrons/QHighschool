@@ -245,6 +245,22 @@ class GroupDB {
 		}
 	}
 
+	async addGroup({ day, courseId, enrollableFor, period, schoolYear, mainTeacherId }) {
+		const group = await Group.create({
+			day,
+			courseId,
+			enrollableFor,
+			period,
+			schoolYear,
+		});
+		await functionDb.addLessons(group.id, period, day);
+		await Participant.create({
+			participatingRole: "teacher",
+			courseGroupId: group.id,
+			userId: mainTeacherId,
+		});
+	}
+
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {
 		return Evaluation.create({
 			userId,
