@@ -58,7 +58,7 @@ export function getSubjects() {
 					type: "CHANGE_SUBJECTS",
 					subjects,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -79,7 +79,7 @@ export function getGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -103,7 +103,7 @@ export function getGroup(groupId) {
 					type: "CHANGE_GROUPS",
 					groups: { [groupId]: group }
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
