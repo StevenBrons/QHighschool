@@ -198,7 +198,7 @@ class CourseSelect extends Component {
 function mapStateToProps(state) {
 	return {
 		role: state.role,
-		currentPeriod: state.currentPeriod,
+		currentPeriod: 4,
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
 		subjects: state.subjects,

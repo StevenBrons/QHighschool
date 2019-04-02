@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Paper from '@material-ui/core/Paper';
 import { connect } from "react-redux";
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
+import { Tooltip, TableSortLabel, Typography,Paper } from '@material-ui/core';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
@@ -111,7 +111,16 @@ class EvaluationTab2 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			sortValue: "",
+			sortDirection: "",
 		}
+	}
+
+	onSortChange = (value) => {
+		this.setState({
+			sortValue: value,
+			sortDirection: this.state.sortDirection === "desc" && this.state.sortValue === value ? "asc" : "desc"
+		});
 	}
 
 	handleEvaluationChange(event) {
@@ -167,7 +176,32 @@ class EvaluationTab2 extends Component {
 		/>
 	}
 
+	sortEvaluations = () => {
+		let evaluations = this.props.evaluations;
+		const sortValue = this.state.sortValue;
+		const users = this.props.users;
+		let sortDirection = this.state.sortDirection === "asc" ? "asc" : "desc";
+		if (sortValue === "name") {
+			evaluations.sort((a, b) => {
+				a = (users[a["userId"]]["displayName"]).toLowerCase();
+				b = (users[b["userId"]]["displayName"]).toLowerCase();
+				let cmp = (b == null) - (a == null) || +(a > b) || -(a < b);
+				return sortDirection === "asc" ? cmp : -cmp;
+			})
+		} else if (sortValue === "evaluations") {
+			evaluations.sort((a, b) => {
+				a = a["assesment"];
+				b = b["assesment"];
+				let cmp = (b === null) - (a == null) || +(a > b) || -(a < b);
+				return sortDirection === "asc" ? cmp : -cmp;
+			})
+		}
+		return evaluations;
+	}
+
 	render() {
+		let sortValue = this.props.sortValue;
+		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
 		const style = {
 			marginTop: "10px",
 			alignItems: "center",
@@ -179,8 +213,7 @@ class EvaluationTab2 extends Component {
 		if (evaluations.length === 0) {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
-
-		const evComps = evaluations
+		const evComps = this.sortEvaluations()
 			.map(evaluation => {
 				return (
 					<Paper style={style} key={evaluation.userId} component="tr">
@@ -196,11 +229,30 @@ class EvaluationTab2 extends Component {
 				<table style={{ width: "100%" }}>
 					<tbody>
 						<Paper style={{ ...style, backgroundColor: "#e0e0e0" }} component="tr">
-							<td>
-								<Field
-									style={{ type: "headline", margin: "normal" }}
-									value={"Beoordelingen"}
-								/>
+							<td style={{ paddingLeft: "15px" }}>
+								<Typography type="title" color="primary" style={{ padding: "5px 0" }} >
+									<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+										<TableSortLabel
+											active={sortValue === "evaluations"}
+											onClick={() => this.onSortChange("evaluations")}
+											direction={sortDirection}
+											style={{ color: "inherit", fontSize: "1.5rem", }}
+										>
+											Beoordelingen
+									</TableSortLabel>
+									</Tooltip>
+								</Typography>
+								<div>
+									<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
+										<TableSortLabel
+											active={sortValue === "name"}
+											onClick={() => this.onSortChange("name")}
+											direction={sortDirection}
+										>
+											Naam
+										</TableSortLabel>
+									</Tooltip>
+								</div>
 							</td>
 							<td style={{ flex: "5" }} />
 							<td>

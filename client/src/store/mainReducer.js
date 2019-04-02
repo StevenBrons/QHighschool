@@ -52,7 +52,7 @@ function mainReducer(state = DEFAULT_STATE, action) {
 				return { ...state, showMenu: !state.showMenu };
 			}
 		case "HAS_FETCHED":
-			return { ...state, hasFetched: [...state.hasFetched, action.call] };
+			return { ...state, hasFetched: [...state.hasFetched, { call: action.call, method: action.method, data: action.data }] };
 		case "CHANGE_ENROLLABLE_GROUPS":
 			return { ...state, enrollableGroups: action.enrollableGroups };
 		case "CHANGE_SUBJECTS":

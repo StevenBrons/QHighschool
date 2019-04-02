@@ -193,7 +193,7 @@ class FunctionDB {
 			include: [{
 				raw: true,
 				model: Course,
-				attributes: ["id", "name"],
+				attributes: [["id", "courseId"], ["name", "courseName"]],
 				include: {
 					model: Group,
 					attributes: ["id"],
@@ -216,16 +216,18 @@ class FunctionDB {
 						"explanation": "",
 						"userId": userId,
 						"groupId": groupId,
+						"courseName": "",
+						"displayName": "",
 						"updatedAt": "",
 					}
 				}
 			}
 			let out = {
 				dataValues: {
-					...ev.dataValues,
-					courseName: ev.course.name,
+					...ev.course.dataValues,
 					groupId: groupId,
-					displayName: ev.user.displayName,
+					...ev.user.dataValues,
+					...ev.dataValues,
 				}
 			};
 			delete out.dataValues.course;
@@ -254,7 +256,7 @@ class FunctionDB {
 		return Enrollment.findAll({
 			include: [{
 				model: Group,
-				attributes: ["id"],
+				attributes: ["id", "period"],
 				include: [{
 					model: Course,
 					attributes: ["name"],
@@ -268,6 +270,7 @@ class FunctionDB {
 			return {
 				dataValues: {
 					...e.user.dataValues,
+					period: e.course_group.period,
 					courseName: e.course_group.course.name,
 					courseGroupId: e.course_group.id,
 					id: e.id,

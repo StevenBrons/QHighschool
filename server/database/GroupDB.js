@@ -124,7 +124,9 @@ class GroupDB {
 			},
 			include: {
 				model: User,
-				attributes: teacher ? ["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level"] : undefined,
+				attributes: teacher ?
+					["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level", "preferedEmail", "phoneNumber", "email"] :
+					["id", "role", "displayName", "firstName", "lastName","level","profile","year"],
 				order: [["displayName", "DESC"]]
 			},
 		}).then(rows => rows.map(row => row.user));
@@ -241,6 +243,22 @@ class GroupDB {
 		} else {
 			throw new Error("No presence data available");
 		}
+	}
+
+	async addGroup({ day, courseId, enrollableFor, period, schoolYear, mainTeacherId }) {
+		const group = await Group.create({
+			day,
+			courseId,
+			enrollableFor,
+			period,
+			schoolYear,
+		});
+		await functionDb.addLessons(group.id, period, day);
+		await Participant.create({
+			participatingRole: "teacher",
+			courseGroupId: group.id,
+			userId: mainTeacherId,
+		});
 	}
 
 	async setEvaluation({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) {

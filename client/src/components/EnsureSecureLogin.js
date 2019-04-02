@@ -9,11 +9,15 @@ class EnsureSecureLogin extends Component {
 
 	render() {
 		if (!(this.props.active === false) && this.props.secureLogin == null) {
-			return <Paper style={{ padding: "20px",marginTop:"25px" }}>
-				<Field value="Log opnieuw in om de beoordelingen te bewerken" layout={{ area: true }} />
+			return <Paper style={{ padding: "20px", marginTop: "25px" }}>
+				<Field value="Log opnieuw in om toegang te krijgen" layout={{ area: true }} />
 				<Button color="primary" variant="contained" onClick={() => {
 					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-					document.location.href = "/auth/login?secure=true";
+					if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+						document.location.href = "http://localhost:26194/auth/login?secure=true";
+					} else {
+						document.location.href = "/auth/login?secure=true";
+					}
 				}}>
 					Inloggen
 				</Button>
