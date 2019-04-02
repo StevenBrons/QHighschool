@@ -29,31 +29,6 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 		call: endpoint,
 		method: method,
 		data: data,
-
-	}
-	for (let i = 0; i < getState().hasFetched.length; i++) {
-		const o = getState().hasFetched[i];
-		if (o.data === f.data && o.call === f.call && o.method === f.method) {
-			return Promise.reject(new Error("Duplicate api call"));
-		}
-	};
-	dispatch({
-		...f,
-		type: "HAS_FETCHED",
-	});
-	return $.ajax({
-		url: "/api/" + endpoint,
-		type: method,
-		data: data,
-		dataType: "json",
-	}).then((list) => (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list)
-		.catch(apiErrorHandler(dispatch));
-}
-export async function fetchData(endpoint, method, data, dispatch, getState, forceArray) {
-	const f = {
-		call: endpoint,
-		method: method,
-		data: data,
 	}
 	for (let i = 0; i < getState().hasFetched.length; i++) {
 		const o = getState().hasFetched[i];
