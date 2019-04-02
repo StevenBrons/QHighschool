@@ -17,7 +17,7 @@ import $ from "jquery";
 const splitValues = {
 	users: "role",
 	evaluations: "groupId",
-	enrolments: "period",
+	enrollments: "period",
 }
 
 class DataPage extends Component {
@@ -61,7 +61,9 @@ class DataPage extends Component {
 
 		table = [table[0]].concat(table.slice(1, table.length).sort((a, b) => {
 			//Only sort the slice 1-table.length because the header has to stick
-			let cmp = a[column] > b[column] ? 1 : (a[column] < b[column] ? -1 : 0);
+			a = a[column];
+			b = b[column];
+			const cmp = (b == null) - (a == null) || +(a > b) || -(a < b);
 			return order === "asc" ? cmp : -cmp;
 		}));
 
@@ -105,7 +107,6 @@ class DataPage extends Component {
 	}
 
 	fetchData = (table) => {
-		console.log(table);
 		return $.ajax({
 			url: "api/function/data",
 			type: "post",
