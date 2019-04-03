@@ -30,8 +30,6 @@ require('./dec/LoggedInDec');
 require('./lib/passportSetup');
 require('./lib/taxi');
 
-require('./office/syncSetup');
-
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));

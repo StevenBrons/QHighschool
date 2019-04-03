@@ -12,18 +12,10 @@ const officeUser = require("../office/officeUser");
 
 class FunctionDB {
 
-	async createUser(profile) {
+	async createUser(accessToken) {
 
-		let user = {
-			email: profile.upn,
-			firstName: profile.name.givenName,
-			lastName: profile.name.familyName,
-			displayName: profile.displayName,
-			school: null,
-			role: "student",
-			createIp: profile._json.ipaddr,
-			preferedEmail: profile.upn,
-		}
+		const user = await officeUser.getUserDetails(accessToken);
+
 		if (/beekdallyceum\.nl$/g.test(user.email)) { user.school = "Beekdal" };
 		if (/candea\.nl$/g.test(user.email)) { user.school = "Candea College" };
 		if (/quadraam\.nl$/g.test(user.email)) { user.school = "Centraal Bureau" };
@@ -58,6 +50,7 @@ class FunctionDB {
 			!(/ll\.symbion-vo\.nl$/g.test(user.email)) &&
 			!(/ll\.vmbo-venster\.nl$/g.test(user.email)) &&
 			!(/ll\.hetwesteraam\.nl$/g.test(user.email))
+			&& user.jobTitle !== "Leerling"
 		) {
 			user.role = "teacher";
 		}
