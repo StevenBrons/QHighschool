@@ -36,6 +36,7 @@ router.patch("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res) {
+	if (!secureLogin.isValidToken(req, res)) return;
 	if (req.user.isAdmin()) {
 		groupDb.addGroup(req.body)
 			.then(handleSuccess(res))
@@ -160,9 +161,10 @@ async function setEvaluation(ev, req) {
 }
 
 router.patch("/evaluations", (req, res) => {
+	if (!secureLogin.isValidToken(req, res)) return;
+
 	const evaluations = JSON.parse(req.body.evaluations);
-	if (secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress) &&
-		req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+	if (req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
 			.then(handleSuccess(res))
 			.catch(handleError(res));

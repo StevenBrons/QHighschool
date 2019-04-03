@@ -6,11 +6,13 @@ class CourseDB {
 
 	async getCourses() {
 		return Course.findAll({
-			include: [{ model: Subject, attributes: ["name"] }]
+			include: [{ model: Subject, attributes: ["name"] }],
+			raw: true,
 		}).then(courses => courses.map((course) => {
 			return {
 				...course,
-				subjectName: course.subject.name,
+				subjectName: course["subject.name"],
+				"subject.name": undefined,
 			};
 		}));
 	}
@@ -52,9 +54,6 @@ class CourseDB {
 		return Course.create({
 			subjectId: data.subjectId,
 			name: data.name,
-			description: data.description,
-			remarks: data.remarks,
-			studyTime: data.studyTime
 		});
 	}
 

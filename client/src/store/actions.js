@@ -353,7 +353,7 @@ export function getAllUsers() {
 					type: "CHANGE_USERS",
 					users,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -426,6 +426,25 @@ export function getGroupEvaluations(groupId) {
 		});
 	}
 }
+
+export function addSubject(name, description) {
+	return (dispatch, getState) => {
+		return fetchData("subject", "put", { name, description, secureLogin: getState().secureLogin }, dispatch, getState);
+	}
+}
+
+export function addCourse(name, subjectId) {
+	return (dispatch, getState) => {
+		return fetchData("course", "put", { name, subjectId, secureLogin: getState().secureLogin }, dispatch, getState);
+	}
+}
+
+export function addGroup(courseId, userId) {
+	return (dispatch, getState) => {
+		return fetchData("group", "put", { courseId, userId, secureLogin: getState().secureLogin }, dispatch, getState);
+	}
+}
+
 
 export function setCookie(cname, cvalue, exhours) {
 	var d = new Date();
