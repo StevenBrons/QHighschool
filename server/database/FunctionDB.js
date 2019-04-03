@@ -8,6 +8,7 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
+const officeUser = require("../office/officeUser");
 
 class FunctionDB {
 
@@ -23,7 +24,6 @@ class FunctionDB {
 			createIp: profile._json.ipaddr,
 			preferedEmail: profile.upn,
 		}
-
 		if (/beekdallyceum\.nl$/g.test(user.email)) { user.school = "Beekdal" };
 		if (/candea\.nl$/g.test(user.email)) { user.school = "Candea College" };
 		if (/quadraam\.nl$/g.test(user.email)) { user.school = "Centraal Bureau" };
@@ -40,7 +40,7 @@ class FunctionDB {
 		if (/hetwesteraam\.nl$/g.test(user.email)) { user.school = "Het Westeraam" };
 
 		if (user.school == null) {
-			throw new Error("WRONG EMAIL");
+			throw new Error("WRONG EMAIL " + user.email);
 		}
 
 		if (

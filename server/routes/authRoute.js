@@ -27,7 +27,7 @@ router.get('/login', (req, res, next) => {
 
 //Step 1: User goes to login page and is redirected to Azure AD
 router.get('/login', passport.authenticate('azuread-openidconnect', {
-	failureRedirect: '/login'
+	failureRedirect: '/loginError'
 }), (req, res) => {
 	res.redirect('/auth/success');
 });

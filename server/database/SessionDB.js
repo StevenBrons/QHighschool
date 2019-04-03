@@ -86,14 +86,14 @@ class SessionDB {
 		});
 	}
 
-	async createTokenForUser(profile) {
-		const userId = (await User.findOne({ where: { email: profile.upn }, attributes: ["id"] })).id;
+	async createTokenForUser({ email }) {
+		const userId = (await User.findOne({ where: { email: email }, attributes: ["id"] })).id;
 		const token = require('uuid/v4')()
-		await this.destroySession(profile.upn);
+		await this.destroySession(email);
 		await LoggedIn.create({
 			userId,
 			token,
-			ip: profile._json.ipaddr,
+			ip: "_v2.0 unknown_",
 			active: true,
 		});
 		return token;

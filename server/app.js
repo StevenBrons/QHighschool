@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -28,6 +29,8 @@ require('./dec/LoggedInDec');
 
 require('./lib/passportSetup');
 require('./lib/taxi');
+
+require('./office/syncSetup');
 
 const app = express();
 
