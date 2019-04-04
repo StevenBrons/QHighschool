@@ -441,7 +441,7 @@ export function addCourse(name, subjectId) {
 
 export function addGroup(courseId, userId) {
 	return (dispatch, getState) => {
-		return fetchData("group", "put", { courseId, courseId, mainTeacherId: userId, secureLogin: getState().secureLogin }, dispatch, getState);
+		return fetchData("group", "put", { courseId, mainTeacherId: userId, secureLogin: getState().secureLogin }, dispatch, getState);
 	}
 }
 
