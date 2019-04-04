@@ -27,6 +27,7 @@ module.exports.schedule = [
 	{ weekNumber: 40, period: 1, numberInBlock: 6, year: 2018, },
 	{ weekNumber: 41, period: 1, numberInBlock: 7, year: 2018, },
 	{ weekNumber: 43, period: 1, numberInBlock: 8, year: 2018, },
+	{ weekNumber: 44, period: 1, numberInBlock: 9, year: 2018, },
 	//block 2
 	{ weekNumber: 45, period: 2, numberInBlock: 1, year: 2018, },
 	{ weekNumber: 46, period: 2, numberInBlock: 2, year: 2018, },
@@ -36,6 +37,7 @@ module.exports.schedule = [
 	{ weekNumber: 50, period: 2, numberInBlock: 6, year: 2018, },
 	{ weekNumber: 51, period: 2, numberInBlock: 7, year: 2018, },
 	{ weekNumber: 2, period: 2, numberInBlock: 8, year: 2019, },
+	{ weekNumber: 3, period: 2, numberInBlock: 9, year: 2019, },
 	//block 3
 	{ weekNumber: 4, period: 3, numberInBlock: 1, year: 2019, },
 	{ weekNumber: 5, period: 3, numberInBlock: 2, year: 2019, },
@@ -45,6 +47,7 @@ module.exports.schedule = [
 	{ weekNumber: 9, period: 3, numberInBlock: 6, year: 2019, },
 	{ weekNumber: 11, period: 3, numberInBlock: 7, year: 2019, },
 	{ weekNumber: 12, period: 3, numberInBlock: 8, year: 2019, },
+	{ weekNumber: 13, period: 3, numberInBlock: 9, year: 2019, },
 	//block 4
 	{ weekNumber: 14, period: 4, numberInBlock: 1, year: 2019, },
 	{ weekNumber: 15, period: 4, numberInBlock: 2, year: 2019, },
@@ -54,4 +57,5 @@ module.exports.schedule = [
 	{ weekNumber: 21, period: 4, numberInBlock: 6, year: 2019, },
 	{ weekNumber: 22, period: 4, numberInBlock: 7, year: 2019, },
 	{ weekNumber: 23, period: 4, numberInBlock: 8, year: 2019, },
+	{ weekNumber: 24, period: 4, numberInBlock: 9, year: 2019, },
 ];
