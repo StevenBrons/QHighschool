@@ -137,7 +137,7 @@ class FunctionDB {
 
 	async updateLessonDates(groupId, period, day) {
 		const schedule = require("../lib/schedule");
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < 9; i++) {
 			const date = schedule.getLessonDate(period, i + 1, day);
 			await Lesson.update({ date }, {
 				where: {
@@ -150,7 +150,7 @@ class FunctionDB {
 
 	async addLessons(groupId, period, day) {
 		const schedule = require("../lib/schedule");
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < 9; i++) {
 			await Lesson.create({
 				courseGroupId: groupId,
 				date: schedule.getLessonDate(period, i + 1, day),
