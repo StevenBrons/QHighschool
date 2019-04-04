@@ -245,14 +245,14 @@ class GroupDB {
 		}
 	}
 
-	async addGroup({ courseId, period, mainTeacherId }) {
+	async addGroup({ courseId, mainTeacherId }) {
 		const group = await Group.create({
 			day: "maandag",
 			courseId,
-			period: 4,
+			period: 1,
 			schoolYear: "2018/2019",
 		});
-		await functionDb.addLessons(group.id, period, "maandag");
+		await functionDb.addLessons(group.id, 1, "maandag");
 		await Participant.create({
 			participatingRole: "teacher",
 			courseGroupId: group.id,
