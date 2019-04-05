@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Clear from '@material-ui/icons/Clear';
 import { connect } from 'react-redux';
-import { toggleEnrollment, getEnrollableGroups, getEnrolLments, addNotification } from '../../store/actions';
+import { toggleEnrollment, getEnrollableGroups, getEnrolLments } from '../../store/actions';
 import Progress from '../../components/Progress';
 import EnrollmentPopup from './EnrollmentPopup';
 
@@ -22,34 +22,14 @@ class ChooseButton extends Component {
 	}
 
 	handlePopup(doEnroll) {
-		this.props.addNotification({
-			priority:"high",
-			type:"bar",
-			message:"oeps",
-			scope:"aanbod",
-		})
-		this.props.addNotification(
-			{
-				priority:"medium",
-				type:"bar",
-				message:"succesvol toegevoegd!" + Math.random(),
-				scope: "/aanbod",
-			}
-		)
-		this.props.addNotification({
-			priority:"low",
-			type:"bar",
-			message:"oeps",
-			scope:"aanbod",
-		})
-		//if (doEnroll) {
-			//this.props.toggleEnrollment(this.props.group);
-		//}
-		//if (!this.preventClose) {
-			//this.setState({
-				//dialogOpen: !this.state.dialogOpen,
-			//});
-		//}
+		if (doEnroll) {
+			this.props.toggleEnrollment(this.props.group);
+		}
+		if (!this.preventClose) {
+			this.setState({
+				dialogOpen: !this.state.dialogOpen,
+			});
+		}
 	}
 
 	render() {
@@ -135,7 +115,6 @@ function mapDispatchToProps(dispatch) {
 		toggleEnrollment: (group) => dispatch(toggleEnrollment(group)),
 		getEnrollableGroups: () => dispatch(getEnrollableGroups()),
 		getEnrolLments: () => dispatch(getEnrolLments()),
-		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 

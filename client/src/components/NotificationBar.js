@@ -36,11 +36,11 @@ class NotificationBar extends Component {
 				  horizontal: "right"
 				}}
 				open={true}
-				style = {{marginBottom:key*65 + "px"}}
+				style = {{position:"relative"}}
 				TransitionProps={{direction:"left"}}
 			  >
 			  <SnackbarContent
-			  	style={{background:color}}
+			  	style={{background:color, marginBottom:"4px"}}
 					message={<span id="message-id">{not.message}</span>}
 					action={[
 				  <IconButton key="close"
@@ -52,7 +52,7 @@ class NotificationBar extends Component {
 			);
 		});
 		return (
-			<div>
+			<div style={{position:"fixed", bottom:0, right:0, width:"100%", zIndex:10}}>
 				{notifications}
 			</div>
 		);

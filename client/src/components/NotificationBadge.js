@@ -52,14 +52,12 @@ class NotificationBadge extends Component {
 
 function mapStateToProps(state, ownProps) {
 	let notifications = state.notifications.filter((not) => {
-        console.log("not: " + not.scope + ", props: "  + ownProps.scope);
 		try {
             return not.type === "badge" && RegExp(not.scope).test(ownProps.scope);
 		} catch (err) {
 			return true;
 		}
     });
-    console.log("good notifications: " + notifications);
 	return {
 		notifications: notifications,
 	};
