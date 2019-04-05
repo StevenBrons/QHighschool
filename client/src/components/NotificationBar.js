@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {IconButton, Snackbar, SnackbarContent} from '@material-ui/core/';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
 
 import theme from '../lib/MuiTheme'
 import { removeNotification } from '../store/actions';
@@ -52,17 +53,17 @@ class NotificationBar extends Component {
 			);
 		});
 		return (
-			<div style={{position:"fixed", bottom:0, right:0, width:"100%", zIndex:10}}>
+			<div style={{position:"fixed", bottom:0, right:0, width:"auto", zIndex:10}}>
 				{notifications}
 			</div>
 		);
 	}
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state,ownProps) {
 	let notifications = state.notifications.filter((not) => {
 		try {
-			return not.type === "bar" && new RegExp(not.scope).test(window.location.pathname);
+			return not.type === "bar" && new RegExp(not.scope).test(ownProps.location.pathname);
 		} catch (err) {
 			return true;
 		}
@@ -79,4 +80,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NotificationBar));
