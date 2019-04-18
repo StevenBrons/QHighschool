@@ -73,6 +73,11 @@ class Portfolio extends Component {
 			this.props.getParticipatingGroups();
 		}
 
+		let options = [ { label: "Alle", value: "all" }, {label: "Blok 1", value: "period1"},  {label: "Blok 2", value: "period2"}, {label: "Blok 3", value: "period3"}, {label: "Blok 4", value: "period4"}];
+		if ( this.props.role === "student" ) 
+			options.splice(1,0,{ label: "Ingeschreven", value: "enrolled" });
+
+
 		switch (this.state.filter) {
 			case "all":
 				if (!this.props.enrollmentIds) {
@@ -86,6 +91,10 @@ class Portfolio extends Component {
 				}
 				groupIds = this.props.enrollmentIds;
 				break;
+			case "period1":
+			case "period2":
+			case "period3":
+			case "period4":
 			default:
 				break;
 		}
@@ -110,12 +119,7 @@ class Portfolio extends Component {
 						label="filter"
 						value={this.state.filter}
 						editable
-						options={[
-							{ label: "Alle", value: "all" },
-							// { label: "Huidige", value: "current" },
-							{ label: "Ingeschreven", value: "enrolled" },
-							// { label: "Voltooid", value: "completed" }
-						]}
+						options={options}
 						onChange={this.handleFilterChange}
 					/>
 				</Toolbar>
@@ -131,6 +135,7 @@ function mapStateToProps(state) {
 		groups: state.groups,
 		participatingGroupIds: state.users[state.userId].participatingGroupIds,
 		enrollmentIds: state.users[state.userId].enrollmentIds,
+		role: state.role,
 	};
 }
 
