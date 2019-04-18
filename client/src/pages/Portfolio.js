@@ -13,6 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import queryString from "query-string";
+import { stat } from 'fs';
 
 class Portfolio extends Component {
 
@@ -31,7 +32,7 @@ class Portfolio extends Component {
 		} else {
 			return {
 				...prevState,
-				filter: "all"
+				filter: nextProps.role === "student" ? "all": "period"+ nextProps.currentPeriod, 
 			};
 		}
 	}
@@ -136,6 +137,7 @@ function mapStateToProps(state) {
 		participatingGroupIds: state.users[state.userId].participatingGroupIds,
 		enrollmentIds: state.users[state.userId].enrollmentIds,
 		role: state.role,
+		currentPeriod: state.currentPeriod,
 	};
 }
 
