@@ -9,11 +9,8 @@ import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments, getParticipatingGroups } from '../store/actions';
 
-import Divider from '@material-ui/core/Divider';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
+import {Typography, Divider, Toolbar, Paper } from '@material-ui/core';
 import queryString from "query-string";
-import { stat } from 'fs';
 
 class Portfolio extends Component {
 
@@ -115,7 +112,9 @@ class Portfolio extends Component {
 				style={{ position: "relative" }}
 			>
 				<Toolbar style={{ display: "flex" }}>
-					<Field value="Portfolio" style={{ type: "headline", flex: 3 }} />
+					<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+							{this.props.role === "student" ? "Portfolio" : "Mijn groepen"} 	
+					</Typography>
 					<Field
 						label="filter"
 						value={this.state.filter}
