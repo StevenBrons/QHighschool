@@ -66,35 +66,43 @@ class Portfolio extends Component {
 	}
 
 	render() {
-		let groupIds = [];
+		let options = [ { label: "Alle", value: "all" }, {label: "Blok 1", value: "period1"},  {label: "Blok 2", value: "period2"}, {label: "Blok 3", value: "period3"}, {label: "Blok 4", value: "period4"}];
+		if ( this.props.role === "student" ) {
+			options.splice(1,0,{ label: "Ingeschreven", value: "enrolled" });
+		}
+
 		if (!this.props.groups) {
 			this.props.getParticipatingGroups();
 		}
-
-		let options = [ { label: "Alle", value: "all" }, {label: "Blok 1", value: "period1"},  {label: "Blok 2", value: "period2"}, {label: "Blok 3", value: "period3"}, {label: "Blok 4", value: "period4"}];
-		if ( this.props.role === "student" ) 
-			options.splice(1,0,{ label: "Ingeschreven", value: "enrolled" });
-
-
-		switch (this.state.filter) {
-			case "all":
-				if (!this.props.enrollmentIds) {
-					this.props.getEnrolLments();
+		if (!this.props.enrollmentIds) {
+			this.props.getEnrolLments();
+		}
+		let groupIds = this.props.enrollmentIds || [];
+		if ( this.state.filter !== "enrolled") {
+			/* If filter is not equal to enrolled, participating ids need to be added. 
+			From participating ids we first remove the ones that are already in enrolled ids. 
+			Finally, after adding participating ids, we filter on period */
+			groupIds = this.props.participatingGroupIds.filter(id => {
+				return  !( groupIds.includes(id) );
+			}).concat(groupIds).filter(
+				id => {
+					if ( !this.props.groups || !this.props.groups[id]) {
+						return false;
+					}
+					switch (this.state.filter) {
+						case "period1":
+							return this.props.groups[id].period === 1;
+						case "period2":
+							return this.props.groups[id].period === 2;
+						case "period3":
+							return this.props.groups[id].period === 3;
+						case "period4":
+							return this.props.groups[id].period === 4;
+						default: // case all 
+							return true;
+					}
 				}
-				groupIds = this.props.participatingGroupIds.concat(this.props.enrollmentIds || []);
-				break;
-			case "enrolled":
-				if (!this.props.enrollmentIds) {
-					this.props.getEnrolLments();
-				}
-				groupIds = this.props.enrollmentIds;
-				break;
-			case "period1":
-			case "period2":
-			case "period3":
-			case "period4":
-			default:
-				break;
+			)
 		}
 
 		let content;
