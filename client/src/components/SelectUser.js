@@ -67,9 +67,9 @@ class Menu extends Component {
 		return (
 			<ClickAwayListener onClickAway={() => this.setState({ open: false })}>
 				<span>
-					<Field label="naam" value={this.state.input} editable onChange={this.handleInput} style={{ margin: "normal" }} />
-					<Popper open={this.state.aliasId == null && this.state.open} anchorEl={this.anchorEl} disablePortal>
-						<Paper>
+					<Field label="Gebruiker" value={this.state.input} editable onChange={this.handleInput} style={{ margin: "normal" }} />
+					<Popper open={this.state.aliasId == null && this.state.open} anchorEl={this.anchorEl} disablePortal >
+						<Paper style={{position:"relative", zIndex:"1"}}>
 							<MenuList>
 								{this.getFittingUsers()}
 							</MenuList>

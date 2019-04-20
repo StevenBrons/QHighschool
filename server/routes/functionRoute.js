@@ -45,7 +45,8 @@ router.post("/taxi", function (req, res, next) {
 });
 
 router.post("/alias", function (req, res, next) {
-	if (req.user.isAdmin() && secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)) {
+	if (!secureLogin.isValidToken(req, res)) return;
+	if (req.user.isAdmin()) {
 		if (Number.isInteger(req.user.id) && req.user.id >= 0) {
 			functionDb.setAlias(req.user.token, req.user.id, req.body.userId)
 				.then(handleSuccess(res));
@@ -61,10 +62,11 @@ async function formatInTable(array) {
 }
 
 router.post("/data", function (req, res, next) {
+	if (!secureLogin.isValidToken(req, res)) return;
+
 	const table = req.body.table; //evaluation,user_data,enrollment
 	const school = req.user.school;
-	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))
-		&& secureLogin.isValidToken(req.body.secureLogin, req.user.id, req.connection.remoteAddress)) {
+	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))) {
 		switch (table) {
 			case "evaluations":
 				functionDb.getEvaluation(school)

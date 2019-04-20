@@ -52,7 +52,7 @@ class GroupDB {
 	async setFullGroup(data) {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
-				return group.updateAttributes(data).then(() => {
+				return group.update(data).then(() => {
 					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
@@ -61,7 +61,7 @@ class GroupDB {
 
 	async setGroup(data) {
 		Group.findByPrimary(data.groupId).then(group => {
-			return group.updateAttributes(data);
+			return group.update(data);
 		});
 	}
 
@@ -126,7 +126,7 @@ class GroupDB {
 				model: User,
 				attributes: teacher ?
 					["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level", "preferedEmail", "phoneNumber", "email"] :
-					["id", "role", "displayName", "firstName", "lastName","level","profile","year"],
+					["id", "role", "displayName", "firstName", "lastName", "level", "profile", "year"],
 				order: [["displayName", "DESC"]]
 			},
 		}).then(rows => rows.map(row => row.user));
@@ -245,15 +245,14 @@ class GroupDB {
 		}
 	}
 
-	async addGroup({ day, courseId, enrollableFor, period, schoolYear, mainTeacherId }) {
+	async addGroup({ courseId, mainTeacherId }) {
 		const group = await Group.create({
-			day,
+			day: "maandag",
 			courseId,
-			enrollableFor,
-			period,
-			schoolYear,
+			period: 1,
+			schoolYear: "2018/2019",
 		});
-		await functionDb.addLessons(group.id, period, day);
+		await functionDb.addLessons(group.id, 1, "maandag");
 		await Participant.create({
 			participatingRole: "teacher",
 			courseGroupId: group.id,

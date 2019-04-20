@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var course = require('../database/CourseDB');
+var secureLogin = require('../lib/secureLogin');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -20,6 +21,7 @@ router.post("/", function (req, res) {
 });
 
 router.put("/", function (req, res) {
+	if (!secureLogin.isValidToken(req,res)) return;
 	if (req.user.isAdmin()) {
 		course.addCourse(req.body)
 			.then(handleSuccess(res))

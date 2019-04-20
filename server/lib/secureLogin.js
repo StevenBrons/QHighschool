@@ -38,11 +38,22 @@ function add(userId, ip) {
 	secureLogins.push(new SecureLogin(userId, ip));
 }
 
-function isValidToken(token, userId, ip) {
+function isValidToken(req, res) {
+	const token = req.body.secureLogin;
+	const userId = req.user.id;
+	const ip = req.connection.remoteAddress;
+
 	const login = secureLogins.find(login => {
 		return login.token === token && login.userId + "" === userId + "";
 	});
-	return login != null && login.isValid(ip);
+	const isValid = login != null && login.isValid(ip);
+	if (!isValid) {
+		res.status(401);
+		res.send({
+			error: "Unauthorized: Invalid secure login",
+		});
+	}
+	return isValid;
 }
 
 function getToken(req) {
