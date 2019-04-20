@@ -91,7 +91,7 @@ export function getGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			}).catch(() => { });
+			}).catch(() => {});
 	}
 }
 
@@ -103,7 +103,7 @@ export function getParticipatingGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -294,7 +294,7 @@ export function getEnrollableGroups() {
 					type: "CHANGE_ENROLLABLE_GROUPS",
 					enrollableGroups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -311,7 +311,7 @@ export function getEnrolLments() {
 					userId: getState().userId,
 					enrollmentIds: Object.keys(enrollments),
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -330,7 +330,7 @@ export function getGroupEnrollments(groupId) {
 					type: "CHANGE_USERS",
 					users: enrollments,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -391,7 +391,7 @@ export function getAllUsers() {
 					type: "CHANGE_USERS",
 					users,
 				});
-			}).catch(() => { });
+			}).catch(() => {});
 	}
 }
 
