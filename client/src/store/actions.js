@@ -4,20 +4,17 @@ import keyBy from "lodash/keyBy"
 import map from "lodash/map"
 
 function apiErrorHandler(dispatch) {
-	return function handleError({ responseJSON }) {
+	return function handleError(error,e2) {
+		const responseJSON = error.responseJSON;
 		dispatch({
 			type: "ADD_NOTIFICATION",
-			notification: {
-				id: Math.random(),
-				priority: "high",
-				type: "bar",
-				message: responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
-			}
-		});
-		dispatch({
-			type: "FATAL_ERROR",
-			error: responseJSON.error,
-			message: responseJSON.message,
+				notification: {
+					id: Math.random(),
+					priority: "high",
+					type: "bar",
+					message: responseJSON && responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
+					scope: ".",
+				}
 		});
 		throw responseJSON;
 	}
@@ -39,6 +36,7 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 		...f,
 		type: "HAS_FETCHED",
 	});
+
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
@@ -57,7 +55,7 @@ export function getSubjects() {
 					type: "CHANGE_SUBJECTS",
 					subjects,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -78,7 +76,7 @@ export function getGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -102,7 +100,7 @@ export function getGroup(groupId) {
 					type: "CHANGE_GROUPS",
 					groups: { [groupId]: group }
 				});
-			});
+			}).catch(() => {});
 	}
 }
 

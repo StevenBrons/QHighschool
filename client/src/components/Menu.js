@@ -10,9 +10,9 @@ import ExitIcon from '@material-ui/icons/ExitToApp';
 import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import BuildIcon from '@material-ui/icons/Build';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+import NotificationBadge from './NotificationBadge';
 
 import Paper from '@material-ui/core/Paper';
-import Badge from '@material-ui/core/Badge';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
@@ -101,22 +101,13 @@ class Menu extends Component {
 		}
 
 		const color = isCurrentPage ? "primary" : "inherit";
-		let icon;
-		if (page.notifications > 0) {
-			icon = (
-				<ListItemIcon>
-					<Badge badgeContent={this.state.notifications} color="secondary">
-						{this.getIcon(page.icon, color)}
-					</Badge>
-				</ListItemIcon>
-			);
-		} else {
-			icon = (
-				<ListItemIcon color={color}>
+		const icon = (
+			<ListItemIcon >
+				<NotificationBadge scope={page.id}>
 					{this.getIcon(page.icon, color)}
-				</ListItemIcon>
-			);
-		}
+				</NotificationBadge>
+			</ListItemIcon>
+		);
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}

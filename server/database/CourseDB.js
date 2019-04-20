@@ -60,7 +60,7 @@ class CourseDB {
 	async updateCourse(data) {
 		return Course.findByPk(data.courseId).then((course) => {
 			if (course) {
-				return course.updateAttributes({
+				return course.update({
 					subjectId: data.subjectId,
 					name: data.name,
 					description: data.description,

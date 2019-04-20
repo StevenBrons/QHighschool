@@ -52,7 +52,7 @@ class GroupDB {
 	async setFullGroup(data) {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
-				return group.updateAttributes(data).then(() => {
+				return group.update(data).then(() => {
 					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
@@ -61,7 +61,7 @@ class GroupDB {
 
 	async setGroup(data) {
 		Group.findByPrimary(data.groupId).then(group => {
-			return group.updateAttributes(data);
+			return group.update(data);
 		});
 	}
 
