@@ -83,7 +83,7 @@ class Portfolio extends Component {
 			From participating ids we first remove the ones that are already in enrolled ids. 
 			Finally, after adding participating ids, we filter on period */
 			groupIds = this.props.participatingGroupIds.filter(id => {
-				return  !( groupIds.includes(id) );
+				return (groupIds.indexOf(id) === -1);
 			}).concat(groupIds).filter(
 				id => {
 					if ( !this.props.groups || !this.props.groups[id]) {
