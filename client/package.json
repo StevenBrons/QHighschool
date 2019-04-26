@@ -6,7 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^1.1.1",
-    "exceljs": "^1.8.0",
+    "exceljs": "^1.9.1",
     "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "npm": "^6.9.0",
