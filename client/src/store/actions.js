@@ -2,22 +2,20 @@ import filter from "lodash/filter"
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
 import map from "lodash/map"
+import Field from "../components/Field"
 
 function apiErrorHandler(dispatch) {
-	return function handleError({ responseJSON }) {
+	return function handleError(error, e2) {
+		const responseJSON = error.responseJSON;
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
 				id: Math.random(),
 				priority: "high",
 				type: "bar",
-				message: responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
+				message: responseJSON && responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
+				scope: ".",
 			}
-		});
-		dispatch({
-			type: "FATAL_ERROR",
-			error: responseJSON.error,
-			message: responseJSON.message,
 		});
 		throw responseJSON;
 	}
@@ -39,12 +37,27 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 		...f,
 		type: "HAS_FETCHED",
 	});
+
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
 		data: data,
 		dataType: "json",
-	}).then((list) => (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list)
+	}).then((list) => {
+		if (method === "put" || method === "patch" || method === "delete") {
+			dispatch({
+				type: "ADD_NOTIFICATION",
+				notification: {
+					id: Math.random(),
+					priority: "low",
+					type: "bar",
+					message: "Opgeslagen",
+					scope: "",
+				}
+			});
+		}
+		return (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list
+	})
 		.catch(apiErrorHandler(dispatch));
 }
 
@@ -57,7 +70,7 @@ export function getSubjects() {
 					type: "CHANGE_SUBJECTS",
 					subjects,
 				});
-			});
+			}).catch(() => { });
 	}
 }
 
@@ -78,7 +91,7 @@ export function getGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -90,7 +103,7 @@ export function getParticipatingGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -102,8 +115,32 @@ export function getGroup(groupId) {
 					type: "CHANGE_GROUPS",
 					groups: { [groupId]: group }
 				});
-			});
+			}).catch(() => { });
 	}
+}
+
+function addMissingInfoNotifications(user, dispatch) {
+	function not(field) {
+		dispatch({
+			type: "ADD_NOTIFICATION",
+			notification: {
+				id: Math.random(),
+				priority: "high",
+				type: "badge",
+				message: "Vul een geldige waarde voor " + field + " in",
+				scope: "profiel",
+			}
+		});
+	}
+	if (!Field.validate(user.year, {
+		type: "integer",
+		min: 1,
+		max: 6,
+	})) { not("Leerjaar") };
+	if (!Field.validate(user.level, { notEmpty: true })) { not("Opleidingsniveau") }
+	if (!Field.validate(user.profile, { notEmpty: true })) { not("Profiel") }
+	if (!Field.validate(user.preferedEmail, { type: "email" })) { not("Voorkeurs email") }
+	if (!Field.validate(user.phoneNumber, { type: "phoneNumber" })) { not("Telefoonnummer") }
 }
 
 export function getSelf() {
@@ -118,6 +155,7 @@ export function getSelf() {
 		dispatch(addNotification(notification));
 		fetchData("user/self", "get", null, dispatch, getState)
 			.then((user) => {
+				addMissingInfoNotifications(user, dispatch);
 				dispatch({
 					type: "SET_SELF",
 					user,
@@ -256,7 +294,7 @@ export function getEnrollableGroups() {
 					type: "CHANGE_ENROLLABLE_GROUPS",
 					enrollableGroups,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -273,7 +311,7 @@ export function getEnrolLments() {
 					userId: getState().userId,
 					enrollmentIds: Object.keys(enrollments),
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -292,7 +330,7 @@ export function getGroupEnrollments(groupId) {
 					type: "CHANGE_USERS",
 					users: enrollments,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -353,7 +391,7 @@ export function getAllUsers() {
 					type: "CHANGE_USERS",
 					users,
 				});
-			});
+			}).catch(() => {});
 	}
 }
 
@@ -426,6 +464,61 @@ export function getGroupEvaluations(groupId) {
 		});
 	}
 }
+
+export function addSubject(name, description) {
+	return (dispatch, getState) => {
+		return fetchData("subject", "put", { name, description, secureLogin: getState().secureLogin }, dispatch, getState)
+			.then(() => {
+				dispatch({
+					type: "ADD_NOTIFICATION",
+					notification: {
+						id: Math.random(),
+						priority: "low",
+						type: "bar",
+						message: "Vak aangemaakt, refresh om te zien",
+						scope: "beheer",
+					}
+				});
+			});
+	}
+}
+
+export function addCourse(name, subjectId) {
+	return (dispatch, getState) => {
+		return fetchData("course", "put", { name, subjectId, secureLogin: getState().secureLogin }, dispatch, getState)
+			.then(() => {
+				dispatch({
+					type: "ADD_NOTIFICATION",
+					notification: {
+						id: Math.random(),
+						priority: "low",
+						type: "bar",
+						message: "Module aangemaakt, refresh om te zien",
+						scope: "beheer",
+					}
+				});
+			});
+	}
+}
+
+export function addGroup(courseId, userId) {
+	return (dispatch, getState) => {
+		return fetchData("group", "put", { courseId, mainTeacherId: userId, secureLogin: getState().secureLogin }, dispatch, getState)
+			.then(() => {
+				dispatch({
+					type: "ADD_NOTIFICATION",
+					notification: {
+						id: Math.random(),
+						priority: "low",
+						type: "bar",
+						message: "Groep aangemaakt, refresh om te zien",
+						scope: "beheer",
+					}
+				});
+			});
+	}
+}
+
 
 export function setCookie(cname, cvalue, exhours) {
 	var d = new Date();

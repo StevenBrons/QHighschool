@@ -107,27 +107,6 @@
             "type": "string"
           },
           {
-            "name": "description",
-            "in": "formData",
-            "description": "The description of the course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "remarks",
-            "in": "formData",
-            "description": "The remarks for course",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "studyTime",
-            "in": "formData",
-            "description": "The studyTime for course",
-            "required": true,
-            "type": "integer"
-          },
-          {
             "name": "subjectId",
             "in": "formData",
             "description": "The subjectId of the subject the course belongs to",
@@ -348,7 +327,7 @@
         "tags": [
           "Group"
         ],
-        "summary": "Change group data",
+        "summary": "Create a new group",
         "operationId": "addGroup",
         "produces": [
           "application/json"
@@ -363,49 +342,6 @@
             "description": "The new courseId",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "day",
-            "in": "formData",
-            "description": "The new day",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "maandag",
-              "dinsdag",
-              "woensdag",
-              "donderdag",
-              "vrijdag",
-              "zaterdag",
-              "zondag"
-            ]
-          },
-          {
-            "name": "schoolYear",
-            "in": "formData",
-            "description": "The new schoolYear",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "2018/2019",
-              "2019/2020",
-              "2020/2021",
-              "2021/2022"
-            ]
-          },
-          {
-            "name": "enrollableFor",
-            "in": "formData",
-            "description": "A comma seperated string of allowed levels/years",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "period",
-            "in": "formData",
-            "description": "The new period",
-            "required": false,
-            "type": "integer"
           },
           {
             "name": "mainTeacherId",
@@ -856,6 +792,40 @@
             "schema": {
               "$ref": "#/definitions/Subject"
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Subject"
+        ],
+        "summary": "Create a new subject",
+        "operationId": "add subject",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the subject",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the subject",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
           }
         }
       }

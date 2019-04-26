@@ -105,7 +105,6 @@ class Field extends React.Component {
 		let menuItems;
 		let endAdornment;
 		let classNames = [];
-
 		if (this.props.style) {
 			switch (this.props.style.type) {
 				case "headline":
