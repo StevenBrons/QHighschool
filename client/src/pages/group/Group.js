@@ -92,6 +92,8 @@ function mapDispatchToProps(dispatch) {
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
 		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
 		getSubjects: () => dispatch(getSubjects()),
+		acceptEnrollment: (userId, groupId) => { console.log("ACCEPT ENROLLMENT OF " + userId + " IN GROUP " + groupId)},
+		addParticipant: (groupId,userId,participatingRole) => { console.log("ADD PARTICIPANT " + userId + " TO GROUP " + groupId + " WITH ROLE " + participatingRole )},
 	};
 }
 
