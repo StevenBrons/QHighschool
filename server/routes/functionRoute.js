@@ -57,13 +57,12 @@ router.post("/alias", function (req, res, next) {
 });
 
 async function formatInTable(array) {
-	const keys = Object.keys(array[0].dataValues);
-	return [keys, ...array.map(obj => keys.map(key => obj.dataValues[key]))]
+	const keys = Object.keys(array[0]);
+	return [keys, ...array.map(obj => keys.map(key => obj[key]))]
 }
 
 router.post("/data", function (req, res, next) {
 	if (!secureLogin.isValidToken(req, res)) return;
-
 	const table = req.body.table; //evaluation,user_data,enrollment
 	const school = req.user.school;
 	if ((req.user.isAdmin() || (req.user.isGradeAdmin() && req.user.school != null))) {

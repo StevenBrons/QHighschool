@@ -8,6 +8,7 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
+const courseDb = require("../database/CourseDB");
 
 class FunctionDB {
 
@@ -185,15 +186,22 @@ class FunctionDB {
 		}));
 	}
 
-	async _findEvaluation(userId, groupId) {
-		return Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "userId", "updatedAt"],
+	async findEvaluation(userId, groupId) {
+		let user = await User.findOne({
+			raw: true,
+			where: {
+				id: userId
+			},
+			attributes: ["id", "displayName", "email"],
+		});
+		let evaluation = await Evaluation.findOne({
+			attributes: ["id", "type", "assesment", "explanation", "courseId", "updatedAt"],
 			order: [["id", "DESC"]],
+			raw: true,
 			where: { userId },
-			include: [{
-				raw: true,
+			include: {
 				model: Course,
-				attributes: [["id", "courseId"], ["name", "courseName"]],
+				attributes: ["id"],
 				include: {
 					model: Group,
 					attributes: ["id"],
@@ -201,44 +209,36 @@ class FunctionDB {
 						id: groupId,
 					}
 				},
-			}, {
-				raw: true,
-				model: User,
-				attributes: ["displayName"],
-			}]
-		}).then(ev => {
-			if (ev == null) {
-				return {
-					dataValues: {
-						"id": -Math.floor(Math.random() * 1000),
-						"type": "",
-						"assesment": "",
-						"explanation": "",
-						"userId": userId,
-						"groupId": groupId,
-						"courseName": "",
-						"displayName": "",
-						"updatedAt": "",
-					}
-				}
 			}
-			let out = {
-				dataValues: {
-					...ev.course.dataValues,
-					groupId: groupId,
-					...ev.user.dataValues,
-					...ev.dataValues,
-				}
-			};
-			delete out.dataValues.course;
-			delete out.dataValues.user;
-			return out;
 		});
+		if (evaluation == null) {
+			return {
+				id: "-",
+				type: "decimal",
+				assesment: "",
+				explanation: "",
+				userId: user.id,
+				courseId: await courseDb.getCourseIdFromGroupId(groupId),
+				updatedAt: "",
+				email: user.email,
+				displayName: user.displayName,
+				groupId,
+			}
+		}
+		evaluation.groupId = groupId;
+		evaluation.email = user.email;
+		evaluation.displayName = user.displayName;
+		evaluation.userId = user.id;
+		evaluation.courseId = evaluation["course.id"];
+		delete evaluation["id"];
+		delete evaluation["course.id"];
+		delete evaluation["course.course_groups.id"];
+		return evaluation;
 	}
 
 	async getEvaluation(school) {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
-		return Participant.findAll({
+		const pts = await Participant.findAll({
 			attributes: ["userId", "courseGroupId"],
 			order: [["courseGroupId", "DESC"]],
 			include: [{
@@ -246,36 +246,43 @@ class FunctionDB {
 				attributes: ["school"],
 				where: where,
 			}],
-		}).then(evs => {
-			return Promise.all(evs.map(e => this._findEvaluation(e.userId, e.courseGroupId)));
 		});
+		let evs = await Promise.all(pts.map(p => this.findEvaluation(p.userId, p.courseGroupId)));
+		return [].concat(evs);
 	}
 
 	async getEnrollment(school) {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return Enrollment.findAll({
+			raw: true,
 			include: [{
 				model: Group,
 				attributes: ["id", "period"],
 				include: [{
 					model: Course,
-					attributes: ["name"],
+					attributes: [["name", "courseName"]],
 				}],
 			}, {
 				model: User,
-				attributes: ["displayName", "school", "year", "level"],
+				attributes: ["email", "displayName", "school", "year", "level"],
 				where: where,
 			}]
 		}).then(enrl => enrl.map(e => {
 			return {
-				dataValues: {
-					...e.user.dataValues,
-					period: e.course_group.period,
-					courseName: e.course_group.course.name,
-					courseGroupId: e.course_group.id,
-					id: e.id,
-					createdAt: e.createdAt,
-				}
+				id: e["id"],
+				email: e["user.email"],
+				courseName: e["course_group.course.courseName"],
+				accepted: e["accepted"],
+				createdAt: e["createdAt"],
+				updatedAt: e["updatedAt"],
+				userId: e["userId"],
+				groupId: e["courseGroupId"],
+				courseId: e["course_group.id"],
+				period: e["course_group.period"],
+				displayName: e["user.displayName"],
+				school: e["user.school"],
+				year: e["user.year"],
+				level: e["user.level"],
 			}
 		}));
 	}
@@ -284,6 +291,7 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
+			raw: true,
 		});
 	}
 

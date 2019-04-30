@@ -187,25 +187,6 @@ class GroupDB {
 		});
 	}
 
-	async _findEvaluation(userId, groupId) {
-		return Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
-			order: [["id", "DESC"]],
-			where: { userId },
-			include: {
-				model: Course,
-				attributes: ["id"],
-				include: {
-					model: Group,
-					attributes: ["id"],
-					where: {
-						id: groupId,
-					}
-				}
-			}
-		});
-	}
-
 	async getEvaluations(groupId) {
 		const participants = await Participant.findAll({
 			attributes: ["userId"],
@@ -218,21 +199,7 @@ class GroupDB {
 		});
 		const evaluations = participants
 			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
-			.map(p => this._findEvaluation(p.userId, groupId)
-				.then(async evaluation => {
-					if (evaluation == null) {
-						return {
-							type: "decimal",
-							assesment: "",
-							courseId: await courseDb.getCourseIdFromGroupId(groupId),
-							explanation: "",
-							userId: p.userId,
-						}
-					}
-					delete evaluation.course;
-					return evaluation;
-				}));
-
+			.map(p => functionDb.findEvaluation(p.userId, groupId));
 		return Promise.all(evaluations);
 	}
 
