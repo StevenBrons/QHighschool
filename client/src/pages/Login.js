@@ -108,7 +108,7 @@ class Login extends Component {
 
 	generateColoredEmail(schoolShort, studentNumber, school) {
 		return (
-			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace" }}>
+			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace", overflow:"scroll" }}>
 				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
 					{schoolShort}
 				</span>
