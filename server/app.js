@@ -29,6 +29,26 @@ require('./dec/LoggedInDec');
 require('./lib/passportSetup');
 require('./lib/taxi');
 
+const formGenerator = require('./course_review/formGenerator');
+formGenerator.generateFormForGroup({
+	id: '49',
+	courseId: 12,
+	day: 'woensdag',
+	period: 1,
+	schoolYear: '2018/2019',
+	enrollableFor: 'HAVO 4, VWO 4',
+	courseName: 'Webdesign',
+	courseDescription: 'Je leert hier een responsive website te ontwikkelen met opmaak van menu, tekst, plaatjes, filmpjes en lay-out van de website. Tevens leer je de basics van Javascript. Je leert ook om je website online te zetten.',
+	remarks: '',
+	studyTime: 24,
+	subjectId: 8,
+	subjectName: 'Informatica',
+	subjectDescription: null,
+	teacherId: 13,
+	teacherName: 'Dort, Carlijn van',
+	evaluation: null
+});
+
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
