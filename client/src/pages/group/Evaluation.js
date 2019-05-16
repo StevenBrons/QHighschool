@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from "react-redux";
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
