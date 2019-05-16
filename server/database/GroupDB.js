@@ -190,7 +190,7 @@ class GroupDB {
 	async getEvaluations(groupId) {
 		const participants = await Participant.findAll({
 			attributes: ["userId"],
-			where: { courseGroupId: groupId },
+			where: { courseGroupId: groupId, participatingRole: "student" },
 			include: {
 				attributes: ["displayName"],
 				model: User,

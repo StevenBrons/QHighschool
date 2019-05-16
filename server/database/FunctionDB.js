@@ -217,7 +217,6 @@ class FunctionDB {
 				type: "decimal",
 				assesment: "",
 				explanation: "",
-				userId: user.id,
 				courseId: await courseDb.getCourseIdFromGroupId(groupId),
 				updatedAt: "",
 				email: user.email,
@@ -225,15 +224,16 @@ class FunctionDB {
 				groupId,
 			}
 		}
-		evaluation.groupId = groupId;
-		evaluation.email = user.email;
-		evaluation.displayName = user.displayName;
-		evaluation.userId = user.id;
-		evaluation.courseId = evaluation["course.id"];
-		delete evaluation["id"];
-		delete evaluation["course.id"];
-		delete evaluation["course.course_groups.id"];
-		return evaluation;
+		return {
+			displayName: user.displayName,
+			email: user.email,
+			assesment: evaluation.assesment,
+			type: evaluation.type,
+			explanation: evaluation.explanation,
+			courseName: evaluation.courseName,
+			groupId: evaluation["course.course_groups.id"],
+			courseId: evaluation.courseId,
+		};
 	}
 
 	async getEvaluation(school) {
@@ -241,6 +241,7 @@ class FunctionDB {
 		const pts = await Participant.findAll({
 			attributes: ["userId", "courseGroupId"],
 			order: [["courseGroupId", "DESC"]],
+			where: { participatingRole: "student" },
 			include: [{
 				model: User,
 				attributes: ["school"],
@@ -269,13 +270,9 @@ class FunctionDB {
 			}]
 		}).then(enrl => enrl.map(e => {
 			return {
-				id: e["id"],
 				email: e["user.email"],
 				courseName: e["course_group.course.courseName"],
 				accepted: e["accepted"],
-				createdAt: e["createdAt"],
-				updatedAt: e["updatedAt"],
-				userId: e["userId"],
 				groupId: e["courseGroupId"],
 				courseId: e["course_group.id"],
 				period: e["course_group.period"],
@@ -291,6 +288,7 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
+			attributes: ["email", "role", "school", "displayName", "year", "level", "preferedEmail", "profile", "phoneNumber"],
 			raw: true,
 		});
 	}
