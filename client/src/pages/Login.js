@@ -132,8 +132,8 @@ class Login extends Component {
 
 	render() {
 		if (this.props.userId != null) {
-			// this.props.history.push("/");
-			// this.props.toggleMenu(true);
+			this.props.history.push("/");
+			this.props.toggleMenu(true);
 		} else {
 			this.props.toggleMenu(false);
 		}
