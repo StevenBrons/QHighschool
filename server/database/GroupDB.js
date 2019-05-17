@@ -8,7 +8,6 @@ const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
-const courseDb = require("../database/CourseDB");
 
 class GroupDB {
 
@@ -239,7 +238,14 @@ class GroupDB {
 		});
 	}
 
+	constructor() {
+		console.log(this);
+	}
+
 }
 
-module.exports = new GroupDB();
+const groupDb = new GroupDB();
+
+module.exports = groupDb;
+functionDb.init(module.exports);
 
