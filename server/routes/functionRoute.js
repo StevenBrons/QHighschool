@@ -3,11 +3,14 @@ var router = express.Router();
 var functionDb = require('../database/FunctionDB');
 var taxi = require('../lib/taxi');
 const handlers = require('./handlers');
+const certificateRoute = require('./certificateRoute');
 const secureLogin = require('../lib/secureLogin');
 const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
 const authError = handlers.authError;
 const handleSuccess = handlers.handleSuccess;
+
+router.use('/certificate', certificateRoute);
 
 router.post("/acceptEnrollements", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
@@ -55,6 +58,7 @@ router.post("/alias", function (req, res, next) {
 		authError(res);
 	}
 });
+
 
 async function formatInTable(array) {
 	const keys = Object.keys(array[0]);
