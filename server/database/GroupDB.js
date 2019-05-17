@@ -52,7 +52,7 @@ class GroupDB {
 	async setFullGroup(data) {
 		return Group.findByPrimary(data.groupId).then(group => {
 			if (group) {
-				return group.updateAttributes(data).then(() => {
+				return group.update(data).then(() => {
 					functionDb.updateLessonDates(data.groupId, data.period, data.day);
 				});
 			}
@@ -61,7 +61,7 @@ class GroupDB {
 
 	async setGroup(data) {
 		Group.findByPrimary(data.groupId).then(group => {
-			return group.updateAttributes(data);
+			return group.update(data);
 		});
 	}
 
@@ -126,7 +126,7 @@ class GroupDB {
 				model: User,
 				attributes: teacher ?
 					["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level", "preferedEmail", "phoneNumber", "email"] :
-					["id", "role", "displayName", "firstName", "lastName","level","profile","year"],
+					["id", "role", "displayName", "firstName", "lastName", "level", "profile", "year"],
 				order: [["displayName", "DESC"]]
 			},
 		}).then(rows => rows.map(row => row.user));
@@ -187,29 +187,10 @@ class GroupDB {
 		});
 	}
 
-	async _findEvaluation(userId, groupId) {
-		return Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "userId", "courseId", "updatedAt"],
-			order: [["id", "DESC"]],
-			where: { userId },
-			include: {
-				model: Course,
-				attributes: ["id"],
-				include: {
-					model: Group,
-					attributes: ["id"],
-					where: {
-						id: groupId,
-					}
-				}
-			}
-		});
-	}
-
 	async getEvaluations(groupId) {
 		const participants = await Participant.findAll({
 			attributes: ["userId"],
-			where: { courseGroupId: groupId },
+			where: { courseGroupId: groupId, participatingRole: "student" },
 			include: {
 				attributes: ["displayName"],
 				model: User,
@@ -218,21 +199,7 @@ class GroupDB {
 		});
 		const evaluations = participants
 			.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
-			.map(p => this._findEvaluation(p.userId, groupId)
-				.then(async evaluation => {
-					if (evaluation == null) {
-						return {
-							type: "decimal",
-							assesment: "",
-							courseId: await courseDb.getCourseIdFromGroupId(groupId),
-							explanation: "",
-							userId: p.userId,
-						}
-					}
-					delete evaluation.course;
-					return evaluation;
-				}));
-
+			.map(p => functionDb.findEvaluation(p.userId, groupId));
 		return Promise.all(evaluations);
 	}
 
@@ -245,15 +212,14 @@ class GroupDB {
 		}
 	}
 
-	async addGroup({ day, courseId, enrollableFor, period, schoolYear, mainTeacherId }) {
+	async addGroup({ courseId, mainTeacherId }) {
 		const group = await Group.create({
-			day,
+			day: "maandag",
 			courseId,
-			enrollableFor,
-			period,
-			schoolYear,
+			period: 1,
+			schoolYear: "2018/2019",
 		});
-		await functionDb.addLessons(group.id, period, day);
+		await functionDb.addLessons(group.id, 1, "maandag");
 		await Participant.create({
 			participatingRole: "teacher",
 			courseGroupId: group.id,

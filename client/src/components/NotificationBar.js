@@ -1,82 +1,75 @@
 import React, { Component } from 'react';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import ErrorIcon from '@material-ui/icons/Error';
+import {IconButton, Snackbar, SnackbarContent} from '@material-ui/core/';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import Paper from '@material-ui/core/Paper';
+import { withRouter } from "react-router";
 
 import theme from '../lib/MuiTheme'
 import { removeNotification } from '../store/actions';
 
 class NotificationBar extends Component {
 
+
+	removeNotification = (key) => {
+		this.props.removeNotification(this.props.notifications[key]);
+	}
+
 	render() {
-		let className = "";
-		if (this.props.showMenu) {
-			className = "menuShown";
-		} else {
-			className = "menuHidden";
-		}
-
-		function checkNotification(not) {
-			try {
-				return not.type === "bar" && new RegExp(not.scope).test(window.location.pathname);
-			} catch (err) {
-				return true;
-			}
-		}
-
-		let notifications = this.props.notifications.filter(checkNotification).map((not) => {
-			let bg;
-			let fg;
+		let notifications = this.props.notifications.map((not,key) => {
+			let color;
 			switch (not.priority) {
-				case "low":
-					bg = theme.palette.background.paper;
-					fg = theme.palette.getContrastText(theme.palette.background.paper);
+				case "high":
+					color = theme.palette.error.main;
 					break;
 				case "medium":
-					bg = theme.palette.secondary.light;
-					fg = theme.palette.getContrastText(theme.palette.error.light);
+					color = "#ff8c00";
 					break;
-				case "high":
+				case "light":
 				default:
-					bg = theme.palette.error.dark;
-					fg = theme.palette.getContrastText(theme.palette.error.dark);
+					color = theme.palette.primary.main;
 					break;
 			}
 			return (
-				<Paper
-					elevation={16}
-					key={not.id}
-				>
-					<Toolbar style={{ backgroundColor: bg, height: "100%" }}>
-						<ErrorIcon style={{ color: fg, marginRight: "25px" }} />
-						<Typography variant="title" style={{ display: "inline-block", color: fg }}>
-							{not.message}
-						</Typography>
-						<Typography variant="title" style={{ display: "inline-block", color: fg }}>
-						</Typography>
-						<IconButton color="inherit" aria-label="Menu" onClick={() => this.props.removeNotification(not)} style={{ right: 25, position: "absolute" }}>
-							<CloseIcon style={{ color: fg }} />
-						</IconButton>
-					</Toolbar>
-				</Paper>
+				<Snackbar
+				key={key}
+				anchorOrigin={{
+				  vertical: "bottom",
+				  horizontal: "right"
+				}}
+				open={true}
+				style = {{position:"relative"}}
+				TransitionProps={{direction:"left"}}
+			  >
+			  <SnackbarContent
+			  	style={{background:color, marginBottom:"4px"}}
+					message={<span id="message-id">{not.message}</span>}
+					action={[
+				  <IconButton key="close"
+						onClick={() => {this.removeNotification(key)}} >
+						<CloseIcon />
+				  </IconButton>
+				]} />
+			  </Snackbar>		
 			);
 		});
 		return (
-			<div className={"NotificationBar " + className}>
+			<div style={{position:"fixed", bottom:0, right:0, width:"auto", zIndex:10}}>
 				{notifications}
 			</div>
 		);
 	}
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state,ownProps) {
+	let notifications = state.notifications.filter((not) => {
+		try {
+			return not.type === "bar" && new RegExp(not.scope).test(ownProps.location.pathname);
+		} catch (err) {
+			return true;
+		}
+	});
 	return {
-		notifications: state.notifications,
-		showMenu: state.showMenu,
+		notifications: notifications,
 	};
 }
 
@@ -87,7 +80,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationBar);
-
-
-
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NotificationBar));

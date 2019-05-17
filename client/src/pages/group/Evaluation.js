@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from "react-redux";
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
@@ -106,7 +105,7 @@ class Evaluation extends Component {
 }
 
 
-class EvaluationTab2 extends Component {
+class EvaluationTab extends Component {
 
 	constructor(props) {
 		super(props);
@@ -275,12 +274,5 @@ class EvaluationTab2 extends Component {
 	}
 
 }
-function mapStateToProps(state, ownProps) {
-	return {
-		users: state.users,
-	}
-}
-
-const EvaluationTab = connect(mapStateToProps, null)(EvaluationTab2)
 
 export { Evaluation, EvaluationTab, getEvaluationColor };
