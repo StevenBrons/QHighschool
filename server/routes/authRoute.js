@@ -20,7 +20,7 @@ router.get("/success", (req, res, next) => {
 router.get('/login', (req, res, next) => {
 	if (req.query.secure === "true" && req.user != null && req.user.id != null) {
 		secureLogin.removeByUserId(req.user.id);
-		secureLogin.add(req.user.id, req.connection.remoteAddress);
+		secureLogin.add(req.user.id);
 	}
 	next();
 });

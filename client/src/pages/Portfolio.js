@@ -9,9 +9,7 @@ import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments, getParticipatingGroups } from '../store/actions';
 
-import Divider from '@material-ui/core/Divider';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
+import {Typography, Divider, Toolbar, Paper } from '@material-ui/core';
 import queryString from "query-string";
 
 class Portfolio extends Component {
@@ -31,7 +29,7 @@ class Portfolio extends Component {
 		} else {
 			return {
 				...prevState,
-				filter: "all"
+				filter: nextProps.role === "student" ? "all": "period"+ nextProps.currentPeriod, 
 			};
 		}
 	}
@@ -68,26 +66,43 @@ class Portfolio extends Component {
 	}
 
 	render() {
-		let groupIds = [];
+		let options = [ { label: "Alle", value: "all" }, {label: "Blok 1", value: "period1"},  {label: "Blok 2", value: "period2"}, {label: "Blok 3", value: "period3"}, {label: "Blok 4", value: "period4"}];
+		if ( this.props.role === "student" ) {
+			options.splice(1,0,{ label: "Ingeschreven", value: "enrolled" });
+		}
+
 		if (!this.props.groups) {
 			this.props.getParticipatingGroups();
 		}
-
-		switch (this.state.filter) {
-			case "all":
-				if (!this.props.enrollmentIds) {
-					this.props.getEnrolLments();
+		if (!this.props.enrollmentIds) {
+			this.props.getEnrolLments();
+		}
+		let groupIds = this.props.enrollmentIds || [];
+		if ( this.state.filter !== "enrolled") {
+			/* If filter is not equal to enrolled, participating ids need to be added. 
+			From participating ids we first remove the ones that are already in enrolled ids. 
+			Finally, after adding participating ids, we filter on period */
+			groupIds = this.props.participatingGroupIds.filter(id => {
+				return (groupIds.indexOf(id) === -1);
+			}).concat(groupIds).filter(
+				id => {
+					if ( !this.props.groups || !this.props.groups[id]) {
+						return false;
+					}
+					switch (this.state.filter) {
+						case "period1":
+							return this.props.groups[id].period === 1;
+						case "period2":
+							return this.props.groups[id].period === 2;
+						case "period3":
+							return this.props.groups[id].period === 3;
+						case "period4":
+							return this.props.groups[id].period === 4;
+						default: // case all 
+							return true;
+					}
 				}
-				groupIds = this.props.participatingGroupIds.concat(this.props.enrollmentIds || []);
-				break;
-			case "enrolled":
-				if (!this.props.enrollmentIds) {
-					this.props.getEnrolLments();
-				}
-				groupIds = this.props.enrollmentIds;
-				break;
-			default:
-				break;
+			)
 		}
 
 		let content;
@@ -105,17 +120,14 @@ class Portfolio extends Component {
 				style={{ position: "relative" }}
 			>
 				<Toolbar style={{ display: "flex" }}>
-					<Field value="Portfolio" style={{ type: "headline", flex: 3 }} />
+					<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+							{this.props.role === "student" ? "Portfolio" : "Mijn groepen"} 	
+					</Typography>
 					<Field
 						label="filter"
 						value={this.state.filter}
 						editable
-						options={[
-							{ label: "Alle", value: "all" },
-							// { label: "Huidige", value: "current" },
-							{ label: "Ingeschreven", value: "enrolled" },
-							// { label: "Voltooid", value: "completed" }
-						]}
+						options={options}
 						onChange={this.handleFilterChange}
 					/>
 				</Toolbar>
@@ -131,6 +143,8 @@ function mapStateToProps(state) {
 		groups: state.groups,
 		participatingGroupIds: state.users[state.userId].participatingGroupIds,
 		enrollmentIds: state.users[state.userId].enrollmentIds,
+		role: state.role,
+		currentPeriod: state.currentPeriod,
 	};
 }
 

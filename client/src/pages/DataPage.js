@@ -166,7 +166,7 @@ class DataPage extends Component {
 				return (
 					<Table key={tableIndex} style={tableIndex === 0 ? { marginTop: "100px" } : { marginTop: "50px" }}>
 						<TableHead>
-							<TableRow key={0}>
+							<TableRow key={0} style={{height: "auto"}}>
 								{table[0].map((title, columnIndex) => {
 									return (
 										<TableCell key={columnIndex} style={{
@@ -193,7 +193,7 @@ class DataPage extends Component {
 								table.filter((_, index) => { return (index > 0); }) //take everything but the header
 									.map((row, rowIndex) => {
 										return (
-											<TableRow key={rowIndex + 1}>
+											<TableRow key={rowIndex + 1} style={{height: "auto"}}>
 												{row.map((cell, columnIndex) => {
 													return (
 														<TableCell key={columnIndex} >{cell}</TableCell>
