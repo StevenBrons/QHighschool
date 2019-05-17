@@ -212,12 +212,14 @@ class FunctionDB {
 			}
 		});
 		if (evaluation == null) {
+			const courseId = await courseDb.getCourseIdFromGroupId(groupId);
 			return {
 				type: "decimal",
 				assesment: "",
 				explanation: "",
-				courseId: await courseDb.getCourseIdFromGroupId(groupId),
+				courseId,
 				updatedAt: "",
+				courseName: (await courseDb.getCourse(courseId)).name,
 				email: user.email,
 				displayName: user.displayName,
 				groupId,
@@ -229,7 +231,7 @@ class FunctionDB {
 			assesment: evaluation.assesment,
 			type: evaluation.type,
 			explanation: evaluation.explanation,
-			courseName: evaluation.courseName,
+			courseName: evaluation["course.name"],
 			groupId: evaluation["course.course_groups.id"],
 			courseId: evaluation.courseId,
 		};
