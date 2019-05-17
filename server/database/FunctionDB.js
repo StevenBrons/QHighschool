@@ -5,6 +5,7 @@ const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Course = require("../dec/CourseDec");
+const Subject = require("../dec/SubjectDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
@@ -196,7 +197,7 @@ class FunctionDB {
 				id: userId
 			},
 			attributes: ["id", "displayName", "email"],
-		});
+		});Subject
 		let evaluation = await Evaluation.findOne({
 			attributes: ["id", "type", "assesment", "explanation", "courseId", "updatedAt"],
 			order: [["id", "DESC"]],
@@ -204,14 +205,19 @@ class FunctionDB {
 			where: { userId },
 			include: {
 				model: Course,
-				attributes: ["id", "name"],
-				include: {
-					model: Group,
-					attributes: ["id"],
-					where: {
-						id: groupId,
-					}
-				},
+				attributes: ["id", "name","subjectId"],
+				include: [
+					{
+						model: Subject,
+						attributes: ["name"],
+					},
+					{
+						model: Group,
+						attributes: ["id"],
+						where: {
+							id: groupId,
+						}
+					}],
 			}
 		});
 		if (evaluation == null) {
@@ -222,6 +228,7 @@ class FunctionDB {
 				explanation: "",
 				courseId: group.courseId,
 				updatedAt: "",
+				subject: group.subjectName,
 				courseName: group.courseName,
 				email: user.email,
 				displayName: user.displayName,
@@ -235,6 +242,7 @@ class FunctionDB {
 			type: evaluation.type,
 			explanation: evaluation.explanation,
 			courseName: evaluation["course.name"],
+			subject: evaluation["course.subject.name"],
 			groupId: evaluation["course.course_groups.id"],
 			courseId: evaluation.courseId,
 		};
