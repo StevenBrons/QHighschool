@@ -161,7 +161,6 @@ table {
 		grid-column: 4 / span 8;
 		-ms-grid-row: 4;
 		-ms-grid-row-span: 6;
-		min-height: 335px;
 	}
 
 }
