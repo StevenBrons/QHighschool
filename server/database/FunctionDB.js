@@ -8,9 +8,12 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
-const groupDb = require("../database/GroupDB");
 
 class FunctionDB {
+
+	init(groupDb) {
+		this.groupDb = groupDb;
+	}
 
 	async createUser(profile) {
 
@@ -212,7 +215,7 @@ class FunctionDB {
 			}
 		});
 		if (evaluation == null) {
-			const group = await groupDb.getGroup(groupId);
+			const group = await this.groupDb.getGroup(groupId);
 			return {
 				type: "decimal",
 				assesment: "",
