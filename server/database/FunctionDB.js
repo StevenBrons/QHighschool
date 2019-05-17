@@ -213,7 +213,6 @@ class FunctionDB {
 		});
 		if (evaluation == null) {
 			return {
-				id: "-",
 				type: "decimal",
 				assesment: "",
 				explanation: "",
@@ -288,7 +287,7 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
-			attributes: ["email", "role", "school", "displayName", "year", "level", "preferedEmail", "profile", "phoneNumber","id"],
+			attributes: ["email", "role", "school", "displayName", "year", "level", "preferedEmail", "profile", "phoneNumber", "id"],
 			raw: true,
 		});
 	}
