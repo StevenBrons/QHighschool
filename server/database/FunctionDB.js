@@ -8,7 +8,7 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
-const courseDb = require("../database/CourseDB");
+const groupDb = require("../database/GroupDB");
 
 class FunctionDB {
 
@@ -201,7 +201,7 @@ class FunctionDB {
 			where: { userId },
 			include: {
 				model: Course,
-				attributes: ["id"],
+				attributes: ["id", "name"],
 				include: {
 					model: Group,
 					attributes: ["id"],
@@ -212,14 +212,14 @@ class FunctionDB {
 			}
 		});
 		if (evaluation == null) {
-			const courseId = await courseDb.getCourseIdFromGroupId(groupId);
+			const group = await groupDb.getGroup(groupId);
 			return {
 				type: "decimal",
 				assesment: "",
 				explanation: "",
-				courseId,
+				courseId: group.courseId,
 				updatedAt: "",
-				courseName: (await courseDb.getCourse(courseId)).name,
+				courseName: group.courseName,
 				email: user.email,
 				displayName: user.displayName,
 				groupId,
