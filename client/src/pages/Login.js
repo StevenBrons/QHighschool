@@ -108,30 +108,32 @@ class Login extends Component {
 
 	generateColoredEmail(schoolShort, studentNumber, school) {
 		return (
-			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace", overflow:"scroll" }}>
-				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
-					{schoolShort}
-				</span>
-				<span style={{ color: theme.palette.secondary.dark, fontWeight: "bolder" }}>
-					{studentNumber}
-				</span>
-				<span style={{ fontWeight: "bold" }}>
-					@ll.
-				</span>
-				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
-					{school}
-				</span>
-				<span style={{ fontWeight: "bold" }}>
-					.nl
-				</span>
-			</Typography>
+			<div>
+				<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace", overflow:"hidden"}}>
+					<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
+						{schoolShort}
+					</span>
+					<span style={{ color: theme.palette.secondary.dark, fontWeight: "bolder" }}>
+						{studentNumber}
+					</span>
+					<span style={{ fontWeight: "bold" }}>
+						@ll.
+					</span>
+					<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
+						{school}
+					</span>
+					<span style={{ fontWeight: "bold" }}>
+						.nl
+					</span>
+				</Typography>
+			</div>
 		)
 	}
 
 	render() {
 		if (this.props.userId != null) {
-			this.props.history.push("/");
-			this.props.toggleMenu(true);
+			// this.props.history.push("/");
+			// this.props.toggleMenu(true);
 		} else {
 			this.props.toggleMenu(false);
 		}
