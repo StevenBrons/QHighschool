@@ -5,23 +5,55 @@
   font-style: normal;
 }
 
-body{
+body {
   font-family: "Roboto Light";
 }
 
-h1 {
+#top-logo {
+  position: absolute;
+  height:11mm;
+  top: 5mm;
+  left:0;
+  right:0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#bg-q-logo {
+  width: 196mm;
+  position: absolute;
+  height: auto;
+  opacity: 0.2;
+  top: 72mm;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-size: 92pt;
+}
+
+.sub-text {
+  font-size: 14pt;
+}
+
+.main-text {
+  font-size: 48pt;
+}
+
+#middle-text {
+  text-align: center;
 }
 
 @page {
-    size: A4;
-    margin: 0;
-    background-color: red;
-  }
-
+  size: A4;
+  margin: 0;
+}
 @media print {
-html, body {
-    background-color: navy;
+  html, body {
     width: 210mm;
     height: 297mm;
-}
+  }
 }
