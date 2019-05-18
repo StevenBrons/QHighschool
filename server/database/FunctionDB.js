@@ -191,17 +191,17 @@ class FunctionDB {
 	}
 
 	async findEvaluation(userId, groupId) {
+		const group = await this.groupDb.getGroup(groupId);
 		const evaluation = await Evaluation.findOne({
 			attributes: ["id", "userId", "type", "assesment", "explanation"],
 			order: [["id", "DESC"]],
 			raw: true,
-			where: { userId },
+			where: { userId, courseId: group.courseId },
 			include: [{
 				model: User,
 				attributes: ["id", "email", "displayName"],
 			}],
 		});
-		const group = await this.groupDb.getGroup(groupId);
 		if (evaluation == null) {
 			const user = await User.findOne({ where: { id: userId }, attributes: ["displayName", "email"] });
 			return {
