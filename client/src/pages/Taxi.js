@@ -27,11 +27,11 @@ class Taxi extends Component {
 		};
 	}
 
-	handleFilterChange = event => {
+	handleFilterChange = value => {
 		this.props.history.push({
-			search: "week=" + event.target.value,
+			search: "week=" + value,
 		});
-		this.fetchSchedules(event.target.value);
+		this.fetchSchedules(value);
 	};
 
 
