@@ -108,25 +108,23 @@ class Login extends Component {
 
 	generateColoredEmail(schoolShort, studentNumber, school) {
 		return (
-			<div>
-				<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace", overflow:"hidden"}}>
-					<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
-						{schoolShort}
-					</span>
-					<span style={{ color: theme.palette.secondary.dark, fontWeight: "bolder" }}>
-						{studentNumber}
-					</span>
-					<span style={{ fontWeight: "bold" }}>
-						@ll.
-					</span>
-					<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
-						{school}
-					</span>
-					<span style={{ fontWeight: "bold" }}>
-						.nl
-					</span>
-				</Typography>
-			</div>
+			<Typography variant="subheading" style={{ fontFamily: "'Courier New', Courier, monospace", overflow:"hidden"}}>
+				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
+					{schoolShort}
+				</span>
+				<span style={{ color: theme.palette.secondary.dark, fontWeight: "bolder" }}>
+					{studentNumber}
+				</span>
+				<span style={{ fontWeight: "bold" }}>
+					@ll.
+				</span>
+				<span style={{ color: theme.palette.secondary.light, fontWeight: "bold" }}>
+					{school}
+				</span>
+				<span style={{ fontWeight: "bold" }}>
+					.nl
+				</span>
+			</Typography>
 		)
 	}
 
@@ -139,7 +137,7 @@ class Login extends Component {
 		}
 
 		return (
-			<Paper elevation={8} className="Login">
+			<Paper elevation={8} className="Login" style={{minHeight: "330px"}}>
 				<div style={{ padding: "20px" }}>
 					<Typography gutterBottom variant="headline" color="primary">
 						Log in
