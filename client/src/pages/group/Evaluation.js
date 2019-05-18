@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Field from '../../components/Field';
 import User from '../user/User';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
-import { Tooltip, TableSortLabel, Typography,Paper } from '@material-ui/core';
+import { Tooltip, TableSortLabel, Typography, Paper } from '@material-ui/core';
 
 const EVALUATION_FORMATS = [{
 	label: "vink",
@@ -178,13 +178,11 @@ class EvaluationTab extends Component {
 	sortEvaluations = () => {
 		let evaluations = this.props.evaluations;
 		const sortValue = this.state.sortValue;
-		const users = this.props.users;
 		let sortDirection = this.state.sortDirection === "asc" ? "asc" : "desc";
+
 		if (sortValue === "name") {
 			evaluations.sort((a, b) => {
-				a = (users[a["userId"]]["displayName"]).toLowerCase();
-				b = (users[b["userId"]]["displayName"]).toLowerCase();
-				let cmp = (b == null) - (a == null) || +(a > b) || -(a < b);
+				let cmp = b.displayName - a.displayName;
 				return sortDirection === "asc" ? cmp : -cmp;
 			})
 		} else if (sortValue === "evaluations") {
@@ -216,7 +214,7 @@ class EvaluationTab extends Component {
 			.map(evaluation => {
 				return (
 					<Paper style={style} key={evaluation.userId} component="tr">
-						<User display="name" userId={evaluation.userId} />
+						<Field style={{ type: "title", color: "primary", flex: 2 }} value={evaluation.displayName} layout={{}} />
 						<Evaluation editable={this.props.editable} evaluation={evaluation} handleChange={this.handleEvaluationChange.bind(this)} />
 						{this.getExplanationField(evaluation, this.props.editable)}
 					</Paper >

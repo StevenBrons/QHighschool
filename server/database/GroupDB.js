@@ -193,7 +193,6 @@ class GroupDB {
 			include: {
 				attributes: ["displayName"],
 				model: User,
-				order: [["displayName", "DESC"]],
 			},
 		});
 		const evaluations = participants
@@ -238,14 +237,8 @@ class GroupDB {
 		});
 	}
 
-	constructor() {
-		console.log(this);
-	}
-
 }
 
-const groupDb = new GroupDB();
-
-module.exports = groupDb;
+module.exports = new GroupDB();
 functionDb.init(module.exports);
 

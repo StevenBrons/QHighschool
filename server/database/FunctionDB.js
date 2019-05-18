@@ -191,21 +191,15 @@ class FunctionDB {
 	}
 
 	async findEvaluation(userId, groupId) {
-		let user = await User.findOne({
-			raw: true,
-			where: {
-				id: userId
-			},
-			attributes: ["id", "displayName", "email"],
-		});Subject
-		let evaluation = await Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "courseId", "updatedAt"],
+		let allEvaluations = await Evaluation.findAll({
+			attributes: ["id", "userId", "type", "assesment", "explanation"],
 			order: [["id", "DESC"]],
 			raw: true,
+			subQuery: false,
 			where: { userId },
-			include: {
+			include: [{
 				model: Course,
-				attributes: ["id", "name","subjectId"],
+				attributes: ["id", "name", "subjectId"],
 				include: [
 					{
 						model: Subject,
@@ -218,16 +212,21 @@ class FunctionDB {
 							id: groupId,
 						}
 					}],
+			},
+			{
+				model: User,
+				attributes: ["id", "email", "displayName"],
 			}
+			]
 		});
-		if (evaluation == null) {
+		if (allEvaluations == null || allEvaluations[0] == null) {
 			const group = await this.groupDb.getGroup(groupId);
+			const user = await User.findOne({ where: { id: userId }, attributes: ["displayName", "email"] });
 			return {
 				type: "decimal",
 				assesment: "",
 				explanation: "",
 				courseId: group.courseId,
-				updatedAt: "",
 				subject: group.subjectName,
 				courseName: group.courseName,
 				email: user.email,
@@ -235,16 +234,17 @@ class FunctionDB {
 				groupId,
 			}
 		}
+		let evaluation = allEvaluations[0];
 		return {
-			displayName: user.displayName,
-			email: user.email,
+			displayName: evaluation["user.displayName"],
+			email: evaluation["user.email"],
 			assesment: evaluation.assesment,
 			type: evaluation.type,
 			explanation: evaluation.explanation,
 			courseName: evaluation["course.name"],
 			subject: evaluation["course.subject.name"],
 			groupId: evaluation["course.course_groups.id"],
-			courseId: evaluation.courseId,
+			courseId: evaluation["course.id"],
 		};
 	}
 
