@@ -214,6 +214,7 @@ class FunctionDB {
 				email: user.email,
 				displayName: user.displayName,
 				groupId: group.id,
+				userId,
 			}
 		}
 		return {
