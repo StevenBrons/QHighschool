@@ -85,7 +85,7 @@ class Evaluation extends Component {
 				name={e.userId}
 				value={e.assesment ? e.assesment : ""}
 				editable={this.props.editable}
-				onChange={this.props.handleChange}
+				onChange={this.props.onChange}
 			/>
 		} else {
 			return <Field
@@ -96,7 +96,7 @@ class Evaluation extends Component {
 				value={e.assesment ? e.assesment : ""}
 				options={EVALUATION_FORMATS.filter(f => f.value === e.type)[0].options}
 				editable={this.props.editable}
-				onChange={this.props.handleChange}
+				onChange={this.props.onChange}
 			/>
 		}
 	}
@@ -121,13 +121,10 @@ class EvaluationTab extends Component {
 		});
 	}
 
-	handleEvaluationChange(event) {
+	handleSingleChange = (newEv) => {
 		let newEvaluations = this.props.evaluations.map((e) => {
-			if (e.userId === event.name) {
-				return {
-					...e,
-					assesment: event.target.value,
-				}
+			if (e.userId === newEv.userId) {
+				return newEv;
 			} else {
 				return { ...e }
 			}
@@ -135,43 +132,10 @@ class EvaluationTab extends Component {
 		this.props.handleChange(newEvaluations);
 	}
 
-
-	handleExplanationChange(event) {
-		let newEvaluations = this.props.evaluations.map((e) => {
-			if (e.userId === event.name) {
-				return {
-					...e,
-					explanation: event.target.value,
-				}
-			} else {
-				return { ...e }
-			}
-		});
-		this.props.handleChange(newEvaluations);
-
-	}
-
-	handleEvaluationTypeChange(event) {
-		let newEvaluations = [];
-		for (let i = 0; i < this.props.evaluations.length; i++) {
-			newEvaluations.push({
-				...this.props.evaluations[i],
-				type: event.target.value,
-			});
+	handleEvaluationTypeChange(newValue) {
+		for (let i in this.props.evaluations) {
+			this.handleSingleChange({ ...this.props.evaluations[i], type: newValue });
 		}
-		this.props.handleChange(newEvaluations);
-	}
-
-	getExplanationField(e, editable) {
-		return <Field
-			style={{ underline: false, flex: 5 }}
-			layout={{ area: true, td: true }}
-			label={"Uitleg"}
-			name={e.userId}
-			value={e.explanation}
-			editable={editable}
-			onChange={this.handleExplanationChange.bind(this)}
-		/>
 	}
 
 	sortEvaluations = () => {
@@ -210,12 +174,24 @@ class EvaluationTab extends Component {
 			return "Er zijn nog geen beoordelingen beschikbaar";
 		}
 		const evComps = this.sortEvaluations()
-			.map(evaluation => {
+			.map(ev => {
 				return (
-					<Paper style={style} key={evaluation.userId} component="tr">
-						<Field style={{ type: "title", color: "primary", flex: 2 }} value={evaluation.displayName} layout={{}} />
-						<Evaluation editable={this.props.editable} evaluation={evaluation} handleChange={this.handleEvaluationChange.bind(this)} />
-						{this.getExplanationField(evaluation, this.props.editable)}
+					<Paper style={style} key={ev.userId} component="tr">
+						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{}} />
+						<Evaluation
+							editable={this.props.editable}
+							evaluation={ev}
+							onChange={(assesment) => this.handleSingleChange({ ...ev, assesment })}
+						/>
+						<Field
+							style={{ underline: false, flex: 5 }}
+							layout={{ area: true, td: true }}
+							label={"Uitleg"}
+							name={ev.userId}
+							value={ev.explanation}
+							editable={this.props.editable}
+							onChange={(explanation) => this.handleSingleChange({ ...ev, explanation })}
+						/>
 					</Paper >
 				);
 			});

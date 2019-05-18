@@ -72,9 +72,9 @@ class CourseSelect extends Component {
 		});
 	};
 
-	handleFilterChange = event => {
+	handleFilterChange = value => {
 		this.props.history.push({
-			search: "sort=" + this.state.sortMethod + "&filter=" + event.target.value,
+			search: "sort=" + this.state.sortMethod + "&filter=" + value,
 		});
 	};
 
@@ -183,7 +183,7 @@ class CourseSelect extends Component {
 							{this.getMenuItems()}
 						</List>
 					</Paper>
-					<div style={{padding:"12px"}}>
+					<div style={{ padding: "12px" }}>
 						{data}
 					</div>
 				</div>

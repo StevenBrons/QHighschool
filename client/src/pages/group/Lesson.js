@@ -57,10 +57,10 @@ class Lesson extends Component {
 	}
 
 
-	handleChange = (event) => {
+	handleChange = (name, value) => {
 		this.props.handleChange({
 			...this.props.lesson,
-			[event.name]: event.target.value,
+			[name]: value,
 		});
 	}
 
@@ -105,29 +105,26 @@ class Lesson extends Component {
 					/>
 					<Field
 						label="Soort les"
-						name="kind"
 						layout={{ area: true }}
 						value={lesson.kind}
 						editable={this.props.editable}
-						onChange={this.handleChange}
+						onChange={(value) => this.handleChange("kind", value)}
 					/>
 				</td>
 				<Field
 					label="Onderwerp"
-					name="subject"
 					style={{ flex: 4 }}
 					value={lesson.subject}
 					editable={this.props.editable}
-					onChange={this.handleChange}
+					onChange={(value) => this.handleChange("subject", value)}
 					layout={{ td: true, area: true }}
 				/>
 				<Field
 					label="Activiteiten"
-					name="activities"
 					style={{ flex: 8 }}
 					value={lesson.activities}
 					editable={this.props.editable}
-					onChange={this.handleChange}
+					onChange={(value) => this.handleChange("activities", value)}
 					layout={{ td: true, area: true }}
 				/>
 				<td style={{ display: "flex", flexDirection: "column" }}>
@@ -136,13 +133,12 @@ class Lesson extends Component {
 						value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
 					/>
 					<Field
-						name="presence"
 						label="Aanwezigheid"
 						style={{ labelVisible: true }}
 						layout={{ alignment: "right" }}
 						value={lesson.presence}
 						editable={this.props.editable}
-						onChange={this.handleChange}
+						onChange={(value) => this.handleChange("presence", value)}
 						options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
 					/>
 					{
