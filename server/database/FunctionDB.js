@@ -213,7 +213,7 @@ class FunctionDB {
 				courseName: group.courseName,
 				email: user.email,
 				displayName: user.displayName,
-				groupId,
+				groupId: group.id,
 			}
 		}
 		return {
