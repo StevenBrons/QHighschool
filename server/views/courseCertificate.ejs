@@ -22,12 +22,12 @@
     <div id="middle-text">
         <p class="title"> Certificaat </p>
         <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
-        <p class="main-text"> Maarten Berenschot </p>
+        <p class="main-text"> <%= user.firstName + " " + user.lastName %> </p>
         <p class="sub-text"> de Q-Highschool module </p>
-        <p class="main-text"> HTML-De Basis </p>
-        <p class="sub-text"> met een studietijd van 24 uur </p>
+        <p class="main-text"> <%= group.courseName %> </p>
+        <p class="sub-text"> met een studietijd van <%= group.studyTime%> uur </p>
         <p class="sub-text"> succesvol heeft afgerond met beoordeling </p>
-        <p class="main-text"> 10 </p>
+        <p class="main-text"> <%= group.evaluation.assesment %> </p>
         <div id="date" class="center-horizontal">
             <p class="sub-text"> op </p>
             <p class="sub-text"> 16-05-2019 </p>

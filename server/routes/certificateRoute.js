@@ -22,7 +22,7 @@ const testGroup = {
 		userId: 41,
 		courseId: 22,
 		type: 'decimal',
-		assesment: null,
+		assesment: 10,
 		explanation: null
 	}
 }
