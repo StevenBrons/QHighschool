@@ -7,24 +7,72 @@
 
 body {
   font-family: "Roboto Light";
+  width: 210mm;
+  height: 297mm;
+}
+
+#top-bar {
+  height: 3.7%;
+  display: flex;
+  position: absolute;
+}
+
+#bottom-bar {
+  height: 1.5%;
+  position: absolute;
+  top: 94%;
 }
 
 #top-logo {
-  position: absolute;
-  height:11mm;
-  top: 5mm;
-  left:0;
-  right:0;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+}
+
+#top-bar div {
+  width: 100%;
+  height: 50%;
+  margin: 2%;
+}
+
+.line-color-2 {
+  stroke: rgb(172,37,49);
+  stroke-width: 4pt;
+}
+
+.line-color-1 {
+  stroke: rgb(62,192,240);
+  stroke-width: 4pt;
 }
 
 #bg-q-logo {
-  width: 196mm;
-  position: absolute;
+  width: 93%;
   height: auto;
-  opacity: 0.2;
-  top: 72mm;
+  opacity: 0.15;
+  top: 24%;
+}
+
+#signature {
+  position: absolute;
+  left: 4%;
+  top: 79%;
+  height: 7%;
+  width: 19%;
+}
+
+#signature-text {
+  margin: 0;
+}
+
+#signature-line {
+  stroke: black;
+  stroke-width: 0.5pt;
+}
+
+#middle-text {
+  text-align: center;
+}
+
+.center-horizontal {
+  position: absolute;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -43,14 +91,11 @@ body {
   font-size: 48pt;
 }
 
-#middle-text {
-  text-align: center;
-}
-
 @page {
   size: A4;
   margin: 0;
 }
+
 @media print {
   html, body {
     width: 210mm;
