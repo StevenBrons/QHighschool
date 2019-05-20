@@ -7,24 +7,28 @@
 
 body {
   font-family: "Roboto Light";
+  font-variant-ligatures: none;
   width: 210mm;
   height: 297mm;
 }
 
 #top-bar {
-  height: 3.7%;
+  height: 4.5%;
   display: flex;
   position: absolute;
+  width: 94%;
 }
 
 #bottom-bar {
   height: 1.5%;
   position: absolute;
   top: 94%;
+  width: 94%;
 }
 
 #top-logo {
   height: 100%;
+  margin: 0 1.5%;
 }
 
 #top-bar div {
@@ -46,14 +50,14 @@ body {
 #bg-q-logo {
   width: 93%;
   height: auto;
-  opacity: 0.15;
+  opacity: 0.1;
   top: 24%;
 }
 
 #signature {
   position: absolute;
   left: 4%;
-  top: 79%;
+  top: 82%;
   height: 7%;
   width: 19%;
 }
@@ -64,7 +68,7 @@ body {
 
 #signature-line {
   stroke: black;
-  stroke-width: 0.5pt;
+  stroke-width: 1pt;
 }
 
 #middle-text {
@@ -79,16 +83,32 @@ body {
   margin-right: auto;
 }
 
+#date {
+  position: absolute;
+  top: 88%;
+}
+
+.sub-text ~ .sub-text {
+  margin-bottom: 0;
+}
+
+.sub-text + .sub-text {
+  margin-top: 0.5%;
+}
+
 .title {
   font-size: 92pt;
+  margin: 10% 0 10% 0;
 }
 
 .sub-text {
-  font-size: 14pt;
+  font-size: 13pt;
+  margin-bottom: 0;
 }
 
 .main-text {
-  font-size: 48pt;
+  font-size: 45pt;
+  margin: 7% 0 7% 0;
 }
 
 @page {
@@ -100,5 +120,6 @@ body {
   html, body {
     width: 210mm;
     height: 297mm;
+    margin: 0;
   }
 }
