@@ -26,11 +26,31 @@
         <p class="sub-text"> de Q-Highschool module </p>
         <p class="main-text"> <%= group.courseName %> </p>
         <p class="sub-text"> met een studietijd van <%= group.studyTime%> uur </p>
-        <p class="sub-text"> succesvol heeft afgerond met beoordeling </p>
-        <p class="main-text"> <%= group.evaluation.assesment %> </p>
+
+        <% if ( group.evaluation.type === "check") {%>
+            <p class="sub-text"> heeft afgerond </p>
+        <% } else { %>
+            <p class="sub-text"> heeft afgerond met beoordeling </p>
+            <% if ( group.evaluation.type === "stepwise" ) {
+                switch (group.evaluation.assesment ) {
+                    case "V": %>
+                        <p class="main-text"> Voldoende </p>
+                        <% break;
+                    case "O": %>
+                        <p class="main-text"> Onvoldoende </p>
+                        <% break;
+                    case "G": 
+                    default:%>
+                        <p class="main-text"> Goed </p>
+                    <% } 
+            } else { %>
+                <p class="main-text"> <%= group.evaluation.assesment %> </p>
+            <% } %>
+        <%}%>
+
         <div id="date" class="center-horizontal">
             <p class="sub-text"> op </p>
-            <p class="sub-text"> 16-05-2019 </p>
+            <p class="sub-text"> <%= group.evaluation.updatedAt.getDate() + "-" + (group.evaluation.updatedAt.getMonth() + 1) + "-" + group.evaluation.updatedAt.getFullYear() %> </p>
         </div>
     </div>
 
