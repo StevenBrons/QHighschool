@@ -24,7 +24,7 @@
         <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
         <p class="main-text"> <%= user.firstName + " " + user.lastName %> </p>
         <p class="sub-text"> de Q-Highschool module </p>
-        <p class="main-text"> <%= group.courseName %> </p>
+        <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %>"> <%= group.courseName %> </p>
         <p class="sub-text"> met een studietijd van <%= group.studyTime%> uur </p>
 
         <% if ( group.evaluation.type === "check") {%>

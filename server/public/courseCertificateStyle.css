@@ -108,7 +108,12 @@ body {
 
 .main-text {
   font-size: 45pt;
-  margin: 7% 0 7% 0;
+  margin: 7% 0;
+}
+
+.main-text-small {
+  font-size: 35pt;
+  margin: 3% 0;
 }
 
 @page {
