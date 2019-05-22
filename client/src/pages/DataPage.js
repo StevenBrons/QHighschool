@@ -157,6 +157,19 @@ class DataPage extends Component {
 			});
 	}
 
+	forceCellWidth = (cellName) => {
+		switch (cellName) {
+			case "subject":
+				return "200px";
+			case "displayName":
+				return "200px";
+			case "courseName":
+				return "300px";
+			default:
+				return "auto";
+		}
+	}
+
 	render() {
 		let content;
 		if (this.state.tables == null) {
@@ -180,7 +193,9 @@ class DataPage extends Component {
 													direction={this.state.tableSortDirections[tableIndex]}
 													onClick={event => this.handleSortChange(tableIndex, columnIndex)}
 													style={{ zIndex: 0 }}>
-													{title}
+													<span style={{ width: this.forceCellWidth(title) }}>
+														{title}
+													</span>
 												</TableSortLabel>
 											</Tooltip>
 										</TableCell>

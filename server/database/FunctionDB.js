@@ -205,15 +205,15 @@ class FunctionDB {
 		if (evaluation == null) {
 			const user = await User.findOne({ where: { id: userId }, attributes: ["displayName", "email"] });
 			return {
-				type: "decimal",
-				assesment: "",
-				explanation: "",
-				courseId: group.courseId,
-				subject: group.subjectName,
-				courseName: group.courseName,
-				email: user.email,
 				displayName: user.displayName,
+				email: user.email,
+				assesment: "",
+				courseName: group.courseName,
+				subject: group.subjectName,
+				explanation: "",
+				type: "decimal",
 				groupId: group.id,
+				courseId: group.courseId,
 				userId,
 			}
 		}
@@ -221,10 +221,10 @@ class FunctionDB {
 			displayName: evaluation["user.displayName"],
 			email: evaluation["user.email"],
 			assesment: evaluation.assesment,
-			type: evaluation.type,
-			explanation: evaluation.explanation,
 			courseName: group.courseName,
 			subject: group.subjectName,
+			explanation: evaluation.explanation,
+			type: evaluation.type,
 			groupId: group.id,
 			courseId: group.courseId,
 			userId,

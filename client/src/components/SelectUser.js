@@ -52,12 +52,12 @@ class Menu extends Component {
 		});
 	}
 
-	handleInput = (event) => {
+	handleInput = (value) => {
 		if (this.state.userId) {
 			this.props.onChange(null, null);
 		}
 		this.setState({
-			input: event.target.value,
+			input: value,
 			open: true,
 			userId: null,
 		});
