@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'Roboto Light';
+  src: url('./Roboto-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Roboto Light";
+  font-variant-ligatures: none;
+  width: 197mm;
+  height: 275mm;
+  margin: 0;
+}
+
+#top-bar {
+  height: 4.5%;
+  display: flex;
+  position: absolute;
+  width: 100%;
+}
+
+#bottom-bar {
+  height: 1.5%;
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+}
+
+#top-logo {
+  height: 100%;
+  min-width: 22%;
+  margin: 0 1.5%;
+}
+
+#top-bar svg {
+  min-width: 0; /* For edge flex */
+}
+
+.line-color-2 {
+  stroke: rgb(172,37,49);
+  stroke-width: 4pt;
+}
+
+.line-color-1 {
+  stroke: rgb(62,192,240);
+  stroke-width: 4pt;
+}
+
+#bg-q-logo {
+  width: 98%;
+  height: auto;
+  opacity: 0.1;
+  top: 24%;
+}
+
+#signature {
+  position: absolute;
+  left: 2%;
+  bottom: 7%;
+  height: 7%;
+  width: 19%;
+}
+
+#signature-text {
+  margin: 0;
+}
+
+#signature-line {
+  stroke: black;
+  stroke-width: 1pt;
+}
+
+#middle-text {
+  text-align: center;
+}
+
+.center-horizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#date {
+  position: absolute;
+  bottom: 2%;
+}
+
+.sub-text ~ .sub-text {
+  margin-bottom: 0;
+}
+
+.sub-text + .sub-text {
+  margin-top: 0.5%;
+}
+
+.title {
+  font-size: 92pt;
+  margin: 8% 0 8% 0;
+}
+
+.sub-text {
+  font-size: 13pt;
+  margin-bottom: 0;
+}
+
+.main-text {
+  font-size: 45pt;
+  margin: 7% 0;
+}
+
+.main-text-small {
+  font-size: 35pt;
+  margin: 3% 0;
+}

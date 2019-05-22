@@ -50,7 +50,7 @@ const testUser = {
 router.get("/:userId/:groupId", function (req, res) {
 	const userId = req.params.userId;
 	const groupId = req.params.groupId;
-	if (groupId != null) {
+	if ( false /* groupId != null */) {
 		res.render("courseCertificate", {
 			user: testUser,
 			group: testGroup
