@@ -9,7 +9,8 @@ body {
   font-family: "Roboto Light";
   font-variant-ligatures: none;
   width: 210mm;
-  height: 297mm;
+  height: 280mm;
+  margin: 0;
 }
 
 #top-bar {
@@ -22,7 +23,7 @@ body {
 #bottom-bar {
   height: 1.5%;
   position: absolute;
-  top: 94%;
+  bottom: 0%;
   width: 94%;
 }
 
@@ -51,13 +52,13 @@ body {
   width: 93%;
   height: auto;
   opacity: 0.1;
-  top: 24%;
+  top: 20%;
 }
 
 #signature {
   position: absolute;
   left: 4%;
-  top: 82%;
+  bottom: 7%;
   height: 7%;
   width: 19%;
 }
@@ -85,7 +86,7 @@ body {
 
 #date {
   position: absolute;
-  top: 88%;
+  bottom: 2%;
 }
 
 .sub-text ~ .sub-text {
@@ -98,7 +99,7 @@ body {
 
 .title {
   font-size: 92pt;
-  margin: 10% 0 10% 0;
+  margin: 8% 0 8% 0;
 }
 
 .sub-text {
@@ -116,15 +117,10 @@ body {
   margin: 3% 0;
 }
 
-@page {
-  size: A4;
-  margin: 0;
-}
-
-@media print {
-  html, body {
-    width: 210mm;
-    height: 297mm;
+/* @media print {
+  body {
     margin: 0;
+    height: 280mm;
   }
-}
+} */
+
