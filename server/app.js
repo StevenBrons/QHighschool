@@ -13,6 +13,7 @@ const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute');
 const keys = require('./private/keys');
 const bodyParser = require('body-parser');
+var flash = require('connect-flash');
 
 require('./dec/MainDec');
 require('./dec/UserDec');
@@ -45,6 +46,8 @@ app.use(cookieSession({
 	keys: [keys.sessionSecret],
 	maxAge: 7 * 24 * 60 * 60 * 1000,
 }));
+
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());

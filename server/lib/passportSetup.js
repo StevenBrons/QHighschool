@@ -5,7 +5,9 @@ const creds = keys.azureADCreds;
 const sessionDb = require('../database/SessionDB');
 const functionDb = require('../database/FunctionDB');
 const secureLogin = require('./secureLogin');
-const graph = require("../office/graph");
+// const graph = require("../office/graph");
+const graph = require('@microsoft/microsoft-graph-client');
+
 
 passport.serializeUser((profile, done) => {
 	sessionDb.createTokenForUser(profile).then((token) => {
@@ -24,6 +26,26 @@ passport.deserializeUser((token, done) => {
 		done(err);
 	});
 });
+
+async function getUserDetails(accessToken) {
+    const client = getAuthenticatedClient(accessToken);
+
+    const user = await client.api('/me').get();
+    return user;
+  }
+
+  function getAuthenticatedClient(accessToken) {
+	// Initialize Graph client
+	const client = graph.Client.init({
+	  // Use the provided access token to authenticate
+	  // requests
+	  authProvider: (done) => {
+		done(null, accessToken);
+	  }
+	});
+  
+	return client;
+  }
 
 passport.use(new OIDCStrategy({
 	identityMetadata: creds.identityMetadata,
@@ -47,13 +69,22 @@ passport.use(new OIDCStrategy({
 	passReqToCallback: false,
 	scope: creds.scope,
 },
-	function (iss, sub, profile, accessToken, refreshToken, done) {
-		const email = profile._json.preferred_username;
-		if (email === "Qhighschool@quadraam.nl") {
-			graph.initCreator(accessToken, refreshToken).catch(e => {
-				console.error(e);
-			});
-		}
+	function (iss, sub, profile, accessToken, refreshToken, params, done) {
+		console.log("iero")
+		const email = profile.upn;
+		console.log(email);
+		const x = getUserDetails(accessToken).then(x => {
+			console.log(x);
+		}).catch(e => {
+			console.error(e);
+		});
+
+		// if (email === "Qhighschool@quadraam.nl") {
+		// 	console.log("heer")
+		// 	graph.initCreator(accessToken, refreshToken).catch(e => {
+		// 		console.error(e);
+		// 	});
+		// }
 
 		sessionDb.getUserByEmail(email).then((user) => {
 			if (user == null) {

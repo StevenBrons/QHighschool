@@ -32,7 +32,15 @@ exports.getAuthenticatedClient = (accessToken) => {
 module.exports.initCreator = async (accessToken, refreshToken) => {
 	mainAccessToken = accessToken;
 	mainRefreshToken = refreshToken;
+	console.log(accessToken);
+	console.log("here");
 	exports.mainClient = exports.getAuthenticatedClient(accessToken);
+	console.log("here2");
+
+	const x = await exports.mainClient.api('/me/joinedTeams')
+	.get();
+
+	console.log
 
 	groupSync.createTeam().catch((e) => {
 		console.error(e);
