@@ -42,16 +42,16 @@
                 <% for ( let j = 0; j < groups.length - ( i * 6) && j < 6 ; j++ ) { 
                     let group = groups[(i*6) + j];%> 
                     <tr>
-                        <td><%= group.courseName%></td>
+                        <td class="<%= group.courseName.length < 50 ? "" : "table-cell-padding-small" %>"><%= group.courseName%></td>
                         <% switch (group.evaluation.type) {
                                 case "stepwise":
                                     switch (group.evaluation.assesment) {
                                         case "G":%>
-                                           <td>Goed</td> 
-                                           <%break;
+                                            <td>Goed</td> 
+                                            <%break;
                                         case "V":%>
                                             <td>Voldoende</td>
-                                           <%break;
+                                            <%break;
                                         case "O":
                                         default: %>
                                             <td>Onvoldoende</td>

@@ -42,19 +42,31 @@ th {
   font-size: 10pt;
   font-weight: normal;
   text-align: left;
+  padding-bottom: 3%;
 }
 
 td {
   font-size: 14pt;
-  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+tr:last-child td { /* the last row has low padding*/
+  padding-bottom: 1%;
+}
+.table-cell-padding-small { /* if there are too many characters there is low padding */
+  padding-bottom: 1%;
 }
 
 td + td {
   white-space: nowrap;
 }
 
+table {
+  width: 100%;
+}
+
 #table {
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 td:not(:last-child), th:not(:last-child) {

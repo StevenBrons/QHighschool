@@ -88,7 +88,7 @@ router.get("/:userId/:groupId", function (req, res) {
 	} else {
 		res.render("portfolioCertificate", {
 			user: testUser,
-			groups: [testGroup, testGroup, testGroup, testGroup, testGroup, testGroup, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
+			groups: [testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
 		});
 	}
 });
