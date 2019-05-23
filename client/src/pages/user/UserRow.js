@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import {Typography} from '@material-ui/core';
+import {Typography, Button} from '@material-ui/core';
 
 class GroupCard extends Component {
 
@@ -99,6 +99,18 @@ class GroupCard extends Component {
 							<Typography variant="body1" style={{ flex: 1 }} >
 								{user.id}
 							</Typography>
+						</div>
+					}
+					{
+						this.props.actions &&
+						<div style={{
+							display: "flex",
+							justifyContent: "space-between",
+							marginTop: "5px",
+						}}>
+							<Button color="primary" variant="contained">
+								{this.props.actions[0].name}	
+							</Button>	
 						</div>
 					}
 				</Paper >

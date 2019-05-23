@@ -64,7 +64,7 @@ class User extends Component {
 				);
 			case "row":
 				return (
-					<UserRow {...this.props} />
+					<UserRow {...this.props} actions={[{name:"test", onAction:""}]}/>
 				);
 			case "card":
 			default:
