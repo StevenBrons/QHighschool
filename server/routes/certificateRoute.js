@@ -28,6 +28,36 @@ const testGroup = {
 	}
 }
 
+const testGroup2 = {
+	courseName: "Object georienteerd programmeren",
+	studyTime: 50,
+	evaluation: {
+		type: 'stepwise',
+		assesment: 'V',
+		updatedAt: new Date(),
+	}
+}
+
+const testGroup3 = {
+	courseName: "HTML-De Basis",
+	studyTime: 24,
+	evaluation: {
+		type: 'stepwise',
+		assesment: 'G',
+		updatedAt: new Date(),
+	}
+}
+
+const testGroup4 = {
+	courseName: "HTML-Geavanceerd",
+	studyTime: 44,
+	evaluation: {
+		type: 'check',
+		assesment: 'failed',
+		updatedAt: new Date(),
+	}
+}
+
 const testUser = {
 	id: 41,
 	email: 'LC158871@ll.liemerscollege.nl',
@@ -58,7 +88,7 @@ router.get("/:userId/:groupId", function (req, res) {
 	} else {
 		res.render("portfolioCertificate", {
 			user: testUser,
-			groups: [testGroup, testGroup, testGroup, testGroup, testGroup],
+			groups: [testGroup, testGroup, testGroup, testGroup, testGroup, testGroup, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
 		});
 	}
 });
