@@ -266,9 +266,9 @@ class GroupPage extends Component {
 		const userId = this.props.userId;
 		
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			window.open("http://localhost:26194/api/functions/certificate/" + userId + "/"+ groupId ,"_blank");
+			window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
 		} else {
-			window.open("/api/functions/certificate/" + userId + "/" + groupId,"_blank");
+			window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
 		}
 	}
 
