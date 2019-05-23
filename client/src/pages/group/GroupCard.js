@@ -56,7 +56,7 @@ class GroupCard extends Component {
 			style.backgroundColor = getEvaluationColor(this.props.group.evaluation);
 			return (
 				<div style={style} >
-					<Field value="Beoordeling" style={{ type: "headline", color: "primaryContrast", flex: 0.8 }} />
+					<Field value="Beoordeling" style={{ type: "headline", color: "primaryContrast", flex: 1 }} />
 					<Evaluation evaluation={this.props.group.evaluation} student />
 				</div>
 			);

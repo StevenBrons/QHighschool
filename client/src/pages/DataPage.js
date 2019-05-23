@@ -165,6 +165,8 @@ class DataPage extends Component {
 				return "200px";
 			case "courseName":
 				return "300px";
+			case "explanation":
+				return "200px";
 			default:
 				return "auto";
 		}
