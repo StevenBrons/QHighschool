@@ -28,24 +28,41 @@ passport.deserializeUser((token, done) => {
 });
 
 async function getUserDetails(accessToken) {
-    const client = getAuthenticatedClient(accessToken);
+	const client = getAuthenticatedClient(accessToken);
 
-    const user = await client.api('/me').get();
-    return user;
-  }
+	let x = await client.api("/users").get();
 
-  function getAuthenticatedClient(accessToken) {
+	console.log(x);
+
+	const team = {
+		"template@odata.bind": "https://graph.microsoft.com/beta/teamsTemplates('educationClass')",
+		displayName: "Steven is awesome",
+		description: "Jee!",
+		"owners@odata.bind": [
+			"https://graph.microsoft.com/beta/users('" + x.id + "')"
+		]
+	}
+
+	// let res = await client.api("/teams")
+	// 	.version("beta")
+	// 	.post(team);
+	// console.log(res);
+
+	return user;
+}
+
+function getAuthenticatedClient(accessToken) {
 	// Initialize Graph client
 	const client = graph.Client.init({
-	  // Use the provided access token to authenticate
-	  // requests
-	  authProvider: (done) => {
-		done(null, accessToken);
-	  }
+		// Use the provided access token to authenticate
+		// requests
+		authProvider: (done) => {
+			done(null, accessToken);
+		}
 	});
-  
+
 	return client;
-  }
+}
 
 passport.use(new OIDCStrategy({
 	identityMetadata: creds.identityMetadata,
@@ -71,7 +88,7 @@ passport.use(new OIDCStrategy({
 },
 	function (iss, sub, profile, accessToken, refreshToken, params, done) {
 		console.log("iero")
-		const email = profile.upn;
+		let email = profile.upn;
 		console.log(email);
 		const x = getUserDetails(accessToken).then(x => {
 			console.log(x);
@@ -79,13 +96,12 @@ passport.use(new OIDCStrategy({
 			console.error(e);
 		});
 
-		// if (email === "Qhighschool@quadraam.nl") {
-		// 	console.log("heer")
-		// 	graph.initCreator(accessToken, refreshToken).catch(e => {
-		// 		console.error(e);
-		// 	});
-		// }
+		console.log("heer")
+		// graph.initCreator(accessToken, refreshToken).catch(e => {
+		// 	console.error(e);
+		// });
 
+		email = "Qhighschool@quadraam.nl";
 		sessionDb.getUserByEmail(email).then((user) => {
 			if (user == null) {
 				functionDb.createUser(accessToken).then((u) => {
