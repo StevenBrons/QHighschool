@@ -1,4 +1,6 @@
-const graph = require("./graph");
+const graph = require("./graphConnection");
+
+
 
 exports.createTeam = async () => {
 	const body = {
@@ -28,7 +30,4 @@ exports.createTeam = async () => {
 		}
 	}
 
-	await graph.mainClient.api("/groups/49/team").put(body).catch(e => {
-		console.log(e);
-	});
 }

@@ -1,8 +1,12 @@
 var moment = require('moment');
 moment.locale('nl');
 
-module.exports.getLessonDate = function (period, numberInBlock, day) {
-	const week = module.exports.schedule.filter((week) => {
+const currentPeriod = 4;
+const currentSchoolYear = "2018/2019";
+const currentEnrollmentPeriod = 4;
+
+exports.getLessonDate = function (period, numberInBlock, day) {
+	const week = exports.schedule.filter((week) => {
 		return ((week.period + "") === (period + "") && (week.numberInBlock + "") === (numberInBlock + ""));
 	})[0];
 
@@ -11,13 +15,22 @@ module.exports.getLessonDate = function (period, numberInBlock, day) {
 	}
 	if (week.year !== moment().year()) {
 		return moment().year(week.year).week(week.weekNumber - 1).day(day).toDate();
-	}else {
+	} else {
 		return moment().year(week.year).week(week.weekNumber).day(day).toDate();
 	}
 }
 
+exports.shouldBeSynced = (group) => {
+	if (group.period == exports.getEnrollmentPeriod() || group.period == exports.getEnrollmentPeriod() - 1) {
 
-module.exports.schedule = [
+	}
+}
+
+exports.getEnrollmentPeriod = () => {
+	return 4;
+}
+
+exports.schedule = [
 	//block 1
 	{ weekNumber: 35, period: 1, numberInBlock: 1, year: 2018, },
 	{ weekNumber: 36, period: 1, numberInBlock: 2, year: 2018, },

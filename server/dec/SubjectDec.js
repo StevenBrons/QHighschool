@@ -8,6 +8,9 @@ module.exports = connection.define('subject', {
 	description: {
 		type: Sequelize.TEXT,
 	},
+	abbreviation: {
+		type: Sequelize.TEXT,
+	}
 }, {
 		tableName: 'school_subject'
 	});

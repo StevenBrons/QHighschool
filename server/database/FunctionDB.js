@@ -8,13 +8,13 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
-const officeUser = require("../office/officeUser");
+const graphConnection = require("../office/graphConnection");
 
 class FunctionDB {
 
 	async createUser(accessToken) {
 
-		const user = await officeUser.getUserDetails(accessToken);
+		const user = await graphConnection.getOwnDetails(accessToken);
 
 		if (/beekdallyceum\.nl$/g.test(user.email)) { user.school = "Beekdal" };
 		if (/candea\.nl$/g.test(user.email)) { user.school = "Candea College" };
@@ -56,6 +56,10 @@ class FunctionDB {
 		}
 
 		return User.create(user);
+	}
+
+	async updateGraphId(userId, graphId) {
+		return User.update({ graphId }, { where: { id: userId } });
 	}
 
 	async addAllEnrollmentsToGroups() {

@@ -1,12 +1,10 @@
 const passport = require("passport");
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const keys = require('../private/keys');
-const creds = keys.azureADCreds;
+const { azureADCreds } = require('../private/keys');
 const sessionDb = require('../database/SessionDB');
 const functionDb = require('../database/FunctionDB');
 const secureLogin = require('./secureLogin');
-// const graph = require("../office/graph");
-const graph = require('@microsoft/microsoft-graph-client');
+const graphConnection = require("../office/graphConnection");
 
 
 passport.serializeUser((profile, done) => {
@@ -30,7 +28,7 @@ passport.deserializeUser((token, done) => {
 async function getUserDetails(accessToken) {
 	const client = getAuthenticatedClient(accessToken);
 
-	let x = await client.api("/users").get();
+	let x = await client.api("/me").get();
 
 	console.log(x);
 
@@ -64,56 +62,25 @@ function getAuthenticatedClient(accessToken) {
 	return client;
 }
 
-passport.use(new OIDCStrategy({
-	identityMetadata: creds.identityMetadata,
-	clientID: creds.clientID,
-	responseType: creds.responseType,
-	responseMode: creds.responseMode,
-	redirectUrl: creds.returnURL,
-	allowHttpForRedirectUrl: creds.allowHttpForRedirectUrl,
-	clientSecret: creds.clientSecret,
-	// validateIssuer: creds.validateIssuer,
-	// 	isB2C: creds.isB2C,
-	// 	issuer: creds.issuer,
-	// 	passReqToCallback: creds.passReqToCallback,
-	// 	scope: creds.scope,
-	// 	loggingLevel: creds.loggingLevel,
-	// 	nonceLifetime: creds.nonceLifetime,
-	// 	nonceMaxAmount: creds.nonceMaxAmount,
-	// 	useCookieInsteadOfSession: creds.useCookieInsteadOfSession,
-	cookieEncryptionKeys: creds.cookieEncryptionKeys,
-	validateIssuer: true,
-	passReqToCallback: false,
-	scope: creds.scope,
-},
-	function (iss, sub, profile, accessToken, refreshToken, params, done) {
-		console.log("iero")
-		let email = profile.upn;
-		console.log(email);
-		const x = getUserDetails(accessToken).then(x => {
-			console.log(x);
-		}).catch(e => {
-			console.error(e);
-		});
+passport.use(new OIDCStrategy(azureADCreds, passportCallback));
 
-		console.log("heer")
-		// graph.initCreator(accessToken, refreshToken).catch(e => {
-		// 	console.error(e);
-		// });
+async function passportCallback(req, iss, sub, profile, accessToken, refreshToken, params, done) {
 
-		email = "Qhighschool@quadraam.nl";
-		sessionDb.getUserByEmail(email).then((user) => {
-			if (user == null) {
-				functionDb.createUser(accessToken).then((u) => {
-					done(null, { email });
-				});
-			} else {
-				secureLogin.sign(user.id);
-				done(null, { email });
-			}
-		}).catch((err) => {
-			done(err);
-		});
+	const email = profile._json.preferred_username;
+	if (email === "Qhighschool@quadraam.nl") {
+		await graphConnection.initCreator(accessToken, refreshToken, params.expires_in);
+		await graphConnection.test();
 	}
-));
+
+	let user = await sessionDb.getUserByEmail(email).catch(done);
+	if (user == null) {
+		user = await functionDb.createUser(accessToken);
+	}
+	secureLogin.sign(user.id);
+	if (user.graphId !== profile.oid) {
+		await functionDb.updateGraphId(user.id, profile.oid);
+	}
+
+	done(null, { email });
+}
 

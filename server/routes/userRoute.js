@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userDb = require('../database/UserDB');
 const groupDb = require('../database/GroupDB');
+const schedule = require('../lib/schedule');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -55,7 +56,7 @@ router.get("/enrollments", (req, res) => {
 router.get("/enrollableGroups", function (req, res, next) {
 	groupDb.getGroups(req.user.id).then(groups => {
 		var enrollableGroups = groups.filter((group) => {
-			return group.period == 4;
+			return group.period == schedule.getEnrollmentPeriod();
 
 		});
 		return enrollableGroups;
