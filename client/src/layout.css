@@ -158,6 +158,7 @@ table {
 
 	.Login {
 		grid-row: 4 / span 6;
+		grid-column: 4 / span 8;
 		-ms-grid-row: 4;
 		-ms-grid-row-span: 6;
 	}
@@ -165,7 +166,7 @@ table {
 }
 
 /* Mobile */
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 780px) {
 	.ColumnFlexDirectionOnMobile {
 		flex-direction: column;
 	}

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import UserRow from "./UserRow";
 import UserPage from "./UserPage";
 import UserCard from "./UserCard";
-import { setSecureLogin } from "../../store/actions"
+import { setSecureLogin, getCookie } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
@@ -23,15 +23,15 @@ class User extends Component {
 		if (s.secureLogin != null) {
 			nextProps.setSecureLogin(s.secureLogin);
 		}
-		// if (s.from === "login" && nextProps.user != null && (nextProps.user.year != null || nextProps.role !== "student")) {
-		// 	const beforeLoginPath = getCookie("beforeLoginPath");
-		// 	nextProps.history.push(beforeLoginPath);
-		// }
+		if (s.from === "login" && nextProps.user != null && nextProps.role !== "student") {
+			const beforeLoginPath = getCookie("beforeLoginPath");
+			nextProps.history.push(beforeLoginPath);
+		}
 		return prevState;
 	}
 
 	render() {
-		if (this.props.user == null ) {
+		if (this.props.user == null) {
 			if (this.props.display === "page") {
 				if (this.props.notExists) {
 					return (

@@ -19,11 +19,11 @@ class UserPage extends Component {
 		};
 	}
 
-	handleChange(event) {
+	handleChange = (name, value) => {
 		this.setState({
 			user: {
 				...this.state.user,
-				[event.name]: event.target.value,
+				[name]: value,
 			}
 		});
 	}
@@ -71,10 +71,9 @@ class UserPage extends Component {
 					<Field
 						label="Leerjaar"
 						value={user.year}
-						name="year"
 						style={{ margin: "normal" }}
 						editable={this.props.ownProfile}
-						onChange={this.handleChange.bind(this)}
+						onChange={(value) => this.handleChange("year", value)}
 						validate={{
 							type: "integer",
 							min: 1,
@@ -84,38 +83,34 @@ class UserPage extends Component {
 					<Field
 						label="Opleidingsniveau"
 						value={user.level}
-						name="level"
 						editable={this.props.ownProfile}
-						onChange={this.handleChange.bind(this)}
+						onChange={(value) => this.handleChange("level", value)}
 						options={levels}
 						validate={{ notEmpty: true, }}
 					/>
 					{this.props.ownProfile &&
 						<Field
 							label="Profiel"
-							name="profile"
 							value={user.profile}
 							editable={this.props.ownProfile}
 							options={profiles}
-							onChange={this.handleChange.bind(this)}
+							onChange={(value) => this.handleChange("profile", value)}
 							validate={{ notEmpty: true }}
 						/>}
 				</div>
 				<div style={{ display: "flex" }} >
 					{this.props.ownProfile && <Field
 						label="Voorkeurs email"
-						name="preferedEmail"
 						value={user.preferedEmail}
 						editable={this.props.ownProfile}
-						onChange={this.handleChange.bind(this)}
+						onChange={(value) => this.handleChange("preferedEmail", value)}
 						validate={{ type: "email" }}
 					/>}
 					{this.props.ownProfile && <Field
 						label="Telefoonnummer"
-						name="phoneNumber"
 						value={user.phoneNumber}
 						editable={this.props.ownProfile}
-						onChange={this.handleChange.bind(this)}
+						onChange={(value) => this.handleChange("phoneNumber", value)}
 						validate={{ type: "phoneNumber" }}
 					/>}
 				</div>

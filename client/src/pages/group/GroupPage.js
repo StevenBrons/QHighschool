@@ -18,6 +18,7 @@ import ChooseButton from './ChooseButton';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import queryString from "query-string";
+import NotificationBadge from '../../components/NotificationBadge';
 
 class GroupPage extends Component {
 
@@ -190,11 +191,11 @@ class GroupPage extends Component {
 		}
 	}
 
-	handleChange = (event) => {
+	handleChange = (name,value) => {
 		this.setState({
 			group: {
 				...this.state.group,
-				[event.name]: event.target.value,
+				[name]: value,
 			}
 		});
 	}
@@ -303,7 +304,12 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						{this.state.tabs.map(tab => <Tab key={tab} label={tab} />)}
+						{this.state.tabs.map(tab => 
+						<Tab key={tab} label={
+							<NotificationBadge scope={"groep/" + ( group.id || "" ) + "?tab=" + tab} style={{paddingLeft:"100px"}}>
+								{tab}
+							</NotificationBadge>
+							} />) }
 					</Tabs>
 				</AppBar>
 				<br />
