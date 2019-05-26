@@ -23,11 +23,7 @@
     "mysql2": "^1.6.5",
     "npm": "^6.9.0",
     "passport": "^0.4.0",
-<<<<<<< HEAD
     "passport-azure-ad": "^4.1.0",
-=======
-    "passport-azure-ad": "^4.0.0",
->>>>>>> 3d509a0d80bbfa845cfab0416238793debe591ae
     "promise-mysql": "^3.3.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
