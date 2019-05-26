@@ -1,10 +1,6 @@
 var moment = require('moment');
 moment.locale('nl');
 
-const currentPeriod = 4;
-const currentSchoolYear = "2018/2019";
-const currentEnrollmentPeriod = 4;
-
 exports.getLessonDate = function (period, numberInBlock, day) {
 	const week = exports.schedule.filter((week) => {
 		return ((week.period + "") === (period + "") && (week.numberInBlock + "") === (numberInBlock + ""));
@@ -20,14 +16,50 @@ exports.getLessonDate = function (period, numberInBlock, day) {
 	}
 }
 
-exports.shouldBeSynced = (group) => {
-	if (group.period == exports.getEnrollmentPeriod() || group.period == exports.getEnrollmentPeriod() - 1) {
-
+exports.getCurrentSchoolYear = () => {
+	const currentYear = moment().year();
+	if (moment().week() <= 32) {
+		return (currentYear - 1) + "/" + currentYear;
+	} else {
+		return currentYear + "/" + (currentYear + 1);
 	}
 }
 
+exports.getCurrentPeriod = () => {
+	const currentWeek = moment().week();
+	const obj = exports.schedule.find((obj) => {
+		return obj.weekNumber === currentWeek;
+	});
+	if (obj) {
+		return obj.period;
+	}
+	return -1;
+}
+
+exports.getCurrentWeekInBlock = () => {
+	const currentWeek = moment().week();
+	const obj = exports.schedule.find((obj) => {
+		return obj.weekNumber === currentWeek;
+	});
+	if (obj) {
+		return obj.numberInBlock;
+	}
+	return -1;
+}
+
+exports.shouldBeSynced = (group) => {
+	return exports.getCurrentPeriod() <= group.period &&
+		group.schoolYear === exports.getCurrentSchoolYear();
+}
+
 exports.getEnrollmentPeriod = () => {
-	return 4;
+	let currentWeek = exports.getCurrentWeekInBlock();
+	let currentPeriod = exports.getCurrentPeriod();
+	if (currentWeek >= 6 && currentPeriod != 4) {
+		return currentPeriod + 1;
+	} else {
+		return currentPeriod;
+	}
 }
 
 exports.schedule = [
