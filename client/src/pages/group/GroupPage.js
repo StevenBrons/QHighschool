@@ -264,11 +264,24 @@ class GroupPage extends Component {
 	openCertificate = () => {
 		const groupId = this.props.group.id;
 		const userId = this.props.userId;
+		const role = this.props.role;
 		
-		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+		// in case of student show that students certificate. In case of other role show certificates of all students for that group
+		// also check if in development mode because url is different in that case
+		if ( role === "student" ){
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+			} else {
+				window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+			}
 		} else {
-			window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				//window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+				// IMPLEMENT ME
+			} else {
+				//window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+				// IMPLEMENT ME
+			}
 		}
 	}
 
@@ -308,10 +321,10 @@ class GroupPage extends Component {
 					}
 					<div style={{flex:"2"}}/>
 					{
-						(role === "student" && group.evaluation != null)
+						(group.evaluation != null)
 						&&
 						<Button color="primary" variant="contained" style={{margin:"20px"}} onClick={this.openCertificate}>
-							{"Certificaat"}
+							{role==="student"? "Certificaat":"Certificaten"}
 						</Button>
 					}
 				</div>
