@@ -160,7 +160,7 @@ class DataPage extends Component {
 	render() {
 		let content;
 		if (this.state.tables == null) {
-			content = <Progress />;
+			content = <Progress style={{marginTop:"100px"}}/>;
 		} else {
 			content = (this.state.tables).map((table, tableIndex) => {
 				return (
