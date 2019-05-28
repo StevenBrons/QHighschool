@@ -19,6 +19,9 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import queryString from "query-string";
 import NotificationBadge from '../../components/NotificationBadge';
+import SelectUser from '../../components/SelectUser';
+import Field from '../../components/Field';
+import { Typography } from '@material-ui/core';
 
 class GroupPage extends Component {
 
@@ -27,6 +30,10 @@ class GroupPage extends Component {
 		this.state = {
 			editable: false,
 			group: this.props.group,
+			newParticipant: {
+				participatingRole: "student",
+				userId: null,
+			}
 		}
 
 		switch (this.props.role) {
@@ -71,6 +78,7 @@ class GroupPage extends Component {
 		const participantIds = this.state.group.participantIds;
 		const evaluations = this.state.group.evaluations;
 		const presence = this.state.group.presence;
+		const newParticipant = this.state.newParticipant;
 
 		switch (currentTab) {
 			case "Inschrijvingen":
@@ -106,10 +114,30 @@ class GroupPage extends Component {
 				if (participantIds == null) {
 					return <Progress />;
 				}
-				if (participantIds.length === 0) {
-					return "Er zijn nog geen deelnemers toegevoegd";
-				}
-				return <UserList userIds={participantIds} />
+				return (
+				<div >
+					{
+						this.props.role === "admin" && this.state.editable &&
+						<div>
+							<div>
+								<Typography variant="title" color="primary" style={{ margin: "18px 12px"}}>
+									Nieuwe deelnemer:
+								</Typography>
+							</div>
+							<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
+							<Field editable label="Rol" value={newParticipant.participatingRole} options={[{value:"student", label:"Leerling"},{value:"teacher", label:"Docent"}]} onChange={this.handleNewParticipantRoleChange} />
+							<Button variant="contained" disabled={newParticipant.userId == null} color="primary" style={{marginTop:"22px"}} onClick={this.addNewParticipant}> Voeg toe	</Button>
+							<Divider/>
+							<br/>
+						</div>
+					}
+					{
+						participantIds.length === 0 ? "Er zijn nog geen deelnemers toegevoegd" :
+						<UserList userIds={participantIds} />
+					}
+				</div>
+				);
+
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
@@ -134,6 +162,38 @@ class GroupPage extends Component {
 			default: return null;
 		}
 
+	}
+
+	addNewParticipant = event => {
+		const newParticipant = this.state.newParticipant;
+		this.props.addParticipant(this.props.groupId,newParticipant.userId,newParticipant.participatingRole);
+		this.setState(prevState => ({
+			...prevState,
+			newParticipant: {
+				participatingRole: prevState.newParticipant.participatingRole,
+				userId: null,
+			}
+		}))
+	}
+
+	handleNewParticipantRoleChange = value => {
+		this.setState( prevState => ({
+			...prevState,
+			newParticipant: {
+				participatingRole: value,
+				userId: prevState.newParticipant.userId,
+			},
+		}))
+	}
+
+	handleNewParticipantIdChange = value => {
+		this.setState( prevState => ({
+			...prevState,
+			newParticipant: {
+				userId: value,
+				participatingRole: prevState.newParticipant.participatingRole,
+			},
+		}))
 	}
 
 	componentDidMount() {

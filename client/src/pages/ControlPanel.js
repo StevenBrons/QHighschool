@@ -82,25 +82,25 @@ class ControlPanel extends Component {
 		} else {
 			console.log(typeObjectAdded + " not added :(");
 		}
-		// if ( success ) {
-		// 	this.props.addNotification(
-		// 		{
-		// 			priority:"low",
-		// 			type:"bar",
-		// 			message:typeObjectAdded + "succesvol toegevoegd!",
-		// 			scope: "beheer",
-		// 		}
-		// 	)
-		// } else {
-		// 	this.props.addNotification(
-		// 		{
-		// 			priority:"medium",
-		// 			type:"bar",
-		// 			message:"Er is iets misgegaan. " + typeObjectAdded + " is niet toegevoegd.",
-		// 			scope:"beheer",
-		// 		}
-		// 	)
-		// }
+		if ( success ) {
+			this.props.addNotification(
+				{
+					priority:"low",
+					type:"bar",
+					message:typeObjectAdded + "succesvol toegevoegd!",
+					scope: "beheer",
+				}
+			)
+		} else {
+			this.props.addNotification(
+				{
+					priority:"medium",
+					type:"bar",
+					message:"Er is iets misgegaan. " + typeObjectAdded + " is niet toegevoegd.",
+					scope:"beheer",
+				}
+			)
+		}
 	}
 
 	add(type) {
