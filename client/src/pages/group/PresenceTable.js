@@ -21,10 +21,10 @@ class PresenceTable extends Component {
 			label={presence.userStatus === "absent" ? "afgemeld" : undefined}
 			layout={{ td: true, area: true }}
 			editable={this.props.editable}
-			onChange={(event) => {
+			onChange={(status) => {
 				this.props.handleChange({
 					...presence,
-					status: event.target.value,
+					status,
 				});
 			}}
 		/>;

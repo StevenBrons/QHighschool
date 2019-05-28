@@ -4,20 +4,19 @@ const uuid = require('uuid/v4');
 let secureLogins = [];
 
 class SecureLogin {
-	constructor(userId, ip) {
+	constructor(userId) {
 		this.userId = userId;
 		this.validUntil = moment().add(30, "minute");
 		this.token = uuid();
 		this.signed = false;
-		this.ip = ip;
 	}
 
 	sign() {
 		this.signed = true;
 	}
 
-	isValid(ip) {
-		return this.signed === true && this.validUntil.isAfter(moment()) && this.ip === ip;
+	isValid() {
+		return this.signed === true && this.validUntil.isAfter(moment());
 	}
 }
 
@@ -34,19 +33,18 @@ function removeByUserId(userId) {
 	}
 }
 
-function add(userId, ip) {
-	secureLogins.push(new SecureLogin(userId, ip));
+function add(userId) {
+	secureLogins.push(new SecureLogin(userId));
 }
 
 function isValidToken(req, res) {
 	const token = req.body.secureLogin;
 	const userId = req.user.id;
-	const ip = req.connection.remoteAddress;
 
 	const login = secureLogins.find(login => {
 		return login.token === token && login.userId + "" === userId + "";
 	});
-	const isValid = login != null && login.isValid(ip);
+	const isValid = login != null && login.isValid();
 	if (!isValid) {
 		res.status(401);
 		res.send({
@@ -61,11 +59,12 @@ function getToken(req) {
 		return "";
 	}
 
+
 	const secureLogin = secureLogins.find((login) => {
 		return login.userId === req.user.id;
 	});
 
-	if (secureLogin != null && secureLogin.isValid(req.connection.remoteAddress)) {
+	if (secureLogin != null && secureLogin.isValid()) {
 		return "&secureLogin=" + secureLogin.token;
 	} else {
 		return "";

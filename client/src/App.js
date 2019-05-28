@@ -13,7 +13,6 @@ import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
 import User from "./pages/user/User";
-import MyGroups from "./pages/MyGroups";
 import DataPage from "./pages/DataPage";
 import Taxi from "./pages/Taxi";
 
@@ -64,7 +63,7 @@ class App extends Component {
 					<Route path="/gebruiker/:userId" component={User} />
 					<Route path="/profiel/" component={User} />
 					<Route path="/portfolio/" component={Portfolio} />
-					<Route path="/groepen/" component={MyGroups} />
+					<Route path="/groepen/" component={Portfolio} />
 					<Route path="/gegevens/" component={DataPage} />
 					<Route path="/taxi/" component={Taxi} />
 					<Route path="/beheer/" component={ControlPanel} />
