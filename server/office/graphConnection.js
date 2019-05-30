@@ -1,11 +1,24 @@
 const graph = require('@microsoft/microsoft-graph-client');
 const moment = require('moment');
 const { azureADCreds } = require('../private/keys');
-var rp = require('request-promise');
+const rp = require('request-promise');
+const teamSync = require('./teamSync');
+const groupDb = require('../database/GroupDB');
 
 let mainCreator;
 exports.isConnected = () => {
 	return mainCreator != null;
+}
+
+exports.getCreatorRaw = () => {
+	return mainCreator;
+}
+
+exports.getCreator = async () => {
+	if (!exports.isConnected) {
+		throw new Error("Not connected");
+	}
+	return mainCreator.getAuthenticatedClient();
 }
 
 exports.getAuthenticatedClient = (accessToken) => {
@@ -22,13 +35,15 @@ exports.initCreator = async (accessToken, refreshToken, expiresIn) => {
 }
 
 exports.test = async () => {
-	const client = await mainCreator.getAuthenticatedClient().catch(e => {
-		console.log(e);
-	});
-	const res = await client.api("/me").get().catch(e => {
-		console.log(e);
+	const qgroup = await groupDb.getGroup(77);
+	const res = await teamSync.createGroup(qgroup).catch(e => {
+		console.error(e);
 	});
 	console.log(res);
+	const res2 = await teamSync.createTeam(res.id, qgroup).catch(e => {
+		console.error(e);
+	});
+	console.log(res2);
 }
 
 exports.getOwnDetails = async (accessToken) => {
@@ -52,11 +67,9 @@ class MainCreator {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 		this.expires = moment().add(expiresIn, "seconds");
-		this.oauthToken = oauth2.accessToken.create({ refresh_token: refreshToken });
 	}
 
 	async getAuthenticatedClient() {
-		console.log(this.refreshToken);
 		return exports.getAuthenticatedClient(await this.getAccessToken());
 	}
 

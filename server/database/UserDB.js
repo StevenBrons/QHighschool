@@ -129,7 +129,7 @@ class UserDB {
 
 	async getList() {
 		return User.findAll({
-			attributes: ["id","displayName"],
+			attributes: ["id", "displayName"],
 		});
 	}
 

@@ -6,7 +6,6 @@ const functionDb = require('../database/FunctionDB');
 const secureLogin = require('./secureLogin');
 const graphConnection = require("../office/graphConnection");
 
-
 passport.serializeUser((profile, done) => {
 	sessionDb.createTokenForUser(profile).then((token) => {
 		done(null, token);
@@ -25,47 +24,9 @@ passport.deserializeUser((token, done) => {
 	});
 });
 
-async function getUserDetails(accessToken) {
-	const client = getAuthenticatedClient(accessToken);
-
-	let x = await client.api("/me").get();
-
-	console.log(x);
-
-	const team = {
-		"template@odata.bind": "https://graph.microsoft.com/beta/teamsTemplates('educationClass')",
-		displayName: "Steven is awesome",
-		description: "Jee!",
-		"owners@odata.bind": [
-			"https://graph.microsoft.com/beta/users('" + x.id + "')"
-		]
-	}
-
-	// let res = await client.api("/teams")
-	// 	.version("beta")
-	// 	.post(team);
-	// console.log(res);
-
-	return user;
-}
-
-function getAuthenticatedClient(accessToken) {
-	// Initialize Graph client
-	const client = graph.Client.init({
-		// Use the provided access token to authenticate
-		// requests
-		authProvider: (done) => {
-			done(null, accessToken);
-		}
-	});
-
-	return client;
-}
-
 passport.use(new OIDCStrategy(azureADCreds, passportCallback));
 
 async function passportCallback(req, iss, sub, profile, accessToken, refreshToken, params, done) {
-
 	const email = profile._json.preferred_username;
 	if (email === "Qhighschool@quadraam.nl") {
 		await graphConnection.initCreator(accessToken, refreshToken, params.expires_in);

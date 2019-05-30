@@ -51,12 +51,10 @@ class SessionDB {
 
 	async getUserByEmail(email) {
 		return User.findOne({
-			attributes: ["id", "role"],
+			attributes: ["id", "role", "graphId"],
 			where: {
 				email
 			}
-		}).then((user) => {
-			return user
 		});
 	}
 
