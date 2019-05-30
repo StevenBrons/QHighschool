@@ -21,7 +21,7 @@ import queryString from "query-string";
 import NotificationBadge from '../../components/NotificationBadge';
 import SelectUser from '../../components/SelectUser';
 import Field from '../../components/Field';
-import { Typography } from '@material-ui/core';
+import { Typography, Tooltip } from '@material-ui/core';
 
 class GroupPage extends Component {
 
@@ -119,14 +119,21 @@ class GroupPage extends Component {
 					{
 						this.props.role === "admin" && this.state.editable &&
 						<div>
-							<div>
-								<Typography variant="title" color="primary" style={{ margin: "18px 12px"}}>
-									Nieuwe deelnemer:
-								</Typography>
+							<Typography variant="title" color="primary" style={{ margin: "18px 12px"}}>
+								Nieuwe deelnemer:
+							</Typography>
+							<div style={{display:"inline-flex"}}>
+								<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
+								<Field editable label="Rol" value={newParticipant.participatingRole} options={[{value:"student", label:"Leerling"},{value:"teacher", label:"Docent"}]} onChange={this.handleNewParticipantRoleChange} />
+								<Tooltip title={participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer": ""} placement={"bottom-start"} enterDelay={200}>
+									<div>
+										<Button variant="contained" 
+										disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) }
+										color="primary" style={{marginTop:"22px"}} onClick={this.addNewParticipant}>
+											Voeg toe	</Button>
+									</div>
+								</Tooltip>
 							</div>
-							<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
-							<Field editable label="Rol" value={newParticipant.participatingRole} options={[{value:"student", label:"Leerling"},{value:"teacher", label:"Docent"}]} onChange={this.handleNewParticipantRoleChange} />
-							<Button variant="contained" disabled={newParticipant.userId == null} color="primary" style={{marginTop:"22px"}} onClick={this.addNewParticipant}> Voeg toe	</Button>
 							<Divider/>
 							<br/>
 						</div>
@@ -226,6 +233,9 @@ class GroupPage extends Component {
 			case "Deelnemers":
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
+				}
+				if (enrollmentIds == null) {
+					this.props.getGroupEnrollments(group.id);//also get enrollments because we're checking if new userId is in enrollmenIds
 				}
 				break;
 			case "Actief":
