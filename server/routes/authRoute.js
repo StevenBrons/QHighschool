@@ -32,24 +32,21 @@ router.get('/login', passport.authenticate('azuread-openidconnect', {
 	res.redirect('/auth/success');
 });
 
-router.get('/openid/return',
-	function (req, res, next) {
-		passport.authenticate('azuread-openidconnect', {
-			response: res,                      // required
-			failureRedirect: '/error2',
-			successRedirect: '/auth/success',
-		})(req, res, next);
-	});
+router.get('/openid/return', (req, res, next) => {
+	passport.authenticate('azuread-openidconnect', {
+		response: res,                      // required
+		failureRedirect: '/error2',
+		successRedirect: '/auth/success',
+	})(req, res, next);
+});
 
-router.post('/openid/return',
-	function (req, res, next) {
-		passport.authenticate('azuread-openidconnect', {
-			response: res,                      // required
-			successRedirect: '/auth/success',
-			failureRedirect: '/error1',
-			failureFlash: false,
-			// session: false,
-		})(req, res, next);
-	});
+router.post('/openid/return', (req, res, next) => {
+	passport.authenticate('azuread-openidconnect', {
+		response: res,                      // required
+		successRedirect: '/auth/success',
+		failureRedirect: '/error1',
+		failureFlash: false,
+	})(req, res, next);
+});
 
 module.exports = router;

@@ -54,7 +54,9 @@ app.use(passport.session());
 
 app.use("/api", apiRoute);
 app.use("/auth", authRoute);
-app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+	explorer: true
+}));
 
 app.use(function (req, res, next) {
 	next(createError(404));

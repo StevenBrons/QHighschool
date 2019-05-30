@@ -9,17 +9,6 @@ const handleError = handlers.handleError;
 const authError = handlers.authError;
 const handleSuccess = handlers.handleSuccess;
 
-router.post("/acceptEnrollements", function (req, res, next) {
-	if (req.user.isAdmin() && req.body.message === "confirm") {
-		console.log("Accepting all current enrollments");
-		functionDb.addAllEnrollmentsToGroups().then(() => {
-			res.send({
-				success: true,
-			});
-		});
-	}
-});
-
 router.post("/calculateLessonDates", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
 		console.log("Re-calculating all lesson dates");

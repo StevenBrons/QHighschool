@@ -9,19 +9,19 @@ const handleReturn = handlers.handleReturn;
 const handleError = handlers.handleError;
 const authError = handlers.authError;
 
-router.get("/list", function (req, res) {
+router.get("/list", (req, res) => {
 	course.getCourses()
 		.then(handleReturn(res));
 });
 
-router.post("/", function (req, res) {
+router.post("/", (req, res) => {
 	course.getCourse(req.body.courseId)
 		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
-router.put("/", function (req, res) {
-	if (!secureLogin.isValidToken(req,res)) return;
+router.put("/", (req, res) => {
+	if (!secureLogin.isValidToken(req, res)) return;
 	if (req.user.isAdmin()) {
 		course.addCourse(req.body)
 			.then(handleSuccess(res))
@@ -31,7 +31,7 @@ router.put("/", function (req, res) {
 	}
 });
 
-router.patch("/", function (req, res) {
+router.patch("/", (req, res) => {
 	if (req.user.isTeacher()) {
 		course.updateCourse(req.body)
 			.then(handleSuccess(res))

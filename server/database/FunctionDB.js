@@ -60,24 +60,9 @@ exports.updateGraphId = async (userId, graphId) => {
 	return User.update({ graphId }, { where: { id: userId } });
 }
 
-exports.addAllEnrollmentsToGroups = async () => {
-	const enrollments = await Enrollment.findAll();
-	const userAdds = enrollments.map((enrollment) => {
-		if (enrollment.accepted === "false") {
-			return exports.addUserToGroup(enrollment.userId, enrollment.courseGroupId);
-		}
-	});
-	await Promise.all(userAdds);
-	await Promise.all(enrollments.map(e => e.update({
-		accepted: "true",
-	})));
-	return true;
-}
-
 exports.addUserToGroup = async (userId, courseGroupId) => {
 	console.log("Adding " + userId + " to " + courseGroupId);
 	await exports._addParticipant(userId, courseGroupId);
-	await exports._addEvaluation(userId, courseGroupId);
 	await exports._addPresence(userId, courseGroupId);
 }
 
@@ -94,20 +79,6 @@ exports._addPresence = async (userId, courseGroupId) => {
 				}
 			});
 		})));
-}
-
-exports._addEvaluation = async (userId, courseGroupId) => {
-	return Group.findByPk(courseGroupId, { attributes: ["courseId"] })
-		.then(({ courseId }) => Evaluation.findOrCreate({
-			where: {
-				userId,
-				courseId
-			},
-			defaults: {
-				userId,
-				courseId
-			}
-		}));
 }
 
 exports._addParticipant = async (userId, courseGroupId) => {
