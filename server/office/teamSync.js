@@ -60,10 +60,57 @@ exports.createTeam = async (officeGroupId, group) => {
 	const c = await connection.getCreator();
 	const t = await c.api("/groups/" + officeGroupId + "/team")
 		.version("beta")
+		.headers({
+			"Content-type": "application/json",
+		})
 		.put({
 			...DEFAULT_TEAM,
 		});
 	return t;
+}
+
+exports.updateEvents = async (officeGroupId) => {
+	console.log(new Date().toString());
+
+	const event = {
+		subject: "Let's go for lunch",
+		body: {
+			contentType: "HTML",
+			content: "Does mid month work for you?"
+		},
+		start: {
+			dateTime: "2019-05-30T12:00:00",
+			timeZone: "Pacific Standard Time"
+		},
+		end: {
+			dateTime: "2019-05-30T14:00:00",
+			timeZone: "Pacific Standard Time"
+		},
+		location: {
+			displayName: "Harry's Bar"
+		},
+		attendees: [
+			{
+				emailAddress: {
+					address: "adelev@contoso.onmicrosoft.com",
+					name: "Adele Vance"
+				},
+				type: "required"
+			},
+			{
+				emailAddress: {
+					address: "qhighschool@quadraam.nl",
+					name: "Adele Vance"
+				},
+				type: "required"
+			},
+		]
+	};
+
+	const c = await connection.getCreator();
+	const e = await c.api("/groups/" + officeGroupId + "/events").post(event);
+
+	return e;
 }
 
 exports.updateMembers = async (officeGroupId, participants) => {

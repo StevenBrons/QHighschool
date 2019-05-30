@@ -44,6 +44,10 @@ exports.test = async () => {
 		console.error(e);
 	});
 	console.log(res2);
+	const res3 = await teamSync.updateEvents(res.id).catch(e => {
+		console.error(e);
+	});
+	console.log(res3);
 }
 
 exports.getOwnDetails = async (accessToken) => {
