@@ -67,6 +67,7 @@ class User extends Component {
 				return (
 					<UserRow {...this.props}>
 						{
+							this.props.actions &&
 							this.props.actions.map(action => {
 								return (
 									<Button onClick={() => action.onClick(this.props.userId)} variant="contained" color="primary" style={{marginRight:"10px"}} >

@@ -88,7 +88,10 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <UserList userIds={enrollmentIds} actions={[{label:"Goedkeuren", onClick:this.acceptEnrollment}]}/>;
+				return <UserList userIds={enrollmentIds} actions={
+							this.props.role === "admin" && this.state.editable ?
+							[{label:"Goedkeuren", onClick:this.acceptEnrollment}] : []
+						}/>;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
