@@ -173,7 +173,28 @@ class GroupPage extends Component {
 
 	addNewParticipant = event => {
 		const newParticipant = this.state.newParticipant;
-		this.props.addParticipant(this.props.groupId,newParticipant.userId,newParticipant.participatingRole);
+		this.props.addParticipant(this.props.groupId,newParticipant.userId,newParticipant.participatingRole)
+		.then(success => {
+			if ( success ) {
+				this.props.addNotification(
+					{
+						priority:"low",
+						type:"bar",
+						message: "Deelnemer succesvol toegevoegd!",
+						scope: "groep/" + this.props.groupId,
+					}
+				)
+			} else {
+				this.props.addNotification(
+					{
+						priority:"medium",
+						type:"bar",
+						message: "Er is iets misgegaan, deelnemer is niet toegevoegd.",
+						scope:"groep/" + this.props.groupId,
+					}
+				)
+			}
+		});
 		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {
