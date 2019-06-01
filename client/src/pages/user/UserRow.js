@@ -101,6 +101,7 @@ class GroupCard extends Component {
 							</Typography>
 						</div>
 					}
+					{this.props.children}
 				</Paper >
 			</tr>
 		);

@@ -88,7 +88,7 @@ class GroupPage extends Component {
 				if (enrollmentIds.length === 0) {
 					return "Er zijn geen inschrijvingen";
 				}
-				return <UserList userIds={enrollmentIds} />;
+				return <UserList userIds={enrollmentIds} actions={[{label:"Goedkeuren", onClick:this.acceptEnrollment}]}/>;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -169,6 +169,31 @@ class GroupPage extends Component {
 			default: return null;
 		}
 
+	}
+
+	acceptEnrollment = userId => {
+		this.props.acceptEnrollment(userId, this.props.groupId).then(
+			success => {
+				if ( success ) {
+					this.props.addNotification(
+						{
+							priority:"low",
+							type:"bar",
+							message: "Inschrijving succesvol geaccepteerd!",
+							scope: "groep/" + this.props.groupId,
+						}
+					)
+				} else {
+					this.props.addNotification(
+						{
+							priority:"medium",
+							type:"bar",
+							message: "Er is iets misgegaan, inschrijving niet geaccepteerd.",
+							scope:"groep/" + this.props.groupId,
+						}
+					)
+				}
+		});
 	}
 
 	addNewParticipant = event => {
