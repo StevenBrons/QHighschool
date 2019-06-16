@@ -29,6 +29,8 @@ exports._mapGroup = (data) => {
 		subjectAbbreviation: data.course.subject.abbreviation,
 		teacherId: data.participants[0] ? data.participants[0].user.id : null,
 		teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
+		graphId: data.graphId,
+		teamUrl: data.teamUrl,
 	}
 }
 
@@ -61,7 +63,9 @@ exports.setFullGroup = async (data) => {
 
 exports.setGroup = async (data) => {
 	Group.findByPrimary(data.groupId).then(group => {
-		return group.update(data);
+		return group.update({
+			enrollableFor: data.enrollableFor,
+		});
 	});
 }
 
@@ -118,7 +122,8 @@ exports.getEnrollments = async (groupId) => {
 }
 
 exports.getParticipants = async (groupId, teacher) => {
-	return Participant.findAll({
+	const participants = await Participant.findAll({
+		attributes: ["participatingRole", "userId"],
 		where: {
 			courseGroupId: groupId,
 		},
@@ -129,7 +134,13 @@ exports.getParticipants = async (groupId, teacher) => {
 				["id", "role", "displayName", "firstName", "lastName", "level", "profile", "year"],
 			order: [["displayName", "DESC"]]
 		},
-	}).then(rows => rows.map(row => row.user));
+	});
+	return participants.map(p => {
+		return {
+			...p.dataValues.user.dataValues,
+			participatingRole: p.dataValues.participatingRole,
+		}
+	});
 }
 
 exports.getLessons = async (groupId, userId) => {

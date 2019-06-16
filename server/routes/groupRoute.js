@@ -24,6 +24,7 @@ router.post("/", function (req, res, next) {
 });
 
 router.patch("/", function (req, res, next) {
+	if (!req.user.isTeacher()) return authError(res);
 	if (req.user.isAdmin()) {
 		groupDb.setFullGroup(req.body)
 			.then(handleReturn(res))

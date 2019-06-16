@@ -1,6 +1,9 @@
 const Course = require("../dec/CourseDec");
 const Group = require("../dec/CourseGroupDec");
 const Subject = require("../dec/SubjectDec");
+const teamSync = require("../office/teamSync");
+const schedule = require("../lib/schedule");
+const groupDb = require("./GroupDB");
 
 exports.getCourses = async () => {
 	return Course.findAll({
@@ -56,15 +59,22 @@ exports.addCourse = async (data) => {
 }
 
 exports.updateCourse = async (data) => {
-	return Course.findByPk(data.courseId).then((course) => {
+	return Course.findByPk(data.courseId).then(async (course) => {
 		if (course) {
-			return course.update({
+			const course = await course.update({
 				subjectId: data.subjectId,
 				name: data.name,
 				description: data.description,
 				remarks: data.remarks,
 				studyTime: data.studyTime
 			});
+
+			const groupIds = await exports.getGroupIdsOfCourse(course.id)
+			let groups = await Promise.all(groupIds.map(id => groupDb.getGroup(id)));
+			groups = groups.filter(g => schedule.shouldBeSynced(g));
+			groups.forEach(g => teamSync.updateOrCreateGroup(g));
+
+			return course;
 		} else {
 			throw new Error("courseId is invalid");
 		}

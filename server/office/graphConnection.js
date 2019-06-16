@@ -36,18 +36,13 @@ exports.initCreator = async (accessToken, refreshToken, expiresIn) => {
 
 exports.test = async () => {
 	const qgroup = await groupDb.getGroup(77);
-	const res = await teamSync.createGroup(qgroup).catch(e => {
+	const graphId = await teamSync.updateOrCreateGroup(qgroup).catch(e => {
 		console.error(e);
 	});
-	console.log(res);
-	const res2 = await teamSync.createTeam(res.id, qgroup).catch(e => {
-		console.error(e);
-	});
-	console.log(res2);
-	const res3 = await teamSync.updateEvents(res.id).catch(e => {
-		console.error(e);
-	});
-	console.log(res3);
+	// const res3 = await teamSync.updateEvents(graphId).catch(e => {
+	// 	console.error(e);
+	// });
+	// console.log(res3);
 }
 
 exports.getOwnDetails = async (accessToken) => {

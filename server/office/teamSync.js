@@ -1,6 +1,8 @@
 const connection = require("./graphConnection");
 const fs = require('fs');
 const path = require("path");
+const groupDb = require("../database/GroupDB");
+const userDb = require("../database/UserDB");
 
 const DEFAULT_GROUP = {
 	mailEnabled: false,
@@ -38,10 +40,65 @@ const DEFAULT_TEAM = {
 		allowCustomMemes: true
 	},
 	// "template@odata.bind": "https://graph.microsoft.com/beta/teamsTemplates('educationClass')",
-	visibility: 0,
+	visibility: "HiddenMembership",
 	specialization: 2, //educationClass
 }
-exports.createGroup = async (group) => {
+
+exports.updateOrCreateGroup = async (group) => {
+	let graphId = group.graphId;
+	if (graphId == null || graphId == "") {
+		graphId = await this._createGroup(group);
+		await this._createTeam(graphId, group);
+	} else {
+		await this._updateGroup(group);
+	}
+}
+
+exports.addParticipant = async (groupGraphId, userId, participatingRole) => {
+	const userGraphId = userDb.getGraphIdByUserId(userId);
+	if (userGraphId == null) return;
+	if (participatingRole == "teacher") {
+		console.log(userGraphId);
+		return this._addOwner(groupGraphId, userGraphId).catch(e => {
+			console.log(e);
+		});
+	} else {
+		return this._addMember(groupGraphId, userGraphId);
+	}
+}
+
+exports.removeParticipant = async (groupGraphId, userId, participatingRole) => {
+	const userGraphId = userDb.getGraphIdByUserId(userId);
+	if (userGraphId == null) return;
+	if (participatingRole == "teacher") {
+		return this._removeOwner(groupGraphId, userGraphId);
+	} else {
+		return this._removeMember(groupGraphId, userGraphId);
+	}
+}
+
+exports._addOwner = async (groupGraphId, userGraphId) => {
+	const directoryObject = {
+		"@odata.id": "https://graph.microsoft.com/v1.0/users/" + userGraphId,
+	};
+
+	return client.api("/groups/" + groupGraphId + "/owners/$ref")
+		.post({ directoryObject: directoryObject });
+}
+
+exports._addMember = async (groupGraphId, userGraphId) => {
+}
+
+exports._removeOwner = async (groupGraphId, userGraphId) => {
+}
+
+exports._removeMember = async (groupGraphId, userGraphId) => {
+}
+
+exports._createGroup = async (group) => {
+	const participants = await groupDb.getParticipants(group.id);
+	const lessons = await groupDb.getLessons(group.id);
+
 	const c = await connection.getCreator();
 	const res = await c.api('/groups')
 		.version('beta')
@@ -49,16 +106,29 @@ exports.createGroup = async (group) => {
 			...DEFAULT_GROUP,
 			displayName: "QH \u200b" + group.subjectAbbreviation + " " + group.courseName + "#" + group.id,
 			mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
-			mailEnabled: false,
 			description: group.courseDescription,
 		});
 
-	return res;
+	const graphId = res.id;
+	participants.forEach(p => this.addParticipant(res.id, p.id, p.participatingRole));
+
+	return graphId;
 }
 
-exports.createTeam = async (officeGroupId, group) => {
+exports._updateGroup = async (group) => {
 	const c = await connection.getCreator();
-	const t = await c.api("/groups/" + officeGroupId + "/team")
+	const t = await c.api("/groups/" + group.graphId).version("beta").patch({
+		...DEFAULT_GROUP,
+		displayName: "QH \u200b" + group.subjectAbbreviation + " " + group.courseName + "#" + group.id,
+		mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
+		description: group.courseDescription,
+		allowExternalSenders: false,
+	});
+}
+
+exports._createTeam = async (graphId, group) => {
+	const c = await connection.getCreator();
+	const t = await c.api("/groups/" + graphId + "/team")
 		.version("beta")
 		.headers({
 			"Content-type": "application/json",
@@ -69,9 +139,7 @@ exports.createTeam = async (officeGroupId, group) => {
 	return t;
 }
 
-exports.updateEvents = async (officeGroupId) => {
-	console.log(new Date().toString());
-
+exports._updateEvents = async (officeGroupId) => {
 	const event = {
 		subject: "Let's go for lunch",
 		body: {
@@ -113,6 +181,6 @@ exports.updateEvents = async (officeGroupId) => {
 	return e;
 }
 
-exports.updateMembers = async (officeGroupId, participants) => {
+exports._updateMembers = async (officeGroupId, participants) => {
 
 }
