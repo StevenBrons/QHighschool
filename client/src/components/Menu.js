@@ -111,7 +111,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="button" color={color} className="HiddenOnMobile">
+				<Typography variant="title" color={color} className="HiddenOnMobile">
 					{page.title}
 				</Typography>
 			</ListItem>
