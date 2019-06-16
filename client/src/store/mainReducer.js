@@ -5,6 +5,7 @@ const DEFAULT_STATE = {
 	userId: null,
 	enrollableGroups: null,
 	currentPeriod: 4,
+	enrollmentPeriod: 1,
 	subjects: null,
 	groups: null,
 	users: null,
