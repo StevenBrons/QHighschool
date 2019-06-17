@@ -55,8 +55,7 @@ router.get("/enrollments", (req, res) => {
 router.get("/enrollableGroups", function (req, res, next) {
 	groupDb.getGroups(req.user.id).then(groups => {
 		var enrollableGroups = groups.filter((group) => {
-			return group.period == 1;
-
+			return group.period === 1 && group.schoolYear === "2019/2020";
 		});
 		return enrollableGroups;
 	}).then(handleReturn(res));
