@@ -129,18 +129,18 @@ class ControlPanel extends Component {
 		})
 	}
 
-	handleChange = (event, type) => {
+	handleChange = (name, value, type) => {
 		this.setState(prevState => ({
 			[type]: {
 				...prevState[type],
-				[event.name]: event.target.value,
+				[name]: value,
 			}
 		}))
 	}
 
-	handleTypeChange = event => {
+	handleTypeChange = value => {
 		this.props.history.push({
-			search: "addType=" + event.target.value,
+			search: "addType=" + value,
 		});
 	}
 
@@ -155,24 +155,60 @@ class ControlPanel extends Component {
 		switch (addType) {
 			case "subject":
 				addView = <div>
-					<Field name="name" label={"Naam"} value={subject.name} onChange={(event) => { this.handleChange(event, "subject") }} editable={true} validate={{ maxLength: 50 }} />
+					<Field
+						label="Naam"
+						value={subject.name}
+						onChange={(val) => this.handleChange("name", val, "subject")}
+						editable={true}
+						validate={{ maxLength: 50 }}
+					/>
 					<br />
-					<Field name="description" label="Omschrijving" value={subject.description} onChange={(event) => { this.handleChange(event, "subject") }} editable={true} validate={{ maxLength: 440 }} layout={{ area: true }} />
+					<Field
+						label="Omschrijving"
+						value={subject.description}
+						onChange={(event) => this.handleChange("description", event, "subject")}
+						editable={true}
+						validate={{ maxLength: 440 }}
+						layout={{ area: true }}
+					/>
 				</div>
 				break;
 			case "course":
 				addView = <div >
-					<Field name="name" label={"Naam"} value={course.name} onChange={(event) => { this.handleChange(event, "course") }} editable={true} validate={{ maxLength: 50 }} style={{ flex: "1" }} />
+					<Field
+						label="Naam"
+						value={course.name}
+						onChange={(event) => this.handleChange("name", event, "course")}
+						editable={true}
+						validate={{ maxLength: 50 }}
+						style={{ flex: "1" }}
+					/>
 					<br />
-					<Field value={course.subjectId} name="subjectId" label="Vak" onChange={(event) => { this.handleChange(event, "course") }} editable={true} options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })} style={{ minWidth: "200px" }} />
+					<Field
+						value={course.subjectId}
+						subjectId label="Vak"
+						onChange={(event) => { this.handleChange("subjectId", event, "course") }}
+						editable={true}
+						options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })}
+						style={{ minWidth: "200px" }}
+					/>
 				</div>
 				break;
 			default: //group
 				addView = <div>
-					<Field value={group.courseId} name="courseId" label="Module" onChange={(event) => { this.handleChange(event, "group") }} editable={true} options={courses.map((course) => { return { label: course.name, value: course.id } })} style={{ minWidth: "200px" }} />
+					<Field
+						value={group.courseId}
+						label="Module"
+						onChange={(event) => this.handleChange("courseId", event, "group")}
+						editable={true}
+						options={courses.map((course) => { return { label: course.name, value: course.id } })}
+						style={{ minWidth: "200px" }}
+					/>
 					<br />
-					<SelectUser name="teacher" value={group.teacherId} onChange={(userId) => { let event = { target: { value: userId }, name: "teacherId" }; this.handleChange(event, "group") }} />
-					{/* for the SelectUsers's onChange we fake an 'event' because SelectUser is special */}
+					<SelectUser
+						value={group.teacherId}
+						onChange={(userId) => this.handleChange("teacherId", userId, "group")}
+					/>
 				</div>
 		}
 		return (

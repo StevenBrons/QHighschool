@@ -5,12 +5,16 @@ const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Course = require("../dec/CourseDec");
+const Subject = require("../dec/SubjectDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
-const courseDb = require("../database/CourseDB");
 
 class FunctionDB {
+
+	init(groupDb) {
+		this.groupDb = groupDb;
+	}
 
 	async createUser(profile) {
 
@@ -187,53 +191,44 @@ class FunctionDB {
 	}
 
 	async findEvaluation(userId, groupId) {
-		let user = await User.findOne({
-			raw: true,
-			where: {
-				id: userId
-			},
-			attributes: ["id", "displayName", "email"],
-		});
-		let evaluation = await Evaluation.findOne({
-			attributes: ["id", "type", "assesment", "explanation", "courseId", "updatedAt"],
+		const group = await this.groupDb.getGroup(groupId);
+		const evaluation = await Evaluation.findOne({
+			attributes: ["id", "userId", "type", "assesment", "explanation"],
 			order: [["id", "DESC"]],
 			raw: true,
-			where: { userId },
-			include: {
-				model: Course,
-				attributes: ["id"],
-				include: {
-					model: Group,
-					attributes: ["id"],
-					where: {
-						id: groupId,
-					}
-				},
-			}
+			where: { userId, courseId: group.courseId },
+			include: [{
+				model: User,
+				attributes: ["id", "email", "displayName"],
+			}],
 		});
 		if (evaluation == null) {
+			const user = await User.findOne({ where: { id: userId }, attributes: ["displayName", "email"] });
 			return {
-				id: "-",
-				type: "decimal",
-				assesment: "",
-				explanation: "",
-				userId: user.id,
-				courseId: await courseDb.getCourseIdFromGroupId(groupId),
-				updatedAt: "",
-				email: user.email,
 				displayName: user.displayName,
-				groupId,
+				email: user.email,
+				assesment: "",
+				courseName: group.courseName,
+				subject: group.subjectName,
+				explanation: "",
+				type: "decimal",
+				groupId: group.id,
+				courseId: group.courseId,
+				userId,
 			}
 		}
-		evaluation.groupId = groupId;
-		evaluation.email = user.email;
-		evaluation.displayName = user.displayName;
-		evaluation.userId = user.id;
-		evaluation.courseId = evaluation["course.id"];
-		delete evaluation["id"];
-		delete evaluation["course.id"];
-		delete evaluation["course.course_groups.id"];
-		return evaluation;
+		return {
+			displayName: evaluation["user.displayName"],
+			email: evaluation["user.email"],
+			assesment: evaluation.assesment,
+			courseName: group.courseName,
+			subject: group.subjectName,
+			explanation: evaluation.explanation,
+			type: evaluation.type,
+			groupId: group.id,
+			courseId: group.courseId,
+			userId,
+		};
 	}
 
 	async getEvaluation(school) {
@@ -241,6 +236,7 @@ class FunctionDB {
 		const pts = await Participant.findAll({
 			attributes: ["userId", "courseGroupId"],
 			order: [["courseGroupId", "DESC"]],
+			where: { participatingRole: "student" },
 			include: [{
 				model: User,
 				attributes: ["school"],
@@ -269,13 +265,9 @@ class FunctionDB {
 			}]
 		}).then(enrl => enrl.map(e => {
 			return {
-				id: e["id"],
 				email: e["user.email"],
 				courseName: e["course_group.course.courseName"],
 				accepted: e["accepted"],
-				createdAt: e["createdAt"],
-				updatedAt: e["updatedAt"],
-				userId: e["userId"],
 				groupId: e["courseGroupId"],
 				courseId: e["course_group.id"],
 				period: e["course_group.period"],
@@ -291,6 +283,7 @@ class FunctionDB {
 		const where = school ? { school: { [Op.or]: school.split("||"), } } : undefined;
 		return User.findAll({
 			where: where,
+			attributes: ["email", "role", "school", "displayName", "year", "level", "preferedEmail", "profile", "phoneNumber", "id"],
 			raw: true,
 		});
 	}

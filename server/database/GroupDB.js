@@ -8,7 +8,6 @@ const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
-const courseDb = require("../database/CourseDB");
 
 class GroupDB {
 
@@ -190,11 +189,10 @@ class GroupDB {
 	async getEvaluations(groupId) {
 		const participants = await Participant.findAll({
 			attributes: ["userId"],
-			where: { courseGroupId: groupId },
+			where: { courseGroupId: groupId, participatingRole: "student" },
 			include: {
 				attributes: ["displayName"],
 				model: User,
-				order: [["displayName", "DESC"]],
 			},
 		});
 		const evaluations = participants
@@ -242,4 +240,5 @@ class GroupDB {
 }
 
 module.exports = new GroupDB();
+functionDb.init(module.exports);
 

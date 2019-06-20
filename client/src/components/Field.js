@@ -81,11 +81,8 @@ class Field extends React.Component {
 		return true;
 	}
 
-	onChange(event) {
-		this.props.onChange({
-			...event,
-			name: this.props.name,
-		});
+	onChange = (event) => {
+		this.props.onChange(event.target.value);
 	}
 
 	render() {
@@ -226,7 +223,7 @@ class Field extends React.Component {
 				label={label}
 				select={options ? true : false}
 				style={{ flex: 1, ...style, margin: marginPx }}
-				onChange={this.onChange.bind(this)}
+				onChange={this.onChange}
 				error={this.state.error}
 				InputProps={{
 					disableUnderline,

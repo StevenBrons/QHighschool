@@ -191,11 +191,11 @@ class GroupPage extends Component {
 		}
 	}
 
-	handleChange = (event) => {
+	handleChange = (name,value) => {
 		this.setState({
 			group: {
 				...this.state.group,
-				[event.name]: event.target.value,
+				[name]: value,
 			}
 		});
 	}
