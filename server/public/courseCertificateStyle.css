@@ -8,50 +8,24 @@
 body {
   font-family: "Roboto Light";
   font-variant-ligatures: none;
-  width: 197mm;
-  height: 275mm;
+  width: 210mm;
+  height: 297mm;
   margin: 0;
 }
 
-#top-bar {
-  height: 4.5%;
-  display: flex;
+#right-bottom-logo {
   position: absolute;
-  width: 100%;
+  right: 8%;
+  bottom: 7%;
+  width: 22.5%;
+  color: white;
 }
 
-#bottom-bar {
-  height: 1.5%;
-  position: absolute;
-  bottom: 0%;
-  width: 100%;
-}
-
-#top-logo {
-  height: 100%;
-  min-width: 22%;
-  margin: 0 1.5%;
-}
-
-#top-bar svg {
-  min-width: 0; /* For edge flex */
-}
-
-.line-color-2 {
-  stroke: rgb(172,37,49);
-  stroke-width: 4pt;
-}
-
-.line-color-1 {
-  stroke: rgb(62,192,240);
-  stroke-width: 4pt;
-}
-
-#bg-q-logo {
-  width: 98%;
-  height: auto;
-  opacity: 0.1;
-  top: 24%;
+#background {
+  top:0;
+  width: 210mm;
+  height: 297mm;
+  z-index: -1;
 }
 
 #signature {
@@ -66,9 +40,8 @@ body {
   margin: 0;
 }
 
-#signature-line {
-  stroke: black;
-  stroke-width: 1pt;
+p {
+  color: white;
 }
 
 #middle-text {
@@ -114,4 +87,10 @@ body {
 .main-text-small {
   font-size: 35pt;
   margin: 3% 0;
+}
+
+@media print {
+  html, body {
+    margin: 0;
+  }
 }
