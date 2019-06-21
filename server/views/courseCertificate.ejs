@@ -5,21 +5,22 @@
     <link rel="stylesheet" type="text/css" href="/courseCertificateStyle.css">
 </head>
 <body class="center-horizontal">
-    <img src="/images/logo_qhighschool-white.svg" id="right-bottom-logo">
+    <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+    <img src="/images/top_orange_q.svg" id="top-logo">
 
     <img src="/images/Q-highschool_visual_A4_Oranje.jpg" id="background" class="center-horizontal">
-    <div id="middle-text">
-        <p class="title"> Certificaat </p>
+    <p id="title" class="center-horizontal"> CERTIFICAAT </p>
+    <div id="middle-text" class="center-horizontal">
         <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
-        <p class="main-text"> <%= user.firstName + " " + user.lastName %> </p>
+        <p id="name-text"> <%= user.firstName + " " + user.lastName %> </p>
         <p class="sub-text"> de Q-Highschool module </p>
-        <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %>"> <%= group.courseName %> </p>
-        <p class="sub-text"> met een studietijd van <%= group.studyTime%> uur </p>
+        <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %> bold-text"> <%= group.courseName %> </p>
+        <p class="sub-text"> van <%= group.studyTime%> studie-uren en onderdeel van het parcours <%= group.subjectName.toLowerCase() %> </p>
 
         <% if ( group.evaluation.type === "check") {%>
             <p class="sub-text"> heeft afgerond </p>
         <% } else { %>
-            <p class="sub-text"> heeft afgerond met beoordeling </p>
+            <p class="sub-text"> successvol heeft afgesloten met de beoordeling </p>
             <% if ( group.evaluation.type === "stepwise" ) {
                 switch (group.evaluation.assesment ) {
                     case "V": %>
@@ -36,15 +37,13 @@
                 <p class="main-text"> <%= group.evaluation.assesment %> </p>
             <% } %>
         <%}%>
-
-        <div id="date" class="center-horizontal">
-            <p class="sub-text"> op </p>
-            <p class="sub-text"> <%= group.evaluation.updatedAt.getDate() + "-" + (group.evaluation.updatedAt.getMonth() + 1) + "-" + group.evaluation.updatedAt.getFullYear() %> </p>
-        </div>
+        <% const months = ["januari", "februari","maart", "mei", "juni","juli","augustus", "september", "oktober", "november", "december"] %>
+        <p class="sub-text" id="date"> <%= group.evaluation.updatedAt.getDate() + " " + months[(group.evaluation.updatedAt.getMonth() + 1)] + " " + group.evaluation.updatedAt.getFullYear() %> </p>
     </div>
 
     <div id="signature" >
-        <p class="sub-text" id="signature-text">Quadraam:</p>
+        <p class="sub-text bold-text" id="signature-text">mevr. E. Lohuis</p>
+        <p class="sub-text" id="signature-text">examensecretaris Q-highschool</p>
     </div>
 </body>
 </html>
