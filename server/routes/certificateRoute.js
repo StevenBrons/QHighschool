@@ -29,7 +29,7 @@ const testGroup = {
 }
 
 const testGroup2 = {
-	courseName: "Object georienteerd programmeren",
+	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz",
 	studyTime: 50,
 	evaluation: {
 		type: 'stepwise',
@@ -39,7 +39,7 @@ const testGroup2 = {
 }
 
 const testGroup3 = {
-	courseName: "HTML-De Basis",
+	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz enz",
 	studyTime: 24,
 	evaluation: {
 		type: 'stepwise',
@@ -88,7 +88,7 @@ router.get("/:userId/:groupId", function (req, res) {
 	} else {
 		res.render("portfolioCertificate", {
 			user: testUser,
-			groups: [testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
+			groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
 		});
 	}
 });

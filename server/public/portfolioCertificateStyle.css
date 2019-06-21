@@ -5,123 +5,70 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Roboto Bold';
+  src: url('./Roboto-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto Regular';
+  src: url('./Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RopaSans Regular';
+  src: url('./RopaSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   font-family: "Roboto Light";
   font-variant-ligatures: none;
+  color: white;
 }
 
 .page {
-    width: 197mm;
-    height: 275mm;
+    width: 210mm;
+    height: 297mm;
     margin: 0;
 }
 
-
-
-#top-bar {
-  height: 4.5%;
-  display: flex;
+#right-bottom-logo {
   position: absolute;
-  width: 100%;
-}
-
-#bottom-bar {
-  height: 1.5%;
-  position: absolute;
-  bottom: 0%;
-  width: 100%;
+  right: 8%;
+  bottom: 6%;
+  width: 24%;
+  color: white;
 }
 
 #top-logo {
-  height: 100%;
-  min-width: 22%;
-  margin: 0 1.5%;
-}
-
-th {
-  font-size: 10pt;
-  font-weight: normal;
-  text-align: left;
-  padding-bottom: 3%;
-}
-
-td {
-  font-size: 14pt;
-  padding-bottom: 3%;
-}
-
-tr:last-child td { /* the last row has low padding*/
-  padding-bottom: 1%;
-}
-.table-cell-padding-small { /* if there are too many characters there is low padding */
-  padding-bottom: 1%;
-}
-
-td + td {
-  white-space: nowrap;
-}
-
-table {
-  width: 100%;
-}
-
-#table {
-  margin-top: 1%;
-}
-
-td:not(:last-child), th:not(:last-child) {
-  padding-right: 4%;
-}
-
-#top-bar svg {
-  min-width: 0; /* For edge flex */
-}
-
-.line-color-2 {
-  stroke: rgb(172,37,49);
-}
-
-.line-color-1 {
-  stroke: rgb(62,192,240);
-}
-
-.line-width-4 {
-  stroke-width: 4pt;
-}
-
-.line-width-2 {
-  stroke-width: 2pt;
-}
-
-#bg-q-logo {
-  width: 98%;
-  height: auto;
-  opacity: 0.1;
-  top: 24%;
-}
-
-#page-counter {
   position: absolute;
-  bottom: 3%;
-  right: 8%;
-  font-size: 20pt;
+  left: 9%;
+  width: 8%;
+  height: auto;
+}
+
+#background {
+  top:0;
+  height: 100%;
+  z-index: -1;
 }
 
 #signature {
   position: absolute;
-  left: 2%;
-  bottom: 7%;
-  height: 7%;
-  width: 19%;
+  right: 17%;
+  bottom: 21.5%;
+  height: 5%;
+  width: 17%;
 }
 
-#signature-text {
+#signature p {
   margin: 0;
-}
-
-#signature-line {
-  stroke: black;
-  stroke-width: 1pt;
 }
 
 #middle-text {
@@ -136,17 +83,69 @@ td:not(:last-child), th:not(:last-child) {
   margin-right: auto;
 }
 
-.title {
-  font-size: 92pt;
-  margin: 8% 0 2% 0;
+#title {
+  position: absolute;
+  top: 6.5%;
+  margin: 0;
+  font-family: "RopaSans Regular";
+  font-size: 36pt;
+  letter-spacing: 12pt;
+  text-align: center;
+}
+
+#name-text {
+  font-family: "Roboto Bold";
+  font-size: 22pt;
+  margin: 0 0 3.5% 0;
+}
+
+#middle-text {
+  position: absolute;
+  top: 18%;
+  text-align: center;
+}
+
+.bold-text {
+  font-family: "Roboto Bold";
 }
 
 .sub-text {
-  font-size: 13pt;
-  margin-bottom: 0;
+  font-size: 12pt;
+  margin: 0;
 }
 
-.main-text {
-  font-size: 45pt;
-  margin: 1% 0;
+table {
+  position: absolute;
+  width:100%;
+  padding: 0 15%;
+  top: 33%;
+  text-align: left;
+  font-size: 12pt;
+}
+
+th {
+  font-family: "Roboto Bold";
+  padding-bottom: 1.5%;
+}
+
+td {
+  padding: 1.5% 0;
+}
+
+td + td {
+  color: #ff7900 !important;
+  font-family: "Roboto Bold";
+}
+
+.table-cell-padding-small {
+  padding: 0;
+}
+
+@media print and (-webkit-min-device-pixel-ratio:0){
+  html, body {
+    size: A4;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    color: #fff !important;
+  }
 }
