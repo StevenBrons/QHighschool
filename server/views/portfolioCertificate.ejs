@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/portfolioCertificateStyle.css">
     <!-- For printing every page needs be top:i*100%, and on the webpage it needs to be top:i*297mm-->
     <style> 
-        <% for (let i = 0; i < pages; i++ ) {%>
+        <% for (let i = 0; i <= pages; i++ ) {%>
             #page<%=i%>{ 
                 top: <%=i * 297%>mm;
             }  
         <%}%>
         @media print{
-            <% for (let i = 0; i < pages; i++ ) {%>
+            <% for (let i = 0; i <= pages; i++ ) {%>
                 #page<%=i%>{ 
                     top: <%=i * 100%>%;
                 }  
@@ -75,4 +75,16 @@
 
     </div>
     <% } %>
+    <%if (pages%2===1) {%>
+        <div class="page center-horizontal" id="page<%=pages%>">
+            <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+            <img src="/images/top_orange_q.svg" id="top-logo">
+        
+            <p id="title" class="center-horizontal"> CERTIFICAAT </p>
+            <img src="/images/background_portfolio.png" id="background" class="center-horizontal">
+            <div id="middle-text" class="center-horizontal">
+                <p id="name-text"> <%= user.firstName + " " + user.lastName %> </p>
+            </div>
+        </div>
+    <%}%>
 </body>
