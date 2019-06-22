@@ -1,13 +1,28 @@
 <!DOCTYPE html>
+<%  const COURSES_PER_PAGE = 8;  
+    let pages =  Math.ceil(groups.length / COURSES_PER_PAGE);%>
 <head>
     <title>Portfolio</title>
     <link rel="stylesheet" type="text/css" href="/portfolioCertificateStyle.css">
+    <!-- For printing every page needs be top:i*100%, and on the webpage it needs to be top:i*297mm-->
+    <style> 
+        <% for (let i = 0; i < pages; i++ ) {%>
+            #page<%=i%>{ 
+                top: <%=i * 297%>mm;
+            }  
+        <%}%>
+        @media print{
+            <% for (let i = 0; i < pages; i++ ) {%>
+                #page<%=i%>{ 
+                    top: <%=i * 100%>%;
+                }  
+            <%}%>
+        }
+    </style>
 </head>
 <body >
-    <%  const COURSES_PER_PAGE = 8;  
-        let pages =  Math.ceil(groups.length / COURSES_PER_PAGE);
-        for ( let i = 0; i < pages ; i ++ ) {%>
-    <div class="page center-horizontal" style="top: <%=i * 297%>mm">
+    <%for ( let i = 0; i < pages ; i ++ ) {%>
+    <div class="page center-horizontal" id="page<%=i%>">
         <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
         <img src="/images/top_orange_q.svg" id="top-logo">
     

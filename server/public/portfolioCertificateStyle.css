@@ -116,8 +116,7 @@ body {
 
 table {
   position: absolute;
-  width:100%;
-  padding: 0 15%;
+  width:70%;
   top: 33%;
   text-align: left;
   font-size: 12pt;
@@ -143,7 +142,6 @@ td + td {
 
 @media print and (-webkit-min-device-pixel-ratio:0){
   html, body {
-    size: A4;
     margin: 0;
     -webkit-print-color-adjust: exact;
     color: #fff !important;

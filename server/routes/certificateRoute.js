@@ -80,7 +80,7 @@ const testUser = {
 router.get("/:userId/:groupId", function (req, res) {
 	const userId = req.params.userId;
 	const groupId = req.params.groupId;
-	if ( true /* groupId != null */) {
+	if (false /* groupId != null */) {
 		res.render("courseCertificate", {
 			user: testUser,
 			group: testGroup
@@ -88,7 +88,7 @@ router.get("/:userId/:groupId", function (req, res) {
 	} else {
 		res.render("portfolioCertificate", {
 			user: testUser,
-			groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
+			groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4],
 		});
 	}
 });
