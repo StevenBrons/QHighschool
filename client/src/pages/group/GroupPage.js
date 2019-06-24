@@ -261,6 +261,29 @@ class GroupPage extends Component {
 		});
 	};
 
+	openCertificate = () => {
+		const groupId = this.props.group.id;
+		const userId = this.props.userId;
+		const role = this.props.role;
+		
+		// in case of student show that students certificate. In case of other role show certificates of all students for that group
+		// also check if in development mode because url is different in that case
+		if ( role === "student" ){
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+			} else {
+				window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+			}
+		} else {
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				//window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+				// IMPLEMENT ME
+			} else {
+				//window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+				// IMPLEMENT ME
+			}
+		}
+	}
 
 	render() {
 		const editable = this.state.editable;
@@ -270,48 +293,58 @@ class GroupPage extends Component {
 			<Page>
 				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />
 				<Divider />
-				{
-					role === "student" &&
-					<ChooseButton
-						group={group}
-						style={{ margin: "20px" }}
-					/>
-				}
-				{
-					((role === "teacher" || role === "admin") && !editable) &&
-					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
-						{"Bewerken"}
-					</Button>
-				}
-				{
-					editable &&
-					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
-						{"Opslaan"}
-					</Button>
-				}
-				{
-					editable &&
-					<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
-						{"Annuleren"}
-					</Button>
-				}
-				<AppBar position="static" color="default">
-					<Tabs
-						value={this.state.tabs.indexOf(this.state.currentTab)}
-						onChange={this.handleTab}
-						indicatorColor="primary"
-						textColor="primary"
-						fullWidth
-						centered
-					>
-						{this.state.tabs.map(tab => 
-						<Tab key={tab} label={
-							<NotificationBadge scope={"groep/" + ( group.id || "" ) + "?tab=" + tab} style={{paddingLeft:"100px"}}>
-								{tab}
-							</NotificationBadge>
-							} />) }
-					</Tabs>
-				</AppBar>
+				<div style={{display:"flex"}}>
+					{
+						role === "student" &&
+						<ChooseButton
+							group={group}
+							style={{ margin: "20px" }}
+						/>
+					}
+					{
+						((role === "teacher" || role === "admin") && !editable) &&
+						<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
+							{"Bewerken"}
+						</Button>
+					}
+					{
+						editable &&
+						<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
+							{"Opslaan"}
+						</Button>
+					}
+					{
+						editable &&
+						<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
+							{"Annuleren"}
+						</Button>
+					}
+					<div style={{flex:"2"}}/>
+					{
+						(group.evaluation != null)
+						&&
+						<Button color="primary" variant="contained" style={{margin:"20px"}} onClick={this.openCertificate}>
+							{role==="student"? "Certificaat":"Certificaten"}
+						</Button>
+					}
+				</div>
+					<AppBar position="static" color="default">
+						<Tabs
+							value={this.state.tabs.indexOf(this.state.currentTab)}
+							onChange={this.handleTab}
+							indicatorColor="primary"
+							textColor="primary"
+							fullWidth
+							centered
+						>
+							{this.state.tabs.map(tab => 
+							<Tab key={tab} label={
+								<NotificationBadge scope={"groep/" + ( group.id || "" ) + "?tab=" + tab} style={{paddingLeft:"100px"}}>
+									{tab}
+								</NotificationBadge>
+								} />) }
+						</Tabs>
+					</AppBar>
 				<br />
 				<div style={{ width: "98%", margin: "auto" }}>
 					{this.getCurrentTab(this.state.currentTab)}

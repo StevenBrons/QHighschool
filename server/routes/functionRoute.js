@@ -56,6 +56,7 @@ router.post("/alias", function (req, res, next) {
 	}
 });
 
+
 async function formatInTable(array) {
 	const keys = Object.keys(array[0]);
 	return [keys, ...array.map(obj => keys.map(key => obj[key]))]

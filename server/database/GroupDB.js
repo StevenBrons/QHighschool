@@ -8,6 +8,7 @@ const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
+const certificateRoute = require("../routes/certificateRoute");
 
 class GroupDB {
 
@@ -241,4 +242,5 @@ class GroupDB {
 
 module.exports = new GroupDB();
 functionDb.init(module.exports);
+certificateRoute.init_temp(module.exports);
 
