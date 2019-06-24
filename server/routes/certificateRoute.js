@@ -1,6 +1,17 @@
 const express = require("express");
-const groupDb = requrie("../database/GroupDB");
+const ejs = require('ejs');
+const fs = require('fs');
+const path = require("path");
 const router = express.Router();
+
+let groupDb, userDb;
+
+router.init_temp = (gr) => {
+	groupDb = gr;
+}
+router.init_temp2 = (user) => {
+	userDb = user;
+}
 
 const testGroup = {
 	id: '60',
@@ -78,16 +89,55 @@ const testUser = {
 	notifications: [],
 }
 
-router.get("/portfolio/:userId/", (req, res) => {
-	const userId = req.params.userId;
-	const groupId = req.params.groupId;
-	res.render("portfolioCertificate", {
-		user: testUser,
-		groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3],
+function distinctCourse(groups) {
+	let courseIds = [];
+	return groups.filter((group) => {
+		if (courseIds.indexOf(group.courseId) === -1) {
+			courseIds.push(group.courseId);
+			return true;
+		} else {
+			return false;
+		}
 	});
+}
+
+function isCertificateWorthy({ evaluation }) {
+	if (evaluation != null) {
+		const assesment = evaluation.assesment;
+		switch (evaluation.type) {
+			case "decimal":
+				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+				return x >= 5.5;
+			case "stepwise":
+				return assesment === "G" || assesment === "V";
+			case "check":
+				return assesment === "passed";
+		}
+	}
+	return false;
+}
+
+router.get("/portfolio/:userId/", async (req, res) => {
+	if (req.user.isAdmin()) {
+		const userId = req.params.userId;
+		if (userId === "all") {
+			res.render("totalPortfolio");
+		} else {
+			let user = await userDb.getUser(userId);
+			let groups = await groupDb.getGroups(userId);
+			groups = groups.filter(isCertificateWorthy);
+			groups = distinctCourse(groups);
+			res.render("portfolioCertificate", {
+				user,
+				groups,
+			});
+		}
+	}
 });
 
-router.get("/course/:userId/", (req, res) => {
+router.get("/course/:courseId/:userId", (req, res) => {
+	const groupId = req.params.groupId;
+	const userId = req.params.userId;
 	res.render("courseCertificate", {
 		user: testUser,
 		group: testGroup

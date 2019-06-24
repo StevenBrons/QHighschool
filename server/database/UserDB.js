@@ -4,6 +4,7 @@ const Notification = require('../dec/NotificationDec');
 const Participant = require('../dec/ParticipantDec');
 const Group = require('../dec/CourseGroupDec');
 const groupDb = require('../database/GroupDB');
+const certificateRoute = require('../routes/certificateRoute');
 
 class UserDB {
 
@@ -129,10 +130,11 @@ class UserDB {
 
 	async getList() {
 		return User.findAll({
-			attributes: ["id","displayName"],
+			attributes: ["id", "displayName"],
 		});
 	}
 
 }
 
 module.exports = new UserDB();
+certificateRoute.init_temp2(module.exports);
