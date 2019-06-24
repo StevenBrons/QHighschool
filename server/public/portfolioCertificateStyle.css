@@ -133,8 +133,9 @@ td {
 }
 
 td + td {
-  color: #ff7900 !important;
-  font-family: "Roboto Bold";
+  /* color: #ff7900 !important; */
+  font-weight: normal;
+  font-family: "Roboto Regular";
 }
 
 .table-cell-padding-small {
