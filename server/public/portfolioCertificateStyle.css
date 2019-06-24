@@ -141,6 +141,10 @@ td + td {
   padding: 0;
 }
 
+#signature-img {
+  width: 100%;
+}
+
 @media print and (-webkit-min-device-pixel-ratio:0){
   html, body {
     margin: 0;
