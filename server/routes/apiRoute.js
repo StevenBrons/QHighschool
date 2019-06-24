@@ -7,6 +7,7 @@ const userRoute = require('./userRoute');
 const subjectRoute = require('./subjectRoute');
 const groupRoute = require('./groupRoute');
 const functionRoute = require('./functionRoute');
+const certificateRoute = require('./certificateRoute');
 const sessionDb = require('../database/SessionDB');
 
 router.use(ensureAuthenticated);
@@ -16,6 +17,7 @@ router.use('/user', userRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
 router.use('/function', functionRoute);
+router.use('/certificate', certificateRoute);
 
 function ensureAuthenticated(req, res, next) {
 	if (req.app.get('env') === 'development' && keys.develop === "develop") {
@@ -24,7 +26,7 @@ function ensureAuthenticated(req, res, next) {
 			next();
 		});
 	}
-	
+
 	if (req.isAuthenticated()) {
 		return next();
 	} else {

@@ -1,4 +1,5 @@
 const express = require("express");
+const groupDb = requrie("../database/GroupDB");
 const router = express.Router();
 
 const testGroup = {
@@ -77,22 +78,20 @@ const testUser = {
 	notifications: [],
 }
 
-router.get("/:userId/:groupId", function (req, res) {
+router.get("/portfolio/:userId/", (req, res) => {
 	const userId = req.params.userId;
 	const groupId = req.params.groupId;
-	if (false /* groupId != null */) {
-		res.render("courseCertificate", {
-			user: testUser,
-			group: testGroup
-		});
-	} else {
-		res.render("portfolioCertificate", {
-			user: testUser,
-			groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4,testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3 ],
-		});
-	}
+	res.render("portfolioCertificate", {
+		user: testUser,
+		groups: [testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup2, testGroup3, testGroup, testGroup2, testGroup3, testGroup4, testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3, testGroup4, testGroup2, testGroup2, testGroup3],
+	});
 });
 
-
+router.get("/course/:userId/", (req, res) => {
+	res.render("courseCertificate", {
+		user: testUser,
+		group: testGroup
+	});
+});
 
 module.exports = router;
