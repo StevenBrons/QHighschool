@@ -173,4 +173,7 @@ td + td {
     -webkit-print-color-adjust: exact;
     color: #fff !important;
   }
+  .page {
+    height:100%;
+  }
 }
