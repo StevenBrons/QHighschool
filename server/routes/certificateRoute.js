@@ -92,7 +92,7 @@ const testUser2 = {
 	firstName: 'Maarten',
 	lastName: 'Beerenschot',
 }
-const testUser2 = {
+const testUser3 = {
 	firstName: 'Steven',
 	lastName: 'Bronsveld',
 }
@@ -152,7 +152,7 @@ router.get("/course/:courseId/:userId", (req, res) => {
 	const userId = req.params.userId;
 	res.render("multipleCertificates", {
 		certificates: [{user: testUser, groups: [testGroup]}],
-		courseCertificates = true,
+		courseCertificates: true,
 	});
 });
 

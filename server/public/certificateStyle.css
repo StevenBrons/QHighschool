@@ -29,11 +29,14 @@
 body {
   font-family: "Roboto Light";
   font-variant-ligatures: none;
-  width: 210mm;
-  height: 297mm;
-  margin: 0;
   color: white;
-} 
+}
+
+.page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+}
 
 #right-bottom-logo {
   position: absolute;
@@ -51,6 +54,7 @@ body {
 }
 
 #background {
+  top:0;
   height: 100%;
   z-index: -1;
 }
@@ -58,9 +62,31 @@ body {
 #signature {
   position: absolute;
   right: 17%;
-  bottom: 39%;
+  bottom: 22.5%;
   height: 5%;
   width: 17%;
+}
+
+#signature p {
+  margin: 0;
+}
+
+#middle-text-portfolio {
+  text-align: center;
+}
+
+#middle-text-course {
+  position: absolute;
+  top: 18%;
+  text-align: center;
+}
+
+.center-horizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #title {
@@ -74,13 +100,25 @@ body {
   text-indent: 12pt;
 }
 
-#name-text {
-  font-size: 22pt;
-  margin: 0 0 6.5% 0;
+#date-portfolio {
+  padding-top: 10px;
 }
 
-#signature p {
-  margin: 0;
+#date-certificate {
+  font-family: "Roboto Regular";
+  font-size: 14pt;
+  margin-top: 5.5%;
+}
+
+#name-text-portfolio {
+  font-family: "Roboto Bold";
+  font-size: 22pt;
+  margin: 3.5% 0 3.5% 0;
+}
+
+#name-text-course {
+  font-size: 22pt;
+  margin: 0 0 6.5% 0;
 }
 
 #middle-text {
@@ -89,14 +127,13 @@ body {
   text-align: center;
 }
 
-.bold-text {
-  font-family: "Roboto Bold";
+.main-text {
+  font-size: 44pt;
+  margin: 0.5% 0 2.5% 0;
 }
 
-#date {
-  font-family: "Roboto Regular";
-  font-size: 14pt;
-  margin-top: 5.5%;
+.bold-text {
+  font-family: "Roboto Bold";
 }
 
 .sub-text {
@@ -104,22 +141,35 @@ body {
   margin: 0;
 }
 
-.main-text {
-  font-size: 44pt;
-  margin: 0.5% 0 2.5% 0;
-}
-
-.main-text-small {
-  font-size: 35pt;
-  margin: 0;
-}
-
-.center-horizontal {
+table {
   position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  width:70%;
+  top: 33%;
+  text-align: left;
+  font-size: 12pt;
+}
+
+th {
+  font-family: "Roboto Bold";
+  padding-bottom: 1.5%;
+}
+
+td {
+  padding: 1.5% 0;
+}
+
+td + td {
+  /* color: #ff7900 !important; */
+  font-weight: normal;
+  font-family: "Roboto Regular";
+}
+
+.table-cell-padding-small {
+  padding: 0;
+}
+
+#signature-img {
+  width: 100%;
 }
 
 @media print and (-webkit-min-device-pixel-ratio:0){
