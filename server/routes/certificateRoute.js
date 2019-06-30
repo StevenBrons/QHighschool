@@ -88,6 +88,14 @@ const testUser = {
 	updatedAt: null,
 	notifications: [],
 }
+const testUser2 = {
+	firstName: 'Maarten',
+	lastName: 'Beerenschot',
+}
+const testUser2 = {
+	firstName: 'Steven',
+	lastName: 'Bronsveld',
+}
 
 function distinctCourse(groups) {
 	let courseIds = [];
@@ -120,27 +128,31 @@ function isCertificateWorthy({ evaluation }) {
 router.get("/portfolio/:userId/", async (req, res) => {
 	if (req.user.isAdmin()) {
 		const userId = req.params.userId;
+		let certificates;
 		if (userId === "all") {
-			res.render("totalPortfolio");
+			certificates =[ {user: testUser, groups: [testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3]},
+							{user: testUser2, groups: [testGroup, testGroup2, testGroup3, testGroup4]},
+							{user: testUser3, groups: [testGroup, testGroup2, testGroup3, testGroup4]}]
 		} else {
 			let user = await userDb.getUser(userId);
 			let groups = await groupDb.getGroups(userId);
 			groups = groups.filter(isCertificateWorthy);
 			groups = distinctCourse(groups);
-			res.render("portfolioCertificate", {
-				user,
-				groups,
-			});
+			certificates = [ {user: user, groups: groups}];
 		}
+		res.render("multipleCertificates",{
+			certificates: certificates,
+			courseCertificates: false
+		});
 	}
 });
 
 router.get("/course/:courseId/:userId", (req, res) => {
 	const groupId = req.params.groupId;
 	const userId = req.params.userId;
-	res.render("courseCertificate", {
-		user: testUser,
-		group: testGroup
+	res.render("multipleCertificates", {
+		certificates: [{user: testUser, groups: [testGroup]}],
+		courseCertificates = true,
 	});
 });
 
