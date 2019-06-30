@@ -43,6 +43,7 @@ const testGroup = {
 const testGroup2 = {
 	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz",
 	studyTime: 50,
+	subjectName: 'Filosofie',
 	evaluation: {
 		type: 'stepwise',
 		assesment: 'V',
@@ -53,6 +54,7 @@ const testGroup2 = {
 const testGroup3 = {
 	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz enz",
 	studyTime: 24,
+	subjectName: 'Filosofie',
 	evaluation: {
 		type: 'stepwise',
 		assesment: 'G',
@@ -63,6 +65,7 @@ const testGroup3 = {
 const testGroup4 = {
 	courseName: "HTML-Geavanceerd",
 	studyTime: 44,
+	subjectName: 'Informatica',
 	evaluation: {
 		type: 'check',
 		assesment: 'failed',
@@ -130,7 +133,7 @@ router.get("/portfolio/:userId/", async (req, res) => {
 		const userId = req.params.userId;
 		let certificates;
 		if (userId === "all") {
-			certificates =[ {user: testUser, groups: [testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3]},
+			certificates =[ {user: testUser, groups: [testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3]},
 							{user: testUser2, groups: [testGroup, testGroup2, testGroup3, testGroup4]},
 							{user: testUser3, groups: [testGroup, testGroup2, testGroup3, testGroup4]}]
 		} else {
@@ -151,7 +154,7 @@ router.get("/course/:courseId/:userId", (req, res) => {
 	const groupId = req.params.groupId;
 	const userId = req.params.userId;
 	res.render("multipleCertificates", {
-		certificates: [{user: testUser, groups: [testGroup]}],
+		certificates: [{user: testUser, groups: [testGroup2,testGroup2,testGroup3]}],
 		courseCertificates: true,
 	});
 });

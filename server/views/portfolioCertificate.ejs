@@ -1,49 +1,12 @@
-<!DOCTYPE html>
-<%  const COURSES_PER_PAGE = 8;  
-    let pages =  Math.ceil(groups.length / COURSES_PER_PAGE);%>
-
-<head>
-    <title>Portfolio <%= user.displayName %></title>
-    <link rel="stylesheet" type="text/css" href="/public/portfolioCertificateStyle.css">
-    <!-- For printing every page needs be top:i*100%, and on the webpage it needs to be top:i*297mm-->
-    <style>
-        <% for (let i=0;
-        i <=pages;
-
-        i++) {
-            %>#page<%=i%> {
-                top: <%=i * 297%>mm;
-            }
-
-            <%
-        }
-
-        %>@media print {
-            <% for (let i=0;
-            i <=pages;
-
-            i++) {
-                %>#page<%=i%> {
-                    top: <%=i * 100%>%;
-                }
-
-                <%
-            }
-
-            %>
-        }
-    </style>
-</head>
-
-<body>
-    <%for ( let i = 0; i < pages ; i ++ ) {%>
+<%let pages =  Math.ceil(groups.length / courses_per_page);%>
+<%for ( let i = startPage; i < pages + startPage; i ++ ) { %>
     <div class="page center-horizontal" id="page<%=i%>">
         <img src="/public/images/logo_qhighschool_white.svg" id="right-bottom-logo">
         <img src="/public/images/top_orange_q.svg" id="top-logo">
 
         <p id="title" class="center-horizontal"> CERTIFICAAT </p>
         <img src="/public/images/background_portfolio.png" id="background" class="center-horizontal">
-        <div id="middle-text-portfolio" class="center-horizontal">
+        <div id="middle-text" class="center-horizontal">
             <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
             <p id="name-text-portfolio"> <%= user.firstName + " " + user.lastName %> </p>
             <p class="sub-text"> de volgende Q-Highschool modules heeft afgerond </p>
@@ -54,8 +17,8 @@
                 <th>Naam module</th>
                 <th>Beoordeling</th>
             </tr>
-            <% for ( let j = 0; j < groups.length - ( i * COURSES_PER_PAGE) && j < COURSES_PER_PAGE ; j++ ) { 
-                let group = groups[(i*COURSES_PER_PAGE) + j];%>
+            <% for ( let j = 0; j < groups.length - ( (i-startPage) * courses_per_page) && j < courses_per_page ; j++ ) { 
+                let group = groups[((i-startPage)*courses_per_page) + j]; %>
             <tr>
                 <td class="<%= group.courseName.length < 50 ? "" : "table-cell-padding-small" %>"><%= group.courseName%>
                 </td>
@@ -93,9 +56,9 @@
         </div>
 
     </div>
-    <% } %>
+<% } %>
     <%if (pages%2===1) {%>
-    <div class="page center-horizontal" id="page<%=pages%>">
+    <div class="page center-horizontal" id="page<%=pages+startPage%>">
         <!-- <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
         <img src="/images/top_orange_q.svg" id="top-logo">
 
@@ -103,4 +66,3 @@
         <img src="/images/background_portfolio.png" id="background" class="center-horizontal"> -->
     </div>
     <%}%>
-</body>

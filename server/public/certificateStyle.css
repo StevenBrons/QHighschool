@@ -71,16 +71,6 @@ body {
   margin: 0;
 }
 
-#middle-text-portfolio {
-  text-align: center;
-}
-
-#middle-text-course {
-  position: absolute;
-  top: 18%;
-  text-align: center;
-}
-
 .center-horizontal {
   position: absolute;
   left: 0;
@@ -130,6 +120,11 @@ body {
 .main-text {
   font-size: 44pt;
   margin: 0.5% 0 2.5% 0;
+}
+
+.main-text-small {
+  font-size: 35pt;
+  margin: 0;
 }
 
 .bold-text {

@@ -1,8 +1,63 @@
 <!DOCTYPE html>
+<%  const COURSES_PER_PAGE = 8;  %>
 <head>
     <title>Certificaat</title>
     <link rel="stylesheet" type="text/css" href="/public/certificateStyle.css">
+    <style>
+        <% 
+        let pages;
+        if (courseCertificates){
+            pages = certificates.reduce( (v,u) => {return u.groups.length + v}, 0); // for courseCertificates the amount of pages is the amount of groups total
+        } else {
+            pages = certificates.reduce( (currentValue,user) => {
+                let pagesUser = Math.ceil(user.groups.length / 8);
+                pagesUser += pagesUser % 2 == 1 ? 1 : 0; // add 1 if odd
+                return currentValue + pagesUser;
+            }, 0);
+            // for portfolioCertificates we have to calculate per user how many pages their portfolio has
+        }
+        for (let i=0;
+        i <=pages;
+        i++) {
+            %>#page<%=i%> {
+                top: <%=i * 297%>mm;
+            }
+
+            <%
+        }
+
+        %>@media print {
+            <% for (let i=0;
+            i <=pages;
+
+            i++) {
+                %>#page<%=i%> {
+                    top: <%=i * 100%>%;
+                }
+
+                <%
+            }
+
+            %>
+        }
+    </style>
 </head>
 <body>
-    <%- include('courseCertificate', {user:certificates[0].user, group: certificates[0].groups[0]}) %>
+    <%
+    let pageNr = 0; 
+    certificates.map((certificate) => {
+        if (courseCertificates) {
+            certificate.groups.map((group) => { %>
+                <div class="page center-horizontal" id="page<%=pageNr%>">
+                    <%- include('courseCertificate', {user: certificate.user, group: group })%>
+                </div>
+                <%pageNr ++;
+            });
+        } else {
+            console.log("there are " + certificate.groups.length + " groups" )%>
+            <%-include('portfolioCertificate', {user: certificate.user, groups: certificate.groups, startPage: pageNr, courses_per_page: COURSES_PER_PAGE});%>
+            <%pageNr += Math.ceil(certificate.groups.length / 8);
+            pageNr += pageNr % 2 == 1 ? 1 : 0; // if odd, add one for the blank page
+        }
+    });%>
 </body>
