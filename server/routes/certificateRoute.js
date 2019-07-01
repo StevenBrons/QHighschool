@@ -72,7 +72,7 @@ router.get("/portfolio/all/:from", async (req, res) => {
 	if (req.user.isAdmin()) {
 		const start = parseInt(req.params.from);
 		const allUsers = await userDb.getList();
-		const end = start + 10;
+		const end = start + 20;
 
 		const curUsers = allUsers.filter((_, i) => i >= start && i <= end);
 		const allCertificateObjects = await Promise.all(curUsers.map(({ id }) => getCertificateFromUserId(id)));
