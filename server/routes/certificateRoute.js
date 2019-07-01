@@ -76,6 +76,7 @@ router.get("/portfolio/:userId/", async (req, res) => {
 			const allUsers = await userDb.getList();
 			const allCertificateObjects = await Promise.all(allUsers.map(({ id }) => getCertificateFromUserId(id)));
 			certificates = allCertificateObjects.filter(tempFilter); //TEMP
+			certificates = [await getCertificateFromUserId(123)];
 		} else {
 			certificates = [await getCertificateFromUserId(userId)];
 		}
