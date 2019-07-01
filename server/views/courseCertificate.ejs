@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Certificaat</title>
-    <link rel="stylesheet" type="text/css" href="/courseCertificateStyle.css">
-</head>
-<body class="center-horizontal">
-    <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
-    <img src="/images/top_orange_q.svg" id="top-logo">
+<img src="/public/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+<img src="/public/images/top_orange_q.svg" id="top-logo">
 
-    <img src="/images/background_course.png" id="background" class="center-horizontal">
-    <p id="title" class="center-horizontal"> CERTIFICAAT </p>
-    <div id="middle-text" class="center-horizontal">
-        <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
-        <p id="name-text"> <%= user.firstName + " " + user.lastName %> </p>
-        <p class="sub-text"> de Q-Highschool module </p>
-        <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %> bold-text"> <%= group.courseName %> </p>
-        <p class="sub-text"> van <%= group.studyTime%> studie-uren en onderdeel van het parcours <%= group.subjectName.toLowerCase() %> </p>
+<img src="/public/images/background_course.png" id="background" class="center-horizontal">
+<p id="title" class="center-horizontal"> CERTIFICAAT </p>
+<div id="middle-text" class="center-horizontal">
+    <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
+    <p id="name-text-course"> <%= user.firstName + " " + user.lastName %> </p>
+    <p class="sub-text"> de Q-Highschool module </p>
+    <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %> bold-text"> <%= group.courseName %> </p>
+    <p class="sub-text"> van <%= group.studyTime%> studie-uren en onderdeel van het parcours <%= group.subjectName.toLowerCase() %> </p>
 
-        <% if ( group.evaluation.type === "check") {%>
-            <p class="sub-text"> heeft afgerond </p>
-        <% } else { %>
-            <p class="sub-text"> successvol heeft afgesloten met de beoordeling </p>
-            <% if ( group.evaluation.type === "stepwise" ) {
-                switch (group.evaluation.assesment ) {
-                    case "V": %>
-                        <p class="main-text"> Voldoende </p>
-                        <% break;
-                    case "O": %>
-                        <p class="main-text"> Onvoldoende </p>
-                        <% break;
-                    case "G": 
-                    default:%>
-                        <p class="main-text"> Goed </p>
-                    <% } 
-            } else { %>
-                <p class="main-text"> <%= group.evaluation.assesment %> </p>
-            <% } %>
-        <%}%>
-        <% const months = ["januari", "februari","maart", "mei", "juni","juli","augustus", "september", "oktober", "november", "december"] %>
-        <p class="sub-text" id="date"> <%= group.evaluation.updatedAt.getDate() + " " + months[(group.evaluation.updatedAt.getMonth() + 1)] + " " + group.evaluation.updatedAt.getFullYear() %> </p>
-    </div>
+    <% if ( group.evaluation.type === "check") {%>
+        <p class="sub-text"> heeft afgerond </p>
+    <% } else { %>
+        <p class="sub-text"> successvol heeft afgesloten met de beoordeling </p>
+        <% if ( group.evaluation.type === "stepwise" ) {
+            switch (group.evaluation.assesment ) {
+                case "V": %>
+                    <p class="main-text"> Voldoende </p>
+                    <% break;
+                case "O": %>
+                    <p class="main-text"> Onvoldoende </p>
+                    <% break;
+                case "G": 
+                default:%>
+                    <p class="main-text"> Goed </p>
+                <% } 
+        } else { %>
+            <p class="main-text"> <%= group.evaluation.assesment %> </p>
+        <% } %>
+    <%}%>
+    <% const months = ["januari", "februari","maart", "mei", "juni","juli","augustus", "september", "oktober", "november", "december"] %>
+    <p class="sub-text" id="date-course"> <%= group.evaluation.updatedAt.getDate() + " " + months[(group.evaluation.updatedAt.getMonth() + 1)] + " " + group.evaluation.updatedAt.getFullYear() %> </p>
+</div>
 
-    <div id="signature" >
-        <p class="sub-text bold-text" id="signature-text">mevr. E. Lohuis</p>
-        <p class="sub-text" id="signature-text">examensecretaris Q-highschool</p>
-    </div>
-</body>
-</html>
+<div id="signature" >
+    <p class="sub-text bold-text" id="signature-text">mevr. E. Lohuis</p>
+    <p class="sub-text" id="signature-text">examensecretaris Q-highschool</p>
+</div>

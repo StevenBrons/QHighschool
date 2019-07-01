@@ -270,16 +270,16 @@ class GroupPage extends Component {
 		// also check if in development mode because url is different in that case
 		if ( role === "student" ){
 			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+				window.open("http://localhost:26194/api/certificate/course/" + userId + "/"+ groupId ,"_blank");
 			} else {
-				window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+				window.open("/api/certificate/course/" + userId + "/" + groupId,"_blank");
 			}
 		} else {
 			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				//window.open("http://localhost:26194/api/function/certificate/" + userId + "/"+ groupId ,"_blank");
+				//window.open("http://localhost:26194/api/certificate/course/" + userId + "/"+ groupId ,"_blank");
 				// IMPLEMENT ME
 			} else {
-				//window.open("/api/function/certificate/" + userId + "/" + groupId,"_blank");
+				//window.open("/api/certificate/course" + userId + "/" + groupId,"_blank");
 				// IMPLEMENT ME
 			}
 		}
