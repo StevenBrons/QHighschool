@@ -128,22 +128,45 @@ function isCertificateWorthy({ evaluation }) {
 	return false;
 }
 
+async function getCertificateFromUserId(userId) {
+	let user = await userDb.getUser(userId);
+	let groups = await groupDb.getGroups(userId);
+	groups = groups.filter(isCertificateWorthy);
+	groups = groups.filter(tempAvonturenFilter); //TEMP
+	groups = distinctCourse(groups);
+	return {
+		user,
+		groups,
+	}
+}
+
+function tempFilter({ user, groups }) {
+	if (user.year === 6 && user.level === "VWO") return false;
+	if (user.year === 5 && user.level === "HAVO") return false;
+	if (user.school === "Lyceum Elst") return false;
+	const nonAvonturen = groups.filter((group) => {
+		return group.subjectName !== "Avonturen";
+	});
+	if (nonAvonturen.length === 0) return false;
+	return true;
+}
+
+function tempAvonturenFilter(group) {
+	return group.subjectName !== "Avonturen";
+}
+
 router.get("/portfolio/:userId/", async (req, res) => {
 	if (req.user.isAdmin()) {
 		const userId = req.params.userId;
 		let certificates;
 		if (userId === "all") {
-			certificates =[ {user: testUser, groups: [testGroup, testGroup2, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3, testGroup3, testGroup4, testGroup2, testGroup3, testGroup3]},
-							{user: testUser2, groups: [testGroup, testGroup2, testGroup3, testGroup4]},
-							{user: testUser3, groups: [testGroup, testGroup2, testGroup3, testGroup4]}]
+			const allUsers = await userDb.getList();
+			const allCertificateObjects = await Promise.all(allUsers.map(({ id }) => getCertificateFromUserId(id)));
+			certificates = allCertificateObjects.filter(tempFilter); //TEMP
 		} else {
-			let user = await userDb.getUser(userId);
-			let groups = await groupDb.getGroups(userId);
-			groups = groups.filter(isCertificateWorthy);
-			groups = distinctCourse(groups);
-			certificates = [ {user: user, groups: groups}];
+			certificates = [await getCertificateFromUserId(userId)];
 		}
-		res.render("multipleCertificates",{
+		res.render("multipleCertificates", {
 			certificates: certificates,
 			courseCertificates: false
 		});
@@ -154,7 +177,7 @@ router.get("/course/:courseId/:userId", (req, res) => {
 	const groupId = req.params.groupId;
 	const userId = req.params.userId;
 	res.render("multipleCertificates", {
-		certificates: [{user: testUser, groups: [testGroup2,testGroup2,testGroup3]}],
+		certificates: [{ user: testUser, groups: [testGroup2, testGroup2, testGroup3] }],
 		courseCertificates: true,
 	});
 });
