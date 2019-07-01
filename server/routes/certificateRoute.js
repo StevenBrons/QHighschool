@@ -27,7 +27,7 @@ function distinctCourse(groups) {
 
 function isCertificateWorthy({ evaluation }) {
 	if (evaluation != null) {
-		const assesment = evaluation.assesment;
+		const assesment = evaluation.assesment + "";
 		switch (evaluation.type) {
 			case "decimal":
 				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
