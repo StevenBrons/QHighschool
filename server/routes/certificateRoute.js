@@ -68,20 +68,27 @@ function tempAvonturenFilter(group) {
 	return group.subjectName !== "Avonturen";
 }
 
-router.get("/portfolio/:userId/", async (req, res) => {
+router.get("/portfolio/all/:from", async (req, res) => {
+	if (req.user.isAdmin()) {
+		const start = parseInt(req.params.from);
+		const allUsers = await userDb.getList();
+		const end = start + 10;
+
+		const curUsers = allUsers.filter((_, i) => i >= start && i <= end);
+		const allCertificateObjects = await Promise.all(curUsers.map(({ id }) => getCertificateFromUserId(id)));
+		res.render("multipleCertificates", {
+			certificates: allCertificateObjects.filter(tempFilter), //FILTER TEMP
+			courseCertificates: false
+		});
+	}
+});
+
+
+router.get("/portfolio/:userId", async (req, res) => {
 	if (req.user.isAdmin()) {
 		const userId = req.params.userId;
-		let certificates;
-		if (userId === "all") {
-			const allUsers = await userDb.getList();
-			const allCertificateObjects = await Promise.all(allUsers.map(({ id }) => getCertificateFromUserId(id)));
-			certificates = allCertificateObjects.filter(tempFilter); //TEMP
-			certificates = [await getCertificateFromUserId(123)];
-		} else {
-			certificates = [await getCertificateFromUserId(userId)];
-		}
 		res.render("multipleCertificates", {
-			certificates: certificates,
+			certificates: [await getCertificateFromUserId(userId)],
 			courseCertificates: false
 		});
 	}
