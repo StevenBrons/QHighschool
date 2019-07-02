@@ -44,7 +44,9 @@ function isCertificateWorthy({ evaluation }) {
 async function getCertificateFromUserId(userId) {
 	let user = await userDb.getUser(userId);
 	let groups = await groupDb.getGroups(userId);
+	console.log(groups);
 	groups = groups.filter(isCertificateWorthy);
+	console.log(groups);
 	groups = groups.filter(tempAvonturenFilter); //TEMP
 	groups = distinctCourse(groups);
 	return {
