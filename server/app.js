@@ -51,7 +51,10 @@ app.use(passport.session());
 app.use("/api", apiRoute);
 app.use("/auth", authRoute);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use("/public", express.static(path.join(__dirname, "public")))
+app.use("/profiel", (req, res) => {
+	res.redirect('http://localhost:3000/profiel/?from=login&secureLogin=' + req.query.secureLogin);
+});
 
 app.use(function (req, res, next) {
 	next(createError(404));
