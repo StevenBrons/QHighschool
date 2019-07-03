@@ -78,6 +78,7 @@ function mapStateToProps(state, ownProps) {
 		role: state.role,
 		groupId: id,
 		subjects: state.subjects,
+		userId: state.userId,
 		userIsMemberOfGroup,
 	}
 }
