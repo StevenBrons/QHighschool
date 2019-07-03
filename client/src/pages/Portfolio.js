@@ -9,7 +9,7 @@ import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments, getParticipatingGroups } from '../store/actions';
 
-import {Typography, Divider, Toolbar, Paper, Button } from '@material-ui/core';
+import { Typography, Divider, Toolbar, Paper, Button } from '@material-ui/core';
 import queryString from "query-string";
 
 class Portfolio extends Component {
@@ -67,11 +67,11 @@ class Portfolio extends Component {
 
 	openCertificate = () => {
 		const userId = this.props.userId;
-		
+
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			window.open("http://localhost:26194/api/certificate/portfolio/" + userId ,"_blank");
+			window.open("http://localhost:26194/api/certificate/portfolio/" + userId, "_blank");
 		} else {
-			window.open("/api/certificate/portfolio/" + userId  ,"_blank");
+			window.open("/api/certificate/portfolio/" + userId, "_blank");
 		}
 	}
 
@@ -134,8 +134,8 @@ class Portfolio extends Component {
 						{this.props.role === "student" ? "Portfolio" : "Mijn groepen"}
 					</Typography>
 					{
-						this.props.role === "student" && 
-						<Button color="primary" variant="contained" style={{margin:"20px"}} onClick={this.openCertificate}>
+						this.props.role === "student" &&
+						<Button color="primary" variant="contained" style={{ margin: "20px" }} onClick={this.openCertificate}>
 							Certificaat
 						</Button>
 					}
