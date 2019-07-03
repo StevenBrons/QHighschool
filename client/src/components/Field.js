@@ -72,7 +72,7 @@ class Field extends React.Component {
 				return false;
 			}
 		}
-		if (rules.maxLength) {
+		if (rules.maxLength && value != null) {
 			if (value.length > rules.maxLength) {
 				return false;
 			}
