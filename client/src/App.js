@@ -20,7 +20,7 @@ import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
-import ControlPanel from "./pages/ControlPanel";
+import ControlPanel from "./pages/control/ControlPanel";
 
 
 class App extends Component {
@@ -46,9 +46,9 @@ class App extends Component {
 			);
 		}
 		let startPage = "/groepen";
-		if ( this.props.role === "student" ) {
-			startPage =  "/aanbod";
-		} else if ( this.props.role === "grade_admin" ){
+		if (this.props.role === "student") {
+			startPage = "/aanbod";
+		} else if (this.props.role === "grade_admin") {
 			startPage = "/gegevens";
 		}
 		return (

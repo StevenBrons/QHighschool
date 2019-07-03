@@ -91,7 +91,7 @@ export function getGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -103,7 +103,7 @@ export function getParticipatingGroups() {
 					type: "CHANGE_GROUPS",
 					groups,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -294,7 +294,7 @@ export function getEnrollableGroups() {
 					type: "CHANGE_ENROLLABLE_GROUPS",
 					enrollableGroups,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -311,7 +311,7 @@ export function getEnrolLments() {
 					userId: getState().userId,
 					enrollmentIds: Object.keys(enrollments),
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -330,7 +330,7 @@ export function getGroupEnrollments(groupId) {
 					type: "CHANGE_USERS",
 					users: enrollments,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -391,7 +391,7 @@ export function getAllUsers() {
 					type: "CHANGE_USERS",
 					users,
 				});
-			}).catch(() => {});
+			}).catch(() => { });
 	}
 }
 
@@ -539,4 +539,13 @@ export function getCookie(cname) {
 			return c.substring(name.length, c.length);
 	}
 	return "";
+}
+
+export function relogSecure() {
+	setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
+	if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+		document.location.href = "http://localhost:26194/auth/login?secure=true";
+	} else {
+		document.location.href = "/auth/login?secure=true";
+	}
 }

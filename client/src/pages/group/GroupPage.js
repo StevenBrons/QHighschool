@@ -63,6 +63,8 @@ class GroupPage extends Component {
 					return assesment === "G" || assesment === "V";
 				case "check":
 					return assesment === "passed";
+				default:
+					return false;
 			}
 		}
 		return false;
