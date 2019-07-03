@@ -43,6 +43,7 @@ const testGroup = {
 const testGroup2 = {
 	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz",
 	studyTime: 50,
+	subjectName: 'Filosofie',
 	evaluation: {
 		type: 'stepwise',
 		assesment: 'V',
@@ -53,6 +54,7 @@ const testGroup2 = {
 const testGroup3 = {
 	courseName: "Wat is het leven eigenlijk dat weet niemand want het is kut enz enz",
 	studyTime: 24,
+	subjectName: 'Filosofie',
 	evaluation: {
 		type: 'stepwise',
 		assesment: 'G',
@@ -63,6 +65,7 @@ const testGroup3 = {
 const testGroup4 = {
 	courseName: "HTML-Geavanceerd",
 	studyTime: 44,
+	subjectName: 'Informatica',
 	evaluation: {
 		type: 'check',
 		assesment: 'failed',
@@ -87,6 +90,14 @@ const testUser = {
 	createdAt: '2018-10-11T16:03:49.000Z',
 	updatedAt: null,
 	notifications: [],
+}
+const testUser2 = {
+	firstName: 'Maarten',
+	lastName: 'Beerenschot',
+}
+const testUser3 = {
+	firstName: 'Steven',
+	lastName: 'Bronsveld',
 }
 
 function distinctCourse(groups) {
@@ -117,30 +128,57 @@ function isCertificateWorthy({ evaluation }) {
 	return false;
 }
 
+async function getCertificateFromUserId(userId) {
+	let user = await userDb.getUser(userId);
+	let groups = await groupDb.getGroups(userId);
+	groups = groups.filter(isCertificateWorthy);
+	groups = groups.filter(tempAvonturenFilter); //TEMP
+	groups = distinctCourse(groups);
+	return {
+		user,
+		groups,
+	}
+}
+
+function tempFilter({ user, groups }) {
+	if (user.year === 6 && user.level === "VWO") return false;
+	if (user.year === 5 && user.level === "HAVO") return false;
+	if (user.school === "Lyceum Elst") return false;
+	const nonAvonturen = groups.filter((group) => {
+		return group.subjectName !== "Avonturen";
+	});
+	if (nonAvonturen.length === 0) return false;
+	return true;
+}
+
+function tempAvonturenFilter(group) {
+	return group.subjectName !== "Avonturen";
+}
+
 router.get("/portfolio/:userId/", async (req, res) => {
 	if (req.user.isAdmin()) {
 		const userId = req.params.userId;
+		let certificates;
 		if (userId === "all") {
-			res.render("totalPortfolio");
+			const allUsers = await userDb.getList();
+			const allCertificateObjects = await Promise.all(allUsers.map(({ id }) => getCertificateFromUserId(id)));
+			certificates = allCertificateObjects.filter(tempFilter); //TEMP
 		} else {
-			let user = await userDb.getUser(userId);
-			let groups = await groupDb.getGroups(userId);
-			groups = groups.filter(isCertificateWorthy);
-			groups = distinctCourse(groups);
-			res.render("portfolioCertificate", {
-				user,
-				groups,
-			});
+			certificates = [await getCertificateFromUserId(userId)];
 		}
+		res.render("multipleCertificates", {
+			certificates: certificates,
+			courseCertificates: false
+		});
 	}
 });
 
 router.get("/course/:courseId/:userId", (req, res) => {
 	const groupId = req.params.groupId;
 	const userId = req.params.userId;
-	res.render("courseCertificate", {
-		user: testUser,
-		group: testGroup
+	res.render("multipleCertificates", {
+		certificates: [{ user: testUser, groups: [testGroup2, testGroup2, testGroup3] }],
+		courseCertificates: true,
 	});
 });
 

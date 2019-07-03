@@ -40,7 +40,6 @@ app.use(bodyParser.json())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({
 	keys: [keys.sessionSecret],
 	maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -52,6 +51,7 @@ app.use(passport.session());
 app.use("/api", apiRoute);
 app.use("/auth", authRoute);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use(function (req, res, next) {
 	next(createError(404));
