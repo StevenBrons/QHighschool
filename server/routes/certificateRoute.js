@@ -1,8 +1,6 @@
 const express = require("express");
-const ejs = require('ejs');
-const fs = require('fs');
-const path = require("path");
 const router = express.Router();
+const { authError } = require("./handlers");
 
 let groupDb, userDb;
 
@@ -85,8 +83,8 @@ router.get("/portfolio/all/:from", async (req, res) => {
 
 
 router.get("/portfolio/:userId", async (req, res) => {
-	if (req.user.isAdmin()) {
-		const userId = req.params.userId;
+	const userId = req.params.userId;
+	if (req.user.userId + "" === userId || req.user.isAdmin()) {
 		res.render("multipleCertificates", {
 			certificates: [await getCertificateFromUserId(userId)],
 			courseCertificates: false
@@ -94,13 +92,20 @@ router.get("/portfolio/:userId", async (req, res) => {
 	}
 });
 
-router.get("/course/:courseId/:userId", (req, res) => {
+router.get("/course/:userId/:groupId", async (req, res) => {
 	const groupId = req.params.groupId;
 	const userId = req.params.userId;
-	res.render("multipleCertificates", {
-		certificates: [{ user: testUser, groups: [testGroup2, testGroup2, testGroup3] }],
-		courseCertificates: true,
-	});
+
+	let user = await userDb.getUser(userId);
+	let group = await groupDb.getGroup(groupId, userId);
+
+	if (req.user.userId + "" === userId && !req.user.isAdmin()) return authError(res);
+	if (isCertificateWorthy(group)) {
+		return res.render("multipleCertificates", {
+			certificates: [{ user, groups: [group] }], courseCertificates: true,
+		});
+	}
+	return res.send("Certificate not found");
 });
 
 module.exports = router;

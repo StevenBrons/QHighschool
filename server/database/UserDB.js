@@ -123,8 +123,7 @@ class UserDB {
 	async getGroups(userId, admin) {
 		const groupIds = await this.getParticipatingGroupIds(userId, admin);
 		return Promise.all(groupIds.map(groupId => {
-			return groupDb.getGroup(groupId, userId)
-				.then(groupDb.appendEvaluation(userId))
+			return groupDb.getGroup(groupId, userId);
 		}));
 	}
 

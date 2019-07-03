@@ -65,25 +65,25 @@ class GroupDB {
 		});
 	}
 
-	async getGroup(groupId) {
-		return Group.findByPk(groupId, {
+	async getGroup(groupId, userId) {
+		let group = await Group.findByPk(groupId, {
 			order: [["period", "ASC"]],
 			include: [{
 				model: Course,
 				attributes: ["name", "description", "remarks", "studyTime"],
-				include: [
-					{
-						model: Subject, attributes: ["id", "name", "description"]
-					},
-				]
-			},
-			{
-				model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
+				include: [{ model: Subject }]
+			}, {
+				model: Participant, limit: 1, where: { participatingRole: "teacher" },
+				include: [{
 					model: User, attributes: ["id", "displayName"],
 				}]
-			},
-			]
-		}).then(a => this._mapGroup(a))
+			}]
+		});
+		group = this._mapGroup(group);
+		if (userId != null) {
+			group = await this.appendEvaluation(userId)(group);
+		}
+		return group;
 	}
 
 	appendEvaluation(userId) {
@@ -91,6 +91,7 @@ class GroupDB {
 			return Evaluation.findOne({
 				attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
 				order: [["id", "DESC"]],
+				raw: true,
 				where: {
 					userId: userId,
 					courseId: group.courseId
