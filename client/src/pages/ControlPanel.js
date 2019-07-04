@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import EnsureSecureLogin from '../../components/EnsureSecureLogin';
-import Page from '../Page';
+import EnsureSecureLogin from '../components/EnsureSecureLogin';
+import Page from './Page';
 import $ from "jquery";
 import map from 'lodash/map';
 
 import { connect } from 'react-redux';
 import queryString from "query-string";
-import SelectUser from '../../components/SelectUser';
+import SelectUser from '../components/SelectUser';
 import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText, } from '@material-ui/core';
-import Field from '../../components/Field';
-import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../../store/actions';
+import Field from '../components/Field';
+import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../store/actions';
 
 const pages = ["alias", "vak", "module", "groep"];
 

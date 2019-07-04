@@ -20,7 +20,7 @@ import Header from "./components/Header";
 import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
-import ControlPanel from "./pages/control/ControlPanel";
+import ControlPanel from "./pages/ControlPanel";
 
 
 class App extends Component {
