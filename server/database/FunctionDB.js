@@ -9,6 +9,7 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 const graphConnection = require("../office/graphConnection");
+const groupDb = require("../database/GroupDB");
 
 
 exports.createUser = async (accessToken) => {
@@ -61,7 +62,6 @@ exports.updateGraphId = async (userId, graphId) => {
 }
 
 exports.addUserToGroup = async (userId, courseGroupId) => {
-	console.log("Adding " + userId + " to " + courseGroupId);
 	await exports._addParticipant(userId, courseGroupId);
 	await exports._addPresence(userId, courseGroupId);
 }

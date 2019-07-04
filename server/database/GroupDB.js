@@ -52,20 +52,17 @@ exports.getGroups = async (userId) => {
 };
 
 exports.setFullGroup = async (data) => {
-	return Group.findByPrimary(data.groupId).then(group => {
-		if (group) {
-			return group.update(data).then(() => {
-				functionDb.updateLessonDates(data.groupId, data.period, data.day);
-			});
-		}
-	});
+	let group = await Group.findByPrimary(data.groupId);
+	if (!group) throw "Group not found";
+	group = await group.update(data);
+	await functionDb.updateLessonDates(data.groupId, data.period, data.day);
+	return group;
 }
 
 exports.setGroup = async (data) => {
-	Group.findByPrimary(data.groupId).then(group => {
-		return group.update({
-			enrollableFor: data.enrollableFor,
-		});
+	const group = Group.findByPrimary(data.groupId);
+	return group.update({
+		enrollableFor: data.enrollableFor,
 	});
 }
 
@@ -170,14 +167,6 @@ exports.setLesson = async (lesson) => {
 	});
 }
 
-exports.setLessons = async (lessons) => {
-	return Promise.all(lessons.map((lesson) => {
-		return Lesson.findByPk(lesson.id).then(l => {
-			return l.update(lesson);
-		});
-	}));
-}
-
 exports.getPresence = async (groupId) => {
 	return Presence.findAll({
 		include: {
@@ -208,7 +197,6 @@ exports.getEvaluations = async (groupId) => {
 		},
 	});
 	const evaluations = participants
-		.sort((p1, p2) => p1.user.displayName.toLowerCase() > p2.user.displayName.toLowerCase())
 		.map(p => functionDb.findEvaluation(p.userId, groupId));
 	return Promise.all(evaluations);
 }
@@ -227,7 +215,7 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
 		day: "maandag",
 		courseId,
 		period: 1,
-		schoolYear: "2018/2019",
+		schoolYear: "2019/2020",
 	});
 	await functionDb.addLessons(group.id, 1, "maandag");
 	await Participant.create({
@@ -247,4 +235,8 @@ exports.setEvaluation = async ({ userId, assesment, type, explanation, updatedBy
 		updatedByUserId,
 		courseId,
 	});
+}
+
+exports.getGraphIdFromGroupId = (groupId) => {
+	return (await Group.findByPk(groupId, { attributes: ["graphId"] })).graphId;
 }

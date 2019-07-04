@@ -30,7 +30,6 @@ async function passportCallback(req, iss, sub, profile, accessToken, refreshToke
 	const email = profile._json.preferred_username;
 	if (email === "Qhighschool@quadraam.nl") {
 		await graphConnection.initCreator(accessToken, refreshToken, params.expires_in);
-		await graphConnection.test();
 	}
 
 	let user = await sessionDb.getUserByEmail(email).catch(done);

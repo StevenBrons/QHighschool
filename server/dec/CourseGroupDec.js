@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const connection = require("./MainDec");
 const Course = require("./CourseDec");
+const groupTeamApi = require("../office/groupTeamApi");
 
 const CourseGroup = connection.define('course_group', {
 	day: {
@@ -34,5 +35,7 @@ const CourseGroup = connection.define('course_group', {
 
 CourseGroup.belongsTo(Course);
 Course.hasMany(CourseGroup);
+
+Course.afterCreate(groupTeamApi.createGroup);
 
 module.exports = CourseGroup;

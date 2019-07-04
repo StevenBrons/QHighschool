@@ -143,7 +143,7 @@ router.post("/evaluations", function (req, res, next) {
 async function setEvaluation(ev, req) {
 	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	let isInOneGroup = false;
-	await courseDB.getGroupIdsOfCourse(ev.courseId).then(groupIds => groupIds.forEach(groupId => {
+	await courseDB.getGroupIdsOfCourseId(ev.courseId).then(groupIds => groupIds.forEach(groupId => {
 		if (req.user.inGroup(groupId)) {
 			isInOneGroup = true;
 		}

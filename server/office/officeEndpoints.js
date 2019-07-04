@@ -1,8 +1,4 @@
 const connection = require("./graphConnection");
-const fs = require('fs');
-const path = require("path");
-const groupDb = require("../database/GroupDB");
-const userDb = require("../database/UserDB");
 
 const DEFAULT_GROUP = {
 	mailEnabled: false,
@@ -44,99 +40,64 @@ const DEFAULT_TEAM = {
 	specialization: 2, //educationClass
 }
 
-exports.updateOrCreateGroup = async (group) => {
-	let graphId = group.graphId;
-	if (graphId == null || graphId == "") {
-		graphId = await this._createGroup(group);
-		await this._createTeam(graphId, group);
-	} else {
-		await this._updateGroup(group);
-	}
-}
-
-exports.addParticipant = async (groupGraphId, userId, participatingRole) => {
-	const userGraphId = userDb.getGraphIdByUserId(userId);
-	if (userGraphId == null) return;
-	if (participatingRole == "teacher") {
-		console.log(userGraphId);
-		return this._addOwner(groupGraphId, userGraphId).catch(e => {
-			console.log(e);
-		});
-	} else {
-		return this._addMember(groupGraphId, userGraphId);
-	}
-}
-
-exports.removeParticipant = async (groupGraphId, userId, participatingRole) => {
-	const userGraphId = userDb.getGraphIdByUserId(userId);
-	if (userGraphId == null) return;
-	if (participatingRole == "teacher") {
-		return this._removeOwner(groupGraphId, userGraphId);
-	} else {
-		return this._removeMember(groupGraphId, userGraphId);
-	}
-}
-
 exports._addOwner = async (groupGraphId, userGraphId) => {
 	const directoryObject = {
 		"@odata.id": "https://graph.microsoft.com/v1.0/users/" + userGraphId,
 	};
 
 	return client.api("/groups/" + groupGraphId + "/owners/$ref")
-		.post({ directoryObject: directoryObject });
+		.put({ directoryObject: directoryObject });
 }
 
 exports._addMember = async (groupGraphId, userGraphId) => {
+	const directoryObject = {
+		"@odata.id": "https://graph.microsoft.com/v1.0/users/" + userGraphId,
+	};
+
+	return client.api("/groups/" + groupGraphId + "/members/$ref")
+		.put({ directoryObject: directoryObject });
 }
 
 exports._removeOwner = async (groupGraphId, userGraphId) => {
+	return client.api(`/groups/${groupGraphId}/owners/${userGraphId}/$ref`).delete();
 }
 
 exports._removeMember = async (groupGraphId, userGraphId) => {
+	return client.api(`/groups/${groupGraphId}/members/${userGraphId}/$ref`).delete();
 }
 
-exports._createGroup = async (group) => {
-	const participants = await groupDb.getParticipants(group.id);
-	const lessons = await groupDb.getLessons(group.id);
-
+exports._createGroup = async ({ id, subjectAbbreviation, courseName, courseDescription }, participants, lessons) => {
 	const c = await connection.getCreator();
 	const res = await c.api('/groups')
 		.version('beta')
 		.post({
 			...DEFAULT_GROUP,
-			displayName: "QH \u200b" + group.subjectAbbreviation + " " + group.courseName + "#" + group.id,
+			displayName: `QH \u200b${subjectAbbreviation} ${courseName} #G${id}`,
 			mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
-			description: group.courseDescription,
+			description: courseDescription,
 		});
 
 	const graphId = res.id;
-	participants.forEach(p => this.addParticipant(res.id, p.id, p.participatingRole));
-
 	return graphId;
 }
 
-exports._updateGroup = async (group) => {
+exports._updateGroup = async ({ id, graphId, subjectAbbreviation, courseDescription, courseName }) => {
 	const c = await connection.getCreator();
-	const t = await c.api("/groups/" + group.graphId).version("beta").patch({
+	return c.api("/groups/" + graphId).version("beta").patch({
 		...DEFAULT_GROUP,
-		displayName: "QH \u200b" + group.subjectAbbreviation + " " + group.courseName + "#" + group.id,
+		displayName: `QH \u200b${subjectAbbreviation} ${courseName} #G${id}`,
 		mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
-		description: group.courseDescription,
+		description: courseDescription,
 		allowExternalSenders: false,
 	});
 }
 
-exports._createTeam = async (graphId, group) => {
+exports._createTeam = async (graphId) => {
 	const c = await connection.getCreator();
-	const t = await c.api("/groups/" + graphId + "/team")
+	return c.api("/groups/" + graphId + "/team")
 		.version("beta")
-		.headers({
-			"Content-type": "application/json",
-		})
-		.put({
-			...DEFAULT_TEAM,
-		});
-	return t;
+		.headers({ "Content-type": "application/json" })
+		.put({ ...DEFAULT_TEAM });
 }
 
 exports._updateEvents = async (officeGroupId) => {
@@ -179,8 +140,4 @@ exports._updateEvents = async (officeGroupId) => {
 	const e = await c.api("/groups/" + officeGroupId + "/events").post(event);
 
 	return e;
-}
-
-exports._updateMembers = async (officeGroupId, participants) => {
-
 }

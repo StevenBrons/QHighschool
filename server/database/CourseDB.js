@@ -42,7 +42,7 @@ exports.getCourseIdFromGroupId = async (groupId) => {
 	}).then(group => group.course.id);
 }
 
-exports.getGroupIdsOfCourse = async (courseId) => {
+exports.getGroupIdsOfCourseId = async (courseId) => {
 	return Course.findByPk(courseId, {
 		attributes: [], include: [{
 			model: Group,

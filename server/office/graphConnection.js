@@ -2,7 +2,7 @@ const graph = require('@microsoft/microsoft-graph-client');
 const moment = require('moment');
 const { azureADCreds } = require('../private/keys');
 const rp = require('request-promise');
-const teamSync = require('./teamSync');
+const teamSync = require('./officeEndpoints');
 const groupDb = require('../database/GroupDB');
 
 let mainCreator;
@@ -32,17 +32,6 @@ exports.getAuthenticatedClient = (accessToken) => {
 
 exports.initCreator = async (accessToken, refreshToken, expiresIn) => {
 	mainCreator = new MainCreator(accessToken, refreshToken, expiresIn);
-}
-
-exports.test = async () => {
-	const qgroup = await groupDb.getGroup(77);
-	const graphId = await teamSync.updateOrCreateGroup(qgroup).catch(e => {
-		console.error(e);
-	});
-	// const res3 = await teamSync.updateEvents(graphId).catch(e => {
-	// 	console.error(e);
-	// });
-	// console.log(res3);
 }
 
 exports.getOwnDetails = async (accessToken) => {
