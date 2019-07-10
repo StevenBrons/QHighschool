@@ -21,6 +21,7 @@ import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
 import ControlPanel from "./pages/ControlPanel";
+import Parcours from "./pages/Parcours";
 
 
 class App extends Component {
@@ -67,6 +68,7 @@ class App extends Component {
 					<Route path="/gegevens/" component={DataPage} />
 					<Route path="/taxi/" component={Taxi} />
 					<Route path="/beheer/" component={ControlPanel} />
+					<Route path="/parcours/" component={Parcours} />
 					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 					<Redirect push to={startPage} />
 				</Switch>

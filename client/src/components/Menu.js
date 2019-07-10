@@ -10,6 +10,7 @@ import ExitIcon from '@material-ui/icons/ExitToApp';
 import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import BuildIcon from '@material-ui/icons/Build';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+import MapIcon from '@material-ui/icons/Map';
 import NotificationBadge from './NotificationBadge';
 
 import Paper from '@material-ui/core/Paper';
@@ -27,7 +28,7 @@ class Menu extends Component {
 		this.state = {};
 		switch (this.props.role) {
 			case "student":
-				this.state.pages = ["aanbod", "portfolio", "profiel", "loguit"];
+				this.state.pages = ["aanbod", "portfolio", "profiel", "loguit", "parcours"];
 				break;
 			case "teacher":
 				this.state.pages = ["groepen", "profiel", "loguit"];
@@ -87,6 +88,8 @@ class Menu extends Component {
 				return <LocalTaxiIcon style={{ color: c }} />;
 			case "Beheer":
 				return <BuildIcon style={{ color: c }} />;
+			case "Parcours":
+				return <MapIcon style={{ color: c }} />;
 			default:
 				return null;
 		}
@@ -150,6 +153,11 @@ class Menu extends Component {
 				title: "Beheer",
 				icon: "Beheer",
 			},
+			{
+				id: "parcours",
+				title: "Parcours",
+				icon: "Parcours",
+			}
 		];
 
 		const profile = [
