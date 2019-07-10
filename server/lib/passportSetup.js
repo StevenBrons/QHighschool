@@ -27,6 +27,7 @@ passport.deserializeUser((token, done) => {
 passport.use(new OIDCStrategy(azureADCreds, passportCallback));
 
 async function passportCallback(req, iss, sub, profile, accessToken, refreshToken, params, done) {
+	console.log(profile);
 	const email = profile._json.preferred_username;
 	if (email === "Qhighschool@quadraam.nl") {
 		await graphConnection.initCreator(accessToken, refreshToken, params.expires_in);

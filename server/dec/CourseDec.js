@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const connection = require("./MainDec");
 const Subject = require("./SubjectDec");
-const groupTeamApi = require("../office/groupTeamApi");
+// const groupTeamApi = require("../office/groupTeamApi");
 
 const Course = connection.define('course', {
 	name: {
@@ -23,6 +23,6 @@ const Course = connection.define('course', {
 Course.belongsTo(Subject);
 Subject.hasMany(Course);
 
-Course.afterUpdate(groupTeamApi.updateCourse);
-
 module.exports = Course;
+
+// Course.afterUpdate(groupTeamApi.updateCourse);

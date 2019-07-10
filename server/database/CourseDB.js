@@ -1,7 +1,6 @@
 const Course = require("../dec/CourseDec");
 const Group = require("../dec/CourseGroupDec");
 const Subject = require("../dec/SubjectDec");
-const teamSync = require("../office/teamSync");
 const schedule = require("../lib/schedule");
 const groupDb = require("./GroupDB");
 
@@ -72,7 +71,6 @@ exports.updateCourse = async (data) => {
 			const groupIds = await exports.getGroupIdsOfCourse(course.id)
 			let groups = await Promise.all(groupIds.map(id => groupDb.getGroup(id)));
 			groups = groups.filter(g => schedule.shouldBeSynced(g));
-			groups.forEach(g => teamSync.updateOrCreateGroup(g));
 
 			return course;
 		} else {

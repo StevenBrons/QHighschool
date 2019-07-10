@@ -237,6 +237,7 @@ exports.setEvaluation = async ({ userId, assesment, type, explanation, updatedBy
 	});
 }
 
-exports.getGraphIdFromGroupId = (groupId) => {
-	return (await Group.findByPk(groupId, { attributes: ["graphId"] })).graphId;
+exports.getGraphIdFromGroupId = async (groupId) => {
+	const group = await Group.findByPk(groupId, { attributes: ["graphId"] });
+	return group.graphId;
 }
