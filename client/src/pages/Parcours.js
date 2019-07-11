@@ -24,16 +24,46 @@ class Parcours extends Component {
 				T02: null,
 				T03: null,
 			},
+			freeModules: [...modules],
 			accepted: false,
 		}
 	}
 
-	onChange = (field,value) => {
+	moveToField = (field,value) => {
+		let fields = this.state.fields;
+		let freeModules = this.state.freeModules;
+		for (let _field in fields ) {
+			if ( _field !== field && fields[_field] === value ) { // if module originated from field, clear that field
+				fields[_field] = null;
+			}
+		}
+		let index = freeModules.indexOf(value);
+		if ( index !== -1 ){ // if module is in freeModules, remove it from there
+			freeModules.splice(index,1);
+		}
+		if ( fields[field] != null ) { // if it already contains a module
+			freeModules.push(fields[field]);
+			freeModules.sort();
+		}
+		fields[field] = value;
+
 		this.setState({
-			fields:{
-				...this.state.fields,
-				[field]: value,
-			},
+			fields:fields,
+			freeModules: freeModules,
+		})
+	}
+
+	moveToFree = (module) => {
+		let fields = this.state.fields;
+		for (let field in fields) {
+			if (fields[field] === module ) {
+				fields[field] = null;
+				break;
+			} 
+		}
+		this.setState({
+			fields: fields,
+			freeModules: [...this.state.freeModules, module].sort(),
 		})
 	}
 
@@ -41,7 +71,6 @@ class Parcours extends Component {
 		const fields = this.state.fields;
 		for (let field in fields) {
 			if (!( this.moduleAcceptedByPTA(fields[field], field) && this.moduleNotDouble(fields[field], field)) || fields[field] == null) {
-				console.log(fields[field] + " is not accepted at place " + field );
 				return false;
 			}
 		}
@@ -57,8 +86,11 @@ class Parcours extends Component {
 		// test if this module is not in another field
 	}
 
+	colorOption = (module,field) => {
+		return this.moduleAcceptedByPTA(module,field) ? this.moduleNotDouble(module,field)? "" : "orange" : "red";
+	}
+
 	render() {
-		console.log(this.state);
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -74,11 +106,10 @@ class Parcours extends Component {
 								label={field} 
 								value={this.state.fields[field]} 
 								options={modules.map(module => {
-									let style = this.moduleAcceptedByPTA(module,field) ? this.moduleNotDouble(module,field)? {} : {backgroundColor:"orange"} : {backgroundColor:"red"};
-									return {label: module, value: module, style:style};
+									return {label: module, value: module, style:{backgroundColor:this.colorOption(module,field)}};
 								})}
 								editable 
-								onChange={value=> this.onChange(field,value)}/>
+								onChange={value=> this.moveToField(field,value)}/>
 					)}
 					{
 						this.parcoursAccepted() ? <CheckIcon style={{margin:"20px", color:"green"}}/> : <ErrorIcon style={{margin:"20px", color:"orange"}}/>
@@ -91,9 +122,12 @@ class Parcours extends Component {
 						<div onDragOver={this.onDragOver} 
 							onDrop={e => this.onDrop(e, field)}
 							key={field} 
-							style={{height:"200px", width:"200px", margin:"10px", borderRadius:"10px", border:"1px dashed black"}}>
+							style={{height:"300px", width:"220px", margin:"10px", borderRadius:"10px", border:"1px dashed "+ this.colorOption(this.state.fields[field],field)}}>
 								<h1>{field}</h1>
-								<h3>{this.state.fields[field]}</h3>
+								{
+									this.state.fields[field] &&
+									<MovableModule module={this.state.fields[field]}/>
+								}
 							</div>
 					)}
 					{
@@ -101,14 +135,11 @@ class Parcours extends Component {
 					}
 				</div>
 				<Divider />
-				<div style={{display:"flex"}}>
+				<div style={{display:"flex"}}
+					onDragOver={this.onDragOver}
+					onDrop={e => this.onDrop(e,"free")}>
 				{
-					modules.map((module => { return (
-						<Paper key={module} draggable onDragStart={e => this.onDragStart(e,module)} elevation={3} style={{height:"200px", width:"200px", margin:"10px"}}>
-							<h2 style={{margin:"10px"}}>{module}</h2>
-						</Paper>
-					)}))
-				}
+					this.state.freeModules.map((module => { return (<MovableModule key={module} module={module}/>);})) }
 				</div>
 			</Page>
 		)
@@ -118,19 +149,35 @@ class Parcours extends Component {
 		event.preventDefault();
 	}
 
+	onDrop = (event,field) => {
+		let module = event.dataTransfer.getData("text");
+		if (field === "free") {
+			this.moveToFree(module);
+		} else {
+			this.moveToField(field,module);
+		}
+	}
+}
+
+class MovableModule extends Component {
+
 	onDragStart = (event,module) => {
 		event.dataTransfer.setData("text/plain", module);
 	}
 	
-	onDrop = (event,field) => {
-		let module = event.dataTransfer.getData("text");
-		this.setState({
-			fields:{
-				...this.state.fields,
-				[field]:module
-			},
-		})
+	render() {
+		let module = this.props.module;
+		return (
+			<Paper 
+				draggable onDragStart={e => this.onDragStart(e,module)} 
+				elevation={3} 
+				style={{height:"200px", width:"200px", margin:"10px", cursor: "move"}}>
+				<h2 style={{margin:"10px"}}>
+					{module}
+				</h2>
+			</Paper>
+		);
 	}
 }
 
-export default Parcours
+export default Parcours;
