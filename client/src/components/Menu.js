@@ -88,7 +88,7 @@ class Menu extends Component {
 				return <LocalTaxiIcon style={{ color: c }} />;
 			case "Beheer":
 				return <BuildIcon style={{ color: c }} />;
-			case "Parcours":
+			case "Track":
 				return <MapIcon style={{ color: c }} />;
 			default:
 				return null;
@@ -156,7 +156,7 @@ class Menu extends Component {
 			{
 				id: "parcours",
 				title: "Parcours",
-				icon: "Parcours",
+				icon: "Track",
 			}
 		];
 

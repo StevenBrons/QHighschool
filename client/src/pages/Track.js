@@ -5,7 +5,7 @@ import Field from "../components/Field";
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const modules = [
+const courses = [
 	"module1","module2","module3","module4","module5","module6",
 ]
 
@@ -15,7 +15,7 @@ const PTA = {
 	T03: ["module5","module6"],
 }
 
-class Parcours extends Component {
+class Track extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -24,70 +24,70 @@ class Parcours extends Component {
 				T02: null,
 				T03: null,
 			},
-			freeModules: [...modules],
+			freeCourses: [...courses],
 			accepted: false,
 		}
 	}
 
 	moveToField = (field,value) => {
 		let fields = this.state.fields;
-		let freeModules = this.state.freeModules;
+		let freeCourses = this.state.freeCourses;
 		for (let _field in fields ) {
-			if ( _field !== field && fields[_field] === value ) { // if module originated from field, clear that field
+			if ( _field !== field && fields[_field] === value ) { // if course originated from field, clear that field
 				fields[_field] = null;
 			}
 		}
-		let index = freeModules.indexOf(value);
-		if ( index !== -1 ){ // if module is in freeModules, remove it from there
-			freeModules.splice(index,1);
+		let index = freeCourses.indexOf(value);
+		if ( index !== -1 ){ // if course is in freeCourses, remove it from there
+			freeCourses.splice(index,1);
 		}
-		if ( fields[field] != null ) { // if it already contains a module
-			freeModules.push(fields[field]);
-			freeModules.sort();
+		if ( fields[field] != null ) { // if it already contains a course
+			freeCourses.push(fields[field]);
+			freeCourses.sort();
 		}
 		fields[field] = value;
 
 		this.setState({
 			fields:fields,
-			freeModules: freeModules,
+			freeCourses: freeCourses,
 		})
 	}
 
-	moveToFree = (module) => {
+	moveToFree = (course) => {
 		let fields = this.state.fields;
 		for (let field in fields) {
-			if (fields[field] === module ) {
+			if (fields[field] === course ) {
 				fields[field] = null;
 				break;
 			} 
 		}
 		this.setState({
 			fields: fields,
-			freeModules: [...this.state.freeModules, module].sort(),
+			freeCourses: [...this.state.freeCourses, course].sort(),
 		})
 	}
 
-	parcoursAccepted = () => {
+	trackAccepted = () => {
 		const fields = this.state.fields;
 		for (let field in fields) {
-			if (!( this.moduleAcceptedByPTA(fields[field], field) && this.moduleNotDouble(fields[field], field)) || fields[field] == null) {
+			if (!( this.courseAcceptedByPTA(fields[field], field) && this.courseAcceptedByPTA(fields[field], field)) || fields[field] == null) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	moduleAcceptedByPTA = (module,field) => {
-		return ( PTA[field].includes(module))
+	courseAcceptedByPTA = (course,field) => {
+		return ( PTA[field].includes(course))
 	}
 
-	moduleNotDouble = (module,field) => {
-		return (Object.keys(this.state.fields).reduce((acc, value) => {return acc && ( value === field || this.state.fields[value] !== module )}, true));
-		// test if this module is not in another field
+	courseNotDouble = (course,field) => {
+		return (Object.keys(this.state.fields).reduce((acc, value) => {return acc && ( value === field || this.state.fields[value] !== course )}, true));
+		// test if this course is not in another field
 	}
 
-	colorOption = (module,field) => {
-		return this.moduleAcceptedByPTA(module,field) ? this.moduleNotDouble(module,field)? "" : "orange" : "red";
+	colorOption = (course,field) => {
+		return this.courseAcceptedByPTA(course,field) ? this.courseNotDouble(course,field)? "" : "orange" : "red";
 	}
 
 	render() {
@@ -105,14 +105,14 @@ class Parcours extends Component {
 						<Field key={field} 
 								label={field} 
 								value={this.state.fields[field]} 
-								options={modules.map(module => {
-									return {label: module, value: module, style:{backgroundColor:this.colorOption(module,field)}};
+								options={courses.map(course => {
+									return {label: course, value: course, style:{backgroundColor:this.colorOption(course,field)}};
 								})}
 								editable 
 								onChange={value=> this.moveToField(field,value)}/>
 					)}
 					{
-						this.parcoursAccepted() ? <CheckIcon style={{margin:"20px", color:"green"}}/> : <ErrorIcon style={{margin:"20px", color:"orange"}}/>
+						this.trackAccepted() ? <CheckIcon style={{margin:"20px", color:"green"}}/> : <ErrorIcon style={{margin:"20px", color:"orange"}}/>
 					}
 				</div>
 
@@ -126,12 +126,12 @@ class Parcours extends Component {
 								<h1>{field}</h1>
 								{
 									this.state.fields[field] &&
-									<MovableModule module={this.state.fields[field]}/>
+									<MovableCourse course={this.state.fields[field]}/>
 								}
 							</div>
 					)}
 					{
-						this.parcoursAccepted() ? <CheckIcon style={{margin:"20px", color:"green"}}/> : <ErrorIcon style={{margin:"20px", color:"orange"}}/>
+						this.trackAccepted() ? <CheckIcon style={{margin:"20px", color:"green"}}/> : <ErrorIcon style={{margin:"20px", color:"orange"}}/>
 					}
 				</div>
 				<Divider />
@@ -139,7 +139,7 @@ class Parcours extends Component {
 					onDragOver={this.onDragOver}
 					onDrop={e => this.onDrop(e,"free")}>
 				{
-					this.state.freeModules.map((module => { return (<MovableModule key={module} module={module}/>);})) }
+					this.state.freeCourses.map((course => { return (<MovableCourse key={course} course={course}/>);})) }
 				</div>
 			</Page>
 		)
@@ -150,34 +150,34 @@ class Parcours extends Component {
 	}
 
 	onDrop = (event,field) => {
-		let module = event.dataTransfer.getData("text");
+		let course = event.dataTransfer.getData("text");
 		if (field === "free") {
-			this.moveToFree(module);
+			this.moveToFree(course);
 		} else {
-			this.moveToField(field,module);
+			this.moveToField(field,course);
 		}
 	}
 }
 
-class MovableModule extends Component {
+class MovableCourse extends Component {
 
-	onDragStart = (event,module) => {
-		event.dataTransfer.setData("text/plain", module);
+	onDragStart = (event,course) => {
+		event.dataTransfer.setData("text/plain", course);
 	}
 	
 	render() {
-		let module = this.props.module;
+		let course = this.props.course;
 		return (
 			<Paper 
-				draggable onDragStart={e => this.onDragStart(e,module)} 
+				draggable onDragStart={e => this.onDragStart(e,course)} 
 				elevation={3} 
 				style={{height:"200px", width:"200px", margin:"10px", cursor: "move"}}>
 				<h2 style={{margin:"10px"}}>
-					{module}
+					{course}
 				</h2>
 			</Paper>
 		);
 	}
 }
 
-export default Parcours;
+export default Track;
