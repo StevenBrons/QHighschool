@@ -184,7 +184,7 @@ class Field extends React.Component {
 			menuItems = options.map(option => {
 				if (typeof option !== "string") {
 					return (
-						<MenuItem key={option.value} value={option.value}>
+						<MenuItem key={option.value} value={option.value} style={option.style}>
 							{option.label}
 						</MenuItem>
 					)
