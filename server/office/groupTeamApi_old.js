@@ -1,6 +1,6 @@
 const groupDb = require("../database/GroupDB");
 const courseDb = require("../database/CourseDB");
-const OEP = require("./officeEndpoints");
+const OEP = require("./officeEndpoints_old");
 
 this.createGroup = async (group) => {
 	const participants = await groupDb.getParticipants(group.id);

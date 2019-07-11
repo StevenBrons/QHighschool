@@ -62,9 +62,6 @@ module.exports = connection.define('user', {
 	createIp: {
 		type: Sequelize.STRING,
 	},
-	graphId: {
-		type: Sequelize.STRING,
-	}
 }, {
 		tableName: 'user_data'
 	});

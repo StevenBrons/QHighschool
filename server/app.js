@@ -29,6 +29,7 @@ require('./dec/LoggedInDec');
 
 require('./lib/passportSetup');
 require('./lib/taxi');
+require('./office/graphConnection');
 
 const app = express();
 

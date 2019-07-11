@@ -87,6 +87,11 @@ exports.getGroup = async (groupId) => {
 	}).then(a => this._mapGroup(a))
 }
 
+exports.setGraphId = async (groupId, graphId) => {
+	const g = Group.findByPk(groupId);
+	g.update({ graphId });
+}
+
 exports.appendEvaluation = async (userId) => {
 	return async function addEvaluation(group) {
 		return Evaluation.findOne({

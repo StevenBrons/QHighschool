@@ -1,143 +1,67 @@
 const connection = require("./graphConnection");
+const { office365 } = require('../private/keys');
+const groupDb = require("../database/GroupDB");
+const schedule = require("../lib/schedule");
 
-const DEFAULT_GROUP = {
-	mailEnabled: false,
-	securityEnabled: false,
-	groupTypes: [
-		"Unified"
-	],
-	theme: "Orange",
-	visibility: "hiddenmembership"
+function getMailNickName(group) {
+	let mailNickname = group.courseDescription + "#G${id}";
+	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+	mailNickname = mailNickname.replace(/ +/g, "");
+	return process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999)
 }
 
-const DEFAULT_TEAM = {
-	memberSettings: {
-		allowCreateUpdateChannels: true,
-		allowDeleteChannels: false,
-		allowAddRemoveApps: false,
-		allowCreateUpdateRemoveTabs: true,
-		allowCreateUpdateRemoveConnectors: false
-	},
-	guestSettings: {
-		allowCreateUpdateChannels: false,
-		allowDeleteChannels: false
-	},
-	messagingSettings: {
-		allowUserEditMessages: true,
-		allowUserDeleteMessages: true,
-		allowOwnerDeleteMessages: true,
-		allowTeamMentions: true,
-		allowChannelMentions: true
-	},
-	funSettings: {
-		allowGiphy: true,
-		giphyContentRating: "moderate",
-		allowStickersAndMemes: true,
-		allowCustomMemes: true
-	},
-	// "template@odata.bind": "https://graph.microsoft.com/beta/teamsTemplates('educationClass')",
-	visibility: "HiddenMembership",
-	specialization: 2, //educationClass
+exports.getGraphIdOrCreate = async (groupId) => {
+	const group = await groupDb.getGroup(groupId);
+	if (!schedule.shouldBeSynced(group)) return "NO_SYNC";
+	if (group.graphId == null) {
+		return exports.createClass(group);
+	}
+	return group.graphId;
 }
 
-exports._addOwner = async (groupGraphId, userGraphId) => {
-	const directoryObject = {
-		"@odata.id": "https://graph.microsoft.com/v1.0/users/" + userGraphId,
-	};
-
-	return client.api("/groups/" + groupGraphId + "/owners/$ref")
-		.put({ directoryObject: directoryObject });
-}
-
-exports._addMember = async (groupGraphId, userGraphId) => {
-	const directoryObject = {
-		"@odata.id": "https://graph.microsoft.com/v1.0/users/" + userGraphId,
-	};
-
-	return client.api("/groups/" + groupGraphId + "/members/$ref")
-		.put({ directoryObject: directoryObject });
-}
-
-exports._removeOwner = async (groupGraphId, userGraphId) => {
-	return client.api(`/groups/${groupGraphId}/owners/${userGraphId}/$ref`).delete();
-}
-
-exports._removeMember = async (groupGraphId, userGraphId) => {
-	return client.api(`/groups/${groupGraphId}/members/${userGraphId}/$ref`).delete();
-}
-
-exports._createGroup = async ({ id, subjectAbbreviation, courseName, courseDescription }, participants, lessons) => {
-	const c = await connection.getCreator();
-	const res = await c.api('/groups')
-		.version('beta')
-		.post({
-			...DEFAULT_GROUP,
-			displayName: `QH \u200b${subjectAbbreviation} ${courseName} #G${id}`,
-			mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
-			description: courseDescription,
-		});
-
-	const graphId = res.id;
-	return graphId;
-}
-
-exports._updateGroup = async ({ id, graphId, subjectAbbreviation, courseDescription, courseName }) => {
-	const c = await connection.getCreator();
-	return c.api("/groups/" + graphId).version("beta").patch({
-		...DEFAULT_GROUP,
+exports.updateClass = async (group) => {
+	if (!schedule.shouldBeSynced(group)) return "NO_SYNC";
+	return connection.api("education/classes" + group.graphId).post({
+		description: group.courseDescription,
 		displayName: `QH \u200b${subjectAbbreviation} ${courseName} #G${id}`,
-		mailNickname: "DeleteMe" + Math.floor(Math.random() * 99999),
-		description: courseDescription,
-		allowExternalSenders: false,
+		mailNickname: getMailNickName(group),
+		classCode: `#G${group.id}`,
+		externalId: group.id + "",
+		externalName: `${courseName}`,
 	});
 }
 
-exports._createTeam = async (graphId) => {
-	const c = await connection.getCreator();
-	return c.api("/groups/" + graphId + "/team")
-		.version("beta")
-		.headers({ "Content-type": "application/json" })
-		.put({ ...DEFAULT_TEAM });
+exports.createClass = async (group) => {
+	const participants = await groupDb.getParticipants(group.id, true);
+
+	const team = await connection.api("education/classes")
+		.post({
+			description: group.courseDescription,
+			displayName: `QH \u200b${subjectAbbreviation} ${courseName} #G${id}`,
+			mailNickname: getMailNickName(group),
+			classCode: `#G${group.id}`,
+			externalId: group.id + "",
+			externalName: `${courseName}`,
+		});
+	await connection.api(`education/schools/${office365.schoolId}/classes/$ref`)
+		.post({ "@odata.id": "https://graph.microsoft.com/v1.0/education/classes/" + team.id });
+	await Promise.all(participants.map(p => this.addParticipant(group.id, p.email, p.participatingRole)));
+	await groupDb.setGraphId(group.id, team.id);
+	return team.id;
 }
 
-exports._updateEvents = async (officeGroupId) => {
-	const event = {
-		subject: "Let's go for lunch",
-		body: {
-			contentType: "HTML",
-			content: "Does mid month work for you?"
-		},
-		start: {
-			dateTime: "2019-05-30T12:00:00",
-			timeZone: "Pacific Standard Time"
-		},
-		end: {
-			dateTime: "2019-05-30T14:00:00",
-			timeZone: "Pacific Standard Time"
-		},
-		location: {
-			displayName: "Harry's Bar"
-		},
-		attendees: [
-			{
-				emailAddress: {
-					address: "adelev@contoso.onmicrosoft.com",
-					name: "Adele Vance"
-				},
-				type: "required"
-			},
-			{
-				emailAddress: {
-					address: "qhighschool@quadraam.nl",
-					name: "Adele Vance"
-				},
-				type: "required"
-			},
-		]
-	};
+exports.addParticipant = async (groupId, upn, participatingRole) => {
+	const graphId = this.getGraphIdOrCreate(groupId);
+	if (graphId === "NO_SYNC") return;
+	const role = participatingRole === "teacher" ? "teacher" : "members";
+	return connection.api(`/education/classes/${graphId}/${role}/$ref`)
+		.post({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` });
+}
 
-	const c = await connection.getCreator();
-	const e = await c.api("/groups/" + officeGroupId + "/events").post(event);
-
-	return e;
+exports.removeParticipant = async (groupId, upn, participatingRole) => {
+	const graphId = this.getGraphIdOrCreate(groupId);
+	if (graphId === "NO_SYNC") return;
+	const role = participatingRole === "teacher" ? "teacher" : "members";
+	return connection.api(`/education/classes/${graphId}/${role}/$ref`)
+		.delete({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` });
 }

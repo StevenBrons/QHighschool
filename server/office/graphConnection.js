@@ -1,99 +1,80 @@
-const graph = require('@microsoft/microsoft-graph-client');
-const moment = require('moment');
+const moment = require("moment");
 const { azureADCreds } = require('../private/keys');
 const rp = require('request-promise');
-const teamSync = require('./officeEndpoints');
-const groupDb = require('../database/GroupDB');
 
-let mainCreator;
-exports.isConnected = () => {
-	return mainCreator != null;
+let oauthToken = {
+	token_type: "Bearer",
+	expires_in: -1,
+	createdAt: moment(),
+	access_token: "",
 }
 
-exports.getCreatorRaw = () => {
-	return mainCreator;
-}
-
-exports.getCreator = async () => {
-	if (!exports.isConnected) {
-		throw new Error("Not connected");
+this.getAccessToken = async () => {
+	if (!oauthToken.createdAt.isBefore(moment().add(oauthToken.expires_in - 100, "s"))) {
+		var options = {
+			method: 'POST',
+			uri: 'https://login.microsoftonline.com/Quadraam.onmicrosoft.com/oauth2/v2.0/token',
+			form: {
+				client_id: azureADCreds.clientID,
+				scope: "https://graph.microsoft.com/.default",
+				client_secret: azureADCreds.clientSecret,
+				grant_type: "client_credentials"
+			},
+			json: true
+		};
+		const res = await rp(options);
+		oauthToken = {
+			...res,
+			createdAt: moment(),
+		};
 	}
-	return mainCreator.getAuthenticatedClient();
+	return oauthToken.access_token;
 }
 
-exports.getAuthenticatedClient = (accessToken) => {
-	const client = graph.Client.init({
-		authProvider: (done) => {
-			done(null, accessToken);
-		}
-	});
-	return client;
-}
-
-exports.initCreator = async (accessToken, refreshToken, expiresIn) => {
-	mainCreator = new MainCreator(accessToken, refreshToken, expiresIn);
-}
-
-exports.getOwnDetails = async (accessToken) => {
-	const client = await exports.getAuthenticatedClient(accessToken);
-	const userData = await client.api("/me").get();
-	return {
-		email: userData.userPrincipalName,
-		firstName: userData.givenName,
-		lastName: userData.surname,
-		displayName: userData.displayName,
-		school: null,
-		role: "student",
-		jobTitle: userData.jobTitle,
-		preferedEmail: userData.userPrincipalName,
-	};
-}
-
-class MainCreator {
-
-	constructor(accessToken, refreshToken, expiresIn) {
-		this.accessToken = accessToken;
-		this.refreshToken = refreshToken;
-		this.expires = moment().add(expiresIn, "seconds");
-	}
-
-	async getAuthenticatedClient() {
-		return exports.getAuthenticatedClient(await this.getAccessToken());
-	}
-
-	async getAccessToken() {
-
-		if (this.accessToken) {
-			if (this.expires.isAfter(moment().subtract(5, "seconds"))) {
-				return this.accessToken;
-			}
-		}
-
-		if (this.refreshToken) {
-			const newTokens = await exports.refreshToken(this.refreshToken);
-			this.accessToken = newTokens.access_token;
-			this.refreshToken = newTokens.refresh_token;
-			this.expires = moment().add(newTokens.expires_in, "seconds");
-			return this.accessToken;
-		}
-
-		return null;
-	}
-
-}
-
-exports.refreshToken = async (refresh_token) => {
+this.api = (endpoint) => {
 	var options = {
-		method: 'POST',
-		uri: 'https://login.microsoftonline.com/common/oauth2/token',
-		form: {
-			grant_type: "refresh_token",
-			refresh_token,
-			client_id: azureADCreds.clientID,
-			client_secret: azureADCreds.clientSecret
-		},
-		json: true
+		uri: `https://graph.microsoft.com/v1.0/${endpoint}`,
+		json: true,
 	};
+	async function pre() {
+		options.headers = {};
+		options.headers.Authorization = `Bearer ${await exports.getAccessToken()}`;
+	}
 
-	return rp(options);
+	return {
+		get: async () => {
+			await pre();
+			options.method = "GET";
+			return rp(options);
+		},
+		post: async (body) => {
+			await pre();
+			options.method = "POST";
+			options.body = body;
+			return rp(options);
+		},
+		patch: async (body) => {
+			await pre();
+			options.method = "FETCH";
+			options.body = body;
+			return rp(options);
+		},
+		delete: async (body) => {
+			await pre();
+			options.method = "DELETE";
+			options.body = body;
+			return rp(options);
+		}
+	}
 }
+
+this.test = async () => {
+	return this.api("education/schools/").get();
+}
+
+this.test().catch(e => {
+	console.error(e);
+	console.log(e.response);
+}).then(e => {
+	console.log(e);
+});

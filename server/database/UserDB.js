@@ -33,11 +33,6 @@ exports.getUser = async (userId) => {
 	});
 }
 
-exports.getGraphIdByUserId = async (userId) => {
-	const user = await User.findByPk(userId, { attributes: ["graphId"] });
-	return user.graphId;
-}
-
 exports.getEnrollments = async (userId) => {
 	return Enrollment.findAll({
 		where: {
