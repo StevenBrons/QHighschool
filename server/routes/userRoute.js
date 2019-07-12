@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const userDb = require('../database/UserDB');
 const groupDb = require('../database/GroupDB');
-const schedule = require('../lib/schedule');
 
 const handlers = require('./handlers');
 const handleSuccess = handlers.handleSuccess;
@@ -53,14 +52,12 @@ router.get("/enrollments", (req, res) => {
 		.catch(handleError(res));
 });
 
-router.get("/enrollableGroups", function (req, res, next) {
-	groupDb.getGroups(req.user.id).then(groups => {
-		var enrollableGroups = groups.filter((group) => {
-			return group.period == schedule.getEnrollmentPeriod();
-
-		});
-		return enrollableGroups;
-	}).then(handleReturn(res));
+router.get("/enrollableGroups", async (req, res) => {
+	const groups = await groupDb.getGroups(req.user.id);
+	var enrollableGroups = groups.filter((group) => {
+		return group.period === 1 && group.schoolYear === "2019/2020";
+	});
+	handleReturn(res)(enrollableGroups);
 });
 
 router.get("/groups", (req, res) => {

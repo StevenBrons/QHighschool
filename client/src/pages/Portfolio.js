@@ -9,7 +9,7 @@ import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments, getParticipatingGroups } from '../store/actions';
 
-import { Typography, Divider, Toolbar, Paper } from '@material-ui/core';
+import { Typography, Divider, Toolbar, Paper, Button } from '@material-ui/core';
 import queryString from "query-string";
 
 class Portfolio extends Component {
@@ -63,6 +63,16 @@ class Portfolio extends Component {
 			{groups}
 			<Divider style={{ marginTop: "20px" }} />
 		</div>
+	}
+
+	openCertificate = () => {
+		const userId = this.props.userId;
+
+		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+			window.open("http://localhost:26194/api/certificate/portfolio/" + userId, "_blank");
+		} else {
+			window.open("/api/certificate/portfolio/" + userId, "_blank");
+		}
 	}
 
 	render() {
@@ -123,6 +133,12 @@ class Portfolio extends Component {
 					<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 						{this.props.role === "student" ? "Portfolio" : "Mijn groepen"}
 					</Typography>
+					{
+						this.props.role === "student" &&
+						<Button color="primary" variant="contained" style={{ margin: "20px" }} onClick={this.openCertificate}>
+							Certificaat
+						</Button>
+					}
 					<Field
 						label="filter"
 						value={this.state.filter}
@@ -145,6 +161,7 @@ function mapStateToProps(state) {
 		enrollmentIds: state.users[state.userId].enrollmentIds,
 		role: state.role,
 		currentPeriod: state.currentPeriod,
+		userId: state.userId,
 	};
 }
 

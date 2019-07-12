@@ -1,6 +1,7 @@
 const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Participant = require("../dec/ParticipantDec");
+const Group = require("../dec/CourseGroupDec");
 
 class SerialisedUser {
 
@@ -21,6 +22,10 @@ class SerialisedUser {
 			return true;
 		}
 		return this.groupIds.indexOf(groupId + "") !== -1;
+	}
+
+	inSubjectGroup(groupId) {
+
 	}
 
 	isAdmin() {

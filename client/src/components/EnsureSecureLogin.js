@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { setCookie } from "../store/actions"
+import { relogSecure } from "../store/actions"
 import Field from "../components/Field"
 
 class EnsureSecureLogin extends Component {
@@ -11,14 +11,7 @@ class EnsureSecureLogin extends Component {
 		if (!(this.props.active === false) && this.props.secureLogin == null) {
 			return <Paper style={{ padding: "20px", marginTop: "25px" }}>
 				<Field value="Log opnieuw in om toegang te krijgen" layout={{ area: true }} />
-				<Button color="primary" variant="contained" onClick={() => {
-					setCookie("beforeLoginPath", window.location.pathname + window.location.search, 24);
-					if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-						document.location.href = "http://localhost:26194/auth/login?secure=true";
-					} else {
-						document.location.href = "/auth/login?secure=true";
-					}
-				}}>
+				<Button color="primary" variant="contained" onClick={relogSecure}>
 					Inloggen
 				</Button>
 			</Paper>

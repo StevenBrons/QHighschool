@@ -52,6 +52,24 @@ class GroupPage extends Component {
 		}
 	}
 
+	isCertificateWorthy({ evaluation }) {
+		if (evaluation != null) {
+			const assesment = evaluation.assesment + "";
+			switch (evaluation.type) {
+				case "decimal":
+					const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+					return x >= 5.5;
+				case "stepwise":
+					return assesment === "G" || assesment === "V";
+				case "check":
+					return assesment === "passed";
+				default:
+					return false;
+			}
+		}
+		return false;
+	}
+
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let values = queryString.parse(nextProps.location.search);
 		return {
@@ -191,7 +209,7 @@ class GroupPage extends Component {
 		}
 	}
 
-	handleChange = (name,value) => {
+	handleChange = (name, value) => {
 		this.setState({
 			group: {
 				...this.state.group,
@@ -261,6 +279,29 @@ class GroupPage extends Component {
 		});
 	};
 
+	openCertificate = () => {
+		const groupId = this.props.group.id;
+		const userId = this.props.userId;
+		const role = this.props.role;
+
+		// in case of student show that students certificate. In case of other role show certificates of all students for that group
+		// also check if in development mode because url is different in that case
+		if (role === "student") {
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				window.open("http://localhost:26194/api/certificate/course/" + userId + "/" + groupId, "_blank");
+			} else {
+				window.open("/api/certificate/course/" + userId + "/" + groupId, "_blank");
+			}
+		} else {
+			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+				//window.open("http://localhost:26194/api/certificate/course/" + userId + "/"+ groupId ,"_blank");
+				// IMPLEMENT ME
+			} else {
+				//window.open("/api/certificate/course" + userId + "/" + groupId,"_blank");
+				// IMPLEMENT ME
+			}
+		}
+	}
 
 	render() {
 		const editable = this.state.editable;
@@ -270,31 +311,41 @@ class GroupPage extends Component {
 			<Page>
 				<GroupData {...this.props} editable={editable} group={group} onChange={this.handleChange} />
 				<Divider />
-				{
-					role === "student" &&
-					<ChooseButton
-						group={group}
-						style={{ margin: "20px" }}
-					/>
-				}
-				{
-					((role === "teacher" || role === "admin") && !editable) &&
-					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
-						{"Bewerken"}
-					</Button>
-				}
-				{
-					editable &&
-					<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
-						{"Opslaan"}
-					</Button>
-				}
-				{
-					editable &&
-					<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
-						{"Annuleren"}
-					</Button>
-				}
+				<div style={{ display: "flex" }}>
+					{
+						role === "student" &&
+						<ChooseButton
+							group={group}
+							style={{ margin: "20px" }}
+						/>
+					}
+					{
+						((role === "teacher" || role === "admin") && !editable) &&
+						<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.setEditable}>
+							{"Bewerken"}
+						</Button>
+					}
+					{
+						editable &&
+						<Button color="secondary" variant="contained" style={{ margin: "20px" }} onClick={this.save}>
+							{"Opslaan"}
+						</Button>
+					}
+					{
+						editable &&
+						<Button color="default" style={{ margin: "20px" }} onClick={this.cancel}>
+							{"Annuleren"}
+						</Button>
+					}
+					<div style={{ flex: "2" }} />
+					{
+						(this.isCertificateWorthy(group))
+						&&
+						<Button color="primary" variant="contained" style={{ margin: "20px" }} onClick={this.openCertificate}>
+							{role === "student" ? "Certificaat" : "Certificaten"}
+						</Button>
+					}
+				</div>
 				<AppBar position="static" color="default">
 					<Tabs
 						value={this.state.tabs.indexOf(this.state.currentTab)}
@@ -304,12 +355,12 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						{this.state.tabs.map(tab => 
-						<Tab key={tab} label={
-							<NotificationBadge scope={"groep/" + ( group.id || "" ) + "?tab=" + tab} style={{paddingLeft:"100px"}}>
-								{tab}
-							</NotificationBadge>
-							} />) }
+						{this.state.tabs.map(tab =>
+							<Tab key={tab} label={
+								<NotificationBadge scope={"groep/" + (group.id || "") + "?tab=" + tab} style={{ paddingLeft: "100px" }}>
+									{tab}
+								</NotificationBadge>
+							} />)}
 					</Tabs>
 				</AppBar>
 				<br />

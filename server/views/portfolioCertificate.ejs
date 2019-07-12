@@ -1,0 +1,68 @@
+<%let pages =  Math.ceil(groups.length / courses_per_page);%>
+<%for ( let i = startPage; i < pages + startPage; i ++ ) { %>
+    <div class="page center-horizontal" id="page<%=i%>">
+        <img src="/public/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+        <img src="/public/images/top_orange_q.svg" id="top-logo">
+
+        <p id="title" class="center-horizontal"> CERTIFICAAT </p>
+        <img src="/public/images/background_portfolio.png" id="background" class="center-horizontal">
+        <div id="middle-text" class="center-horizontal">
+            <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
+            <p id="name-text-portfolio"> <%= user.firstName + " " + user.lastName %> </p>
+            <p class="sub-text"> de volgende Q-Highschool modules heeft afgerond </p>
+        </div>
+
+        <table class="center-horizontal">
+            <tr>
+                <th>Naam module</th>
+                <th>Beoordeling</th>
+            </tr>
+            <% for ( let j = 0; j < groups.length - ( (i-startPage) * courses_per_page) && j < courses_per_page ; j++ ) { 
+                let group = groups[((i-startPage)*courses_per_page) + j]; %>
+            <tr>
+                <td class="<%= group.courseName.length < 50 ? "" : "table-cell-padding-small" %>"><%= group.courseName%>
+                </td>
+                <% switch (group.evaluation.type) {
+                            case "stepwise":
+                                switch (group.evaluation.assesment) {
+                                    case "G":%>
+                <td>Goed</td>
+                <%break;
+                                    case "V":%>
+                <td>Voldoende</td>
+                <%break;
+                                    case "O":
+                                    default: %>
+                <td>Onvoldoende</td>
+                <%}; 
+                            break;
+                            case "check": %>
+                <td><%=group.evaluation.assesment === "passed"? "Gehaald": "Niet gehaald"%></td>
+                <% break;
+                            case "decimal":
+                            default: %>
+                <td><%=group.evaluation.assesment%></td>
+                <%}%>
+                </tr>
+            <%}%>
+        </table>
+
+        <div id="signature">
+            <img id="signature-img" src="/public/images/signature_white.png"></img>
+            <p class="sub-text bold-text" id="signature-text">mevr. E. Lohuis</p>
+            <p class="sub-text" id="signature-text">examensecretaris</p>
+            <!-- <p><%= (new Date()).toLocaleDateString("nl-NL") %></p> -->
+            <p id="date-portfolio">24 juni 2019</p>
+        </div>
+
+    </div>
+<% } %>
+    <%if (pages%2===1) {%>
+    <div class="page center-horizontal" id="page<%=pages+startPage%>">
+        <!-- <img src="/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+        <img src="/images/top_orange_q.svg" id="top-logo">
+
+        <p id="title" class="center-horizontal"> CERTIFICAAT </p>
+        <img src="/images/background_portfolio.png" id="background" class="center-horizontal"> -->
+    </div>
+    <%}%>

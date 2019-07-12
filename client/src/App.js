@@ -46,9 +46,9 @@ class App extends Component {
 			);
 		}
 		let startPage = "/groepen";
-		if ( this.props.role === "student" ) {
-			startPage =  "/aanbod";
-		} else if ( this.props.role === "grade_admin" ){
+		if (this.props.role === "student") {
+			startPage = "/aanbod";
+		} else if (this.props.role === "grade_admin") {
 			startPage = "/gegevens";
 		}
 		return (

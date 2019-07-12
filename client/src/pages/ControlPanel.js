@@ -1,30 +1,17 @@
 import React, { Component } from 'react';
 import EnsureSecureLogin from '../components/EnsureSecureLogin';
 import Page from './Page';
-import map from 'lodash/map';
 import $ from "jquery";
+import map from 'lodash/map';
 
 import { connect } from 'react-redux';
 import queryString from "query-string";
 import SelectUser from '../components/SelectUser';
-import { Divider, Toolbar, Button, Paper, Typography } from '@material-ui/core';
+import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText, } from '@material-ui/core';
 import Field from '../components/Field';
-import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup } from '../store/actions';
+import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../store/actions';
 
-const initialValues = {
-	subject: {
-		name: "",
-		description: "",
-	},
-	course: {
-		name: "",
-		subjectId: null,
-	},
-	group: {
-		courseId: null,
-		teacherId: null,
-	}
-}
+const pages = ["alias", "vak", "module", "groep"];
 
 class ControlPanel extends Component {
 
@@ -32,10 +19,6 @@ class ControlPanel extends Component {
 		super(props);
 		this.state = {
 			courses: [],
-			aliasId: null,
-			subject: initialValues.subject,
-			course: initialValues.course,
-			group: initialValues.group,
 		}
 	}
 
@@ -44,9 +27,19 @@ class ControlPanel extends Component {
 		return {
 			...prevState,
 			...{
-				addType: values.addType ? values.addType : "subject",
+				page: values.page ? values.page : pages[0],
 			}
 		}
+	}
+
+	mapPageToListItem = (pageName) => {
+		return <ListItem button onClick={() => this.handlePageChange(pageName)} key={pageName}>
+			<ListItemText>
+				<Typography variant="title" color={pageName === this.state.page ? "primary" : "default"} style={{ minWidth: "150px" }}>
+					{pageName.charAt(0).toUpperCase() + pageName.slice(1)}
+				</Typography>
+			</ListItemText>
+		</ListItem >
 	}
 
 	componentDidMount() {
@@ -56,7 +49,6 @@ class ControlPanel extends Component {
 			data: {},
 			dataType: "json",
 		}).then((courses) => {
-			console.log(courses);
 			this.setState({
 				courses
 			});
@@ -64,153 +56,28 @@ class ControlPanel extends Component {
 		this.props.getSubjects();
 	}
 
-	loginUsingAlias = () => {
-		this.props.dispatch(setAlias(this.state.aliasId));
-	}
 
-	handleAliasChange = (userId) => {
-		this.setState({
-			aliasId: userId,
-		});
-	}
-
-	notification = (typeObjectAdded, success) => {
-		let typeNames = { "subject": "Vak", "course": "Module", "group": "Groep" };
-		typeObjectAdded = typeNames[typeObjectAdded];
-		if (success) {
-			console.log(typeObjectAdded + " added!");
-		} else {
-			console.log(typeObjectAdded + " not added :(");
-		}
-		// if ( success ) {
-		// 	this.props.addNotification(
-		// 		{
-		// 			priority:"low",
-		// 			type:"bar",
-		// 			message:typeObjectAdded + "succesvol toegevoegd!",
-		// 			scope: "beheer",
-		// 		}
-		// 	)
-		// } else {
-		// 	this.props.addNotification(
-		// 		{
-		// 			priority:"medium",
-		// 			type:"bar",
-		// 			message:"Er is iets misgegaan. " + typeObjectAdded + " is niet toegevoegd.",
-		// 			scope:"beheer",
-		// 		}
-		// 	)
-		// }
-	}
-
-	add(type) {
-		const typeValues = this.state[type];
-		let addFunction;
-		switch (type) {
-			case "subject": addFunction = async () => {
-				return this.props.addSubject(typeValues.name, typeValues.description).then(success => { return success.success })
-			};
-				break;
-			case "course": addFunction = async () => {
-				return this.props.addCourse(typeValues.name, typeValues.subjectId).then(success => { return success.success })
-			};
-				break;
-			default: addFunction = async () => {
-				return this.props.addGroup(typeValues.courseId, typeValues.teacherId).then(success => { return success.success })
-			}; // group
-		}
-		addFunction().then(success => {
-			if (success) {
-				this.setState({
-					[type]: initialValues[type],
-				})
-			}
-			this.notification(type, success);
-		})
-	}
-
-	handleChange = (name, value, type) => {
-		this.setState(prevState => ({
-			[type]: {
-				...prevState[type],
-				[name]: value,
-			}
-		}))
-	}
-
-	handleTypeChange = value => {
+	handlePageChange = value => {
 		this.props.history.push({
-			search: "addType=" + value,
+			search: "page=" + value,
 		});
+	}
+
+	getContent = () => {
+		switch (this.state.page) {
+			case "alias":
+				return <Alias dispatch={this.props.dispatch} />
+			case "vak":
+				return <Subject addSubject={this.props.addSubject} />
+			case "module":
+				return <Course addCourse={this.props.addCourse} subjects={this.props.subjects} />
+			case "groep":
+				return <Group addGroup={this.props.addGroup} courses={this.state.courses} />
+			default:
+		}
 	}
 
 	render() {
-		const subject = this.state.subject;
-		const course = this.state.course;
-		const group = this.state.group;
-		const addType = this.state.addType;
-		const subjects = this.props.subjects || {};
-		let courses = this.state.courses;
-		let addView;
-		switch (addType) {
-			case "subject":
-				addView = <div>
-					<Field
-						label="Naam"
-						value={subject.name}
-						onChange={(val) => this.handleChange("name", val, "subject")}
-						editable={true}
-						validate={{ maxLength: 50 }}
-					/>
-					<br />
-					<Field
-						label="Omschrijving"
-						value={subject.description}
-						onChange={(event) => this.handleChange("description", event, "subject")}
-						editable={true}
-						validate={{ maxLength: 440 }}
-						layout={{ area: true }}
-					/>
-				</div>
-				break;
-			case "course":
-				addView = <div >
-					<Field
-						label="Naam"
-						value={course.name}
-						onChange={(event) => this.handleChange("name", event, "course")}
-						editable={true}
-						validate={{ maxLength: 50 }}
-						style={{ flex: "1" }}
-					/>
-					<br />
-					<Field
-						value={course.subjectId}
-						subjectId label="Vak"
-						onChange={(event) => { this.handleChange("subjectId", event, "course") }}
-						editable={true}
-						options={map(subjects, (subject) => { return { value: subject.id, label: subject.name } })}
-						style={{ minWidth: "200px" }}
-					/>
-				</div>
-				break;
-			default: //group
-				addView = <div>
-					<Field
-						value={group.courseId}
-						label="Module"
-						onChange={(event) => this.handleChange("courseId", event, "group")}
-						editable={true}
-						options={courses.map((course) => { return { label: course.name, value: course.id } })}
-						style={{ minWidth: "200px" }}
-					/>
-					<br />
-					<SelectUser
-						value={group.teacherId}
-						onChange={(userId) => this.handleChange("teacherId", userId, "group")}
-					/>
-				</div>
-		}
 		return (
 			<Page>
 				<EnsureSecureLogin>
@@ -221,25 +88,162 @@ class ControlPanel extends Component {
 						<Toolbar style={{ display: "flex" }}>
 							<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 								Beheer
-							</Typography>
+						</Typography>
 						</Toolbar>
 					</Paper>
-					<div style={{ margin: "10px 0" }}>
-						<SelectUser onChange={this.handleAliasChange} />
-						<Button variant="contained" color="primary" disabled={this.state.aliasId == null} onClick={this.loginUsingAlias}>Login in met alias</Button>
+					<div style={{ display: "flex" }} className="ColumnFlexDirectionOnMobile">
+						<Paper elevation={2}>
+							<List component="nav" style={{ flex: 1 }}>
+								{pages.map(this.mapPageToListItem)}
+							</List>
+						</Paper>
+						<div style={{ padding: "12px" }}>
+							{this.getContent()}
+						</div>
 					</div>
-					<Divider />
-					<div >
-						<Typography variant="title" color="primary" style={{ margin: "18px 12px", float: "left" }}>
-							Nieuw(e):
-						</Typography>
-						<Field value={addType} name="addType" editable={true} onChange={this.handleTypeChange} options={[{ value: "course", label: "Module" }, { value: "subject", label: "Vak" }, { value: "group", label: "Groep" }]} style={{ minWidth: "200px", maxWidth: "400px", type: "title" }} />
-					</div>
-					{addView}
-					<Button variant="contained" color="primary" style={{ height: "37px", margin: "12px" }} onClick={() => { this.add(addType) }}> Voeg toe	</Button>
 				</EnsureSecureLogin>
 			</Page>
 		);
+	}
+}
+
+class Alias extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			aliasId: null,
+		}
+	}
+
+	;
+
+	render() {
+		return <div style={{ margin: "10px 0" }}>
+			<SelectUser onChange={(aliasId) => this.setState({ aliasId })} />
+			<br />
+			<Button
+				variant="contained"
+				color="primary"
+				disabled={this.state.aliasId == null}
+				onClick={() => this.props.dispatch(setAlias(this.state.aliasId))}>
+				Login in met alia
+			</Button>
+		</div>
+	}
+}
+
+class Subject extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: "",
+			description: "",
+		}
+	}
+	render() {
+		const subject = this.state;
+		return <div>
+			<Field
+				label="Naam"
+				value={subject.name}
+				onChange={(name) => this.setState({ name })}
+				editable={true}
+				validate={{ maxLength: 50 }}
+			/>
+			<br />
+			<Field
+				label="Omschrijving"
+				value={subject.description}
+				onChange={(description) => this.setState({ description })}
+				editable={true}
+				validate={{ maxLength: 440 }}
+				layout={{ area: true }}
+			/>
+			<Button
+				variant="contained"
+				color="primary"
+				style={{ height: "37px", margin: "12px" }}
+				onClick={() => { this.props.addSubject(subject.name, subject.description).then(relogSecure) }}>
+				Voeg toe
+			</Button>
+		</div>
+	}
+}
+
+class Course extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: "",
+			subjectId: "",
+		}
+	}
+	render() {
+		const course = this.state;
+		return <div>
+			<Field
+				label="Naam"
+				value={course.name}
+				onChange={(name) => this.setState({ name })}
+				editable={true}
+				validate={{ maxLength: 50 }}
+				style={{ flex: "1" }}
+			/>
+			<br />
+			<Field
+				value={course.subjectId}
+				subjectId label="Vak"
+				onChange={(subjectId) => this.setState({ subjectId })}
+				editable={true}
+				options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })}
+				style={{ minWidth: "200px" }}
+			/>
+			<br />
+			<Button
+				variant="contained"
+				color="primary"
+				style={{ height: "37px", margin: "12px" }}
+				onClick={() => { this.props.addCourse(course.name, course.subjectId).then(relogSecure) }}>
+				Voeg toe
+			</Button>
+		</div>
+	}
+}
+
+
+class Group extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			courseId: null,
+			teacherId: null,
+		}
+	}
+	render() {
+		const group = this.state;
+		return <div>
+			<Field
+				value={group.courseId}
+				label="Module"
+				onChange={(courseId) => this.setState({ courseId })}
+				editable={true}
+				options={this.props.courses.map((course) => { return { label: course.name, value: course.id } })}
+				style={{ minWidth: "200px" }}
+			/>
+			<br />
+			<SelectUser
+				value={group.teacherId}
+				onChange={(teacherId) => this.setState({ teacherId })}
+			/>
+			<br />
+			<Button
+				variant="contained"
+				color="primary"
+				style={{ height: "37px", margin: "12px" }}
+				onClick={() => { this.props.addGroup(group.courseId, group.teacherId).then(relogSecure) }}>
+				Voeg toe
+			</Button>
+		</div>
 	}
 }
 

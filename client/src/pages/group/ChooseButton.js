@@ -67,7 +67,7 @@ class ChooseButton extends Component {
 					{dialog}
 				</Button>
 			);
-		} else if (props.group.period < this.props.currentPeriod){
+		} else if (props.group.period < this.props.enrollmentPeriod) {
 			return (
 				<Button disabled color="primary" style={props.style}>
 					Inschrijfperiode verlopen
@@ -106,7 +106,7 @@ function mapStateToProps(state, ownProps) {
 		hasChosen: state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
 		hasChosenDay: chosenDayGroupName !== -1,
 		chosenDayGroupName,
-		currentPeriod: state.currentPeriod,
+		enrollmentPeriod: state.enrollmentPeriod,
 	};
 }
 

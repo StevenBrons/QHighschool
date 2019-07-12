@@ -1,0 +1,39 @@
+<img src="/public/images/logo_qhighschool_white.svg" id="right-bottom-logo">
+<img src="/public/images/top_orange_q.svg" id="top-logo">
+
+<img src="/public/images/background_course.png" id="background" class="center-horizontal">
+<p id="title" class="center-horizontal"> CERTIFICAAT </p>
+<div id="middle-text" class="center-horizontal">
+    <p class="sub-text"> Hierbij verklaart Quadraam dat </p>
+    <p id="name-text-course"> <%= user.firstName + " " + user.lastName %> </p>
+    <p class="sub-text"> de Q-Highschool module </p>
+    <p class="main-text<%= group.courseName.length < 65 ? "" : "-small" %> bold-text"> <%= group.courseName %> </p>
+    <p class="sub-text"> van <%= group.studyTime%> studie-uren en onderdeel van het parcours
+        <%= group.subjectName.toLowerCase() %> </p>
+
+    <% if ( group.evaluation.type === "check") {  %>
+    <p class="sub-text"> heeft afgerond </p>
+    <% } else { %>
+    <p class="sub-text"> successvol heeft afgesloten met de beoordeling </p>
+    <% if ( group.evaluation.type === "stepwise" ) {
+            switch (group.evaluation.assesment ) {
+                case "V": %>
+    <p class="main-text"> Voldoende </p>
+    <% break;
+                case "O": %>
+    <p class="main-text"> Onvoldoende </p>
+    <% break;
+                case "G": 
+                default:%>
+    <p class="main-text"> Goed </p>
+    <% } 
+        } else { %>
+    <p class="main-text"> <%= group.evaluation.assesment %> </p>
+    <% } %>
+    <%}%>
+</div>
+
+<div id="signature">
+    <p class="sub-text bold-text" id="signature-text">mevr. E. Lohuis</p>
+    <p class="sub-text" id="signature-text">examensecretaris Q-highschool</p>
+</div>

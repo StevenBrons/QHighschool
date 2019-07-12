@@ -41,50 +41,78 @@ exports.getGroups = async (userId) => {
 			model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
 				model: Subject, attributes: ["id", "name", "description", "abbreviation"]
 			}]
-		},
-		{
-			model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
-				model: User, attributes: ["id", "displayName"],
-			}]
 		}]
 	}).then(data => data.map(this._mapGroup))
 		.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
 };
 
 exports.setFullGroup = async (data) => {
-	let group = await Group.findByPrimary(data.groupId);
-	if (!group) throw "Group not found";
-	group = await group.update(data);
-	await functionDb.updateLessonDates(data.groupId, data.period, data.day);
-	return group;
-}
-
-exports.setGroup = async (data) => {
-	const group = Group.findByPrimary(data.groupId);
-	return group.update({
-		enrollableFor: data.enrollableFor,
+	return Group.findByPk(data.groupId).then(group => {
+		if (group) {
+			return group.update(data).then(() => {
+				functionDb.updateLessonDates(data.groupId, data.period, data.day);
+			});
+		}
 	});
 }
 
-exports.getGroup = async (groupId) => {
-	return Group.findByPk(groupId, {
+exports.setGroup = async (data) => {
+	Group.findByPk(data.groupId).then(group => {
+		return group.update(data);
+	});
+}
+
+exports.getGroup = async (groupId, userId) => {
+	let group = await Group.findByPk(groupId, {
 		order: [["period", "ASC"]],
 		include: [{
 			model: Course,
 			attributes: ["name", "description", "remarks", "studyTime"],
-			include: [
-				{
-					model: Subject, attributes: ["id", "name", "description", "abbreviation"]
-				},
-			]
-		},
-		{
-			model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
+			include: [{ model: Subject }]
+		}, {
+			model: Participant, limit: 1, where: { participatingRole: "teacher" },
+			include: [{
 				model: User, attributes: ["id", "displayName"],
 			}]
+		}]
+	});
+	group = this._mapGroup(group);
+	if (userId != null) {
+		group = await this.appendEvaluation(userId)(group);
+	}
+	return group;
+}
+
+exports.appendEvaluation = async userId => {
+	return async function addEvaluation(group) {
+		return Evaluation.findOne({
+			attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+			order: [["id", "DESC"]],
+			raw: true,
+			where: {
+				userId: userId,
+				courseId: group.courseId
+			}
+		}).then(evaluation => {
+			return {
+				...group,
+				evaluation,
+			}
+		});
+	}
+}
+
+exports.getEnrollments = async groupId => {
+	return Enrollment.findAll({
+		attributes: [],
+		where: {
+			courseGroupId: groupId
 		},
-		]
-	}).then(a => this._mapGroup(a))
+		include: [{
+			model: User,
+			order: [["displayName", "DESC"]]
+		}]
+	});
 }
 
 exports.setGraphId = async (groupId, graphId) => {

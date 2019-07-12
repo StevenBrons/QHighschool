@@ -165,6 +165,8 @@ class DataPage extends Component {
 				return "200px";
 			case "courseName":
 				return "300px";
+			case "explanation":
+				return "200px";
 			default:
 				return "auto";
 		}
@@ -173,7 +175,7 @@ class DataPage extends Component {
 	render() {
 		let content;
 		if (this.state.tables == null) {
-			content = <Progress />;
+			content = <Progress style={{marginTop:"100px"}}/>;
 		} else {
 			content = (this.state.tables).map((table, tableIndex) => {
 				return (

@@ -1,8 +1,5 @@
 const User = require('../dec/UserDec');
 const Enrollment = require('../dec/EnrollmentDec');
-const Notification = require('../dec/NotificationDec');
-const Participant = require('../dec/ParticipantDec');
-const Group = require('../dec/CourseGroupDec');
 const groupDb = require('../database/GroupDB');
 
 exports.getSelf = async (userId) => {
@@ -103,18 +100,17 @@ exports.removeUserEnrollment = async (userId, courseGroupId) => {
 	}).then(() => null);
 }
 
-exports.getNotifications = async (userId) => {
-	return Notification.findAll({ where: { userId } });
+exports.getGroups = async (userId, admin) => {
+	const groupIds = await this.getParticipatingGroupIds(userId, admin);
+	return Promise.all(groupIds.map(groupId => {
+		return groupDb.getGroup(groupId, userId);
+	}));
 }
 
-exports.getParticipatingGroupIds = async (userId, admin) => {
-	if (admin) {
-		return Group.findAll({ attributes: ["id"] })
-			.then(rows => rows.map(row => row.id + ""));
-	} else {
-		return Participant.findAll({ attributes: ["courseGroupId"], where: { userId } })
-			.then(rows => rows.map(row => row.courseGroupId + ""));
-	}
+exports.getList = async () => {
+	return User.findAll({
+		attributes: ["id", "displayName"],
+	});
 }
 
 exports.getGroups = async (userId, admin) => {
@@ -123,10 +119,4 @@ exports.getGroups = async (userId, admin) => {
 		return groupDb.getGroup(groupId, userId)
 			.then(groupDb.appendEvaluation(userId))
 	}));
-}
-
-exports.getList = async () => {
-	return User.findAll({
-		attributes: ["id", "displayName"],
-	});
 }
