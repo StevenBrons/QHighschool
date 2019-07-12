@@ -18,7 +18,7 @@ router.get("/list", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
 	groupDb.getGroup(req.body.groupId)
-		.then(groupDb.appendEvaluation(req.user.id))
+		.then(group => groupDb.appendEvaluation(group, req.user.id))
 		.then(handleReturn(res))
 		.catch(handleError(res));
 });

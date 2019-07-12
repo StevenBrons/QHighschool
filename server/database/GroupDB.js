@@ -35,16 +35,24 @@ exports._mapGroup = (data) => {
 }
 
 exports.getGroups = async (userId) => {
-	return Group.findAll({
+	let groups = await Group.findAll({
 		order: [["period", "ASC"]],
 		include: [{
 			model: Course, attributes: ["name", "description", "remarks", "studyTime"], include: [{
-				model: Subject, attributes: ["id", "name", "description", "abbreviation"]
+				model: Subject, attributes: ["id", "name", "description"]
+			}]
+		},
+		{
+			model: Participant, limit: 1, where: { participatingRole: "teacher" }, include: [{
+				model: User, attributes: ["id", "displayName"],
 			}]
 		}]
-	}).then(data => data.map(this._mapGroup))
-		.then(data => Promise.all(data.map(this.appendEvaluation(userId))));
+	});
+	groups = groups.map(this._mapGroup);
+	groups = await Promise.all(groups.map(group => exports.appendEvaluation(group, userId)));
+	return groups;
 };
+
 
 exports.setFullGroup = async (data) => {
 	return Group.findByPk(data.groupId).then(group => {
@@ -78,27 +86,24 @@ exports.getGroup = async (groupId, userId) => {
 	});
 	group = this._mapGroup(group);
 	if (userId != null) {
-		group = await this.appendEvaluation(userId)(group);
+		group = await exports.appendEvaluation(group, userId);
 	}
 	return group;
 }
 
-exports.appendEvaluation = async userId => {
-	return async function addEvaluation(group) {
-		return Evaluation.findOne({
-			attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
-			order: [["id", "DESC"]],
-			raw: true,
-			where: {
-				userId: userId,
-				courseId: group.courseId
-			}
-		}).then(evaluation => {
-			return {
-				...group,
-				evaluation,
-			}
-		});
+exports.appendEvaluation = async (group, userId) => {
+	const evaluation = await Evaluation.findOne({
+		attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
+		order: [["id", "DESC"]],
+		raw: true,
+		where: {
+			userId: userId,
+			courseId: group.courseId
+		}
+	});
+	return {
+		...group,
+		evaluation,
 	}
 }
 
@@ -118,24 +123,6 @@ exports.getEnrollments = async groupId => {
 exports.setGraphId = async (groupId, graphId) => {
 	const g = Group.findByPk(groupId);
 	g.update({ graphId });
-}
-
-exports.appendEvaluation = async (userId) => {
-	return async function addEvaluation(group) {
-		return Evaluation.findOne({
-			attributes: ["id", "userId", "courseId", "type", "assesment", "explanation"],
-			order: [["id", "DESC"]],
-			where: {
-				userId: userId,
-				courseId: group.courseId
-			}
-		}).then(evaluation => {
-			return {
-				...group,
-				evaluation,
-			}
-		});
-	}
 }
 
 exports.getEnrollments = async (groupId) => {
