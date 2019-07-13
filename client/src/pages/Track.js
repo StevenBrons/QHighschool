@@ -5,7 +5,7 @@ import Field from "../components/Field";
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const courses = [
+const courseNames = [
 	"module1","module2","module3","module4","module5","module6",
 ]
 
@@ -18,57 +18,52 @@ const PTA = {
 class Track extends Component {
 	constructor(props) {
 		super(props);
+		let courses = {};
+		courseNames.map(course => courses[course] = {field:"free",
+				possibleFields:Object.keys(PTA).filter(field => PTA[field].includes(course)), // find what fields this course can go into according to PTA
+				highlighted:false});
+		let fields = {};
+		Object.keys(PTA).forEach(field => fields[field] = null);
 		this.state = {
-			fields: {
-				T01: null,
-				T02: null,
-				T03: null,
-			},
-			freeCourses: [...courses],
+			fields: fields,
+			courses: courses,
 			accepted: false,
 		}
 	}
 
-	moveToField = (field,value) => {
-		let fields = this.state.fields;
-		let freeCourses = this.state.freeCourses;
-		for (let _field in fields ) {
-			if ( _field !== field && fields[_field] === value ) { // if course originated from field, clear that field
-				fields[_field] = null;
-			}
+	moveToField = (field,course) => {
+		let courses = this.state.courses;
+		let courseCurrentlyInField = this.state.fields[field];
+		if ( courseCurrentlyInField !== null ){
+			this.moveToFree(courseCurrentlyInField);
 		}
-		let index = freeCourses.indexOf(value);
-		if ( index !== -1 ){ // if course is in freeCourses, remove it from there
-			freeCourses.splice(index,1);
-		}
-		if ( fields[field] != null ) { // if it already contains a course
-			freeCourses.push(fields[field]);
-			freeCourses.sort();
-		}
-		fields[field] = value;
-
+		courses[course].field = field;
 		this.setState({
-			fields:fields,
-			freeCourses: freeCourses,
+			courses: courses,
+			fields: this.fields(courses),
 		})
 	}
 
 	moveToFree = (course) => {
-		let fields = this.state.fields;
-		for (let field in fields) {
-			if (fields[field] === course ) {
-				fields[field] = null;
-				break;
-			} 
-		}
+		let courses = this.state.courses;
+		courses[course].field = "free";
 		this.setState({
-			fields: fields,
-			freeCourses: [...this.state.freeCourses, course].sort(),
+			courses: courses,
+			fields: this.fields(courses),
 		})
 	}
 
+	fields = (courses) => { 
+		let fields = {};
+		Object.keys(PTA).forEach(field => {
+			let course = Object.keys(courses).find(c => courses[c].field === field);
+			fields[field] = course ? course : null;
+		}); 		
+		return fields
+	}
+
 	trackAccepted = () => {
-		const fields = this.state.fields;
+		let fields = this.state.fields;
 		for (let field in fields) {
 			if (!( this.courseAcceptedByPTA(fields[field], field) && this.courseAcceptedByPTA(fields[field], field)) || fields[field] == null) {
 				return false;
@@ -86,11 +81,24 @@ class Track extends Component {
 		// test if this course is not in another field
 	}
 
-	colorOption = (course,field) => {
+	colorField = (course,field) => {
+		const courses = this.state.courses;
+		let highlightedCourse = Object.keys(courses).find(c => courses[c].highlighted );
+		if ( highlightedCourse != null ) {
+			if (courses[highlightedCourse].possibleFields.includes(field)) {
+				return "blue";
+			}
+		}
 		return this.courseAcceptedByPTA(course,field) ? this.courseNotDouble(course,field)? "" : "orange" : "red";
 	}
 
+	colorCourse = course => {
+		return this.state.courses[course].highlighted ? "blue" : "black";
+	}
+
 	render() {
+		const courses = this.state.courses;
+		const fields = this.state.fields;
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -101,12 +109,12 @@ class Track extends Component {
 					</Toolbar>
 				</Paper>
 				<div>
-					{Object.keys(PTA).map((field) => 
+					{Object.keys(fields).map((field) => 
 						<Field key={field} 
 								label={field} 
-								value={this.state.fields[field]} 
-								options={courses.map(course => {
-									return {label: course, value: course, style:{backgroundColor:this.colorOption(course,field)}};
+								value={fields[field]} 
+								options={Object.keys(courses).map(course => {
+									return {label: course, value: course, style:{backgroundColor:this.colorField(course,field)}};
 								})}
 								editable 
 								onChange={value=> this.moveToField(field,value)}/>
@@ -118,15 +126,15 @@ class Track extends Component {
 
 				<Divider />
 				<div style={{display:"flex"}}>
-					{Object.keys(PTA).map((field) =>
+					{Object.keys(fields).map((field) =>
 						<div onDragOver={this.onDragOver} 
 							onDrop={e => this.onDrop(e, field)}
 							key={field} 
-							style={{height:"300px", width:"220px", margin:"10px", borderRadius:"10px", border:"1px dashed "+ this.colorOption(this.state.fields[field],field)}}>
+							style={{height:"300px", width:"220px", margin:"10px", borderRadius:"10px", border:"1px dashed "+ this.colorField(fields[field],field)}}>
 								<h1>{field}</h1>
 								{
-									this.state.fields[field] &&
-									<MovableCourse course={this.state.fields[field]}/>
+									fields[field] &&
+									this.movableCourse(fields[field])
 								}
 							</div>
 					)}
@@ -139,10 +147,26 @@ class Track extends Component {
 					onDragOver={this.onDragOver}
 					onDrop={e => this.onDrop(e,"free")}>
 				{
-					this.state.freeCourses.map((course => { return (<MovableCourse key={course} course={course}/>);})) }
+					Object.keys(courses).filter(c => courses[c].field === "free").map((course => { return (this.movableCourse(course)); })) }
 				</div>
 			</Page>
 		)
+	}
+
+	mouseEnter = (event,course) => {
+		let courses = this.state.courses;
+		courses[course].highlighted = true;
+		this.setState({
+			courses: courses,
+		})
+	}
+
+	mouseLeave = (event,course) => {
+		let courses = this.state.courses;
+		courses[course].highlighted = false;
+		this.setState({
+			courses: courses,
+		})
 	}
 
 	onDragOver = event => {
@@ -157,22 +181,21 @@ class Track extends Component {
 			this.moveToField(field,course);
 		}
 	}
-}
-
-class MovableCourse extends Component {
 
 	onDragStart = (event,course) => {
 		event.dataTransfer.setData("text/plain", course);
 	}
-	
-	render() {
-		let course = this.props.course;
+
+	movableCourse = (course) => {
 		return (
 			<Paper 
+				key={course}
 				draggable onDragStart={e => this.onDragStart(e,course)} 
 				elevation={3} 
-				style={{height:"200px", width:"200px", margin:"10px", cursor: "move"}}>
-				<h2 style={{margin:"10px"}}>
+				style={{height:"200px", width:"200px", margin:"10px", cursor: "move"}}
+				onMouseEnter={e => this.mouseEnter(e,course)}
+				onMouseLeave={e => this.mouseLeave(e,course)}>
+				<h2 style={{margin:"10px", color:this.colorCourse(course)}}>
 					{course}
 				</h2>
 			</Paper>
