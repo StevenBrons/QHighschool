@@ -21,13 +21,14 @@ class Track extends Component {
 		let courses = {};
 		courseNames.map(course => courses[course] = {field:"free",
 				possibleFields:Object.keys(PTA).filter(field => PTA[field].includes(course)), // find what fields this course can go into according to PTA
-				highlighted:false});
+				});
 		let fields = {};
 		Object.keys(PTA).forEach(field => fields[field] = null);
 		this.state = {
 			fields: fields,
 			courses: courses,
 			accepted: false,
+			highlighted: null,
 		}
 	}
 
@@ -83,17 +84,21 @@ class Track extends Component {
 
 	colorField = (course,field) => {
 		const courses = this.state.courses;
-		let highlightedCourse = Object.keys(courses).find(c => courses[c].highlighted );
-		if ( highlightedCourse != null ) {
-			if (courses[highlightedCourse].possibleFields.includes(field)) {
-				return "blue";
-			}
+		const highlighted = this.state.highlighted;
+		if ( highlighted === field || (courses[highlighted] && courses[highlighted].possibleFields.includes(field))) { 
+			// if field is highlighted OR a course is highlighted that fits in this field
+			return "blue";
 		}
 		return this.courseAcceptedByPTA(course,field) ? this.courseNotDouble(course,field)? "" : "orange" : "red";
 	}
 
 	colorCourse = course => {
-		return this.state.courses[course].highlighted ? "blue" : "black";
+		const highlighted = this.state.highlighted;
+		if ( highlighted === course || (PTA[highlighted] && PTA[highlighted].includes(course))) {
+			// if course is highlighted OR a field is highlighted that this course can go in to
+			return "blue";
+		}
+		return "";
 	}
 
 	render() {
@@ -129,6 +134,8 @@ class Track extends Component {
 					{Object.keys(fields).map((field) =>
 						<div onDragOver={this.onDragOver} 
 							onDrop={e => this.onDrop(e, field)}
+							onMouseEnter={e => this.mouseEnter(e,field)}
+							onMouseLeave={e => this.mouseLeave(e,field)}
 							key={field} 
 							style={{height:"300px", width:"220px", margin:"10px", borderRadius:"10px", border:"1px dashed "+ this.colorField(fields[field],field)}}>
 								<h1>{field}</h1>
@@ -153,19 +160,15 @@ class Track extends Component {
 		)
 	}
 
-	mouseEnter = (event,course) => {
-		let courses = this.state.courses;
-		courses[course].highlighted = true;
+	mouseEnter = (event,object) => {
 		this.setState({
-			courses: courses,
+			highlighted: object,
 		})
 	}
 
-	mouseLeave = (event,course) => {
-		let courses = this.state.courses;
-		courses[course].highlighted = false;
+	mouseLeave = (event,object) => {
 		this.setState({
-			courses: courses,
+			highlighted: null,
 		})
 	}
 
