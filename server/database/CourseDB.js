@@ -1,7 +1,7 @@
 const Course = require("../dec/CourseDec");
 const Group = require("../dec/CourseGroupDec");
 const Subject = require("../dec/SubjectDec");
-const schedule = require("../lib/schedule");
+const officeEndpoints = require("../office/officeEndpoints");
 const groupDb = require("./GroupDB");
 
 exports.getCourses = async () => {
@@ -57,24 +57,22 @@ exports.addCourse = async (data) => {
 	});
 }
 
-exports.updateCourse = async (data) => {
-	return Course.findByPk(data.courseId).then(async (course) => {
-		if (course) {
-			const course = await course.update({
-				subjectId: data.subjectId,
-				name: data.name,
-				description: data.description,
-				remarks: data.remarks,
-				studyTime: data.studyTime
-			});
+exports.updateCourse = async ({ courseId, subjectId, name, description, remarks, studyTime }) => {
+	let course = await Course.findByPk(courseId);
+	if (course) {
+		course = await course.update({
+			subjectId,
+			name,
+			description,
+			remarks,
+			studyTime,
+		});
 
-			const groupIds = await exports.getGroupIdsOfCourse(course.id)
-			let groups = await Promise.all(groupIds.map(id => groupDb.getGroup(id)));
-			groups = groups.filter(g => schedule.shouldBeSynced(g));
+		const groupIds = await exports.getGroupIdsOfCourseId(course.id)
+		groupIds.forEach(officeEndpoints.updateClass);
 
-			return course;
-		} else {
-			throw new Error("courseId is invalid");
-		}
-	});
+		return course;
+	} else {
+		throw new Error("courseId is invalid");
+	}
 }

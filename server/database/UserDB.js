@@ -3,6 +3,7 @@ const Enrollment = require('../dec/EnrollmentDec');
 const Notification = require('../dec/NotificationDec');
 const groupDb = require('../database/GroupDB');
 const Group = require('../dec/CourseGroupDec');
+const Participant = require('../dec/ParticipantDec');
 
 exports.getSelf = async (userId) => {
 	return User.findByPk(userId).then(async (user) => {

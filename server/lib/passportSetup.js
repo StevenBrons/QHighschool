@@ -4,7 +4,6 @@ const { azureADCreds } = require('../private/keys');
 const sessionDb = require('../database/SessionDB');
 const functionDb = require('../database/FunctionDB');
 const secureLogin = require('./secureLogin');
-const graphConnection = require("../office/graphConnection");
 
 passport.serializeUser((profile, done) => {
 	sessionDb.createTokenForUser(profile).then((token) => {
@@ -28,16 +27,11 @@ passport.use(new OIDCStrategy(azureADCreds, passportCallback));
 
 async function passportCallback(req, iss, sub, profile, accessToken, refreshToken, params, done) {
 	const email = profile._json.preferred_username;
-	if (email === "Qhighschool@quadraam.nl") {
-		await graphConnection.initCreator(accessToken, refreshToken, params.expires_in);
-	}
-
 	let user = await sessionDb.getUserByEmail(email).catch(done);
 	if (user == null) {
 		user = await functionDb.createUser(accessToken);
 	}
 	secureLogin.sign(user.id);
-
 	done(null, { email });
 }
 

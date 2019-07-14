@@ -8,6 +8,7 @@ const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
+const officeEndpoints = require("../office/officeEndpoints");
 
 exports._mapGroup = (data) => {
 	let groupName = data.course.name;
@@ -53,15 +54,12 @@ exports.getGroups = async (userId) => {
 	return groups;
 };
 
-
 exports.setFullGroup = async (data) => {
-	return Group.findByPk(data.groupId).then(group => {
-		if (group) {
-			return group.update(data).then(() => {
-				functionDb.updateLessonDates(data.groupId, data.period, data.day);
-			});
-		}
-	});
+	let group = await Group.findByPk(data.groupId);
+	group = await group.update(data);
+	await functionDb.updateLessonDates(group.id, group.period, group.day);
+	await officeEndpoints.updateClass(group.id);
+	return group;
 }
 
 exports.setGroup = async (data) => {
@@ -121,7 +119,7 @@ exports.getEnrollments = async groupId => {
 }
 
 exports.setGraphId = async (groupId, graphId) => {
-	const g = Group.findByPk(groupId);
+	const g = await Group.findByPk(groupId);
 	g.update({ graphId });
 }
 
@@ -237,12 +235,14 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
 		period: 1,
 		schoolYear: "2019/2020",
 	});
-	await functionDb.addLessons(group.id, 1, "maandag");
-	await Participant.create({
+	functionDb.addLessons(group.id, 1, "maandag");
+	Participant.create({
 		participatingRole: "teacher",
 		courseGroupId: group.id,
 		userId: mainTeacherId,
 	});
+	officeEndpoints.createClass(group.id);
+	return group;
 }
 
 exports.setEvaluation = async ({ userId, assesment, type, explanation, updatedByUserId, updatedByIp, courseId }) => {

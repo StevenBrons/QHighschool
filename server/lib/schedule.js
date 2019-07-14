@@ -48,8 +48,7 @@ exports.getCurrentWeekInBlock = () => {
 }
 
 exports.shouldBeSynced = (group) => {
-	return exports.getCurrentPeriod() <= group.period &&
-		group.schoolYear === exports.getCurrentSchoolYear();
+	return group.schoolYear === "2019/2020";
 }
 
 exports.getEnrollmentPeriod = () => {

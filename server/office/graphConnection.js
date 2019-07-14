@@ -31,6 +31,7 @@ this.getAccessToken = async () => {
 	return oauthToken.access_token;
 }
 
+
 this.api = (endpoint) => {
 	var options = {
 		uri: `https://graph.microsoft.com/v1.0/${endpoint}`,
@@ -55,7 +56,7 @@ this.api = (endpoint) => {
 		},
 		patch: async (body) => {
 			await pre();
-			options.method = "FETCH";
+			options.method = "PATCH";
 			options.body = body;
 			return rp(options);
 		},
@@ -67,14 +68,3 @@ this.api = (endpoint) => {
 		}
 	}
 }
-
-this.test = async () => {
-	return this.api("education/schools/").get();
-}
-
-this.test().catch(e => {
-	console.error(e);
-	console.log(e.response);
-}).then(e => {
-	console.log(e);
-});

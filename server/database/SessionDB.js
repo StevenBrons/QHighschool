@@ -1,7 +1,6 @@
 const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Participant = require("../dec/ParticipantDec");
-const Group = require("../dec/CourseGroupDec");
 
 class SerialisedUser {
 
@@ -54,7 +53,7 @@ class SerialisedUser {
 
 exports.getUserByEmail = async (email) => {
 	return User.findOne({
-		attributes: ["id", "role", "graphId"],
+		attributes: ["id", "role"],
 		where: {
 			email
 		}
@@ -90,7 +89,7 @@ exports.getUserByToken = async (token) => {
 exports.createTokenForUser = async ({ email }) => {
 	const userId = (await User.findOne({ where: { email: email }, attributes: ["id"] })).id;
 	const token = require('uuid/v4')()
-	await this.destroySession(email);
+	await this.destroySession(email)
 	await LoggedIn.create({
 		userId,
 		token,
