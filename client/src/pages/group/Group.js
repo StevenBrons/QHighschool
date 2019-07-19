@@ -13,7 +13,6 @@ import {
 	getGroupPresence,
 	getSubjects,
 	addNotification,
-	acceptEnrollment,
 	addParticipant,
 } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
@@ -96,7 +95,7 @@ function mapDispatchToProps(dispatch) {
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
 		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
 		getSubjects: () => dispatch(getSubjects()),
-		addParticipant: (groupId, userId, participatingRole) => dispatch(addParticipant(groupId, userId, participatingRole)),
+		addParticipant: (userId, groupId, participatingRole) => dispatch(addParticipant(userId, groupId, participatingRole)),
 		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }

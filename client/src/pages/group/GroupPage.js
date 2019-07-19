@@ -91,7 +91,7 @@ class GroupPage extends Component {
 
 	getCurrentTab(currentTab) {
 		let group = this.state.group;
-		const enrollmentIds = this.state.group.enrollmentIds;
+		const enrollmentIds = this.props.group.enrollmentIds;
 		const lessons = this.state.group.lessons;
 		const participantIds = this.state.group.participantIds;
 		const evaluations = this.state.group.evaluations;
@@ -199,7 +199,7 @@ class GroupPage extends Component {
 
 	addNewParticipant = event => {
 		const newParticipant = this.state.newParticipant;
-		this.props.addParticipant(this.props.groupId, newParticipant.userId, newParticipant.participatingRole);
+		this.props.addParticipant(newParticipant.userId, this.props.groupId, newParticipant.participatingRole);
 		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {

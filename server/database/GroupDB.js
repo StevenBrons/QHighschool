@@ -159,13 +159,25 @@ exports.getParticipants = async (groupId, teacher) => {
 }
 
 exports.addUserToGroup = async (userId, courseGroupId, participatingRole) => {
-	await exports._addParticipant(userId, courseGroupId, participatingRole);
+	await _addParticipant(userId, courseGroupId, participatingRole);
 	if (participatingRole === "student") {
-		await exports._addPresence(userId, courseGroupId);
+		await _addPresence(userId, courseGroupId);
+		await _acceptEnrollment(userId, courseGroupId);
 	}
 }
 
-exports._addPresence = async (userId, courseGroupId) => {
+async function _acceptEnrollment(userId, courseGroupId) {
+	return Enrollment.update({
+		accepted: "true"
+	}, {
+			where: {
+				userId,
+				courseGroupId,
+			}
+		});
+}
+
+async function _addPresence(userId, courseGroupId) {
 	return Lesson.findAll({ where: { courseGroupId } })
 		.then(lessons => Promise.all(lessons.map(({ id }) => {
 			return Presence.findOrCreate({
@@ -180,7 +192,7 @@ exports._addPresence = async (userId, courseGroupId) => {
 		})));
 }
 
-exports._addParticipant = async (userId, courseGroupId, participatingRole) => {
+async function _addParticipant(userId, courseGroupId, participatingRole) {
 	return Participant.findOrCreate({
 		where: {
 			userId,
