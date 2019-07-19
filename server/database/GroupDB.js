@@ -158,6 +158,42 @@ exports.getParticipants = async (groupId, teacher) => {
 	});
 }
 
+exports.addUserToGroup = async (userId, courseGroupId, participatingRole) => {
+	await exports._addParticipant(userId, courseGroupId, participatingRole);
+	if (participatingRole === "student") {
+		await exports._addPresence(userId, courseGroupId);
+	}
+}
+
+exports._addPresence = async (userId, courseGroupId) => {
+	return Lesson.findAll({ where: { courseGroupId } })
+		.then(lessons => Promise.all(lessons.map(({ id }) => {
+			return Presence.findOrCreate({
+				where: {
+					lessonId: id,
+					userId,
+				}, defaults: {
+					lessonId: id,
+					userId,
+				}
+			});
+		})));
+}
+
+exports._addParticipant = async (userId, courseGroupId, participatingRole) => {
+	return Participant.findOrCreate({
+		where: {
+			userId,
+			courseGroupId,
+		},
+		defaults: {
+			userId,
+			courseGroupId,
+			participatingRole,
+		}
+	});
+}
+
 exports.getLessons = async (groupId, userId) => {
 	if (userId == null) {
 		return Lesson.findAll({ where: { courseGroupId: groupId } });

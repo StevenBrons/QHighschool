@@ -151,7 +151,8 @@ class GroupPage extends Component {
 											<Button variant="contained"
 												disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId)}
 												color="primary" style={{ marginTop: "22px" }} onClick={this.addNewParticipant}>
-												Voeg toe	</Button>
+												Voeg toe
+											</Button>
 										</div>
 									</Tooltip>
 								</div>
@@ -193,49 +194,12 @@ class GroupPage extends Component {
 	}
 
 	acceptEnrollment = userId => {
-		this.props.acceptEnrollment(userId, this.props.groupId).then(success => {
-			if (success) {
-				this.props.addNotification({
-					priority: "low",
-					type: "bar",
-					message: "Inschrijving succesvol geaccepteerd!",
-					scope: "groep/" + this.props.groupId,
-				})
-			} else {
-				this.props.addNotification({
-					priority: "medium",
-					type: "bar",
-					message: "Er is iets misgegaan, inschrijving niet geaccepteerd.",
-					scope: "groep/" + this.props.groupId,
-				})
-			}
-		});
+		this.props.addParticipant(userId, this.props.groupId, "student");
 	}
 
 	addNewParticipant = event => {
 		const newParticipant = this.state.newParticipant;
-		this.props.addParticipant(this.props.groupId, newParticipant.userId, newParticipant.participatingRole)
-			.then(success => {
-				if (success) {
-					this.props.addNotification(
-						{
-							priority: "low",
-							type: "bar",
-							message: "Deelnemer succesvol toegevoegd!",
-							scope: "groep/" + this.props.groupId,
-						}
-					)
-				} else {
-					this.props.addNotification(
-						{
-							priority: "medium",
-							type: "bar",
-							message: "Er is iets misgegaan, deelnemer is niet toegevoegd.",
-							scope: "groep/" + this.props.groupId,
-						}
-					)
-				}
-			});
+		this.props.addParticipant(this.props.groupId, newParticipant.userId, newParticipant.participatingRole);
 		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {

@@ -2,29 +2,22 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
-const functionDB = require('../database/FunctionDB');
-const secureLogin = require('../lib/secureLogin');
+const { handleSuccess, handleReturn, handleError, authError } = require('./handlers');
+const { ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup } = require('./permissions');
 
-const handlers = require('./handlers');
-const handleSuccess = handlers.handleSuccess;
-const handleReturn = handlers.handleReturn;
-const handleError = handlers.handleError;
-const authError = handlers.authError;
-
-router.get("/list", function (req, res, next) {
+router.get("/list", (req, res) => {
 	groupDb.getGroups(req.user.id)
 		.then(handleReturn(res));
 });
 
-router.post("/", function (req, res, next) {
+router.post("/", (req, res) => {
 	groupDb.getGroup(req.body.groupId)
 		.then(group => groupDb.appendEvaluation(group, req.user.id))
 		.then(handleReturn(res))
 		.catch(handleError(res));
 });
 
-router.patch("/", function (req, res, next) {
-	if (!req.user.isTeacher()) return authError(res);
+router.patch("/", ensureTeacher, (req, res) => {
 	if (req.user.isAdmin()) {
 		groupDb.setFullGroup(req.body)
 			.then(handleReturn(res))
@@ -36,24 +29,19 @@ router.patch("/", function (req, res, next) {
 	}
 });
 
-router.put("/", function (req, res) {
-	if (!secureLogin.isValidToken(req, res)) return;
-	if (req.user.isAdmin()) {
-		groupDb.addGroup(req.body)
-			.then(handleSuccess(res))
-			.catch(handleError(res));
-	}
+router.put("/", ensureSecure, ensureAdmin, (req, res) => {
+	groupDb.addGroup(req.body)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
-router.post("/enrollments", function (req, res, next) {
-	if (req.user.isTeacher()) {
-		groupDb.getEnrollments(req.body.groupId)
-			.then(handleReturn(res))
-			.catch(handleError(res))
-	}
+router.post("/enrollments", ensureTeacher, (req, res) => {
+	groupDb.getEnrollments(req.body.groupId)
+		.then(handleReturn(res))
+		.catch(handleError(res))
 });
 
-router.post("/lessons", function (req, res, next) {
+router.post("/lessons", (req, res) => {
 	let userId = req.user.id;
 	if (!req.user.inGroup(req.body.groupId)) {
 		userId = null;
@@ -70,9 +58,9 @@ async function patchLesson(req, lesson) {
 	}
 }
 
-router.patch("/lessons", function (req, res, next) {
+router.patch("/lessons", ensureTeacher, (req, res) => {
 	let lessons = JSON.parse(req.body.lessons);
-	if (req.user.isTeacher() && Array.isArray(lessons) && lessons.length >= 1) {
+	if (Array.isArray(lessons) && lessons.length >= 1) {
 		return Promise.all(lessons.map((lesson) => patchLesson(req, lesson)))
 			.then(handleSuccess(res));
 	} else {
@@ -80,35 +68,26 @@ router.patch("/lessons", function (req, res, next) {
 	}
 });
 
-router.post("/participants", function (req, res, next) {
-	if (req.user.inGroup(req.body.groupId) && req.user.inGroup(req.body.groupId)) {
-		groupDb.getParticipants(req.body.groupId, req.user.isTeacher())
-			.then(handleReturn(res))
-			.catch(handleError(res))
-	} else {
-		authError(res);
-	}
+router.post("/participants", ensureInGroup, (req, res) => {
+	groupDb.getParticipants(req.body.groupId, req.user.isTeacher())
+		.then(handleReturn(res))
+		.catch(handleError(res))
 });
 
-router.patch("/participants", function (req, res, next) {
-	if (req.user.isAdmin()) {
-		functionDB.addUserToGroup(req.body.userId, req.body.groupId)
-			.then(handleSuccess(res))
-			.catch(handleError(res))
-	} else {
-		authError(res);
-	}
+router.patch("/participants", ensureAdmin, (req, res) => {
+	groupDb.addUserToGroup(req.body.userId, req.body.groupId, req.body.participatingRole)
+		.then(handleSuccess(res))
+		.catch(handleError(res))
 });
 
-router.patch("/userStatus", function (req, res, next) {
+router.patch("/userStatus", (req, res) => {
 	groupDb.updateUserStatus(req.user.id, req.body.lessonId, req.body.userStatus)
 		.then(handleSuccess(res))
 		.catch(handleError(res))
 });
 
-router.post("/presence", ({ user, body }, res) => {
-	if (!user.isTeacher() || !user.inGroup(body.groupId)) return authError(res);
-	groupDb.getPresence(body.groupId)
+router.post("/presence", ensureInGroup, ensureTeacher, (req, res) => {
+	groupDb.getPresence(req.body.groupId)
 		.then(handleReturn(res))
 		.catch(handleError(res))
 });
@@ -120,8 +99,7 @@ async function setPresence(newP, old) {
 	throw new Error("");
 }
 
-router.patch("/presence", async ({ user, body }, res, next) => {
-	if (!user.isTeacher() || !user.inGroup(body.groupId)) return authError(res);
+router.patch("/presence", ensureTeacher, ensureInGroup, async ({ body }, res) => {
 	const presenceObjs = JSON.parse(body.presence);
 	const oldPs = await groupDb.getPresence(body.groupId);
 	Promise.all(presenceObjs.map(newP => setPresence(newP, oldPs)))
@@ -129,16 +107,11 @@ router.patch("/presence", async ({ user, body }, res, next) => {
 		.catch(handleError(res));
 });
 
-router.post("/evaluations", function (req, res, next) {
-	if (req.user.isTeacher() && req.user.inGroup(req.body.groupId)) {
-		groupDb.getEvaluations(req.body.groupId)
-			.then(handleReturn(res))
-			.catch(handleError(res));
-	} else {
-		authError(res);
-	}
+router.post("/evaluations", ensureTeacher, ensureInGroup, (req, res) => {
+	groupDb.getEvaluations(req.body.groupId)
+		.then(handleReturn(res))
+		.catch(handleError(res));
 });
-
 
 async function setEvaluation(ev, req) {
 	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -161,11 +134,9 @@ async function setEvaluation(ev, req) {
 	}
 }
 
-router.patch("/evaluations", (req, res) => {
-	if (!secureLogin.isValidToken(req, res)) return;
-
+router.patch("/evaluations", ensureSecure, ensureTeacher, (req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
-	if (req.user.isTeacher() && Array.isArray(evaluations) && evaluations.length >= 1) {
+	if (Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
 			.then(handleSuccess(res))
 			.catch(handleError(res));

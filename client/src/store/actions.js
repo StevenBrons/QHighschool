@@ -520,6 +520,12 @@ export function addGroup(courseId, userId) {
 }
 
 
+export function addParticipant(groupId, userId, participatingRole) {
+	return (dispatch, getState) => {
+		return fetchData("group/participants", "patch", { groupId, userId, participatingRole }, dispatch, getState);
+	}
+}
+
 export function setCookie(cname, cvalue, exhours) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exhours * 60 * 60 * 1000));

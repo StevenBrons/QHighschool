@@ -3,6 +3,7 @@ const router = express.Router();
 const { authError } = require("./handlers");
 const groupDb = require("../database/GroupDB");
 const userDb = require("../database/UserDB");
+const { ensureAdmin } = require('./permissions');
 
 function distinctCourse(groups) {
 	let courseIds = [];
@@ -36,7 +37,6 @@ async function getCertificateFromUserId(userId) {
 	let user = await userDb.getUser(userId);
 	let groups = await groupDb.getGroups(userId);
 	groups = groups.filter(isCertificateWorthy);
-	groups = groups.filter(tempAvonturenFilter); //TEMP
 	groups = distinctCourse(groups);
 	return {
 		user,
@@ -44,34 +44,17 @@ async function getCertificateFromUserId(userId) {
 	}
 }
 
-function tempFilter({ user, groups }) {
-	if (user.year === 6 && user.level === "VWO") return false;
-	if (user.year === 5 && user.level === "HAVO") return false;
-	if (user.school === "Lyceum Elst") return false;
-	const nonAvonturen = groups.filter((group) => {
-		return group.subjectName !== "Avonturen";
+router.get("/portfolio/all/:from", ensureAdmin, async (req, res) => {
+	const start = parseInt(req.params.from);
+	const allUsers = await userDb.getList();
+	const end = start + 50;
+
+	const curUsers = allUsers.filter((_, i) => i >= start && i <= end);
+	const allCertificateObjects = await Promise.all(curUsers.map(({ id }) => getCertificateFromUserId(id)));
+	res.render("multipleCertificates", {
+		certificates: allCertificateObjects,
+		courseCertificates: false
 	});
-	if (nonAvonturen.length === 0) return false;
-	return true;
-}
-
-function tempAvonturenFilter(group) {
-	return group.subjectName !== "Avonturen";
-}
-
-router.get("/portfolio/all/:from", async (req, res) => {
-	if (req.user.isAdmin()) {
-		const start = parseInt(req.params.from);
-		const allUsers = await userDb.getList();
-		const end = start + 50;
-
-		const curUsers = allUsers.filter((_, i) => i >= start && i <= end);
-		const allCertificateObjects = await Promise.all(curUsers.map(({ id }) => getCertificateFromUserId(id)));
-		res.render("multipleCertificates", {
-			certificates: allCertificateObjects.filter(tempFilter), //FILTER TEMP
-			courseCertificates: false
-		});
-	}
 });
 
 

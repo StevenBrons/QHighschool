@@ -1,13 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var course = require('../database/CourseDB');
-var secureLogin = require('../lib/secureLogin');
-
-const handlers = require('./handlers');
-const handleSuccess = handlers.handleSuccess;
-const handleReturn = handlers.handleReturn;
-const handleError = handlers.handleError;
-const authError = handlers.authError;
+const express = require("express");
+const router = express.Router();
+const course = require('../database/CourseDB');
+const { handleSuccess, handleReturn, handleError } = require('./handlers');
+const { ensureTeacher, ensureSecure, ensureAdmin } = require('./permissions');
 
 router.get("/list", (req, res) => {
 	course.getCourses()
@@ -20,25 +15,16 @@ router.post("/", (req, res) => {
 		.catch(handleError(res));
 });
 
-router.put("/", (req, res) => {
-	if (!secureLogin.isValidToken(req, res)) return;
-	if (req.user.isAdmin()) {
-		course.addCourse(req.body)
-			.then(handleSuccess(res))
-			.catch(handleError(res));
-	} else {
-		authError(res);
-	}
+router.put("/", ensureSecure, ensureAdmin, (req, res) => {
+	course.addCourse(req.body)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
-router.patch("/", (req, res) => {
-	if (req.user.isTeacher()) {
-		course.updateCourse(req.body)
-			.then(handleSuccess(res))
-			.catch(handleError(res));
-	} else {
-		authError(res);
-	}
+router.patch("/", ensureTeacher, (req, res) => {
+	course.updateCourse(req.body)
+		.then(handleSuccess(res))
+		.catch(handleError(res));
 });
 
 module.exports = router;

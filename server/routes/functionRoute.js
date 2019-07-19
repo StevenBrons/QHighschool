@@ -4,22 +4,19 @@ var functionDb = require('../database/FunctionDB');
 var taxi = require('../lib/taxi');
 const handlers = require('./handlers');
 const secureLogin = require('../lib/secureLogin');
-const handleReturn = handlers.handleReturn;
-const handleError = handlers.handleError;
-const authError = handlers.authError;
-const handleSuccess = handlers.handleSuccess;
+const { handleSuccess, handleReturn, handleError, authError } = require('./handlers');
 
 router.post("/calculateLessonDates", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
 		console.log("Re-calculating all lesson dates");
-		functionDb.updateALLLessonDates();
+		functionDb.updateAllLessonDates();
 	}
 });
 
 router.post("/calculateLessonDates", function (req, res, next) {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
 		console.log("Re-calculating all lesson dates");
-		functionDb.updateALLLessonDates();
+		functionDb.updateAllLessonDates();
 	}
 });
 

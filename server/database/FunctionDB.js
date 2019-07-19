@@ -57,40 +57,7 @@ exports.createUser = async (accessToken) => {
 	return User.create(user);
 }
 
-exports.addUserToGroup = async (userId, courseGroupId) => {
-	await exports._addParticipant(userId, courseGroupId);
-	await exports._addPresence(userId, courseGroupId);
-}
-
-exports._addPresence = async (userId, courseGroupId) => {
-	return Lesson.findAll({ where: { courseGroupId } })
-		.then(lessons => Promise.all(lessons.map(({ id }) => {
-			return Presence.findOrCreate({
-				where: {
-					lessonId: id,
-					userId,
-				}, defaults: {
-					lessonId: id,
-					userId,
-				}
-			});
-		})));
-}
-
-exports._addParticipant = async (userId, courseGroupId) => {
-	return Participant.findOrCreate({
-		where: {
-			userId,
-			courseGroupId,
-		},
-		defaults: {
-			userId,
-			courseGroupId,
-		}
-	});
-}
-
-exports.updateALLLessonDates = async () => {
+exports.updateAllLessonDates = async () => {
 	return Group.findAll({ attributes: ["id", "period", "day"] })
 		.then(rows => rows.map(({ id, period, day }) => {
 			exports.updateLessonDates(id, period, day);
