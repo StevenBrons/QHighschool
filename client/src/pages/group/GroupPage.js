@@ -89,9 +89,9 @@ class GroupPage extends Component {
 					return "Er zijn geen inschrijvingen";
 				}
 				return <UserList userIds={enrollmentIds} actions={
-							this.props.role === "admin" && this.state.editable ?
-							[{label:"Goedkeuren", onClick:this.acceptEnrollment}] : []
-						}/>;
+					this.props.role === "admin" && this.state.editable ?
+						[{ label: "Goedkeuren", onClick: this.acceptEnrollment }] : []
+				} />;
 			case "Lessen":
 				if (lessons == null) {
 					return <Progress />;
@@ -118,34 +118,34 @@ class GroupPage extends Component {
 					return <Progress />;
 				}
 				return (
-				<div >
-					{
-						this.props.role === "admin" && this.state.editable &&
-						<div>
-							<Typography variant="title" color="primary" style={{ margin: "18px 12px"}}>
-								Nieuwe deelnemer:
+					<div >
+						{
+							this.props.role === "admin" && this.state.editable &&
+							<div>
+								<Typography variant="title" color="primary" style={{ margin: "18px 12px" }}>
+									Nieuwe deelnemer:
 							</Typography>
-							<div style={{display:"inline-flex"}}>
-								<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
-								<Field editable label="Rol" value={newParticipant.participatingRole} options={[{value:"student", label:"Leerling"},{value:"teacher", label:"Docent"}]} onChange={this.handleNewParticipantRoleChange} />
-								<Tooltip title={participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer": ""} placement={"bottom-start"} enterDelay={200}>
-									<div>
-										<Button variant="contained" 
-										disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) }
-										color="primary" style={{marginTop:"22px"}} onClick={this.addNewParticipant}>
-											Voeg toe	</Button>
-									</div>
-								</Tooltip>
+								<div style={{ display: "inline-flex" }}>
+									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
+									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Docent" }]} onChange={this.handleNewParticipantRoleChange} />
+									<Tooltip title={participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : ""} placement={"bottom-start"} enterDelay={200}>
+										<div>
+											<Button variant="contained"
+												disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId)}
+												color="primary" style={{ marginTop: "22px" }} onClick={this.addNewParticipant}>
+												Voeg toe	</Button>
+										</div>
+									</Tooltip>
+								</div>
+								<Divider />
+								<br />
 							</div>
-							<Divider/>
-							<br/>
-						</div>
-					}
-					{
-						participantIds.length === 0 ? "Er zijn nog geen deelnemers toegevoegd" :
-						<UserList userIds={participantIds} />
-					}
-				</div>
+						}
+						{
+							participantIds.length === 0 ? "Er zijn nog geen deelnemers toegevoegd" :
+								<UserList userIds={participantIds} />
+						}
+					</div>
 				);
 
 			case "Actief":
@@ -175,54 +175,49 @@ class GroupPage extends Component {
 	}
 
 	acceptEnrollment = userId => {
-		this.props.acceptEnrollment(userId, this.props.groupId).then(
-			success => {
-				if ( success ) {
+		this.props.acceptEnrollment(userId, this.props.groupId).then(success => {
+			if (success) {
+				this.props.addNotification({
+					priority: "low",
+					type: "bar",
+					message: "Inschrijving succesvol geaccepteerd!",
+					scope: "groep/" + this.props.groupId,
+				})
+			} else {
+				this.props.addNotification({
+					priority: "medium",
+					type: "bar",
+					message: "Er is iets misgegaan, inschrijving niet geaccepteerd.",
+					scope: "groep/" + this.props.groupId,
+				})
+			}
+		});
+	}
+
+	addNewParticipant = event => {
+		const newParticipant = this.state.newParticipant;
+		this.props.addParticipant(this.props.groupId, newParticipant.userId, newParticipant.participatingRole)
+			.then(success => {
+				if (success) {
 					this.props.addNotification(
 						{
-							priority:"low",
-							type:"bar",
-							message: "Inschrijving succesvol geaccepteerd!",
+							priority: "low",
+							type: "bar",
+							message: "Deelnemer succesvol toegevoegd!",
 							scope: "groep/" + this.props.groupId,
 						}
 					)
 				} else {
 					this.props.addNotification(
 						{
-							priority:"medium",
-							type:"bar",
-							message: "Er is iets misgegaan, inschrijving niet geaccepteerd.",
-							scope:"groep/" + this.props.groupId,
+							priority: "medium",
+							type: "bar",
+							message: "Er is iets misgegaan, deelnemer is niet toegevoegd.",
+							scope: "groep/" + this.props.groupId,
 						}
 					)
 				}
-		});
-	}
-
-	addNewParticipant = event => {
-		const newParticipant = this.state.newParticipant;
-		this.props.addParticipant(this.props.groupId,newParticipant.userId,newParticipant.participatingRole)
-		.then(success => {
-			if ( success ) {
-				this.props.addNotification(
-					{
-						priority:"low",
-						type:"bar",
-						message: "Deelnemer succesvol toegevoegd!",
-						scope: "groep/" + this.props.groupId,
-					}
-				)
-			} else {
-				this.props.addNotification(
-					{
-						priority:"medium",
-						type:"bar",
-						message: "Er is iets misgegaan, deelnemer is niet toegevoegd.",
-						scope:"groep/" + this.props.groupId,
-					}
-				)
-			}
-		});
+			});
 		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {
@@ -233,7 +228,7 @@ class GroupPage extends Component {
 	}
 
 	handleNewParticipantRoleChange = value => {
-		this.setState( prevState => ({
+		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {
 				participatingRole: value,
@@ -243,7 +238,7 @@ class GroupPage extends Component {
 	}
 
 	handleNewParticipantIdChange = value => {
-		this.setState( prevState => ({
+		this.setState(prevState => ({
 			...prevState,
 			newParticipant: {
 				userId: value,
@@ -310,7 +305,7 @@ class GroupPage extends Component {
 		}
 	}
 
-	handleChange = (name,value) => {
+	handleChange = (name, value) => {
 		this.setState({
 			group: {
 				...this.state.group,
@@ -423,12 +418,12 @@ class GroupPage extends Component {
 						fullWidth
 						centered
 					>
-						{this.state.tabs.map(tab => 
-						<Tab key={tab} label={
-							<NotificationBadge scope={"groep/" + ( group.id || "" ) + "?tab=" + tab} style={{paddingLeft:"100px"}}>
-								{tab}
-							</NotificationBadge>
-							} />) }
+						{this.state.tabs.map(tab =>
+							<Tab key={tab} label={
+								<NotificationBadge scope={"groep/" + (group.id || "") + "?tab=" + tab} style={{ paddingLeft: "100px" }}>
+									{tab}
+								</NotificationBadge>
+							} />)}
 					</Tabs>
 				</AppBar>
 				<br />
