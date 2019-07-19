@@ -12,6 +12,7 @@ import {
 	getGroupEvaluations,
 	getGroupPresence,
 	getSubjects,
+	addNotification,
 } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
@@ -93,6 +94,9 @@ function mapDispatchToProps(dispatch) {
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
 		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
 		getSubjects: () => dispatch(getSubjects()),
+		acceptEnrollment: async (userId, groupId) => { console.log("ACCEPT ENROLLMENT OF " + userId + " IN GROUP " + groupId); return false;},
+		addParticipant: async (groupId,userId,participatingRole) => { console.log("ADD PARTICIPANT " + userId + " TO GROUP " + groupId + " WITH ROLE " + participatingRole ); return false;},
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 

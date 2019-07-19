@@ -113,7 +113,7 @@ class UserList extends Component {
 	render() {
 		const header = this.getHeader();
 		const users = this.sortIds().map(id => {
-			return <User key={id} userId={id} display="row" />
+			return <User key={id} userId={id} display="row" actions={this.props.actions} />
 		});
 		return (
 			<table style={{ width: "100%" }}>
