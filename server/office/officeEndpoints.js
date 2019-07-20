@@ -1,6 +1,7 @@
 const connection = require("./graphConnection");
 const { office365 } = require('../private/keys');
 const groupDb = require("../database/GroupDB");
+const userDb = require("../database/UserDB");
 const schedule = require("../lib/schedule");
 
 function getClassDataFromGroup(group) {
@@ -50,6 +51,12 @@ exports.createClass = async (groupId) => {
 	await this.addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
 	await Promise.all(participants.map(p => this.addParticipant(team.id, p.email, p.participatingRole)));
 	return team.id;
+}
+
+exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
+	const graphId = await this.getGraphIdOrCreate(groupId);
+	const upn = (await userDb.getUser(userId)).email;
+	return this.addParticipant(upn, graphId, participatingRole);
 }
 
 exports.addParticipant = async (graphId, upn, participatingRole) => {

@@ -160,9 +160,10 @@ exports.getParticipants = async (groupId, teacher) => {
 
 exports.addUserToGroup = async (userId, courseGroupId, participatingRole) => {
 	await _addParticipant(userId, courseGroupId, participatingRole);
+
 	if (participatingRole === "student") {
-		await _addPresence(userId, courseGroupId);
 		await _acceptEnrollment(userId, courseGroupId);
+		officeEndpoints.addParticipantByUserId(userId, courseGroupId, participatingRole);
 	}
 }
 
@@ -175,21 +176,6 @@ async function _acceptEnrollment(userId, courseGroupId) {
 				courseGroupId,
 			}
 		});
-}
-
-async function _addPresence(userId, courseGroupId) {
-	return Lesson.findAll({ where: { courseGroupId } })
-		.then(lessons => Promise.all(lessons.map(({ id }) => {
-			return Presence.findOrCreate({
-				where: {
-					lessonId: id,
-					userId,
-				}, defaults: {
-					lessonId: id,
-					userId,
-				}
-			});
-		})));
 }
 
 async function _addParticipant(userId, courseGroupId, participatingRole) {
