@@ -41,11 +41,12 @@ body, #root, .App {
 }
 
 .Header {
-	background: rgb(240,131,31);
-	background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
-	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
-	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0831f",endColorstr="#00ccff",GradientType=1);
+	/* background: white; */
+	background: rgb(240,131,31) !important;
+	/* background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
+	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
+	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0831f",endColorstr="#00ccff",GradientType=1); */
   	grid-column: 1 / span 15;
 	grid-row: 1 / span 1;
 	-ms-grid-column: 1;

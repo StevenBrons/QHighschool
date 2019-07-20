@@ -82,7 +82,7 @@ class Menu extends Component {
 			case "ViewColumn":
 				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
-				return <ExitIcon style={{ color: "red" }} />;
+				return <ExitIcon color="secondary" />;
 			case "Taxi":
 				return <LocalTaxiIcon style={{ color: c }} />;
 			case "Beheer":

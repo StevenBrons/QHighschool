@@ -24,7 +24,7 @@ class Header extends Component {
 						<MenuIcon />
 					</IconButton>
 					<img
-						src="/images/logo_qhighschool.svg"
+						src="/images/logo_qhighschool_white.svg"
 						alt="QHighschool Logo"
 						style={{ height: "60%", margin: "auto", maxHeight: "52px", cursor: "pointer" }}
 						onClick={this.logoClick}

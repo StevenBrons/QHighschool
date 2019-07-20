@@ -72,9 +72,9 @@ const theme = createMuiTheme({
 			"dark": "#890b20"
 		},
 		"error": {
-			"light": "#e57373",
-			"main": "#f44336",
-			"dark": "#d32f2f",
+			"light": "#f89e4c",
+			"main": "#f78620",
+			"dark": "#ac5d16",
 			"contrastText": "#fff"
 		},
 		"grey": {
