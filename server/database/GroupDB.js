@@ -245,11 +245,30 @@ exports.getPresence = async (groupId) => {
 	});
 }
 
-exports.setPresence = async (presence) => {
-	return Presence.findByPk(presence.id).then(prs => {
-		prs.update({
-			status: presence.status,
+exports.setPresence = async ({ userId, lessonId, status }, courseGroupId) => {
+	const pres = await Presence.findOne({
+		where: {
+			userId,
+			lessonId,
+		},
+		include: {
+			model: Lesson,
+			where: {
+				courseGroupId,
+			}
+		}
+	});
+	if (pres == null) {
+		const lesson = await Lesson.findByPk(lessonId);
+		if (lesson.courseGroupId + "" !== courseGroupId + "") return new Error("Lesson Group Wrong");
+		return Presence.create({
+			lessonId,
+			userId,
+			status,
 		});
+	}
+	return pres.update({
+		status,
 	});
 }
 

@@ -92,17 +92,9 @@ router.post("/presence", ensureInGroup, ensureTeacher, (req, res) => {
 		.catch(handleError(res))
 });
 
-async function setPresence(newP, old) {
-	if (old.find(o => (o.id === newP.id && o.userId === newP.userId)) != null) {
-		return groupDb.setPresence(newP);
-	}
-	throw new Error("");
-}
-
 router.patch("/presence", ensureTeacher, ensureInGroup, async ({ body }, res) => {
 	const presenceObjs = JSON.parse(body.presence);
-	const oldPs = await groupDb.getPresence(body.groupId);
-	Promise.all(presenceObjs.map(newP => setPresence(newP, oldPs)))
+	Promise.all(presenceObjs.map(p => groupDb.setPresence(p, body.groupId)))
 		.then(handleSuccess(res))
 		.catch(handleError(res));
 });

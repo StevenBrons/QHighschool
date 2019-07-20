@@ -230,7 +230,7 @@ class Field extends React.Component {
 					style,
 					endAdornment: endAdornment ? endAdornment : null,
 					inputProps: {
-						style
+						style,
 					}
 				}}
 
