@@ -56,7 +56,7 @@ class GroupCard extends Component {
 			style.backgroundColor = getEvaluationColor(this.props.group.evaluation);
 			return (
 				<div style={style} >
-					<Field value="Beoordeling" style={{ type: "headline", color: "primaryContrast", flex: 1 }} />
+					<Field value="Beoordeling" style={{ type: "h1", color: "primaryContrast", flex: 1 }} />
 					<Evaluation evaluation={this.props.group.evaluation} student />
 				</div>
 			);
@@ -98,7 +98,7 @@ class GroupCard extends Component {
 					{group.subjectName}
 				</Typography>
 				<Typography
-					variant="headline"
+					variant="h1"
 					style={{ overflow: "hidden", height: "64px", cursor: "pointer", textTransform: "uppercase", fontSize: "24px" }}
 					onClick={() => { this.props.history.push("/groep/" + group.id) }}
 				>

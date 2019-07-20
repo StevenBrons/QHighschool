@@ -140,7 +140,7 @@ class GroupPage extends Component {
 						{
 							this.props.role === "admin" && this.state.editable &&
 							<div>
-								<Typography variant="title" color="primary" style={{ margin: "18px 12px" }}>
+								<Typography variant="button" color="primary" style={{ margin: "18px 12px" }}>
 									Nieuwe deelnemer:
 							</Typography>
 								<div style={{ display: "inline-flex" }}>
@@ -430,7 +430,7 @@ class GroupPage extends Component {
 						onChange={this.handleTab}
 						indicatorColor="primary"
 						textColor="primary"
-						fullWidth
+						variant="fullWidth"
 						centered
 					>
 						{this.state.tabs.map(tab =>

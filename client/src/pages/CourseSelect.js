@@ -79,11 +79,11 @@ class CourseSelect extends Component {
 	};
 
 	getMenuItem(title, subject) {
-		let color = (this.state.sortMethod === subject) ? "primary" : "default";
+		let color = (this.state.sortMethod === subject) ? "primary" : "initial";
 		return (
 			<ListItem button onClick={() => this.handleSortChange(subject)} key={title}>
 				<ListItemText>
-					<Typography variant="title" color={color} style={{ minWidth: "150px" }}>
+					<Typography variant="button" color={color} style={{ minWidth: "150px" }}>
 						{title}
 					</Typography>
 				</ListItemText>
@@ -160,7 +160,7 @@ class CourseSelect extends Component {
 					style={{ position: "relative" }}
 				>
 					<Toolbar style={{ display: "flex" }}>
-						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+						<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Schrijf je in voor modules
           	</Typography>
 						<Field
