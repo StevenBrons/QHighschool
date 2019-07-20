@@ -109,7 +109,8 @@ exports.getEnrollments = async groupId => {
 	return Enrollment.findAll({
 		attributes: [],
 		where: {
-			courseGroupId: groupId
+			courseGroupId: groupId,
+			accepted: "false",
 		},
 		include: [{
 			model: User,

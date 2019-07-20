@@ -155,11 +155,8 @@ class CourseSelect extends Component {
 		}
 		return (
 			<Page>
-				<Paper
-					elevation={2}
-					style={{ position: "relative" }}
-				>
-					<Toolbar style={{ display: "flex" }}>
+				<Paper style={{ position: "relative" }} >
+					<Toolbar style={{ display: "flex" }} >
 						<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Schrijf je in voor modules
           	</Typography>
@@ -178,7 +175,7 @@ class CourseSelect extends Component {
 					</Toolbar>
 				</Paper>
 				<div style={{ display: "flex" }} className="ColumnFlexDirectionOnMobile">
-					<Paper elevation={2}>
+					<Paper>
 						<List component="nav" style={{ flex: 1 }}>
 							{this.getMenuItems()}
 						</List>
