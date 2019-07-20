@@ -56,10 +56,10 @@ body, #root, .App {
 }
 
 .Menu {
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 1;
 	grid-row: 2 / span 14;
 	-ms-grid-column: 1;
-	-ms-grid-column-span: 2;
+	-ms-grid-column-span: 1;
 	-ms-grid-row: 2;
 	-ms-grid-row-span: 14;
 }
@@ -83,9 +83,9 @@ body, #root, .App {
 }
 
 .menuShown {
-  grid-column-start: 3;
+  grid-column-start: 2;
   grid-column-end: 16;
-	-ms-grid-column: 3;
+	-ms-grid-column: 2;
 	-ms-grid-column-span: 12;
 }
 
@@ -141,11 +141,6 @@ table {
 	.App {
     grid-template-columns: 68px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
-	}
-
-	.Menu {
-		grid-column: 1 / span 1;
-		-ms-grid-column-span: 1;
 	}
 
 	.menuShown {
