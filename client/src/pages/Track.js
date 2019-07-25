@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Page from "./Page";
 import { Typography, Toolbar, Paper, Button, withStyles } from '@material-ui/core';
-import Field from "../components/Field";
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 
@@ -49,15 +48,45 @@ class Track extends Component {
 						}
 					</Toolbar>
 				</Paper>
-				<CourseButton style={{margin:"15px"}}>
-					Object Georienteerd Programmeren
-				</CourseButton>
-				<CourseButton disabled>
-					Object Georienteerd Programmeren
-				</CourseButton>
-				<CourseButton color="secondary">
-					Object Georienteerd Programmeren
-				</CourseButton>
+
+				<div style={{overflow:"scroll", display:"flex"}}>
+				{[4,5,6].map(y => { return(
+				<div style={{marginTop:"15px"}}>
+					<div style={{height:"100px", display:"grid"}}>
+						<svg viewBox="0 0 950 100" style={{fill:Red, gridArea:"1/1", left:"0"}}>
+							<polygon points="0 0 950 0 950 20 0 100"/>
+						</svg>
+						<Typography variant="h4" style={{color:"white",gridArea:"1/1", margin:"5px"}}>Klas {y}</Typography>
+					</div>
+					<div style={{
+						display: "flex",
+					}}>
+						{[1,2,3,4].map(p => {
+							return (
+							<div style = {{ borderLeft: "solid 6pt " + Red, flex:"1 1 auto" }}>
+								<div>
+									<Typography variant="h6"
+												style={{background:Red, color:"white", display:"inline-block"}}>
+										Blok {p}
+									</Typography>
+								</div>
+								<CourseButton style={{margin:"15px"}}>
+									Object Georienteerd Programmeren
+								</CourseButton>
+								<CourseButton disabled style={{margin:"15px"}}>
+									Object Georienteerd Programmeren
+								</CourseButton>
+								<CourseButton color="secondary" style={{margin:"15px"}}>
+									Object Georienteerd Programmeren
+								</CourseButton>
+							</div>
+							)
+						})}
+					</div>
+				</div>
+				)})}
+				</div>
+
 			</Page>
 		)
 	}
@@ -68,9 +97,8 @@ const buttonStyles = {
 		color: "white",
 		borderRadius: "0",
 		background: Orange,
-
-		width: "400px",
-		height: "100px",
+		width:"200px",
+		height:"80px",
 		"&:hover":{
 			border: "10px solid " + Orange,
 			background: Red,
