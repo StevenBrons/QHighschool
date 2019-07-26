@@ -24,18 +24,51 @@ const PTA = {
 	"PO7": [8,9,10,11],
 }
 
+const courses = {
+	1 : "Object georienteerd programmeren",
+	2 : "Object georienteerd programmeren",
+	3 : "Object georienteerd programmeren",
+	4 : "Object georienteerd programmeren",
+	5 : "Object georienteerd programmeren",
+	6 : "Object georienteerd programmeren",
+	7 : "Object georienteerd programmeren",
+	8 : "Object georienteerd programmeren",
+	9 : "Object georienteerd programmeren",
+	10 : "Object georienteerd programmeren",
+	11 : "Object georienteerd programmeren",
+	12 : "Object georienteerd programmeren",
+}
+
 class Track extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			coursesSelected: [],
+			coursesSelected: {
+				1:null,
+				2:null,
+				3:null,
+				4:null,
+			},
 		}
 	}
 	trackAccepted = () => {
 		return false;
 	}
 
+	onChange = (period,course) => {
+		let coursesSelected = this.state.coursesSelected;
+		if (coursesSelected[period] === course ) {
+			coursesSelected[period] = null;
+		} else {
+			coursesSelected[period] = course;
+		}
+		this.setState({
+			coursesSelected: coursesSelected,
+		})
+	}
+
 	render() {
+		const coursesSelected = this.state.coursesSelected;
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -70,15 +103,17 @@ class Track extends Component {
 										Blok {p}
 									</Typography>
 								</div>
-								<CourseButton style={{margin:"15px"}}>
-									Object Georienteerd Programmeren
-								</CourseButton>
-								<CourseButton disabled style={{margin:"15px"}}>
-									Object Georienteerd Programmeren
-								</CourseButton>
-								<CourseButton color="secondary" style={{margin:"15px"}}>
-									Object Georienteerd Programmeren
-								</CourseButton>
+								{coursesPerPeriod[p].map(c => {
+									return (
+										<CourseButton style={{margin:"15px"}}
+														onClick ={_ => this.onChange(p,c)}
+														color={coursesSelected[p] === c ? "secondary" : "primary" }
+														disabled={coursesSelected[p] && coursesSelected[p] !== c}
+														>
+											{courses[c]}
+										</CourseButton>
+									);
+								})}
 							</div>
 							)
 						})}
