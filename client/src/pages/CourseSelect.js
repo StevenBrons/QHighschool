@@ -77,7 +77,7 @@ class CourseSelect extends Component {
 	};
 
 	getMenuItem(title, subject) {
-		let color = (this.state.sortMethod === subject) ? "primary" : "initial";
+		let color = (this.state.subject === subject) ? "primary" : "initial";
 		return (
 			<ListItem button onClick={() => this.handleSortChange(subject)} key={title}>
 				<ListItemText>
