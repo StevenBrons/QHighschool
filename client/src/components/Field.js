@@ -199,9 +199,6 @@ class Field extends React.Component {
 		if (style.unit) {
 			endAdornment = <InputAdornment position="end">{style.unit}</InputAdornment>;
 		}
-		if (layout.td) {
-			style.width = "100%";
-		}
 		switch (margin) {
 			case "dense":
 				marginPx = 5;
@@ -239,7 +236,7 @@ class Field extends React.Component {
 			</TextField>
 		);
 		if (layout.td) {
-			style.width = undefined;
+			// style.width = undefined;
 			return (
 				<td style={style}>
 					{field}
