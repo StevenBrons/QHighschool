@@ -29,7 +29,7 @@ class Header extends Component {
 						style={{ height: "60%", margin: "auto", maxHeight: "52px", cursor: "pointer" }}
 						onClick={this.logoClick}
 					/>
-					<List color="inherit" style={{ top: 15, right: 20, position: "absolute" }} onClick={this.handleClick}>
+					<List color="inherit" style={{ right: 20, position: "absolute" }} onClick={this.handleClick}>
 						<PersonIcon style={{ transform: "scale(1.5)", marginRight: "10px", float: "left" }} />
 						<span className="HiddenOnMobile">
 							{this.props.displayName}
