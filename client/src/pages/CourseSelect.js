@@ -19,6 +19,15 @@ import queryString from "query-string";
 
 class CourseSelect extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			period: props.currentPeriod,
+			leerjaar: "2019/2020",
+			subject: null,
+		}
+	}
+
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let { blok, vak, leerjaar } = queryString.parse(nextProps.location.search);
 		if (!vak && nextProps.subjects != null) {
@@ -30,7 +39,6 @@ class CourseSelect extends Component {
 		if (!leerjaar) {
 			leerjaar = "2019/2020";
 		}
-		console.log(leerjaar)
 		return {
 			...prevState,
 			period: blok,
