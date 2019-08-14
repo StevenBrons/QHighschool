@@ -143,6 +143,22 @@ function addMissingInfoNotifications(user, dispatch) {
 	if (!Field.validate(user.phoneNumber, { type: "phoneNumber" })) { not("Telefoonnummer") }
 }
 
+function testIE(dispatch) {
+	if ( /MSIE|Trident/.test(window.navigator.userAgent) ) {
+		dispatch({
+			type: "ADD_NOTIFICATION",
+			notification: {
+				id: Math.random(),
+				priority: "low",
+				type: "bar",
+				message: "Internet Explorer gedecteerd. Deze website ondersteunt Internet Explorer niet. Sommige functies zullen wellicht niet werken.",
+				sticky:true,
+				scope: "",
+			}
+		});
+	}
+}
+
 export function getSelf() {
 	return (dispatch, getState) => {
 		const notification = {
@@ -156,6 +172,9 @@ export function getSelf() {
 		fetchData("user/self", "get", null, dispatch, getState)
 			.then((user) => {
 				addMissingInfoNotifications(user, dispatch);
+				console.log("hoi");
+				testIE(dispatch);
+				console.log("doei");
 				dispatch({
 					type: "SET_SELF",
 					user,
