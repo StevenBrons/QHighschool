@@ -172,9 +172,7 @@ export function getSelf() {
 		fetchData("user/self", "get", null, dispatch, getState)
 			.then((user) => {
 				addMissingInfoNotifications(user, dispatch);
-				console.log("hoi");
 				testIE(dispatch);
-				console.log("doei");
 				dispatch({
 					type: "SET_SELF",
 					user,
