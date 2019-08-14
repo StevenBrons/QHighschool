@@ -34,7 +34,7 @@ class CourseSelect extends Component {
 			vak = nextProps.subjects[Object.keys(nextProps.subjects)[0]].name;
 		}
 		if (!blok) {
-			blok = nextProps.enrollmentPeriod;
+			blok = nextProps.enrollmentPeriod + "";
 		}
 		if (!leerjaar) {
 			leerjaar = "2019/2020";
@@ -128,6 +128,7 @@ class CourseSelect extends Component {
 				data = <Progress />
 			}
 			data = this.getGroupsPerSubject(this.state.subject)
+				.filter((group) => group != null)
 				.filter((group) => {
 					if (this.state.period !== "all") {
 						return group.period + "" === this.state.period;

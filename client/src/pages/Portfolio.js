@@ -113,6 +113,7 @@ class Portfolio extends Component {
 			content = <Progress />;
 		} else {
 			const groups = groupIds.map(id => this.props.groups[id])
+				.filter((group) => group != null)
 				.filter((group) => {
 					if (this.state.period !== "all") {
 						return group.period + "" === this.state.period;

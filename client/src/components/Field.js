@@ -135,6 +135,9 @@ class Field extends React.Component {
 				case "secondary":
 					style.color = theme.palette.secondary.main;
 					break;
+				case "secondaryContrast":
+					style.color = theme.palette.secondary.contrastText;
+					break;
 				case "error":
 					style.color = theme.palette.error.main;
 					break;
@@ -216,7 +219,7 @@ class Field extends React.Component {
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
-				className={classNames.join(" ")}
+				className={classNames.join(" ") + " Field"}
 				label={label}
 				select={options ? true : false}
 				style={{ flex: 1, ...style, margin: marginPx }}
