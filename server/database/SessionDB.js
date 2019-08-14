@@ -1,6 +1,7 @@
 const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Participant = require("../dec/ParticipantDec");
+const Group = require("../dec/CourseGroupDec");
 
 class SerialisedUser {
 

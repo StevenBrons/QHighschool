@@ -97,7 +97,7 @@ class ControlPanel extends Component {
 								{pages.map(this.mapPageToListItem)}
 							</List>
 						</Paper>
-						<div style={{ padding: "12px", width: "100%" }}>
+						<div style={{ padding: "12px" }}>
 							{this.getContent()}
 						</div>
 					</div>
