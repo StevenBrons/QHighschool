@@ -12,6 +12,8 @@ import {
 	getGroupEvaluations,
 	getGroupPresence,
 	getSubjects,
+	addNotification,
+	addParticipant,
 } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
@@ -19,7 +21,7 @@ import Page from '../Page';
 
 class Group extends Component {
 
-	componentWillMount() {
+	componentDidMount() {
 		const props = this.props;
 		if (props.subjects == null) {
 			props.getSubjects();
@@ -93,6 +95,8 @@ function mapDispatchToProps(dispatch) {
 		getGroupEvaluations: (groupId) => dispatch(getGroupEvaluations(groupId)),
 		getGroupPresence: (groupId) => dispatch(getGroupPresence(groupId)),
 		getSubjects: () => dispatch(getSubjects()),
+		addParticipant: (userId, groupId, participatingRole) => dispatch(addParticipant(userId, groupId, participatingRole)),
+		addNotification: (notification) => dispatch(addNotification(notification)),
 	};
 }
 

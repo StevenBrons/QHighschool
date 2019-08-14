@@ -520,6 +520,35 @@ export function addGroup(courseId, userId) {
 }
 
 
+export function addParticipant(userId, groupId, participatingRole) {
+	return (dispatch, getState) => {
+		return fetchData("group/participants", "patch", { userId, groupId, participatingRole }, dispatch, getState)
+			.then(() => {
+				const index = getState().groups[groupId].enrollmentIds.indexOf(userId);
+				dispatch({
+					type: "CHANGE_GROUP",
+					group: {
+						id: groupId,
+						enrollmentIds: [
+							...getState().groups[groupId].enrollmentIds.slice(0, index),
+							...getState().groups[groupId].enrollmentIds.slice(index + 1)
+						],
+					}
+				});
+				dispatch({
+					type: "ADD_NOTIFICATION",
+					notification: {
+						id: Math.random(),
+						priority: "low",
+						type: "bar",
+						message: "Deelnemer toegevoegd, refresh om te zien",
+						scope: "*",
+					}
+				});
+			});
+	}
+}
+
 export function setCookie(cname, cvalue, exhours) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exhours * 60 * 60 * 1000));

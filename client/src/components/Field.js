@@ -135,6 +135,9 @@ class Field extends React.Component {
 				case "secondary":
 					style.color = theme.palette.secondary.main;
 					break;
+				case "secondaryContrast":
+					style.color = theme.palette.secondary.contrastText;
+					break;
 				case "error":
 					style.color = theme.palette.error.main;
 					break;
@@ -199,9 +202,6 @@ class Field extends React.Component {
 		if (style.unit) {
 			endAdornment = <InputAdornment position="end">{style.unit}</InputAdornment>;
 		}
-		if (layout.td) {
-			style.width = "100%";
-		}
 		switch (margin) {
 			case "dense":
 				marginPx = 5;
@@ -219,7 +219,7 @@ class Field extends React.Component {
 				disabled={disabled}
 				fullWidth={fullWidth}
 				multiline={multiline}
-				className={classNames.join(" ")}
+				className={classNames.join(" ") + " Field"}
 				label={label}
 				select={options ? true : false}
 				style={{ flex: 1, ...style, margin: marginPx }}
@@ -230,7 +230,7 @@ class Field extends React.Component {
 					style,
 					endAdornment: endAdornment ? endAdornment : null,
 					inputProps: {
-						style
+						style,
 					}
 				}}
 
@@ -239,7 +239,7 @@ class Field extends React.Component {
 			</TextField>
 		);
 		if (layout.td) {
-			style.width = undefined;
+			// style.width = undefined;
 			return (
 				<td style={style}>
 					{field}

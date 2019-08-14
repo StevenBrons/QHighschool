@@ -26,7 +26,7 @@ import Track from "./pages/Track";
 
 class App extends Component {
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.getSelf();
 	}
 

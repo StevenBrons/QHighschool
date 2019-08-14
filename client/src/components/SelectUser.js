@@ -10,7 +10,7 @@ import { ClickAwayListener } from '@material-ui/core';
 import Field from '../components/Field';
 import { getAllUsers } from '../store/actions';
 
-class Menu extends Component {
+class SelectUser extends Component {
 
 	constructor(props) {
 		super(props);
@@ -92,5 +92,5 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectUser);
 

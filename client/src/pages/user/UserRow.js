@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import {Typography} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 class GroupCard extends Component {
 
@@ -65,10 +65,10 @@ class GroupCard extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						<Typography variant="title" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} >
+						<Typography variant="button" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} >
 							{user.firstName + " " + user.lastName}
 						</Typography>
-						<Typography variant="subheading" style={{ flex: 1 }} >
+						<Typography variant="subtitle1" style={{ flex: 1 }} >
 							{user.school}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
@@ -101,6 +101,7 @@ class GroupCard extends Component {
 							</Typography>
 						</div>
 					}
+					{this.props.children}
 				</Paper >
 			</tr>
 		);

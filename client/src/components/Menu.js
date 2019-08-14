@@ -83,7 +83,7 @@ class Menu extends Component {
 			case "ViewColumn":
 				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
-				return <ExitIcon style={{ color: "red" }} />;
+				return <ExitIcon color="secondary" />;
 			case "Taxi":
 				return <LocalTaxiIcon style={{ color: c }} />;
 			case "Beheer":
@@ -114,7 +114,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={color} className="HiddenOnMobile">
+				<Typography variant="button" color={color} className="HiddenOnMobile">
 					{page.title}
 				</Typography>
 			</ListItem>

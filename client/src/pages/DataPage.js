@@ -230,7 +230,7 @@ class DataPage extends Component {
 				<EnsureSecureLogin>
 					<Paper elevation={2} style={{ position: "absolute", width: "80%", zIndex: 1 }}>
 						<Toolbar style={{ display: "flex" }}>
-							<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+							<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 								Gegevens
 							</Typography>
 							<Button variant="contained" color="primary" onClick={this.downloadTables} style={{ margin: "0 10px" }}>

@@ -1,5 +1,6 @@
 exports.handleError = function (res) {
 	return function (error) {
+		if (!process.env.NODE_ENV) console.error(error);
 		res.status(406);
 		res.send({
 			error: error.message,
