@@ -21,7 +21,7 @@ import Page from '../Page';
 
 class Group extends Component {
 
-	componentWillMount() {
+	componentDidMount() {
 		const props = this.props;
 		if (props.subjects == null) {
 			props.getSubjects();

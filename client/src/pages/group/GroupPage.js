@@ -142,7 +142,7 @@ class GroupPage extends Component {
 							<div>
 								<Typography variant="button" color="primary" style={{ margin: "18px 12px" }}>
 									Nieuwe deelnemer:
-							</Typography>
+								</Typography>
 								<div style={{ display: "inline-flex" }}>
 									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
 									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Docent" }]} onChange={this.handleNewParticipantRoleChange} />

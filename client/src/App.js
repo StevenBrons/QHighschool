@@ -25,7 +25,7 @@ import ControlPanel from "./pages/ControlPanel";
 
 class App extends Component {
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.getSelf();
 	}
 

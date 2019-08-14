@@ -177,7 +177,7 @@ class EvaluationTab extends Component {
 			.map(ev => {
 				return (
 					<Paper style={style} key={ev.userId} component="tr">
-						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{}} />
+						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{ td: true }} />
 						<Evaluation
 							editable={this.props.editable}
 							evaluation={ev}
