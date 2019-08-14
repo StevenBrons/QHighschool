@@ -133,8 +133,13 @@ class EvaluationTab extends Component {
 	}
 
 	handleEvaluationTypeChange(newValue) {
-		for (let i in this.props.evaluations) {
-			this.handleSingleChange({ ...this.props.evaluations[i], type: newValue });
+		let newEvaluations = [];
+		for (let i = 0; i < this.props.evaluations.length; i++) {
+			newEvaluations.push({
+				...this.props.evaluations[i],
+				type: newValue,
+			});
+		this.props.handleChange(newEvaluations);
 		}
 	}
 
