@@ -1,6 +1,5 @@
 const Enrollment = require("../dec/EnrollmentDec");
 const Lesson = require("../dec/LessonDec");
-const Presence = require("../dec/PresenceDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
 const LoggedIn = require("../dec/LoggedInDec");
@@ -8,7 +7,6 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
-const graphConnection = require("../office/graphConnection_old");
 const groupDb = require("../database/GroupDB");
 
 

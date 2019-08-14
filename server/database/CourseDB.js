@@ -2,7 +2,6 @@ const Course = require("../dec/CourseDec");
 const Group = require("../dec/CourseGroupDec");
 const Subject = require("../dec/SubjectDec");
 const officeEndpoints = require("../office/officeEndpoints");
-const groupDb = require("./GroupDB");
 
 exports.getCourses = async () => {
 	return Course.findAll({
@@ -54,6 +53,9 @@ exports.addCourse = async (data) => {
 	return Course.create({
 		subjectId: data.subjectId,
 		name: data.name,
+		description: "",
+		remarks: "",
+		studyTime: 40,
 	});
 }
 

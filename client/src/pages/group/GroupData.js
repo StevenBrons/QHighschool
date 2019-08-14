@@ -105,7 +105,7 @@ class GroupData extends Component {
 							value={group.remarks}
 							label="Opmerkingen"
 							onChange={(value) => onChange("remarks", value)}
-							style={{ width: "80%", labelVisible: true }}
+							style={{ labelVisible: true }}
 							default="Geen voorkennis vereist"
 							editable={editable}
 						/>

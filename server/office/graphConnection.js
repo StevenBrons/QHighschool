@@ -31,6 +31,8 @@ this.getAccessToken = async () => {
 	return oauthToken.access_token;
 }
 
+this.getAccessToken().then(console.log);
+
 
 this.api = (endpoint) => {
 	var options = {

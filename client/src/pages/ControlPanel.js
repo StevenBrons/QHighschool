@@ -97,7 +97,7 @@ class ControlPanel extends Component {
 								{pages.map(this.mapPageToListItem)}
 							</List>
 						</Paper>
-						<div style={{ padding: "12px" }}>
+						<div style={{ padding: "12px", width: "100%" }}>
 							{this.getContent()}
 						</div>
 					</div>
@@ -126,7 +126,7 @@ class Alias extends Component {
 				color="primary"
 				disabled={this.state.aliasId == null}
 				onClick={() => this.props.dispatch(setAlias(this.state.aliasId))}>
-				Login in met alia
+				Login in met alias
 			</Button>
 		</div>
 	}
