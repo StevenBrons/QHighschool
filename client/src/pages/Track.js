@@ -131,23 +131,29 @@ class Track extends Component {
 						backgroundImage: "linear-gradient(to right bottom, " + Red + " 0%, " + Red + " 50%, transparent 51%)" }} // 51% to avoid pixelated edge
 						/>
 
-					<div style={{ display: "flex", }}>
+					<div>
 						{[1,2,3,4].map(p => {
 							return (
-							<div style = {{ borderLeft: "solid 6pt " + Red, flex:"1 1 auto" }}>
+							<div
+								key={p}
+								style = {{ borderLeft: "solid 6pt " + Red, flex:"1 1 auto" }}
+							>
 								<div>
-									<Typography variant="h6"
-												style={{background:Red, color:"white", display:"inline-block", paddingRight:"5px"}}>
+									<Typography 
+										variant="h6"
+										style={{background:Red, color:"white", display:"inline-block", paddingRight:"5px"}}
+									>
 										Blok {p}
 									</Typography>
 								</div>
 								{coursesPerPeriod[p].map(c => {
 									return (
-										<CourseButton style={{margin:"15px"}}
-														onClick ={_ => this.onChange(p,c)}
-														color={coursesSelected[p] === c ? "secondary" : "primary" }
-														disabled={coursesSelected[p] && coursesSelected[p] !== c}
-														>
+										<CourseButton 
+											key={c}	
+											style={{margin:"15px"}}
+											onClick ={_ => this.onChange(p,c)}
+											color={coursesSelected[p] === c ? "secondary" : "primary" }
+										>
 											{courses[c]}
 										</CourseButton>
 									);
