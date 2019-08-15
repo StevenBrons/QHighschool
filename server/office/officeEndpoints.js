@@ -42,7 +42,7 @@ function getClassDataFromGroup(group) {
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
 	mailNickname = mailNickname.replace(/ +/g, "");
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
-	const displayGroupId = "#G" + groupId.padStart(4, "0");
+	const displayGroupId = "#G" + group.id.padStart(4, "0");
 	return {
 		description: group.courseDescription,
 		displayName: `QH ${group.subjectAbbreviation} ${group.courseName} ${displayGroupId}`,
