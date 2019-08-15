@@ -4,30 +4,10 @@ import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge } from
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import { connect } from 'react-redux';
+import { getSubjects, getGroups} from '../store/actions';
 
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
-
-const courseSchedule = {
-	4: {
-		1: [1,2,3],
-		2: [4,5,6,7],
-		3: [8,9],
-		4: [10,11,12]
-	},
-	5: {
-		4: [1,2,3],
-		3: [4,5,6,7],
-		2: [8,9],
-		1: [10,11,12]
-	},
-	6: {
-		3: [1,2,3],
-		2: [4,5,6,7],
-		4: [8,9],
-		1: [10,11,12]
-	},
-}
 
 // const PTA = {
 // 	"PO1": [1],
@@ -39,25 +19,10 @@ const courseSchedule = {
 // 	"PO7": [8,9,10,11],
 // }
 
-const courses = {
-	1 : "Object georienteerd programmeren",
-	2 : "Filosofie",
-	3 : "Meetkunde",
-	4 : "Plato en Socrates",
-	5 : "Calculus",
-	6 : "Imperatief programmeren",
-	7 : "Website maken",
-	8 : "Engelse literatuur",
-	9 : "Nederlandse literatuur",
-	10 : "Grafieken",
-	11 : "Hardware",
-	12 : "HTML: De Basis",
-}
-
 class Track extends Component {
 	constructor(props) {
 		super(props);
-		const years = Object.keys(courseSchedule).map(y => parseInt(y,10));
+		const years = Object.keys(props.courseSchedule).map(y => parseInt(y,10));
 		this.state = {
 			coursesSelected: {
 				1:null,
@@ -68,6 +33,11 @@ class Track extends Component {
 			year: years.includes(props.year) ? props.year : years[0],
 		}
 	}
+
+	componentDidMount() {
+		this.props.getGroups();
+	}
+
 	trackAccepted = () => {
 		return false;
 	}
@@ -93,7 +63,7 @@ class Track extends Component {
 	render() {
 		const year = this.state.year;
 		const coursesSelected = this.state.coursesSelected;
-		const coursesPerPeriod = courseSchedule[year];
+		const coursesPerPeriod = this.props.courseSchedule[year];
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -148,22 +118,23 @@ class Track extends Component {
 										Blok {p}
 									</Typography>
 								</div>
-								{coursesPerPeriod[p].map(c => {
+								{coursesPerPeriod[p].map(course => {
+									const id = course.courseId;
 									return (
-										<span key={c} style={{display:"inline-block", margin:"15px"}}>
+										<span key={id} style={{display:"inline-block", margin:"15px"}}>
 											{
-											c!==2 ? // TODO replace with if has evaluation
-												<Badge color="secondary" badgeContent={c < 8 ? c < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
+											id!==2 ? // TODO replace with if has evaluation
+												<Badge color="secondary" badgeContent={id < 8 ? id < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
 													<CourseButton 
-														onClick ={_ => this.onChange(p,c)}
-														color={coursesSelected[p] === c ? "secondary" : "primary" }
+														onClick ={_ => this.onChange(p,id)}
+														color={coursesSelected[p] === id ? "secondary" : "primary" }
 													>
-														{courses[c]}
+														{course.courseName}
 													</CourseButton>
 												</Badge>
 											:
 												<CourseButton disabled >
-													{courses[c]}
+													{course.courseName}
 													{
 													<h1 style={{margin:"0"}}> 9 </h1>
 													}
@@ -213,9 +184,32 @@ const CourseButton = withStyles(buttonStyles)(Button);
 
 function mapStateToProps(state) {
 	const user = state.users[state.userId];
+	const groups = state.groups;
+
+	const years = [4,5,6];// TODO: let years be dependant on user
+	let courseSchedule = {};
+	years.forEach(y => courseSchedule[y] = {1:[],2:[],3:[],4:[]}); // initialize schedule
+
+	if ( groups ) {
+		Object.keys(groups).forEach(groupId => {
+			const group = groups[groupId];
+			let years = group.enrollableFor ? group.enrollableFor.match(/\d+/g).map(Number) : [4,5,6];
+			years.forEach(y => {
+				courseSchedule[y][group.period].push(groups[groupId]);
+			}) // put groups in their place in the timeline
+		})
+	}
 	return {
 		year: user.year,
+		courseSchedule: courseSchedule,
 	}
 }
 
-export default connect(mapStateToProps,null)(Track);
+function mapDispatchToProps(dispatch) {
+	return {
+		getSubjects: () => dispatch(getSubjects()),
+		getGroups: () => dispatch(getGroups()),
+	};
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Track);
