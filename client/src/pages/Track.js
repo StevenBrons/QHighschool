@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Page from "./Page";
-import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab } from '@material-ui/core';
+import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge } from '@material-ui/core';
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 
@@ -28,15 +28,15 @@ const courseSchedule = {
 	},
 }
 
-const PTA = {
-	"PO1": [1],
-	"PO2": [3],
-	"PO3": [4,5],
-	"PO4": [6],
-	"PO5": [8,9,10,11],
-	"PO6": [12],
-	"PO7": [8,9,10,11],
-}
+// const PTA = {
+// 	"PO1": [1],
+// 	"PO2": [3],
+// 	"PO3": [4,5],
+// 	"PO4": [6],
+// 	"PO5": [8,9,10,11],
+// 	"PO6": [12],
+// 	"PO7": [8,9,10,11],
+// }
 
 const courses = {
 	1 : "Object georienteerd programmeren",
@@ -129,14 +129,14 @@ class Track extends Component {
 					<div style={{ // triangle
 						height:"70px",
 						backgroundImage: "linear-gradient(to right bottom, " + Red + " 0%, " + Red + " 50%, transparent 51%)" }} // 51% to avoid pixelated edge
-						/>
+					/>
 
 					<div>
 						{[1,2,3,4].map(p => {
 							return (
 							<div
 								key={p}
-								style = {{ borderLeft: "solid 6pt " + Red, flex:"1 1 auto" }}
+								style = {{ borderLeft: "solid 6pt " + Red }}
 							>
 								<div>
 									<Typography 
@@ -148,14 +148,26 @@ class Track extends Component {
 								</div>
 								{coursesPerPeriod[p].map(c => {
 									return (
-										<CourseButton 
-											key={c}	
-											style={{margin:"15px"}}
-											onClick ={_ => this.onChange(p,c)}
-											color={coursesSelected[p] === c ? "secondary" : "primary" }
-										>
-											{courses[c]}
-										</CourseButton>
+										<span key={c} style={{display:"inline-block", margin:"15px"}}>
+											{
+											c!==2 ? // TODO replace with if has evaluation
+												<Badge color="secondary" badgeContent={c < 8 ? c < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
+													<CourseButton 
+														onClick ={_ => this.onChange(p,c)}
+														color={coursesSelected[p] === c ? "secondary" : "primary" }
+													>
+														{courses[c]}
+													</CourseButton>
+												</Badge>
+											:
+												<CourseButton disabled >
+													{courses[c]}
+													{
+													<h1 style={{margin:"0"}}> 9 </h1>
+													}
+												</CourseButton>
+											}
+										</span>
 									);
 								})}
 							</div>
@@ -180,8 +192,10 @@ const buttonStyles = {
 			background: Red,
 		},
 		"&:disabled": {
-			background: "grey",
+			background: Red,
+			display: "block",
 			color: "white",
+			height:"120px",
 		}
 	},
 	textSecondary: {
