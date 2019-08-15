@@ -133,8 +133,13 @@ class EvaluationTab extends Component {
 	}
 
 	handleEvaluationTypeChange(newValue) {
-		for (let i in this.props.evaluations) {
-			this.handleSingleChange({ ...this.props.evaluations[i], type: newValue });
+		let newEvaluations = [];
+		for (let i = 0; i < this.props.evaluations.length; i++) {
+			newEvaluations.push({
+				...this.props.evaluations[i],
+				type: newValue,
+			});
+		this.props.handleChange(newEvaluations);
 		}
 	}
 
@@ -145,7 +150,7 @@ class EvaluationTab extends Component {
 
 		if (sortValue === "name") {
 			evaluations.sort((a, b) => {
-				let cmp = b.displayName - a.displayName;
+				let cmp = b.displayName < a.displayName;
 				return sortDirection === "asc" ? cmp : -cmp;
 			})
 		} else if (sortValue === "evaluations") {
@@ -160,8 +165,8 @@ class EvaluationTab extends Component {
 	}
 
 	render() {
-		let sortValue = this.props.sortValue;
-		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
+		let sortValue = this.state.sortValue;
+		let sortDirection = this.state.sortDirection === "asc" ? "asc" : "desc";
 		const style = {
 			marginTop: "10px",
 			alignItems: "center",

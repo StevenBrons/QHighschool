@@ -43,7 +43,7 @@ class NotificationBar extends Component {
 					<SnackbarContent
 						style={{ background: color, marginBottom: "4px" }}
 						message={<span id="message-id">{not.message}</span>}
-						action={[
+						action={not.sticky ? []: [
 							<IconButton key="close"
 								onClick={() => { this.removeNotification(key) }} >
 								<CloseIcon />
