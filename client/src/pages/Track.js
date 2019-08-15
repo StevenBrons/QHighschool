@@ -3,6 +3,7 @@ import Page from "./Page";
 import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge } from '@material-ui/core';
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
+import { connect } from 'react-redux';
 
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
@@ -56,6 +57,7 @@ const courses = {
 class Track extends Component {
 	constructor(props) {
 		super(props);
+		const years = Object.keys(courseSchedule).map(y => parseInt(y,10));
 		this.state = {
 			coursesSelected: {
 				1:null,
@@ -63,7 +65,7 @@ class Track extends Component {
 				3:null,
 				4:null,
 			},
-			year: 4,
+			year: years.includes(props.year) ? props.year : years[0],
 		}
 	}
 	trackAccepted = () => {
@@ -209,4 +211,11 @@ const buttonStyles = {
 
 const CourseButton = withStyles(buttonStyles)(Button);
 
-export default Track;
+function mapStateToProps(state) {
+	const user = state.users[state.userId];
+	return {
+		year: user.year,
+	}
+}
+
+export default connect(mapStateToProps,null)(Track);
