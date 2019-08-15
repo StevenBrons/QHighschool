@@ -144,15 +144,15 @@ function addMissingInfoNotifications(user, dispatch) {
 }
 
 function testIE(dispatch) {
-	if ( /MSIE|Trident/.test(window.navigator.userAgent) ) {
+	if (/MSIE|Trident/.test(window.navigator.userAgent)) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
 				id: Math.random(),
-				priority: "low",
+				priority: "high",
 				type: "bar",
 				message: "Internet Explorer gedecteerd. Deze website ondersteunt Internet Explorer niet. Sommige functies zullen wellicht niet werken.",
-				sticky:true,
+				sticky: true,
 				scope: "",
 			}
 		});
