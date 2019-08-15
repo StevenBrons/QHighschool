@@ -295,7 +295,7 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
 		courseGroupId: group.id,
 		userId: mainTeacherId,
 	});
-	officeEndpoints.createClass(group.id);
+	officeEndpoints.updateClass(group.id);
 	return group;
 }
 

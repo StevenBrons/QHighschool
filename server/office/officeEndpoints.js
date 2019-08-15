@@ -16,7 +16,7 @@ exports.updateClass = async (groupId) => {
 exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
 	const graphId = await getGraphIdOrCreate(groupId);
 	const upn = (await userDb.getUser(userId)).email;
-	return addParticipant(upn, graphId, participatingRole);
+	return addParticipant(graphId, upn, participatingRole);
 }
 
 // exports.deleteAllClasses = async () => {
@@ -65,8 +65,8 @@ async function createClass(groupId) {
 	await connection.api(`education/schools/${office365.schoolId}/classes/$ref`)
 		.post({ "@odata.id": "https://graph.microsoft.com/v1.0/education/classes/" + team.id });
 
-	await this.addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
-	await Promise.all(participants.map(p => this.addParticipant(team.id, p.email, p.participatingRole)));
+	await addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
+	await Promise.all(participants.map(p => addParticipant(team.id, p.email, p.participatingRole)));
 	return team.id;
 }
 
