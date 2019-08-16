@@ -67,7 +67,7 @@ class Evaluation extends Component {
 		const e = this.props.evaluation;
 		let style = {
 			underline: false,
-			flex: 1,
+			flex: 2,
 		};
 		let layout = { td: true };
 		if (this.props.student) {
@@ -133,8 +133,13 @@ class EvaluationTab extends Component {
 	}
 
 	handleEvaluationTypeChange(newValue) {
-		for (let i in this.props.evaluations) {
-			this.handleSingleChange({ ...this.props.evaluations[i], type: newValue });
+		let newEvaluations = [];
+		for (let i = 0; i < this.props.evaluations.length; i++) {
+			newEvaluations.push({
+				...this.props.evaluations[i],
+				type: newValue,
+			});
+			this.props.handleChange(newEvaluations);
 		}
 	}
 
@@ -145,7 +150,7 @@ class EvaluationTab extends Component {
 
 		if (sortValue === "name") {
 			evaluations.sort((a, b) => {
-				let cmp = b.displayName - a.displayName;
+				let cmp = b.displayName < a.displayName;
 				return sortDirection === "asc" ? cmp : -cmp;
 			})
 		} else if (sortValue === "evaluations") {
@@ -160,8 +165,8 @@ class EvaluationTab extends Component {
 	}
 
 	render() {
-		let sortValue = this.props.sortValue;
-		let sortDirection = this.props.sortDirection === "asc" ? "asc" : "desc";
+		let sortValue = this.state.sortValue;
+		let sortDirection = this.state.sortDirection === "asc" ? "asc" : "desc";
 		const style = {
 			marginTop: "10px",
 			alignItems: "center",
@@ -177,7 +182,7 @@ class EvaluationTab extends Component {
 			.map(ev => {
 				return (
 					<Paper style={style} key={ev.userId} component="tr">
-						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{}} />
+						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{ td: true }} />
 						<Evaluation
 							editable={this.props.editable}
 							evaluation={ev}

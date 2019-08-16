@@ -32,7 +32,7 @@ class UserList extends Component {
 		let sortValue = this.state.sortValue;
 		let sortDirection = this.state.sortDirection === "asc" ? "asc" : "desc";
 		return (
-			<Typography variant={variant} color={variant === "title" ? "primary" : "default"} style={{ flex: 1 }} >
+			<Typography variant={variant} color={variant === "button" ? "primary" : "initial"} style={{ flex: 1 }} >
 				<Tooltip title="Sorteer" enterDelay={300} placement="bottom-start">
 					<TableSortLabel active={sortValue === value}
 						direction={sortDirection}
@@ -60,8 +60,8 @@ class UserList extends Component {
 						display: "flex",
 						justifyContent: "space-between"
 					}}>
-						{this.headerTitle("title", "name", "Naam")}
-						{this.headerTitle("subheading", "school", "School")}
+						{this.headerTitle("button", "name", "Naam")}
+						{this.headerTitle("subtitle1", "school", "School")}
 						{this.headerTitle("body1", "levelAndYear", "Niveau - Leerjaar")}
 						{this.headerTitle("body1", "role", "Rol")}
 						{this.headerTitle("body1", "profile", "Profiel")}
@@ -113,7 +113,7 @@ class UserList extends Component {
 	render() {
 		const header = this.getHeader();
 		const users = this.sortIds().map(id => {
-			return <User key={id} userId={id} display="row" />
+			return <User key={id} userId={id} display="row" actions={this.props.actions} />
 		});
 		return (
 			<table style={{ width: "100%" }}>

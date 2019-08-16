@@ -12,26 +12,25 @@ import List from '@material-ui/core/List';
 
 class Header extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = { anchorEl: null };
-	}
-
 	logoClick = () => {
 		this.props.history.push("/");
 	}
 
-	
 	render() {
 		return (
 			<AppBar className="Header">
 				<Toolbar>
-					<IconButton color="inherit" aria-label="Menu" onClick={this.props.toggleMenu} style={{position:"absolute"}} >
+					<IconButton color="inherit" aria-label="Menu" onClick={this.props.toggleMenu} style={{ position: "absolute" }} >
 						<MenuIcon />
 					</IconButton>
-					<img src="/images/logo_qhighschool.svg" alt="QHighschool Logo" style={{height:"60%",margin:"auto",maxHeight:"52px", cursor:"pointer" }} onClick={this.logoClick} />
-					<List color="inherit" style={{ top:15,right: 20, position: "absolute"}} onClick={this.handleClick}>
-						<PersonIcon style={{transform:"scale(1.5)",marginRight:"10px",float:"left"}}/>
+					<img
+						src="/images/logo_qhighschool_white.svg"
+						alt="QHighschool Logo"
+						style={{ height: "60%", margin: "auto", maxHeight: "52px", cursor: "pointer" }}
+						onClick={this.logoClick}
+					/>
+					<List color="inherit" style={{ right: 20, position: "absolute" }} onClick={this.handleClick}>
+						<PersonIcon style={{ transform: "scale(1.5)", marginRight: "10px", float: "left" }} />
 						<span className="HiddenOnMobile">
 							{this.props.displayName}
 						</span>

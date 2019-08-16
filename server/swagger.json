@@ -107,6 +107,27 @@
             "type": "string"
           },
           {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "foreknowledge",
+            "in": "formData",
+            "description": "The foreknowledge for course",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studyTime",
+            "in": "formData",
+            "description": "The studyTime for course",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "name": "subjectId",
             "in": "formData",
             "description": "The subjectId of the subject the course belongs to",
@@ -158,9 +179,9 @@
             "type": "string"
           },
           {
-            "name": "remarks",
+            "name": "foreknowledge",
             "in": "formData",
-            "description": "The remarks for course",
+            "description": "The foreknowledge for course",
             "required": true,
             "type": "string"
           },
@@ -322,79 +343,6 @@
             }
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Group"
-        ],
-        "summary": "Create a new group",
-        "operationId": "addGroup",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "courseId",
-            "in": "formData",
-            "description": "The new courseId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "mainTeacherId",
-            "in": "formData",
-            "description": "The new period",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Group"
-            }
-          }
-        }
-      }
-    },
-    "/group/userStatus": {
-      "patch": {
-        "tags": [
-          "Group"
-        ],
-        "summary": "Change group data",
-        "operationId": "setUserStatus",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "lessonId",
-            "in": "formData",
-            "description": "The lesson id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userStatus",
-            "in": "formData",
-            "description": "The user status",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
       }
     },
     "/group/enrollments": {
@@ -530,54 +478,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Evaluation"
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Group"
-        ],
-        "summary": "Set evaluation for group",
-        "operationId": "setEvaluation",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "test",
-            "in": "body",
-            "description": "The groupId to change the evaluation from",
-            "schema": {
-              "type": "object",
-              "required": [
-                "presence"
-              ],
-              "properties": {
-                "evaluations": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Evaluation"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Presence"
-                }
               }
             }
           }
@@ -794,40 +694,6 @@
             }
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Subject"
-        ],
-        "summary": "Create a new subject",
-        "operationId": "add subject",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "formData",
-            "description": "The name of the subject",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "The description of the subject",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
       }
     },
     "/user": {
@@ -871,6 +737,13 @@
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "The userId to change, if empty, own user will be returned",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "preferedEmail",
             "in": "formData",
@@ -938,29 +811,6 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/Self"
-            }
-          }
-        }
-      }
-    },
-    "/user/list": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get all users",
-        "operationId": "getAllUsers",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/User"
             }
           }
         }
@@ -1122,71 +972,6 @@
         }
       }
     },
-    "/function/alias": {
-      "post": {
-        "tags": [
-          "Function"
-        ],
-        "summary": "Get list of groups the user participates in",
-        "operationId": "setAlias",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "secureLogin",
-            "in": "formData",
-            "description": "secure login",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "formData",
-            "description": "userId to alias as",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/function/taxi": {
-      "post": {
-        "tags": [
-          "Function"
-        ],
-        "summary": "Get list of groups the user participates in",
-        "operationId": "taxi",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "week",
-            "in": "formData",
-            "description": "The week to get the schedule from, 0 for the base schedule",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
     "/function/calculateLessonDates": {
       "post": {
         "tags": [
@@ -1204,47 +989,6 @@
             "description": "Confirm action",
             "required": true,
             "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/function/data": {
-      "post": {
-        "tags": [
-          "Function"
-        ],
-        "summary": "Reset all lesson dates",
-        "operationId": "getData",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "secureLogin",
-            "in": "formData",
-            "description": "secure login token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "table",
-            "in": "formData",
-            "description": "the table to read",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "evaluations",
-              "users",
-              "enrollments"
-            ]
           }
         ],
         "produces": [
@@ -1277,7 +1021,7 @@
         "description": {
           "type": "string"
         },
-        "remarks": {
+        "foreknowledge": {
           "type": "string"
         },
         "studyTime": {
@@ -1459,8 +1203,17 @@
         "groupId": {
           "type": "integer"
         },
-        "userId": {
+        "studentId": {
           "type": "integer"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
         },
         "type": {
           "type": "string"

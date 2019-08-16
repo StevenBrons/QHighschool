@@ -38,7 +38,11 @@ class PresenceTable extends Component {
 			if (p.length === 1) {
 				return this.createPresenceComponent(p[0], i);
 			} else {
-				return "err";
+				return this.createPresenceComponent({
+					lessonId: lesson.id,
+					userId: participantId,
+					status: "present",
+				}, i);
 			}
 		}));
 

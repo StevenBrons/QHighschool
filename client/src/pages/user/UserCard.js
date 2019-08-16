@@ -41,11 +41,11 @@ class GroupCard extends Component {
 				onMouseLeave={() => this.setState({ hover: false })}
 				style={this.state.style}
 			>
-				<Typography variant="title" color={user.role === "teacher"?"secondary":"primary"} >
+				<Typography variant="button" color={user.role === "teacher" ? "secondary" : "primary"} >
 					{user.firstName + " " + user.lastName}
 				</Typography>
-				<Typography variant="subheading">
-					{(user.role==="teacher"?"docent":"leerling") + "\t" + user.school}
+				<Typography variant="subtitle1">
+					{(user.role === "teacher" ? "docent" : "leerling") + "\t" + user.school}
 				</Typography>
 			</Paper >
 		);

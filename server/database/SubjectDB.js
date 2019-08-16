@@ -1,20 +1,17 @@
 const Subject = require("../dec/SubjectDec");
 
-class SubjectDB {
-	async getSubjects() {
-		return Subject.findAll();
-	}
-
-	async getSubject(subjectId) {
-		return Subject.findByPk(subjectId);
-	}
-
-	async addSubject(name, description) {
-		return Subject.create({
-			name,
-			description,
-		});
-	}
+exports.getSubjects = async () => {
+	return Subject.findAll();
 }
 
-module.exports = new SubjectDB();
+exports.getSubject = async (subjectId) => {
+	return Subject.findByPk(subjectId);
+}
+
+exports.addSubject = async (name, description) => {
+	return Subject.create({
+		name,
+		description,
+	});
+}
+

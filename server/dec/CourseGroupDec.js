@@ -21,6 +21,12 @@ const CourseGroup = connection.define('course_group', {
 	},
 	enrollableFor: {
 		type: Sequelize.STRING,
+	},
+	graphId: {
+		type: Sequelize.STRING,
+	},
+	teamUrl: {
+		type: Sequelize.STRING,
 	}
 }, {
 		tableName: 'course_group'
