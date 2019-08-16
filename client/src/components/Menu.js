@@ -55,13 +55,11 @@ class Menu extends Component {
 	}
 
 	onClick(page) {
-		if (page === "profiel")
-			this.props.history.push("/gebruiker/" + this.props.userId);
-		else if (page === "loguit") {
+		if (page === "loguit") {
 			this.logout();
-		}
-		else
+		} else {
 			this.props.history.push("/" + page);
+		}
 	}
 
 

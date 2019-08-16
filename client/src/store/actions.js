@@ -57,8 +57,7 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 			});
 		}
 		return (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list
-	})
-		.catch(apiErrorHandler(dispatch));
+	}).catch(apiErrorHandler(dispatch));
 }
 
 
@@ -119,28 +118,31 @@ export function getGroup(groupId) {
 	}
 }
 
+export function isUserMissingInfo(user) {
+	if (user && user.role === "student") {
+		if (!Field.validate(user.year, { type: "integer", min: 1, max: 6 })) return "Leerjaar";
+		if (!Field.validate(user.level, { notEmpty: true })) return "Opleidingsniveau";
+		if (!Field.validate(user.profile, { notEmpty: true })) return "Profiel";
+		if (!Field.validate(user.preferedEmail, { type: "email" })) return "Voorkeurs email";
+		if (!Field.validate(user.phoneNumber, { type: "phoneNumber" })) return "Telefoonnummer";
+	}
+	return false;
+}
+
 function addMissingInfoNotifications(user, dispatch) {
-	function not(field) {
+	const missing = isUserMissingInfo(user);
+	if (missing) {
 		dispatch({
 			type: "ADD_NOTIFICATION",
 			notification: {
 				id: Math.random(),
 				priority: "high",
 				type: "badge",
-				message: "Vul een geldige waarde voor " + field + " in",
+				message: `Vul een geldige waarde voor ${missing} in`,
 				scope: "profiel",
 			}
 		});
 	}
-	if (!Field.validate(user.year, {
-		type: "integer",
-		min: 1,
-		max: 6,
-	})) { not("Leerjaar") };
-	if (!Field.validate(user.level, { notEmpty: true })) { not("Opleidingsniveau") }
-	if (!Field.validate(user.profile, { notEmpty: true })) { not("Profiel") }
-	if (!Field.validate(user.preferedEmail, { type: "email" })) { not("Voorkeurs email") }
-	if (!Field.validate(user.phoneNumber, { type: "phoneNumber" })) { not("Telefoonnummer") }
 }
 
 function testIE(dispatch) {

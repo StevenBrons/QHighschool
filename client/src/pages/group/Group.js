@@ -82,6 +82,7 @@ function mapStateToProps(state, ownProps) {
 		subjects: state.subjects,
 		userId: state.userId,
 		userIsMemberOfGroup,
+		schoolYear: state.schoolYear,
 	}
 }
 

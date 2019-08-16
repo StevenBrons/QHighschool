@@ -59,7 +59,7 @@ class GroupCard extends Component {
 					onMouseEnter={() => this.setState({ hover: true })}
 					onMouseLeave={() => this.setState({ hover: false })}
 				>
-					<Badge color="secondary" badgeContent={group.schoolYear}>
+					<Badge color="secondary" invisible={this.props.schoolYear === group.schoolYear} badgeContent={group.schoolYear}>
 						<div className="GroupCardInside">
 							<Typography
 								variant="caption"

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getSelf, addNotification } from './store/actions';
+import { getSelf, addNotification, isUserMissingInfo } from './store/actions';
 
 import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
@@ -29,6 +29,12 @@ class App extends Component {
 		this.props.getSelf();
 	}
 
+	componentDidUpdate() {
+		if (isUserMissingInfo(this.props.user) && this.props.location.pathname !== "/profiel") {
+			this.props.history.push("/profiel");
+		}
+	}
+
 	handleShowMenu() {
 		let showMenu = this.state.showMenu;
 		this.setState({
@@ -36,21 +42,22 @@ class App extends Component {
 		});
 	}
 
+	getStartPage(role) {
+		switch (role) {
+			case "student":
+				return "/aanbod";
+			case "grade_admin":
+				return "/gegevens";
+			default:
+				return "/groepen";
+		}
+	}
+
 	render() {
-		if (!this.props.userId && this.props.location.pathname !== "/login") {
-			return (
-				<div className="App">
-					<Header />
-					<NotificationBar />
-				</div>
-			);
+		if (!this.props.role && this.props.location.pathname !== "/login") {
+			return <div />;
 		}
-		let startPage = "/groepen";
-		if (this.props.role === "student") {
-			startPage = "/aanbod";
-		} else if (this.props.role === "grade_admin") {
-			startPage = "/gegevens";
-		}
+		const startPage = this.getStartPage(this.props.role);
 		return (
 			<div className="App">
 				<NotificationBar />
@@ -67,7 +74,6 @@ class App extends Component {
 					<Route path="/gegevens/" component={DataPage} />
 					<Route path="/taxi/" component={Taxi} />
 					<Route path="/beheer/" component={ControlPanel} />
-					<Redirect push to={this.props.role === "student" ? "/aanbod" : "/groepen"} />
 					<Redirect push to={startPage} />
 				</Switch>
 			</div>
@@ -79,8 +85,9 @@ class App extends Component {
 function mapStateToProps(state) {
 	return {
 		showMenu: state.showMenu,
-		role: state.role,
 		userId: state.userId,
+		role: state.role,
+		user: state.userId ? state.users[state.userId] : null,
 	};
 }
 
