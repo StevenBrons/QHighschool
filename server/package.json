@@ -15,15 +15,14 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
-    "jade": "^1.11.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
-    "npm": "^6.9.0",
+    "npm": "^6.10.3",
     "passport": "^0.4.0",
     "passport-azure-ad": "^4.0.0",
     "promise-mysql": "^3.3.1",
-    "sequelize": "^4.43.1",
+    "sequelize": "^6.0.0",
     "swagger-ui-express": "^3.0.10"
   }
 }
