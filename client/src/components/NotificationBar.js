@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {IconButton, Snackbar, SnackbarContent} from '@material-ui/core/';
+import { IconButton, Snackbar, SnackbarContent } from '@material-ui/core/';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
@@ -15,7 +15,7 @@ class NotificationBar extends Component {
 	}
 
 	render() {
-		let notifications = this.props.notifications.map((not,key) => {
+		let notifications = this.props.notifications.map((not, key) => {
 			let color;
 			switch (not.priority) {
 				case "high":
@@ -24,43 +24,43 @@ class NotificationBar extends Component {
 				case "medium":
 					color = "#ff8c00";
 					break;
-				case "light":
+				case "low":
 				default:
 					color = theme.palette.primary.main;
 					break;
 			}
 			return (
 				<Snackbar
-				key={key}
-				anchorOrigin={{
-				  vertical: "bottom",
-				  horizontal: "right"
-				}}
-				open={true}
-				style = {{position:"relative"}}
-				TransitionProps={{direction:"left"}}
-			  >
-			  <SnackbarContent
-			  	style={{background:color, marginBottom:"4px"}}
-					message={<span id="message-id">{not.message}</span>}
-					action={[
-				  <IconButton key="close"
-						onClick={() => {this.removeNotification(key)}} >
-						<CloseIcon />
-				  </IconButton>
-				]} />
-			  </Snackbar>		
+					key={key}
+					anchorOrigin={{
+						vertical: "bottom",
+						horizontal: "right"
+					}}
+					open={true}
+					style={{ position: "relative" }}
+					TransitionProps={{ direction: "left" }}
+				>
+					<SnackbarContent
+						style={{ background: color, marginBottom: "4px" }}
+						message={<span id="message-id">{not.message}</span>}
+						action={not.sticky ? []: [
+							<IconButton key="close"
+								onClick={() => { this.removeNotification(key) }} >
+								<CloseIcon />
+							</IconButton>
+						]} />
+				</Snackbar>
 			);
 		});
 		return (
-			<div style={{position:"fixed", bottom:0, right:0, width:"auto", zIndex:10}}>
+			<div style={{ position: "fixed", bottom: 0, right: 0, width: "auto", zIndex: 10 }}>
 				{notifications}
 			</div>
 		);
 	}
 }
 
-function mapStateToProps(state,ownProps) {
+function mapStateToProps(state, ownProps) {
 	let notifications = state.notifications.filter((not) => {
 		try {
 			return not.type === "bar" && new RegExp(not.scope).test(ownProps.location.pathname);

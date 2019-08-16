@@ -55,13 +55,11 @@ class Menu extends Component {
 	}
 
 	onClick(page) {
-		if (page === "profiel")
-			this.props.history.push("/gebruiker/" + this.props.userId);
-		else if (page === "loguit") {
+		if (page === "loguit") {
 			this.logout();
-		}
-		else
+		} else {
 			this.props.history.push("/" + page);
+		}
 	}
 
 
@@ -82,7 +80,7 @@ class Menu extends Component {
 			case "ViewColumn":
 				return <ViewColumnIcon style={{ color: c }} />;
 			case "Exit":
-				return <ExitIcon style={{ color: "red" }} />;
+				return <ExitIcon color="secondary" />;
 			case "Taxi":
 				return <LocalTaxiIcon style={{ color: c }} />;
 			case "Beheer":
@@ -111,7 +109,7 @@ class Menu extends Component {
 		return (
 			<ListItem key={index} button onClick={() => this.onClick(page.id)} style={style}>
 				{icon}
-				<Typography variant="title" color={color} className="HiddenOnMobile">
+				<Typography variant="button" color={color} className="HiddenOnMobile">
 					{page.title}
 				</Typography>
 			</ListItem>

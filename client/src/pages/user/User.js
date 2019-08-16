@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 import Field from "../../components/Field"
 import queryString from "query-string";
+import { Button } from "@material-ui/core";
 
 class User extends Component {
 
@@ -57,14 +58,25 @@ class User extends Component {
 
 		switch (this.props.display) {
 			case "name":
-				return <Field value={this.props.user.displayName} style={{ type: "title" }} layout={{ td: true }} />;
+				return <Field value={this.props.user.displayName} style={{ type: "title", width: "auto", }} layout={{ td: true }} />;
 			case "page":
 				return (
 					<UserPage {...this.props} />
 				);
 			case "row":
 				return (
-					<UserRow {...this.props} />
+					<UserRow {...this.props}>
+						{
+							this.props.actions &&
+							this.props.actions.map(action => {
+								return (
+									<Button onClick={() => action.onClick(this.props.userId)} variant="contained" color="primary" style={{ marginRight: "10px" }} >
+										{action.label}
+									</Button>
+								)
+							})
+						}
+					</UserRow>
 				);
 			case "card":
 			default:

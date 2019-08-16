@@ -16,29 +16,38 @@ class Portfolio extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			period: props.currentPeriod,
+			leerjaar: "2019/2020",
+		};
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		let values = queryString.parse(nextProps.location.search);
-		if (values.filter) {
-			return {
-				...prevState,
-				filter: values.filter
-			}
-		} else {
-			return {
-				...prevState,
-				filter: nextProps.role === "student" ? "all" : "period" + nextProps.currentPeriod,
-			};
+		let { blok, leerjaar } = queryString.parse(nextProps.location.search);
+		if (!blok) {
+			blok = nextProps.role === "student" ? "all" : nextProps.currentPeriod;
+		}
+		if (!leerjaar) {
+			leerjaar = "2019/2020";
+		}
+		return {
+			...prevState,
+			period: blok,
+			schoolYear: leerjaar,
 		}
 	}
 
-	handleFilterChange = value => {
+	handlePeriodChange = period => {
 		this.props.history.push({
-			search: "filter=" + value,
+			search: `blok=${period}&leerjaar=${this.state.leerjaar}`,
 		});
-	};
+	}
+
+	handleYearChange = schoolYear => {
+		this.props.history.push({
+			search: `blok=${this.state.period}&leerjaar=${schoolYear}`,
+		});
+	}
 
 	orderGroups(groups, compareFunction) {
 		let orders = {};
@@ -87,6 +96,7 @@ class Portfolio extends Component {
 		if (!this.props.enrollmentIds) {
 			this.props.getEnrolLments();
 		}
+
 		let groupIds = this.props.enrollmentIds || [];
 		if (this.state.filter !== "enrolled") {
 			/* If filter is not equal to enrolled, participating ids need to be added. 
@@ -94,32 +104,30 @@ class Portfolio extends Component {
 			Finally, after adding participating ids, we filter on period */
 			groupIds = this.props.participatingGroupIds.filter(id => {
 				return (groupIds.indexOf(id) === -1);
-			}).concat(groupIds).filter(
-				id => {
-					if (!this.props.groups || !this.props.groups[id]) {
-						return false;
-					}
-					switch (this.state.filter) {
-						case "period1":
-							return this.props.groups[id].period === 1;
-						case "period2":
-							return this.props.groups[id].period === 2;
-						case "period3":
-							return this.props.groups[id].period === 3;
-						case "period4":
-							return this.props.groups[id].period === 4;
-						default: // case all 
-							return true;
-					}
-				}
-			)
+			}).concat(groupIds);
 		}
 
+
 		let content;
-		if (!this.props.groups || groupIds.filter(id => this.props.groups[id] == null).length !== 0) {
+		if (this.props.groups == null || Object.keys(this.props.groups).length === 0) {
 			content = <Progress />;
 		} else {
-			content = this.orderGroups(groupIds.map(id => this.props.groups[id]), function (group) {
+			const groups = groupIds.map(id => this.props.groups[id])
+				.filter((group) => group != null)
+				.filter((group) => {
+					if (this.state.period !== "all") {
+						return group.period + "" === this.state.period;
+					} else {
+						return true;
+					}
+				}).filter((group) => {
+					if (this.state.schoolYear !== "all") {
+						return group.schoolYear + "" === this.state.schoolYear;
+					} else {
+						return true;
+					}
+				});
+			content = this.orderGroups(groups, (group) => {
 				return group.subjectName;
 			});
 		}
@@ -130,7 +138,7 @@ class Portfolio extends Component {
 				style={{ position: "relative" }}
 			>
 				<Toolbar style={{ display: "flex" }}>
-					<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+					<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 						{this.props.role === "student" ? "Portfolio" : "Mijn groepen"}
 					</Typography>
 					{
@@ -140,11 +148,32 @@ class Portfolio extends Component {
 						</Button>
 					}
 					<Field
-						label="filter"
-						value={this.state.filter}
+						label="blok"
+						value={this.state.period}
 						editable
-						options={options}
-						onChange={this.handleFilterChange}
+						style={{ flex: "none" }}
+						options={[
+							{ label: "Alle", value: "all" },
+							{ label: "Blok 1", value: "1" },
+							{ label: "Blok 2", value: "2" },
+							{ label: "Blok 3", value: "3" },
+							{ label: "Blok 4", value: "4" }]}
+						onChange={this.handlePeriodChange}
+					/>
+					<Field
+						label="leerjaar"
+						style={{ flex: "none" }}
+						value={this.state.schoolYear}
+						editable
+						options={[
+							{ label: "Alle", value: "all" },
+							{ label: "2016/2017", value: "2016/2017" },
+							{ label: "2017/2018", value: "2017/2018" },
+							{ label: "2018/2019", value: "2018/2019" },
+							{ label: "2019/2020", value: "2019/2020" },
+							{ label: "2020/2021", value: "2020/2021" },
+							{ label: "2021/2022", value: "2021/2022" }]}
+						onChange={this.handleYearChange}
 					/>
 				</Toolbar>
 			</Paper>

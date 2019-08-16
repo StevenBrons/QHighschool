@@ -3,7 +3,7 @@ import Page from '../Page';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { setUser } from '../../store/actions';
+import { setUser, isUserMissingInfo } from '../../store/actions';
 import Field from '../../components/Field';
 import Typography from '@material-ui/core/Typography';
 
@@ -42,17 +42,7 @@ class UserPage extends Component {
 		} else {
 			user = this.state.user;
 		}
-		let shouldFillIn = this.props.ownProfile && (
-			this.props.user.profile == null ||
-			this.props.user.profile === "" ||
-			this.props.user.year === null ||
-			this.props.user.year === "" ||
-			this.props.user.level === null ||
-			this.props.user.level === "" ||
-			this.props.user.phoneNumber === null ||
-			this.props.user.phoneNumber === "" ||
-			this.props.user.preferedEmail == null ||
-			this.props.user.preferedEmail === "") ? true : null;
+		const shouldFillIn = this.props.ownProfile && (isUserMissingInfo(user) !== false);
 		return (
 			<Page>
 				<Field
@@ -117,15 +107,17 @@ class UserPage extends Component {
 				<br />
 				{
 					shouldFillIn &&
-					<Typography gutterBottom variant="title" color="primary" >
+					<Typography gutterBottom variant="button" color="secondary" >
 						Controleer de bovenstaande gegevens en vul de ontbrekende gegevens aan.
-						</Typography>
+					</Typography>
 				}
+				<br />
+				<br />
 				{
-					this.hasChanged() ?
-						<Button variant="contained" color="secondary" size="large" onClick={() => this.props.save(this.state.user)}>
-							Opslaan
-						</Button> : null
+					this.hasChanged() &&
+					<Button variant="contained" color="secondary" size="large" onClick={() => this.props.save(this.state.user)}>
+						Opslaan
+					</Button>
 				}
 			</Page >
 		);

@@ -22,36 +22,28 @@ class CourseSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortMethod: null,
-			filterMethod: "period" + props.enrollmentPeriod,
+			period: props.currentPeriod,
+			leerjaar: "2019/2020",
+			subject: null,
 		}
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		let values = queryString.parse(nextProps.location.search);
-		if (values.sort) {
-			return {
-				...prevState,
-				...{
-					sortMethod: values.sort,
-					filterMethod: values.filter ? values.filter : "period" + nextProps.enrollmentPeriod,
-				}
-			}
+		let { blok, vak, leerjaar } = queryString.parse(nextProps.location.search);
+		if (!vak && nextProps.subjects != null) {
+			vak = nextProps.subjects[Object.keys(nextProps.subjects)[0]].name;
 		}
-		if (nextProps.subjects != null) {
-			return {
-				...prevState,
-				...{
-					filterMethod: values.filter ? values.filter : "period" + nextProps.enrollmentPeriod,
-					sortMethod: nextProps.subjects[Object.keys(nextProps.subjects)[0]].name,
-				}
-			};
-		} else {
-			return {
-				...prevState,
-				sortMethod: null,
-				filterMethod: "none",
-			};
+		if (!blok) {
+			blok = nextProps.enrollmentPeriod + "";
+		}
+		if (!leerjaar) {
+			leerjaar = "2019/2020";
+		}
+		return {
+			...prevState,
+			period: blok,
+			subject: vak,
+			schoolYear: leerjaar,
 		}
 	}
 
@@ -68,22 +60,28 @@ class CourseSelect extends Component {
 
 	handleSortChange = subject => {
 		this.props.history.push({
-			search: "sort=" + subject + "&filter=" + this.state.filterMethod,
+			search: `vak=${subject}&blok=${this.state.period}&leerjaar=${this.state.schoolYear}`,
 		});
 	};
 
-	handleFilterChange = value => {
+	handlePeriodChange = period => {
 		this.props.history.push({
-			search: "sort=" + this.state.sortMethod + "&filter=" + value,
+			search: `vak=${this.state.subject}&blok=${period}&leerjaar=${this.state.schoolYear}`,
+		});
+	};
+
+	handleYearChange = schoolYear => {
+		this.props.history.push({
+			search: `vak=${this.state.subject}&blok=${this.state.period}&leerjaar=${schoolYear}`,
 		});
 	};
 
 	getMenuItem(title, subject) {
-		let color = (this.state.sortMethod === subject) ? "primary" : "default";
+		let color = (this.state.subject === subject) ? "primary" : "initial";
 		return (
 			<ListItem button onClick={() => this.handleSortChange(subject)} key={title}>
 				<ListItemText>
-					<Typography variant="title" color={color} style={{ minWidth: "150px" }}>
+					<Typography variant="button" color={color} style={{ minWidth: "150px" }}>
 						{title}
 					</Typography>
 				</ListItemText>
@@ -103,7 +101,7 @@ class CourseSelect extends Component {
 
 	render() {
 		let data;
-		if (this.state.sortMethod === "enrolled") {
+		if (this.state.subject === "enrolled") {
 			if (this.props.enrolledGroupsIds == null) {
 				data = <Progress />;
 				this.props.getEnrolLments();
@@ -129,22 +127,23 @@ class CourseSelect extends Component {
 			if (this.props.subjects == null || this.props.groups == null || this.props.enrolledGroups === []) {
 				data = <Progress />
 			}
-			data = this.getGroupsPerSubject(this.state.sortMethod)
-				.sort((a, b) => a.period - b.period)
+			data = this.getGroupsPerSubject(this.state.subject)
+				.filter((group) => group != null)
 				.filter((group) => {
-					switch (this.state.filterMethod) {
-						case "period1":
-							return group.period === 1;
-						case "period2":
-							return group.period === 2;
-						case "period3":
-							return group.period === 3;
-						case "period4":
-							return group.period === 4;
-						default:
-							return true;
+					if (this.state.period !== "all") {
+						return group.period + "" === this.state.period;
+					} else {
+						return true;
 					}
 				})
+				.filter((group) => {
+					if (this.state.schoolYear !== "all") {
+						return group.schoolYear + "" === this.state.schoolYear;
+					} else {
+						return true;
+					}
+				})
+				.sort((a, b) => a.period - b.period)
 				.map((group) => {
 					return <Group
 						key={group.id}
@@ -155,30 +154,43 @@ class CourseSelect extends Component {
 		}
 		return (
 			<Page>
-				<Paper
-					elevation={2}
-					style={{ position: "relative" }}
-				>
-					<Toolbar style={{ display: "flex" }}>
-						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
+				<Paper style={{ position: "relative" }} >
+					<Toolbar style={{ display: "flex" }} >
+						<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Schrijf je in voor modules
           	</Typography>
 						<Field
-							label="filter"
-							value={this.state.filterMethod}
+							label="blok"
+							value={this.state.period}
+							editable
+							style={{ flex: "none" }}
+							options={[
+								{ label: "Alle", value: "all" },
+								{ label: "Blok 1", value: "1" },
+								{ label: "Blok 2", value: "2" },
+								{ label: "Blok 3", value: "3" },
+								{ label: "Blok 4", value: "4" }]}
+							onChange={this.handlePeriodChange}
+						/>
+						<Field
+							label="leerjaar"
+							style={{ flex: "none" }}
+							value={this.state.schoolYear}
 							editable
 							options={[
-								{ label: "Geen", value: "none" },
-								{ label: "Blok 1", value: "period1" },
-								{ label: "Blok 2", value: "period2" },
-								{ label: "Blok 3", value: "period3" },
-								{ label: "Blok 4", value: "period4" }]}
-							onChange={this.handleFilterChange}
+								{ label: "Alle", value: "all" },
+								{ label: "2016/2017", value: "2016/2017" },
+								{ label: "2017/2018", value: "2017/2018" },
+								{ label: "2018/2019", value: "2018/2019" },
+								{ label: "2019/2020", value: "2019/2020" },
+								{ label: "2020/2021", value: "2020/2021" },
+								{ label: "2021/2022", value: "2021/2022" }]}
+							onChange={this.handleYearChange}
 						/>
 					</Toolbar>
 				</Paper>
 				<div style={{ display: "flex" }} className="ColumnFlexDirectionOnMobile">
-					<Paper elevation={2}>
+					<Paper>
 						<List component="nav" style={{ flex: 1 }}>
 							{this.getMenuItems()}
 						</List>

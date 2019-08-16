@@ -10,7 +10,7 @@ import { ClickAwayListener } from '@material-ui/core';
 import Field from '../components/Field';
 import { getAllUsers } from '../store/actions';
 
-class Menu extends Component {
+class SelectUser extends Component {
 
 	constructor(props) {
 		super(props);
@@ -68,8 +68,8 @@ class Menu extends Component {
 			<ClickAwayListener onClickAway={() => this.setState({ open: false })}>
 				<span>
 					<Field label="Gebruiker" value={this.state.input} editable onChange={this.handleInput} style={{ margin: "normal" }} />
-					<Popper open={this.state.aliasId == null && this.state.open} anchorEl={this.anchorEl} disablePortal >
-						<Paper style={{position:"relative", zIndex:"1"}}>
+					<Popper open={this.state.aliasId == null && this.state.open} disablePortal style={{ position: "fixed", zIndex: "1" }} >
+						<Paper>
 							<MenuList>
 								{this.getFittingUsers()}
 							</MenuList>
@@ -92,5 +92,5 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectUser);
 

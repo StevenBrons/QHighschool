@@ -59,16 +59,22 @@ const theme = createMuiTheme({
 			"light": "rgb(57, 211, 250)",
 			"dark": "rgb(5, 140, 174)"
 		},
+		// "secondary": {
+		// 	"main": "#C3386B",
+		// 	"contrastText": "#ffffff",
+		// 	"light": "rgb(207, 95, 136)",
+		// 	"dark": "rgb(136, 39, 74)"
+		// },
 		"secondary": {
-			"main": "#C3386B",
-			"contrastText": "#ffffff",
-			"light": "rgb(207, 95, 136)",
-			"dark": "rgb(136, 39, 74)"
+			"main": "#c4112f",
+			"contrastText": "#fff",
+			"light": "#cf4058",
+			"dark": "#890b20"
 		},
 		"error": {
-			"light": "#e57373",
-			"main": "#f44336",
-			"dark": "#d32f2f",
+			"light": "#f89e4c",
+			"main": "#f78620",
+			"dark": "#ac5d16",
 			"contrastText": "#fff"
 		},
 		"grey": {
@@ -243,9 +249,7 @@ const theme = createMuiTheme({
 			"leavingScreen": 195
 		}
 	},
-	"spacing": {
-		"unit": 8
-	},
+	"spacing": 8,
 	"zIndex": {
 		"mobileStepper": 1000,
 		"appBar": 1100,
