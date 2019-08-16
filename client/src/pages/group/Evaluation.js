@@ -67,7 +67,7 @@ class Evaluation extends Component {
 		const e = this.props.evaluation;
 		let style = {
 			underline: false,
-			flex: 1,
+			flex: 2,
 		};
 		let layout = { td: true };
 		if (this.props.student) {
@@ -139,7 +139,7 @@ class EvaluationTab extends Component {
 				...this.props.evaluations[i],
 				type: newValue,
 			});
-		this.props.handleChange(newEvaluations);
+			this.props.handleChange(newEvaluations);
 		}
 	}
 
