@@ -15,7 +15,7 @@ class Login extends Component {
 		this.state = {};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.generateEmail.bind(this)();
 		this.interval = setInterval(this.generateEmail.bind(this), 1500);
 	}
@@ -139,7 +139,7 @@ class Login extends Component {
 		return (
 			<Paper elevation={8} className="Login" style={{ minHeight: "330px" }}>
 				<div style={{ padding: "20px" }}>
-					<Typography gutterBottom variant="headline" color="primary">
+					<Typography gutterBottom variant="body1" color="primary">
 						Log in
 					</Typography>
 					<Typography variant="subtitle1">

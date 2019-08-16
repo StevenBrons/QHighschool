@@ -101,7 +101,7 @@ class CourseSelect extends Component {
 
 	render() {
 		let data;
-		if (this.state.sortMethod === "enrolled") {
+		if (this.state.subject === "enrolled") {
 			if (this.props.enrolledGroupsIds == null) {
 				data = <Progress />;
 				this.props.getEnrolLments();

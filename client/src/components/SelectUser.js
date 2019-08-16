@@ -68,7 +68,7 @@ class SelectUser extends Component {
 			<ClickAwayListener onClickAway={() => this.setState({ open: false })}>
 				<span>
 					<Field label="Gebruiker" value={this.state.input} editable onChange={this.handleInput} style={{ margin: "normal" }} />
-					<Popper open={this.state.aliasId == null && this.state.open} anchorEl={this.anchorEl} disablePortal >
+					<Popper open={this.state.aliasId == null && this.state.open} disablePortal >
 						<Paper style={{ position: "relative", zIndex: "1" }}>
 							<MenuList>
 								{this.getFittingUsers()}

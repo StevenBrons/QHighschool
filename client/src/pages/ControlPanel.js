@@ -35,7 +35,7 @@ class ControlPanel extends Component {
 	mapPageToListItem = (pageName) => {
 		return <ListItem button onClick={() => this.handlePageChange(pageName)} key={pageName}>
 			<ListItemText>
-				<Typography variant="title" color={pageName === this.state.page ? "primary" : "default"} style={{ minWidth: "150px" }}>
+				<Typography variant="button" color={pageName === this.state.page ? "primary" : "initial"} style={{ minWidth: "150px" }}>
 					{pageName.charAt(0).toUpperCase() + pageName.slice(1)}
 				</Typography>
 			</ListItemText>

@@ -53,7 +53,7 @@ class GroupCard extends Component {
 		let user = { ...this.props.user };
 		let style = { ...this.state.style };
 		return (
-			<tr>
+			<tr key={user.id}>
 				<Paper
 					elevation={this.state.hover ? 2 : 1}
 					onMouseEnter={() => this.setState({ hover: true })}

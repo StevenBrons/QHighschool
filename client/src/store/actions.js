@@ -4,19 +4,21 @@ import keyBy from "lodash/keyBy"
 import map from "lodash/map"
 import Field from "../components/Field"
 
-function apiErrorHandler(dispatch) {
-	return function handleError(error, e2) {
+function apiErrorHandler(endpoint, dispatch) {
+	return function handleError(error) {
 		const responseJSON = error.responseJSON;
-		dispatch({
-			type: "ADD_NOTIFICATION",
-			notification: {
-				id: Math.random(),
-				priority: "high",
-				type: "bar",
-				message: responseJSON && responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
-				scope: ".",
-			}
-		});
+		if (endpoint !== "user/self") {
+			dispatch({
+				type: "ADD_NOTIFICATION",
+				notification: {
+					id: Math.random(),
+					priority: "high",
+					type: "bar",
+					message: responseJSON && responseJSON.error ? responseJSON.error : "Er is iets mis gegaan",
+					scope: ".",
+				}
+			});
+		}
 		throw responseJSON;
 	}
 }
@@ -57,7 +59,7 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 			});
 		}
 		return (Array.isArray(list) && forceArray !== true) ? keyBy(list, "id") : list
-	}).catch(apiErrorHandler(dispatch));
+	}).catch(apiErrorHandler(endpoint, dispatch));
 }
 
 
