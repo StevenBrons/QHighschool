@@ -26,13 +26,10 @@ class Track extends Component {
 		super(props);
 		// const years = Object.keys(props.courseSchedule).map(y => parseInt(y,10)); TODO: dependant on student years
 		const years = [4,5,6];
+		let coursesSelected = {};
+		years.forEach(y => coursesSelected[y] = {1:[],2:[],3:[],4:[],})
 		this.state = {
-			coursesSelected: {
-				1:null,
-				2:null,
-				3:null,
-				4:null,
-			},
+			coursesSelected: coursesSelected,
 			subject: "",
 			year: years.includes(props.year) ? props.year : years[0],
 		}
@@ -46,12 +43,12 @@ class Track extends Component {
 		return false;
 	}
 
-	onChange = (period,course) => {
+	onChange = (year,period,course) => {
 		let coursesSelected = this.state.coursesSelected;
-		if (coursesSelected[period] === course ) {
-			coursesSelected[period] = null;
+		if (coursesSelected[year][period].includes(course)) {
+			coursesSelected[year][period].splice(coursesSelected[year][period].indexOf(course), 1);
 		} else {
-			coursesSelected[period] = course;
+			coursesSelected[year][period].push(course);
 		}
 		this.setState({
 			coursesSelected: coursesSelected,
@@ -146,28 +143,17 @@ class Track extends Component {
 							</div>
 							{coursesPerPeriod[p].map(course => {
 								const id = course.courseId;
-								const badgeLabel = course.necessity === "free" ? "Vrij" : course.necessity === "choice" ? "Keuze" : "Verplicht"; // EN => NL
 								return (
 									<span key={id} style={{display:"inline-block", margin:"15px"}}>
-										{
-										id!==2 ? // TODO replace with if has evaluation
-											<Badge color="secondary" badgeContent={badgeLabel}>
-												<CourseButton 
-													onClick ={_ => this.onChange(p,id)}
-													color={coursesSelected[p] === id ? "secondary" : "primary" }
-												>
-													{course.courseName}
-												</CourseButton>
-											</Badge>
-										:
-											<CourseButton disabled >
-												{course.courseName}
-												{
-												<h1 style={{margin:"0"}}> 9 </h1>
-												}
-											</CourseButton>
-										}
-									</span>
+										<CourseButton 
+											selected={coursesSelected[year][p].includes(id)}
+											evaluation={false}
+											disabled={false}
+											courseName={course.courseName}
+											onChange={_ => this.onChange(year,p,id)}
+											badgeLabel={course.necessity === "free" ? "Vrij" : course.necessity === "choice" ? "Keuze" : "Verplicht" }// EN => NL
+										/>
+									</span> //selected, evaluation, disabled, courseName, onChange, badgeLabel
 								);
 							})}
 						</div>
@@ -191,10 +177,7 @@ const buttonStyles = {
 			background: Red,
 		},
 		"&:disabled": {
-			background: Red,
-			display: "block",
-			color: "white",
-			height:"120px",
+			background: "grey",
 		}
 	},
 	textSecondary: {
@@ -206,7 +189,46 @@ const buttonStyles = {
 	}
 }
 
-const CourseButton = withStyles(buttonStyles)(Button);
+const StyledButton = withStyles(buttonStyles)(Button);
+
+const EvaluationCourseStyle = {
+	root: {
+		background: Red,
+		display: "block",
+		color: "white",
+		height:"120px",
+	}
+}
+
+const EvaluationCourse = withStyles(EvaluationCourseStyle)(StyledButton);
+
+class CourseButton extends Component {
+
+	render() {
+		const {selected, evaluation, disabled, courseName, onChange, badgeLabel} = this.props;
+		if ( evaluation ) {
+			return (
+				<EvaluationCourse disabled>
+					{courseName}
+					{
+					<h1 style={{margin:"0"}}> {evaluation} </h1>
+					}
+				</EvaluationCourse>
+			)
+		}
+		return (
+			<Badge color="secondary" badgeContent={badgeLabel} invisible={disabled}>
+				<StyledButton 
+					onClick ={onChange}
+					color={selected ? "secondary" : "primary" }
+					disabled={disabled}
+				>
+					{courseName}
+				</StyledButton>
+			</Badge>
+		)
+	}
+}
 
 function enrollableYears(enrollableFor, level) { // ("VWO 4, HAVO 4, HAVO 5", "HAVO") => [4,5]
 	if ( !enrollableFor ) 
