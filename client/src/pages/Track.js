@@ -71,8 +71,7 @@ class Track extends Component {
 	}
 
 	render() {
-		const year = this.state.year;
-		const coursesSelected = this.state.coursesSelected;
+		const { year, coursesSelected } = this.state;
 		let subject = this.state.subject;
 
 		const subjects = this.props.subjects;
@@ -108,7 +107,7 @@ class Track extends Component {
 
 				<div style={{textAlign:"center"}}>
 					<Paper
-						style={{display:"inline-block", marginTop:"20px"}}
+						style={{display:"inline-block", marginTop:"20px", marginBottom:"15px"}}
 						>
 						<Tabs
 							value={year}
@@ -122,9 +121,7 @@ class Track extends Component {
 						</Tabs>
 					</Paper>
 				</div>
-				<div style={{marginTop:"15px"}}>
-					<div style={{height:"30px", background:Red,
-				}}>
+					<div style={{height:"30px", background:Red }}>
 						<Typography variant="h3" style={{color:"white", margin:"5px", padding:"4px"}}>Klas {year}</Typography>
 					</div>
 					<div style={{ // triangle
@@ -132,50 +129,49 @@ class Track extends Component {
 						backgroundImage: "linear-gradient(to right bottom, " + Red + " 0%, " + Red + " 50%, transparent 51%)" }} // 51% to avoid pixelated edge
 					/>
 
-					<div>
-						{[1,2,3,4].map(p => {
-							return (
-							<div
-								key={p}
-								style = {{ borderLeft: "solid 6pt " + Red }}
-							>
-								<div>
-									<Typography 
-										variant="h6"
-										style={{background:Red, color:"white", display:"inline-block", paddingRight:"5px"}}
-									>
-										Blok {p}
-									</Typography>
-								</div>
-								{coursesPerPeriod[p].map(course => {
-									const id = course.courseId;
-									return (
-										<span key={id} style={{display:"inline-block", margin:"15px"}}>
-											{
-											id!==2 ? // TODO replace with if has evaluation
-												<Badge color="secondary" badgeContent={id < 8 ? id < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
-													<CourseButton 
-														onClick ={_ => this.onChange(p,id)}
-														color={coursesSelected[p] === id ? "secondary" : "primary" }
-													>
-														{course.courseName}
-													</CourseButton>
-												</Badge>
-											:
-												<CourseButton disabled >
-													{course.courseName}
-													{
-													<h1 style={{margin:"0"}}> 9 </h1>
-													}
-												</CourseButton>
-											}
-										</span>
-									);
-								})}
+				<div>
+					{[1,2,3,4].map(p => {
+						return (
+						<div
+							key={p}
+							style = {{ borderLeft: "solid 6pt " + Red }}
+						>
+							<div>
+								<Typography 
+									variant="h6"
+									style={{background:Red, color:"white", display:"inline-block", paddingRight:"5px"}}
+								>
+									Blok {p}
+								</Typography>
 							</div>
-							)
-						})}
-					</div>
+							{coursesPerPeriod[p].map(course => {
+								const id = course.courseId;
+								return (
+									<span key={id} style={{display:"inline-block", margin:"15px"}}>
+										{
+										id!==2 ? // TODO replace with if has evaluation
+											<Badge color="secondary" badgeContent={id < 8 ? id < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
+												<CourseButton 
+													onClick ={_ => this.onChange(p,id)}
+													color={coursesSelected[p] === id ? "secondary" : "primary" }
+												>
+													{course.courseName}
+												</CourseButton>
+											</Badge>
+										:
+											<CourseButton disabled >
+												{course.courseName}
+												{
+												<h1 style={{margin:"0"}}> 9 </h1>
+												}
+											</CourseButton>
+										}
+									</span>
+								);
+							})}
+						</div>
+						);
+					})}
 				</div>
 			</Page>
 		)
@@ -241,7 +237,6 @@ function mapStateToProps(state) {
 			}) // put groups in their place in the timeline
 		})
 	}
-
 	return {
 		year: user.year,
 		courseSchedule: courseSchedule,
