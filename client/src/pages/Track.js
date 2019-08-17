@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Page from "./Page";
 import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge } from '@material-ui/core';
+import Progress from '../components/Progress';
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import { connect } from 'react-redux';
-import { getSubjects, getGroups} from '../store/actions';
+import { getGroups} from '../store/actions';
+import Field from "../components/Field";
 
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
@@ -22,7 +24,8 @@ const Red = "#c4122f";
 class Track extends Component {
 	constructor(props) {
 		super(props);
-		const years = Object.keys(props.courseSchedule).map(y => parseInt(y,10));
+		// const years = Object.keys(props.courseSchedule).map(y => parseInt(y,10)); TODO: dependant on student years
+		const years = [4,5,6];
 		this.state = {
 			coursesSelected: {
 				1:null,
@@ -30,6 +33,7 @@ class Track extends Component {
 				3:null,
 				4:null,
 			},
+			subject: "",
 			year: years.includes(props.year) ? props.year : years[0],
 		}
 	}
@@ -60,10 +64,28 @@ class Track extends Component {
 		})
 	}
 
+	changeSubject = subject => {
+		this.setState({
+			subject:subject,
+		})
+	}
+
 	render() {
 		const year = this.state.year;
 		const coursesSelected = this.state.coursesSelected;
-		const coursesPerPeriod = this.props.courseSchedule[year];
+		let subject = this.state.subject;
+
+		const subjects = this.props.subjects;
+		if ( subjects.length === 0 ) {
+			return (
+				<Page>
+					<Progress />
+				</Page>
+			)
+		}
+
+		subject = !subject ? subjects[0] : subject;
+		const coursesPerPeriod = this.props.courseSchedule[subject][year];
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -74,6 +96,13 @@ class Track extends Component {
 						{
 							this.trackAccepted() ? <CheckIcon style={{ margin: "20px", color: "green" }} /> : <ErrorIcon style={{ margin: "20px", color: "orange" }} />
 						}
+						<Field
+							label="Vak"
+							value={subject}
+							editable
+							options={subjects}
+							onChange={this.changeSubject}
+						/>
 					</Toolbar>
 				</Paper>
 
@@ -182,32 +211,46 @@ const buttonStyles = {
 
 const CourseButton = withStyles(buttonStyles)(Button);
 
+function enrollableYears(enrollableFor, level) { // ("VWO 4, HAVO 4, HAVO 5", "HAVO") => [4,5]
+	if ( !enrollableFor ) 
+		return level === "VWO" ? [4,5,6] : [4,5];
+	let years = enrollableFor.match(/VWO \d/gi);
+	if ( years )
+		return years.map(y => y.match(/\d/g)[0]);
+	return [];
+}
+
 function mapStateToProps(state) {
 	const user = state.users[state.userId];
 	const groups = state.groups;
 
 	const years = [4,5,6];// TODO: let years be dependant on user
-	let courseSchedule = {};
-	years.forEach(y => courseSchedule[y] = {1:[],2:[],3:[],4:[]}); // initialize schedule
 
+	let courseSchedule = {};
+	let subjects = [];
 	if ( groups ) {
 		Object.keys(groups).forEach(groupId => {
 			const group = groups[groupId];
-			let years = group.enrollableFor ? group.enrollableFor.match(/\d+/g).map(Number) : [4,5,6];
-			years.forEach(y => {
-				courseSchedule[y][group.period].push(groups[groupId]);
+			enrollableYears(group.enrollableFor, user.level).forEach(y => {
+				if ( !courseSchedule[group.subjectName] ) { // initialize schedule for subject
+					courseSchedule[group.subjectName] = {};
+					years.forEach(y => courseSchedule[group.subjectName][y] = {1:[],2:[],3:[],4:[]});
+					subjects.push(group.subjectName);
+				}
+				courseSchedule[group.subjectName][y][group.period].push(groups[groupId]);
 			}) // put groups in their place in the timeline
 		})
 	}
+
 	return {
 		year: user.year,
 		courseSchedule: courseSchedule,
+		subjects: subjects,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getSubjects: () => dispatch(getSubjects()),
 		getGroups: () => dispatch(getGroups()),
 	};
 }
