@@ -147,7 +147,7 @@ class Track extends Component {
 									<span key={id} style={{display:"inline-block", margin:"15px"}}>
 										<CourseButton 
 											selected={coursesSelected[year][p].includes(id)}
-											evaluation={false}
+											evaluation={course.evaluation ? course.evaluation.assesment : false}
 											disabled={false}
 											courseName={course.courseName}
 											onChange={_ => this.onChange(year,p,id)}
@@ -195,8 +195,11 @@ const EvaluationCourseStyle = {
 	root: {
 		background: Red,
 		display: "block",
-		color: "white",
 		height:"120px",
+		"&:disabled": {
+			background: Red,
+			color: "white",
+		},
 	}
 }
 
@@ -206,6 +209,7 @@ class CourseButton extends Component {
 
 	render() {
 		const {selected, evaluation, disabled, courseName, onChange, badgeLabel} = this.props;
+		console.log(evaluation);
 		if ( evaluation ) {
 			return (
 				<EvaluationCourse disabled>
