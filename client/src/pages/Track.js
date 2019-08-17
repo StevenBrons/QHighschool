@@ -210,7 +210,7 @@ const CourseButton = withStyles(buttonStyles)(Button);
 function enrollableYears(enrollableFor, level) { // ("VWO 4, HAVO 4, HAVO 5", "HAVO") => [4,5]
 	if ( !enrollableFor ) 
 		return level === "VWO" ? [4,5,6] : [4,5];
-	let years = enrollableFor.match(/VWO \d/gi);
+	let years = enrollableFor.match(new RegExp(level + " \\d", "gi"));
 	if ( years )
 		return years.map(y => y.match(/\d/g)[0]);
 	return [];
