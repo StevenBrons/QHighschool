@@ -11,15 +11,15 @@ import Field from "../components/Field";
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
 
-// const PTA = {
-// 	"PO1": [1],
-// 	"PO2": [3],
-// 	"PO3": [4,5],
-// 	"PO4": [6],
-// 	"PO5": [8,9,10,11],
-// 	"PO6": [12],
-// 	"PO7": [8,9,10,11],
-// }
+const PTAInformatica = {
+	"PO1": [40],
+	"PO2": [44],
+	"PO3": [45,47],
+	"PO4": [49],
+	"PO5": [51,52,53,54],
+	"PO6": [56],
+	"PO7": [51,52,53,54],
+}
 
 class Track extends Component {
 	constructor(props) {
@@ -146,11 +146,12 @@ class Track extends Component {
 							</div>
 							{coursesPerPeriod[p].map(course => {
 								const id = course.courseId;
+								const badgeLabel = course.necessity === "free" ? "Vrij" : course.necessity === "choice" ? "Keuze" : "Verplicht"; // EN => NL
 								return (
 									<span key={id} style={{display:"inline-block", margin:"15px"}}>
 										{
 										id!==2 ? // TODO replace with if has evaluation
-											<Badge color="secondary" badgeContent={id < 8 ? id < 3 ? "Verplicht" : "Keuze" : "Vrij"}>
+											<Badge color="secondary" badgeContent={badgeLabel}>
 												<CourseButton 
 													onClick ={_ => this.onChange(p,id)}
 													color={coursesSelected[p] === id ? "secondary" : "primary" }
@@ -216,6 +217,17 @@ function enrollableYears(enrollableFor, level) { // ("VWO 4, HAVO 4, HAVO 5", "H
 	return [];
 }
 
+function necessityForPTA(courseId, PTA) { // "free" || "choice" || "necessary"
+	for ( let test in PTA ) {
+		if ( PTA[test].includes(courseId) ) {
+			if (PTA[test].length === 1 )
+				return "necessary";
+			return "choice";
+		}
+	}
+	return "free";
+}
+
 function mapStateToProps(state) {
 	const user = state.users[state.userId];
 	const groups = state.groups;
@@ -225,16 +237,17 @@ function mapStateToProps(state) {
 	let courseSchedule = {};
 	let subjects = [];
 	if ( groups ) {
-		Object.keys(groups).forEach(groupId => {
-			const group = groups[groupId];
+		Object.keys(groups).forEach(groupId => {// put groups in their place in the timeline
+			let group = groups[groupId];
+			group.necessity = necessityForPTA(group.courseId, PTAInformatica);
 			enrollableYears(group.enrollableFor, user.level).forEach(y => {
 				if ( !courseSchedule[group.subjectName] ) { // initialize schedule for subject
 					courseSchedule[group.subjectName] = {};
 					years.forEach(y => courseSchedule[group.subjectName][y] = {1:[],2:[],3:[],4:[]});
 					subjects.push(group.subjectName);
 				}
-				courseSchedule[group.subjectName][y][group.period].push(groups[groupId]);
-			}) // put groups in their place in the timeline
+				courseSchedule[group.subjectName][y][group.period].push(group);
+			}) 
 		})
 	}
 	return {
