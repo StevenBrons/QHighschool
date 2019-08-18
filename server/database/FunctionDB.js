@@ -62,10 +62,10 @@ exports.updateAllLessonDates = async () => {
 		}));
 }
 
-exports.updateLessonDates = async (groupId, period, day) => {
+exports.updateLessonDates = async (groupId, schoolYear, period, day) => {
 	const schedule = require("../lib/schedule");
 	for (let i = 0; i < 9; i++) {
-		const date = schedule.getLessonDate(period, i + 1, day);
+		const date = schedule.getLessonDate(schoolYear, period, i + 1, day);
 		await Lesson.update({ date }, {
 			where: {
 				courseGroupId: groupId,
@@ -75,12 +75,12 @@ exports.updateLessonDates = async (groupId, period, day) => {
 	}
 }
 
-exports.addLessons = async (groupId, period, day) => {
+exports.addLessons = async (groupId, schoolYear, period, day) => {
 	const schedule = require("../lib/schedule");
 	for (let i = 0; i < 9; i++) {
 		await Lesson.create({
 			courseGroupId: groupId,
-			date: schedule.getLessonDate(period, i + 1, day),
+			date: schedule.getLessonDate(schoolYear, period, i + 1, day),
 			numberInBlock: i + 1,
 		});
 	}

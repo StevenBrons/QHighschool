@@ -57,7 +57,7 @@ exports.getGroups = async (userId) => {
 exports.setFullGroup = async (data) => {
 	let group = await Group.findByPk(data.groupId);
 	group = await group.update(data);
-	await functionDb.updateLessonDates(group.id, group.period, group.day);
+	await functionDb.updateLessonDates(group.id, group.schoolYear, group.period, group.day);
 	await officeEndpoints.updateClass(group.id);
 	return group;
 }
@@ -289,7 +289,7 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
 		period: 1,
 		schoolYear: "2019/2020",
 	});
-	functionDb.addLessons(group.id, 1, "maandag");
+	functionDb.addLessons(group.id, group.schoolYear, 1, "maandag");
 	Participant.create({
 		participatingRole: "teacher",
 		courseGroupId: group.id,
