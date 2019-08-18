@@ -56,9 +56,9 @@ exports.createUser = async (accessToken) => {
 }
 
 exports.updateAllLessonDates = async () => {
-	return Group.findAll({ attributes: ["id", "period", "day"] })
-		.then(rows => rows.map(({ id, period, day }) => {
-			exports.updateLessonDates(id, period, day);
+	return Group.findAll({ attributes: ["id", "period", "day", "schoolYear"] })
+		.then(rows => rows.map(({ id, schoolYear, period, day }) => {
+			exports.updateLessonDates(id, schoolYear, period, day);
 		}));
 }
 

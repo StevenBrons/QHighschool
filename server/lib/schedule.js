@@ -7,7 +7,7 @@ exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
 	})[0];
 
 	if (week == null) {
-		throw new Error("Schedule is wrong!");
+		throw new Error("Schedule is wrong! Could not find match for: " + schoolYear + "," + period + "," + numberInBlock + "," + day);
 	}
 	switch (week.year) {
 		case 2018:
