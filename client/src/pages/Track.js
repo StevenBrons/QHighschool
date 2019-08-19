@@ -147,7 +147,7 @@ class Track extends Component {
 									<span key={id} style={{display:"inline-block", margin:"15px"}}>
 										<CourseButton 
 											selected={coursesSelected[year][p].includes(id)}
-											evaluation={course.evaluation ? course.evaluation.assesment : false}
+											evaluation={course.evaluation ? course.evaluation : false}
 											disabled={false}
 											courseName={course.courseName}
 											onChange={_ => this.onChange(year,p,id)}
@@ -209,14 +209,28 @@ class CourseButton extends Component {
 
 	render() {
 		const {selected, evaluation, disabled, courseName, onChange, badgeLabel} = this.props;
-		console.log(evaluation);
 		if ( evaluation ) {
+			let label;
+			if (evaluation.type === "check" ) {
+				switch (evaluation.assesment) {
+					case "passed": label = "Gehaald"; break;
+					case "failed": label = "Niet gehaald"; break;
+					default: label = "Niet deelgenomen"; break;
+				}
+			} else if ( evaluation.type === "stepwise") {
+				switch (evaluation.assesment) {
+					case "O": label = "Onvoldoende"; break;
+					case "V": label = "Voldoende"; break;
+					case "G": label = "Goed"; break;
+					default: label = "Niet deelgenomen"; break;
+				}
+			} else {
+				label = evaluation.assesment;
+			}
 			return (
 				<EvaluationCourse disabled>
 					{courseName}
-					{
-					<h1 style={{margin:"0"}}> {evaluation} </h1>
-					}
+					<h1 style={{margin:"0"}}> {label} </h1>
 				</EvaluationCourse>
 			)
 		}
