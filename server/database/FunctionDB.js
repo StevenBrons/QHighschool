@@ -8,6 +8,7 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 const groupDb = require("../database/GroupDB");
+const graphConnection = require("../office/graphConnection");
 
 
 exports.createUser = async (accessToken) => {
@@ -56,16 +57,16 @@ exports.createUser = async (accessToken) => {
 }
 
 exports.updateAllLessonDates = async () => {
-	return Group.findAll({ attributes: ["id", "period", "day"] })
-		.then(rows => rows.map(({ id, period, day }) => {
-			exports.updateLessonDates(id, period, day);
+	return Group.findAll({ attributes: ["id", "period", "day", "schoolYear"] })
+		.then(rows => rows.map(({ id, schoolYear, period, day }) => {
+			exports.updateLessonDates(id, schoolYear, period, day);
 		}));
 }
 
-exports.updateLessonDates = async (groupId, period, day) => {
+exports.updateLessonDates = async (groupId, schoolYear, period, day) => {
 	const schedule = require("../lib/schedule");
 	for (let i = 0; i < 9; i++) {
-		const date = schedule.getLessonDate(period, i + 1, day);
+		const date = schedule.getLessonDate(schoolYear, period, i + 1, day);
 		await Lesson.update({ date }, {
 			where: {
 				courseGroupId: groupId,
@@ -75,12 +76,12 @@ exports.updateLessonDates = async (groupId, period, day) => {
 	}
 }
 
-exports.addLessons = async (groupId, period, day) => {
+exports.addLessons = async (groupId, schoolYear, period, day) => {
 	const schedule = require("../lib/schedule");
 	for (let i = 0; i < 9; i++) {
 		await Lesson.create({
 			courseGroupId: groupId,
-			date: schedule.getLessonDate(period, i + 1, day),
+			date: schedule.getLessonDate(schoolYear, period, i + 1, day),
 			numberInBlock: i + 1,
 		});
 	}

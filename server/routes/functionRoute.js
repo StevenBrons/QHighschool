@@ -6,31 +6,26 @@ const handlers = require('./handlers');
 const secureLogin = require('../lib/secureLogin');
 const { handleSuccess, handleReturn, handleError, authError } = require('./handlers');
 
-router.post("/calculateLessonDates", function (req, res, next) {
+router.post("/calculateLessonDates", async (req, res) => {
 	if (req.user.isAdmin() && req.body.message === "confirm") {
 		console.log("Re-calculating all lesson dates");
-		functionDb.updateAllLessonDates();
+		await functionDb.updateAllLessonDates();
+		console.log("Re-calculating all lesson dates");
+		handleReturn(res)();
 	}
 });
 
-router.post("/calculateLessonDates", function (req, res, next) {
-	if (req.user.isAdmin() && req.body.message === "confirm") {
-		console.log("Re-calculating all lesson dates");
-		functionDb.updateAllLessonDates();
-	}
-});
-
-router.post("/taxi", function (req, res, next) {
+router.post("/taxi", async (req, res) => {
 	if (req.user.isAdmin()) {
-		taxi.getSchedule(-1, parseInt(req.body.week))
-			.then(handleReturn(res));
+		const schedule = await taxi.getSchedule(-1, parseInt(req.body.week))
+		handleReturn(res)(schedule);
 	} else {
-		taxi.getSchedule(req.user.id, parseInt(req.body.week))
-			.then(handleReturn(res));
+		const schedule = await taxi.getSchedule(req.user.id, parseInt(req.body.week))
+		handleReturn(res)(schedule);
 	}
 });
 
-router.post("/alias", function (req, res, next) {
+router.post("/alias", async (req, res) => {
 	if (!secureLogin.isValidToken(req, res)) return;
 	if (req.user.isAdmin()) {
 		if (Number.isInteger(req.user.id) && req.user.id >= 0) {
@@ -48,7 +43,7 @@ async function formatInTable(array) {
 	return [keys, ...array.map(obj => keys.map(key => obj[key]))]
 }
 
-router.post("/data", function (req, res, next) {
+router.post("/data", async (req, res) => {
 	if (!secureLogin.isValidToken(req, res)) return;
 	const table = req.body.table; //evaluation,user_data,enrollment
 	const school = req.user.school;

@@ -1,6 +1,7 @@
 const moment = require("moment");
 const { azureADCreds } = require('../private/keys');
 const rp = require('request-promise');
+const graph = require('@microsoft/microsoft-graph-client');
 
 let oauthToken = {
 	token_type: "Bearer",
@@ -10,7 +11,7 @@ let oauthToken = {
 }
 
 this.getAccessToken = async () => {
-	if (!oauthToken.createdAt.isBefore(moment().add(oauthToken.expires_in - 100, "s"))) {
+	if (!oauthToken.createdAt.add(oauthToken.expires_in - 100, "s").isAfter(moment())) {
 		var options = {
 			method: 'POST',
 			uri: 'https://login.microsoftonline.com/Quadraam.onmicrosoft.com/oauth2/v2.0/token',
@@ -32,6 +33,30 @@ this.getAccessToken = async () => {
 }
 
 // this.getAccessToken().then(console.log);
+
+this.getAuthenticatedClient = (accessToken) => {
+	const client = graph.Client.init({
+		authProvider: (done) => {
+			done(null, accessToken);
+		}
+	});
+	return client;
+}
+
+this.getOwnDetails = async (accessToken) => {
+	const client = await exports.getAuthenticatedClient(accessToken);
+	const userData = await client.api("/me").get();
+	return {
+		email: userData.userPrincipalName,
+		firstName: userData.givenName,
+		lastName: userData.surname,
+		displayName: userData.displayName,
+		school: null,
+		role: "student",
+		jobTitle: userData.jobTitle,
+		preferedEmail: userData.userPrincipalName,
+	};
+}
 
 
 this.api = (endpoint) => {
