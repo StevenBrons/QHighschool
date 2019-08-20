@@ -67,6 +67,8 @@ async function createClass(groupId) {
 
 	await addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
 	await Promise.all(participants.map(p => addParticipant(team.id, p.email, p.participatingRole)));
+
+	console.log("The group #G" + groupId + " is now synchronised with office teams");
 	return team.id;
 }
 
