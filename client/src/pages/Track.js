@@ -11,16 +11,6 @@ import Field from "../components/Field";
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
 
-const PTAInformatica = {
-	"PO1": [40],
-	"PO2": [44],
-	"PO3": [45,47],
-	"PO4": [49],
-	"PO5": [51,52,53,54],
-	"PO6": [56],
-	"PO7": [51,52,53,54],
-}
-
 class Track extends Component {
 	constructor(props) {
 		super(props);
@@ -286,6 +276,7 @@ function necessityForPTA(courseId, PTA) { // "free" || "choice" || "necessary"
 function mapStateToProps(state) {
 	const user = state.users[state.userId];
 	const groups = state.groups;
+	const PTA = state.PTA;
 
 	const years = [4,5,6];// TODO: let years be dependant on user
 
@@ -294,7 +285,7 @@ function mapStateToProps(state) {
 	if ( groups ) {
 		Object.keys(groups).forEach(groupId => {// put groups in their place in the timeline
 			let group = groups[groupId];
-			group.necessity = necessityForPTA(group.courseId, PTAInformatica);
+			group.necessity = necessityForPTA(group.courseId, PTA[group.subjectName] );
 			enrollableYears(group.enrollableFor, user.level).forEach(y => {
 				if ( !groupSchedule[group.subjectName] ) { // initialize schedule for subject
 					groupSchedule[group.subjectName] = {};

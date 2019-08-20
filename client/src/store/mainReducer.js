@@ -12,6 +12,18 @@ const DEFAULT_STATE = {
 	showMenu: true,
 	notifications: [],
 	hasFetched: [],
+	PTA: {
+		"Informatica" :{
+			"PO1": [40],
+			"PO2": [44],
+			"PO3": [45,47],
+			"PO4": [49],
+			"PO5": [51,52,53,54],
+			"PO6": [56],
+			"PO7": [51,52,53,54],
+		},
+		"Wiskunde B":{},
+	}
 }
 
 function mainReducer(state = DEFAULT_STATE, action) {
