@@ -67,6 +67,18 @@ class Track extends Component {
 		})
 	}
 
+	courseDisabled = (year,period,courseId) => {
+		const coursesSelected = this.state.coursesSelected;
+		for (let y in coursesSelected) {
+			for (let p in coursesSelected[y]) {
+				if (coursesSelected[y][p].includes(courseId) && (year !== parseInt(y,10) || period !== parseInt(p,10))) { 
+					return true; // check if this course is not already selected somewhere else
+				}
+			}
+		}
+		return false;
+	}
+
 	render() {
 		const { year, coursesSelected } = this.state;
 		let subject = this.state.subject;
@@ -144,11 +156,11 @@ class Track extends Component {
 							{coursesPerPeriod[p].map(course => {
 								const id = course.courseId;
 								return (
-									<span key={id} style={{display:"inline-block", margin:"15px"}}>
+									<span key={course.id} style={{display:"inline-block", margin:"15px"}}>
 										<CourseButton 
 											selected={coursesSelected[year][p].includes(id)}
 											evaluation={course.evaluation ? course.evaluation : false}
-											disabled={false}
+											disabled={this.courseDisabled(year,p,id)}
 											courseName={course.courseName}
 											onChange={_ => this.onChange(year,p,id)}
 											badgeLabel={course.necessity === "free" ? "Vrij" : course.necessity === "choice" ? "Keuze" : "Verplicht" }// EN => NL
