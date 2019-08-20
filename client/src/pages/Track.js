@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Page from "./Page";
-import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge } from '@material-ui/core';
+import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge, Tooltip } from '@material-ui/core';
 import Progress from '../components/Progress';
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -72,11 +72,11 @@ class Track extends Component {
 		for (let y in coursesSelected) {
 			for (let p in coursesSelected[y]) {
 				if (coursesSelected[y][p].includes(courseId) && (year !== parseInt(y,10) || period !== parseInt(p,10))) { 
-					return true; // check if this course is not already selected somewhere else
+					return "Al geselecteerd in klas " + y + " blok " + p; // check if this course is not already selected somewhere else
 				}
 			}
 		}
-		return false;
+		return "";
 	}
 
 	render() {
@@ -160,7 +160,7 @@ class Track extends Component {
 										<CourseButton 
 											selected={coursesSelected[year][p].includes(courseId)}
 											evaluation={group.evaluation ? group.evaluation : false}
-											disabled={this.groupDisabled(year,p,courseId)}
+											disabledMessage={this.groupDisabled(year,p,courseId)}
 											courseName={group.courseName}
 											onChange={_ => this.onChange(year,p,courseId)}
 											badgeLabel={group.necessity === "free" ? "Vrij" : group.necessity === "choice" ? "Keuze" : "Verplicht" }// EN => NL
@@ -220,7 +220,8 @@ const EvaluationCourse = withStyles(EvaluationCourseStyle)(StyledButton);
 class CourseButton extends Component {
 
 	render() {
-		const {selected, evaluation, disabled, courseName, onChange, badgeLabel} = this.props;
+		const {selected, evaluation, disabledMessage, courseName, onChange, badgeLabel} = this.props;
+		const disabled = disabledMessage !== "";
 		if ( evaluation ) {
 			let label;
 			if (evaluation.type === "check" ) {
@@ -247,15 +248,17 @@ class CourseButton extends Component {
 			)
 		}
 		return (
-			<Badge color="secondary" badgeContent={badgeLabel} invisible={disabled}>
-				<StyledButton 
-					onClick ={onChange}
-					color={selected ? "secondary" : "primary" }
-					disabled={disabled}
-				>
-					{courseName}
-				</StyledButton>
-			</Badge>
+			<Tooltip title={disabledMessage}>
+				<Badge color="secondary" badgeContent={badgeLabel} invisible={disabled}>
+					<StyledButton 
+						onClick ={onChange}
+						color={selected ? "secondary" : "primary" }
+						disabled={disabled}
+					>
+						{courseName}
+					</StyledButton>
+				</Badge>
+			</Tooltip>
 		)
 	}
 }
