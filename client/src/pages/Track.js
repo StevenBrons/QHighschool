@@ -29,8 +29,26 @@ class Track extends Component {
 		this.props.getGroups();
 	}
 
-	trackAccepted = () => {
-		return false;
+	trackEvaluation = () => {
+		const coursesSelected = this.state.coursesSelected;
+		let evaluation = "";
+		for (let y in coursesSelected) {
+			for (let p in coursesSelected[y]) {
+				if (coursesSelected[y][p].length === 0) {
+					evaluation = "Q-Highschool kan niet garanderen dat je je examenprogramma behaald als je niet elk blok een module volgt. ";
+					break;
+				}
+			}
+		}
+		let coursesSelectedList = Object.keys(coursesSelected).map(year => Object.keys(coursesSelected[year]).map(period => coursesSelected[year][period])).flat(2);// one array with all selected courses
+		const PTA = this.props.PTA[this.state.subject ? this.state.subject : this.props.subjects[0]]; // grab first subject if no subject has been selected
+		for (let test in PTA) {
+			if (!PTA[test].some(id => coursesSelectedList.includes(id))) {
+				evaluation += "Parcours voldoet niet aan PTA.";
+				break;
+			}
+		}
+		return evaluation === "" ? "Parcours geaccepteerd." : evaluation;
 	}
 
 	onChange = (year,period,courseId) => {
@@ -86,6 +104,7 @@ class Track extends Component {
 		subject = !subject ? subjects[0] : subject;
 		const PTA = this.props.PTA[subject];
 		const groupsPerPeriod = this.props.groupSchedule[subject][year];
+		const trackEvaluation = this.trackEvaluation();
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -93,9 +112,11 @@ class Track extends Component {
 						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Parcours
 						</Typography>
+						<Tooltip title={trackEvaluation}>
 						{
-							this.trackAccepted() ? <CheckIcon style={{ margin: "20px", color: "green" }} /> : <ErrorIcon style={{ margin: "20px", color: "orange" }} />
+							trackEvaluation === "Parcours geaccepteerd." ? <CheckIcon style={{ fontSize:"60px", color: "green" }} /> : <ErrorIcon style={{ fontSize:"60px", color: "orange" }} />
 						}
+						</Tooltip>
 						<Field
 							label="Vak"
 							value={subject}
@@ -167,14 +188,16 @@ class Track extends Component {
 
 				<h3>PTA</h3>
 				<table>
-					{Object.keys(PTA).map(test => {
-						return (
-							<tr>
-								<td> {test+":"} </td>
-								<td> {PTA[test].map(courseId => courses[courseId]).join(", ")} </td>
-							</tr>
-						)
-					})}
+					<tbody>
+						{Object.keys(PTA).map((test,i) => {
+							return (
+								<tr key={i}>
+									<td> {test+":"} </td>
+									<td> {PTA[test].map(courseId => courses[courseId]).join(", ")} </td>
+								</tr>
+							)
+						})}
+					</tbody>
 				</table>
 			</Page>
 		)
