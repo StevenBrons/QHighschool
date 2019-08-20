@@ -21,7 +21,7 @@ import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
 import ControlPanel from "./pages/ControlPanel";
-import Track from "./pages/Track";
+import Track from "./pages/track/Track";
 
 
 class App extends Component {

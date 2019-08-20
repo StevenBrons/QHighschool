@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import Page from "./Page";
+import Page from "../Page";
 import { Typography, Toolbar, Paper, Button, withStyles, Tabs, Tab, Badge, Tooltip } from '@material-ui/core';
-import Progress from '../components/Progress';
+import Progress from '../../components/Progress';
 import CheckIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import { connect } from 'react-redux';
-import { getGroups} from '../store/actions';
-import Field from "../components/Field";
+import { getGroups} from '../../store/actions';
+import Field from "../../components/Field";
 import queryString from "query-string";
+import CourseButton from "./CourseButton";
 
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
@@ -117,8 +118,8 @@ class Track extends Component {
 		const groupsPerPeriod = this.props.groupSchedule[subject][year];
 		const trackEvaluation = this.trackEvaluation();
 		return (
-			<Page>
-				<Paper elevation={2} style={{ position: "relative" }}>
+			<Page class="Track">
+				<Paper elevation={2} style={{ position: "relative" }} className="test">
 					<Toolbar style={{ display: "flex" }}>
 						<Typography variant="subheading" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Parcours
@@ -211,92 +212,6 @@ class Track extends Component {
 					</tbody>
 				</table>
 			</Page>
-		)
-	}
-}
-
-const buttonStyles = {
-	root: {
-		color: "white",
-		borderRadius: "0",
-		background: Orange,
-		width:"200px",
-		height:"80px",
-		"&:hover":{
-			border: "10px solid " + Orange,
-			background: Red,
-		},
-		"&:disabled": {
-			background: "grey",
-		}
-	},
-	textSecondary: {
-		background: Red,
-		"&:hover":{
-			border: "10px solid " + Red,
-			background: Orange,
-		}
-	}
-}
-
-const StyledButton = withStyles(buttonStyles)(Button);
-
-const EvaluationCourseStyle = {
-	root: {
-		background: Red,
-		display: "block",
-		height:"120px",
-		"&:disabled": {
-			background: Red,
-			color: "white",
-		},
-	}
-}
-
-const EvaluationCourse = withStyles(EvaluationCourseStyle)(StyledButton);
-
-class CourseButton extends Component {
-
-	render() {
-		const {selected, evaluation, disabledMessage, courseName, onChange, badgeLabel} = this.props;
-		const disabled = disabledMessage !== "";
-		if ( evaluation ) {
-			let label;
-			if (evaluation.type === "check" ) {
-				switch (evaluation.assesment) {
-					case "passed": label = "Gehaald"; break;
-					case "failed": label = "Niet gehaald"; break;
-					default: label = "Niet deelgenomen"; break;
-				}
-			} else if ( evaluation.type === "stepwise") {
-				switch (evaluation.assesment) {
-					case "O": label = "Onvoldoende"; break;
-					case "V": label = "Voldoende"; break;
-					case "G": label = "Goed"; break;
-					default: label = "Niet deelgenomen"; break;
-				}
-			} else {
-				label = evaluation.assesment;
-			}
-			return (
-				<EvaluationCourse disabled>
-					{courseName}
-					<h1 style={{margin:"0"}}> {label} </h1>
-				</EvaluationCourse>
-			)
-		}
-		return (
-			<Tooltip title={disabledMessage}>
-				<Badge color="secondary" badgeContent={badgeLabel} invisible={disabled}>
-					<StyledButton 
-						onClick ={onChange}
-						color={selected ? "secondary" : "primary" }
-						disabled={disabled}
-					>
-						{courseName}
-					</StyledButton>
-				</Badge>
-			</Tooltip>
 		)
 	}
 }
