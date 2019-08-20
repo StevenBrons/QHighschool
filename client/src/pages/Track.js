@@ -264,7 +264,7 @@ class CourseButton extends Component {
 }
 
 function enrollableYears(enrollableFor, level) { // ("VWO 4, HAVO 4, HAVO 5", "HAVO") => [4,5]
-	if ( !enrollableFor ) 
+	if ( !enrollableFor || !(enrollableFor.match(/havo|vwo/gi))) // if enrollableFor doesn't contain "havo" or "vwo" it's nonsensical
 		return level === "VWO" ? [4,5,6] : [4,5];
 	let years = enrollableFor.match(new RegExp(level + " \\d", "gi"));
 	if ( years )
