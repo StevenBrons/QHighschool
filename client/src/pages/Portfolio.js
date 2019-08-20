@@ -17,15 +17,15 @@ class Portfolio extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			period: props.currentPeriod,
-			leerjaar: "2019/2020",
+			period: props.currentPeriod + "",
+			schoolYear: "2019/2020",
 		};
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let { blok, leerjaar } = queryString.parse(nextProps.location.search);
 		if (!blok) {
-			blok = nextProps.role === "student" ? "all" : nextProps.currentPeriod;
+			blok = nextProps.role === "student" ? "all" : nextProps.currentPeriod + "";
 		}
 		if (!leerjaar) {
 			leerjaar = "2019/2020";
@@ -85,6 +85,7 @@ class Portfolio extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		let options = [{ label: "Alle", value: "all" }, { label: "Blok 1", value: "period1" }, { label: "Blok 2", value: "period2" }, { label: "Blok 3", value: "period3" }, { label: "Blok 4", value: "period4" }];
 		if (this.props.role === "student") {
 			options.splice(1, 0, { label: "Ingeschreven", value: "enrolled" });
