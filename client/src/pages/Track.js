@@ -72,6 +72,7 @@ class Track extends Component {
 	render() {
 		const { year, coursesSelected } = this.state;
 		let subject = this.state.subject;
+		const courses = this.props.courses;
 
 		const subjects = this.props.subjects;
 		if ( subjects.length === 0 ) {
@@ -83,6 +84,7 @@ class Track extends Component {
 		}
 
 		subject = !subject ? subjects[0] : subject;
+		const PTA = this.props.PTA[subject];
 		const groupsPerPeriod = this.props.groupSchedule[subject][year];
 		return (
 			<Page>
@@ -162,6 +164,18 @@ class Track extends Component {
 						);
 					})}
 				</div>
+
+				<h3>PTA</h3>
+				<table>
+					{Object.keys(PTA).map(test => {
+						return (
+							<tr>
+								<td> {test+":"} </td>
+								<td> {PTA[test].map(courseId => courses[courseId]).join(", ")} </td>
+							</tr>
+						)
+					})}
+				</table>
 			</Page>
 		)
 	}
@@ -281,10 +295,12 @@ function mapStateToProps(state) {
 	const years = [4,5,6];// TODO: let years be dependant on user
 
 	let groupSchedule = {};
+	let courses = {};
 	let subjects = [];
 	if ( groups ) {
 		Object.keys(groups).forEach(groupId => {// put groups in their place in the timeline
 			let group = groups[groupId];
+			courses[group.courseId] = group.courseName;
 			group.necessity = necessityForPTA(group.courseId, PTA[group.subjectName] );
 			enrollableYears(group.enrollableFor, user.level).forEach(y => {
 				if ( !groupSchedule[group.subjectName] ) { // initialize schedule for subject
@@ -300,6 +316,8 @@ function mapStateToProps(state) {
 		year: user.year,
 		groupSchedule: groupSchedule,
 		subjects: subjects,
+		PTA: PTA,
+		courses: courses,
 	}
 }
 
