@@ -43,12 +43,12 @@ class Track extends Component {
 		return false;
 	}
 
-	onChange = (year,period,course) => {
+	onChange = (year,period,courseId) => {
 		let coursesSelected = this.state.coursesSelected;
-		if (coursesSelected[year][period].includes(course)) {
-			coursesSelected[year][period].splice(coursesSelected[year][period].indexOf(course), 1);
+		if (coursesSelected[year][period].includes(courseId)) {
+			coursesSelected[year][period].splice(coursesSelected[year][period].indexOf(courseId), 1);
 		} else {
-			coursesSelected[year][period].push(course);
+			coursesSelected[year][period].push(courseId);
 		}
 		this.setState({
 			coursesSelected: coursesSelected,
@@ -67,7 +67,7 @@ class Track extends Component {
 		})
 	}
 
-	courseDisabled = (year,period,courseId) => {
+	groupDisabled = (year,period,courseId) => {
 		const coursesSelected = this.state.coursesSelected;
 		for (let y in coursesSelected) {
 			for (let p in coursesSelected[y]) {
@@ -93,7 +93,7 @@ class Track extends Component {
 		}
 
 		subject = !subject ? subjects[0] : subject;
-		const coursesPerPeriod = this.props.courseSchedule[subject][year];
+		const groupsPerPeriod = this.props.groupSchedule[subject][year];
 		return (
 			<Page>
 				<Paper elevation={2} style={{ position: "relative" }}>
@@ -153,17 +153,17 @@ class Track extends Component {
 									Blok {p}
 								</Typography>
 							</div>
-							{coursesPerPeriod[p].map(course => {
-								const id = course.courseId;
+							{groupsPerPeriod[p].map(group => {
+								const courseId = group.courseId;
 								return (
-									<span key={course.id} style={{display:"inline-block", margin:"15px"}}>
+									<span key={group.id} style={{display:"inline-block", margin:"15px"}}>
 										<CourseButton 
-											selected={coursesSelected[year][p].includes(id)}
-											evaluation={course.evaluation ? course.evaluation : false}
-											disabled={this.courseDisabled(year,p,id)}
-											courseName={course.courseName}
-											onChange={_ => this.onChange(year,p,id)}
-											badgeLabel={course.necessity === "free" ? "Vrij" : course.necessity === "choice" ? "Keuze" : "Verplicht" }// EN => NL
+											selected={coursesSelected[year][p].includes(courseId)}
+											evaluation={group.evaluation ? group.evaluation : false}
+											disabled={this.groupDisabled(year,p,courseId)}
+											courseName={group.courseName}
+											onChange={_ => this.onChange(year,p,courseId)}
+											badgeLabel={group.necessity === "free" ? "Vrij" : group.necessity === "choice" ? "Keuze" : "Verplicht" }// EN => NL
 										/>
 									</span> //selected, evaluation, disabled, courseName, onChange, badgeLabel
 								);
@@ -286,25 +286,25 @@ function mapStateToProps(state) {
 
 	const years = [4,5,6];// TODO: let years be dependant on user
 
-	let courseSchedule = {};
+	let groupSchedule = {};
 	let subjects = [];
 	if ( groups ) {
 		Object.keys(groups).forEach(groupId => {// put groups in their place in the timeline
 			let group = groups[groupId];
 			group.necessity = necessityForPTA(group.courseId, PTAInformatica);
 			enrollableYears(group.enrollableFor, user.level).forEach(y => {
-				if ( !courseSchedule[group.subjectName] ) { // initialize schedule for subject
-					courseSchedule[group.subjectName] = {};
-					years.forEach(y => courseSchedule[group.subjectName][y] = {1:[],2:[],3:[],4:[]});
+				if ( !groupSchedule[group.subjectName] ) { // initialize schedule for subject
+					groupSchedule[group.subjectName] = {};
+					years.forEach(y => groupSchedule[group.subjectName][y] = {1:[],2:[],3:[],4:[]});
 					subjects.push(group.subjectName);
 				}
-				courseSchedule[group.subjectName][y][group.period].push(group);
+				groupSchedule[group.subjectName][y][group.period].push(group);
 			}) 
 		})
 	}
 	return {
 		year: user.year,
-		courseSchedule: courseSchedule,
+		groupSchedule: groupSchedule,
 		subjects: subjects,
 	}
 }
