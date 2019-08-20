@@ -7,6 +7,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import { connect } from 'react-redux';
 import { getGroups} from '../store/actions';
 import Field from "../components/Field";
+import queryString from "query-string";
 
 const Orange = "#f68620"; // should be taken from theme
 const Red = "#c4122f";
@@ -22,6 +23,16 @@ class Track extends Component {
 			coursesSelected: coursesSelected,
 			subject: "",
 			year: years.includes(props.year) ? props.year : years[0],
+		}
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		let {vak} = queryString.parse(nextProps.location.search);
+		const subjects = nextProps.subjects;
+		vak = subjects ? subjects.includes(vak) ? vak : null : null; // if subject is not a viable subject (or subjects aren't loaded) let subject be null
+		return {
+			...prevState,
+			subject: vak,
 		}
 	}
 
@@ -70,9 +81,9 @@ class Track extends Component {
 	}
 
 	changeSubject = subject => {
-		this.setState({
-			subject:subject,
-		})
+		this.props.history.push({
+			search: "vak=" + subject,
+		});
 	}
 
 	groupDisabled = (year,period,courseId) => {
