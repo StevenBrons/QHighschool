@@ -11,7 +11,7 @@ let oauthToken = {
 }
 
 this.getAccessToken = async () => {
-	if (!oauthToken.createdAt.isBefore(moment().add(oauthToken.expires_in - 100, "s"))) {
+	if (!oauthToken.createdAt.add(oauthToken.expires_in - 100, "s").isAfter(moment())) {
 		var options = {
 			method: 'POST',
 			uri: 'https://login.microsoftonline.com/Quadraam.onmicrosoft.com/oauth2/v2.0/token',
