@@ -264,10 +264,10 @@ export function setGroup(group) {
 		const newEvaluations = group.evaluations;
 
 		if (JSON.stringify(oldCourse) !== JSON.stringify(newCourse)) {
-			fetchData("course/", "patch", newCourse, dispatch, getState);
+			fetchData("course", "patch", newCourse, dispatch, getState);
 		}
 		if (JSON.stringify(oldCourseGroup) !== JSON.stringify(newCourseGroup)) {
-			fetchData("group/", "patch", newCourseGroup, dispatch, getState);
+			fetchData("group", "patch", newCourseGroup, dispatch, getState);
 		}
 
 		if (JSON.stringify(oldPresence) !== JSON.stringify(newPresence)) {

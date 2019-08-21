@@ -9,12 +9,6 @@ router.get("/list", (req, res) => {
 		.then(handleReturn(res));
 });
 
-router.post("/", (req, res) => {
-	course.getCourse(req.body.courseId)
-		.then(handleReturn(res))
-		.catch(handleError(res));
-});
-
 router.put("/", ensureSecure, ensureAdmin, (req, res) => {
 	course.addCourse(req.body)
 		.then(handleSuccess(res))

@@ -16,20 +16,6 @@ exports.getCourses = async () => {
 	}));
 }
 
-exports.getCourse = async (courseId) => {
-	return Course.findByPk(courseId, {
-		include: [{ model: Subject, attributes: ["name"] }]
-	}).then(course => {
-		if (course == null) {
-			throw new Error("courseId \'" + courseId + "\' is invalid");
-		}
-		return {
-			...course,
-			subjectName: course.subject.name,
-		};
-	});
-}
-
 exports.getCourseIdFromGroupId = async (groupId) => {
 	return Group.findByPk(groupId, {
 		attributes: ["id"],

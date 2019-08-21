@@ -27,6 +27,18 @@ exports.ensureStudent = (req, res, next) => {
 	next();
 }
 
+exports.ensureGradeAdmin = (req, res, next) => {
+	if (!(req.user.isGradeAdmin())) return authError(res);
+	next();
+}
+
+exports.ensureConfirm = (req, res, next) => {
+	if (req.body.message !== "confirm") {
+		return new Error("You need to confirm this action");
+	}
+	next();
+}
+
 exports.ensureOffice = (req, res, next) => {
 	if (req.app.get('env') === 'development' && keys.develop === "develop") {
 		return sessionDb.getUserByToken(keys.devLoginToken).then((serializedUser) => {

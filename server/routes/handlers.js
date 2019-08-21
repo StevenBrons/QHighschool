@@ -23,7 +23,7 @@ exports.authError = function authError(res) {
 exports.handleSuccess = function handleSuccess(res) {
 	return function (result) {
 		res.send({
-			sucess: true,
+			success: true,
 		})
 	}
 }
@@ -33,9 +33,38 @@ exports.handleReturn = function handleReturn(res) {
 		if (result == null) {
 			res.send({
 				sucess: true,
-			})
+			});
 		} else {
 			res.send(result);
 		}
+	}
+}
+
+
+exports.doReturn = function doReturn(req, res, next) {
+	if (req.ownProps.output) {
+		res.send(req.ownProps.output)
+	} else {
+		res.send({
+			success: true,
+		});
+	}
+}
+
+exports.doSuccess = function doSuccess(req, res, next) {
+	res.send({
+		success: true,
+	});
+}
+
+exports.promiseMiddleware = function promiseMiddleware(asyncFunction) {
+	return (req, res, next) => {
+		asyncFunction(req, res).then((output) => {
+			req.ownProps = {};
+			req.ownProps.output = output;
+			next();
+		}).catch((error) => {
+			next(error);
+		});
 	}
 }

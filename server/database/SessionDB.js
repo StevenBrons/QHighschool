@@ -43,7 +43,7 @@ class SerialisedUser {
 		if (this.isAdmin()) {
 			return true;
 		}
-		return this.role === "grade_admin";
+		return this.role === "grade_admin" && this.school != null;
 	}
 
 	isStudent() {

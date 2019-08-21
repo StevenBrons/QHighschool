@@ -60,15 +60,16 @@ app.use("/profiel", (req, res) => {
 	res.redirect('http://localhost:3000/profiel/?from=login&secureLogin=' + req.query.secureLogin);
 });
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
 	next(createError(404));
 });
 
-app.use(function (err, req, res, next) {
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use((err, req, res, next) => {
 	res.status(err.status || 500);
-	res.render('error');
+	res.send({
+		success: false,
+		error: err.message,
+	});
 });
 
 module.exports = app;

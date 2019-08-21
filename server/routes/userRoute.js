@@ -2,61 +2,47 @@ const express = require("express");
 const router = express.Router();
 const userDb = require('../database/UserDB');
 const groupDb = require('../database/GroupDB');
-const { handleSuccess, handleReturn, handleError } = require('./handlers');
-const { ensureTeacher, ensureSecure, ensureAdmin, ensureStudent } = require('./permissions');
+const { doReturn, doSuccess, promiseMiddleware } = require('./handlers');
+const { ensureAdmin, ensureStudent } = require('./permissions');
 
-router.get("/self", (req, res) => {
-	userDb.getSelf(req.user.id)
-		.then(handleReturn(res))
-		.catch(handleError(res));
-});
+router.get("/self", promiseMiddleware((req) => {
+	return userDb.getSelf(req.user.id);
+}), doReturn);
 
-router.post("/", ensureAdmin, (req, res) => {
-	userDb.getUser(req.body.userId)
-		.then(handleReturn(res))
-		.catch(handleError(res));
-});
+router.post("/", ensureAdmin, promiseMiddleware((req) => {
+	return userDb.getUser(req.body.userId);
+}), doReturn);
 
-router.patch("/", (req, res) => {
-	userDb.setUser({ ...req.body, userId: req.user.id })
-		.then(handleSuccess(res))
-		.catch(handleError(res));
-});
+router.patch("/", promiseMiddleware((req) => {
+	return userDb.setUser({ ...req.body, userId: req.user.id });
+}), doSuccess);
 
-router.put("/enrollments", ensureStudent, (req, res) => {
-	userDb.addUserEnrollment(req.user.id, req.body.groupId)
-		.then(handleSuccess(res))
-		.catch(handleError(res));
-});
+router.put("/enrollments", ensureStudent, promiseMiddleware((req) => {
+	return userDb.addUserEnrollment(req.user.id, req.body.groupId);
+}), doSuccess);
 
-router.delete("/enrollments", ensureStudent, (req, res) => {
-	userDb.removeUserEnrollment(req.user.id, req.body.groupId)
-		.then(handleSuccess(res))
-		.catch(handleError(res));
-});
+router.delete("/enrollments", ensureStudent, promiseMiddleware((req) => {
+	return userDb.removeUserEnrollment(req.user.id, req.body.groupId);
+}), doSuccess);
 
-router.get("/enrollments", (req, res) => {
-	userDb.getEnrollments(req.user.id)
-		.then(handleReturn(res))
-		.catch(handleError(res));
-});
+router.get("/enrollments", promiseMiddleware((req) => {
+	return userDb.getEnrollments(req.user.id);
+}), doReturn);
 
-router.get("/enrollableGroups", async (req, res) => {
+router.get("/enrollableGroups", promiseMiddleware(async (req) => {
 	const groups = await groupDb.getGroups(req.user.id);
 	var enrollableGroups = groups.filter((group) => {
 		return group.period === 1 && group.schoolYear === "2019/2020";
 	});
-	handleReturn(res)(enrollableGroups);
-});
+	return enrollableGroups;
+}), doReturn);
 
-router.get("/groups", (req, res) => {
-	userDb.getGroups(req.user.id, req.user.isAdmin())
-		.then(handleReturn(res));
-});
+router.get("/groups", promiseMiddleware((req) => {
+	return userDb.getGroups(req.user.id, req.user.isAdmin());
+}), doReturn);
 
-router.get("/list", ensureAdmin, (req, res) => {
-	userDb.getList()
-		.then(handleReturn(res));
-});
+router.get("/list", ensureAdmin, promiseMiddleware(() => {
+	return userDb.getList()
+}), doReturn);
 
 module.exports = router;
