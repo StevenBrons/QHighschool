@@ -13,7 +13,7 @@ exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
 		case 2018:
 			return moment().year(week.year).week(week.weekNumber).day(day).toDate();
 		case 2019:
-			return moment().year(week.year).week(week.weekNumber - 1).day(day).toDate();
+			return moment().year(week.year).week(week.weekNumber).day(day).toDate();
 		case 2020:
 			return moment().year(week.year).week(week.weekNumber).day(day).toDate();
 		default:
