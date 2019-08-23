@@ -9,13 +9,12 @@ const functionRoute = require('./functionRoute');
 const certificateRoute = require('./certificateRoute');
 const { ensureOffice } = require('./permissions');
 
-router.use(ensureOffice);
-
 router.use('/course', courseRoute);
-router.use('/user', userRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
-router.use('/function', functionRoute);
-router.use('/certificate', certificateRoute);
+
+router.use('/user', ensureOffice, userRoute);
+router.use('/function', ensureOffice, functionRoute);
+router.use('/certificate', ensureOffice, certificateRoute);
 
 module.exports = router;

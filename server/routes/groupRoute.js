@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
-const { handleSuccess, handleReturn, handleError, authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
-const { ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup } = require('./permissions');
+const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
+const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup } = require('./permissions');
 
 router.get("/list", promiseMiddleware((req) => {
 	return groupDb.getGroups(req.user.id)
@@ -14,7 +14,7 @@ router.post("/", promiseMiddleware((req) => {
 		.then(group => groupDb.appendEvaluation(group, req.user.id))
 }), doReturn);
 
-router.patch("/", ensureTeacher, promiseMiddleware((req) => {
+router.patch("/", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
 	if (req.user.isAdmin()) {
 		return groupDb.setFullGroup(req.body)
 	} else {
@@ -22,15 +22,15 @@ router.patch("/", ensureTeacher, promiseMiddleware((req) => {
 	}
 }), doReturn);
 
-router.put("/", ensureSecure, ensureAdmin, promiseMiddleware((req) => {
+router.put("/", ensureOffice, ensureSecure, ensureAdmin, promiseMiddleware((req) => {
 	return groupDb.addGroup(req.body)
 }), doSuccess);
 
-router.post("/enrollments", ensureTeacher, promiseMiddleware((req) => {
+router.post("/enrollments", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
 	return groupDb.getEnrollments(req.body.groupId)
 }), doReturn);
 
-router.post("/lessons", promiseMiddleware((req, res) => {
+router.post("/lessons", ensureOffice, promiseMiddleware((req, res) => {
 	let userId = req.user.id;
 	if (!req.user.inGroup(req.body.groupId)) {
 		userId = null;
@@ -45,7 +45,7 @@ async function patchLesson(req, lesson) {
 	}
 }
 
-router.patch("/lessons", ensureTeacher, promiseMiddleware((req) => {
+router.patch("/lessons", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
 	let lessons = JSON.parse(req.body.lessons);
 	if (Array.isArray(lessons) && lessons.length >= 1) {
 		return Promise.all(lessons.map((lesson) => patchLesson(req, lesson)));
@@ -54,28 +54,28 @@ router.patch("/lessons", ensureTeacher, promiseMiddleware((req) => {
 	}
 }), doSuccess);
 
-router.post("/participants", ensureInGroup, promiseMiddleware((req) => {
+router.post("/participants", ensureOffice, ensureInGroup, promiseMiddleware((req) => {
 	return groupDb.getParticipants(req.body.groupId, req.user.isTeacher());
 }), doReturn);
 
-router.patch("/participants", ensureAdmin, promiseMiddleware((req) => {
+router.patch("/participants", ensureOffice, ensureAdmin, promiseMiddleware((req) => {
 	return groupDb.addUserToGroup(req.body.userId, req.body.groupId, req.body.participatingRole);
 }), doSuccess);
 
-router.patch("/userStatus", promiseMiddleware((req) => {
+router.patch("/userStatus", ensureOffice, promiseMiddleware((req) => {
 	return groupDb.updateUserStatus(req.user.id, req.body.lessonId, req.body.userStatus);
 }), doSuccess);
 
-router.post("/presence", ensureInGroup, ensureTeacher, promiseMiddleware((req) => {
+router.post("/presence", ensureOffice, ensureInGroup, ensureTeacher, promiseMiddleware((req) => {
 	return groupDb.getPresence(req.body.groupId);
 }), doReturn);
 
-router.patch("/presence", ensureTeacher, ensureInGroup, promiseMiddleware(async ({ body }) => {
+router.patch("/presence", ensureOffice, ensureTeacher, ensureInGroup, promiseMiddleware(async ({ body }) => {
 	const presenceObjs = JSON.parse(body.presence);
 	return Promise.all(presenceObjs.map(p => groupDb.setPresence(p, body.groupId)));
 }), doSuccess);
 
-router.post("/evaluations", ensureTeacher, ensureInGroup, promiseMiddleware((req) => {
+router.post("/evaluations", ensureOffice, ensureTeacher, ensureInGroup, promiseMiddleware((req) => {
 	return groupDb.getEvaluations(req.body.groupId);
 }), doReturn);
 
@@ -100,7 +100,7 @@ async function setEvaluation(ev, req) {
 	}
 }
 
-router.patch("/evaluations", ensureSecure, ensureTeacher, promiseMiddleware((req, res) => {
+router.patch("/evaluations", ensureOffice, ensureSecure, ensureTeacher, promiseMiddleware((req, res) => {
 	const evaluations = JSON.parse(req.body.evaluations);
 	if (Array.isArray(evaluations) && evaluations.length >= 1) {
 		return Promise.all(evaluations.map((ev) => setEvaluation(ev, req)))
