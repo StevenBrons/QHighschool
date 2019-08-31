@@ -8,6 +8,8 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 const groupDb = require("../database/GroupDB");
+const moment = require("moment");
+moment.locale('nl');
 
 
 exports.createUser = async (accessToken) => {
@@ -86,32 +88,6 @@ exports.addLessons = async (groupId, period, day) => {
 	}
 }
 
-exports.getEnrollment = async () => {
-	return Enrollment.findAll({
-		include: [{
-			model: Group,
-			attributes: ["id"],
-			include: [{
-				model: Course,
-				attributes: ["name"],
-			}],
-		}, {
-			model: User,
-			attributes: ["displayName", "school", "year", "level"],
-		}]
-	}).then(enrl => enrl.map(e => {
-		return {
-			dataValues: {
-				...e.user.dataValues,
-				courseName: e.course_group.course.name,
-				courseGroupId: e.course_group.id,
-				id: e.id,
-				createdAt: e.createdAt,
-			}
-		}
-	}));
-}
-
 exports.findEvaluation = async (userId, groupId) => {
 	const group = await groupDb.getGroup(groupId);
 	const evaluation = await Evaluation.findOne({
@@ -175,7 +151,7 @@ exports.getEnrollment = async (school) => {
 		raw: true,
 		include: [{
 			model: Group,
-			attributes: ["id", "period"],
+			attributes: ["id", "period", "createdAt"],
 			include: [{
 				model: Course,
 				attributes: [["name", "courseName"]],
@@ -197,6 +173,7 @@ exports.getEnrollment = async (school) => {
 			school: e["user.school"],
 			year: e["user.year"],
 			level: e["user.level"],
+			createdAt: moment(e["createdAt"]).format("lll"),
 		}
 	}));
 }

@@ -164,8 +164,8 @@ exports.addUserToGroup = async (userId, courseGroupId, participatingRole) => {
 
 	if (participatingRole === "student") {
 		await _acceptEnrollment(userId, courseGroupId);
-		officeEndpoints.addParticipantByUserId(userId, courseGroupId, participatingRole);
 	}
+	officeEndpoints.addParticipantByUserId(userId, courseGroupId, participatingRole);
 }
 
 async function _acceptEnrollment(userId, courseGroupId) {
