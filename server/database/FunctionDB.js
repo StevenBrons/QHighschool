@@ -8,6 +8,7 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 const groupDb = require("../database/GroupDB");
+const graphConnection = require("../office/graphConnection");
 const moment = require("moment");
 moment.locale('nl');
 

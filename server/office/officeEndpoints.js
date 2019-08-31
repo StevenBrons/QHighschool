@@ -38,7 +38,7 @@ async function removeParticipant(graphId, upn, participatingRole) {
 		.delete({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` });
 }
 function getClassDataFromGroup(group) {
-	let mailNickname = group.courseDescription + "#G${id}";
+	let mailNickname = group.courseName + `#G${group.id}`;
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
 	mailNickname = mailNickname.replace(/ +/g, "");
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
@@ -67,6 +67,8 @@ async function createClass(groupId) {
 
 	await addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
 	await Promise.all(participants.map(p => addParticipant(team.id, p.email, p.participatingRole)));
+
+	console.log("The group #G" + groupId + " is now synchronised with office teams");
 	return team.id;
 }
 
