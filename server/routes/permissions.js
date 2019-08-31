@@ -1,6 +1,9 @@
 const sessionDb = require('../database/SessionDB');
 const keys = require("../private/keys");
 const secureLogin = require('../lib/secureLogin');
+const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
+const { authError } = require("./handlers");
 
 exports.ensureTeacher = (req, res, next) => {
 	if (!req.user.isTeacher()) return authError(res);
@@ -19,6 +22,23 @@ exports.ensureAdmin = (req, res, next) => {
 
 exports.ensureInGroup = (req, res, next) => {
 	if (!req.user.inGroup(req.body.groupId)) return authError(res);
+	next();
+}
+
+async function getSubjectIdOfGroupId(groupId) {
+	const g = await Group.findByPk(groupId, {
+		attributes: [], raw: true,
+		include: {
+			model: Course,
+			attributes: ["subjectId"],
+		}
+	});
+	return g["course.subjectId"] + "";
+}
+
+exports.ensureInSubjectGroup = async (req, res, next) => {
+	const subjectId = await getSubjectIdOfGroupId(req.body.groupId);
+	if (!req.user.inSubjectGroup(subjectId)) return authError(res);
 	next();
 }
 

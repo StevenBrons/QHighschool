@@ -2,15 +2,17 @@ const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Participant = require("../dec/ParticipantDec");
 const Group = require("../dec/CourseGroupDec");
+const Course = require("../dec/CourseDec");
 
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds, school, token) {
+	constructor(id, email, role, displayName, groupIds, subjectIds, school, token) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
 		this.displayName = displayName;
 		this.groupIds = groupIds;
+		this.subjectIds = subjectIds;
 		if (this.role === "grade_admin") {
 			this.school = school;
 		}
@@ -24,8 +26,11 @@ class SerialisedUser {
 		return this.groupIds.indexOf(groupId + "") !== -1;
 	}
 
-	inSubjectGroup(groupId) {
-
+	inSubjectGroup(subjectId) {
+		if (this.isAdmin()) {
+			return true;
+		}
+		return this.subjectIds.indexOf(subjectId + "") !== -1;
 	}
 
 	isAdmin() {
@@ -66,6 +71,17 @@ exports.getParticipatingGroupsIds = async (userId) => {
 		.map(u => u.courseGroupId + "");
 }
 
+async function getSubjectIdOfGroupId(groupId) {
+	const g = await Group.findByPk(groupId, {
+		attributes: [], raw: true,
+		include: {
+			model: Course,
+			attributes: ["subjectId"],
+		}
+	});
+	return g["course.subjectId"] + "";
+}
+
 exports.getUserByToken = async (token) => {
 	return LoggedIn.findAll({
 		where: {
@@ -80,7 +96,8 @@ exports.getUserByToken = async (token) => {
 		if (loginData.length === 1) {
 			const user = loginData[0].user;
 			const groupIds = await this.getParticipatingGroupsIds(user.id);
-			return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, user.school, token);
+			const subjectIds = await Promise.all(groupIds.map(getSubjectIdOfGroupId));
+			return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, subjectIds, user.school, token);
 		} else {
 			return null;
 		}

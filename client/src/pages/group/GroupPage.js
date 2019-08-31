@@ -48,7 +48,7 @@ class GroupPage extends Component {
 				if (this.props.userIsMemberOfGroup) {
 					this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				} else {
-					this.state.tabs = ["Lessen"];
+					this.state.tabs = ["Inschrijvingen", "Lessen"];
 				}
 				break;
 			case "admin":

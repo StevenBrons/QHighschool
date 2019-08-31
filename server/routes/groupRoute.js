@@ -3,7 +3,7 @@ const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
 const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
-const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup } = require('./permissions');
+const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup } = require('./permissions');
 
 router.get("/list", promiseMiddleware((req) => {
 	return groupDb.getGroups(req.user.id)
@@ -26,7 +26,7 @@ router.put("/", ensureOffice, ensureSecure, ensureAdmin, promiseMiddleware((req)
 	return groupDb.addGroup(req.body)
 }), doSuccess);
 
-router.post("/enrollments", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
+router.post("/enrollments", ensureOffice, ensureTeacher, ensureInSubjectGroup, promiseMiddleware((req) => {
 	return groupDb.getEnrollments(req.body.groupId)
 }), doReturn);
 
