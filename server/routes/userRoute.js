@@ -32,7 +32,7 @@ router.get("/enrollments", promiseMiddleware((req) => {
 router.get("/enrollableGroups", promiseMiddleware(async (req) => {
 	const groups = await groupDb.getGroups(req.user.id);
 	var enrollableGroups = groups.filter((group) => {
-		return group.period === 1 && group.schoolYear === "2019/2020";
+		return (group.period === 1 && group.schoolYear === "2019/2020") || (group.subjectId === "Avonturen" && group.schoolYear === "2019/2020");
 	});
 	return enrollableGroups;
 }), doReturn);
