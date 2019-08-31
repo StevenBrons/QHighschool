@@ -1,5 +1,6 @@
 const moment = require("moment");
 const { azureADCreds } = require('../private/keys');
+const graph = require('@microsoft/microsoft-graph-client');
 const rp = require('request-promise');
 
 let oauthToken = {
@@ -32,8 +33,29 @@ this.getAccessToken = async () => {
 	return oauthToken.access_token;
 }
 
-// this.getAccessToken().then(console.log);
+exports.getAuthenticatedClient = (accessToken) => {
+	const client = graph.Client.init({
+		authProvider: (done) => {
+			done(null, accessToken);
+		}
+	});
+	return client;
+}
 
+exports.getOwnDetails = async (accessToken) => {
+	const client = await exports.getAuthenticatedClient(accessToken);
+	const userData = await client.api("/me").get();
+	return {
+		email: userData.userPrincipalName,
+		firstName: userData.givenName,
+		lastName: userData.surname,
+		displayName: userData.displayName,
+		school: null,
+		role: "student",
+		jobTitle: userData.jobTitle,
+		preferedEmail: userData.userPrincipalName,
+	};
+}
 
 this.api = (endpoint) => {
 	var options = {
