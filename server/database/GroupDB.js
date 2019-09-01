@@ -104,20 +104,6 @@ exports.appendEvaluation = async (group, userId) => {
 	}
 }
 
-exports.getEnrollments = async groupId => {
-	return Enrollment.findAll({
-		attributes: [],
-		where: {
-			courseGroupId: groupId,
-			accepted: "false",
-		},
-		include: [{
-			model: User,
-			order: [["displayName", "DESC"]]
-		}]
-	});
-}
-
 exports.setGraphId = async (groupId, graphId) => {
 	const g = await Group.findByPk(groupId);
 	g.update({ graphId });
@@ -127,7 +113,8 @@ exports.getEnrollments = async (groupId) => {
 	return Enrollment.findAll({
 		attributes: [],
 		where: {
-			courseGroupId: groupId
+			courseGroupId: groupId,
+			accepted: "false",
 		},
 		include: [{
 			model: User,

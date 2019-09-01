@@ -27,7 +27,8 @@ router.put("/", ensureOffice, ensureSecure, ensureAdmin, promiseMiddleware((req)
 }), doSuccess);
 
 router.post("/enrollments", ensureOffice, ensureTeacher, ensureInSubjectGroup, promiseMiddleware((req) => {
-	return groupDb.getEnrollments(req.body.groupId)
+	console.log("sdjlkajslfj")
+	return groupDb.getEnrollments(req.body.groupId);
 }), doReturn);
 
 router.post("/lessons", ensureOffice, promiseMiddleware((req, res) => {
