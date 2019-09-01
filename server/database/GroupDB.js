@@ -31,7 +31,6 @@ exports._mapGroup = (data) => {
 		teacherId: data.participants[0] ? data.participants[0].user.id : null,
 		teacherName: data.participants[0] ? data.participants[0].user.displayName : null,
 		graphId: data.graphId,
-		teamUrl: data.teamUrl,
 	}
 }
 

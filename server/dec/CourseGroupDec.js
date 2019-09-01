@@ -25,9 +25,6 @@ const CourseGroup = connection.define('course_group', {
 	graphId: {
 		type: Sequelize.STRING,
 	},
-	teamUrl: {
-		type: Sequelize.STRING,
-	}
 }, {
 		tableName: 'course_group'
 	});
