@@ -26,7 +26,7 @@ class GroupCard extends Component {
 			this.props.group.evaluation.assesment !== null) {
 			return (
 				<div className="footer" style={{ backgroundColor: getEvaluationColor(this.props.group.evaluation) }}>
-					<Field value="Beoordeling" style={{ type: "h1", flex: 1 }} />
+					<Field value="Beoordeling" style={{ type: "title", flex: 2 }} />
 					<Evaluation evaluation={this.props.group.evaluation} student />
 				</div>
 			);
