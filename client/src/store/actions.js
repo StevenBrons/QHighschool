@@ -155,7 +155,7 @@ function testIE(dispatch) {
 				id: Math.random(),
 				priority: "high",
 				type: "bar",
-				message: "Internet Explorer gedecteerd. Deze website ondersteunt Internet Explorer niet. Sommige functies zullen wellicht niet werken.",
+				message: "Deze website ondersteunt Internet Explorer niet. Gebruik een moderne browser zoals Firefox of Chrome",
 				sticky: true,
 				scope: "",
 			}
@@ -183,6 +183,7 @@ export function getSelf() {
 				});
 				dispatch(removeNotification(notification));
 			}).catch((error) => {
+				testIE(dispatch);
 				dispatch(removeNotification(notification));
 				if (error != null && error.error === "Authentication Error") {
 					if (window.location.pathname !== "/login") {

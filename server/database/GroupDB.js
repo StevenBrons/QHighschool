@@ -315,3 +315,19 @@ exports.getGraphIdFromGroupId = async (groupId) => {
 	const group = await Group.findByPk(groupId, { attributes: ["graphId"] });
 	return group.graphId;
 }
+
+exports.getSubjectIdOfGroupId = async (groupId) => {
+	const g = await Group.findByPk(groupId, {
+		attributes: [], raw: true,
+		include: {
+			model: Course,
+			attributes: ["subjectId"],
+		}
+	});
+	return g["course.subjectId"] + "";
+}
+
+exports.getParticipatingGroupsIds = async (userId) => {
+	return Participant.findAll({ where: { userId }, attributes: ["courseGroupId"] })
+		.map(u => u.courseGroupId + "");
+}

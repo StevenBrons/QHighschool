@@ -1,8 +1,6 @@
 const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
-const Participant = require("../dec/ParticipantDec");
-const Group = require("../dec/CourseGroupDec");
-const Course = require("../dec/CourseDec");
+const { getSubjectIdOfGroupId, getParticipatingGroupsIds } = require("../database/GroupDB");
 
 class SerialisedUser {
 
@@ -66,22 +64,6 @@ exports.getUserByEmail = async (email) => {
 	});
 }
 
-exports.getParticipatingGroupsIds = async (userId) => {
-	return Participant.findAll({ where: { userId }, attributes: ["courseGroupId"] })
-		.map(u => u.courseGroupId + "");
-}
-
-async function getSubjectIdOfGroupId(groupId) {
-	const g = await Group.findByPk(groupId, {
-		attributes: [], raw: true,
-		include: {
-			model: Course,
-			attributes: ["subjectId"],
-		}
-	});
-	return g["course.subjectId"] + "";
-}
-
 exports.getUserByToken = async (token) => {
 	return LoggedIn.findAll({
 		where: {
@@ -95,7 +77,7 @@ exports.getUserByToken = async (token) => {
 	}).then(async (loginData) => {
 		if (loginData.length === 1) {
 			const user = loginData[0].user;
-			const groupIds = await this.getParticipatingGroupsIds(user.id);
+			const groupIds = await getParticipatingGroupsIds(user.id);
 			const subjectIds = await Promise.all(groupIds.map(getSubjectIdOfGroupId));
 			return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, subjectIds, user.school, token);
 		} else {

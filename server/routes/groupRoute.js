@@ -6,12 +6,12 @@ const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handler
 const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup } = require('./permissions');
 
 router.get("/list", promiseMiddleware((req) => {
-	return groupDb.getGroups(req.user.id)
+	return groupDb.getGroups(req.user.id);
 }), doReturn);
 
-router.post("/", promiseMiddleware((req) => {
-	return groupDb.getGroup(req.body.groupId)
-		.then(group => groupDb.appendEvaluation(group, req.user.id))
+router.post("/", promiseMiddleware(async (req) => {
+	const group = await groupDb.getGroup(req.body.groupId);
+	return groupDb.appendEvaluation(group, req.user.id);
 }), doReturn);
 
 router.patch("/", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
@@ -54,8 +54,15 @@ router.patch("/lessons", ensureOffice, ensureTeacher, promiseMiddleware((req) =>
 	}
 }), doSuccess);
 
-router.post("/participants", ensureOffice, ensureInGroup, promiseMiddleware((req) => {
-	return groupDb.getParticipants(req.body.groupId, req.user.isTeacher());
+router.post("/participants", ensureOffice, promiseMiddleware(async (req) => {
+	const groupId = req.body.groupId;
+	const subjectId = await groupDb.getSubjectIdOfGroupId(groupId);
+	if ((req.user.isStudent() && req.user.inGroup(groupId)) ||
+		(req.user.isTeacher() && req.user.inSubjectGroup(subjectId))) {
+		return groupDb.getParticipants(req.body.groupId, req.user.isTeacher());
+	} else {
+		authError(res);
+	}
 }), doReturn);
 
 router.patch("/participants", ensureOffice, ensureAdmin, promiseMiddleware((req) => {

@@ -26,12 +26,14 @@ this.getAccessToken = async () => {
 		const res = await rp(options);
 		oauthToken = {
 			...res,
-			expires_in: 3600,
+			expires_in: 1000,
 			createdAt: moment(),
 		};
 	}
 	return oauthToken.access_token;
 }
+
+// this.getAccessToken().then(console.log);
 
 exports.getAuthenticatedClient = (accessToken) => {
 	const client = graph.Client.init({
