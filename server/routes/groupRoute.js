@@ -54,7 +54,7 @@ router.patch("/lessons", ensureOffice, ensureTeacher, promiseMiddleware((req) =>
 	}
 }), doSuccess);
 
-router.post("/participants", ensureOffice, promiseMiddleware(async (req) => {
+router.post("/participants", ensureOffice, promiseMiddleware(async (req, res) => {
 	const groupId = req.body.groupId;
 	const subjectId = await groupDb.getSubjectIdOfGroupId(groupId);
 	if ((req.user.isStudent() && req.user.inGroup(groupId)) ||
