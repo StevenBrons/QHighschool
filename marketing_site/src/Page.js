@@ -5,12 +5,12 @@ import CourseGroup from './components/CourseGroup';
 class Page extends Component {
   render() {
     return (
-      <div class='Page'>
-        <CourseGroup title={'Wiskunde D'} class='course-group' />
-        <CourseGroup title={'Wiskunde C'} class='course-group' />
-        <CourseGroup title={'Avonturen'} class='course-group' />
-        <CourseGroup title={'Informatica'} class='course-group'/>
-        <CourseGroup title={'Spaans'} class='course-group' />
+      <div className='Page'>
+        <CourseGroup title={'Wiskunde D'} className='course-group' />
+        <CourseGroup title={'Wiskunde C'} className='course-group' />
+        <CourseGroup title={'Avonturen'} className='course-group' />
+        <CourseGroup title={'Informatica'} className='course-group'/>
+        <CourseGroup title={'Spaans'} className='course-group' />
       </div>
     )
   }

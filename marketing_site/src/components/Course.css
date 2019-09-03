@@ -3,4 +3,14 @@
 	width:200px;
 	background:red;
 	display: inline-block;
+	margin: 0 5px;
+	transition: width 200ms, height 200ms;
+	transition-delay: 100ms;
+}
+
+.Course:hover{
+	height: 150px;
+	width: 300px;
+	transition: width 500ms, height 500ms;
+	transition-delay: 200ms;
 }

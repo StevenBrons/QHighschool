@@ -6,12 +6,12 @@ class CourseGroup extends Component {
 
 	render() {
 		return (
-			<div class='CourseGroup'>
+			<div className='CourseGroup'>
 				<h2>
 					{this.props.title}
 				</h2>
 				{[1,2,3,4,5,6,7,8,9,10].map(n => {
-					return <Course class='course' text={n} />
+					return <Course key={n} class='course' text={n} />
 				})}
 			</div>
 		)
