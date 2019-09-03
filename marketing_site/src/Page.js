@@ -6,11 +6,11 @@ class Page extends Component {
   render() {
     return (
       <div class='Page'>
-        <CourseGroup style={{margin:'15px'}}/>
-        <CourseGroup style={{margin:'15px'}}/>
-        <CourseGroup style={{margin:'15px'}}/>
-        <CourseGroup style={{margin:'15px'}}/>
-        <CourseGroup style={{margin:'15px'}}/>
+        <CourseGroup title={'Wiskunde D'} class='course-group' />
+        <CourseGroup title={'Wiskunde C'} class='course-group' />
+        <CourseGroup title={'Avonturen'} class='course-group' />
+        <CourseGroup title={'Informatica'} class='course-group'/>
+        <CourseGroup title={'Spaans'} class='course-group' />
       </div>
     )
   }

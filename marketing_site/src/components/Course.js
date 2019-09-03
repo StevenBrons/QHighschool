@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
+import './Course.css';
 
 class Course extends Component {
 
 	render() {
 		console.log(this.props);
 		return (
-			<div style={{height:'100px', width:'200px', background:'red'}}>
+			<button class='Course'>
 				Dit is een course {this.props.text}
-			</div>
+			</button>
 		)
 	}
 }

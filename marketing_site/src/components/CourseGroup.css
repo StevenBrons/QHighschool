@@ -1,0 +1,9 @@
+.CourseGroup {
+	overflow: scroll;
+	white-space: nowrap;
+	background: darkgray;
+}
+
+.CourseGroup .Course {
+	margin: 0 5px;
+}

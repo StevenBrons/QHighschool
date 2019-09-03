@@ -4,5 +4,10 @@
 }
 
 .Page {
-  text-align: center;
+    background: black;
+    margin: 0;
+}
+
+.Page .CourseGroup {
+    margin: 15px;
 }

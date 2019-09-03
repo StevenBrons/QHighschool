@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import Course from './Course';
+import './CourseGroup.css'; 
 
 class CourseGroup extends Component {
 
 	render() {
 		return (
-			<div style={{display:'inline-block'}}>
-				{[1,2,3,4,5,6,7].map(n => {
-					return <Course style={{margin:'5px'}} text={n} />
+			<div class='CourseGroup'>
+				<h2>
+					{this.props.title}
+				</h2>
+				{[1,2,3,4,5,6,7,8,9,10].map(n => {
+					return <Course class='course' text={n} />
 				})}
 			</div>
 		)

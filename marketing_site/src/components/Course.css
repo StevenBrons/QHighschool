@@ -1,0 +1,6 @@
+.Course {
+	height:100px;
+	width:200px;
+	background:red;
+	display: inline-block;
+}
