@@ -8,7 +8,7 @@ class CourseInfo extends Component {
     return (
       <div className='CourseInfo'>
 		  <h1>
-			  POP
+			  Informatie over module {this.props.course} van {this.props.group}
 		  </h1>
       </div>
     )

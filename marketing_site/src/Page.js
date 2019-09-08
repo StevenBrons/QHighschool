@@ -14,22 +14,28 @@ class Page extends Component {
   }
 
   onClick = (course, group) => {
-    console.log('course ' + course + ' in group ' + group + ' got clicked');
-    this.setState({
-      popOut: {
-        course: course,
+    let popOut = this.state.popOut;
+    if (popOut && popOut.group === group && popOut.course === course) {
+      popOut = null;
+    } else {
+      popOut = {
         group: group,
+        course: course,
       }
+    }
+    this.setState({
+      popOut: popOut,
     })
   }
 
   render() {
+    const popOut = this.state.popOut;
     return (
       <div className='Page'>
         {['Wiskunde D', 'Wiskunde C', 'Avonturen', 'Informatica', 'Spaans'].map(group =>
           <>
             <CourseGroup title={group} onClick={course => this.onClick(course,group)} className='course-group' />
-            <CourseInfo />
+            {popOut && popOut.group === group && <CourseInfo course={popOut.course} group={group}/>  }
           </>
         )}
       </div>
