@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Page.css';
 import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
+import Header from './components/Header';
 
 
 class Page extends Component {
@@ -32,6 +33,7 @@ class Page extends Component {
     const popOut = this.state.popOut;
     return (
       <div className='Page'>
+        <Header />
         {['Wiskunde D', 'Wiskunde C', 'Avonturen', 'Informatica', 'Spaans'].map(group =>
           <>
             <CourseGroup 
