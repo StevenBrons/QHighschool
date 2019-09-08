@@ -34,7 +34,12 @@ class Page extends Component {
       <div className='Page'>
         {['Wiskunde D', 'Wiskunde C', 'Avonturen', 'Informatica', 'Spaans'].map(group =>
           <>
-            <CourseGroup title={group} onClick={course => this.onClick(course,group)} className='course-group' />
+            <CourseGroup 
+              title={group} 
+              onClick={course => this.onClick(course,group)} 
+              className='course-group' 
+              large = {group === 'Avonturen'}
+            />
             {popOut && popOut.group === group && 
               <CourseInfo 
                 course={popOut.course} 

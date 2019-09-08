@@ -21,7 +21,7 @@ class Course extends Component {
 		return (
 			<button 
 				// className= {'Course' + (this.state.hover ?' hover' : '')} 
-				className = 'Course'
+				className = {'Course' + (this.props.large ? ' large' : '')}
 				onMouseEnter={this.onMousEnter}
 				onMouseLeave={this.onMouseLeave}
 				onClick={this.props.onClick}

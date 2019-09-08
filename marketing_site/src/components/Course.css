@@ -14,3 +14,15 @@
 	transition: width 500ms, height 500ms;
 	transition-delay: 200ms;
 }
+
+.large:hover{
+	height: 350px;
+	width: 250px;
+	transition: width 500ms, height 500ms;
+	transition-delay: 200ms;
+}
+
+.large {
+	height: 300px;
+	width: 200px;
+}

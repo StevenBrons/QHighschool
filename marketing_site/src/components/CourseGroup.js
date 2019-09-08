@@ -11,7 +11,13 @@ class CourseGroup extends Component {
 					{this.props.title}
 				</h2>
 				{[1,2,3,4,5,6,7,8,9,10].map(n => {
-					return <Course key={n} class='course' onClick={_ => this.props.onClick(n)} text={n} />
+					return <Course 
+								key={n} 
+								class='course' 
+								onClick={_ => this.props.onClick(n)} 
+								text={n} 
+								large = {this.props.large}
+							/>
 				})}
 			</div>
 		)
