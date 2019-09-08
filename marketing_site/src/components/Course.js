@@ -24,6 +24,7 @@ class Course extends Component {
 				className = 'Course'
 				onMouseEnter={this.onMousEnter}
 				onMouseLeave={this.onMouseLeave}
+				onClick={this.props.onClick}
 				>
 				Dit is een course {this.props.text}
 			</button>

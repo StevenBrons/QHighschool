@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
 import './Page.css';
+import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
 
+
 class Page extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      popOut: null,
+    }
+  }
+
+  onClick = (course, group) => {
+    console.log('course ' + course + ' in group ' + group + ' got clicked');
+    this.setState({
+      popOut: {
+        course: course,
+        group: group,
+      }
+    })
+  }
+
   render() {
     return (
       <div className='Page'>
-        <CourseGroup title={'Wiskunde D'} className='course-group' />
-        <CourseGroup title={'Wiskunde C'} className='course-group' />
-        <CourseGroup title={'Avonturen'} className='course-group' />
-        <CourseGroup title={'Informatica'} className='course-group'/>
-        <CourseGroup title={'Spaans'} className='course-group' />
+        {['Wiskunde D', 'Wiskunde C', 'Avonturen', 'Informatica', 'Spaans'].map(group =>
+          <>
+            <CourseGroup title={group} onClick={course => this.onClick(course,group)} className='course-group' />
+            <CourseInfo />
+          </>
+        )}
       </div>
     )
   }
