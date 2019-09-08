@@ -1,4 +1,12 @@
 .CourseInfo {
 	background-color: blue;
 	text-align: center;
+	height: 300px;
+	animation-name: enlarge;
+	animation-duration: 2s;
+}
+
+@keyframes enlarge {
+	0% {height: 0px;}
+	100% {height: 300px;}
 }
