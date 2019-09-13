@@ -123,7 +123,9 @@ class DataPage extends Component {
 		let workbook = new Excel.Workbook();
 		const splitIndex = tables[0][0].findIndex(x => x === splitValues[this.state.data]);
 		for (let i = 0; i < tables.length; i++) { // add all the tables to a different sheet
-			let sheet = workbook.addWorksheet(tables[i][1][splitIndex]); // the sheet has the name of the value it's split on. I.e when splitting on courses every page is called what course it contains
+			// the sheet has the name of the value it's split on. I.e when splitting on courses every page is called what course it contains
+			const sheetName = tables[i][1][splitIndex] + "";
+			let sheet = workbook.addWorksheet(sheetName);
 			sheet.addRows(tables[i]);
 			for (let j = 1; j <= tables[i][0].length; j++) {
 				sheet.getColumn(j).width = tables[i][0][j - 1].length < 10 ? 10 : tables[i][0][j - 1].length + 2;//set each column to at least fit the header
@@ -175,7 +177,7 @@ class DataPage extends Component {
 	render() {
 		let content;
 		if (this.state.tables == null) {
-			content = <Progress style={{marginTop:"100px"}}/>;
+			content = <Progress style={{ marginTop: "100px" }} />;
 		} else {
 			content = (this.state.tables).map((table, tableIndex) => {
 				return (

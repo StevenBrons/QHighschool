@@ -67,9 +67,7 @@ class PresenceTable extends Component {
 	}
 
 	render() {
-		let rows = this.props.participantIds.filter((partId) => {
-			return map(this.props.presence, (p) => p.userId).indexOf(partId) !== -1;
-		}).map(this.createRow);
+		let rows = this.props.participantIds.map(this.createRow);
 		rows.unshift(this.createLessonHeader());
 		return <table>
 			<tbody>
