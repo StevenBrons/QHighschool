@@ -2,6 +2,7 @@
   "name": "marketing_site",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:26194/",
   "dependencies": {
     "jquery": "^3.4.1",
     "react": "^16.9.0",
