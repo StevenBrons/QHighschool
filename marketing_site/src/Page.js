@@ -3,12 +3,14 @@ import './Page.css';
 import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
 import Header from './components/Header';
+import fetchData from './fetchData';
 
 
 class Page extends Component {
 
   constructor(props) {
     super(props);
+    fetchData();
     this.state = {
       popOut: null,
     }
