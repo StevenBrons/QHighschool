@@ -1,12 +1,18 @@
 import $ from 'jquery';
 
 export default async function fetchData() {
-	$.ajax({
+	return $.ajax({
 		url: '/api/group/list',
 		type: 'get',
-		data: null,
 		dataType: 'json'
-	}).then(list => {
-		console.log('success:', list);
+	}).then(courses => {
+		let coursesPerSubject = {}
+		courses.forEach(c => {
+			if (!coursesPerSubject[c.subjectName]){
+				coursesPerSubject[c.subjectName] = {};
+			}
+			coursesPerSubject[c.subjectName][c.id] = c;
+		})
+		return coursesPerSubject;
 	})
 }

@@ -5,17 +5,18 @@ import './CourseGroup.css';
 class CourseGroup extends Component {
 
 	render() {
+		const courses = this.props.courses;
 		return (
 			<div className='CourseGroup'>
 				<h2>
 					{this.props.title}
 				</h2>
-				{[1,2,3,4,5,6,7,8,9,10].map(n => {
+				{Object.keys(courses).map(id => {
 					return <Course 
-								key={n} 
+								key={id} 
 								class='course' 
-								onClick={_ => this.props.onClick(n)} 
-								text={n} 
+								onClick={_ => this.props.onClick(id)} 
+								text={courses[id].courseName} 
 								large = {this.props.large}
 							/>
 				})}

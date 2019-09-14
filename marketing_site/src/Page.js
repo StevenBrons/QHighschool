@@ -10,20 +10,24 @@ class Page extends Component {
 
   constructor(props) {
     super(props);
-    fetchData();
     this.state = {
       popOut: null,
+      courses: null,
     }
   }
 
-  onClick = (course, group) => {
+  componentDidMount = () => {
+    fetchData().then(courses => this.setState({courses: courses}))
+  }
+
+  onClick = (courseId, group) => {
     let popOut = this.state.popOut;
-    if (popOut && popOut.group === group && popOut.course === course) {
+    if (popOut && popOut.group === group && popOut.courseId === courseId) {
       popOut = null;
     } else {
       popOut = {
         group: group,
-        course: course,
+        courseId: courseId,
       }
     }
     this.setState({
@@ -32,23 +36,31 @@ class Page extends Component {
   }
 
   render() {
-    const popOut = this.state.popOut;
+    const {popOut, courses} = this.state;
+    if (!courses) {
+      return(
+        <h1>
+          Laden...
+        </h1>
+      )
+    }
     return (
       <div className='Page'>
         <Header />
-        {['Wiskunde D', 'Wiskunde C', 'Avonturen', 'Informatica', 'Spaans'].map(group =>
+        {Object.keys(courses).map(subject =>
           <>
             <CourseGroup 
-              title={group} 
-              onClick={course => this.onClick(course,group)} 
+              title={subject} 
+              courses={courses[subject]}
+              onClick={courseId => this.onClick(courseId,subject)} 
               className='course-group' 
-              large = {group === 'Avonturen'}
+              large = {subject === 'Spaans'}
             />
-            {popOut && popOut.group === group && 
+            {popOut && popOut.group === subject && 
               <CourseInfo 
-                course={popOut.course} 
-                group={group} 
-                onClose={_ => this.onClick(popOut.course, popOut.group)} 
+                course={courses[popOut.group][popOut.courseId]} 
+                group={subject} 
+                onClose={_ => this.onClick(popOut.courseId, popOut.group)} 
               />  
             }
           </>
