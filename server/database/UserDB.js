@@ -37,6 +37,7 @@ exports.getEnrollments = async (userId) => {
 	return Enrollment.findAll({
 		where: {
 			userId,
+			accepted: "false",
 		}
 	}).then(async (rows) => {
 		return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId)));
@@ -85,10 +86,10 @@ exports.setUser = async ({ userId, preferedEmail, profile, phoneNumber, level, y
 		year: year,
 		level: level,
 	}, {
-			where: {
-				id: userId,
-			}
-		});
+		where: {
+			id: userId,
+		}
+	});
 }
 
 exports.addUserEnrollment = async (userId, courseGroupId) => {

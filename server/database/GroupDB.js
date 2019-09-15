@@ -8,6 +8,7 @@ const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
+const userDb = require("../database/UserDB");
 const officeEndpoints = require("../office/officeEndpoints");
 
 exports._mapGroup = (data) => {
@@ -158,11 +159,11 @@ async function _acceptEnrollment(userId, courseGroupId) {
 	return Enrollment.update({
 		accepted: "true"
 	}, {
-			where: {
-				userId,
-				courseGroupId,
-			}
-		});
+		where: {
+			userId,
+			courseGroupId,
+		}
+	});
 }
 
 async function _addParticipant(userId, courseGroupId, participatingRole) {
@@ -264,7 +265,17 @@ exports.updateUserStatus = async (userId, lessonId, newStatus) => {
 	if (p != null) {
 		p.update({ userStatus: newStatus });
 	} else {
-		throw new Error("No presence data available");
+		const lesson = await Lesson.findByPk(lessonId);
+		const groupIds = await userDb.getParticipatingGroupIds(userId);
+		if (groupIds.indexOf(lesson.groupId) !== -1) {
+			return Presence.create({
+				lessonId,
+				userId,
+				userStatus: newStatus,
+			});
+		} else {
+			throw new Error("You are a member of the group of this lesson");
+		}
 	}
 }
 

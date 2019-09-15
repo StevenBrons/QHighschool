@@ -235,6 +235,7 @@ class GroupPage extends Component {
 
 	componentDidUpdate() {
 		this.getData();
+		this.handleExternalGroupChange(this.props.group);
 	}
 
 	getData() {
@@ -260,9 +261,6 @@ class GroupPage extends Component {
 				if (participantIds == null) {
 					this.props.getGroupParticipants(group.id);
 				}
-				if (enrollmentIds == null) {
-					this.props.getGroupEnrollments(group.id);//also get enrollments because we're checking if new userId is in enrollmenIds
-				}
 				break;
 			case "Actief":
 				if (participantIds == null) {
@@ -284,6 +282,14 @@ class GroupPage extends Component {
 				}
 				break;
 			default: break;
+		}
+	}
+
+	handleExternalGroupChange = (newGroup) => {
+		if (!this.state.editable && JSON.stringify(newGroup) !== JSON.stringify(this.state.group)) {
+			this.setState({
+				group: newGroup,
+			})
 		}
 	}
 

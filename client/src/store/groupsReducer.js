@@ -17,6 +17,20 @@ function usersReducer(groups = DEFAULT_GROUPS, action) {
 					...action.group
 				}
 			};
+		case "CHANGE_PRESENCE_USER_STATUS":
+			return {
+				...groups,
+				[action.groupId]: {
+					...groups[action.groupId],
+					lessons: {
+						...groups[action.groupId].lessons,
+						[action.lessonId]: {
+							...groups[action.groupId].lessons[action.lessonId],
+							userStatus: action.userStatus,
+						}
+					}
+				}
+			}
 		default:
 			return groups;
 	}

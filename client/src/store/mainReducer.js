@@ -59,10 +59,6 @@ function mainReducer(state = DEFAULT_STATE, action) {
 			return { ...state, enrollableGroups: action.enrollableGroups };
 		case "CHANGE_SUBJECTS":
 			return { ...state, subjects: { ...state.subjects, ...action.subjects } };
-		case "CHANGE_PRESENCE_USER_STATUS":
-			let lessons = state.groups[action.groupId].lessons;
-			lessons[action.lessonId].userStatus = action.userStatus;
-			return { ...state, lessons }
 		default:
 			return {
 				...state,

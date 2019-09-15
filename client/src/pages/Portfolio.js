@@ -85,8 +85,6 @@ class Portfolio extends Component {
 	}
 
 	render() {
-		console.log(this.state);
-		console.log("asdf");
 		let options = [{ label: "Alle", value: "all" }, { label: "Blok 1", value: "period1" }, { label: "Blok 2", value: "period2" }, { label: "Blok 3", value: "period3" }, { label: "Blok 4", value: "period4" }];
 		if (this.props.role === "student") {
 			options.splice(1, 0, { label: "Ingeschreven", value: "enrolled" });
