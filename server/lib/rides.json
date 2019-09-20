@@ -336,5 +336,55 @@
 				]
 			}
 		]
+	},
+	{
+		"name": "Rit WO-1",
+		"day": "woensdag",
+		"capacity": 8,
+		"stops": [
+			{
+				"location": "Candea College",
+				"time": "14:00",
+				"in": [
+					408,
+					409
+				],
+				"out": []
+			},
+			{
+				"location": "Stedelijk Gymnasium Arnhem",
+				"time": "14:25",
+				"in": [],
+				"out": [
+					408,
+					409
+				]
+			}
+		]
+	},
+	{
+		"name": "Rit WO-2",
+		"day": "woensdag",
+		"capacity": 8,
+		"stops": [
+			{
+				"location": "Stedelijk Gymnasium Arnhem",
+				"time": "16:05",
+				"in": [
+					408,
+					409
+				],
+				"out": []
+			},
+			{
+				"location": "Candea College",
+				"time": "16:30",
+				"in": [],
+				"out": [
+					408,
+					409
+				]
+			}
+		]
 	}
 ]
