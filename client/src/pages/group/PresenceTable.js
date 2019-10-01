@@ -39,6 +39,7 @@ class PresenceTable extends Component {
 				return this.createPresenceComponent(p[0], i);
 			} else {
 				return this.createPresenceComponent({
+					id: Math.floor(-Math.random() * 100000),
 					lessonId: lesson.id,
 					userId: participantId,
 					status: "present",

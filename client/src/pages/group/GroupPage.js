@@ -166,7 +166,6 @@ class GroupPage extends Component {
 						}
 					</div>
 				);
-
 			case "Actief":
 				if (participantIds == null || lessons == null || presence == null) {
 					return <Progress />;
@@ -326,6 +325,7 @@ class GroupPage extends Component {
 
 	handlePresenceChange = (presenceObj) => {
 		let presence = this.state.group.presence || this.props.group.presence;
+		console.log(presence);
 		this.setState({
 			group: {
 				...this.state.group,
