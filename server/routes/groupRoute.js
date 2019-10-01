@@ -14,7 +14,7 @@ router.post("/", promiseMiddleware(async (req) => {
 	return groupDb.appendEvaluation(group, req.user.id);
 }), doReturn);
 
-router.patch("/", ensureOffice, ensureTeacher, promiseMiddleware((req) => {
+router.patch("/", ensureOffice, ensureTeacher, ensureInGroup, promiseMiddleware((req) => {
 	if (req.user.isAdmin()) {
 		return groupDb.setFullGroup(req.body)
 	} else {
@@ -27,7 +27,11 @@ router.put("/", ensureOffice, ensureSecure, ensureAdmin, promiseMiddleware((req)
 }), doSuccess);
 
 router.post("/enrollments", ensureOffice, ensureTeacher, ensureInSubjectGroup, promiseMiddleware((req) => {
-	return groupDb.getEnrollments(req.body.groupId);
+	if (req.user.isGradeAdmin()) {
+		return groupDb.getEnrollments(req.body.groupId, req.user.school);
+	} else {
+		return groupDb.getEnrollments(req.body.groupId);
+	}
 }), doReturn);
 
 router.post("/lessons", ensureOffice, promiseMiddleware((req, res) => {
@@ -59,7 +63,11 @@ router.post("/participants", ensureOffice, promiseMiddleware(async (req, res) =>
 	const subjectId = await groupDb.getSubjectIdOfGroupId(groupId);
 	if ((req.user.isStudent() && req.user.inGroup(groupId)) ||
 		(req.user.isTeacher() && req.user.inSubjectGroup(subjectId))) {
-		return groupDb.getParticipants(req.body.groupId, req.user.isTeacher());
+		if (req.user.isGradeAdmin()) {
+			return groupDb.getParticipants(req.body.groupId, req.user.isTeacher(), req.user.school);
+		} else {
+			return groupDb.getParticipants(req.body.groupId, req.user.isTeacher());
+		}
 	} else {
 		authError(res);
 	}
@@ -74,7 +82,11 @@ router.patch("/userStatus", ensureOffice, promiseMiddleware((req) => {
 }), doSuccess);
 
 router.post("/presence", ensureOffice, ensureInGroup, ensureTeacher, promiseMiddleware((req) => {
-	return groupDb.getPresence(req.body.groupId);
+	if (req.user.isGradeAdmin()) {
+		return groupDb.getPresence(req.body.groupId, req.user.school);
+	} else {
+		return groupDb.getPresence(req.body.groupId);
+	}
 }), doReturn);
 
 router.patch("/presence", ensureOffice, ensureTeacher, ensureInGroup, promiseMiddleware(async ({ body }) => {
@@ -83,7 +95,11 @@ router.patch("/presence", ensureOffice, ensureTeacher, ensureInGroup, promiseMid
 }), doSuccess);
 
 router.post("/evaluations", ensureOffice, ensureTeacher, ensureInGroup, promiseMiddleware((req) => {
-	return groupDb.getEvaluations(req.body.groupId);
+	if (req.user.isGradeAdmin()) {
+		return groupDb.getEvaluations(req.body.groupId, req.user.school);
+	} else {
+		return groupDb.getEvaluations(req.body.groupId);
+	}
 }), doReturn);
 
 async function setEvaluation(ev, req) {

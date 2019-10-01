@@ -4,7 +4,7 @@ const { getSubjectIdOfGroupId, getParticipatingGroupsIds } = require("../databas
 
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds, subjectIds, school, token) {
+	constructor(id, email, role, displayName, groupIds, subjectIds, school = "NO_SCHOOL", token) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
@@ -18,14 +18,14 @@ class SerialisedUser {
 	}
 
 	inGroup(groupId) {
-		if (this.isAdmin()) {
+		if (this.isAdmin() || this.isGradeAdmin()) {
 			return true;
 		}
 		return this.groupIds.indexOf(groupId + "") !== -1;
 	}
 
 	inSubjectGroup(subjectId) {
-		if (this.isAdmin()) {
+		if (this.isAdmin() || this.isGradeAdmin()) {
 			return true;
 		}
 		return this.subjectIds.indexOf(subjectId + "") !== -1;
@@ -36,7 +36,7 @@ class SerialisedUser {
 	}
 
 	isTeacher() {
-		if (this.isAdmin()) {
+		if (this.isAdmin() || this.isGradeAdmin()) {
 			return true;
 		}
 		return this.role === "teacher";
@@ -46,7 +46,7 @@ class SerialisedUser {
 		if (this.isAdmin()) {
 			return true;
 		}
-		return this.role === "grade_admin" && this.school != null;
+		return this.role === "grade_admin";
 	}
 
 	isStudent() {

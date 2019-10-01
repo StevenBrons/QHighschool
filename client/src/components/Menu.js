@@ -36,7 +36,7 @@ class Menu extends Component {
 				this.state.pages = ["groepen", "aanbod", "profiel", "gegevens", "taxi", "beheer", "loguit"];
 				break;
 			case "grade_admin":
-				this.state.pages = ["aanbod", "gegevens", "profiel", "loguit"];
+				this.state.pages = ["aanbod", "gegevens", "taxi", "profiel", "loguit"];
 				break;
 			default:
 				this.state.pages = ["aanbod", "profiel", "loguit"];

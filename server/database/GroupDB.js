@@ -10,6 +10,7 @@ const Presence = require("../dec/PresenceDec");
 const functionDb = require("../database/FunctionDB");
 const userDb = require("../database/UserDB");
 const officeEndpoints = require("../office/officeEndpoints");
+const Op = require("sequelize").Op;
 
 exports._mapGroup = (data) => {
 	let groupName = data.course.name;
@@ -110,7 +111,7 @@ exports.setGraphId = async (groupId, graphId) => {
 	g.update({ graphId });
 }
 
-exports.getEnrollments = async (groupId) => {
+exports.getEnrollments = async (groupId, school = "%") => {
 	return Enrollment.findAll({
 		attributes: [],
 		where: {
@@ -119,12 +120,17 @@ exports.getEnrollments = async (groupId) => {
 		},
 		include: [{
 			model: User,
-			order: [["displayName", "DESC"]]
+			order: [["displayName", "DESC"]],
+			where: {
+				school: {
+					[Op.like]: school,
+				}
+			}
 		}]
 	}).then((e) => e.map((e) => e.user));
 }
 
-exports.getParticipants = async (groupId, teacher) => {
+exports.getParticipants = async (groupId, teacher, school = "%") => {
 	const participants = await Participant.findAll({
 		attributes: ["participatingRole", "userId"],
 		where: {
@@ -135,6 +141,11 @@ exports.getParticipants = async (groupId, teacher) => {
 			attributes: teacher ?
 				["id", "role", "school", "firstName", "lastName", "displayName", "year", "profile", "level", "preferedEmail", "phoneNumber", "email"] :
 				["id", "role", "displayName", "firstName", "lastName", "level", "profile", "year"],
+			where: {
+				school: {
+					[Op.like]: school,
+				}
+			},
 			order: [["displayName", "DESC"]]
 		},
 	});
@@ -207,15 +218,23 @@ exports.setLesson = async (lesson) => {
 	});
 }
 
-exports.getPresence = async (groupId) => {
+exports.getPresence = async (groupId, school = "%") => {
 	return Presence.findAll({
-		include: {
+		include: [{
 			model: Lesson,
 			attributes: [],
 			where: {
 				courseGroupId: groupId,
+			},
+		}, {
+			model: User,
+			where: {
+				school: {
+					[Op.like]: school
+				}
 			}
 		}
+		]
 	});
 }
 
@@ -246,13 +265,18 @@ exports.setPresence = async ({ userId, lessonId, status }, courseGroupId) => {
 	});
 }
 
-exports.getEvaluations = async (groupId) => {
+exports.getEvaluations = async (groupId, school = "%") => {
 	const participants = await Participant.findAll({
 		attributes: ["userId"],
 		where: { courseGroupId: groupId, participatingRole: "student" },
 		include: {
 			attributes: ["displayName"],
 			model: User,
+			where: {
+				school: {
+					[Op.like]: school,
+				}
+			}
 		},
 	});
 	const evaluations = participants

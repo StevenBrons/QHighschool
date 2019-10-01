@@ -52,6 +52,7 @@ class GroupPage extends Component {
 				}
 				break;
 			case "admin":
+			case "grade_admin":
 				this.state.tabs = ["Inschrijvingen", "Lessen", "Deelnemers", "Actief", "Beoordeling"];
 				break;
 			default:
