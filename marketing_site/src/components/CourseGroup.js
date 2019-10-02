@@ -5,7 +5,7 @@ import './CourseGroup.css';
 class CourseGroup extends Component {
 
 	render() {
-		const courses = this.props.courses;
+		const {courses, selectedCourse} = this.props;
 		return (
 			<div className='CourseGroup'>
 				<h3>
@@ -18,6 +18,7 @@ class CourseGroup extends Component {
 									class='course' 
 									onClick={_ => this.props.onClick(id)} 
 									text={courses[id].courseName} 
+									selected = {selectedCourse === id}
 									large = {this.props.large}
 								/>
 					})}

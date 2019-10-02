@@ -54,6 +54,7 @@ class Page extends Component {
               courses={courses[subject]}
               onClick={courseId => this.onClick(courseId,subject)} 
               className='course-group' 
+              selectedCourse = {popOut && popOut.courseId}
               large = {subject === 'Spaans'}
             />
             {popOut && popOut.group === subject && 

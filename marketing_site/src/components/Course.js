@@ -4,14 +4,16 @@ import './Course.css';
 class Course extends Component {
 
 	render() {
+		const {selected, large, text, onClick} = this.props;
 		return (
 			<button 
-				className = {'Course' + (this.props.large ? ' large' : '')}
-				onMouseEnter={this.onMousEnter}
-				onMouseLeave={this.onMouseLeave}
-				onClick={this.props.onClick}
+				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '')}
+				onClick={onClick}
 				>
-				{this.props.text}
+				{text}
+				{selected && 
+					<div className='arrow'/>
+				}
 			</button>
 		)
 	}
