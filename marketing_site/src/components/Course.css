@@ -1,14 +1,24 @@
 .Course {
-	height:100px;
-	width:200px;
+	height:9em;
+	width:16em;
 	background:red;
 	display: inline-block;
-	margin: 0 5px;
+	margin-right: 10px;
 	transition: transform 0s;
 }
 
+.Course:first-child {/* So the left most course doesn't scale out of screen */ 
+	transform-origin: left;
+}
+
+
 .Course:hover{
-	transform: scale(1.7);
+	transform: scale(1.5);
+	transition: transform .35s;
+}
+
+.large:hover{ 
+	transform: scale(1.33);
 	transition: transform .35s;
 }
 

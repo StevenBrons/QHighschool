@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Page.css';
 import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
-import Header from './components/Header';
+// import Header from './components/Header';
 import fetchData from './fetchData';
 
 
@@ -46,7 +46,7 @@ class Page extends Component {
     }
     return (
       <div className='Page'>
-        <Header />
+        {/* <Header /> */}
         {Object.keys(courses).map(subject =>
           <>
             <CourseGroup 
