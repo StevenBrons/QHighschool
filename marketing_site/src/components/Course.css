@@ -4,22 +4,12 @@
 	background:red;
 	display: inline-block;
 	margin: 0 5px;
-	transition: width 200ms, height 200ms;
-	transition-delay: 100ms;
+	transition: transform 0s;
 }
 
 .Course:hover{
-	height: 150px;
-	width: 300px;
-	transition: width 500ms, height 500ms;
-	transition-delay: 200ms;
-}
-
-.large:hover{
-	height: 350px;
-	width: 250px;
-	transition: width 500ms, height 500ms;
-	transition-delay: 200ms;
+	transform: scale(1.7);
+	transition: transform .2s;
 }
 
 .large {
