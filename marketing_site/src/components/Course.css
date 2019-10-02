@@ -9,7 +9,7 @@
 
 .Course:hover{
 	transform: scale(1.7);
-	transition: transform .2s;
+	transition: transform .35s;
 }
 
 .large {
