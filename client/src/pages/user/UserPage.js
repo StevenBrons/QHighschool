@@ -7,8 +7,8 @@ import { setUser, isUserMissingInfo } from '../../store/actions';
 import Field from '../../components/Field';
 import Typography from '@material-ui/core/Typography';
 
-const profiles = ["NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
-const levels = ["VWO", "HAVO"];
+const profiles = ["Geen Profiel", "NT", "NG", "CM", "EM", "NT&NG", "EM&CM"];
+const levels = ["VWO", "HAVO", "VMBO"];
 
 class UserPage extends Component {
 
