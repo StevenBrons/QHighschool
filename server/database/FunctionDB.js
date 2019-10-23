@@ -159,7 +159,7 @@ exports.getEnrollment = async (school) => {
 			}],
 		}, {
 			model: User,
-			attributes: ["email", "displayName", "school", "year", "level"],
+			attributes: ["email", "preferedEmail", "displayName", "school", "year", "level"],
 			where: where,
 		}]
 	}).then(enrl => enrl.map(e => {
@@ -174,6 +174,7 @@ exports.getEnrollment = async (school) => {
 			school: e["user.school"],
 			year: e["user.year"],
 			level: e["user.level"],
+			preferedEmail: e["user.preferedEmail"],
 			createdAt: moment(e["createdAt"]).format("lll"),
 		}
 	}));
