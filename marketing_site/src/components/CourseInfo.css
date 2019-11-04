@@ -4,7 +4,7 @@
 	text-align: center;
 	height: 28rem;
 	display: flex;
-	z-index: -1;/* So the arrow fits  above it*/
+	/* z-index: -1;So the arrow fits  above it; nevermind this stops the button from working */
 }
 
 .CourseInfo .info-text {
@@ -19,6 +19,6 @@
 
 .CourseInfo .close-button {
 	position: absolute;
-	right: 1em;
+	right: 100em;
 	top: 1em;
 }
