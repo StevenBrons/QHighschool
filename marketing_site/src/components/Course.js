@@ -18,6 +18,11 @@ class Course extends Component {
 					>
 					{text}
 				</h1>
+				<img 
+					className="q-logo"
+					src='q.jpeg'
+					alt=""
+				/>
 					{selected && 
 						<div className='arrow'/>
 					}

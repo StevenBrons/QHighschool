@@ -34,6 +34,13 @@
 	word-wrap: break-word;
 }
 
+.Course .q-logo {
+	position: absolute;
+	top: 0;
+	left: 0; 
+	width: 2em;
+}
+
 .Course:first-child {/* So the left most course doesn't scale out of screen */ 
 	transform-origin: left;
 }
