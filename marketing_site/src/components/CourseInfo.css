@@ -1,15 +1,68 @@
 .CourseInfo {
-	/* background-color: blue; */
+	width: 100%;
+	background-color: #1f1f1f;
 	position: relative;
 	text-align: center;
 	height: 28rem;
 	display: flex;
+	color: white;
 	/* z-index: -1;So the arrow fits  above it; nevermind this stops the button from working */
 }
 
 .CourseInfo .info-text {
+	text-align: left;
+	margin-top: 2em;
+	margin-left: 3em;
 	flex: 1;
-	background-color: darkgray;
+}
+
+.CourseInfo .info-text .title {
+	margin-bottom: 0;
+}
+
+.CourseInfo .info-text .short-description {
+	margin-top: .2em;
+}
+
+.CourseInfo .info-text .period {
+	color: #ff7a03;
+	height: 2em;
+	line-height: 2em;
+}
+
+.CourseInfo .info-text .period .square {
+	width: 2em;
+	height: 2em;
+	display: inline-block;
+	vertical-align: middle;
+	background: #ff7a03;
+}
+
+.CourseInfo .info-text .period .number {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1.2em;
+	margin: 0 0 0 0.5em;
+}
+
+.CourseInfo .info-text .description-title {
+	font-weight: bold;
+}
+
+.CourseInfo .info-text .enroll-button {
+	border: none;
+	background: #ff7a03;
+	color: white;
+	height: 2.5em;
+	width: 8em;
+	font-weight: 500;
+	position: absolute;
+	bottom: 2em;
+}
+
+.CourseInfo .info-text .enroll-button:hover {
+	cursor: pointer;
+	color: lightgrey;
 }
 
 .CourseInfo .image{
