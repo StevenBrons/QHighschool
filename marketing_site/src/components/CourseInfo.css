@@ -19,6 +19,14 @@
 
 .CourseInfo .close-button {
 	position: absolute;
-	right: 100em;
+	right: 1em;
 	top: 1em;
+	width: 4em;
+	height: 4em;
+	border: none;
+}
+
+.CourseInfo .close-button:hover{
+	filter: grayscale(30%);
+	cursor: pointer;
 }

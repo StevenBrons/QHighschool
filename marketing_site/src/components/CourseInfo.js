@@ -22,9 +22,11 @@ class CourseInfo extends Component {
 					</p>
 				</div>
 				<div className='image'/>
-				<button className='close-button' onClick={this.props.onClose}>
-					X
-				</button>
+				<button 
+					className='close-button' 
+					onClick={this.props.onClose} 
+					style={{background:'url(close-button.svg)'}}
+				/>
       </div>
     )
   }
