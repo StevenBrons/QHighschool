@@ -2,6 +2,7 @@
 	height:15em;
 	width:26em;
 	background:red;
+	position: relative;
 	display: inline-block;
 	margin-right: 10px;
 	transition: transform 0s;
@@ -29,6 +30,9 @@
 }
 
 .Course .text {
+	position: absolute;
+	bottom: 0;
+	left: 1em;
 	width: 60%;
 	white-space: normal;
 	word-wrap: break-word;
