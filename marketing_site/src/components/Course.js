@@ -11,13 +11,13 @@ class Course extends Component {
 			<div
 				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '')}
 				onClick={onClick}
+				style={{backgroundImage:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg)`}}
 				>
-				<img 
-					className = 'image'
-					alt={""}
-					src = {`https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg`}
-					/>
+				<h1 
+					className = 'text'
+					>
 					{text}
+				</h1>
 					{selected && 
 						<div className='arrow'/>
 					}

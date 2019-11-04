@@ -5,6 +5,8 @@
 	display: inline-block;
 	margin-right: 10px;
 	transition: transform 0s;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 .Course.large {
@@ -26,9 +28,10 @@
 	border-top: 1.3em solid orangered;
 }
 
-.Course .image {
-	height: 100%;
-	width: 100%;;
+.Course .text {
+	width: 60%;
+	white-space: normal;
+	word-wrap: break-word;
 }
 
 .Course:first-child {/* So the left most course doesn't scale out of screen */ 
