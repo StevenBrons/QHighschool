@@ -5,16 +5,23 @@ class Course extends Component {
 
 	render() {
 		const {selected, large, text, onClick} = this.props;
+		const id = 11;//TODO: replace with actual id
+			// </img>
 		return (
-			<button 
+			<div
 				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '')}
 				onClick={onClick}
 				>
-				{text}
-				{selected && 
-					<div className='arrow'/>
-				}
-			</button>
+				<img 
+					className = 'image'
+					alt={""}
+					src = {`https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg`}
+					/>
+					{text}
+					{selected && 
+						<div className='arrow'/>
+					}
+			</div>
 		)
 	}
 }

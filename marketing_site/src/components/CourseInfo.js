@@ -7,21 +7,24 @@ class CourseInfo extends Component {
 	const course = this.props.course;
     return (
       <div className='CourseInfo'>
-		  <h1>
-			  Informatie over module {course.courseName} van {course.subjectName}
-		  </h1>
-		  <p>
-			  Beschrijving: {course.courseDescription} <br/>
-			  Leraar: {course.teacherName} <br/>
-			  Studietijd: {course.studyTime} <br/>
-			  Voorkennis: {course.remarks} <br/>
-			  Doelgroep: {course.enrollableFor} <br/>
-			  Periode: {course.period} <br/>
-			  Dag: {course.day} <br/>
-		  </p>
-		  <button onClick={this.props.onClose}>
-			  X
-		  </button>
+				<div className='info-text'>
+					<h1>
+						Informatie over module {course.courseName} van {course.subjectName}
+					</h1>
+					<p>
+						Beschrijving: {course.courseDescription} <br/>
+						Leraar: {course.teacherName} <br/>
+						Studietijd: {course.studyTime} <br/>
+						Voorkennis: {course.remarks} <br/>
+						Doelgroep: {course.enrollableFor} <br/>
+						Periode: {course.period} <br/>
+						Dag: {course.day} <br/>
+					</p>
+				</div>
+				<div className='image'/>
+				<button className='close-button' onClick={this.props.onClose}>
+					X
+				</button>
       </div>
     )
   }

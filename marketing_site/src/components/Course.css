@@ -1,6 +1,6 @@
 .Course {
-	height:9em;
-	width:16em;
+	height:15em;
+	width:26em;
 	background:red;
 	display: inline-block;
 	margin-right: 10px;
@@ -18,12 +18,17 @@
 	margin-right: auto;
 	left: 0;
 	right: 0;
-	bottom: -0.6em;
+	bottom: -0.8em;
 	height: 0;
 	width: 0;
-	border-left: 1em solid transparent;
-	border-right: 1em solid transparent;
-	border-top: 1em solid orangered;
+	border-left: 1.3em solid transparent;
+	border-right: 1.3em solid transparent;
+	border-top: 1.3em solid orangered;
+}
+
+.Course .image {
+	height: 100%;
+	width: 100%;;
 }
 
 .Course:first-child {/* So the left most course doesn't scale out of screen */ 
@@ -31,11 +36,11 @@
 }
 
 .Course.selected {
-	transform: scale(1.5);
+	transform: scale(1.3);
 }
 
 .Course:hover{
-	transform: scale(1.5);
+	transform: scale(1.3);
 	transition: transform .35s;
 }
 
