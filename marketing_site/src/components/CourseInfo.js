@@ -32,7 +32,10 @@ class CourseInfo extends Component {
 						{course.courseDescription}
 					</p>
 
-					<button className='enroll-button'>
+					<button 
+						className='enroll-button'
+						onClick={() => {window.open(`https://app.q-highschool.nl/aanbod?vak=${course.subjectName}&blok=${course.period}&leerjaar=${course.schoolYear}`)}}
+					>
 						AANMELDEN
 					</button>
 				</div>
