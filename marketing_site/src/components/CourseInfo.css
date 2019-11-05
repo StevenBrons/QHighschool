@@ -67,7 +67,13 @@
 
 .CourseInfo .image{
 	flex:2;
-	background-color: yellow;
+	border-width: 0;
+	border-left: 4em solid;
+	border-image: linear-gradient(
+      to right, 
+      #1f1f1f 30%, 
+      rgba(0, 0, 0, 0)
+    ) 1 100%;
 }
 
 .CourseInfo .close-button {
