@@ -20,7 +20,7 @@ class Course extends Component {
 				</h1>
 				<img 
 					className="q-logo"
-					src='q.jpeg'
+					src='q.svg'
 					alt=""
 				/>
 					{selected && 
