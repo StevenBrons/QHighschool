@@ -44,7 +44,13 @@ exports.getCurrentWeekInBlock = () => {
 }
 
 exports.shouldBeSynced = (group) => {
-	return group.schoolYear === "2019/2020" && group.period === 1;
+	if (process.env.NODE_ENV) {
+		//production
+		return group.schoolYear === "2019/2020";
+	} else {
+		//develop
+		return group.schoolYear === "2019/2020" && group.period === 1;
+	}
 }
 
 exports.getEnrollmentPeriod = () => {

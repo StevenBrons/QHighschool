@@ -19,13 +19,6 @@ exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
 	return addParticipant(graphId, upn, participatingRole);
 }
 
-// exports.deleteAllClasses = async () => {
-// 	// const res = await connection.api("education/schools/" + office365.schoolId + "/classes").get();
-// 	// await Promise.\all(res.value.map(team => connection.api("education/classes/" + team.id).delete()))
-// 	// 	.catch(console.error);
-// 	// console.error("DELETED ALL CLASSES");
-// }
-
 async function addParticipant(graphId, upn, participatingRole) {
 	const role = participatingRole === "teacher" ? "teachers" : "members";
 	return connection.api(`education/classes/${graphId}/${role}/$ref`)
@@ -37,15 +30,21 @@ async function removeParticipant(graphId, upn, participatingRole) {
 	return connection.api(`education/classes/${graphId}/${role}/$ref`)
 		.delete({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` });
 }
+
+function sanitizeText(text) {
+	return text.replace(/[^a-zA-Z0-9 \-#\.,\?\!\(\)\[\]"']/g, "");
+}
+
 function getClassDataFromGroup(group) {
-	let mailNickname = group.courseName + `#G${group.id}`;
+	const displayGroupId = "#G" + group.id.padStart(4, "0");
+	let mailNickname = group.courseName + displayGroupId;
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
 	mailNickname = mailNickname.replace(/ +/g, "");
+	mailNickname = mailNickname.replace(/[^a-zA-Z0-9 \-#]/g, "");
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
-	const displayGroupId = "#G" + group.id.padStart(4, "0");
 	return {
-		description: group.courseDescription,
-		displayName: `QH ${group.subjectAbbreviation} ${group.courseName} ${displayGroupId}`,
+		description: sanitizeText(group.courseDescription),
+		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} ${displayGroupId}`),
 		mailNickname,
 		classCode: displayGroupId,
 		externalId: group.id + "",

@@ -9,9 +9,9 @@ const User = require("../dec/UserDec");
 const Op = require('sequelize').Op;
 const groupDb = require("../database/GroupDB");
 const graphConnection = require("../office/graphConnection");
+const officeEndpoints = require("../office/officeEndpoints");
 const moment = require("moment");
 moment.locale('nl');
-
 
 exports.createUser = async (accessToken) => {
 	const user = await graphConnection.getOwnDetails(accessToken);
@@ -58,11 +58,12 @@ exports.createUser = async (accessToken) => {
 	return User.create(user);
 }
 
-exports.updateAllLessonDates = async () => {
-	return Group.findAll({ attributes: ["id", "period", "day", "schoolYear"] })
-		.then(rows => rows.map(({ schoolYear, id, period, day }) => {
-			exports.updateLessonDates(id, schoolYear, period, day);
-		}));
+exports.updateAllGroups = async () => {
+	const groups = await Group.findAll({ attributes: ["id", "period", "day", "schoolYear"] });
+	return Promise.all(groups.map(async ({ schoolYear, id, period, day }) => {
+		await exports.updateLessonDates(id, schoolYear, period, day);
+		await officeEndpoints.updateClass(id);
+	}));
 }
 
 exports.updateLessonDates = async (groupId, schoolYear, period, day) => {
