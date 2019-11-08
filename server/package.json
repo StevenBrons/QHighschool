@@ -13,26 +13,26 @@
     "cookie-parser": "^1.4.4",
     "cookie-session": "^2.0.0-beta.3",
     "debug": "~4.1.1",
-    "ejs": "^2.6.2",
+    "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
+    "express-session": "^1.17.0",
     "http-errors": "^1.7.3",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
-    "mysql2": "^1.6.5",
-    "npm": "^6.10.3",
+    "mysql2": "^1.7.0",
+    "npm": "^6.13.0",
     "passport": "^0.4.0",
     "passport-azure-ad": "^4.1.0",
     "promise-mysql": "^3.3.2",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "sequelize": "^5.14.0",
-    "simple-oauth2": "^2.2.1",
-    "swagger-ui-express": "^4.0.7"
+    "request-promise": "^4.2.5",
+    "sequelize": "^5.21.2",
+    "simple-oauth2": "^2.5.2",
+    "swagger-ui-express": "^4.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5"
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0"
   }
 }

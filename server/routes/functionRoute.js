@@ -5,14 +5,9 @@ var taxi = require('../lib/taxi');
 const { promiseMiddleware, doSuccess, doReturn } = require('./handlers');
 const { ensureAdmin, ensureConfirm, ensureSecure, ensureGradeAdmin } = require('./permissions');
 
-router.post("/calculateLessonDates", ensureAdmin, ensureConfirm, promiseMiddleware(() => {
-	console.log("Re-calculating all lesson dates");
-	return functionDb.updateAllLessonDates();
-}), doSuccess);
-
-router.post("/calculateLessonDates", ensureAdmin, ensureConfirm, promiseMiddleware(() => {
-	console.log("Re-calculating all lesson dates");
-	return functionDb.updateAllLessonDates();
+router.post("/updateAllGroups", ensureAdmin, ensureConfirm, promiseMiddleware(() => {
+	console.log("Updating all groups!");
+	return functionDb.updateAllGroups();
 }), doSuccess);
 
 router.post("/taxi", promiseMiddleware((req) => {

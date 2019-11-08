@@ -972,13 +972,13 @@
         }
       }
     },
-    "/function/calculateLessonDates": {
+    "/function/updateAllGroups": {
       "post": {
         "tags": [
           "Function"
         ],
-        "summary": "Reset all lesson dates",
-        "operationId": "calculateLessonDates",
+        "summary": "Update all groups: re-calculate lesson dates and update teams",
+        "operationId": "updateAllGroups",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
