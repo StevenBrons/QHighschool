@@ -8,7 +8,10 @@ class CourseGroup extends Component {
 		const {courses, selectedCourse} = this.props;
 		return (
 			<div className='CourseGroup'>
-				<h3>
+				<h3
+					className='title'
+					onClick={()=>{}}//TODO
+				>
 					{this.props.title}
 				</h3>
 				<div>
