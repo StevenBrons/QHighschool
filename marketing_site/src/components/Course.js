@@ -7,9 +7,11 @@ class Course extends Component {
 		const {selected, large, text, onClick} = this.props;
 		const id = 11;//TODO: replace with actual id
 			// </img>
+		const colors = [' purple', ' pink', ' blue', ' orange', ' red', ' green', ' yellow'];
+		const color = colors[Math.floor(Math.random() * 7)];
 		return (
 			<div
-				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '')}
+				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '') + color}
 				onClick={onClick}
 				style={{backgroundImage:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg)`}}
 				>
