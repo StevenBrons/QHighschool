@@ -31,8 +31,10 @@ async function removeParticipant(graphId, upn, participatingRole) {
 		.delete({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` });
 }
 
+
 function sanitizeText(text) {
-	return text.replace(/[^a-zA-Z0-9 \-#\.,\?\!\(\)\[\]"']/g, "");
+	const MAX_LENGTH = 440;
+	return text.replace(/[^a-zA-Z0-9 \-#\.,\?\!\(\)\[\]"']/g, "").substring(0, MAX_LENGTH);;
 }
 
 function getSmallYear(schoolYear) {
