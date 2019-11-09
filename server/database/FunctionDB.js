@@ -59,20 +59,22 @@ exports.createUser = async (accessToken) => {
 }
 
 exports.updateAllGroups = async () => {
-	const groups = await Group.findAll({ attributes: ["id", "period", "day", "schoolYear"] });
-	return Promise.all(groups.map(async ({ schoolYear, id, period, day }) => {
-		await exports.updateLessonDates(id, schoolYear, period, day);
-		await officeEndpoints.updateClass(id);
+	const groups = await Group.findAll();
+	return Promise.all(groups.map(async (group) => {
+		await exports.updateLessonDates(group);
+		await officeEndpoints.updateClass(group.id);
 	}));
 }
 
-exports.updateLessonDates = async (groupId, schoolYear, period, day) => {
+exports.updateLessonDates = async (group) => {
 	const schedule = require("../lib/schedule");
+	if (!schedule.shouldBeSynced(group)) return;
+	const { id, schoolYear, period, day } = group;
 	for (let i = 0; i < 9; i++) {
 		const date = schedule.getLessonDate(schoolYear, period, i + 1, day);
 		await Lesson.update({ date }, {
 			where: {
-				courseGroupId: groupId,
+				courseGroupId: id,
 				numberInBlock: i + 1
 			}
 		});
