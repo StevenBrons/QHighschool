@@ -19,3 +19,19 @@
 	overflow-y: visible;
 	scroll-behavior: smooth;
 }
+
+.CourseGroup .scroll-left {
+	position: absolute;
+	left: 0;
+	height: 15em;
+	width: 2.5%;
+	z-index: 2;
+}
+
+.CourseGroup .scroll-right {
+	position: absolute;
+	right: 0;
+	height: 15em;
+	width: 2.5%;
+	z-index: 2;
+}

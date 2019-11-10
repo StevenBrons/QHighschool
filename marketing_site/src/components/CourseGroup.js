@@ -44,7 +44,7 @@ class CourseGroup extends Component {
 									key={id} 
 									class='course' 
 									onClick={_ => this.props.onClick(id)} 
-									text={courses[id].courseName} 
+									text={courses[id].courseName.toUpperCase()} 
 									selected = {selectedCourse === id}
 									large = {this.props.large}
 								/>
@@ -54,7 +54,7 @@ class CourseGroup extends Component {
 					className='scroll-right'
 					onClick={this.scrollToRight}
 				>
-					{'>'}
+					{'\u276f'}
 				</button>
 			</div>
 		)
