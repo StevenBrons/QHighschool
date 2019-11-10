@@ -1,11 +1,12 @@
 .CourseInfo {
-	width: 100%;
+	width: 96%;
 	background-color: #1f1f1f;
 	position: relative;
 	text-align: center;
-	height: 28rem;
+	height: 50vh;
 	display: flex;
 	color: white;
+	margin: 0 2%;
 	/* z-index: -1;So the arrow fits  above it; nevermind this stops the button from working */
 }
 
@@ -67,13 +68,14 @@
 
 .CourseInfo .image{
 	flex:2;
-	border-width: 0;
-	border-left: 4em solid;
-	border-image: linear-gradient(
-      to right, 
-      #1f1f1f 30%, 
-      rgba(0, 0, 0, 0)
-    ) 1 100%;
+}
+
+.CourseInfo .image:after {
+	display: block;
+	background-image: linear-gradient(to right,#1f1f1f 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
 }
 
 .CourseInfo .close-button {

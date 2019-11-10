@@ -39,7 +39,12 @@ class CourseInfo extends Component {
 						AANMELDEN
 					</button>
 				</div>
-				<div className='image' style={{background:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg)`}}/>
+				<div 
+					className='image' 
+					style={{background:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg) no-repeat`,
+									backgroundRepeat: 'no-repeat',
+									backgroundSize: 'cover',
+									backgroundPosition:'center right'}}/>
 				<button 
 					className='close-button' 
 					onClick={this.props.onClose} 
