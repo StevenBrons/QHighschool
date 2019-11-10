@@ -10,7 +10,7 @@ class CourseInfo extends Component {
       <div className='CourseInfo'>
 				<div className='info-text'>
 					<h1 className='title'>
-						{course.courseName}
+						{course.courseName.toUpperCase()}
 					</h1>
 
 					<p className='short-description'>
