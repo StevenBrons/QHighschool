@@ -35,3 +35,9 @@
 	width: 2.5%;
 	z-index: 2;
 }
+
+@media (pointer: coarce) { /* Touch screen, so scrolling through courses can be done without buttons*/
+	.CourseGroup .scroller {
+		overflow-x: scroll;
+	}
+}
