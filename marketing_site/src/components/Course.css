@@ -79,7 +79,7 @@
 
 .Course.purple:after {
 	display: block;
-	background-image: linear-gradient(45deg,purple 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#460eaf 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -87,7 +87,7 @@
 
 .Course.pink:after {
 	display: block;
-	background-image: linear-gradient(45deg,pink 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#fc22fc 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -95,7 +95,7 @@
 
 .Course.blue:after {
 	display: block;
-	background-image: linear-gradient(45deg,lightblue 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#1fb2ff 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -103,7 +103,7 @@
 
 .Course.orange:after {
 	display: block;
-	background-image: linear-gradient(45deg,orange 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#ff7a03 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -111,7 +111,7 @@
 
 .Course.red:after {
 	display: block;
-	background-image: linear-gradient(45deg,red 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#e20b12 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -119,7 +119,7 @@
 
 .Course.green:after {
 	display: block;
-	background-image: linear-gradient(45deg,green 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#00fe81 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
@@ -127,7 +127,7 @@
 
 .Course.yellow:after {
 	display: block;
-	background-image: linear-gradient(45deg,yellow 10%,transparent 80%);
+	background-image: linear-gradient(45deg,#ffc000 10%,transparent 80%);
 	height: 100%; 
 	width: 100%; 
 	content: ''; 
