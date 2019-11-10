@@ -1,10 +1,21 @@
 .CourseGroup {
-	white-space: nowrap;
 	color: white;
 	padding-bottom: 1.7rem;
+}
+
+.CourseGroup .title {
+	margin-left: 2%;
 }
 
 .CourseGroup .title:hover {
 	color: #ff7a03;
 	cursor: pointer;
+}
+
+.CourseGroup .scroller {
+	white-space: nowrap;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: visible;
+	scroll-behavior: smooth;
 }
