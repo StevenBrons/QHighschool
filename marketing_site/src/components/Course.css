@@ -50,6 +50,18 @@
 	margin-left: 2%;
 }
 
+.Course:last-child:nth-child(4n + 1) {
+	margin-right: 75%;
+}
+
+.Course:last-child:nth-child(4n + 2) {
+	margin-right: 51%;
+}
+
+.Course:last-child:nth-child(4n + 3) {
+	margin-right: 27%;
+}
+
 .Course.selected {
 	transform: scale(1.3);
 }
