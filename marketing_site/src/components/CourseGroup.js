@@ -30,10 +30,10 @@ class CourseGroup extends Component {
 					{this.props.title}
 				</h3>
 				<button
-					className='scroll-left'
+					className='scroll-button left'
 					onClick={this.scrollToLeft}
 				>
-					{'<'}
+					{'\u276e'}
 				</button>
 				<div
 					ref={this.scroller}
@@ -51,7 +51,7 @@ class CourseGroup extends Component {
 					})}
 				</div>
 				<button
-					className='scroll-right'
+					className='scroll-button right'
 					onClick={this.scrollToRight}
 				>
 					{'\u276f'}

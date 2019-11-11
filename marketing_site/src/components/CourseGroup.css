@@ -1,6 +1,7 @@
 .CourseGroup {
 	color: white;
 	padding-bottom: 1.7rem;
+	position: relative;
 }
 
 .CourseGroup .title {
@@ -20,19 +21,29 @@
 	scroll-behavior: smooth;
 }
 
-.CourseGroup .scroll-left {
+.CourseGroup .scroll-button {
 	position: absolute;
-	left: 0;
-	height: 15em;
+	height: 20.5vh;
 	width: 2.5%;
+	bottom: 1.7rem;
+	display: none;
+	background-color: rgb(20,20,20,.7);
+	color: white;
+	border: none;
+	font-size: 4vw;
+}
+
+.CourseGroup:hover .scroll-button{
+	display: inline-block;
+}
+
+.CourseGroup .scroll-button.left {
+	left: 0;
 	z-index: 2;
 }
 
-.CourseGroup .scroll-right {
-	position: absolute;
+.CourseGroup .scroll-button.right {
 	right: 0;
-	height: 15em;
-	width: 2.5%;
 	z-index: 2;
 }
 
