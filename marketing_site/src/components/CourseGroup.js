@@ -26,7 +26,7 @@ class CourseGroup extends Component {
 	}
 
 	render() {
-		const {courses, selectedCourse} = this.props;
+		const {courses, selectedCourse, showSubjectInfo} = this.props;
 		const {page, maxPage} = this.state;
 		return (
 			<div 
@@ -35,7 +35,7 @@ class CourseGroup extends Component {
 				<h3
 					className='title'
 					ref={this.title}
-					onClick={()=>{}}//TODO
+					onClick={showSubjectInfo}
 				>
 					{this.props.title}
 				</h3>

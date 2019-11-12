@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Page.css';
 import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
+import SubjectInfo from './components/SubjectInfo';
 // import Header from './components/Header';
 import fetchData from './fetchData';
 
@@ -12,6 +13,7 @@ class Page extends Component {
     super(props);
     this.state = {
       popOut: null,
+      subjectInfo: null,
       courses: null,
     }
   }
@@ -35,8 +37,20 @@ class Page extends Component {
     })
   }
 
+  showSubjectInfo = (subject) => {
+    this.setState({
+      subjectInfo: subject
+    })
+  }
+
+  removeSubjectInfo = () => {
+    this.setState({
+      subjectInfo: null
+    })
+  }
+
   render() {
-    const {popOut, courses} = this.state;
+    const {popOut, courses, subjectInfo} = this.state;
     if (!courses) {
       return(
         <h1>
@@ -44,10 +58,25 @@ class Page extends Component {
         </h1>
       )
     }
+    const subjects = Object.keys(courses);
+    let nextSubject, previousSubject;
+    if (subjectInfo) {
+      let subjectInfoId = subjects.indexOf(subjectInfo)
+      if (subjectInfoId < subjects.length - 1) nextSubject = () => this.showSubjectInfo(subjects[subjectInfoId + 1]);
+      if (subjectInfoId > 0 ) previousSubject = () => this.showSubjectInfo(subjects[subjectInfoId - 1]);
+    }
     return (
       <div className='Page'>
         {/* <Header /> */}
-        {Object.keys(courses).map(subject =>
+        {subjectInfo &&
+          <SubjectInfo
+            nextSubject={nextSubject}
+            previousSubject={previousSubject}
+            subject={subjectInfo}
+            onClose={() => this.showSubjectInfo(null)}
+          />
+        }
+        {subjects.map(subject =>
           <>
             <CourseGroup 
               title={subject} 
@@ -55,6 +84,7 @@ class Page extends Component {
               onClick={courseId => this.onClick(courseId,subject)} 
               className='course-group' 
               selectedCourse = {popOut && popOut.courseId}
+              showSubjectInfo={() => this.showSubjectInfo(subject)}
             />
             {popOut && popOut.group === subject && 
               <CourseInfo 

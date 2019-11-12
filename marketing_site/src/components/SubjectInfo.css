@@ -1,0 +1,26 @@
+.SubjectInfo {
+	position: fixed;
+	background-color:white;
+	width: 70%;
+	height: 50%;
+	z-index: 3;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+}
+
+.SubjectInfo .close-button {
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	width: 4em;
+	height: 4em;
+	border: none;
+}
+
+.SubjectInfo .close-button:hover{
+	filter: grayscale(30%);
+	cursor: pointer;
+}
