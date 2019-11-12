@@ -18,7 +18,7 @@ class CourseInfo extends Component {
 					}
 				</div>
 				<div className='text'>
-					<h1 className='title'>Waar gaat het vak {subject.toLowerCase()} over?</h1>
+					<h1 className='title'>Waar gaat het vak {subject} over?</h1>
 					<p className='tempting-sentence'>
 						Hier een korte verleidelijke onderwerpregel
 					</p>
