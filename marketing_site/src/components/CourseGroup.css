@@ -1,11 +1,18 @@
 .CourseGroup {
 	color: white;
-	padding-bottom: 1.7rem;
 	position: relative;
 }
 
 .CourseGroup .title {
-	margin-left: 2.5%;
+	position: absolute;
+	left: 2.5%;
+	bottom: 15.2vw;
+}
+
+@media screen and (max-width: 500px) {
+	.CourseGroup .title {
+		font-size: .5em;
+	}
 }
 
 .CourseGroup .title:hover {
@@ -16,16 +23,16 @@
 .CourseGroup .scroller {
 	white-space: nowrap;
 	width: 100%;
-	overflow-x: hidden;
-	overflow-y: visible;
+	overflow: hidden;
 	scroll-behavior: smooth;
+	padding: 3vw 0;
 }
 
 .CourseGroup .scroll-button {
 	position: absolute;
-	height: 20.5vh;
-	width: 2.5%;
-	bottom: 1.7rem;
+	height: 13vw;
+	width: 2.5vw;
+	bottom: 3vw;
 	display: none;
 	background-color: rgb(20,20,20,.7);
 	color: white;

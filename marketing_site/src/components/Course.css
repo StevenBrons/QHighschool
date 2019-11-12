@@ -1,7 +1,6 @@
 .Course {
-	height:20vh;
-	width:23%;
-	background:red;
+	height:12.7vw;/* ratio ~1.8*/
+	width:23vw;
 	position: relative;
 	display: inline-block;
 	margin-right: 1%;
@@ -21,29 +20,42 @@
 	margin-right: auto;
 	left: 0;
 	right: 0;
-	bottom: -0.8em;
+	bottom: -1vw;
 	height: 0;
 	width: 0;
-	border-left: 1.3em solid transparent;
-	border-right: 1.3em solid transparent;
-	border-top: 1.3em solid #ff7a03;
+	border-left: 1.5vw solid transparent;
+	border-right: 1.5vw solid transparent;
+	border-top: 1.5vw solid #ff7a03;
 }
 
 .Course .text {
 	position: absolute;
-	bottom: 0;
-	left: 1em;
+	bottom: 5%;
+	left: 5%;
+	margin: 0;
 	width: 60%;
 	white-space: normal;
 	word-wrap: break-word;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+@media screen and (max-width:750px) {
+	.Course .text {
+		width: 100%;
+		margin-bottom: 0;
+		margin-left: 0;
+		left: 0;
+		font-size: .8em;
+	}
 }
 
 .Course .q-logo {
 	position: absolute;
 	font-size: 21pt;
-	top: 0.5em;
-	left: 0.5em; 
-	width: 1.2em;
+	top: 3%;
+	left: 2%; 
+	width: 6%;
 }
 
 .Course:first-child {/* So the left most course doesn't scale out of screen */ 
@@ -51,15 +63,15 @@
 	margin-left: 2.5%;
 }
 
-.Course:last-child:nth-child(4n + 1) {
+.Course:last-of-type:nth-of-type(4n + 1) {
 	margin-right: 75%;
 }
 
-.Course:last-child:nth-child(4n + 2) {
+.Course:last-of-type:nth-of-type(4n + 2) {
 	margin-right: 51%;
 }
 
-.Course:last-child:nth-child(4n + 3) {
+.Course:last-of-type:nth-of-type(4n + 3) {
 	margin-right: 27%;
 }
 
@@ -68,11 +80,11 @@
 	z-index: 2;
 }
 
-.Course:hover{
+/* .Course:hover{
 	transform: scale(1.3);
 	transition: transform .35s;
 	z-index: 3;
-}
+} */
 
 .Course.large:hover{ 
 	transform: scale(1.33);

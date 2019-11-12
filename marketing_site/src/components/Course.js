@@ -22,11 +22,11 @@ class Course extends Component {
 				onClick={onClick}
 				style={{backgroundImage:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg)`}}
 				>
-				<h1 
+				<h2
 					className = 'text'
 					>
 					{text}
-				</h1>
+				</h2>
 				<img 
 					className="q-logo"
 					src='q.svg'
