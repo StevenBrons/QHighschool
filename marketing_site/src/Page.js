@@ -38,6 +38,10 @@ class Page extends Component {
   }
 
   showSubjectInfo = (subject) => {
+    if (subject === this.state.subjectInfo) {
+      this.removeSubjectInfo();
+      return;
+    }
     this.setState({
       subjectInfo: subject
     })
@@ -76,10 +80,11 @@ class Page extends Component {
             onClose={() => this.showSubjectInfo(null)}
           />
         }
-        {subjects.map(subject =>
-          <>
+        {subjects.map((subject,i) =>
+          <React.Fragment key={i}>
             <CourseGroup 
               title={subject} 
+              key={i}
               courses={courses[subject]}
               onClick={courseId => this.onClick(courseId,subject)} 
               className='course-group' 
@@ -89,11 +94,12 @@ class Page extends Component {
             {popOut && popOut.group === subject && 
               <CourseInfo 
                 course={courses[popOut.group][popOut.courseId]} 
+                key={Math.random()}
                 group={subject} 
                 onClose={_ => this.onClick(popOut.courseId, popOut.group)} 
               />  
             }
-          </>
+          </React.Fragment>
         )}
       </div>
     )

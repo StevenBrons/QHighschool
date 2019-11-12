@@ -3,12 +3,19 @@ import './Course.css';
 
 class Course extends Component {
 
-	render() {
-		const {selected, large, text, onClick} = this.props;
-		const id = 11;//TODO: replace with actual id
-			// </img>
+	constructor(props){
+		super(props);
 		const colors = [' purple', ' pink', ' blue', ' orange', ' red', ' green', ' yellow'];
 		const color = colors[Math.floor(Math.random() * 7)];
+		this.state = {
+			color: color
+		}
+	}
+
+	render() {
+		const {selected, large, text, onClick} = this.props;
+		const color = this.state.color;
+		const id = 11;//TODO: replace with actual id
 		return (
 			<div
 				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '') + color}

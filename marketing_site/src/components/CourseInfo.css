@@ -7,7 +7,6 @@
 	display: flex;
 	color: white;
 	margin: 0 2%;
-	/* z-index: -1;So the arrow fits  above it; nevermind this stops the button from working */
 }
 
 .CourseInfo .info-text {
