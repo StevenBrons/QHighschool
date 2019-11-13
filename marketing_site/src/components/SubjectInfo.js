@@ -4,7 +4,7 @@ import './SubjectInfo.css';
 class CourseInfo extends Component {
 
 	render() {
-		let {previousSubject, nextSubject, subject, onClose} = this.props;
+		let {previousSubject, nextSubject, subject, onClose, description} = this.props;
 		return (
 			<div
 				className='SubjectInfo'
@@ -19,13 +19,7 @@ class CourseInfo extends Component {
 				</div>
 				<div className='text'>
 					<h1 className='title'>Waar gaat het vak {subject} over?</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-						Suspendisse enim quam, varius sit amet mollis et, aliquam at dui.
-						 In hac habitasse platea dictumst. Vestibulum rutrum convallis elit, vitae placerat nunc rutrum sit amet.
-						  In ut turpis suscipit, convallis dui convallis, fermentum enim.
-							 Nam elit risus, aliquet posuere neque ut, faucibus vehicula purus.
-							  Cras mollis erat orci, in sodales augue varius eget.
-							  Pellentesque faucibus diam eu arcu congue finibus. Pellentesque feugiat eget mauris sed placerat.</p>
+					<p>{description}</p>
 
 				</div>
 				<div className='button-container'>

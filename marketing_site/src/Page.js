@@ -4,7 +4,7 @@ import CourseInfo from './components/CourseInfo';
 import CourseGroup from './components/CourseGroup';
 import SubjectInfo from './components/SubjectInfo';
 // import Header from './components/Header';
-import fetchData from './fetchData';
+import {fetchCourses, fetchSubjectInformation} from './fetchData';
 
 
 class Page extends Component {
@@ -15,11 +15,13 @@ class Page extends Component {
       popOut: null,
       subjectInfo: null,
       courses: null,
+      subjectDescriptions: null,
     }
   }
 
   componentDidMount = () => {
-    fetchData().then(courses => this.setState({courses: courses}))
+    fetchCourses().then(courses => this.setState({courses: courses}))
+    fetchSubjectInformation().then(subjectDescriptions => this.setState({subjectDescriptions: subjectDescriptions}))
   }
 
   onClick = (courseId, group) => {
@@ -54,7 +56,7 @@ class Page extends Component {
   }
 
   render() {
-    const {popOut, courses, subjectInfo} = this.state;
+    const {popOut, courses, subjectInfo, subjectDescriptions} = this.state;
     if (!courses) {
       return(
         <h1>
@@ -77,6 +79,7 @@ class Page extends Component {
             nextSubject={nextSubject}
             previousSubject={previousSubject}
             subject={subjectInfo}
+            description={subjectDescriptions[subjectInfo]}
             onClose={() => this.showSubjectInfo(null)}
           />
         }
