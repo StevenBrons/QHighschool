@@ -19,9 +19,6 @@ class CourseInfo extends Component {
 				</div>
 				<div className='text'>
 					<h1 className='title'>Waar gaat het vak {subject} over?</h1>
-					<p className='tempting-sentence'>
-						Hier een korte verleidelijke onderwerpregel
-					</p>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 						Suspendisse enim quam, varius sit amet mollis et, aliquam at dui.
 						 In hac habitasse platea dictumst. Vestibulum rutrum convallis elit, vitae placerat nunc rutrum sit amet.

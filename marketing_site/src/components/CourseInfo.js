@@ -12,11 +12,6 @@ class CourseInfo extends Component {
 					<h1 className='title'>
 						{course.courseName.toUpperCase()}
 					</h1>
-
-					<p className='short-description'>
-						Hier een korte verleidelijke onderwerpregel
-					</p>
-
 					<div className='period'>
 						<div className='square'/>
 						<p className='number'>
