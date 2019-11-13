@@ -43,7 +43,6 @@ class CourseGroup extends Component {
 					<div
 						className='scroll-button left'
 						onClick={() => this.scrollToPage(page-1)}
-						style={{background:'url(previous-page-button.svg) no-repeat center rgb(20,20,20,.7)'}}
 					/>
 				}
 				<div
@@ -65,7 +64,6 @@ class CourseGroup extends Component {
 					<div
 						className='scroll-button right'
 						onClick={() => this.scrollToPage(page+1)}
-						style={{background:'url(next-page-button.svg) no-repeat center rgb(20,20,20,.7)'}}
 					/>
 				}
 			</div>

@@ -89,6 +89,7 @@
 }
 
 .CourseInfo .close-button {
+	background: url(/close-button.svg);
 	position: absolute;
 	right: 1vw;
 	top: 1vw;

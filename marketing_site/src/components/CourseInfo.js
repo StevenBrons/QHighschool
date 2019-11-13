@@ -43,7 +43,6 @@ class CourseInfo extends Component {
 				<button 
 					className='close-button' 
 					onClick={this.props.onClose} 
-					style={{background:'url(close-button.svg)'}}
 				/>
       </div>
     )

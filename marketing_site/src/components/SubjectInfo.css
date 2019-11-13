@@ -48,6 +48,7 @@
 }
 
 .SubjectInfo .close-button {
+	background: url(/close-button.svg);
 	position: absolute;
 	right: 1em;
 	top: 1em;
