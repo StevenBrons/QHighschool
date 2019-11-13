@@ -5,7 +5,7 @@ const courseDB = require('../database/CourseDB');
 const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
 const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup } = require('./permissions');
 
-router.get("/list", ensureOffice, promiseMiddleware((req) => {
+router.get("/list", promiseMiddleware((req) => {
 	return groupDb.getGroups(req.user.id);
 }), doReturn);
 
