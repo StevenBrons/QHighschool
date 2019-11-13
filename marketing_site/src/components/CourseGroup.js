@@ -40,12 +40,11 @@ class CourseGroup extends Component {
 					{this.props.title}
 				</h3>
 				{ page !== 0 && 
-					<button
+					<div
 						className='scroll-button left'
 						onClick={() => this.scrollToPage(page-1)}
-					>
-						{'\u276e'}
-					</button>
+						style={{background:'url(previous-page-button.svg) no-repeat center rgb(20,20,20,.7)'}}
+					/>
 				}
 				<div
 					className='scroller'
@@ -63,12 +62,11 @@ class CourseGroup extends Component {
 					})}
 				</div>
 				{page !== maxPage && 
-					<button
+					<div
 						className='scroll-button right'
 						onClick={() => this.scrollToPage(page+1)}
-					>
-						{'\u276f'}
-					</button>
+						style={{background:'url(next-page-button.svg) no-repeat center rgb(20,20,20,.7)'}}
+					/>
 				}
 			</div>
 		)

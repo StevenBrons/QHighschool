@@ -30,14 +30,13 @@
 
 .CourseGroup .scroll-button {
 	position: absolute;
-	height: 13vw;
-	width: 2.5vw;
-	bottom: 3vw;
+	height: 100%;
+	width: 2vw;
+	bottom: 0;
+	top: 0;
 	display: none;
-	background-color: rgb(20,20,20,.7);
-	color: white;
 	border: none;
-	font-size: 4vw;
+	padding: 0;
 }
 
 .CourseGroup:hover .scroll-button{
@@ -52,6 +51,7 @@
 .CourseGroup .scroll-button.right {
 	right: 0;
 	z-index: 2;
+	background:'url(./next-page-button.svg) no-repeat center rgb(20,20,20,.7)'
 }
 
 @media (pointer: coarce) { /* Touch screen, so scrolling through courses can be done without buttons*/
