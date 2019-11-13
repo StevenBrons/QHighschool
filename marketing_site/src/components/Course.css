@@ -44,13 +44,19 @@
 	overflow: hidden;
 }
 
-@media screen and (max-width:750px) {
+@media screen and (max-width:900px) {
 	.Course .text {
 		width: 100%;
 		margin-bottom: 0;
 		margin-left: 0;
 		left: 0;
 		font-size: .8em;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.Course .text {
+		font-size: .3em;
 	}
 }
 
