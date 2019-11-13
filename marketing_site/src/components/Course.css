@@ -8,6 +8,9 @@
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: center;
+	-webkit-box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
+	box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
 }
 
 .Course.large {
