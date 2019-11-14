@@ -33,6 +33,7 @@
 }
 
 .Course .text {
+	font-family: 'Avenir-Black';
 	position: absolute;
 	bottom: 5%;
 	left: 5%;
