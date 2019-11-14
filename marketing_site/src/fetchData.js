@@ -1,10 +1,11 @@
 import $ from 'jquery';
 
-export async function fetchCourses() {
+export async function fetchCourses(handleError) {
 	return $.ajax({
 		url: '/api/group/list',
 		type: 'get',
-		dataType: 'json'
+		dataType: 'json',
+		error: handleError
 	}).then(courses => {
 		let coursesPerSubject = {}
 		courses.forEach(c => {
@@ -17,12 +18,12 @@ export async function fetchCourses() {
 	})
 }
 
-export async function fetchSubjectInformation() {
-	console.log('fetching subject info')
+export async function fetchSubjectInformation(handleError) {
 	return $.ajax({
 		url: '/api/subject/list',
 		type: 'get',
-		dataType: 'json'
+		dataType: 'json',
+		error: handleError
 	}).then(subjects => {
 		let informationPerSubject = {};
 		subjects.forEach(s => {

@@ -16,12 +16,23 @@ class Page extends Component {
       subjectInfo: null,
       courses: null,
       subjectDescriptions: null,
+      serverError: false,
     }
   }
 
   componentDidMount = () => {
-    fetchCourses().then(courses => this.setState({courses: courses}))
-    fetchSubjectInformation().then(subjectDescriptions => this.setState({subjectDescriptions: subjectDescriptions}))
+    fetchCourses(this.handleError).then(courses => 
+       this.setState({courses: courses, serverError: false}))
+
+    fetchSubjectInformation(this.handleError).then(subjectDescriptions =>
+       this.setState({subjectDescriptions: subjectDescriptions, serverError: false}))
+  }
+
+  handleError = e => {
+    console.log(e);
+    this.setState({
+      serverError: true,
+    })
   }
 
   onClick = (courseId, group) => {
@@ -56,7 +67,14 @@ class Page extends Component {
   }
 
   render() {
-    const {popOut, courses, subjectInfo, subjectDescriptions} = this.state;
+    const {popOut, courses, subjectInfo, subjectDescriptions, serverError} = this.state;
+    if (serverError) {
+      return(
+        <h1 className='error'>
+          Er is een fout opgetreden met het verbinden met de server.
+        </h1>
+      )
+    }
     if (!courses) {
       return(
         <h1>
