@@ -3,9 +3,9 @@ const router = express.Router();
 const groupDb = require('../database/GroupDB');
 const courseDB = require('../database/CourseDB');
 const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
-const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup } = require('./permissions');
+const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup, public } = require('./permissions');
 
-router.get("/list", promiseMiddleware((req) => {
+router.get("/list", public, promiseMiddleware((req) => {
 	if (req.isAuthenticated()) {
 		return groupDb.getGroups(req.user.id);
 	} else {

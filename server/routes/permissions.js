@@ -47,6 +47,12 @@ exports.ensureConfirm = (req, res, next) => {
 	next();
 }
 
+exports.public = (req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Methods", "GET");
+	next();
+}
+
 exports.ensureOffice = (req, res, next) => {
 	if (req.app.get('env') === 'development' && keys.develop === "develop") {
 		return sessionDb.getUserByToken(keys.devLoginToken).then((serializedUser) => {
