@@ -37,7 +37,6 @@ exports.getEnrollments = async (userId) => {
 	return Enrollment.findAll({
 		where: {
 			userId,
-			accepted: "false",
 		}
 	}).then(async (rows) => {
 		return Promise.all(rows.map(row => groupDb.getGroup(row.courseGroupId)));
