@@ -5,7 +5,7 @@ class CourseInfo extends Component {
 
   render() {
 		const course = this.props.course;
-		const id = 11;//TODO: replace with actual id
+		const id = course.id;
     return (
       <div className='CourseInfo'>
 				<div className='info-text'>
