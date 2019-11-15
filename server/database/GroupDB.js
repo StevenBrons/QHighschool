@@ -51,7 +51,9 @@ exports.getGroups = async (userId) => {
 		}]
 	});
 	groups = groups.map(this._mapGroup);
-	groups = await Promise.all(groups.map(group => exports.appendEvaluation(group, userId)));
+	if (userId != null) {
+		groups = await Promise.all(groups.map(group => exports.appendEvaluation(group, userId)));
+	}
 	return groups;
 };
 

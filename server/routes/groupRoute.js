@@ -5,8 +5,12 @@ const courseDB = require('../database/CourseDB');
 const { authError, doReturn, promiseMiddleware, doSuccess } = require('./handlers');
 const { ensureOffice, ensureTeacher, ensureSecure, ensureAdmin, ensureInGroup, ensureInSubjectGroup } = require('./permissions');
 
-router.get("/list", ensureOffice, promiseMiddleware((req) => {
-	return groupDb.getGroups(req.user.id);
+router.get("/list", promiseMiddleware((req) => {
+	if (req.isAuthenticated()) {
+		return groupDb.getGroups(req.user.id);
+	} else {
+		return groupDb.getGroups();
+	}
 }), doReturn);
 
 router.post("/", promiseMiddleware(async (req) => {
