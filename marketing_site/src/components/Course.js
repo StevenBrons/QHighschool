@@ -13,9 +13,8 @@ class Course extends Component {
 	}
 
 	render() {
-		const {selected, large, text, onClick} = this.props;
+		const {selected, large, text, onClick, id} = this.props;
 		const color = this.state.color;
-		const id = 11;//TODO: replace with actual id
 		return (
 			<div
 				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '') + color}

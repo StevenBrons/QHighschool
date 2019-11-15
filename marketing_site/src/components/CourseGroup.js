@@ -52,6 +52,7 @@ class CourseGroup extends Component {
 					{Object.keys(courses).map(id => {
 						return <Course 
 									key={id} 
+									id={id}
 									class='course' 
 									onClick={_ => this.props.onClick(id)} 
 									text={courses[id].courseName.toUpperCase()} 

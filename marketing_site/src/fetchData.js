@@ -2,7 +2,8 @@ import $ from 'jquery';
 
 export async function fetchCourses(handleError) {
 	return $.ajax({
-		url: '/api/group/list',
+		// url: '/api/group/list',
+		url: 'https://app.q-highschool.nl/api/group/list',
 		type: 'get',
 		dataType: 'json',
 		error: handleError
@@ -20,7 +21,8 @@ export async function fetchCourses(handleError) {
 
 export async function fetchSubjectInformation(handleError) {
 	return $.ajax({
-		url: '/api/subject/list',
+		// url: '/api/subject/list',
+		url: 'https://app.q-highschool.nl/api/subject/list',
 		type: 'get',
 		dataType: 'json',
 		error: handleError
