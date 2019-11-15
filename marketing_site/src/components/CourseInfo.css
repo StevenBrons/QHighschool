@@ -14,7 +14,9 @@
 	margin-top: 2vw;
 	margin-left: 2vw;
 	flex: 1;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	word-wrap: break-word;
 }
 
 @media screen and (max-width: 1100px) {
