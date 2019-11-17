@@ -34,14 +34,10 @@
   "paths": {
     "/course/list": {
       "get": {
-        "tags": [
-          "Course"
-        ],
+        "tags": ["Course"],
         "summary": "Get list of all courses",
         "operationId": "getCourses",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -57,17 +53,11 @@
     },
     "/course": {
       "post": {
-        "tags": [
-          "Course"
-        ],
+        "tags": ["Course"],
         "summary": "Get course data",
         "operationId": "getCourse",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "courseId",
@@ -87,17 +77,11 @@
         }
       },
       "put": {
-        "tags": [
-          "Course"
-        ],
+        "tags": ["Course"],
         "summary": "Add course",
         "operationId": "addCourse",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "name",
@@ -145,17 +129,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Course"
-        ],
+        "tags": ["Course"],
         "summary": "Add course",
         "operationId": "setCourse",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "courseId",
@@ -212,14 +190,10 @@
     },
     "/group/list": {
       "get": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get list of all courses",
         "operationId": "getGroups",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -235,17 +209,11 @@
     },
     "/group": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get group data",
         "operationId": "getGroup",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -265,17 +233,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Change group data",
         "operationId": "setGroup",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -313,12 +275,7 @@
             "description": "The new schoolYear",
             "required": false,
             "type": "string",
-            "enum": [
-              "2018/2019",
-              "2019/2020",
-              "2020/2021",
-              "2021/2022"
-            ]
+            "enum": ["2018/2019", "2019/2020", "2020/2021", "2021/2022"]
           },
           {
             "name": "enrollableFor",
@@ -347,17 +304,11 @@
     },
     "/group/enrollments": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get enrollements for the group",
         "operationId": "getGroupEnrollments",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -382,17 +333,11 @@
     },
     "/group/participants": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get participants of the group",
         "operationId": "getGroupParticipants",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -415,17 +360,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Add a new participant to a group",
         "operationId": "addGroupParticipant",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "userId",
@@ -451,17 +390,11 @@
     },
     "/group/evaluations": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get participants evaluation",
         "operationId": "getEvaluation",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -486,17 +419,11 @@
     },
     "/group/lessons": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get lessons of group",
         "operationId": "getLessons",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -519,17 +446,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Patch lessons of group",
         "operationId": "setLessons",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -553,17 +474,11 @@
     },
     "/group/presence": {
       "post": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Get participants presence",
         "operationId": "getPresence",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -589,17 +504,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Group"
-        ],
+        "tags": ["Group"],
         "summary": "Set participants presence",
         "operationId": "setPresence",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "test",
@@ -607,10 +516,7 @@
             "description": "The groupId to change the presence from",
             "schema": {
               "type": "object",
-              "required": [
-                "groupId",
-                "presence"
-              ],
+              "required": ["groupId", "presence"],
               "properties": {
                 "groupId": {
                   "type": "string"
@@ -643,14 +549,10 @@
     },
     "/subject/list": {
       "get": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Get list of subjects",
         "operationId": "getSubjects",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -666,17 +568,11 @@
     },
     "/subject": {
       "post": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Get subject data",
         "operationId": "getSubject",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "subjectId",
@@ -698,17 +594,11 @@
     },
     "/user": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get user data",
         "operationId": "getUser",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -728,14 +618,10 @@
         ]
       },
       "patch": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user data",
         "operationId": "setUser",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "userId",
@@ -780,9 +666,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -795,17 +679,11 @@
     },
     "/user/self": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get own user data",
         "operationId": "getSelf",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -818,14 +696,10 @@
     },
     "/user/groups": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get list of groups the user participates in",
         "operationId": "getParticipatingGroups",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -841,14 +715,10 @@
     },
     "/user/enrollableGroups": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get list of groups to choose from",
         "operationId": "getChoices",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -864,17 +734,11 @@
     },
     "/user/enrollments": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get choices",
         "operationId": "getEnrollments",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -889,14 +753,10 @@
         }
       },
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Add enrollment",
         "operationId": "addEnrollment",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -906,9 +766,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation"
@@ -916,14 +774,10 @@
         }
       },
       "delete": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Delete enrollment",
         "operationId": "removeEnrollment",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "groupId",
@@ -933,9 +787,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation"
@@ -945,14 +797,10 @@
     },
     "/function/acceptEnrollements": {
       "post": {
-        "tags": [
-          "Function"
-        ],
+        "tags": ["Function"],
         "summary": "Get list of groups the user participates in",
         "operationId": "acceptEnrollments",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "message",
@@ -962,9 +810,37 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/function/data": {
+      "post": {
+        "tags": ["Function"],
+        "summary": "Get list of groups the user participates in",
+        "operationId": "getData",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "table",
+            "in": "formData",
+            "description": "Which table to get (either evaluations, enrollments or users)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "secureLogin",
+            "in": "formData",
+            "description": "Secure login token",
+            "required": true,
+            "type": "string"
+          }
         ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation"
@@ -974,14 +850,10 @@
     },
     "/function/updateAllGroups": {
       "post": {
-        "tags": [
-          "Function"
-        ],
+        "tags": ["Function"],
         "summary": "Update all groups: re-calculate lesson dates and update teams",
         "operationId": "updateAllGroups",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "consumes": ["application/x-www-form-urlencoded"],
         "parameters": [
           {
             "name": "message",
@@ -991,9 +863,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation"
@@ -1073,11 +943,7 @@
         },
         "level": {
           "type": "string",
-          "enum": [
-            "vwo",
-            "havo",
-            "mavo"
-          ]
+          "enum": ["vwo", "havo", "mavo"]
         },
         "preferedEmail": {
           "type": "string"
@@ -1117,11 +983,7 @@
         },
         "level": {
           "type": "string",
-          "enum": [
-            "vwo",
-            "havo",
-            "mavo"
-          ]
+          "enum": ["vwo", "havo", "mavo"]
         },
         "profile": {
           "type": "string"
@@ -1151,22 +1013,11 @@
         },
         "day": {
           "type": "string",
-          "enum": [
-            "maandag",
-            "dinsdag",
-            "woensdag",
-            "donderdag",
-            "vrijdag"
-          ]
+          "enum": ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag"]
         },
         "schoolYear": {
           "type": "string",
-          "enum": [
-            "2018/2019",
-            "2019/2020",
-            "2021/2022",
-            "2023/2024"
-          ]
+          "enum": ["2018/2019", "2019/2020", "2021/2022", "2023/2024"]
         },
         "period": {
           "type": "integer"
@@ -1243,10 +1094,7 @@
         },
         "status": {
           "type": "string",
-          "enum": [
-            "present",
-            "absent"
-          ]
+          "enum": ["present", "absent"]
         },
         "explanation": {
           "type": "string"
@@ -1282,11 +1130,7 @@
         },
         "presence": {
           "type": "string",
-          "enum": [
-            "required",
-            "optional",
-            "unrequired"
-          ]
+          "enum": ["required", "optional", "unrequired"]
         }
       },
       "xml": {
@@ -1310,11 +1154,7 @@
         },
         "presence": {
           "type": "string",
-          "enum": [
-            "required",
-            "optional",
-            "unrequired"
-          ]
+          "enum": ["required", "optional", "unrequired"]
         }
       },
       "xml": {
@@ -1330,11 +1170,7 @@
         "priority": {
           "type": "string",
           "description": "How important is the notification, high for red persistant, medium for orange temporary, low for gray temporary.",
-          "enum": [
-            "high",
-            "medium",
-            "low"
-          ]
+          "enum": ["high", "medium", "low"]
         },
         "scope": {
           "type": "string",
@@ -1346,10 +1182,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "bar",
-            "alert"
-          ]
+          "enum": ["bar", "alert"]
         }
       },
       "xml": {
