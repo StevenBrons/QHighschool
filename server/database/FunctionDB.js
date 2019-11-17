@@ -2,6 +2,7 @@ const Enrollment = require("../dec/EnrollmentDec");
 const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Group = require("../dec/CourseGroupDec");
+const Subject = require("../dec/SubjectDec");
 const LoggedIn = require("../dec/LoggedInDec");
 const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
@@ -206,7 +207,11 @@ exports.getEnrollment = async school => {
         include: [
           {
             model: Course,
-            attributes: [["name", "courseName"]]
+            attributes: [["name", "courseName"]],
+            include: {
+              model: Subject,
+              attributes: ["id", "name"]
+            }
           }
         ]
       },
@@ -228,6 +233,7 @@ exports.getEnrollment = async school => {
       return {
         email: e["user.email"],
         courseName: e["course_group.course.courseName"],
+        subjectName: e["course_group.course.subject.name"],
         accepted: e["accepted"],
         groupId: e["courseGroupId"],
         courseId: e["course_group.course.id"],
