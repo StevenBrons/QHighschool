@@ -29,7 +29,7 @@ export async function fetchSubjectInformation(handleError) {
 	}).then(subjects => {
 		let informationPerSubject = {};
 		subjects.forEach(s => {
-			informationPerSubject[s.subjectName] = s.description;
+			informationPerSubject[s.name] = s.description;
 		})
 		return informationPerSubject;
 	} )
