@@ -5,7 +5,7 @@
 	display: inline-block;
 	margin-right: 1%;
 	transition: transform 0s;
-	background-size: 100%;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);

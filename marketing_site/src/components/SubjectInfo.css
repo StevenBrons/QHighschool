@@ -21,7 +21,7 @@
 
 .SubjectInfo .text {
 	flex: 4;
-	overflow: scroll;
+	overflow: auto;
 }
 
 .SubjectInfo .button {
