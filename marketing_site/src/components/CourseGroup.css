@@ -46,13 +46,13 @@
 .CourseGroup .scroll-button.left {
 	left: 0;
 	z-index: 2;
-	background: url(/previous-page-button.svg) no-repeat center rgb(20,20,20,.7);
+	background: url(/previous-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
 .CourseGroup .scroll-button.right {
 	right: 0;
 	z-index: 2;
-	background: url(/next-page-button.svg) no-repeat center rgb(20,20,20,.7);
+	background: url(/next-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
 @media (pointer: coarse) { /* Touch screen, so scrolling through courses can be done without buttons*/
