@@ -8,7 +8,7 @@ class CourseGroup extends Component {
 		super(props);
 		this.scroller = React.createRef();
 		this.title = React.createRef();
-		let maxPage = Math.floor(Object.keys(props.courses).length / 4);
+		let maxPage = Math.floor((Object.keys(props.courses).length - 1 ) / 4);
 		this.state = {
 			page: 0,
 			maxPage: maxPage

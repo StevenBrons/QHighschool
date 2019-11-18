@@ -73,23 +73,6 @@
 	margin-left: 2.5%;
 }
 
-.Course:last-of-type:nth-of-type(4n + 1) {
-	margin-right: 75%;
-}
-
-.Course:last-of-type:nth-of-type(4n + 2) {
-	margin-right: 51%;
-}
-
-.Course:last-of-type:nth-of-type(4n + 3) {
-	margin-right: 27%;
-}
-
-.Course.selected {
-	transform: scale(1.3);
-	z-index: 2;
-}
-
 .Course:hover{
 	transform: scale(1.3);
 	transition: transform .35s;
