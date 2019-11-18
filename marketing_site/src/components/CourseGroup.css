@@ -58,6 +58,10 @@
 @media (pointer: coarse) { /* Touch screen, so scrolling through courses can be done without buttons*/
 	.CourseGroup .scroller {
 		overflow-x: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	.CourseGroup:hover .scroll-button {
+		display: none;
 	}
 }
 
