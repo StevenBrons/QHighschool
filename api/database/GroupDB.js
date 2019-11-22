@@ -192,6 +192,7 @@ exports.getParticipants = async (groupId, teacher, school = "%") => {
         : [
             "id",
             "role",
+            "school",
             "displayName",
             "firstName",
             "lastName",
