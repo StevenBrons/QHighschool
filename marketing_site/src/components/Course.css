@@ -1,0 +1,148 @@
+.Course {
+	height:12.7vw;/* ratio ~1.8*/
+	width:23vw;
+	position: relative;
+	display: inline-block;
+	margin-right: 1%;
+	transition: transform 0s;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
+	box-shadow: 0px 8px 20px 8px rgba(0,0,0,0.5);
+}
+
+.Course.large {
+	height: 300px;
+	width: 200px;
+}
+
+.Course .arrow {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	bottom: -1vw;
+	height: 0;
+	width: 0;
+	border-left: 1.5vw solid transparent;
+	border-right: 1.5vw solid transparent;
+	border-top: 1.5vw solid #ff7a03;
+}
+
+.Course .text {
+	font-family: 'Avenir-Black';
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	margin: 0;
+	width: 60%;
+	white-space: normal;
+	word-wrap: break-word;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+@media screen and (max-width:900px) {
+	.Course .text {
+		width: 100%;
+		margin-bottom: 0;
+		margin-left: 0;
+		left: 0;
+		font-size: .8em;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.Course .text {
+		font-size: .3em;
+	}
+}
+
+.Course .q-logo {
+	position: absolute;
+	font-size: 21pt;
+	top: 3%;
+	left: 2%; 
+	width: 6%;
+}
+
+.Course:first-child {/* So the left most course doesn't scale out of screen */ 
+	margin-left: 2.5%;
+}
+
+.Course:hover{
+	transform: scale(1.3);
+	transition: transform .35s;
+	z-index: 3;
+}
+
+.Course:nth-of-type(4n+1) {
+	transform-origin: left;
+} /* To avoid getting in the way of the page buttons */
+.Course:nth-of-type(4n) {
+	transform-origin: right;
+}
+
+.Course.large:hover{ 
+	transform: scale(1.33);
+	transition: transform .35s;
+}
+
+.Course.purple:after {
+	display: block;
+	background-image: linear-gradient(45deg,#460eaf 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.pink:after {
+	display: block;
+	background-image: linear-gradient(45deg,#fc22fc 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.blue:after {
+	display: block;
+	background-image: linear-gradient(45deg,#1fb2ff 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.orange:after {
+	display: block;
+	background-image: linear-gradient(45deg,#ff7a03 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.red:after {
+	display: block;
+	background-image: linear-gradient(45deg,#e20b12 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.green:after {
+	display: block;
+	background-image: linear-gradient(45deg,#00fe81 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}
+
+.Course.yellow:after {
+	display: block;
+	background-image: linear-gradient(45deg,#ffc000 10%,transparent 80%);
+	height: 100%; 
+	width: 100%; 
+	content: ''; 
+}

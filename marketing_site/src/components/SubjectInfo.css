@@ -1,0 +1,78 @@
+.SubjectInfo {
+	position: fixed;
+	background-color:white;
+	width: 70%;
+	height: 50%;
+	z-index: 4;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	display: flex;
+}
+
+.SubjectInfo .button-container {
+	width: 6em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.SubjectInfo .text {
+	flex: 4;
+	overflow: auto;
+}
+
+.SubjectInfo .button {
+	width: 6em;
+	height: 4em;
+	border: 0;
+	border-top: 2em solid transparent;
+	border-bottom: 2em solid transparent;
+}
+
+.SubjectInfo .next-subject{
+	border-left: 1.5em solid #ff7a03;
+}
+
+.SubjectInfo .previous-subject{
+	right: 0;
+	border-right: 1.5em solid #ff7a03;
+	padding-left: auto;
+}
+
+.SubjectInfo .button:hover{
+	filter: grayscale(30%);
+	cursor: pointer;
+}
+
+.SubjectInfo .close-button {
+	background: url(/close-button.svg);
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	width: 4em;
+	height: 4em;
+	border: none;
+}
+
+.SubjectInfo .close-button:hover{
+	filter: grayscale(30%);
+	cursor: pointer;
+}
+
+.SubjectInfo .title {
+	font-family: 'Avenir-Black';
+	margin-bottom: 0;
+}
+
+.SubjectInfo .tempting-sentence {
+	margin-top: 0;
+}
+
+@media only screen and (max-width: 700px) {
+	.SubjectInfo {
+		width: 100%;
+	}
+}
