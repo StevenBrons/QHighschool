@@ -9,8 +9,11 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require("sequelize").Op;
 const groupDb = require("./GroupDB");
+
 const graphConnection = require("../office/graphConnection");
 const officeEndpoints = require("../office/officeEndpoints");
+const schedule = require("../lib/schedule");
+
 const moment = require("moment");
 moment.locale("nl");
 
@@ -98,7 +101,6 @@ exports.updateAllGroups = async () => {
 };
 
 exports.updateLessonDates = async group => {
-  const schedule = require("../lib/schedule");
   if (!schedule.shouldBeSynced(group)) return;
   const { id, schoolYear, period, day } = group;
   for (let i = 0; i < 9; i++) {
@@ -116,7 +118,6 @@ exports.updateLessonDates = async group => {
 };
 
 exports.addLessons = async (groupId, schoolYear, period, day) => {
-  const schedule = require("../lib/schedule");
   for (let i = 0; i < 9; i++) {
     await Lesson.create({
       courseGroupId: groupId,

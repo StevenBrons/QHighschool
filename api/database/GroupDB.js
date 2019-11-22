@@ -77,12 +77,7 @@ exports.getGroups = async userId => {
 exports.setFullGroup = async data => {
   let group = await Group.findByPk(data.groupId);
   group = await group.update(data);
-  await functionDb.updateLessonDates(
-    group.id,
-    group.schoolYear,
-    group.period,
-    group.day
-  );
+  await functionDb.updateLessonDates(group);
   await officeEndpoints.updateClass(group.id);
   return group;
 };
