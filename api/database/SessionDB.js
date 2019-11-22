@@ -1,6 +1,6 @@
 const User = require("../dec/UserDec");
 const LoggedIn = require("../dec/LoggedInDec");
-const { getSubjectIdOfGroupId, getParticipatingGroupsIds } = require("../database/GroupDB");
+const { getSubjectIdOfGroupId, getParticipatingGroupsIds } = require("./GroupDB");
 
 class SerialisedUser {
 

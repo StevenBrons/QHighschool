@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import filter from "lodash/filter";
 import { ClickAwayListener } from '@material-ui/core';
 
-import Field from '../components/Field';
+import Field from './Field';
 import { getAllUsers } from '../store/actions';
 
 class SelectUser extends Component {

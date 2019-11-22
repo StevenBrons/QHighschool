@@ -7,7 +7,7 @@ const cookieSession = require('cookie-session');
 const passport = require("passport");
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const swaggerDocument = require('./swagger.json.js');
 
 const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute');

@@ -7,7 +7,7 @@ const CourseGroup = require('../dec/CourseGroupDec');
 const Participant = require('../dec/ParticipantDec');
 const Lesson = require('../dec/LessonDec');
 const Presence = require('../dec/PresenceDec');
-const RIDES = require('./rides.json');
+const RIDES = require('./rides.json.js');
 const SCHEDULE_EJS = fs.readFileSync(path.resolve(__dirname, "../views/taxiSchedule.ejs"), 'utf8');
 
 exports.LOCATIONS = [

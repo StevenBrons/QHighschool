@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { relogSecure } from "../store/actions"
-import Field from "../components/Field"
+import Field from "./Field"
 
 class EnsureSecureLogin extends Component {
 

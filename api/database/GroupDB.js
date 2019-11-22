@@ -7,8 +7,8 @@ const Enrollment = require("../dec/EnrollmentDec");
 const Lesson = require("../dec/LessonDec");
 const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
-const functionDb = require("../database/FunctionDB");
-const userDb = require("../database/UserDB");
+const functionDb = require("./FunctionDB");
+const userDb = require("./UserDB");
 const officeEndpoints = require("../office/officeEndpoints");
 const Op = require("sequelize").Op;
 

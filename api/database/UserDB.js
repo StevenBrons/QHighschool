@@ -1,7 +1,7 @@
 const User = require('../dec/UserDec');
 const Enrollment = require('../dec/EnrollmentDec');
 const Notification = require('../dec/NotificationDec');
-const groupDb = require('../database/GroupDB');
+const groupDb = require('./GroupDB');
 const Group = require('../dec/CourseGroupDec');
 const Participant = require('../dec/ParticipantDec');
 
