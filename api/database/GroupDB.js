@@ -373,10 +373,7 @@ exports.updateUserStatus = async (userId, lessonId, newStatus) => {
   } else {
     const lesson = await Lesson.findByPk(lessonId);
     const groupIds = await userDb.getParticipatingGroupIds(userId);
-    console.log(userId);
-    console.log(lesson);
-    console.log(groupIds);
-    if (groupIds.indexOf(lesson.groupId) !== -1) {
+    if (groupIds.indexOf(lesson.groupId + "") !== -1) {
       return Presence.create({
         lessonId,
         userId,
