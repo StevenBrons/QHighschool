@@ -70,16 +70,6 @@ exports.shouldBeSynced = group => {
   }
 };
 
-exports.getEnrollmentPeriod = () => {
-  let currentWeek = exports.getCurrentWeekInBlock();
-  let currentPeriod = exports.getCurrentPeriod();
-  if (currentWeek >= 6 && currentPeriod != 4) {
-    return currentPeriod + 1;
-  } else {
-    return currentPeriod;
-  }
-};
-
 exports.schedule = [
   //PERIOD 1 2018/2019
   {
