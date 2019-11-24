@@ -1,0 +1,41 @@
+[
+  [
+    "<style type=\"text/css\">code{white-space: pre;}</style>",
+    "@@@@header@@@@"
+  ],
+  ["markdown_output", ".."],
+  [
+    "@@@@header@@@@",
+    "<link rel =\"stylesheet\" href=\"../../style.css\" type=\"text/css\" /></link>@@@@header@@@@"
+  ],
+  [
+    "@@@@header@@@@",
+    "<link rel =\"stylesheet\" href=\"../../course.css\" type=\"text/css\" /></link>@@@@header@@@@"
+  ],
+  [
+    "@@@@header@@@@",
+    "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js\" ></script>@@@@header@@@@"
+  ],
+  [
+    "@@@@header@@@@",
+    "<script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>@@@@header@@@@"
+  ],
+  ["@@@@header@@@@", "<script src=\"../../prism.js\" ></script>@@@@header@@@@"],
+  [
+    "@@@@header@@@@",
+    "<link rel =\"stylesheet\" href=\"../../prism.css\" type=\"text/css\" ></link>@@@@header@@@@"
+  ],
+  [
+    "@@@@header@@@@",
+    "<script src=\"../../jquery.js\" ></script>@@@@header@@@@"
+  ],
+  [
+    "@@@@header@@@@",
+    "<script src=\"../../script.js\" ></script>@@@@header@@@@"
+  ],
+  ["###", ""],
+  ["\\*", "*"],
+  ["@@@@header@@@@", ""],
+  ["<hr />", ""],
+  ["<div id=\"TOC\">", "<div id=\"TOC\" class=\"invisible\">"]
+]
