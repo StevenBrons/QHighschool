@@ -66,6 +66,8 @@ router.post(
         return functionDb.getEnrollment(school).then(formatInTable);
       case "users":
         return functionDb.getUserData(school).then(formatInTable);
+      case "courseIds":
+        return functionDb.getCourseIdsData().then(formatInTable);
       default:
         throw new Error("invalid table: " + table);
     }

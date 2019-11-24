@@ -17,6 +17,10 @@ const schedule = require("../lib/schedule");
 const moment = require("moment");
 moment.locale("nl");
 
+function formatCourseId(courseId = "") {
+  return "#M" + (courseId + "").padStart(4, "0");
+}
+
 exports.createUser = async accessToken => {
   const user = await graphConnection.getOwnDetails(accessToken);
 
@@ -154,11 +158,12 @@ exports.findEvaluation = async (userId, groupId) => {
       subject: group.subjectName,
       explanation: "",
       type: "decimal",
-      groupId: group.id,
-      courseId: group.courseId,
+      courseId: formatCourseId(group.courseId),
+      period: group.period,
       userId
     };
   }
+
   return {
     displayName: evaluation["user.displayName"],
     email: evaluation["user.email"],
@@ -167,8 +172,8 @@ exports.findEvaluation = async (userId, groupId) => {
     subject: group.subjectName,
     explanation: evaluation.explanation,
     type: evaluation.type,
-    groupId: group.id,
-    courseId: group.courseId,
+    period: group.period,
+    courseId: formatCourseId(group.courseId),
     userId
   };
 };
@@ -236,8 +241,7 @@ exports.getEnrollment = async school => {
         courseName: e["course_group.course.courseName"],
         subjectName: e["course_group.course.subject.name"],
         accepted: e["accepted"],
-        groupId: e["courseGroupId"],
-        courseId: e["course_group.course.id"],
+        courseId: formatCourseId(e["course_group.course.id"]),
         period: e["course_group.period"],
         displayName: e["user.displayName"],
         school: e["user.school"],
@@ -270,6 +274,25 @@ exports.getUserData = async school => {
     ],
     raw: true
   });
+};
+
+exports.getCourseIdsData = async school => {
+  return Course.findAll({
+    attributes: ["name", "id"],
+    include: {
+      model: Subject,
+      attributes: ["name"]
+    },
+    raw: true
+  }).then(course =>
+    course.map(e => {
+      return {
+        courseName: e["name"],
+        subjectName: e["subject.name"],
+        courseId: formatCourseId(e["id"])
+      };
+    })
+  );
 };
 
 exports.setAlias = async (token, oldUserId, newUserId) => {
