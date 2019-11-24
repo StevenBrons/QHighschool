@@ -248,10 +248,10 @@ class Field extends React.Component {
         error={this.state.error}
         InputProps={{
           disableUnderline,
-          style,
+          style: { ...style, width: "100%" },
           endAdornment: endAdornment ? endAdornment : null,
           inputProps: {
-            style
+            style: { ...style, width: "100%" }
           }
         }}
       >
