@@ -36,7 +36,7 @@ class CourseInfo extends Component {
 				</div>
 				<div 
 					className='image' 
-					style={{background:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg), url(https://q-highschool.nl/wp-content/uploads/thumbnail_fallback.jpg) no-repeat`,
+					style={{background:`url(https://q-highschool.nl/images/thumbnails/course_${id}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
 									backgroundRepeat: 'no-repeat',
 									backgroundSize: 'cover',
 									backgroundPosition:'center right'}}/>

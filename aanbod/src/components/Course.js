@@ -19,7 +19,7 @@ class Course extends Component {
 			<div
 				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '') + color}
 				onClick={onClick}
-				style={{backgroundImage:`url(https://q-highschool.nl/wp-content/uploads/thumbnail_course_${id}.jpg), url(https://q-highschool.nl/wp-content/uploads/thumbnail_fallback.jpg)`}}
+				style={{backgroundImage:`url(https://q-highschool.nl/images/thumbnails/course_${id}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg)`}}
 				>
 				<h2
 					className = 'text'
