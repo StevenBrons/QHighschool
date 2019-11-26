@@ -6,6 +6,7 @@
   "dependencies": {
     "jquery": "^3.4.1",
     "react": "^16.9.0",
+    "react-app-polyfill": "^1.0.4",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
     "react-spinners": "^0.6.1",
@@ -24,9 +25,11 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "ie >=9"
     ],
     "development": [
+      "ie >=9",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
