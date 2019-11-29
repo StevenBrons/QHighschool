@@ -5,6 +5,7 @@ import CourseGroup from './components/CourseGroup';
 import SubjectInfo from './components/SubjectInfo';
 // import Header from './components/Header';
 import {fetchCourses, fetchSubjectInformation} from './fetchData';
+import LoadIcon from './components/LoadIcon';
 
 
 class Page extends Component {
@@ -77,9 +78,7 @@ class Page extends Component {
     }
     if (!courses) {
       return(
-        <h1>
-          Laden...
-        </h1>
+        <LoadIcon/>
       )
     }
     const subjects = Object.keys(courses);

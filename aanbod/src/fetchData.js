@@ -9,11 +9,12 @@ export async function fetchCourses(handleError) {
 		error: handleError
 	}).then(courses => {
 		let coursesPerSubject = {}
-		courses.forEach(c => {
-			if (!coursesPerSubject[c.subjectName]){
-				coursesPerSubject[c.subjectName] = {};
-			}
-			coursesPerSubject[c.subjectName][c.id] = c;
+		courses.filter(c => c.schoolYear === '2019/2020')
+			.forEach(c => {
+				if (!coursesPerSubject[c.subjectName]){
+					coursesPerSubject[c.subjectName] = {};
+				}
+				coursesPerSubject[c.subjectName][c.id] = c;
 		})
 		return coursesPerSubject;
 	})
