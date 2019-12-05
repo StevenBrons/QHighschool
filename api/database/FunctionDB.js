@@ -158,7 +158,7 @@ exports.findEvaluation = async (userId, groupId) => {
       subject: group.subjectName,
       explanation: "",
       type: "decimal",
-      courseId: formatCourseId(group.courseId),
+      courseId: group.courseId,
       period: group.period,
       userId
     };
@@ -173,7 +173,7 @@ exports.findEvaluation = async (userId, groupId) => {
     explanation: evaluation.explanation,
     type: evaluation.type,
     period: group.period,
-    courseId: formatCourseId(group.courseId),
+    courseId: group.courseId,
     userId
   };
 };
