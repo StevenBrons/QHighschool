@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "./Course.css";
 
+function formatCourseId(courseId = "") {
+  return "#M" + (courseId + "").padStart(4, "0");
+}
+
 class Course extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +36,9 @@ class Course extends Component {
         }
         onClick={onClick}
         style={{
-          backgroundImage: `url(https://q-highschool.nl/images/thumbnails/course_${courseId}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg)`
+          backgroundImage: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(
+            courseId
+          )}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg)`
         }}
       >
         <h2 className="text">{text}</h2>
