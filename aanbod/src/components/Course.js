@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Course.css";
 
 function formatCourseId(courseId = "") {
-  return "#M" + (courseId + "").padStart(4, "0");
+  return "M" + (courseId + "").padStart(4, "0");
 }
 
 class Course extends Component {
