@@ -1,42 +1,46 @@
-import React, {Component} from 'react';
-import './Course.css';
+import React, { Component } from "react";
+import "./Course.css";
 
 class Course extends Component {
+  constructor(props) {
+    super(props);
+    const colors = [
+      " purple",
+      " pink",
+      " blue",
+      " orange",
+      " red",
+      " green",
+      " yellow"
+    ];
+    const color = colors[Math.floor(Math.random() * 7)];
+    this.state = {
+      color: color
+    };
+  }
 
-	constructor(props){
-		super(props);
-		const colors = [' purple', ' pink', ' blue', ' orange', ' red', ' green', ' yellow'];
-		const color = colors[Math.floor(Math.random() * 7)];
-		this.state = {
-			color: color
-		}
-	}
-
-	render() {
-		const {selected, large, text, onClick, id} = this.props;
-		const color = this.state.color;
-		return (
-			<div
-				className = {'Course' + (large ? ' large' : '') + (selected ? ' selected' : '') + color}
-				onClick={onClick}
-				style={{backgroundImage:`url(https://q-highschool.nl/images/thumbnails/course_${id}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg)`}}
-				>
-				<h2
-					className = 'text'
-					>
-					{text}
-				</h2>
-				<img 
-					className="q-logo"
-					src='q.svg'
-					alt=""
-				/>
-					{selected && 
-						<div className='arrow'/>
-					}
-			</div>
-		)
-	}
+  render() {
+    const { selected, large, text, onClick, courseId } = this.props;
+    const color = this.state.color;
+    return (
+      <div
+        className={
+          "Course" +
+          (large ? " large" : "") +
+          (selected ? " selected" : "") +
+          color
+        }
+        onClick={onClick}
+        style={{
+          backgroundImage: `url(https://q-highschool.nl/images/thumbnails/course_${courseId}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg)`
+        }}
+      >
+        <h2 className="text">{text}</h2>
+        <img className="q-logo" src="q.svg" alt="" />
+        {selected && <div className="arrow" />}
+      </div>
+    );
+  }
 }
 
 export default Course;
