@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import './CourseInfo.css';
 
+function formatCourseId(courseId = "") {
+  return "M" + (courseId + "").padStart(4, "0");
+}
+
 class CourseInfo extends Component {
 
   render() {
 		const course = this.props.course;
-		const id = course.id;
+		const courseId = course.courseId;
     return (
       <div className='CourseInfo'>
 				<div className='info-text'>
@@ -36,7 +40,7 @@ class CourseInfo extends Component {
 				</div>
 				<div 
 					className='image' 
-					style={{background:`url(https://q-highschool.nl/images/thumbnails/course_${id}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
+					style={{background:`url(https://q-highschool.nl/images/thumbnails/${formatCourseId(courseId)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
 									backgroundRepeat: 'no-repeat',
 									backgroundSize: 'cover',
 									backgroundPosition:'center right'}}/>
