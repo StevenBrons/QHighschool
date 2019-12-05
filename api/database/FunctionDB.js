@@ -98,8 +98,11 @@ exports.updateAllGroups = async () => {
   const groups = await Group.findAll();
   return Promise.all(
     groups.map(async group => {
-      await exports.updateLessonDates(group);
-      await officeEndpoints.updateClass(group.id);
+      if (schedule.shouldBeSynced(group)) {
+        await exports.addLessonsIfNecessary(group);
+        await exports.updateLessonDates(group);
+        await officeEndpoints.updateClass(group.id);
+      }
     })
   );
 };
@@ -121,12 +124,18 @@ exports.updateLessonDates = async group => {
   }
 };
 
-exports.addLessons = async (groupId, schoolYear, period, day) => {
+exports.addLessonsIfNecessary = async ({ id, schoolYear, period, day }) => {
   for (let i = 0; i < 9; i++) {
-    await Lesson.create({
-      courseGroupId: groupId,
-      date: schedule.getLessonDate(schoolYear, period, i + 1, day),
-      numberInBlock: i + 1
+    await Lesson.findOrCreate({
+      defaults: {
+        courseGroupId: id,
+        date: schedule.getLessonDate(schoolYear, period, i + 1, day),
+        numberInBlock: i + 1
+      },
+      where: {
+        courseGroupId: id,
+        numberInBlock: i + 1,
+      }
     });
   }
 };

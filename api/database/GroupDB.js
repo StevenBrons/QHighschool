@@ -176,30 +176,30 @@ exports.getParticipants = async (groupId, teacher, school = "%") => {
       model: User,
       attributes: teacher
         ? [
-            "id",
-            "role",
-            "school",
-            "firstName",
-            "lastName",
-            "displayName",
-            "year",
-            "profile",
-            "level",
-            "preferedEmail",
-            "phoneNumber",
-            "email"
-          ]
+          "id",
+          "role",
+          "school",
+          "firstName",
+          "lastName",
+          "displayName",
+          "year",
+          "profile",
+          "level",
+          "preferedEmail",
+          "phoneNumber",
+          "email"
+        ]
         : [
-            "id",
-            "role",
-            "school",
-            "displayName",
-            "firstName",
-            "lastName",
-            "level",
-            "profile",
-            "year"
-          ],
+          "id",
+          "role",
+          "school",
+          "displayName",
+          "firstName",
+          "lastName",
+          "level",
+          "profile",
+          "year"
+        ],
       where: {
         school: {
           [Op.like]: school
@@ -390,8 +390,8 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
   };
 
   const group = await Group.create(g);
-  functionDb.addLessons(g.id, g.schoolYear, g.period, g.day);
-  Participant.create({
+  await functionDb.addLessonsIfNecessary(group);
+  await Participant.create({
     participatingRole: "teacher",
     courseGroupId: group.id,
     userId: mainTeacherId
