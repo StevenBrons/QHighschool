@@ -61,7 +61,7 @@ router.get(
   promiseMiddleware(async req => {
     const groups = await groupDb.getGroups(req.user.id);
     var enrollableGroups = groups.filter(group => {
-      return group.period === 3 && group.schoolYear === "2019/2020";
+      return true;
     });
     return enrollableGroups;
   }),
