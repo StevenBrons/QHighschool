@@ -28,7 +28,7 @@ import $ from "jquery";
 const splitValues = {
   users: "role",
   evaluations: "groupId",
-  enrollments: "period"
+  enrollments: "enrollmentPeriod"
 };
 
 class DataPage extends Component {

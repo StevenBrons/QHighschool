@@ -169,6 +169,7 @@ exports.findEvaluation = async (userId, groupId) => {
       type: "decimal",
       courseId: group.courseId,
       period: group.period,
+      groupId: group.id,
       userId
     };
   }
@@ -183,6 +184,7 @@ exports.findEvaluation = async (userId, groupId) => {
     type: evaluation.type,
     period: group.period,
     courseId: group.courseId,
+    groupId: group.id,
     userId
   };
 };
@@ -218,7 +220,7 @@ exports.getEnrollment = async school => {
     include: [
       {
         model: Group,
-        attributes: ["id", "period", "createdAt"],
+        attributes: ["id", "period", "createdAt", "schoolYear"],
         include: [
           {
             model: Course,
@@ -251,10 +253,11 @@ exports.getEnrollment = async school => {
         subjectName: e["course_group.course.subject.name"],
         accepted: e["accepted"],
         courseId: formatCourseId(e["course_group.course.id"]),
-        period: e["course_group.period"],
+        enrollmentPeriod: e["course_group.schoolYear"] + " - " + e["course_group.period"],
         displayName: e["user.displayName"],
         school: e["user.school"],
         year: e["user.year"],
+        period: e["course_group.period"],
         level: e["user.level"],
         preferedEmail: e["user.preferedEmail"],
         createdAt: moment(e["createdAt"]).format("lll")
