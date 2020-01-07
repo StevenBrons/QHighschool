@@ -28,7 +28,20 @@ const profiles = [
 	"Natuur en Techniek",
 ];
 const schools = [
-	
+	"Beekdal Lyceum",
+	"Candea College",
+	"Centraal Bureau",
+	"Lyceum Elst",
+	"Liemers College",
+	"Lorentz Lyceum",
+	"Maarten van Rossem",
+	"Montessori College Arnhem",
+	"Olympus College",
+	"Produs Praktijkonderwijs",
+	"Stedelijk Gymnasium Arnhem",
+	"Symbion",
+	"Vmbo 't Venster",
+	"Het Westeraam",
 ]
 
 
