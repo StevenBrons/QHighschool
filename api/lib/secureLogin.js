@@ -31,10 +31,10 @@ exports.disableSecureMode = () => {
 	console.log("Disabled secure mode");
 	if (secureTimeout != null) {
 		clearTimeout(secureTimeout);
-		console.log("Enabled secure mode");
 	}
 	secureTimeout = setTimeout(() => {
 		secureMode = true;
+		console.log("Enabled secure mode");
 	},1000 * 60 * 30)
 }
 
