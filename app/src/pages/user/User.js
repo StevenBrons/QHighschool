@@ -21,7 +21,7 @@ class User extends Component {
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let s = queryString.parse(nextProps.location.search);
-		if (s.secureLogin != null) {
+		if (s.secureLogin != null && s.secureLogin !== "undefined") {
 			nextProps.setSecureLogin(s.secureLogin);
 		}
 		if (s.from === "login" && nextProps.user != null && nextProps.role !== "student") {
