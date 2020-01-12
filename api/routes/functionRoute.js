@@ -3,6 +3,7 @@ var router = express.Router();
 var functionDb = require("../database/FunctionDB");
 var taxi = require("../lib/taxi");
 const { promiseMiddleware, doSuccess, doReturn } = require("./handlers");
+const { disableSecureMode } = require("../lib/secureLogin");
 const {
   ensureAdmin,
   ensureConfirm,
@@ -44,6 +45,18 @@ router.post(
       throw new Error("Invalid data types");
     }
   }),
+  doSuccess
+);
+
+router.post(
+  "/disableSecureMode",
+  ensureAdmin,
+  ensureSecure,
+  ensureConfirm,
+  (req,res,next) => {
+    disableSecureMode();
+    next();
+  },
   doSuccess
 );
 
