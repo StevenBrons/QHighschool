@@ -33,23 +33,26 @@ module.exports = connection.define('user', {
 	},
 	level: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isIn: [["MAVO", "HAVO", "VWO"]],
-		// },
 		allowNull: true,
 	},
 	preferedEmail: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isEmail: true,
-		// },
 		allowNull: true,
 	},
 	profile: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isIn: [["NT", "NG", "EM", "CM", "NT&NG", "EM&CM"]],
-		// },
+		allowNull: true,
+	},
+	sector: {
+		type: Sequelize.STRING,
+		allowNull: true,
+	},
+	schoolLocation: {
+		type: Sequelize.STRING,
+		allowNull: true,
+	},
+	remarks: {
+		type: Sequelize.STRING,
 		allowNull: true,
 	},
 	phoneNumber: {
@@ -63,5 +66,5 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 	},
 }, {
-		tableName: 'user_data'
-	});
+	tableName: 'user_data'
+});

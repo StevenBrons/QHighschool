@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import Page from './Page';
+import Page from '../Page';
+import { Typography, Divider } from '@material-ui/core/';
+import EducationData from "./EducationData"
+import PersonalData from "./PersonalData"
 
 import { connect } from 'react-redux';
 
@@ -14,7 +17,7 @@ const sectorsVMBO = [
 	"Mobiliteit en transport",
 	"Produceren, installeren en energie",
 	"Zorg en welzijn",
-	];
+];
 const sectorsMAVO = [
 	"Economie",
 	"Landbouw (Groen)",
@@ -44,6 +47,19 @@ const schools = [
 	"Het Westeraam",
 ]
 
+function normalizeRole(role) {
+	switch (role) {
+		case "student":
+			return "leerling";
+		case "teacher":
+			return "expert";
+		case "grade_admin":
+			return "contactpersoon";
+		case "admin":
+			return "administrator";
+	}
+}
+
 
 class Profile extends Component {
 
@@ -54,9 +70,30 @@ class Profile extends Component {
 	render() {
 		return (
 			<Page>
+				<Typography variant="h4" color="primary">
+					{"Steven Bronsveld"}
+				</Typography>
+				<Divider />
+				<PersonalData />
+				<EducationData />
+				<Typography variant="subtitle1">
+					{"leerling"}
+				</Typography>
 			</Page>
 		);
 	}
 }
+
+function mapStateToProps(state, ownProps) {
+	return {
+
+	}
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+	};
+}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

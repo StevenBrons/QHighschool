@@ -21,6 +21,7 @@ import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
 import ControlPanel from "./pages/ControlPanel";
+import Profile from "./pages/profile/Profile";
 
 
 class App extends Component {
@@ -68,7 +69,7 @@ class App extends Component {
 					<Route path="/aanbod" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/gebruiker/:userId" component={User} />
-					<Route path="/profiel/" component={User} />
+					<Route path="/profiel/" component={Profile} />
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={Portfolio} />
 					<Route path="/gegevens/" component={DataPage} />
