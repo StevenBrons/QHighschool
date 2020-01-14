@@ -92,6 +92,7 @@ class GroupData extends Component {
                 editable={editable && role === "admin"}
                 style={{ width: "150px", type: "caption" }}
                 options={[
+                  "onbekend",
                   "maandag",
                   "dinsdag",
                   "woensdag",
