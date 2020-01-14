@@ -25,7 +25,7 @@ exports.createUser = async accessToken => {
   const user = await graphConnection.getOwnDetails(accessToken);
 
   if (/beekdallyceum\.nl$/g.test(user.email)) {
-    user.school = "Beekdal";
+    user.school = "Beekdal Lyceum";
   }
   if (/candea\.nl$/g.test(user.email)) {
     user.school = "Candea College";
@@ -46,13 +46,13 @@ exports.createUser = async accessToken => {
     user.school = "Maarten van Rossem";
   }
   if (/montessoriarnhem\.nl$/g.test(user.email)) {
-    user.school = "Montessori College";
+    user.school = "Montessori College Arnhem";
   }
   if (/olympuscollege\.nl$/g.test(user.email)) {
     user.school = "Olympus College";
   }
   if (/produsarnhem\.nl$/g.test(user.email)) {
-    user.school = "Produs";
+    user.school = "Produs Praktijkonderwijs";
   }
   if (/gymnasiumarnhem\.nl$/g.test(user.email)) {
     user.school = "Stedelijk Gymnasium Arnhem";
@@ -61,7 +61,7 @@ exports.createUser = async accessToken => {
     user.school = "Symbion";
   }
   if (/vmbo-venster\.nl$/g.test(user.email)) {
-    user.school = "'t Venster";
+    user.school = "Vmbo 't Venster";
   }
   if (/hetwesteraam\.nl$/g.test(user.email)) {
     user.school = "Het Westeraam";
