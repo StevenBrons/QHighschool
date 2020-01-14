@@ -146,7 +146,7 @@ class GroupPage extends Component {
 								</Typography>
 								<div style={{ display: "inline-flex" }}>
 									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
-									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Docent" }]} onChange={this.handleNewParticipantRoleChange} />
+									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
 									<Tooltip title={participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : ""} placement={"bottom-start"} enterDelay={200}>
 										<div>
 											<Button variant="contained"
