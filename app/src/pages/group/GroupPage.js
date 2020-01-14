@@ -99,6 +99,8 @@ class GroupPage extends Component {
 		const presence = this.state.group.presence;
 		const newParticipant = this.state.newParticipant;
 
+		console.log(enrollmentIds)
+
 		switch (currentTab) {
 			case "Inschrijvingen":
 				if (enrollmentIds == null) {
@@ -147,7 +149,7 @@ class GroupPage extends Component {
 								<div style={{ display: "inline-flex" }}>
 									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
 									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
-									<Tooltip title={participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : ""} placement={"bottom-start"} enterDelay={200}>
+									<Tooltip title={participantIds.includes(newParticipant.userId) || (enrollmentIds != null && enrollmentIds.includes(newParticipant.userId)) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : ""} placement={"bottom-start"} enterDelay={200}>
 										<div>
 											<Button variant="contained"
 												disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId)}
