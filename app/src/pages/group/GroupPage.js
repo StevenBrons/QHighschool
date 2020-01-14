@@ -138,6 +138,12 @@ class GroupPage extends Component {
 				if (participantIds == null) {
 					return <Progress />;
 				}
+				const canAddNewParticipant = 
+					!participantIds.includes(newParticipant.userId) &&
+					!(enrollmentIds != null &&
+					enrollmentIds.includes(newParticipant.userId)) &&
+					newParticipant.userId;
+				const cantAddReason = canAddNewParticipant ? "" : (newParticipant.userId ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : "Vul een deelnemer in");
 				return (
 					<div >
 						{
@@ -146,13 +152,14 @@ class GroupPage extends Component {
 								<Typography variant="button" color="primary" style={{ margin: "18px 12px" }}>
 									Nieuwe deelnemer:
 								</Typography>
+								<br />
 								<div style={{ display: "inline-flex" }}>
 									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
 									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
-									<Tooltip title={participantIds.includes(newParticipant.userId) || (enrollmentIds != null && enrollmentIds.includes(newParticipant.userId)) ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : ""} placement={"bottom-start"} enterDelay={200}>
+									<Tooltip title={cantAddReason} placement={"bottom-start"}>
 										<div>
 											<Button variant="contained"
-												disabled={newParticipant.userId == null || participantIds.includes(newParticipant.userId) || enrollmentIds.includes(newParticipant.userId)}
+												disabled={!canAddNewParticipant}
 												color="primary" style={{ marginTop: "22px" }} onClick={this.addNewParticipant}>
 												Voeg toe
 											</Button>
