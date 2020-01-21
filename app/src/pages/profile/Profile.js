@@ -5,6 +5,8 @@ import EducationData from "./EducationData"
 import PersonalData from "./PersonalData"
 
 import { connect } from 'react-redux';
+import LoginProvider from '../../lib/LoginProvider';
+import "./Profile.css";
 
 const sectorsVMBO = [
 	"Bouwen, wonen en interieur",
@@ -67,26 +69,43 @@ class Profile extends Component {
 		super(props);
 	}
 
+	onChange = (field, value) => {
+		this.setState({
+			user: {
+				...this.state.user,
+				[field]: value,
+			}
+		})
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		return {
+			orgUser: nextProps.user,
+			user: nextProps.user,
+			...prevState,
+		}
+	}
+
 	render() {
+		const user = this.state.user;
 		return (
-			<Page>
-				<Typography variant="h4" color="primary">
-					{"Steven Bronsveld"}
-				</Typography>
-				<Divider />
-				<PersonalData />
-				<EducationData />
-				<Typography variant="subtitle1">
-					{"leerling"}
-				</Typography>
-			</Page>
+			<LoginProvider>
+				<Page className="Profile">
+					<Typography variant="h4" color="primary">
+						{user.displayName}
+					</Typography>
+					<Divider />
+					<PersonalData {...user} onChange={this.onChange} />
+					<EducationData  {...user} />
+				</Page>
+			</LoginProvider>
 		);
 	}
 }
 
 function mapStateToProps(state, ownProps) {
 	return {
-
+		user: state.users[state.userId],
 	}
 }
 

@@ -24,12 +24,7 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 	},
 	year: {
-		type: Sequelize.INTEGER,
-		validate: {
-			min: 1,
-			max: 6,
-		},
-		allowNull: true,
+		type: Sequelize.STRING,
 	},
 	level: {
 		type: Sequelize.STRING,
@@ -39,11 +34,7 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 		allowNull: true,
 	},
-	profile: {
-		type: Sequelize.STRING,
-		allowNull: true,
-	},
-	sector: {
+	profileOrSector: {
 		type: Sequelize.STRING,
 		allowNull: true,
 	},

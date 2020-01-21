@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 class Page extends Component {
 
 	render() {
-		let className = "";
+		let className = this.props.className;
 		if (this.props.showMenu) {
-			className += "menuShown"
+			className += " menuShown"
 		} else {
-			className += "menuHidden"
+			className += " menuHidden"
 		}
 		return (
 			<div className={"Page " + className}>
