@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { Typography, Divider } from '@material-ui/core/';
 import Field from '../../components/Field';
-
-// QUESTIONS: RIVERS LEERLINGEN ACCOUNTS??
-// QUESTIONS: RIVERS VOLLEDIG ONDER LORENTZ (WANT GRADE_ADMIN?)
-// QUESTIONS: VMBO of VMBO K/B/GL
-// QUESTIONS: BEEKDAL
+import filter from "lodash/filter";
 
 const possibleValues = {
-	schools: {
+	school: {
 		"Beekdal Lyceum": {
 			level: ["HAVO", "VWO"],
 			schoolLocation: ["Bernhardlaan 49, Arnhem"],
@@ -162,7 +158,6 @@ const possibleValues = {
 		"Landbouw (Groen)": {},
 		"Techniek": {},
 		"Zorg en welzijn": {
-
 		},
 		// HAVO/VWO
 		"Cultuur en Maatschappij": {
@@ -219,29 +214,74 @@ const possibleValues = {
 	}
 }
 
-function normalizeRole(role) {
-	switch (role) {
-		case "student":
-			return "leerling";
-		case "teacher":
-			return "expert";
-		case "grade_admin":
-			return "contactpersoon";
-		case "admin":
-			return "administrator";
-	}
-}
-
-function reduceChoices(field) {
-	return Object.keys(possibleValues[field]);
-}
-
-
 class EducationData extends Component {
 
 	constructor(props) {
 		super(props);
 	}
+
+	reduceChoices = (field) => {
+		let pv = { ...possibleValues };
+		for (let i = 0; i < 1; i++) {
+			for (let field in pv) {
+				const userValue = this.props[field];
+				let constraints = pv[field][userValue];
+				for (let constraint in constraints) {
+					const C = constraints[constraint].reduce((acc, cur) => {
+						return {
+							...acc,
+							[cur]: {},
+						}
+					}, {});
+					console.log(pv[constraint]);
+					console.log(C);
+					pv[constraint] = this.intersection(pv[constraint], C);
+					console.log(pv[constraint]);
+				}
+			}
+		}
+		return Object.keys(pv[field]);
+	}
+
+
+	intersection = (o1, o2) => {
+		return Object.keys(o1).concat(Object.keys(o2)).sort().reduce(function (r, a, i, aa) {
+			if (i && aa[i - 1] === a) {
+				return {
+					...r,
+					[a]: o1[a]
+				}
+			}
+			return r;
+		}, {});
+	}
+
+	sectorOrProfileLabel = () => {
+		switch (this.props.sectorOrProfile) {
+			case "MAVO":
+			case "VMBO":
+				return "sector";
+			case "VWO":
+			case "HAVO":
+			case "OPUS":
+			default:
+				return "profile"
+		}
+	}
+
+	normalizeRole = (role) => {
+		switch (role) {
+			case "student":
+				return "leerling";
+			case "teacher":
+				return "expert";
+			case "grade_admin":
+				return "contactpersoon";
+			case "admin":
+				return "administrator";
+		}
+	}
+
 
 	render() {
 		const p = this.props;
@@ -262,6 +302,9 @@ class EducationData extends Component {
 								value={p.school}
 								style={{ margin: "none" }}
 								layout={{ td: true, area: true }}
+								editable
+								options={this.reduceChoices("school")}
+								onChange={(value) => p.onChange(value, "school")}
 							/>
 						</tr>
 						<tr>
@@ -271,7 +314,7 @@ class EducationData extends Component {
 								style={{ margin: "none" }}
 							/>
 							<Field
-								value={normalizeRole(p.role)}
+								value={this.normalizeRole(p.role)}
 								style={{ margin: "none" }}
 								layout={{ td: true, area: true }}
 							/>
@@ -304,7 +347,7 @@ class EducationData extends Component {
 								style={{ margin: "none" }}
 								layout={{ td: true, area: true }}
 								validate={{ notEmpty: true }}
-								options={reduceChoices("level")}
+								options={this.reduceChoices("level")}
 								editable
 							/>
 						</tr>
@@ -319,11 +362,59 @@ class EducationData extends Component {
 								style={{ margin: "none" }}
 								layout={{ td: true, area: true }}
 								validate={{ notEmpty: true }}
-								options={reduceChoices("schoolLocation")}
+								options={this.reduceChoices("schoolLocation")}
+								onChange={(value) => p.onChange(value, "schoolLocation")}
 								editable
 							/>
 						</tr>
-
+						<tr>
+							<Field
+								value="Leerjaar"
+								layout={{ td: true }}
+								style={{ margin: "none" }}
+							/>
+							<Field
+								value={p.year}
+								style={{ margin: "none" }}
+								layout={{ td: true, area: true }}
+								validate={{ notEmpty: true }}
+								options={this.reduceChoices("year")}
+								onChange={(value) => p.onChange(value, "year")}
+								editable
+							/>
+						</tr>
+						<tr>
+							<Field
+								value={this.sectorOrProfileLabel()}
+								layout={{ td: true }}
+								style={{ margin: "none" }}
+							/>
+							<Field
+								value={p.profileOrSector}
+								style={{ margin: "none" }}
+								layout={{ td: true, area: true }}
+								validate={{ notEmpty: true }}
+								options={this.reduceChoices("profileOrSector")}
+								onChange={(value) => p.onChange(value, "profileOrSector")}
+								editable
+							/>
+						</tr>
+						<tr>
+							<Field
+								value="School locatie"
+								layout={{ td: true }}
+								style={{ margin: "none" }}
+							/>
+							<Field
+								value={p.schoolLocation}
+								style={{ margin: "none" }}
+								layout={{ td: true, area: true }}
+								validate={{ notEmpty: true }}
+								options={this.reduceChoices("schoolLocation")}
+								onChange={(value) => p.onChange(value, "schoolLocation")}
+								editable
+							/>
+						</tr>
 					</tbody>
 				</table>
 			</div>

@@ -67,6 +67,9 @@ class Profile extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			user: {}
+		}
 	}
 
 	onChange = (field, value) => {
@@ -96,7 +99,7 @@ class Profile extends Component {
 					</Typography>
 					<Divider />
 					<PersonalData {...user} onChange={this.onChange} />
-					<EducationData  {...user} />
+					<EducationData  {...user} onChange={this.onChange} />
 				</Page>
 			</LoginProvider>
 		);
