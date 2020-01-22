@@ -260,7 +260,7 @@ exports.getEnrollment = async school => {
         period: e["course_group.period"],
         level: e["user.level"],
         preferedEmail: e["user.preferedEmail"],
-        createdAt: moment(e["createdAt"]).format("lll")
+        createdAt: moment(e["createdAt"]).format("DD-MM-YYYY")
       };
     })
   );

@@ -107,7 +107,7 @@ class DataPage extends Component {
           ...prevState.tableSortDirections,
           [tableIndex]:
             prevState.tableSortDirections[tableIndex] === "desc" &&
-            prevState.tableSortColumns[tableIndex] === columnIndex
+              prevState.tableSortColumns[tableIndex] === columnIndex
               ? "asc"
               : "desc" // if this columns was selected and ordering desc, change to asc else desc
         }
@@ -184,7 +184,7 @@ class DataPage extends Component {
       .writeBuffer({
         base64: true
       })
-      .then(function(xls64) {
+      .then(function (xls64) {
         var a = document.createElement("a");
         var data = new Blob([xls64], {
           type:
@@ -195,15 +195,15 @@ class DataPage extends Component {
         a.download = fileName;
         document.body.appendChild(a);
         a.click();
-        setTimeout(function() {
+        setTimeout(function () {
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
         }, 0);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(
           "Something went wrong with downloading the excel file: " +
-            error.message
+          error.message
         );
       });
   };
@@ -224,6 +224,7 @@ class DataPage extends Component {
   };
 
   render() {
+    console.log(this.state.tables);
     let content;
     if (this.state.tables == null) {
       if (this.state.hasFetched) {
