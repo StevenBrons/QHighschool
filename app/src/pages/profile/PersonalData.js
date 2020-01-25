@@ -2,20 +2,6 @@ import React, { Component } from "react";
 import { Typography, Divider } from "@material-ui/core/";
 import Field from "../../components/Field"
 
-function normalizeRole(role) {
-	switch (role) {
-		case "student":
-			return "leerling";
-		case "teacher":
-			return "expert";
-		case "grade_admin":
-			return "contactpersoon";
-		case "admin":
-			return "administrator";
-	}
-}
-
-
 class PersonalData extends Component {
 
 	render() {
@@ -62,7 +48,7 @@ class PersonalData extends Component {
 							/>
 							<Field
 								validate={{ type: "phoneNumber" }}
-								value={"06 " + p.phoneNumber.replace(/^06[ ]*/, "")}
+								value={"06 " + (p.phoneNumber ? p.phoneNumber.replace(/^06[ ]*/, "") : "")}
 								layout={{ td: true, area: true }}
 								style={{ margin: "none" }}
 								onChange={(value) => p.onChange("phoneNumber", value)}

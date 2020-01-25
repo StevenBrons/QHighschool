@@ -34,7 +34,7 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 		allowNull: true,
 	},
-	profileOrSector: {
+	profile: {
 		type: Sequelize.STRING,
 		allowNull: true,
 	},
