@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './CourseInfo.css';
 
+function formatCourseId(courseId = "") {
+  return "M" + (courseId + "").padStart(4, "0");
+}
+
 class CourseInfo extends Component {
 
   render() {
@@ -36,10 +40,12 @@ class CourseInfo extends Component {
 				</div>
 				<div 
 					className='image' 
-					style={{background:`url(https://q-highschool.nl/images/thumbnails/course_${id}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
-									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'cover',
-									backgroundPosition:'center right'}}/>
+					style={{ background: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(
+								id
+							)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
+								backgroundRepeat: 'no-repeat',
+								backgroundSize: 'cover',
+								backgroundPosition:'center right'}}/>
 				<button 
 					className='close-button' 
 					onClick={this.props.onClose} 
