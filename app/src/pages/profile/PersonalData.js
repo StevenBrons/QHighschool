@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Typography, Divider } from "@material-ui/core/";
+import { Typography } from "@material-ui/core/";
 import Field from "../../components/Field"
 
 class PersonalData extends Component {
 
 	render() {
 		const p = this.props;
+		const u = p.user;
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
@@ -20,20 +21,22 @@ class PersonalData extends Component {
 								style={{ margin: "none" }}
 							/>
 							<Field
-								value={p.displayName}
+								value={u.displayName}
 								style={{ margin: "none" }}
+								editable={p.isAdmin}
+								onChange={(value) => p.onChange("displayName", value)}
 								layout={{ td: true, area: true }}
 							/>
 						</tr>
 						<tr>
 							<Field
-								value="Voorkeurs email"
+								value="Voorkeursemail"
 								layout={{ td: true }}
 								style={{ margin: "none" }}
 							/>
 							<Field
 								validate={{ type: "email" }}
-								value={p.preferedEmail}
+								value={u.preferedEmail}
 								style={{ margin: "none" }}
 								editable
 								onChange={(value) => p.onChange("preferedEmail", value)}
@@ -48,7 +51,7 @@ class PersonalData extends Component {
 							/>
 							<Field
 								validate={{ type: "phoneNumber" }}
-								value={"06 " + (p.phoneNumber ? p.phoneNumber.replace(/^06[ ]*/, "") : "")}
+								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
 								layout={{ td: true, area: true }}
 								style={{ margin: "none" }}
 								onChange={(value) => p.onChange("phoneNumber", value)}

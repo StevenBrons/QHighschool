@@ -15,3 +15,9 @@ td:first-child {
 	width: 300px;
 	max-width: 40%;
 }
+
+.Profile>div {
+	margin-top: 1%;
+	margin-left: 1%;
+	margin-right: 1%;
+}

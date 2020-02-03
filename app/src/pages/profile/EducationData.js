@@ -2,66 +2,65 @@ import React, { Component } from 'react';
 import { Typography, Divider } from '@material-ui/core/';
 import Field from '../../components/Field';
 import { cloneDeep } from "lodash";
-import possibleValues, { arrToObj } from "./educationConstraints"
+import possibleValues from "./educationConstraints"
 
 class EducationData extends Component {
 
-	constructor(props) {
-		super(props);
-	}
-
-	reduceChoices = (field) => {
+	reducedChoices = null;
+	reduceChoices = () => {
+		let autoFilledUser = { ...this.props.user };
 		let CONS = cloneDeep(possibleValues);
-		for (let field in possibleValues) {
-			let userValue = CONS[field][this.props[field]];
-			if (userValue != null) {
-				console.log(userValue);
-				console.log(CONS[field]);
-				CONS[field] = this.intersection(CONS[field], userValue);
+		for (let i = 0; i < 5; i++) {
+			for (let field in possibleValues) {
+				let userValue = CONS[field][autoFilledUser[field]];
+				if (userValue != null) {
+					for (let constraint in userValue) {
+						CONS[constraint] = this.intersection(CONS[constraint], userValue[constraint]);
+					}
+				}
+			}
+			for (let field in possibleValues) {
+				if (Object.keys(CONS[field]).length === 1) {
+					autoFilledUser[field] = Object.keys(CONS[field])[0];
+				}
 			}
 		}
-		return Object.keys(CONS[field]);
-		// Fill missing values in constraints matrix
+		this.reducedChoices = CONS;
 	}
 
 	intersection = (o1, o2) => {
-		return Object.keys(o1).concat(Object.keys(o2)).sort().reduce(function (r, a, i, aa) {
-			if (i && aa[i - 1] === a) {
-				return {
-					...r,
-					[a]: o1[a]
+		return Object.keys(o1)
+			.concat(Object.keys(o2))
+			.sort()
+			.reduce(function (r, a, i, aa) {
+				if (i && aa[i - 1] === a) {
+					return {
+						...r,
+						[a]: o1[a]
+					}
 				}
-			}
-			return r;
-		}, {});
-	}
-
-	normalizeRole = (role) => {
-		switch (role) {
-			case "student":
-				return "leerling";
-			case "teacher":
-				return "expert";
-			case "grade_admin":
-				return "contactpersoon";
-			case "admin":
-				return "administrator";
-			default:
-				return "onbekend";
-		}
+				return r;
+			}, {});
 	}
 
 	getField = (field) => {
-		let value = this.props[field];
-		let options = this.reduceChoices(field);
+		let value = this.props.user[field];
+		let options = Object.keys(this.reducedChoices[field]);
 		let editable = true;
+		if (options == null || options.length === 0) {
+			console.error(this.props.user);
+			console.error("INVALID EDUCATION DATA STATE ON FIELD " + field);
+			options = Object.keys(possibleValues[field]);
+		}
 		if (options.length === 1) {
 			value = options[0];
 			editable = false;
 		}
-		if (options.length === 0) {
-			console.error("INVALID EDUCATION DATA STATE ON FIELD " + field);
-			options = Object.keys(possibleValues[field]);
+		if (options.indexOf(value) === -1) {
+			value = "";
+		}
+		if (field === "school") {
+			editable = this.props.isAdmin;
 		}
 		return <Field
 			value={value}
@@ -83,6 +82,7 @@ class EducationData extends Component {
 
 	render() {
 		const p = this.props;
+		this.reduceChoices();
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
@@ -105,19 +105,27 @@ class EducationData extends Component {
 								style={{ margin: "none" }}
 							/>
 							<Field
-								value={this.normalizeRole(p.role)}
+								value={p.user.role}
 								style={{ margin: "none" }}
+								editable={p.isAdmin}
 								layout={{ td: true, area: true }}
+								onChange={(value) => p.onChange("role", value)}
+								options={[
+									{ label: "Administrator", value: "admin" },
+									{ label: "Leerling", value: "student" },
+									{ label: "Expert", value: "teacher" },
+									{ label: "Contactpersoon", value: "grade_admin" },
+								]}
 							/>
 						</tr>
 						<tr>
 							<Field
-								value="School email"
+								value="Schoolemail"
 								layout={{ td: true }}
 								style={{ margin: "none" }}
 							/>
 							<Field
-								value={p.email}
+								value={p.user.email}
 								style={{ margin: "none" }}
 								layout={{ td: true, area: true }}
 							/>
@@ -137,7 +145,7 @@ class EducationData extends Component {
 						</tr>
 						<tr>
 							<Field
-								value="School locatie"
+								value="Schoollocatie"
 								layout={{ td: true }}
 								style={{ margin: "none" }}
 							/>

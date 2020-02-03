@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Page from '../Page';
 import { Typography, Divider } from '@material-ui/core/';
-import EducationData from "./EducationData"
-import PersonalData from "./PersonalData"
 import Progress from "../../components/Progress"
 
-import { connect } from 'react-redux';
+import PersonalData from "./PersonalData"
+import EducationData from "./EducationData"
+import ExamSubjects from "./ExamSubjects"
+import Remarks from "./Remarks"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 
@@ -39,7 +41,8 @@ class Profile extends Component {
 
 	render() {
 		const user = this.state.user;
-		if (user == null || user == {}) {
+		const p = { ...this.props, user }
+		if (user == null || user === {}) {
 			return <LoginProvider>
 				<Page>
 					<Progress />
@@ -53,8 +56,13 @@ class Profile extends Component {
 						{user.displayName}
 					</Typography>
 					<Divider />
-					<PersonalData {...user} onChange={this.onChange} />
-					<EducationData  {...user} onChange={this.onChange} />
+					<div>
+						<PersonalData {...p} onChange={this.onChange} />
+						<EducationData  {...p} onChange={this.onChange} />
+						<ExamSubjects {...p} onChange={this.onChange} />
+						<Remarks {...p} onChange={this.onChange} />
+						<div style={{ height: "300px" }} />
+					</div>
 				</Page>
 			</LoginProvider>
 		);
@@ -63,6 +71,7 @@ class Profile extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
+		isAdmin: state.role === "admin",
 		user: state.users[state.userId],
 	}
 }

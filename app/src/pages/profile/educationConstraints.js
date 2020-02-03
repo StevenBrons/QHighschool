@@ -1,18 +1,38 @@
 let possibleValues = {
+	role: {
+		"student": {
+			level: ["Praktijkschool", "ISK", "n.v.t.", "Jan Ligthart", "OPUS", "MAVO", "VMBO", "HAVO", "VWO"],
+		},
+		"teacher": {
+			level: ["-"],
+			profile: ["n.v.t."],
+			year: ["n.v.t."],
+		},
+		"admin": {
+			level: ["-"],
+			profile: ["n.v.t."],
+			year: ["n.v.t."],
+		},
+		"grade_admin": {
+			level: ["-"],
+			profile: ["n.v.t."],
+			year: ["n.v.t."],
+		}
+	},
 	school: {
 		"Beekdal Lyceum": {
-			level: ["HAVO", "VWO"],
+			level: ["HAVO", "VWO", "-"],
 			schoolLocation: ["Bernhardlaan 49, Arnhem"],
 		},
 		"Candea College": {
-			level: ["VMBO", "MAVO", "HAVO", "VWO"],
+			level: ["VMBO", "MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: [
 				"Eltensestraat 8, Duiven",
 				"Saturnus 1, Duiven",
 			],
 		},
 		"Centraal Bureau": {
-			level: ["n.v.t."],
+			level: ["n.v.t.", "-"],
 			schoolLocation: [
 				"Saturnus 5, Duiven"
 			],
@@ -20,11 +40,11 @@ let possibleValues = {
 			year: ["n.v.t."],
 		},
 		"Lyceum Elst": {
-			level: ["MAVO", "HAVO", "VWO"],
+			level: ["MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: ["Auditorium 3, Elst"],
 		},
 		"Liemers College": {
-			level: ["VMBO", "MAVO", "HAVO", "VWO"],
+			level: ["VMBO", "MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: [
 				"Dijksestraat 12, Didam",
 				"Stationspoort 3, Zevenaar",
@@ -33,42 +53,44 @@ let possibleValues = {
 			],
 		},
 		"Lorentz Lyceum": {
-			level: ["HAVO", "VWO"],
+			level: ["HAVO", "VWO", "OPUS", "n.v.t.", "-"],
 			schoolLocation: ["Parnassusstraat 20, Arnhem", "Groningensingel 1245, Arnhem"]
 		},
 		"Maarten van Rossem": {
-			level: ["VMBO"],
+			level: ["VMBO", "-"],
 			schoolLocation: ["Groningensingel 1235, Arnhem"],
 		},
 		"Montessori College Arnhem": {
-			level: ["MAVO", "HAVO", "VWO"],
+			level: ["MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: ["Utrechtseweg 174, Arnhem"]
 		},
 		"Olympus College": {
-			level: ["ISK", "Jan Ligthart", "MAVO", "HAVO", "VWO"],
+			level: ["ISK", "Jan Ligthart", "MAVO", "HAVO", "VWO", "-"],
+			schoolLocation: ["Olympus 11, Arnhem"],
 		},
 		"Produs Praktijkonderwijs": {
-			level: ["Praktijkschool"],
+			level: ["Praktijkschool", "-"],
 			schoolLocation: ["Leidenweg 60, Arnhem"],
 		},
 		"Stedelijk Gymnasium Arnhem": {
-			level: ["VWO"],
+			level: ["VWO", "-"],
 			schoolLocation: ["Thorbeckestraat 17, Arnhem"],
 		},
 		"Symbion": {
-			level: ["Praktijkschool"],
+			level: ["Praktijkschool", "-"],
 			schoolLocation: ["Hoge Witteveld 2, Didam"],
 		},
 		"Vmbo 't Venster": {
-			level: ["ISK", "VMBO", "HAVO"],
+			level: ["ISK", "VMBO", "MAVO", "-"],
 			schoolLocation: ["Thomas a Kempislaan 82, Arnhem"],
 		},
 		"Het Westeraam": {
-			level: ["VMBO"],
+			level: ["VMBO", "-"],
 			schoolLocation: ["Auditorium 6, Elst"],
 		},
 	},
 	level: {
+		"-": {},// Teacher/GradeAdmin/Admin
 		"Praktijkschool": {
 			year: ["1", "2,", "3", "4", "5", "6"],
 			profile: ["n.v.t."],
@@ -153,7 +175,7 @@ let possibleValues = {
 		"Media, vormgeving en ICT": {},
 		"Mobiliteit en transport": {},
 		"Produceren, installeren en energie": {},
-		"Zorg en welzijn": {},
+		// "Zorg en welzijn": {}, IS A PROFILE OF VMBO AS WELL AS MAVO!
 		// MAVO
 		"Economie": {},
 		"Landbouw (Groen)": {},

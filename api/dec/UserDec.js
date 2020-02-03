@@ -56,6 +56,12 @@ module.exports = connection.define('user', {
 	createIp: {
 		type: Sequelize.STRING,
 	},
+	examSubjectIds: {
+		type: Sequelize.STRING,
+	},
+	examProfileSubjectIds: {
+		type: Sequelize.STRING,
+	},
 }, {
 	tableName: 'user_data'
 });

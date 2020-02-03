@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import queryString from "query-string";
 import { withRouter } from 'react-router-dom';
 import { setSecureLogin, getCookie } from "../store/actions"
