@@ -44,7 +44,7 @@ module.exports = connection.define('user', {
 	},
 	remarks: {
 		type: Sequelize.STRING,
-		allowNull: true,
+		defaultValue: "[]"
 	},
 	phoneNumber: {
 		type: Sequelize.STRING,
@@ -56,11 +56,13 @@ module.exports = connection.define('user', {
 	createIp: {
 		type: Sequelize.STRING,
 	},
-	examSubjectIds: {
+	examSubjects: {
 		type: Sequelize.STRING,
+		defaultValue: "[]", // [{"id": 1, "inProfile": true}]
 	},
-	examProfileSubjectIds: {
-		type: Sequelize.STRING,
+	needsProfileUpdate: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: true,
 	},
 }, {
 	tableName: 'user_data'

@@ -9,6 +9,7 @@
 
 .Profile table {
 	width: 100%;
+	margin-left: 20px;
 }
 
 td:first-child {
@@ -20,4 +21,20 @@ td:first-child {
 	margin-top: 1%;
 	margin-left: 1%;
 	margin-right: 1%;
+}
+
+.examSubjectListItem {
+	font-size: 1.1em;
+	margin: 2px;
+	text-align: left;
+}
+
+.examSubjectListItem th {
+	width: 20%;
+	font-weight: bold;
+}
+
+.examSubjectListItem td {
+	margin-left: 20px;
+	float: left;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core/";
+import { Typography, Checkbox, FormControlLabel } from "@material-ui/core/";
 import Field from "../../components/Field"
 
 class Remarks extends Component {
@@ -23,6 +23,20 @@ class Remarks extends Component {
 					editable={p.isAdmin}
 					onChange={(value) => p.onChange("remarks", value)}
 				/>
+				<Typography variant="h6" color="secondary">
+					Verzoek profiel update
+				</Typography>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={p.user.needsProfileUpdate}
+							color="primary"
+							onChange={({ target: { checked } }) => p.onChange("needsProfileUpdate", checked)}
+						/>
+					}
+					label="Deze leerling moet zijn gegevens bijwerken"
+				/>
+
 			</div>
 		);
 	}

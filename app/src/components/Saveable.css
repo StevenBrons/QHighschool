@@ -1,0 +1,14 @@
+.SaveBanner {
+	width: 100vw;
+	position: fixed;
+	height: 60px;
+	bottom: 0px;
+	left: 0px;
+	padding: 10px;
+	text-align: center;
+}
+
+.SaveBanner Button {
+	margin-left: 50px;
+	margin-right: 50px;
+}

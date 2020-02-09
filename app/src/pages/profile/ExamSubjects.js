@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Typography, List, ListItem, ListItemText, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core/";
+import { Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core/";
 import { Add } from "@material-ui/icons";
 import {
 	getSubjects,
 } from "../../store/actions";
 import Field from "../../components/Field";
+import { map } from "lodash";
 
 class ExamSubjects extends Component {
 
@@ -18,23 +19,6 @@ class ExamSubjects extends Component {
 			newSubjectProfile: null,
 			isValid: false,
 		}
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		// let subjects = [];
-		// for (let id in this.props.subjects) {
-		// 	subjects.push({ value: id, label: this.props.subjects[id].name });
-		// }
-		// let subIds = (this.props.examSubjectIds || "").split(",").map(id => { });
-		// let subProIds = (this.props.examProfileSubjectIds || "").split(",");
-		// let examSubjects = subIds.concat(subProIds)
-		// 	.filter((id) => this.props.subjects[id])
-		// 	.map((id) => { return { id, name: this.props.subjects[parseInt(id)].name } })
-		// return {
-		// 	...prevState,
-		// 	examSubjectObjects: examSubjects,
-
-		// }
 	}
 
 	componentDidMount() {
@@ -59,11 +43,10 @@ class ExamSubjects extends Component {
 	}
 
 	updateExamSubjects = () => {
-		if (this.state.newSubjectProfile === "true") {
-			this.props.onChange("examProfileSubjectIds", this.props)
-		} else {
-			this.props.onChange("examSubjectIds")
-		}
+		this.props.onChange("examSubjects", JSON.stringify([
+			...this.props.examSubjects,
+			{ id: this.state.newSubjectId, inProfile: this.state.newSubjectProfile === "T" }
+		]));
 
 		this.setState({
 			isDialogOpen: false,
@@ -73,9 +56,28 @@ class ExamSubjects extends Component {
 		})
 	}
 
+	getExamSubjectListItem = ({ id, name, inProfile }) => {
+		return <tr key={id} className="examSubjectListItem">
+			<th>
+				{name}
+			</th>
+			<td>
+				{inProfile ? "(in profiel deel)" : "(in vrije deel)"}
+			</td>
+		</tr>
+	}
+
 	render() {
-		const examSubjects = this.state.examSubjects
-			.map(({ id, name }) => <ListItemText primary={name + (subProIds.indexOf(id) !== -1 ? "(IN PROFIEL)" : "")} key={id} />);
+		const p = this.props;
+		const examSubjectComponents =
+			p.examSubjects
+				.filter(({ id }) => p.subjects[id])
+				.map(({ id, inProfile }) => { return { id, inProfile, name: p.subjects[id].name } })
+				.map(this.getExamSubjectListItem);
+		const availableSubjects = map(p.subjects, (x) => { return { ...x } })
+			.filter(({ canDoExam }) => canDoExam)
+			.filter(({ id }) => { return p.examSubjects.filter((x) => x.id + "" === id + "").length === 0 })
+			.map(({ id, name }) => { return { label: name, value: id } });
 
 		return (
 			<div>
@@ -85,11 +87,11 @@ class ExamSubjects extends Component {
 				<Typography>
 					In deze vakken wil ik bij de Q-Highschool examen doen:
 				</Typography>
-				<List>
-					<ListItem>
-						{examSubjects}
-					</ListItem>
-				</List>
+				<table>
+					<tbody>
+						{examSubjectComponents}
+					</tbody>
+				</table>
 				<Button variant="contained" color="primary" startIcon={<Add />} onClick={this.toggleDialog} >
 					Nieuw examenvak
 				</Button>
@@ -105,7 +107,7 @@ class ExamSubjects extends Component {
 							editable
 							label="Nieuw examenvak"
 							value={this.state.newSubjectId}
-							options={subjects}
+							options={availableSubjects}
 							style={{
 								margin: "dense",
 							}}
@@ -119,9 +121,8 @@ class ExamSubjects extends Component {
           	</Typography>
 						<Field
 							editable
-							label="Nieuw examenvak"
 							value={this.state.newSubjectProfile}
-							options={[{ label: "In profiel", value: "true" }, { label: "In vrije deel", value: "false" }]}
+							options={[{ label: "In profiel", value: "T" }, { label: "In vrije deel", value: "F" }]}
 							style={{
 								margin: "dense",
 							}}
@@ -132,10 +133,10 @@ class ExamSubjects extends Component {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClose={this.toggleDialog}>
+						<Button onClick={this.toggleDialog}>
 							Annuleren
           </Button>
-						<Button autoFocus onClose={this.updateExamSubjects} color="primary" disabled={this.state.isValid}>
+						<Button autoFocus onClick={this.updateExamSubjects} color="primary" disabled={this.state.isValid}>
 							Opslaan
           	</Button>
 					</DialogActions>
@@ -148,6 +149,7 @@ class ExamSubjects extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		subjects: state.subjects || [],
+		examSubjects: (ownProps.user.examSubjects || "").length > 2 ? JSON.parse(ownProps.user.examSubjects) : [],
 		...ownProps,
 	}
 }

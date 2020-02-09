@@ -47,7 +47,7 @@ let possibleValues = {
 			level: ["VMBO", "MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: [
 				"Dijksestraat 12, Didam",
-				"Stationspoort 3, Zevenaar",
+				"Stationspoort 36, Zevenaar",
 				"Heerenmäten 6, Zevenaar",
 				"Zonegge 07-09, Zevenaar",
 			],
@@ -92,7 +92,7 @@ let possibleValues = {
 	level: {
 		"-": {},// Teacher/GradeAdmin/Admin
 		"Praktijkschool": {
-			year: ["1", "2,", "3", "4", "5", "6"],
+			year: ["1", "2", "3", "4", "5", "6"],
 			profile: ["n.v.t."],
 		},
 		"ISK": {
@@ -132,6 +132,8 @@ let possibleValues = {
 				"Economie en Maatschappij",
 				"Natuur en Gezondheid",
 				"Natuur en Techniek",
+				"Natuur en Techniek & Natuur en Gezondheid",
+				"Cultuur en Maatschappij & Economie en Maatschappij",
 				"n.v.t.",
 			]
 		},
@@ -142,6 +144,8 @@ let possibleValues = {
 				"Economie en Maatschappij",
 				"Natuur en Gezondheid",
 				"Natuur en Techniek",
+				"Natuur en Techniek & Natuur en Gezondheid",
+				"Cultuur en Maatschappij & Economie en Maatschappij",
 				"n.v.t.",
 			],
 		},
@@ -150,12 +154,14 @@ let possibleValues = {
 			profile: ["n.v.t."]
 		},
 		"OPUS": {
-			year: ["1", "2,", "3", "4", "5", "6"],
+			year: ["1", "2", "3", "4", "5", "6"],
 			profile: [
 				"Cultuur en Maatschappij",
 				"Economie en Maatschappij",
 				"Natuur en Gezondheid",
 				"Natuur en Techniek",
+				"Natuur en Techniek & Natuur en Gezondheid",
+				"Cultuur en Maatschappij & Economie en Maatschappij",
 				"n.v.t."
 			],
 		},
@@ -195,6 +201,12 @@ let possibleValues = {
 		"Natuur en Techniek": {
 			year: ["4", "5", "6"],
 		},
+		"Natuur en Techniek & Natuur en Gezondheid": {
+			year: ["4", "5", "6"],
+		},
+		"Cultuur en Maatschappij & Economie en Maatschappij": {
+			year: ["4", "5", "6"],
+		},
 		"n.v.t.": {},
 	},
 	schoolLocation: {
@@ -205,7 +217,7 @@ let possibleValues = {
 		"Groningensingel 1235, Arnhem": {},
 		"Auditorium 6, Elst": {},
 		"Dijksestraat 12, Didam": {},
-		"Stationspoort 3, Zevenaar": {},
+		"Stationspoort 36, Zevenaar": {},
 		"Heerenmäten 6, Zevenaar": {},
 		"Zonegge 07-09, Zevenaar": {},
 		"Eltensestraat 8, Duiven": {
