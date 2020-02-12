@@ -11,6 +11,7 @@ import Remarks from "./Other"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
+import { setUser, setFullUser } from '../../store/actions';
 
 class Profile extends Component {
 
@@ -44,6 +45,7 @@ class Profile extends Component {
 		const user = this.state.user;
 		const hasChanged = JSON.stringify(this.props.user) !== JSON.stringify(user);
 		const p = { ...this.props, user }
+
 		if (user == null || user === {}) {
 			return <LoginProvider>
 				<Page>
@@ -54,7 +56,18 @@ class Profile extends Component {
 		return (
 			<LoginProvider>
 				<Page className="Profile">
-					<Saveable hasChanged={hasChanged}>
+					<Saveable
+						hasChanged={hasChanged}
+						onSave={() => {
+							if (this.props.editableAdmin) {
+								this.props.saveFull(user)
+							} else {
+								this.props.save(user)
+							}
+						}}
+						editIfSecure={this.props.isAdmin}
+						isSecure={this.props.isSecure}
+					>
 						<Typography variant="h4" color="primary">
 							{user.displayName}
 						</Typography>
@@ -74,16 +87,26 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+	const isOwn = true;
+	const isAdmin = state.role === "admin"
+	const isSecure = state.secureLogin != null;
 	return {
-		isAdmin: state.role === "admin",
+		isAdmin,
+		isSecure,
+		isOwn,
 		user: state.users[state.userId],
+		editableUser: (isOwn && !isAdmin) || (isSecure && isAdmin),
+		editableAdmin: isSecure && isAdmin,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
+		save: (user) => dispatch(setUser(user)),
+		saveFull: (user) => dispatch(setFullUser(user)),
 	};
 }
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

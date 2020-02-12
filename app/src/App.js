@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getSelf, addNotification, isUserMissingInfo } from './store/actions';
+import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
@@ -31,7 +31,7 @@ class App extends Component {
 	}
 
 	componentDidUpdate() {
-		if (isUserMissingInfo(this.props.user) && this.props.location.pathname !== "/profiel") {
+		if (this.props.user != null && this.props.user.needsProfileUpdate && this.props.location.pathname !== "/profiel") {
 			this.props.history.push("/profiel");
 		}
 	}

@@ -3,7 +3,7 @@ const router = express.Router();
 const userDb = require("../database/UserDB");
 const groupDb = require("../database/GroupDB");
 const { doReturn, doSuccess, promiseMiddleware } = require("./handlers");
-const { ensureAdmin, ensureStudent } = require("./permissions");
+const { ensureAdmin, ensureStudent, ensureSecure } = require("./permissions");
 
 router.get(
   "/self",
@@ -25,7 +25,17 @@ router.post(
 router.patch(
   "/",
   promiseMiddleware(req => {
-    return userDb.setUser({ ...req.body, userId: req.user.id });
+    return userDb.setUser({ ...req.body, id: req.user.id });
+  }),
+  doSuccess
+);
+
+router.patch(
+  "/full",
+  ensureAdmin,
+  ensureSecure,
+  promiseMiddleware(req => {
+    return userDb.setFullUser(req.body);
   }),
   doSuccess
 );

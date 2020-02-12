@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import UserRow from "./UserRow";
-import UserPage from "./UserPage";
 import UserCard from "./UserCard";
 import { setSecureLogin, getCookie } from "../../store/actions"
 
@@ -59,10 +58,6 @@ class User extends Component {
 		switch (this.props.display) {
 			case "name":
 				return <Field value={this.props.user.displayName} style={{ type: "title", width: "auto", }} layout={{ td: true }} />;
-			case "page":
-				return (
-					<UserPage {...this.props} />
-				);
 			case "row":
 				return (
 					<UserRow {...this.props}>

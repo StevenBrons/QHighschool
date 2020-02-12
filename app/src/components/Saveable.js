@@ -1,20 +1,37 @@
 import React, { Component } from "react";
 import { Button, Paper } from "@material-ui/core/";
+import EnsureSecureLogin from "../components/EnsureSecureLogin";
 import "./Saveable.css"
 
 class Saveable extends Component {
 
 	render() {
+		const onSave = this.props.onSave;
+		const hasChanged = this.props.hasChanged;
+		const editIfSecure = this.props.editIfSecure;
+		const isSecure = this.props.isSecure;
+		const showBanner = hasChanged || (editIfSecure && !isSecure);
 		return <div>
 			{this.props.children}
-			{this.props.hasChanged && <Paper className="SaveBanner">
-				<Button color="primary" variant="outlined" onClick={this.props.onSave}>
-					Opslaan
-				</Button>
-				<Button color="default" onClick={this.props.onSave}>
-					Annuleren
-				</Button>
-			</Paper>}
+			{showBanner &&
+				<Paper className="SaveBanner">
+					{(editIfSecure && !isSecure) &&
+						<EnsureSecureLogin dense>
+							<br />
+						</EnsureSecureLogin>
+					}
+					{hasChanged &&
+						<div>
+							<Button color="primary" variant="outlined" onClick={onSave}>
+								Opslaan
+							</Button>
+							<Button color="default" onClick={onSave}>
+								Annuleren
+							</Button>
+						</div>
+					}
+				</Paper>
+			}
 		</div>
 	}
 }

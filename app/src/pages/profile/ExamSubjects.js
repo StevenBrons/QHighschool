@@ -92,9 +92,11 @@ class ExamSubjects extends Component {
 						{examSubjectComponents}
 					</tbody>
 				</table>
-				<Button variant="contained" color="primary" startIcon={<Add />} onClick={this.toggleDialog} >
-					Nieuw examenvak
-				</Button>
+				{this.props.editableUser &&
+					<Button variant="contained" color="primary" startIcon={<Add />} onClick={this.toggleDialog} >
+						Nieuw examenvak
+					</Button>
+				}
 				<Dialog onClose={this.toggleDialog} aria-labelledby="customized-dialog-title" open={this.state.isDialogOpen}>
 					<DialogTitle id="customized-dialog-title" onClose={this.toggleDialog}>
 						Nieuw examenvak

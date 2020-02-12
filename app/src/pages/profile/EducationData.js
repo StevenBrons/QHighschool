@@ -46,7 +46,7 @@ class EducationData extends Component {
 	getField = (field) => {
 		let value = this.props.user[field];
 		let options = Object.keys(this.reducedChoices[field]);
-		let editable = true;
+		let editable = this.props.editableUser;
 		if (options == null || options.length === 0) {
 			console.error(this.props.user);
 			console.error("INVALID EDUCATION DATA STATE ON FIELD " + field);
@@ -60,7 +60,7 @@ class EducationData extends Component {
 			value = "";
 		}
 		if (field === "school") {
-			editable = this.props.isAdmin;
+			editable = this.props.editableAdmin;
 		}
 		return <Field
 			value={value}
@@ -107,7 +107,7 @@ class EducationData extends Component {
 							<Field
 								value={p.user.role}
 								style={{ margin: "none" }}
-								editable={p.isAdmin}
+								editable={p.editableAdmin}
 								layout={{ td: true, area: true }}
 								onChange={(value) => p.onChange("role", value)}
 								options={[
