@@ -156,7 +156,7 @@ class DataPage extends Component {
     for (let i = 0; i < tables.length; i++) {
       // add all the tables to a different sheet
       // the sheet has the name of the value it's split on. I.e when splitting on courses every page is called what course it contains
-      const sheetName = tables[i][1][splitIndex] + "";
+      const sheetName = this.getValidWorksheetName(tables[i][1][splitIndex]);
       let sheet = workbook.addWorksheet(sheetName);
       sheet.addRows(tables[i]);
       for (let j = 1; j <= tables[i][0].length; j++) {
@@ -164,7 +164,6 @@ class DataPage extends Component {
           tables[i][0][j - 1].length < 10 ? 10 : tables[i][0][j - 1].length + 2; //set each column to at least fit the header
       }
     }
-
     const filenamePrefixes = {
       users: "Gebruikers ",
       enrollments: "Inschrijvingen ",
@@ -177,6 +176,19 @@ class DataPage extends Component {
       ".xlsx";
     this.downloadWorkbook(workbook, filename); //gives for example: "Gebruikers 3/3/2019.xlsx"
   };
+
+  getValidWorksheetName = (name) => { // excel has worksheet naming restrictions
+    if (name.length > 31) {
+      name = name.substring(0,30);
+      console.log('Worksheet name length cannot exceed 31 characters. Name has been shortened.');
+    }
+    let illegalCharacters = /(\\|\/|\*|\?|:|\[|\])/g
+    if (illegalCharacters.test(name)) { 
+      name = name.replace(illegalCharacters, '_');
+      console.log('Worksheet name cannot include one of the following chracters: \\, /, *, ?, :, [, ]. \n Illegal characters have been changed to _ ');
+    }
+    return name;
+  }
 
   downloadWorkbook = (workbook, fileName) => {
     //magic
