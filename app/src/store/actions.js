@@ -2,7 +2,6 @@ import filter from "lodash/filter"
 import $ from "jquery";
 import keyBy from "lodash/keyBy"
 import map from "lodash/map"
-import Field from "../components/Field"
 
 function apiErrorHandler(endpoint, dispatch) {
 	return function handleError(error) {
@@ -43,7 +42,10 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
-		data: data,
+		data: {
+			...data,
+			secureLogin: getState().secureLogin
+		},
 		dataType: "json",
 	}).then((list) => {
 		if (method === "put" || method === "patch" || method === "delete") {
@@ -77,7 +79,7 @@ export function getSubjects() {
 
 export function setAlias(userId) {
 	return (dispatch, getState) => {
-		fetchData("function/alias", "post", { userId, secureLogin: getState().secureLogin }, dispatch, getState)
+		fetchData("function/alias", "post", { userId }, dispatch, getState)
 			.then(() => {
 				document.location.reload();
 			})
@@ -120,33 +122,6 @@ export function getGroup(groupId) {
 	}
 }
 
-export function isUserMissingInfo(user) {
-	if (user && user.role === "student") {
-		if (!Field.validate(user.year, { type: "integer", min: 1, max: 6 })) return "Leerjaar";
-		if (!Field.validate(user.level, { notEmpty: true })) return "Opleidingsniveau";
-		if (!Field.validate(user.profile, { notEmpty: true })) return "Profiel";
-		if (!Field.validate(user.preferedEmail, { type: "email" })) return "Voorkeurs email";
-		if (!Field.validate(user.phoneNumber, { type: "phoneNumber" })) return "Telefoonnummer";
-	}
-	return false;
-}
-
-function addMissingInfoNotifications(user, dispatch) {
-	const missing = isUserMissingInfo(user);
-	if (missing) {
-		dispatch({
-			type: "ADD_NOTIFICATION",
-			notification: {
-				id: Math.random(),
-				priority: "high",
-				type: "badge",
-				message: `Vul een geldige waarde voor ${missing} in`,
-				scope: "profiel",
-			}
-		});
-	}
-}
-
 function testIE(dispatch) {
 	if (/MSIE|Trident/.test(window.navigator.userAgent)) {
 		dispatch({
@@ -175,7 +150,6 @@ export function getSelf() {
 		dispatch(addNotification(notification));
 		fetchData("user/self", "get", null, dispatch, getState)
 			.then((user) => {
-				addMissingInfoNotifications(user, dispatch);
 				testIE(dispatch);
 				dispatch({
 					type: "SET_SELF",
@@ -210,6 +184,15 @@ export function setUser(user) {
 			user,
 		});
 		fetchData("user", "patch", user, dispatch, getState);
+	}
+}
+export function setFullUser(user) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: "CHANGE_USER",
+			user,
+		});
+		fetchData("user/full", "patch", user, dispatch, getState);
 	}
 }
 
@@ -297,7 +280,6 @@ export function setGroup(group) {
 
 			fetchData("group/evaluations", "patch", {
 				evaluations: JSON.stringify(changedEvaluations),
-				secureLogin: getState().secureLogin
 			}, dispatch, getState);
 		}
 
@@ -489,7 +471,7 @@ export function getGroupEvaluations(groupId) {
 
 export function addSubject(name, description) {
 	return (dispatch, getState) => {
-		return fetchData("subject", "put", { name, description, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("subject", "put", { name, description }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",
@@ -507,7 +489,7 @@ export function addSubject(name, description) {
 
 export function addCourse(name, subjectId) {
 	return (dispatch, getState) => {
-		return fetchData("course", "put", { name, subjectId, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("course", "put", { name, subjectId }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",
@@ -525,7 +507,7 @@ export function addCourse(name, subjectId) {
 
 export function addGroup(courseId, userId) {
 	return (dispatch, getState) => {
-		return fetchData("group", "put", { courseId, mainTeacherId: userId, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("group", "put", { courseId, mainTeacherId: userId }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",

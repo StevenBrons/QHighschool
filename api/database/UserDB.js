@@ -47,46 +47,41 @@ exports.getNotifications = async (userId) => {
 	return Notification.findAll({ where: { userId } });
 }
 
-exports.setUser = async ({ userId, preferedEmail, profile, phoneNumber, level, year }) => {
-	// if (profile == null || profile == "") {
-	// 	throw new Error("The property profile is required");
-	// }
-	// if (phoneNumber == null || phoneNumber == "") {
-	// 	throw new Error("The property phoneNumber is required");
-	// }
-	// if (level == null || level == "") {
-	// 	throw new Error("The property level is required");
-	// }
-	// if (year == null || year == "") {
-	// 	throw new Error("The property year is required");
-	// }
-	// const re1 = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-	// if (!re1.test(preferedEmail)) {
-	// 	throw new Error("The property preferedEmail does not comply with requirements");
-	// }
-	// const re2 = /^\+?[1-9][\d]*$/i;
-	// if (!re2.test(year)) {
-	// 	throw new Error("The property year does not comply with requirements");
-	// }
-	// if (parseInt(year) > 6) {
-	// 	throw new Error("The property year must be below or equal to 6");
-	// }
-	// if (parseInt(year) < 1) {
-	// 	throw new Error("The property year must be 1 or higher");
-	// }
-	// const re3 = /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/i;
-	// if (!re3.test(phoneNumber)) {
-	// 	throw new Error("The property phoneNumber does not comply with requirements");
-	// }
+exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year, remarks, needsProfileUpdate, examSubjects }) => {
+	return User.update({
+		year,
+		level,
+		preferedEmail,
+		profile,
+		remarks,
+		phoneNumber,
+		examSubjects,
+		needsProfileUpdate,
+	}, {
+		where: {
+			id,
+		}
+	});
+}
+
+exports.setFullUser = async (
+	{ id, preferedEmail, profile, phoneNumber, level, year, remarks,
+		needsProfileUpdate, role, school, displayName, examSubjects }) => {
 	return User.update({
 		preferedEmail: preferedEmail,
 		profile: profile,
 		phoneNumber: phoneNumber,
 		year: year,
 		level: level,
+		examSubjects,
+		remarks,
+		needsProfileUpdate,
+		role,
+		school,
+		displayName,
 	}, {
 		where: {
-			id: userId,
+			id,
 		}
 	});
 }

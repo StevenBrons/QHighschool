@@ -24,33 +24,27 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 	},
 	year: {
-		type: Sequelize.INTEGER,
-		validate: {
-			min: 1,
-			max: 6,
-		},
-		allowNull: true,
+		type: Sequelize.STRING,
 	},
 	level: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isIn: [["MAVO", "HAVO", "VWO"]],
-		// },
 		allowNull: true,
 	},
 	preferedEmail: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isEmail: true,
-		// },
 		allowNull: true,
 	},
 	profile: {
 		type: Sequelize.STRING,
-		// validate: {
-		// 	isIn: [["NT", "NG", "EM", "CM", "NT&NG", "EM&CM"]],
-		// },
 		allowNull: true,
+	},
+	schoolLocation: {
+		type: Sequelize.STRING,
+		allowNull: true,
+	},
+	remarks: {
+		type: Sequelize.STRING,
+		defaultValue: "[]"
 	},
 	phoneNumber: {
 		type: Sequelize.STRING,
@@ -62,6 +56,14 @@ module.exports = connection.define('user', {
 	createIp: {
 		type: Sequelize.STRING,
 	},
+	examSubjects: {
+		type: Sequelize.STRING,
+		defaultValue: "[]", // [{"id": 1, "inProfile": true}]
+	},
+	needsProfileUpdate: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: true,
+	},
 }, {
-		tableName: 'user_data'
-	});
+	tableName: 'user_data'
+});

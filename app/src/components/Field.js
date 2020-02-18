@@ -183,9 +183,7 @@ class Field extends React.Component {
       disableUnderline = style.underline || false;
       margin = style.margin || "normal";
     } else {
-      if (!(style.labelVisible === true)) {
-        label = null;
-      }
+
       if (
         options != null &&
         options[0] != null &&
@@ -199,6 +197,9 @@ class Field extends React.Component {
         }
       }
       options = null;
+    }
+    if (style.labelVisible != null && !(style.labelVisible === true)) {
+      label = null;
     }
 
     if (options) {

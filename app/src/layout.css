@@ -1,9 +1,9 @@
 * {
-  box-sizing: border-box;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+	box-sizing: border-box;
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
-#root > div {
+#root>div {
 	height: 100%;
 }
 
@@ -14,25 +14,25 @@
 }
 
 .App {
-    position: relative;
-    display: -ms-grid;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-		grid-template-rows: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
-		-ms-grid-rows: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+	position: relative;
+	display: -ms-grid;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
+	-ms-grid-rows: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
 }
 
 body, #root, .App {
 	position: absolute;
-  margin: 0px;
-  padding: 0px;
-  width: 100%;
-  height: 100%;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
 }
 
 .Login {
-  grid-column: 6 / span 4;
+	grid-column: 6 / span 4;
 	grid-row: 5 / span 5;
 	-ms-grid-column: 6;
 	-ms-grid-column-span: 4;
@@ -42,12 +42,12 @@ body, #root, .App {
 
 .Header {
 	/* background: white; */
-	background: rgb(240,131,31) !important;
+	background: rgb(240, 131, 31) !important;
 	/* background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0831f",endColorstr="#00ccff",GradientType=1); */
-  	grid-column: 1 / span 15;
+	grid-column: 1 / span 15;
 	grid-row: 1 / span 1;
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 15;
@@ -56,12 +56,13 @@ body, #root, .App {
 }
 
 .Menu {
-  grid-column: 1 / span 1;
+	grid-column: 1 / span 1;
 	grid-row: 2 / span 14;
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 1;
 	-ms-grid-row: 2;
 	-ms-grid-row-span: 14;
+	z-index: 10;
 }
 
 .Page {
@@ -83,15 +84,15 @@ body, #root, .App {
 }
 
 .menuShown {
-  grid-column-start: 2;
-  grid-column-end: 16;
+	grid-column-start: 2;
+	grid-column-end: 16;
 	-ms-grid-column: 2;
 	-ms-grid-column-span: 12;
 }
 
 .menuHidden {
-  grid-column-start: 1;
-  grid-column-end: 16;
+	grid-column-start: 1;
+	grid-column-end: 16;
 	-ms-grid-column: 1;
 	-ms-grid-column-end: 16;
 }
@@ -122,11 +123,11 @@ table {
 /* Small Monitors: 
 	(Reduced padding and margins)
 */
+
 @media only screen and (max-width: 1350px) {
 	.Page {
 		padding: 15px;
 	}
-
 	.Login {
 		grid-row: 4 / span 6;
 		-ms-grid-row: 4;
@@ -137,36 +138,33 @@ table {
 /* Tablet: 
 	(Reduced padding and margins)
 */
+
 @media only screen and (max-width: 1200px) {
 	.App {
-    grid-template-columns: 68px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		grid-template-columns: 68px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
 	}
-
 	.menuShown {
 		grid-column-start: 2;
 		-ms-grid-column: 2;
 	}
-
 	.HiddenOnMobile {
 		display: none !important;
 	}
-
 	.Login {
 		grid-row: 4 / span 6;
 		grid-column: 4 / span 8;
 		-ms-grid-row: 4;
 		-ms-grid-row-span: 6;
 	}
-
 }
 
 /* Mobile */
+
 @media only screen and (max-width: 780px) {
 	.ColumnFlexDirectionOnMobile {
 		flex-direction: column;
 	}
-
 	.Login {
 		grid-column: 1 / span 14;
 		grid-row: 4 / span 7;

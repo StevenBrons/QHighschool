@@ -27,6 +27,9 @@ exports.createUser = async accessToken => {
   if (/beekdallyceum\.nl$/g.test(user.email)) {
     user.school = "Beekdal Lyceum";
   }
+  if (/riversarnhem\.org$/g.test(user.email)) {
+    user.school = "Beekdal Lyceum";
+  }
   if (/candea\.nl$/g.test(user.email)) {
     user.school = "Candea College";
   }
