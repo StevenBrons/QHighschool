@@ -42,7 +42,10 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 	return $.ajax({
 		url: "/api/" + endpoint,
 		type: method,
-		data: data,
+		data: {
+			...data,
+			secureLogin: getState().secureLogin
+		},
 		dataType: "json",
 	}).then((list) => {
 		if (method === "put" || method === "patch" || method === "delete") {
@@ -76,7 +79,7 @@ export function getSubjects() {
 
 export function setAlias(userId) {
 	return (dispatch, getState) => {
-		fetchData("function/alias", "post", { userId, secureLogin: getState().secureLogin }, dispatch, getState)
+		fetchData("function/alias", "post", { userId }, dispatch, getState)
 			.then(() => {
 				document.location.reload();
 			})
@@ -277,7 +280,6 @@ export function setGroup(group) {
 
 			fetchData("group/evaluations", "patch", {
 				evaluations: JSON.stringify(changedEvaluations),
-				secureLogin: getState().secureLogin
 			}, dispatch, getState);
 		}
 
@@ -469,7 +471,7 @@ export function getGroupEvaluations(groupId) {
 
 export function addSubject(name, description) {
 	return (dispatch, getState) => {
-		return fetchData("subject", "put", { name, description, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("subject", "put", { name, description }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",
@@ -487,7 +489,7 @@ export function addSubject(name, description) {
 
 export function addCourse(name, subjectId) {
 	return (dispatch, getState) => {
-		return fetchData("course", "put", { name, subjectId, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("course", "put", { name, subjectId }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",
@@ -505,7 +507,7 @@ export function addCourse(name, subjectId) {
 
 export function addGroup(courseId, userId) {
 	return (dispatch, getState) => {
-		return fetchData("group", "put", { courseId, mainTeacherId: userId, secureLogin: getState().secureLogin }, dispatch, getState)
+		return fetchData("group", "put", { courseId, mainTeacherId: userId }, dispatch, getState)
 			.then(() => {
 				dispatch({
 					type: "ADD_NOTIFICATION",

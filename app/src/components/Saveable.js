@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Paper } from "@material-ui/core/";
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
+import PageLeaveWarning from "../components/PageLeaveWarning";
 import "./Saveable.css"
 
 class Saveable extends Component {
@@ -30,6 +31,7 @@ class Saveable extends Component {
 							</Button>
 						</div>
 					}
+					<PageLeaveWarning giveWarning={hasChanged} />
 				</Paper>
 			}
 		</div>

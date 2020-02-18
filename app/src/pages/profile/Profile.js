@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from '../Page';
 import { Typography, Divider } from '@material-ui/core/';
+import { PriorityHigh } from "@material-ui/icons";
 import Progress from "../../components/Progress"
 
 import PersonalData from "./PersonalData"
@@ -36,7 +37,7 @@ class Profile extends Component {
 			orgUser: nextProps.user,
 			user: {
 				...nextProps.user,
-				...prevState.user
+				...prevState.user,
 			}
 		}
 	}
@@ -57,12 +58,19 @@ class Profile extends Component {
 			<LoginProvider>
 				<Page className="Profile">
 					<Saveable
-						hasChanged={hasChanged}
+						hasChanged={hasChanged || (user.needsProfileUpdate && user.role === "student")}
 						onSave={() => {
 							if (this.props.editableAdmin) {
 								this.props.saveFull(user)
 							} else {
-								this.props.save(user)
+								const U = {
+									...user,
+									needsProfileUpdate: false,
+								}
+								this.props.save(U)
+								this.setState({
+									user: U,
+								});
 							}
 						}}
 						editIfSecure={this.props.isAdmin}
@@ -72,6 +80,14 @@ class Profile extends Component {
 							{user.displayName}
 						</Typography>
 						<Divider />
+						{user.needsProfileUpdate &&
+							< div className="NeedsProfileUpdate">
+								<PriorityHigh color="secondary" />
+								<Typography variant="button" color="secondary">
+									Controlleer de onderstaande gegevens
+						</Typography>
+							</div>
+						}
 						<div>
 							<PersonalData {...p} onChange={this.onChange} />
 							<EducationData  {...p} onChange={this.onChange} />
@@ -81,7 +97,7 @@ class Profile extends Component {
 						</div>
 					</Saveable>
 				</Page>
-			</LoginProvider>
+			</LoginProvider >
 		);
 	}
 }

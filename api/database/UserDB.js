@@ -56,7 +56,7 @@ exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year,
 		remarks,
 		phoneNumber,
 		examSubjects,
-		needsProfileUpdate: false,
+		needsProfileUpdate,
 	}, {
 		where: {
 			id,

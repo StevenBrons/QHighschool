@@ -31,7 +31,7 @@ class App extends Component {
 	}
 
 	componentDidUpdate() {
-		if (this.props.user != null && this.props.user.needsProfileUpdate && this.props.location.pathname !== "/profiel") {
+		if (this.props.user != null && this.props.user.needsProfileUpdate && this.props.role === "student" && this.props.location.pathname !== "/profiel") {
 			this.props.history.push("/profiel");
 		}
 	}

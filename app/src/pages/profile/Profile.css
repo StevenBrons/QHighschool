@@ -12,6 +12,17 @@
 	margin-left: 20px;
 }
 
+.Profile .NeedsProfileUpdate {
+	width: 100%;
+	margin: 1%;
+}
+
+.Profile .NeedsProfileUpdate span {
+	transform: translate(0, -7px);
+	display: inline-block;
+	width: 80%;
+}
+
 td:first-child {
 	width: 300px;
 	max-width: 40%;
