@@ -1,12 +1,16 @@
 .CourseInfo {
 	width: 96vw;
-	background-color: #1f1f1f;
 	position: relative;
 	text-align: center;
-	height: 32vw;
-	display: flex;
+	height: 95vh;
 	color: white;
 	margin: 0 2vw 4vw 2vw;
+}
+
+.CourseInfo .text-and-image {
+	height: 90%;
+	background-color: #1f1f1f;
+	display: flex;
 }
 
 .CourseInfo .info-text {
@@ -112,4 +116,13 @@
 .CourseInfo .close-button:hover{
 	filter: grayscale(30%);
 	cursor: pointer;
+}
+
+.CourseInfo .extra-info {
+	display: flex;
+	background-color: black;
+}
+
+.CourseInfo .extra-info-text {
+	margin: 2em 2em;
 }

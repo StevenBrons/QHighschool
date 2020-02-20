@@ -8,10 +8,11 @@ function formatCourseId(courseId = "") {
 class CourseInfo extends Component {
 
   render() {
-		const course = this.props.course;
-		const id = course.id;
+	const course = this.props.course;
+	const id = course.id;
     return (
       <div className='CourseInfo'>
+		<div className = 'text-and-image' >
 				<div className='info-text'>
 					<h1 className='title'>
 						{course.courseName.toUpperCase()}
@@ -45,11 +46,17 @@ class CourseInfo extends Component {
 							)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
 								backgroundRepeat: 'no-repeat',
 								backgroundSize: 'cover',
-								backgroundPosition:'center right'}}/>
+								backgroundPosition:'center center'}}/>
 				<button 
 					className='close-button' 
 					onClick={this.props.onClose} 
 				/>
+			</div>
+			<div className='extra-info'>
+				<p className = 'extra-info-text'><b>Dag:</b> {course.day} </p>
+				{/* <p className = 'extra-info-text'><b>Tijd:</b> {course.time}</p> */}
+				<p className = 'extra-info-text'><b>Doelgroep:</b> {course.enrollableFor} </p>
+			</div>
       </div>
     )
   }
