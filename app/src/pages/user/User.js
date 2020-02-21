@@ -3,12 +3,11 @@ import { connect } from "react-redux";
 
 import UserRow from "./UserRow";
 import UserCard from "./UserCard";
-import { setSecureLogin, getCookie } from "../../store/actions"
+import { setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 import Field from "../../components/Field"
-import queryString from "query-string";
 import { Button } from "@material-ui/core";
 
 class User extends Component {
@@ -16,18 +15,6 @@ class User extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		let s = queryString.parse(nextProps.location.search);
-		if (s.secureLogin != null && s.secureLogin !== "undefined") {
-			nextProps.setSecureLogin(s.secureLogin);
-		}
-		if (s.from === "login" && nextProps.user != null && nextProps.role !== "student") {
-			const beforeLoginPath = getCookie("beforeLoginPath");
-			nextProps.history.push(beforeLoginPath);
-		}
-		return prevState;
 	}
 
 	render() {

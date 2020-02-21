@@ -55,7 +55,7 @@ class PersonalData extends Component {
 								layout={{ td: true }}
 								style={{ margin: "none" }}
 								editable={p.editableUser}
-								onChange={(value) => p.onChange("phoneNumber", value)}
+								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
 							/>
 						</tr>
 					</tbody>

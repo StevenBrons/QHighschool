@@ -12,7 +12,9 @@ import Remarks from "./Other"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
-import { setUser, setFullUser } from '../../store/actions';
+import { setUser, setFullUser, setSecureLogin, getCookie } from '../../store/actions';
+import queryString from "query-string";
+import { withRouter } from 'react-router-dom';
 
 class Profile extends Component {
 
@@ -33,6 +35,14 @@ class Profile extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
+		let s = queryString.parse(nextProps.location.search);
+		if (s.secureLogin != null && s.secureLogin !== "undefined") {
+			nextProps.setSecureLogin(s.secureLogin);
+		}
+		if (s.from === "login" && nextProps.user != null && nextProps.role !== "student") {
+			const beforeLoginPath = getCookie("beforeLoginPath");
+			nextProps.history.push(beforeLoginPath);
+		}
 		return {
 			orgUser: nextProps.user,
 			user: {
@@ -84,7 +94,7 @@ class Profile extends Component {
 							< div className="NeedsProfileUpdate">
 								<PriorityHigh color="secondary" />
 								<Typography variant="button" color="secondary">
-									Controlleer de onderstaande gegevens
+									Controleer de onderstaande gegevens
 						</Typography>
 							</div>
 						}
@@ -118,6 +128,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
 	return {
+		setSecureLogin: (secureLogin) => dispatch(setSecureLogin(secureLogin)),
 		save: (user) => dispatch(setUser(user)),
 		saveFull: (user) => dispatch(setFullUser(user)),
 	};
@@ -125,4 +136,4 @@ function mapDispatchToProps(dispatch) {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));
