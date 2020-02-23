@@ -53,14 +53,14 @@ router.post(
   ensureAdmin,
   ensureSecure,
   ensureConfirm,
-  (req,res,next) => {
+  (req, res, next) => {
     disableSecureMode();
     next();
   },
   doSuccess
 );
 
-async function formatInTable(array) {
+async function formatInTable(modelName, array) {
   const keys = Object.keys(array[0]);
   return [keys, ...array.map(obj => keys.map(key => obj[key]))];
 }
@@ -70,17 +70,17 @@ router.post(
   ensureSecure,
   ensureGradeAdmin,
   promiseMiddleware((req, res) => {
-    const table = req.body.table; //evaluation,users,enrollment
+    const table = req.body.table;
     const school = req.user.school;
     switch (table) {
       case "evaluations":
-        return functionDb.getEvaluation(school).then(formatInTable);
+        return functionDb.getEvaluation(school).then(x => formatInTable("Evaluation", x));
       case "enrollments":
-        return functionDb.getEnrollment(school).then(formatInTable);
+        return functionDb.getEnrollment(school).then(x => formatInTable("Enrollment", x));
       case "users":
-        return functionDb.getUserData(school).then(formatInTable);
+        return functionDb.getUserData(school).then(x => formatInTable("User", x));
       case "courseIds":
-        return functionDb.getCourseIdsData().then(formatInTable);
+        return functionDb.getCourseIdsData().then(x => formatInTable("Course", x));
       default:
         throw new Error("invalid table: " + table);
     }

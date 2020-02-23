@@ -25,10 +25,11 @@ import Field from "../components/Field";
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
 import $ from "jquery";
 
-const splitValues = {
-  users: "role",
-  evaluations: "groupId",
-  enrollments: "enrollmentPeriod"
+const splitOnDefault = {
+  users: "Hoofdrol",
+  evaluations: "Groepcode",
+  enrollments: "Inschrijfperiode",
+  courseIds: "Niet splitsen",
 };
 
 class DataPage extends Component {
@@ -39,7 +40,8 @@ class DataPage extends Component {
       tableSortColumns: {},
       tableSortDirections: {},
       data: "enrollments",
-      hasFetched: false
+      hasFetched: false,
+      splitOn: "Niet splitsen",
     };
   }
 
@@ -57,12 +59,14 @@ class DataPage extends Component {
     this.setState({
       hasFetched: true
     });
-    this.fetchData(this.state.data).then(tables =>
-      this.setState({
-        tables: this.splitTable(tables, splitValues[this.state.data]),
-        tableSortColumns: Array(tables.length)
-      })
-    );
+    const splitOn = splitOnDefault[this.state.data];
+    this.fetchData(this.state.data)
+      .then(tables =>
+        this.setState({
+          splitOn,
+          tables: this.splitTable(tables, splitOn),
+          tableSortColumns: Array(tables.length)
+        }));
   };
 
   handleFilterChange = value => {
@@ -70,6 +74,18 @@ class DataPage extends Component {
       search: "data=" + value
     });
   };
+
+  handleSplitChange = splitOn => {
+    const oldTables = this.state.tables;
+    let newTables = [this.state.tables[0][0], ...oldTables
+      .map(arr => arr.slice(1, arr.length))
+      .flat(1)]
+
+    this.setState({
+      splitOn,
+      tables: this.splitTable(newTables, splitOn),
+    })
+  }
 
   sort = tableIndex => {
     let table = this.state.tables[tableIndex];
@@ -96,22 +112,22 @@ class DataPage extends Component {
   };
 
   handleSortChange = (tableIndex, columnIndex) => {
-    this.setState(
-      prevState => ({
-        //update the correct elements of the arrays of the state
-        tableSortColumns: {
-          ...prevState.tableSortColumns,
-          [tableIndex]: columnIndex
-        },
-        tableSortDirections: {
-          ...prevState.tableSortDirections,
-          [tableIndex]:
-            prevState.tableSortDirections[tableIndex] === "desc" &&
-              prevState.tableSortColumns[tableIndex] === columnIndex
-              ? "asc"
-              : "desc" // if this columns was selected and ordering desc, change to asc else desc
-        }
-      }),
+    const prevState = this.state;
+    this.setState({
+      //update the correct elements of the arrays of the state
+      tableSortColumns: {
+        ...prevState.tableSortColumns,
+        [tableIndex]: columnIndex
+      },
+      tableSortDirections: {
+        ...prevState.tableSortDirections,
+        [tableIndex]:
+          prevState.tableSortDirections[tableIndex] === "desc" &&
+            prevState.tableSortColumns[tableIndex] === columnIndex
+            ? "asc"
+            : "desc" // if this columns was selected and ordering desc, change to asc else desc
+      }
+    },
       () => this.sort(tableIndex)
     ); // when setting state is done start sorting
   };
@@ -150,9 +166,7 @@ class DataPage extends Component {
   downloadTables = () => {
     const tables = this.state.tables;
     let workbook = new Excel.Workbook();
-    const splitIndex = tables[0][0].findIndex(
-      x => x === splitValues[this.state.data]
-    );
+    const splitIndex = tables[0][0].findIndex(x => x === this.state.splitOn);
     for (let i = 0; i < tables.length; i++) {
       // add all the tables to a different sheet
       // the sheet has the name of the value it's split on. I.e when splitting on courses every page is called what course it contains
@@ -171,21 +185,25 @@ class DataPage extends Component {
       courseIds: "Modulecodes "
     };
     let filename =
-      filenamePrefixes[this.state.data] +
+      filenamePrefixes[this.state.data] + "" +
       new Date().toLocaleDateString() +
       ".xlsx";
     this.downloadWorkbook(workbook, filename); //gives for example: "Gebruikers 3/3/2019.xlsx"
   };
 
   getValidWorksheetName = (name) => { // excel has worksheet naming restrictions
+    name = name + "";
     if (name.length > 31) {
-      name = name.substring(0,30);
+      name = name.substring(0, 30);
       console.log('Worksheet name length cannot exceed 31 characters. Name has been shortened.');
     }
     let illegalCharacters = /(\\|\/|\*|\?|:|\[|\])/g
-    if (illegalCharacters.test(name)) { 
+    if (illegalCharacters.test(name)) {
       name = name.replace(illegalCharacters, '_');
       console.log('Worksheet name cannot include one of the following chracters: \\, /, *, ?, :, [, ]. \n Illegal characters have been changed to _ ');
+    }
+    if (name == null) {
+      name = "_leeg_";
     }
     return name;
   }
@@ -222,13 +240,13 @@ class DataPage extends Component {
 
   forceCellWidth = cellName => {
     switch (cellName) {
-      case "subject":
+      case "Vaknaam":
         return "200px";
-      case "displayName":
+      case "Weergavenaam":
         return "200px";
-      case "courseName":
+      case "Modulenaam":
         return "300px";
-      case "explanation":
+      case "Uitleg beoordeling":
         return "200px";
       default:
         return "auto";
@@ -236,7 +254,6 @@ class DataPage extends Component {
   };
 
   render() {
-    console.log(this.state.tables);
     let content;
     if (this.state.tables == null) {
       if (this.state.hasFetched) {
@@ -325,7 +342,7 @@ class DataPage extends Component {
               <Typography
                 variant="subtitle1"
                 color="textSecondary"
-                style={{ flex: "1 1 auto" }}
+                style={{ flex: "6" }}
               >
                 Gegevens
               </Typography>
@@ -339,16 +356,27 @@ class DataPage extends Component {
                   { label: "Inschrijvingen", value: "enrollments" },
                   { label: "Module codes", value: "courseIds" }
                 ]}
-                style={{ flex: "0.3" }}
+                style={{ flex: "3" }}
                 onChange={this.handleFilterChange}
               />
               <Button
                 variant="outlined"
                 onClick={this.handleShowData}
-                style={{ flex: "0.1 0.1 auto" }}
+                style={{ flex: "1" }}
               >
                 Laad gegevens
               </Button>
+              <Field
+                value={this.state.splitOn}
+                label="Splits op"
+                options={this.state.tables ? [...this.state.tables[0][0], "Niet splitsen"] : ["Niet splitsen"]}
+                editable={this.state.hasFetched}
+                onChange={this.handleSplitChange}
+                style={{
+                  margin: "normal",
+                  flex: "3",
+                }}
+              />
               <IconButton onClick={this.downloadTables}>
                 <VerticalAlignBottom />
               </IconButton>

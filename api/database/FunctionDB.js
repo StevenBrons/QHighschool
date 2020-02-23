@@ -8,17 +8,17 @@ const Course = require("../dec/CourseDec");
 const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require("sequelize").Op;
-const groupDb = require("./GroupDB");
 
 const graphConnection = require("../office/graphConnection");
 const officeEndpoints = require("../office/officeEndpoints");
 const schedule = require("../lib/schedule");
+const translation = require("../lib/translation");
 
 const moment = require("moment");
 moment.locale("nl");
 
-function formatCourseId(courseId = "") {
-  return "#M" + (courseId + "").padStart(4, "0");
+function formatId(idName, courseId = "") {
+  return "#" + idName + (courseId + "").padStart(4, "0");
 }
 
 exports.createUser = async accessToken => {
@@ -143,13 +143,43 @@ exports.addLessonsIfNecessary = async ({ id, schoolYear, period, day }) => {
   }
 };
 
+const extractFromObject = (keys, modelName, object) => {
+  return keys.reduce((tot, key) => {
+    let res = tot;
+    const s = key.split(".");
+    const normalisedKey = s.slice(s.length - 2).join(".");
+    let value = object[key];
+    switch (normalisedKey) {
+      case "group.id":
+        value = formatId("G", value);
+        break;
+      case "course.id":
+        value = formatId("M", value);
+        break;
+    }
+    res[translation.translate(modelName + "." + key)] = value;
+    return res;
+  }, {})
+}
+
 exports.findEvaluation = async (userId, groupId) => {
-  const group = await groupDb.getGroup(groupId);
-  const evaluation = await Evaluation.findOne({
+  const group = await Group.findByPk(groupId, {
+    attributes: ["id", "period"],
+    raw: true,
+    include: {
+      model: Course,
+      attributes: ["id", "name"],
+      include: {
+        model: Subject,
+        attributes: ["name", "id"]
+      }
+    }
+  });
+  let evaluation = await Evaluation.findOne({
     attributes: ["id", "userId", "type", "assesment", "explanation"],
     order: [["id", "DESC"]],
     raw: true,
-    where: { userId, courseId: group.courseId },
+    where: { userId, courseId: group["course.id"] },
     include: [
       {
         model: User,
@@ -160,35 +190,34 @@ exports.findEvaluation = async (userId, groupId) => {
   if (evaluation == null) {
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ["displayName", "email"]
+      attributes: ["displayName", "email", "id"],
+      raw: true,
     });
-    return {
-      displayName: user.displayName,
-      email: user.email,
+    evaluation = {
       assesment: "",
-      courseName: group.courseName,
-      subject: group.subjectName,
       explanation: "",
       type: "decimal",
-      courseId: group.courseId,
-      period: group.period,
-      groupId: group.id,
-      userId
     };
+    for (key in user) {
+      evaluation["user." + key] = user[key];
+    }
   }
-
   return {
-    displayName: evaluation["user.displayName"],
-    email: evaluation["user.email"],
-    assesment: evaluation.assesment,
-    courseName: group.courseName,
-    subject: group.subjectName,
-    explanation: evaluation.explanation,
-    type: evaluation.type,
-    period: group.period,
-    courseId: group.courseId,
-    groupId: group.id,
-    userId
+    ...extractFromObject([
+      "course.name",
+      "subject.name",
+      "course.id",
+      "period",
+      "id",
+    ], "course_group", group),
+    ...extractFromObject([
+      "assesment",
+      "explanation",
+      "type",
+      "user.displayName",
+      "user.email",
+      "user.id",
+    ], "evaluation", evaluation),
   };
 };
 
@@ -227,7 +256,7 @@ exports.getEnrollment = async school => {
         include: [
           {
             model: Course,
-            attributes: [["name", "courseName"]],
+            attributes: ["name"],
             include: {
               model: Subject,
               attributes: ["id", "name"]
@@ -251,44 +280,50 @@ exports.getEnrollment = async school => {
   }).then(enrl =>
     enrl.map(e => {
       return {
-        email: e["user.email"],
-        courseName: e["course_group.course.courseName"],
-        subjectName: e["course_group.course.subject.name"],
-        accepted: e["accepted"],
-        courseId: formatCourseId(e["course_group.course.id"]),
-        enrollmentPeriod: e["course_group.schoolYear"] + " - " + e["course_group.period"],
-        displayName: e["user.displayName"],
-        school: e["user.school"],
-        year: e["user.year"],
-        period: e["course_group.period"],
-        level: e["user.level"],
-        preferedEmail: e["user.preferedEmail"],
-        createdAt: moment(e["createdAt"]).format("DD-MM-YYYY")
+        ...extractFromObject([
+          "user.email",
+          "course_group.course.courseName",
+          "course_group.course.subject.name",
+          "course_group.course.subject.name",
+          "accepted",
+          "user.displayName",
+          "user.school",
+          "user.year",
+          "user.level",
+          "user.preferedEmail",
+          "course_group.period",
+          "course_group.course.id",
+        ], "enrollment", e),
+        "Inschrijfperiode": e["course_group.schoolYear"] + " - " + e["course_group.period"],
+        "Ingeschreven op": moment(e["createdAt"]).format("DD-MM-YYYY")
       };
     })
   );
 };
 
 exports.getUserData = async school => {
+  const attributes = [
+    "email",
+    "role",
+    "school",
+    "displayName",
+    "year",
+    "level",
+    "preferedEmail",
+    "profile",
+    "phoneNumber",
+    "id"
+  ];
   const where = school
     ? { school: { [Op.or]: school.split("||") } }
     : undefined;
   return User.findAll({
-    where: where,
-    attributes: [
-      "email",
-      "role",
-      "school",
-      "displayName",
-      "year",
-      "level",
-      "preferedEmail",
-      "profile",
-      "phoneNumber",
-      "id"
-    ],
+    where,
+    attributes,
     raw: true
-  });
+  }).then(data => {
+    return data.map(obj => extractFromObject(attributes, "user", obj));
+  })
 };
 
 exports.getCourseIdsData = async school => {
@@ -300,13 +335,11 @@ exports.getCourseIdsData = async school => {
     },
     raw: true
   }).then(course =>
-    course.map(e => {
-      return {
-        courseName: e["name"],
-        subjectName: e["subject.name"],
-        courseId: formatCourseId(e["id"])
-      };
-    })
+    course.map(e => extractFromObject([
+      "name",
+      "subject.name",
+      "id",
+    ], "course", e))
   );
 };
 

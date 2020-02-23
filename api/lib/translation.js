@@ -1,0 +1,36 @@
+const table = {
+	"evaluation.assesment": "Beoordeling",
+	"evaluation.explanation": "Uitleg beoordeling",
+	"evaluation.type": "Type beoordeling",
+	"user.email": "Schoolemail",
+	"user.role": "Hoofdrol",
+	"user.school": "School",
+	"user.displayName": "Weergavenaam",
+	"user.year": "Leerjaar",
+	"user.level": "Opleidingsniveau",
+	"user.preferedEmail": "Voorkeursemail",
+	"user.profile": "Profiel",
+	"user.phoneNumber": "Telefoonnummer",
+	"user.id": "QH-id",
+	"course_group.id": "Groepcode",
+	"course_group.period": "Blok",
+	"course_group.coursename": "Modulenaam",
+	"course.id": "Modulecode",
+	"course.name": "Modulenaam",
+	"course.courseName": "Modulenaam",
+	"subject.name": "Vaknaam",
+	"enrollment.accepted": "Inschrijving geaccepteerd",
+	"enrollment.accepted": "Inschrijving geaccepteerd",
+}
+
+this.translate = (key) => {
+	const s = key.split(".");
+	const normalisedKey = s.slice(s.length - 2).join(".");
+	const value = table[normalisedKey];
+	if (value == null) {
+		console.error("NO TRANSLATION FOUND FOR " + key)
+		return "NO_TRANSLATION_FOUND";
+	}
+	return value
+}
+
