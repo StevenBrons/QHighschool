@@ -35,29 +35,28 @@
 .Course .text {
 	font-family: 'Avenir-Black';
 	position: absolute;
-	bottom: 5%;
-	left: 5%;
+	bottom: 2%;
+	left: 2%;
 	margin: 0;
-	width: 60%;
+	width: 96%;
 	white-space: normal;
 	word-wrap: break-word;
 	max-height: 100%;
 	overflow: hidden;
 }
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:1200px) {
 	.Course .text {
 		width: 100%;
 		margin-bottom: 0;
 		margin-left: 0;
-		left: 0;
-		font-size: .8em;
+		font-size: 1em;
 	}
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 700px) {
 	.Course .text {
-		font-size: .3em;
+		font-size: .4em;
 	}
 }
 
