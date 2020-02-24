@@ -9,8 +9,6 @@ export async function fetchCourses(handleError) {
 		error: handleError
 	}).then(courses => {
 		let coursesPerSubject = {}
-		console.log(courses)
-		console.log(courses.filter(({ enrollable }) => enrollable))
 		courses
 			.filter(({ enrollable }) => enrollable)
 			.forEach(c => {
