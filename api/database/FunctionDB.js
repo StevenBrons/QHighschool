@@ -205,7 +205,7 @@ exports.findEvaluation = async (userId, groupId) => {
   return {
     ...extractFromObject([
       "course.name",
-      "subject.name",
+      "course.subject.name",
       "course.id",
       "period",
       "id",
@@ -282,8 +282,7 @@ exports.getEnrollment = async school => {
       return {
         ...extractFromObject([
           "user.email",
-          "course_group.course.courseName",
-          "course_group.course.subject.name",
+          "course_group.course.course.name",
           "course_group.course.subject.name",
           "accepted",
           "user.displayName",
