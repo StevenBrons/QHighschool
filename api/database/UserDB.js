@@ -128,7 +128,6 @@ exports.getParticipatingGroupIds = async (userId, admin) => {
 exports.getGroups = async (userId, admin) => {
 	const groupIds = await this.getParticipatingGroupIds(userId, admin);
 	return Promise.all(groupIds.map(groupId => {
-		return groupDb.getGroup(groupId, userId)
-			.then(group => groupDb.appendEvaluation(group, userId))
+		return groupDb.getGroup(groupId, userId);
 	}));
 }

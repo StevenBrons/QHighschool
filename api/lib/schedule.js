@@ -1,7 +1,7 @@
 const moment = require("moment");
 moment.locale("nl");
 
-exports.getLessonDate = function(schoolYear, period, numberInBlock, day) {
+exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
   const week = exports.schedule.filter(week => {
     return (
       week.period + "" === period + "" &&
@@ -13,13 +13,13 @@ exports.getLessonDate = function(schoolYear, period, numberInBlock, day) {
   if (week == null) {
     throw new Error(
       "Schedule is wrong! Could not find match for: " +
-        schoolYear +
-        "," +
-        period +
-        "," +
-        numberInBlock +
-        "," +
-        day
+      schoolYear +
+      "," +
+      period +
+      "," +
+      numberInBlock +
+      "," +
+      day
     );
   }
   return moment()
@@ -63,7 +63,7 @@ exports.getCurrentWeekInBlock = () => {
 exports.shouldBeSynced = group => {
   if (process.env.NODE_ENV) {
     //production
-    return group.schoolYear + "" === "2019/2020";
+    return group.schoolYear + "" === "2019/2020" || group.schoolYear + "" === "2020/2021";
   } else {
     //develop
     return group.schoolYear + "" === "2019/2020" && group.period + "" === "1";

@@ -290,18 +290,6 @@ export function setGroup(group) {
 	}
 }
 
-export function getEnrollableGroups() {
-	return (dispatch, getState) => {
-		fetchData("user/enrollableGroups", "get", null, dispatch, getState, true)
-			.then((enrollableGroups) => {
-				dispatch({
-					type: "CHANGE_ENROLLABLE_GROUPS",
-					enrollableGroups,
-				});
-			}).catch(() => { });
-	}
-}
-
 export function getEnrolLments() {
 	return (dispatch, getState) => {
 		fetchData("user/enrollments", "get", null, dispatch, getState)
