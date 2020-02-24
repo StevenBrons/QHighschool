@@ -68,15 +68,15 @@ exports.getGroups = async userId => {
   });
   groups = groups.map(this._mapGroup);
   if (userId != null) {
-    groups = await Promise.all(
-      groups.map(async (group) => {
-        return {
-          ...await exports.appendEvaluation(userId)(group),
-          enrollable: schedule.shouldBeSynced(group),
-        };
-      })
-    );
+    groups = await Promise.all(groups.map(exports.appendEvaluation(userId)));
   }
+  groups = groups
+    .map(group => {
+      return {
+        ...group,
+        enrollable: schedule.shouldBeSynced(group),
+      }
+    });
   return groups;
 };
 
