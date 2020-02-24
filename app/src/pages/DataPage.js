@@ -202,7 +202,7 @@ class DataPage extends Component {
       name = name.replace(illegalCharacters, '_');
       console.log('Worksheet name cannot include one of the following chracters: \\, /, *, ?, :, [, ]. \n Illegal characters have been changed to _ ');
     }
-    if (name == null) {
+    if (name == null || name === "") {
       name = "_leeg_";
     }
     return name;

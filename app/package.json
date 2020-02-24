@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:26194/",
   "dependencies": {
-    "@material-ui/core": "^4.9.3",
+    "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "exceljs": "^3.6.1",
     "jquery": "^3.4.1",
