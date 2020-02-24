@@ -9,6 +9,7 @@ const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("./FunctionDB");
 const userDb = require("./UserDB");
+const schedule = require("../lib/schedule");
 const officeEndpoints = require("../office/officeEndpoints");
 const Op = require("sequelize").Op;
 
@@ -67,10 +68,15 @@ exports.getGroups = async userId => {
   });
   groups = groups.map(this._mapGroup);
   if (userId != null) {
-    groups = await Promise.all(
-      groups.map(group => exports.appendEvaluation(group, userId))
-    );
+    groups = await Promise.all(groups.map(exports.appendEvaluation(userId)));
   }
+  groups = groups
+    .map(group => {
+      return {
+        ...group,
+        enrollable: schedule.shouldBeSynced(group),
+      }
+    });
   return groups;
 };
 
@@ -112,32 +118,35 @@ exports.getGroup = async (groupId, userId) => {
   });
   group = this._mapGroup(group);
   if (userId != null) {
-    group = await exports.appendEvaluation(group, userId);
+    group = await exports.appendEvaluation(userId)(group);
   }
+  group.enrollable = schedule.shouldBeSynced(group);
   return group;
 };
 
-exports.appendEvaluation = async (group, userId) => {
-  const evaluation = await Evaluation.findOne({
-    attributes: [
-      "id",
-      "userId",
-      "courseId",
-      "type",
-      "assesment",
-      "explanation"
-    ],
-    order: [["id", "DESC"]],
-    raw: true,
-    where: {
-      userId: userId,
-      courseId: group.courseId
-    }
-  });
-  return {
-    ...group,
-    evaluation
-  };
+exports.appendEvaluation = (userId) => {
+  return async (group) => {
+    const evaluation = await Evaluation.findOne({
+      attributes: [
+        "id",
+        "userId",
+        "courseId",
+        "type",
+        "assesment",
+        "explanation"
+      ],
+      order: [["id", "DESC"]],
+      raw: true,
+      where: {
+        userId: userId,
+        courseId: group.courseId
+      }
+    });
+    return {
+      ...group,
+      evaluation
+    };
+  }
 };
 
 exports.setGraphId = async (groupId, graphId) => {

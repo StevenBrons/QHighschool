@@ -9,13 +9,16 @@ export async function fetchCourses(handleError) {
 		error: handleError
 	}).then(courses => {
 		let coursesPerSubject = {}
-		courses.filter(c => c.schoolYear === '2019/2020')
+		console.log(courses)
+		console.log(courses.filter(({ enrollable }) => enrollable))
+		courses
+			.filter(({ enrollable }) => enrollable)
 			.forEach(c => {
-				if (!coursesPerSubject[c.subjectName]){
+				if (!coursesPerSubject[c.subjectName]) {
 					coursesPerSubject[c.subjectName] = {};
 				}
 				coursesPerSubject[c.subjectName][c.id] = c;
-		})
+			})
 		return coursesPerSubject;
 	})
 }
@@ -33,5 +36,5 @@ export async function fetchSubjectInformation(handleError) {
 			informationPerSubject[s.name] = s.description;
 		})
 		return informationPerSubject;
-	} )
+	})
 }
