@@ -13,9 +13,12 @@ class CourseGroup extends Component {
       maxPage: maxPage
     };
     if (maxPage > 0)
-      window.addEventListener("resize", () =>
-        this.scrollToPage(this.state.page)
-      );
+      window.addEventListener("resize", (e) => {
+        // in case on mobile, we shouldn't readjust the pages
+        if (!(window.matchMedia('(pointer: coarse)').matches)){
+          this.scrollToPage(this.state.page);
+        } 
+      });
   }
 
   scrollToPage(page) {
