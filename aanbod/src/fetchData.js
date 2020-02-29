@@ -21,6 +21,7 @@ export async function fetchCourses(handleError) {
 	})
 }
 
+
 export async function fetchSubjectInformation(handleError) {
 	return $.ajax({
 		// url: '/api/subject/list',
