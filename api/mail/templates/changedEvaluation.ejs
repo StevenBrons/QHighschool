@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <p>
+      Beste <%= user.firstName %>,
+      <br />
+      <br />
+      Je beoordeling voor <%= ((evaluation.subjectName=="Avonturen") ? "het avontuur":"de module") %>
+      <b><%= evaluation.courseName %></b> is gewijzigd.
+      <br />
+      <br />
+       <table>
+				<tr>
+					<td>Beoordeling</td>
+					<td><%= evaluation.evaluation %></td>
+				</tr>
+				<tr>
+					<td>Uitleg beoordeling</td>
+					<td><%= evaluation.explanation %></td>
+				</tr>
+			</table> 
+      <br />
+      <br />
+      Mocht je vragen of opmerkingen hebben, neem dan contact op met de docent/expert.
+      <br />
+      <br />
+      Het Q-highschoolteam.
+    </p>
+  </body>
+</html>
