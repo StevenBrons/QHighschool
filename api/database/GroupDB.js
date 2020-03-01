@@ -67,14 +67,16 @@ exports.getGroups = async userId => {
     ]
   });
   groups = groups.map(this._mapGroup);
+  let evaluations = groups.map(_ => null);
   if (userId != null) {
-    groups = await Promise.all(groups.map(exports.appendEvaluation(userId)));
+    evaluations = await Promise.all(groups.map(group => userDb.getEvaluation(userId, group.courseId)));
   }
   groups = groups
-    .map(group => {
+    .map((group, index) => {
       return {
         ...group,
         enrollable: schedule.shouldBeSynced(group),
+        evaluation: evaluations[index],
       }
     });
   return groups;
@@ -118,35 +120,10 @@ exports.getGroup = async (groupId, userId) => {
   });
   group = this._mapGroup(group);
   if (userId != null) {
-    group = await exports.appendEvaluation(userId)(group);
+    group.evaluation = await userDb.getEvaluation(userId, group.courseId);
   }
   group.enrollable = schedule.shouldBeSynced(group);
   return group;
-};
-
-exports.appendEvaluation = (userId) => {
-  return async (group) => {
-    const evaluation = await Evaluation.findOne({
-      attributes: [
-        "id",
-        "userId",
-        "courseId",
-        "type",
-        "assesment",
-        "explanation"
-      ],
-      order: [["id", "DESC"]],
-      raw: true,
-      where: {
-        userId: userId,
-        courseId: group.courseId
-      }
-    });
-    return {
-      ...group,
-      evaluation
-    };
-  }
 };
 
 exports.setGraphId = async (groupId, graphId) => {
@@ -355,7 +332,7 @@ exports.getEvaluations = async (groupId, school = "%") => {
   const participants = await Participant.findAll({
     attributes: ["userId"],
     where: { courseGroupId: groupId, participatingRole: "student" },
-    include: {
+    include: [{
       attributes: ["displayName"],
       model: User,
       where: {
@@ -363,11 +340,16 @@ exports.getEvaluations = async (groupId, school = "%") => {
           [Op.like]: school
         }
       }
-    }
+    }, {
+      attributes: ["id"],
+      model: Group,
+      include: {
+        model: Course,
+        attributes: ["id"]
+      }
+    }]
   });
-  const evaluations = participants.map(p =>
-    functionDb.findEvaluation(p.userId, groupId)
-  );
+  const evaluations = participants.map(p => userDb.getEvaluation(p.userId, p.course_group.course.id));
   return Promise.all(evaluations);
 };
 
