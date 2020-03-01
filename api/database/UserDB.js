@@ -4,6 +4,7 @@ const Notification = require('../dec/NotificationDec');
 const groupDb = require('./GroupDB');
 const Group = require('../dec/CourseGroupDec');
 const Participant = require('../dec/ParticipantDec');
+const mailApi = require('../mail/mailApi');
 const Evaluation = require('../dec/EvaluationDec');
 
 exports.getSelf = async (userId) => {
@@ -88,6 +89,7 @@ exports.setFullUser = async (
 }
 
 exports.addUserEnrollment = async (userId, courseGroupId) => {
+	mailApi.sendEnrollmentMail(userId, courseGroupId);
 	return Enrollment.create({
 		userId,
 		courseGroupId,
@@ -95,6 +97,7 @@ exports.addUserEnrollment = async (userId, courseGroupId) => {
 }
 
 exports.removeUserEnrollment = async (userId, courseGroupId) => {
+	mailApi.sendDerollmentMail(userId, courseGroupId);
 	return Enrollment.destroy({
 		where: {
 			userId,
