@@ -153,14 +153,5 @@ exports.getEvaluation = (userId, courseId) => {
 			model: User,
 			attributes: ["displayName"],
 		}
-	}).then(ev => {
-		if (ev != null) {
-			return {
-				...ev,
-				displayName: ev["user.displayName"]
-			}
-		} else {
-			return ev;
-		}
 	});
 };
