@@ -333,7 +333,6 @@ exports.getEvaluations = async (groupId, school = "%") => {
     attributes: ["userId"],
     where: { courseGroupId: groupId, participatingRole: "student" },
     include: [{
-      attributes: ["displayName"],
       model: User,
       where: {
         school: {
@@ -341,29 +340,13 @@ exports.getEvaluations = async (groupId, school = "%") => {
         }
       }
     }, {
-      attributes: ["id"],
       model: Group,
       include: {
         model: Course,
-        attributes: ["id"]
       }
     }]
   });
-  const evaluations = participants.map(async (p) => {
-    let ev = await userDb.getEvaluation(p.userId, p.course_group.course.id)
-    if (ev == null) {
-      ev = {
-        assesment: "",
-        explanation: "",
-        type: "decimal",
-      };
-    }
-    return {
-      ...ev,
-      displayName: p.user.displayName,
-      userId: p.userId,
-    }
-  });
+  const evaluations = participants.map(p => userDb.getEvaluation(p.userId, p.course_group.course.id));
   return Promise.all(evaluations);
 };
 

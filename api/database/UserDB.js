@@ -143,8 +143,8 @@ exports.getEvaluation = (userId, courseId) => {
 			"assesment",
 			"explanation"
 		],
-		order: [["id", "DESC"]],
 		raw: true,
+		order: [["id", "DESC"]],
 		where: {
 			userId,
 			courseId,
@@ -153,5 +153,21 @@ exports.getEvaluation = (userId, courseId) => {
 			model: User,
 			attributes: ["displayName"],
 		}
-	});
+	}).then(async (ev) => {
+		if (ev == null) {
+			const user = await this.getUser(userId);
+			ev = {
+				assesment: "",
+				explanation: "",
+				type: "decimal",
+				userId,
+				courseId,
+				displayName: user.displayName,
+			}
+		} else {
+			ev.displayName = ev["user.displayName"];
+			delete ev["user.displayName"];
+		}
+		return ev;
+	})
 };
