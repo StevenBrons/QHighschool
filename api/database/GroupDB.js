@@ -334,7 +334,6 @@ exports.getEvaluations = async (groupId, school = "%") => {
     attributes: ["userId"],
     where: { courseGroupId: groupId, participatingRole: "student" },
     include: [{
-      attributes: ["displayName"],
       model: User,
       where: {
         school: {
@@ -342,11 +341,9 @@ exports.getEvaluations = async (groupId, school = "%") => {
         }
       }
     }, {
-      attributes: ["id"],
       model: Group,
       include: {
         model: Course,
-        attributes: ["id"]
       }
     }]
   });
