@@ -6,14 +6,14 @@
       Beste <%= user.firstName %>,
       <br />
       <br />
-      Je beoordeling voor <%= ((evaluation.subjectName=="Avonturen") ? "het avontuur":"de module") %>
-      <b><%= evaluation.courseName %></b> is gewijzigd.
+      Je beoordeling voor <%= ((course.subject.name =="Avonturen") ? "het avontuur":"de module") %>
+      <b><%= course.name %></b> is gewijzigd.
       <br />
       <br />
        <table>
 				<tr>
 					<td>Beoordeling</td>
-					<td><%= evaluation.evaluation %></td>
+					<td><b><%= evaluation.assesment %><b></td>
 				</tr>
 				<tr>
 					<td>Uitleg beoordeling</td>
@@ -23,6 +23,9 @@
       <br />
       <br />
       Mocht je vragen of opmerkingen hebben, neem dan contact op met de docent/expert.
+      <br />
+      <br />
+      Met vriendelijke groet,
       <br />
       <br />
       Het Q-highschoolteam.

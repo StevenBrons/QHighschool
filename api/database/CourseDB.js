@@ -16,6 +16,14 @@ exports.getCourses = async () => {
 	}));
 }
 
+exports.getCourse = async (courseId) => {
+	return Course.findByPk(courseId, {
+		include: {
+			model: Subject,
+		}
+	});
+}
+
 exports.getCourseIdFromGroupId = async (groupId) => {
 	return Group.findByPk(groupId, {
 		attributes: ["id"],

@@ -11,6 +11,7 @@ const functionDb = require("./FunctionDB");
 const userDb = require("./UserDB");
 const schedule = require("../lib/schedule");
 const officeEndpoints = require("../office/officeEndpoints");
+const mailApi = require("../mail/mailApi");
 const Op = require("sequelize").Op;
 
 exports._mapGroup = data => {
@@ -391,23 +392,16 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
   return group;
 };
 
-exports.setEvaluation = async ({
-  userId,
-  assesment,
-  type,
-  explanation,
-  updatedByUserId,
-  updatedByIp,
-  courseId
-}) => {
+exports.setEvaluation = async (ev) => {
+  mailApi.sendEvaluationChangedMail(ev);
   return Evaluation.create({
-    userId,
-    assesment,
-    type,
-    explanation,
-    updatedByIp,
-    updatedByUserId,
-    courseId
+    userId: ev.userId,
+    assesment: ev.assesment,
+    type: ev.type,
+    explanation: ev.explanation,
+    updatedByIp: ev.updatedByIp,
+    updatedByUserId: ev.updatedByUserId,
+    courseId: ev.courseId
   });
 };
 
