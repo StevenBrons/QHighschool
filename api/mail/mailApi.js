@@ -12,7 +12,7 @@ const derollmentTemplate = fs.readFileSync(path.resolve(__dirname, "./templates/
 let transporter = nodemailer.createTransport(mailConfig);
 
 this.sendEnrollmentMail = async (userId, groupId) => {
-	const user = await userDb.getUser(userId);
+	const user = await userDb.getSelf(userId);
 	const group = await groupDb.getGroup(groupId);
 	const mail = ejs.render(enrollmentTemplate, { group, user, }, {});
 	transporter.sendMail({
@@ -23,7 +23,7 @@ this.sendEnrollmentMail = async (userId, groupId) => {
 	});
 }
 this.sendDerollmentMail = async (userId, groupId) => {
-	const user = await userDb.getUser(userId);
+	const user = await userDb.getSelf(userId);
 	const group = await groupDb.getGroup(groupId);
 	const mail = ejs.render(derollmentTemplate, { group, user, }, {});
 	transporter.sendMail({
