@@ -4,6 +4,7 @@ const Notification = require('../dec/NotificationDec');
 const groupDb = require('./GroupDB');
 const Group = require('../dec/CourseGroupDec');
 const Participant = require('../dec/ParticipantDec');
+const Evaluation = require('../dec/EvaluationDec');
 
 exports.getSelf = async (userId) => {
 	return User.findByPk(userId).then(async (user) => {
@@ -131,3 +132,35 @@ exports.getGroups = async (userId, admin) => {
 		return groupDb.getGroup(groupId, userId);
 	}));
 }
+
+exports.getEvaluation = (userId, courseId) => {
+	return Evaluation.findOne({
+		attributes: [
+			"id",
+			"userId",
+			"courseId",
+			"type",
+			"assesment",
+			"explanation"
+		],
+		order: [["id", "DESC"]],
+		raw: true,
+		where: {
+			userId,
+			courseId,
+		},
+		include: {
+			model: User,
+			attributes: ["displayName"],
+		}
+	}).then(ev => {
+		if (ev != null) {
+			return {
+				...ev,
+				displayName: ev["user.displayName"]
+			}
+		} else {
+			return ev;
+		}
+	});
+};
