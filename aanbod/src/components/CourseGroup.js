@@ -93,7 +93,7 @@ class CourseGroup extends Component {
             return (
               <Course
                 key={id}
-                courseId={courses[id].courseId}
+                courseId={id}
                 class="course"
                 onClick={_ => this.props.onClick(id)}
                 text={courses[id].courseName.toUpperCase()}
