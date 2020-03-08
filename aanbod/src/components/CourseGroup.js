@@ -74,6 +74,26 @@ class CourseGroup extends Component {
     });
   }
 
+  getSortedCourseIds(courses) {// course objects -> ordered course ids
+    let ids = Object.keys(courses).sort((a,b) => {
+      let startYear = new RegExp(/(\d{4})\//) // '2019/2020' => 2019
+      let yearA = parseInt(courses[a].schoolYear.match(startYear)[1])
+      let yearB = parseInt(courses[b].schoolYear.match(startYear)[1])
+
+      if (yearA === yearB) {
+        let periodA = courses[a].period
+        let periodB = courses[b].period
+
+        if (periodA === periodB) {
+          return 0
+        }
+        return periodA - periodB
+      }
+      return yearA - yearB
+    })
+    return ids
+  }
+
   render() {
     const { courses, selectedCourse, showSubjectInfo } = this.props;
     const { page, maxPage, colors } = this.state;
@@ -89,7 +109,7 @@ class CourseGroup extends Component {
           />
         )}
         <div className="scroller" ref={this.scroller}>
-          {Object.keys(courses).map((id,i) => {
+          {this.getSortedCourseIds(courses).map((id,i) => {
             return (
               <Course
                 key={id}
