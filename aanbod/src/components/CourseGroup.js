@@ -68,7 +68,7 @@ class CourseGroup extends Component {
   scrollToPage(page) {
     let scroller = this.scroller.current;
     const margin = this.title.current.offsetLeft;
-    scroller.scrollLeft = scroller.children[this.state.coursesPerPage * page].offsetLeft - margin;
+    scroller.scrollTo({left: scroller.children[this.state.coursesPerPage * page].offsetLeft - margin, behavior: 'smooth' });
     this.setState({
       page: page
     });
