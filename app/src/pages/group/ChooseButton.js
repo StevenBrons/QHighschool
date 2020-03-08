@@ -4,7 +4,6 @@ import Clear from "@material-ui/icons/Clear";
 import { connect } from "react-redux";
 import {
   toggleEnrollment,
-  getEnrollableGroups,
   getEnrolLments
 } from "../../store/actions";
 import Progress from "../../components/Progress";
@@ -13,7 +12,6 @@ import EnrollmentPopup from "./EnrollmentPopup";
 class ChooseButton extends Component {
   constructor(props) {
     super(props);
-    this.props.getEnrollableGroups();
     this.props.getEnrolLments();
     this.state = {
       dialogOpen: false
@@ -97,10 +95,7 @@ class ChooseButton extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  if (
-    state.users[state.userId].enrollmentIds == null ||
-    state.enrollableGroups == null
-  ) {
+  if (state.users[state.userId].enrollmentIds == null) {
     return {
       loading: true
     };
@@ -118,8 +113,7 @@ function mapStateToProps(state, ownProps) {
   });
 
   return {
-    canChoose:
-      state.enrollableGroups.map(e => e.id).indexOf(ownProps.group.id) !== -1,
+    canChoose: ownProps.group.enrollable,
     hasChosen:
       state.users[state.userId].enrollmentIds.indexOf(ownProps.group.id) !== -1,
     hasChosenDay: chosenDayGroupName !== -1,
@@ -131,7 +125,6 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     toggleEnrollment: group => dispatch(toggleEnrollment(group)),
-    getEnrollableGroups: () => dispatch(getEnrollableGroups()),
     getEnrolLments: () => dispatch(getEnrolLments())
   };
 }

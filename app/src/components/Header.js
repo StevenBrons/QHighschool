@@ -26,7 +26,7 @@ class Header extends Component {
 					<img
 						src="/images/logo_qhighschool_white.svg"
 						alt="QHighschool Logo"
-						style={{ height: "60%", margin: "auto", maxHeight: "52px", cursor: "pointer" }}
+						style={{ height: "60%", margin: "auto", maxHeight: "40px", cursor: "pointer" }}
 						onClick={this.logoClick}
 					/>
 					<List color="inherit" style={{ right: 20, position: "absolute" }} onClick={this.handleClick}>

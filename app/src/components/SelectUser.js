@@ -82,7 +82,7 @@ class SelectUser extends Component {
             open={this.state.aliasId == null && this.state.open}
             disablePortal
             anchorEl={document.getElementById(this.state.id)}
-            style={{ position: "fixed", zIndex: "1" }}
+            style={{ position: "fixed", zIndex: "10000" }}
           >
             <Paper>
               <MenuList>{this.getFittingUsers()}</MenuList>

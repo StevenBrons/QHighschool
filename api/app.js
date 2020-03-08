@@ -30,6 +30,7 @@ require("./dec/LoggedInDec");
 require("./lib/passportSetup");
 require("./lib/taxi");
 require("./office/graphConnection");
+require("./mail/mailApi");
 
 const app = express();
 
@@ -62,7 +63,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/profiel", (req, res) => {
   res.redirect(
     "http://localhost:3000/profiel/?from=login&secureLogin=" +
-      req.query.secureLogin
+    req.query.secureLogin
   );
 });
 

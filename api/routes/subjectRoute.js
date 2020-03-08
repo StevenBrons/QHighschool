@@ -4,7 +4,7 @@ const subjectDB = require('../database/SubjectDB');
 const { promiseMiddleware, doReturn } = require('./handlers');
 const { public, ensureOffice, ensureSecure, ensureAdmin, } = require('./permissions');
 
-router.get("/list", public, promiseMiddleware(() => {
+router.get("/list", public, promiseMiddleware(async () => {
 	return subjectDB.getSubjects();
 }), doReturn);
 

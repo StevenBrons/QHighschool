@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getSelf, addNotification, isUserMissingInfo } from './store/actions';
+import { getSelf, addNotification } from './store/actions';
 
 import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
@@ -21,6 +21,7 @@ import NotificationBar from "./components/NotificationBar";
 import Menu from "./components/Menu";
 import Portfolio from "./pages/Portfolio";
 import ControlPanel from "./pages/ControlPanel";
+import Profile from "./pages/profile/Profile";
 
 
 class App extends Component {
@@ -30,7 +31,7 @@ class App extends Component {
 	}
 
 	componentDidUpdate() {
-		if (isUserMissingInfo(this.props.user) && this.props.location.pathname !== "/profiel") {
+		if (this.props.user != null && this.props.user.needsProfileUpdate && this.props.role === "student" && this.props.location.pathname !== "/profiel") {
 			this.props.history.push("/profiel");
 		}
 	}
@@ -68,7 +69,7 @@ class App extends Component {
 					<Route path="/aanbod" component={CourseSelect} />
 					<Route path="/groep/:groupId" component={Group} />
 					<Route path="/gebruiker/:userId" component={User} />
-					<Route path="/profiel/" component={User} />
+					<Route path="/profiel/" component={Profile} />
 					<Route path="/portfolio/" component={Portfolio} />
 					<Route path="/groepen/" component={Portfolio} />
 					<Route path="/gegevens/" component={DataPage} />

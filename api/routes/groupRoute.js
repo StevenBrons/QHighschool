@@ -34,8 +34,7 @@ router.get(
 router.post(
   "/",
   promiseMiddleware(async req => {
-    const group = await groupDb.getGroup(req.body.groupId);
-    return groupDb.appendEvaluation(group, req.user.id);
+    return groupDb.getGroup(req.body.groupId);
   }),
   doReturn
 );

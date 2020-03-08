@@ -27,12 +27,14 @@ exports.getCourseIdFromGroupId = async (groupId) => {
 }
 
 exports.getGroupIdsOfCourseId = async (courseId) => {
-	return Course.findByPk(courseId, {
-		attributes: [], include: [{
+	const course = await Course.findByPk(courseId, {
+		attributes: ["id"], include: [{
 			model: Group,
 			attributes: ["id"],
 		}]
-	}).then((row) => row.course_groups.map(groups => groups.id));
+	});
+	const groups = course.course_groups;
+	return groups.map(g => g.id)
 }
 
 exports.addCourse = async (data) => {

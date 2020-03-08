@@ -9,6 +9,7 @@ const Evaluation = require("../dec/EvaluationDec");
 const Presence = require("../dec/PresenceDec");
 const functionDb = require("./FunctionDB");
 const userDb = require("./UserDB");
+const schedule = require("../lib/schedule");
 const officeEndpoints = require("../office/officeEndpoints");
 const Op = require("sequelize").Op;
 
@@ -66,11 +67,18 @@ exports.getGroups = async userId => {
     ]
   });
   groups = groups.map(this._mapGroup);
+  let evaluations = groups.map(_ => null);
   if (userId != null) {
-    groups = await Promise.all(
-      groups.map(group => exports.appendEvaluation(group, userId))
-    );
+    evaluations = await Promise.all(groups.map(group => userDb.getEvaluation(userId, group.courseId)));
   }
+  groups = groups
+    .map((group, index) => {
+      return {
+        ...group,
+        enrollable: schedule.shouldBeSynced(group),
+        evaluation: evaluations[index],
+      }
+    });
   return groups;
 };
 
@@ -112,32 +120,10 @@ exports.getGroup = async (groupId, userId) => {
   });
   group = this._mapGroup(group);
   if (userId != null) {
-    group = await exports.appendEvaluation(group, userId);
+    group.evaluation = await userDb.getEvaluation(userId, group.courseId);
   }
+  group.enrollable = schedule.shouldBeSynced(group);
   return group;
-};
-
-exports.appendEvaluation = async (group, userId) => {
-  const evaluation = await Evaluation.findOne({
-    attributes: [
-      "id",
-      "userId",
-      "courseId",
-      "type",
-      "assesment",
-      "explanation"
-    ],
-    order: [["id", "DESC"]],
-    raw: true,
-    where: {
-      userId: userId,
-      courseId: group.courseId
-    }
-  });
-  return {
-    ...group,
-    evaluation
-  };
 };
 
 exports.setGraphId = async (groupId, graphId) => {
@@ -176,30 +162,30 @@ exports.getParticipants = async (groupId, teacher, school = "%") => {
       model: User,
       attributes: teacher
         ? [
-            "id",
-            "role",
-            "school",
-            "firstName",
-            "lastName",
-            "displayName",
-            "year",
-            "profile",
-            "level",
-            "preferedEmail",
-            "phoneNumber",
-            "email"
-          ]
+          "id",
+          "role",
+          "school",
+          "firstName",
+          "lastName",
+          "displayName",
+          "year",
+          "profile",
+          "level",
+          "preferedEmail",
+          "phoneNumber",
+          "email"
+        ]
         : [
-            "id",
-            "role",
-            "school",
-            "displayName",
-            "firstName",
-            "lastName",
-            "level",
-            "profile",
-            "year"
-          ],
+          "id",
+          "role",
+          "school",
+          "displayName",
+          "firstName",
+          "lastName",
+          "level",
+          "profile",
+          "year"
+        ],
       where: {
         school: {
           [Op.like]: school
@@ -346,19 +332,21 @@ exports.getEvaluations = async (groupId, school = "%") => {
   const participants = await Participant.findAll({
     attributes: ["userId"],
     where: { courseGroupId: groupId, participatingRole: "student" },
-    include: {
-      attributes: ["displayName"],
+    include: [{
       model: User,
       where: {
         school: {
           [Op.like]: school
         }
       }
-    }
+    }, {
+      model: Group,
+      include: {
+        model: Course,
+      }
+    }]
   });
-  const evaluations = participants.map(p =>
-    functionDb.findEvaluation(p.userId, groupId)
-  );
+  const evaluations = participants.map(p => userDb.getEvaluation(p.userId, p.course_group.course.id));
   return Promise.all(evaluations);
 };
 
@@ -390,8 +378,8 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
   };
 
   const group = await Group.create(g);
-  functionDb.addLessons(g.id, g.schoolYear, g.period, g.day);
-  Participant.create({
+  await functionDb.addLessonsIfNecessary(group);
+  await Participant.create({
     participatingRole: "teacher",
     courseGroupId: group.id,
     userId: mainTeacherId

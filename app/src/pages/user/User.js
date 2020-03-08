@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import UserRow from "./UserRow";
-import UserPage from "./UserPage";
 import UserCard from "./UserCard";
-import { setSecureLogin, getCookie } from "../../store/actions"
+import { setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 import Field from "../../components/Field"
-import queryString from "query-string";
 import { Button } from "@material-ui/core";
 
 class User extends Component {
@@ -17,18 +15,6 @@ class User extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		let s = queryString.parse(nextProps.location.search);
-		if (s.secureLogin != null) {
-			nextProps.setSecureLogin(s.secureLogin);
-		}
-		if (s.from === "login" && nextProps.user != null && nextProps.role !== "student") {
-			const beforeLoginPath = getCookie("beforeLoginPath");
-			nextProps.history.push(beforeLoginPath);
-		}
-		return prevState;
 	}
 
 	render() {
@@ -59,10 +45,6 @@ class User extends Component {
 		switch (this.props.display) {
 			case "name":
 				return <Field value={this.props.user.displayName} style={{ type: "title", width: "auto", }} layout={{ td: true }} />;
-			case "page":
-				return (
-					<UserPage {...this.props} />
-				);
 			case "row":
 				return (
 					<UserRow {...this.props}>

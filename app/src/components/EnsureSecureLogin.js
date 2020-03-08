@@ -8,13 +8,21 @@ import Field from "./Field"
 class EnsureSecureLogin extends Component {
 
 	render() {
+
 		if (!(this.props.active === false) && this.props.secureLogin == null) {
-			return <Paper style={{ padding: "20px", marginTop: "25px" }}>
-				<Field value="Log opnieuw in om toegang te krijgen" layout={{ area: true }} />
+			const content = <div>
+				<Field value="Log opnieuw in om toegang te krijgen" layout={{ area: true }} style={{ width: "auto" }} />
 				<Button color="primary" variant="contained" onClick={relogSecure}>
 					Inloggen
 				</Button>
-			</Paper>
+			</div>
+			if (this.props.dense) {
+				return content;
+			} else {
+				return <Paper style={{ padding: "20px", marginTop: "25px" }}>
+					{content}
+				</Paper>
+			}
 		} else {
 			return this.props.children;
 		}

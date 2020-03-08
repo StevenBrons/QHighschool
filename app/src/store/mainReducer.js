@@ -61,8 +61,6 @@ function mainReducer(state = DEFAULT_STATE, action) {
           { call: action.call, method: action.method, data: action.data }
         ]
       };
-    case "CHANGE_ENROLLABLE_GROUPS":
-      return { ...state, enrollableGroups: action.enrollableGroups };
     case "CHANGE_SUBJECTS":
       return { ...state, subjects: { ...state.subjects, ...action.subjects } };
     default:

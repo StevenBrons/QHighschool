@@ -10,7 +10,10 @@ module.exports = connection.define('subject', {
 	},
 	abbreviation: {
 		type: Sequelize.TEXT,
+	},
+	canDoExam: {
+		type: Sequelize.BOOLEAN
 	}
 }, {
-		tableName: 'school_subject'
-	});
+	tableName: 'school_subject'
+});
