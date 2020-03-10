@@ -38,27 +38,9 @@ exports.getCurrentSchoolYear = () => {
   }
 };
 
-exports.getCurrentPeriod = () => {
-  const currentWeek = moment().week();
-  const obj = exports.schedule.find(obj => {
-    return obj.weekNumber === currentWeek;
-  });
-  if (obj) {
-    return obj.period;
-  }
-  return -1;
-};
-
-exports.getCurrentWeekInBlock = () => {
-  const currentWeek = moment().week();
-  const obj = exports.schedule.find(obj => {
-    return obj.weekNumber === currentWeek;
-  });
-  if (obj) {
-    return obj.numberInBlock;
-  }
-  return -1;
-};
+exports.isEnrollable = group => {
+  return (group.period + "" === "4" && group.schoolYear === "2019/2020") || group.schoolYear === "2020/2021";
+}
 
 exports.shouldBeSynced = group => {
   if (process.env.NODE_ENV) {
