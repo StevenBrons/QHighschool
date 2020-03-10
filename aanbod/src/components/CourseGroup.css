@@ -6,7 +6,8 @@
 .CourseGroup .title {
 	position: absolute;
 	left: 2.5%;
-	bottom: 15.2vw;
+	top: 0;
+	margin: 0;
 }
 
 @media screen and (max-width: 500px) {

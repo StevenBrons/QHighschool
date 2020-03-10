@@ -4,7 +4,9 @@
 	text-align: center;
 	height: 90vh;
 	color: white;
-	margin: 0 2vw 4vw 2vw;
+	margin: 0 2vw 1vw 2vw;
+	display: flex;
+	flex-direction: column;
 }
 
 .CourseInfo .text-and-image {
@@ -27,11 +29,29 @@
 	.CourseInfo .info-text {
 		font-size: .7em;
 	}
+	.CourseInfo .extra-info {
+		font-size: .7em;
+	}
 }
 
 @media screen and (max-width: 800px) {
 	.CourseInfo .info-text {
 		font-size: .4em;
+	}
+	.CourseInfo .extra-info {
+		font-size: .4em;
+	}
+}
+
+@media screen and (max-aspect-ratio: 6/5) {
+	.CourseInfo {
+		height: 70vh;
+	}
+}
+
+@media screen and (max-aspect-ratio: 5/6) {
+	.CourseInfo {
+		height: 50vh;
 	}
 }
 
@@ -119,6 +139,7 @@
 }
 
 .CourseInfo .extra-info {
+	/* flex: 1; */
 	display: flex;
 	background-color: black;
 }
