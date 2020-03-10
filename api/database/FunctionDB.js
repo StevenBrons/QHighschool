@@ -184,14 +184,12 @@ exports.findEvaluation = async (userId, groupId) => {
       {
         model: User,
         attributes: ["id", "email", "displayName"],
-        // through: { attributes: ["userId"] },
       },
-      // {
-      //   model: User,
-      //   as: "updatedBy",
-      //   // attributes: ["displayName"],
-      //   // through: { attributes: ["updatedByUserId"] },
-      // }
+      {
+        model: User,
+        as: "updatedByUser",
+        attributes: ["displayName"],
+      }
     ]
   });
   if (evaluation == null) {
@@ -222,7 +220,7 @@ exports.findEvaluation = async (userId, groupId) => {
       "explanation",
       "type",
       "user.displayName",
-      "updatedBy.displayName",
+      "updatedByUser.displayName",
       "user.email",
       "user.id",
     ], "evaluation", evaluation),

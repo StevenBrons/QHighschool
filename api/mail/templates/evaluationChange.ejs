@@ -6,26 +6,16 @@
       Beste <%= user.firstName %>,
       <br />
       <br />
-      Je beoordeling voor <%= ((course.subject.name =="Avonturen") ? "het avontuur":"de module") %>
-      <b><%= course.name %></b> is gewijzigd.
+      Je hebt <%= ((course.subjectName=="Avonturen") ? "het avontuur":"de module") %>
+      <b><%= course.name %></b> afgerond.
+      Jouw docent, <b><%= updatedByUser %></b>, heeft daarvoor een beoordeling gegeven.
+      <b><a href="https://app.q-highschool.nl/portfolio">Klik hier</a></b> om je beoordeling en de toelichting daarop te bekijken. Mocht je vragen of opmerkingen hebben over je beoordeling, neem dan contact op met je docent.
       <br />
       <br />
-       <table>
-				<tr>
-					<td>Beoordeling</td>
-					<td><b><%= evaluation.assesment %><b></td>
-				</tr>
-				<tr>
-					<td>Uitleg beoordeling</td>
-					<td><%= evaluation.explanation %></td>
-				</tr>
-			</table> 
+      Als je niet tevreden bent over het resultaat, wil je misschien in aanmerking komen voor een herkansing? Wanneer de herkansingsdatum bekend is, krijg je automatisch een bericht van het Q-highschoolteam. Vanaf dat moment kun je je inschrijven.
       <br />
       <br />
-      Mocht je vragen of opmerkingen hebben, neem dan contact op met de docent/expert.
-      <br />
-      <br />
-      Met vriendelijke groet,
+      Nog vragen? Stuur ons dan een mail via: <a href="mailto:qhighschool@quadraam.nl">qhighschool@quadraam.nl</a>
       <br />
       <br />
       Het Q-highschoolteam.
