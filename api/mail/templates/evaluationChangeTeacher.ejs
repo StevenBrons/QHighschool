@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <p>
+      Beste <%= user.firstName %>,
+			<br />
+			<br />
+			In de <%= ((course.subjectName=="Avonturen") ? "het avontuur":"de module") %>
+      <b><%= course.name %></b> van het vak <b><%= course.subjectName %></b> is er een cijfer gewijzigd van de volgende leerlingen:
+			<br>
+			<% for (let i in changedUsers) { %> 
+				<b><%= changedUsers[i].displayName %></b>
+			<% } %>
+			<br> 
+			<br>
+			Heb je dit zojuist zelf aangepast dan kun je dit berichtje als puur informatief beschouwen. Wanneer je dit cijfer niet zelf hebt gewijzigd neem dan contact op met de Q-highschool, via nummer: 06 227 16 056 
+			<br />
+			<br />
+			Het Q-highschool team.
+    </p>
+  </body>
+</html>

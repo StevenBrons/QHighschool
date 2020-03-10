@@ -17,26 +17,10 @@ function distinctCourse(groups) {
 	});
 }
 
-function isCertificateWorthy({ evaluation }) {
-	if (evaluation != null) {
-		const assesment = evaluation.assesment + "";
-		switch (evaluation.type) {
-			case "decimal":
-				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
-				return x >= 5.5;
-			case "stepwise":
-				return assesment === "G" || assesment === "V";
-			case "check":
-				return assesment === "passed";
-		}
-	}
-	return false;
-}
-
 async function getCertificateFromUserId(userId) {
 	let user = await userDb.getUser(userId);
 	let groups = await groupDb.getGroups(userId);
-	groups = groups.filter(isCertificateWorthy);
+	groups = groups.filter(groupDb.isCertificateWorthy);
 	groups = distinctCourse(groups);
 	return {
 		user,
@@ -76,7 +60,7 @@ router.get("/course/:userId/:groupId", async (req, res) => {
 	let group = await groupDb.getGroup(groupId, userId);
 
 	if (req.user.userId + "" === userId && !req.user.isAdmin()) return authError(res);
-	if (isCertificateWorthy(group)) {
+	if (groupDb.isCertificateWorthy(group)) {
 		return res.render("multipleCertificates", {
 			certificates: [{ user, groups: [group] }], courseCertificates: true,
 		});
