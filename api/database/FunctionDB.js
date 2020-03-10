@@ -176,15 +176,22 @@ exports.findEvaluation = async (userId, groupId) => {
     }
   });
   let evaluation = await Evaluation.findOne({
-    attributes: ["id", "userId", "type", "assesment", "explanation"],
+    attributes: ["id", "userId", "type", "assesment", "explanation", "updatedByUserId"],
     order: [["id", "DESC"]],
     raw: true,
     where: { userId, courseId: group["course.id"] },
     include: [
       {
         model: User,
-        attributes: ["id", "email", "displayName"]
-      }
+        attributes: ["id", "email", "displayName"],
+        // through: { attributes: ["userId"] },
+      },
+      // {
+      //   model: User,
+      //   as: "updatedBy",
+      //   // attributes: ["displayName"],
+      //   // through: { attributes: ["updatedByUserId"] },
+      // }
     ]
   });
   if (evaluation == null) {
@@ -215,6 +222,7 @@ exports.findEvaluation = async (userId, groupId) => {
       "explanation",
       "type",
       "user.displayName",
+      "updatedBy.displayName",
       "user.email",
       "user.id",
     ], "evaluation", evaluation),

@@ -212,7 +212,6 @@ router.post(
 );
 
 async function setEvaluation(ev, req) {
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   let isInOneGroup = false;
   await courseDB.getGroupIdsOfCourseId(ev.courseId).then(groupIds =>
     groupIds.forEach(groupId => {
@@ -228,7 +227,6 @@ async function setEvaluation(ev, req) {
       explanation: ev.explanation,
       type: ev.type,
       courseId: ev.courseId,
-      updatedByIp: ip,
       updatedByUserId: req.user.id
     });
   }
