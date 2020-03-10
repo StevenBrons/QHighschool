@@ -11,6 +11,7 @@ const functionDb = require("./FunctionDB");
 const userDb = require("./UserDB");
 const schedule = require("../lib/schedule");
 const officeEndpoints = require("../office/officeEndpoints");
+const mailApi = require("../mail/mailApi");
 const Op = require("sequelize").Op;
 
 exports._mapGroup = data => {
@@ -328,6 +329,22 @@ exports.setPresence = async ({ userId, lessonId, status }, courseGroupId) => {
   });
 };
 
+exports.isCertificateWorthy = ({ evaluation }) => {
+  if (evaluation != null) {
+    const assesment = evaluation.assesment + "";
+    switch (evaluation.type) {
+      case "decimal":
+        const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+        return x >= 5.5;
+      case "stepwise":
+        return assesment === "G" || assesment === "V";
+      case "check":
+        return assesment === "passed";
+    }
+  }
+  return false;
+}
+
 exports.getEvaluations = async (groupId, school = "%") => {
   const participants = await Participant.findAll({
     attributes: ["userId"],
@@ -388,23 +405,15 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
   return group;
 };
 
-exports.setEvaluation = async ({
-  userId,
-  assesment,
-  type,
-  explanation,
-  updatedByUserId,
-  updatedByIp,
-  courseId
-}) => {
+exports.setEvaluation = async (ev) => {
+  mailApi.sendEvaluationChangedMail(ev);
   return Evaluation.create({
-    userId,
-    assesment,
-    type,
-    explanation,
-    updatedByIp,
-    updatedByUserId,
-    courseId
+    userId: ev.userId,
+    assesment: ev.assesment,
+    type: ev.type,
+    explanation: ev.explanation,
+    updatedByUserId: ev.updatedByUserId,
+    courseId: ev.courseId
   });
 };
 
