@@ -75,7 +75,7 @@ exports.getGroups = async userId => {
     .map((group, index) => {
       return {
         ...group,
-        enrollable: schedule.shouldBeSynced(group),
+        enrollable: schedule.isEnrollable(group),
         evaluation: evaluations[index],
       }
     });
@@ -122,7 +122,7 @@ exports.getGroup = async (groupId, userId) => {
   if (userId != null) {
     group.evaluation = await userDb.getEvaluation(userId, group.courseId);
   }
-  group.enrollable = schedule.shouldBeSynced(group);
+  group.enrollable = schedule.isEnrollable(group);
   return group;
 };
 
