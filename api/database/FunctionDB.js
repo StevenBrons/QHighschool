@@ -288,7 +288,7 @@ exports.getEnrollment = async school => {
       return {
         ...extractFromObject([
           "user.email",
-          "course_group.course.course.name",
+          "course_group.course.name",
           "course_group.course.subject.name",
           "accepted",
           "user.displayName",

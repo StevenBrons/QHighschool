@@ -6,33 +6,16 @@ function formatCourseId(courseId = "") {
 }
 
 class Course extends Component {
-  constructor(props) {
-    super(props);
-    const colors = [
-      " purple",
-      " pink",
-      " blue",
-      " orange",
-      " red",
-      " green",
-      " yellow"
-    ];
-    const color = colors[Math.floor(Math.random() * 7)];
-    this.state = {
-      color: color
-    };
-  }
-
   render() {
     const { selected, large, text, onClick, courseId } = this.props;
-    const color = this.state.color;
+    const color = this.props.color;
     return (
       <div
         className={
           "Course" +
           (large ? " large" : "") +
           (selected ? " selected" : "") +
-          color
+          " " + color
         }
         onClick={onClick}
         style={{

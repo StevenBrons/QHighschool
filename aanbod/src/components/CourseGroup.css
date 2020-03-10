@@ -11,7 +11,13 @@
 
 @media screen and (max-width: 500px) {
 	.CourseGroup .title {
-		font-size: .5em;
+		font-size: .6em;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.CourseGroup .title {
+		bottom: 28.5vw;
 	}
 }
 
@@ -63,23 +69,36 @@
 	.CourseGroup:hover .scroll-button {
 		display: none;
 	}
+	.CourseGroup .scroller > .Course:last-of-type {
+		margin-right: 3%;
+	}
 }
 
-/* Right-margins so the last page can consist of <4 courses */
-.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 1) {
-	margin-right: 75%;
-}
+/* Right-margins so the last page can consist of <4 courses 
+   This is only necessary on desktop when the buttons are visible*/
+@media (pointer: fine) { 
+	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 1) {
+		margin-right: 75%;
+	}
 
-.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 2) {
-	margin-right: 51%;
-}
+	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 2) {
+		margin-right: 51%;
+	}
 
-.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 3) {
-	margin-right: 27%;
-}
-
-.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n) {
-	margin-right: 3%;
+	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 3) {
+		margin-right: 27%;
+	}
+	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n) {
+		margin-right: 3%;
+	}
+	@media screen and (max-width: 700px) {
+		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n){
+			margin-right: 3%;
+		}
+		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n + 1) {
+			margin-right: 52%;
+		}
+	}
 }
 
 .Course.selected {
