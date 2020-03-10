@@ -121,6 +121,7 @@ class Page extends Component {
             }
           </React.Fragment>
         )}
+        <div style={{ height: "300px" }} />
       </div>
     )
   }
