@@ -81,7 +81,7 @@ class Page extends Component {
         <LoadIcon />
       )
     }
-    const subjects = Object.keys(courses);
+    const subjects = Object.keys(courses).sort();
     let nextSubject, previousSubject;
     if (subjectInfo) {
       let subjectInfoId = subjects.indexOf(subjectInfo)
