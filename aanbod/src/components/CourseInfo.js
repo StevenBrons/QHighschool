@@ -6,12 +6,21 @@ function formatCourseId(courseId = "") {
 }
 
 class CourseInfo extends Component {
+	constructor(props){
+		super(props);
+		this.ref = React.createRef();
+	}
+
+	componentDidMount() {
+		// scroll courseinfo to center
+		window.scrollTo({top: this.ref.current.offsetTop - window.innerHeight * 0.05, behavior: 'smooth'})
+	}
 
 	render() {
 		const course = this.props.course;
 		const id = course.id;
 		return (
-			<div className='CourseInfo'>
+			<div className='CourseInfo' ref={this.ref}>
 				<div className='text-and-image' >
 					<div className='info-text'>
 						<h1 className='title'>
