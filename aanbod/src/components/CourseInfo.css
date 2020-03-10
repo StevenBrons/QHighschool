@@ -17,7 +17,7 @@
 	text-align: left;
 	margin-top: 2vw;
 	margin-left: 2vw;
-	flex: 1;
+	flex: 1.3 1 0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	word-wrap: break-word;
@@ -83,16 +83,16 @@
 	color: lightgrey;
 }
 
-.CourseInfo .image{
-	flex:2;
+.CourseInfo .image {
+	flex: 2;
 }
 
 .CourseInfo .image:after {
 	display: block;
-	background-image: linear-gradient(to right,#1f1f1f 10%,transparent 80%);
-	height: 100%; 
-	width: 100%; 
-	content: ''; 
+	background-image: linear-gradient(to right, #1f1f1f 10%, transparent 80%);
+	height: 100%;
+	width: 100%;
+	content: '';
 }
 
 .CourseInfo .close-button {
@@ -113,7 +113,7 @@
 	}
 }
 
-.CourseInfo .close-button:hover{
+.CourseInfo .close-button:hover {
 	filter: grayscale(30%);
 	cursor: pointer;
 }
