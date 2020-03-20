@@ -60,6 +60,13 @@
 		height: 26vw;
 		margin-right: 1%;
 	}
+	.Course:hover {
+		transform: scale(1.2);
+		transition: transform .35s;
+	}
+	.Course.selected {
+		transform: scale(1.2);
+	}
 }
 
 .Course .q-logo {
@@ -75,10 +82,17 @@
 	transform-origin: left;
 }
 
-.Course:hover{
-	transform: scale(1.3);
-	transition: transform .35s;
-	z-index: 3;
+@media screen and (min-width: 701px) {
+	.Course:hover{
+		transform: scale(1.3);
+		transition: transform .35s;
+		z-index: 3;
+	}
+
+	.Course.selected {
+		transform: scale(1.3);
+		z-index: 2;
+	}
 }
 
 @media (pointer: fine) {
