@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import './CourseInfo.css';
 
-function formatCourseId(courseId = "") {
-	return "M" + (courseId + "").padStart(4, "0");
+function formatCourseId(courseId = "") { // done this ugly because of internet explorer
+  if (courseId >= 1000)
+    return "M" + courseId
+  if (courseId >= 100) 
+    return "M0" + courseId
+  if (courseId >= 10)
+    return "M00" + courseId
+  return "M000" + courseId
 }
 
 class CourseInfo extends Component {
