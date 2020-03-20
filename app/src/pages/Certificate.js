@@ -10,12 +10,19 @@ class Certificate extends Component {
     constructor(props) {
         super(props);
 
+        // Keep track whether we have already generated a pdf.
         this.state = {
-            generatedPdf: false,
-            previousPath: props.previousPath !== undefined ? props.previousPath : "/"
+            generatedPdf: false
         }
     }
 
+    /**
+     * Adds a page to an existing pdf, or generates a base
+     * pdf to work with. This new page has all the images pre-applied.
+     *
+     * @param pdf A pdf object (optional)
+     * @returns A pdf object.
+     */
     makeBase(pdf = new jspdf()) {
         // Add a page count.
         if (!pdf.hasOwnProperty("page_count")) {
@@ -46,6 +53,13 @@ class Certificate extends Component {
         return pdf;
     }
 
+    /**
+     * Grabs the data using the groupId provided and
+     * puts that as first page in the pdf certificate.
+     *
+     * @param groupId The id of the group to generate a certificate for.
+     * @param pdf The pdf object.
+     */
     addModule(groupId, pdf) {
         if (!this.props.groups.hasOwnProperty(groupId)) {
             console.log("That group id cannot be found!");
@@ -60,7 +74,7 @@ class Certificate extends Component {
         // Fetch the data.
         let data = this.props.groups[groupId];
 
-        // Add the base text.
+        // Add the text.
         pdf.text("Hierbij verklaart Quadraam dat", 79, 60);
 
         pdf.setFontStyle("bold");
@@ -90,6 +104,13 @@ class Certificate extends Component {
         pdf.text(date, 99, 158);
     }
 
+    /**
+     * Gathers data for the portfolio page(s) in the certificate,
+     * then adds the data in a nicely formatted way to the
+     * certificate.
+     *
+     * @param pdf The pdf object.
+     */
     addPortfolio(pdf) {
         let name = undefined;
 
@@ -171,6 +192,11 @@ class Certificate extends Component {
         pdf.text("de volgende Q-Highschool modules heeft afgerond", 60, 70);
     }
 
+    /**
+     * Fixes the page count to be even by adding
+     * a page when the current count is odd.
+     * @param pdf The pdf object.
+     */
     fixPageCount(pdf) {
         if (pdf.hasOwnProperty("page_count") && pdf.page_count % 2 !== 0) {
             pdf.addPage();
@@ -178,6 +204,14 @@ class Certificate extends Component {
         }
     }
 
+    /**
+     * Generate a certificate based on the url given.
+     * If a groupId is specified, then use that to get a
+     * module specific certificate.
+     *
+     * In all cases add the portfolio and make sure the
+     * amount of pages is even.
+     */
     doGenerate() {
         if (this.state.generatedPdf)
             return;
@@ -219,9 +253,16 @@ class Certificate extends Component {
         this.setState(newState);
     }
 
+    /**
+     * Render the page.
+     * @returns a JSX page.
+     */
     render() {
+        // Generate the pdf.
         this.doGenerate();
 
+        // Go back if the certificate is generated,
+        // Otherwise wait a little big.
         if (this.state.generatedPdf) {
             window.history.back();
             return null;
