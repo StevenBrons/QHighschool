@@ -232,14 +232,13 @@ class Certificate extends Component {
         // Add a single module if requested.
         if (this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null) {
             this.addModule(this.props.match.params.groupId, pdf);
-            this.makeBase(pdf);
+        } else {
+            // Add the portfolio page(s).
+            this.addPortfolio(pdf);
+
+            // Make sure the page count is always even in case we're printing a portfolio.
+            this.fixPageCount(pdf);
         }
-
-        // Add the portfolio page(s).
-        this.addPortfolio(pdf);
-
-        // Make sure the page count is always even.
-        this.fixPageCount(pdf);
 
         // Open the pdf in a new window.
         // pdf.save("Certificaat Q-Highschool.pdf");
