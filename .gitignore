@@ -119,3 +119,6 @@ docx_source
 html_output
 markdown_output
 OneDrive*.zip
+
+# IntelliJ files
+.idea/

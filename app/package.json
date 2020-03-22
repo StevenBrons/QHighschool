@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.9.1",
     "exceljs": "^3.6.1",
     "jquery": "^3.4.1",
+    "jspdf": "^1.5.3",
     "lodash": "^4.17.15",
     "npm": "^6.13.7",
     "query-string": "^6.11.0",

@@ -376,25 +376,8 @@ class GroupPage extends Component {
 	openCertificate = () => {
 		const groupId = this.props.group.id;
 		const userId = this.props.userId;
-		const role = this.props.role;
 
-		// in case of student show that students certificate. In case of other role show certificates of all students for that group
-		// also check if in development mode because url is different in that case
-		if (role === "student") {
-			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				window.open("http://localhost:26194/api/certificate/course/" + userId + "/" + groupId, "_blank");
-			} else {
-				window.open("/api/certificate/course/" + userId + "/" + groupId, "_blank");
-			}
-		} else {
-			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				//window.open("http://localhost:26194/api/certificate/course/" + userId + "/"+ groupId ,"_blank");
-				// IMPLEMENT ME
-			} else {
-				//window.open("/api/certificate/course" + userId + "/" + groupId,"_blank");
-				// IMPLEMENT ME
-			}
-		}
+		window.location = "/certificaat/gebruiker/" + userId.toString() + "/groep/" + groupId.toString();
 	}
 
 	render() {

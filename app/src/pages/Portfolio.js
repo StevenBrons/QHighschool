@@ -84,16 +84,7 @@ class Portfolio extends Component {
   }
 
   openCertificate = () => {
-    const userId = this.props.userId;
-
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      window.open(
-        "http://localhost:26194/api/certificate/portfolio/" + userId,
-        "_blank"
-      );
-    } else {
-      window.open("/api/certificate/portfolio/" + userId, "_blank");
-    }
+    window.location = "/certificaat/gebruiker/" + this.props.userId.toString();
   };
 
   render() {
