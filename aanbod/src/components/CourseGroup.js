@@ -99,9 +99,12 @@ class CourseGroup extends Component {
     const { page, maxPage, colors } = this.state;
     return (
       <div className="CourseGroup">
-        <h3 className="title" ref={this.title}>
-          {this.props.title}
-        </h3>
+        <div className="title-container">
+          <h3 className="title" ref={this.title}>
+            {this.props.title}
+          </h3>
+          <div/> 
+        </div>
         {page !== 0 && (
           <div
             className="scroll-button left"

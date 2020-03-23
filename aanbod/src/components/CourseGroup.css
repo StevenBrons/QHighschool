@@ -4,10 +4,12 @@
 }
 
 .CourseGroup .title {
-	position: absolute;
-	left: 2.5%;
-	top: 0;
-	margin: 0;
+	margin: .5vw 0 .5vw 2.5vw;
+}
+
+.CourseGroup .title-container {
+	display: flex;
+	margin-bottom: -3vw; /* This margin is compensated in scroller */
 }
 
 @media screen and (max-width: 500px) {
@@ -32,7 +34,9 @@
 	width: 100%;
 	overflow: hidden;
 	scroll-behavior: smooth;
-	padding: 3vw 0;
+	padding-top: 3vw; /* This padding is compensated in title-container.
+						This had to be done because of a bug with overflow-x and overflow-y*/
+	padding-bottom: 3vw;
 }
 
 .CourseGroup .scroll-button {
