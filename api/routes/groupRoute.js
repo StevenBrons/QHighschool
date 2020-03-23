@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const groupDb = require("../database/GroupDB");
 const courseDB = require("../database/CourseDB");
+const mailApi = require("../mail/mailApi");
 const {
   authError,
   doReturn,
@@ -212,7 +213,6 @@ router.post(
 );
 
 async function setEvaluation(ev, req) {
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   let isInOneGroup = false;
   await courseDB.getGroupIdsOfCourseId(ev.courseId).then(groupIds =>
     groupIds.forEach(groupId => {
@@ -228,7 +228,6 @@ async function setEvaluation(ev, req) {
       explanation: ev.explanation,
       type: ev.type,
       courseId: ev.courseId,
-      updatedByIp: ip,
       updatedByUserId: req.user.id
     });
   }
@@ -242,6 +241,7 @@ router.patch(
   promiseMiddleware((req, res) => {
     const evaluations = JSON.parse(req.body.evaluations);
     if (Array.isArray(evaluations) && evaluations.length >= 1) {
+      mailApi.sendEvaluationChangedTeacherMail(evaluations, req.user.id)
       return Promise.all(evaluations.map(ev => setEvaluation(ev, req)));
     } else {
       authError(res);

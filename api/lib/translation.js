@@ -19,6 +19,7 @@ const table = {
 	"subject.name": "Vaknaam",
 	"enrollment.accepted": "Inschrijving geaccepteerd",
 	"enrollment.accepted": "Inschrijving geaccepteerd",
+	"updatedByUser.displayName": "Aangepast door",
 }
 
 this.translate = (key) => {

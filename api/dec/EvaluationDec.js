@@ -27,10 +27,9 @@ const Evaluation = connection.define('evaluation', {
 	//		ND								niet deelgenomen
 
 	explanation: Sequelize.TEXT,
-	updatedByIp: Sequelize.TEXT,
 }, {
-		tableName: 'evaluation'
-	});
+	tableName: 'evaluation'
+});
 
 Evaluation.belongsTo(User);
 User.hasMany(Evaluation);
