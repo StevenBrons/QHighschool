@@ -138,7 +138,7 @@ class GroupPage extends Component {
 				if (participantIds == null) {
 					return <Progress />;
 				}
-				const canAddNewParticipant = 
+				const canAddNewParticipant =
 					!participantIds.includes(newParticipant.userId) &&
 					!(enrollmentIds != null &&
 					enrollmentIds.includes(newParticipant.userId)) &&
@@ -377,7 +377,7 @@ class GroupPage extends Component {
 		const groupId = this.props.group.id;
 		const userId = this.props.userId;
 
-		window.location = "/certificaat/gebruiker/" + userId.toString() + "/groep/" + groupId.toString();
+		window.open("/certificaat/gebruiker/" + userId.toString() + "/groep/" + groupId.toString(), "_blank");
 	}
 
 	render() {
