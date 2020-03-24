@@ -33,7 +33,26 @@ this.getAccessToken = async () => {
 	return oauthToken.access_token;
 }
 
-// this.getAccessToken().then(console.log);
+
+exports.getAllTeams = async (skipUrl) => {
+	const u = "/education/classes";
+	const url = skipUrl ? u + "?$skiptoken=" + skipUrl.slice(62, skipUrl.length) : u;
+	const O = await exports.api(url).get().catch(console.error);
+	let teams = O.value;
+	if (O["@odata.nextLink"] != null) {
+		teams = teams.concat(await this.getAllTeams(O["@odata.nextLink"]))
+	}
+	return teams;
+}
+
+setTimeout(async () => {
+	const teams = await exports.getAllTeams();
+	teams.map((team) => {
+		console.log(team.displayName);
+	});
+}, 10);
+
+// exports.getAccessToken().then(console.log)
 
 exports.getAuthenticatedClient = (accessToken) => {
 	const client = graph.Client.init({
@@ -59,7 +78,7 @@ exports.getOwnDetails = async (accessToken) => {
 	};
 }
 
-this.api = (endpoint) => {
+exports.api = (endpoint) => {
 	var options = {
 		uri: `https://graph.microsoft.com/v1.0/${endpoint}`,
 		json: true,
