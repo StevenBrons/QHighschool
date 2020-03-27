@@ -101,7 +101,9 @@ class Profile extends Component {
 						<div>
 							<PersonalData {...p} onChange={this.onChange} />
 							<EducationData  {...p} onChange={this.onChange} />
-							<ExamSubjects {...p} onChange={this.onChange} />
+							{this.props.isStudent &&
+								<ExamSubjects {...p} onChange={this.onChange} />
+							}
 							<Remarks {...p} onChange={this.onChange} />
 							<div style={{ height: "300px" }} />
 						</div>
@@ -115,10 +117,12 @@ class Profile extends Component {
 function mapStateToProps(state, ownProps) {
 	const isOwn = true;
 	const isAdmin = state.role === "admin"
+	const isStudent = state.role === "student"
 	const isSecure = state.secureLogin != null;
 	return {
 		isAdmin,
 		isSecure,
+		isStudent,
 		isOwn,
 		user: state.users[state.userId],
 		editableUser: (isOwn && !isAdmin) || (isSecure && isAdmin),
