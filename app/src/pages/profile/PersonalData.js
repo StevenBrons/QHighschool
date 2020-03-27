@@ -40,7 +40,7 @@ class PersonalData extends Component {
 								style={{ margin: "none" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("preferedEmail", value)}
-								layout={{ td: true }}
+								layout={{ td: true, area: true }}
 							/>
 						</tr>
 						<tr>
@@ -52,7 +52,7 @@ class PersonalData extends Component {
 							<Field
 								validate={{ type: "phoneNumber" }}
 								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
-								layout={{ td: true }}
+								layout={{ td: true, area: true }}
 								style={{ margin: "none" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
