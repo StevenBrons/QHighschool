@@ -5,7 +5,7 @@ const table = {
 	"user.email": "Schoolemail",
 	"user.role": "Hoofdrol",
 	"user.school": "School",
-	"user.displayName": "Weergavenaam",
+	"user.displayName": "Leerlingnaam",
 	"user.year": "Leerjaar",
 	"user.level": "Opleidingsniveau",
 	"user.preferedEmail": "Voorkeursemail",

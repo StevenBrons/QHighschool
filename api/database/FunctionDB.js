@@ -164,7 +164,7 @@ const extractFromObject = (keys, modelName, object) => {
 
 exports.findEvaluation = async (userId, groupId) => {
   const group = await Group.findByPk(groupId, {
-    attributes: ["id", "period"],
+    attributes: ["id", "period", "schoolYear"],
     raw: true,
     include: {
       model: Course,
@@ -224,6 +224,7 @@ exports.findEvaluation = async (userId, groupId) => {
       "user.email",
       "user.id",
     ], "evaluation", evaluation),
+    "Blokjaar": group["schoolYear"] + " - " + group["period"],
   };
 };
 
