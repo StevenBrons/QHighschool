@@ -7,17 +7,17 @@
 			<br />
 			<br />
 			In de <%= ((course.subjectName=="Avonturen") ? "het avontuur":"de module") %>
-      <b><%= course.name %></b> van het vak <b><%= course.subjectName %></b> is er een cijfer gewijzigd van de volgende leerlingen:
+      <b><%= course.name %></b> van het vak <b><%= course.subjectName %></b> is er een beoordeling gewijzigd van de volgende leerlingen:
 			<br>
 			<% for (let i in changedUsers) { %> 
 				<b><%= changedUsers[i].displayName %></b>
 			<% } %>
 			<br> 
 			<br>
-			Heb je dit zojuist zelf aangepast dan kun je dit berichtje als puur informatief beschouwen. Wanneer je dit cijfer niet zelf hebt gewijzigd neem dan contact op met de Q-highschool, via nummer: 06 227 16 056 
+			Heb je dit zojuist zelf aangepast, dan is dit bericht een bevestiging van jouw wijziging. Wanneer je dit cijfer niet zelf hebt aangepast, neem dan contact op met de Q-highschool, via nummer: 06 227 16 056
 			<br />
 			<br />
-			Het Q-highschool team.
+			Het Q-highschoolteam. 
     </p>
   </body>
 </html>
