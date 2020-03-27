@@ -19,12 +19,8 @@ class GroupCard extends Component {
     this.props.history.push("/groep/" + this.props.group.id);
   }
 
-  getBottomSection() {
-    if (
-      this.props.group.evaluation &&
-      this.props.group.evaluation.assesment !== "" &&
-      this.props.group.evaluation.assesment !== null
-    ) {
+  getBottomSection(hasEvaluation) {
+    if (hasEvaluation) {
       return (
         <div
           className="footer"
@@ -52,6 +48,9 @@ class GroupCard extends Component {
 
   render() {
     const group = this.props.group;
+    const hasEvaluation = this.props.group.evaluation &&
+      this.props.group.evaluation.assesment !== "" &&
+      this.props.group.evaluation.assesment !== null;
     return (
       <div className="GroupCard">
         <Paper
@@ -112,7 +111,7 @@ class GroupCard extends Component {
                   {group.enrollableFor || "Iedereen"}
                 </Typography>
               </div>
-              {group.evaluation ? (
+              {hasEvaluation ? (
                 <Typography
                   style={{ maxHeight: "164px", overflow: "hidden" }}
                   gutterBottom
@@ -121,14 +120,14 @@ class GroupCard extends Component {
                   {group.evaluation.explanation}
                 </Typography>
               ) : (
-                <Typography
-                  style={{ maxHeight: "164px", overflow: "hidden" }}
-                  gutterBottom
-                >
-                  {group.courseDescription}
-                </Typography>
-              )}
-              {this.getBottomSection()}
+                  <Typography
+                    style={{ maxHeight: "164px", overflow: "hidden" }}
+                    gutterBottom
+                  >
+                    {group.courseDescription}
+                  </Typography>
+                )}
+              {this.getBottomSection(hasEvaluation)}
             </div>
           </Badge>
         </Paper>

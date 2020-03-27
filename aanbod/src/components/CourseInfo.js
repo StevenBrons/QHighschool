@@ -6,14 +6,14 @@ function formatCourseId(courseId = "") {
 }
 
 class CourseInfo extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.ref = React.createRef();
 	}
 
 	componentDidMount() {
 		// scroll courseinfo to center
-		window.scrollTo({top: this.ref.current.offsetTop - window.innerHeight * 0.05, behavior: 'smooth'})
+		window.scrollTo({ top: this.ref.current.offsetTop - window.innerHeight * 0.05, behavior: 'smooth' })
 	}
 
 	render() {
@@ -51,9 +51,7 @@ class CourseInfo extends Component {
 					<div
 						className='image'
 						style={{
-							background: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(
-								id
-							)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
+							background: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(course.courseId)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
 							backgroundRepeat: 'no-repeat',
 							backgroundSize: 'cover',
 							backgroundPosition: 'center center'

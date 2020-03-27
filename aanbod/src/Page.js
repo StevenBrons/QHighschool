@@ -81,7 +81,7 @@ class Page extends Component {
         <LoadIcon />
       )
     }
-    const subjects = Object.keys(courses);
+    const subjects = Object.keys(courses).sort();
     let nextSubject, previousSubject;
     if (subjectInfo) {
       let subjectInfoId = subjects.indexOf(subjectInfo)
@@ -121,6 +121,7 @@ class Page extends Component {
             }
           </React.Fragment>
         )}
+        <div style={{ height: "300px" }} />
       </div>
     )
   }
