@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Course.css";
+import "./Group.css";
 
 function formatCourseId(courseId = "") { // done this ugly because of internet explorer
   if (courseId >= 1000)
@@ -11,14 +11,14 @@ function formatCourseId(courseId = "") { // done this ugly because of internet e
   return "M000" + courseId
 }
 
-class Course extends Component {
+class Group extends Component {
   render() {
     const { selected, large, text, onClick, courseId } = this.props;
     const color = this.props.color;
     return (
       <div
         className={
-          "Course" +
+          "Group" +
           (large ? " large" : "") +
           (selected ? " selected" : "") +
           " " + color
@@ -38,4 +38,4 @@ class Course extends Component {
   }
 }
 
-export default Course;
+export default Group;

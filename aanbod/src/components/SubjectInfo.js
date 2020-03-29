@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './SubjectInfo.css';
 
-class CourseInfo extends Component {
+class SubjectInfo extends Component {
 
 	render() {
 		let {previousSubject, nextSubject, subject, onClose, description} = this.props;
@@ -39,4 +39,4 @@ class CourseInfo extends Component {
 	}
 }
 
-export default CourseInfo;
+export default SubjectInfo;

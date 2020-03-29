@@ -1,23 +1,23 @@
 import $ from 'jquery';
 
-export async function fetchCourses(handleError) {
+export async function fetchGroups(handleError) {
 	return $.ajax({
 		// url: '/api/group/list',
 		url: 'https://app.q-highschool.nl/api/group/list',
 		type: 'get',
 		dataType: 'json',
 		error: handleError
-	}).then(courses => {
-		let coursesPerSubject = {}
-		courses
+	}).then(groups => {
+		let groupsPerSubject = {}
+		groups
 			.filter(({ enrollable }) => enrollable)
-			.forEach(c => {
-				if (!coursesPerSubject[c.subjectName]) {
-					coursesPerSubject[c.subjectName] = {};
+			.forEach(g => {
+				if (!groupsPerSubject[g.subjectName]) {
+					groupsPerSubject[g.subjectName] = {};
 				}
-				coursesPerSubject[c.subjectName][c.id] = c;
+				groupsPerSubject[g.subjectName][g.id] = g;
 			})
-		return coursesPerSubject;
+		return groupsPerSubject;
 	})
 }
 

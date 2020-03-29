@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Course from "./Course";
-import "./CourseGroup.css";
+import Group from "./Group";
+import "./Subject.css";
 
 const COLORS = [
   "purple",
@@ -12,41 +12,41 @@ const COLORS = [
   "yellow"
 ];
 
-class CourseGroup extends Component {
+class Subject extends Component {
   constructor(props) {
     super(props);
     this.scroller = React.createRef();
     this.title = React.createRef();
-    let coursesPerPage = window.innerWidth <= 700 ? 2 : 4; // mobile : desktop
-    let maxPage = Math.floor((Object.keys(props.courses).length - 1) / coursesPerPage);
-    let colors = this.randomColors(Object.keys(props.courses).length)
+    let groupsPerPage = window.innerWidth <= 700 ? 2 : 4; // mobile : desktop
+    let maxPage = Math.floor((Object.keys(props.groups).length - 1) / groupsPerPage);
+    let colors = this.randomColors(Object.keys(props.groups).length)
     this.state = {
       page: 0,
       maxPage: maxPage,
-      coursesPerPage: coursesPerPage,
+      groupsPerPage: groupsPerPage,
       colors: colors
     };
 
     window.addEventListener("resize", (e) => {
       // in case on mobile, we shouldn't readjust the pages
       if (!(window.matchMedia('(pointer: coarse)').matches)) {
-        // Check if resize changed the amount of courses displayed per page 
-        if (window.innerWidth > 700 && this.state.coursesPerPage === 2) {
+        // Check if resize changed the amount of groups displayed per page 
+        if (window.innerWidth > 700 && this.state.groupsPerPage === 2) {
           let page = Math.floor(this.state.page / 2);
-          let coursesPerPage = 4;
-          let maxPage = Math.floor((Object.keys(this.props.courses).length - 1) / coursesPerPage);
+          let groupsPerPage = 4;
+          let maxPage = Math.floor((Object.keys(this.props.groups).length - 1) / groupsPerPage);
           this.setState({
             page: page,
-            coursesPerPage: coursesPerPage,
+            groupsPerPage: groupsPerPage,
             maxPage: maxPage,
           })
-        } else if (window.innerWidth <= 700 && this.state.coursesPerPage === 4) {
+        } else if (window.innerWidth <= 700 && this.state.groupsPerPage === 4) {
           let page = this.state.page * 2;
-          let coursesPerPage = 2;
-          let maxPage = Math.floor((Object.keys(this.props.courses).length - 1) / coursesPerPage);
+          let groupsPerPage = 2;
+          let maxPage = Math.floor((Object.keys(this.props.groups).length - 1) / groupsPerPage);
           this.setState({
             page: page,
-            coursesPerPage: coursesPerPage,
+            groupsPerPage: groupsPerPage,
             maxPage: maxPage,
           })
         }
@@ -68,21 +68,21 @@ class CourseGroup extends Component {
   scrollToPage(page) {
     let scroller = this.scroller.current;
     const margin = this.title.current.offsetLeft;
-    scroller.scrollTo({ left: scroller.children[this.state.coursesPerPage * page].offsetLeft - margin, behavior: 'smooth' });
+    scroller.scrollTo({ left: scroller.children[this.state.groupsPerPage * page].offsetLeft - margin, behavior: 'smooth' });
     this.setState({
       page: page
     });
   }
 
-  getSortedCourseIds(courses) {// course objects -> ordered course ids
-    let ids = Object.keys(courses).sort((a, b) => {
+  getSortedGroupIds(groups) {// group objects -> ordered group ids
+    let ids = Object.keys(groups).sort((a, b) => {
       let startYear = new RegExp(/(\d{4})\//) // '2019/2020' => 2019
-      let yearA = parseInt(courses[a].schoolYear.match(startYear)[1])
-      let yearB = parseInt(courses[b].schoolYear.match(startYear)[1])
+      let yearA = parseInt(groups[a].schoolYear.match(startYear)[1])
+      let yearB = parseInt(groups[b].schoolYear.match(startYear)[1])
 
       if (yearA === yearB) {
-        let periodA = courses[a].period
-        let periodB = courses[b].period
+        let periodA = groups[a].period
+        let periodB = groups[b].period
 
         if (periodA === periodB) {
           return 0
@@ -95,13 +95,13 @@ class CourseGroup extends Component {
   }
 
   render() {
-    const { courses, selectedCourse, showSubjectInfo } = this.props;
+    const { groups, selectedGroup, showSubjectInfo, title } = this.props;
     const { page, maxPage, colors } = this.state;
     return (
-      <div className="CourseGroup">
+      <div className="Subject">
         <div className="title-container">
           <h3 className="title" ref={this.title}>
-            {this.props.title}
+            {title}
           </h3>
           <div/> 
         </div>
@@ -112,16 +112,16 @@ class CourseGroup extends Component {
           />
         )}
         <div className="scroller" ref={this.scroller}>
-          {this.getSortedCourseIds(courses).map((id, i) => {
+          {this.getSortedGroupIds(groups).map((id, i) => {
             return (
-              <Course
+              <Group
                 key={id}
                 groupId={id}
-                courseId={courses[id].courseId}
-                class="course"
+                courseId={groups[id].courseId}
+                class="group"
                 onClick={_ => this.props.onClick(id)}
-                text={courses[id].courseName.toUpperCase()}
-                selected={selectedCourse === id}
+                text={groups[id].courseName.toUpperCase()}
+                selected={selectedGroup === id}
                 large={this.props.large}
                 color={colors[i]}
               />
@@ -139,4 +139,4 @@ class CourseGroup extends Component {
   }
 }
 
-export default CourseGroup;
+export default Subject;

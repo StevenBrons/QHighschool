@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './Page.css';
-import CourseInfo from './components/CourseInfo';
-import CourseGroup from './components/CourseGroup';
+import GroupInfo from './components/GroupInfo';
+import Subject from './components/Subject';
 import SubjectInfo from './components/SubjectInfo';
 // import Header from './components/Header';
-import { fetchCourses, fetchSubjectInformation } from './fetchData';
+import { fetchGroups, fetchSubjectInformation } from './fetchData';
 import LoadIcon from './components/LoadIcon';
 
 
@@ -15,15 +15,15 @@ class Page extends Component {
     this.state = {
       popOut: null,
       subjectInfo: null,
-      courses: null,
+      groups: null,
       subjectDescriptions: null,
       serverError: false,
     }
   }
 
   componentDidMount = () => {
-    fetchCourses(this.handleError).then(courses =>
-      this.setState({ courses: courses, serverError: false }))
+    fetchGroups(this.handleError).then(groups =>
+      this.setState({ groups: groups, serverError: false }))
 
     fetchSubjectInformation(this.handleError).then(subjectDescriptions =>
       this.setState({ subjectDescriptions: subjectDescriptions, serverError: false }))
@@ -36,14 +36,14 @@ class Page extends Component {
     })
   }
 
-  onClick = (courseId, group) => {
+  onClick = (groupId, subject) => {
     let popOut = this.state.popOut;
-    if (popOut && popOut.group === group && popOut.courseId === courseId) {
+    if (popOut && popOut.subject === subject && popOut.groupId === groupId) {
       popOut = null;
     } else {
       popOut = {
-        group: group,
-        courseId: courseId,
+        subject: subject,
+        groupId: groupId,
       }
     }
     this.setState({
@@ -68,7 +68,7 @@ class Page extends Component {
   }
 
   render() {
-    let { popOut, courses, subjectInfo, subjectDescriptions, serverError } = this.state;
+    let { popOut, groups, subjectInfo, subjectDescriptions, serverError } = this.state;
     if (serverError) {
       return (
         <h1 className='error'>
@@ -76,12 +76,12 @@ class Page extends Component {
         </h1>
       )
     }
-    if (!courses) {
+    if (!groups) {
       return (
         <LoadIcon />
       )
     }
-    const subjects = Object.keys(courses).sort();
+    const subjects = Object.keys(groups).sort();
     let nextSubject, previousSubject;
     if (subjectInfo) {
       let subjectInfoId = subjects.indexOf(subjectInfo)
@@ -102,21 +102,21 @@ class Page extends Component {
         }
         {subjects.map((subject, i) =>
           <React.Fragment key={i}>
-            <CourseGroup
+            <Subject
               title={subject}
               key={i}
-              courses={courses[subject]}
+              groups={groups[subject]}
               onClick={courseId => this.onClick(courseId, subject)}
-              className='course-group'
-              selectedCourse={popOut && popOut.courseId}
+              className='subject-group'
+              selectedGroup={popOut && popOut.groupId}
               showSubjectInfo={() => this.showSubjectInfo(subject)}
             />
-            {popOut && popOut.group === subject &&
-              <CourseInfo
-                course={courses[popOut.group][popOut.courseId]}
+            {popOut && popOut.subject === subject &&
+              <GroupInfo
+                group={groups[popOut.subject][popOut.groupId]}
                 key={Math.random()}
-                group={subject}
-                onClose={_ => this.onClick(popOut.courseId, popOut.group)}
+                subject={subject}
+                onClose={_ => this.onClick(popOut.groupId, popOut.subject)}
               />
             }
           </React.Fragment>

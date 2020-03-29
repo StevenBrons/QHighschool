@@ -1,35 +1,35 @@
-.CourseGroup {
+.Subject {
 	color: white;
 	position: relative;
 }
 
-.CourseGroup .title {
+.Subject .title {
 	margin: .5vw 0 .5vw 2.5vw;
 }
 
-.CourseGroup .title-container {
+.Subject .title-container {
 	display: flex;
 	margin-bottom: -3vw; /* This margin is compensated in scroller */
 }
 
 @media screen and (max-width: 500px) {
-	.CourseGroup .title {
+	.Subject .title {
 		font-size: .6em;
 	}
 }
 
 @media screen and (max-width: 700px) {
-	.CourseGroup .title {
+	.Subject .title {
 		bottom: 28.5vw;
 	}
 }
 
-.CourseGroup .title:hover {
+.Subject .title:hover {
 	color: #ff7a03;
 	cursor: pointer;
 }
 
-.CourseGroup .scroller {
+.Subject .scroller {
 	white-space: nowrap;
 	width: 100%;
 	overflow: hidden;
@@ -39,7 +39,7 @@
 	padding-bottom: 3vw;
 }
 
-.CourseGroup .scroll-button {
+.Subject .scroll-button {
 	position: absolute;
 	height: 100%;
 	width: 3.5vw;
@@ -51,55 +51,55 @@
 	z-index: 3;
 }
 
-.CourseGroup:hover .scroll-button{
+.Subject:hover .scroll-button{
 	display: inline-block;
 }
 
-.CourseGroup .scroll-button.left {
+.Subject .scroll-button.left {
 	left: 0;
 	background: url(/previous-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
-.CourseGroup .scroll-button.right {
+.Subject .scroll-button.right {
 	right: 0;
 	background: url(/next-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
-@media (pointer: coarse) { /* Touch screen, so scrolling through courses can be done without buttons*/
-	.CourseGroup .scroller {
+@media (pointer: coarse) { /* Touch screen, so scrolling through groups can be done without buttons*/
+	.Subject .scroller {
 		overflow-x: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
-	.CourseGroup:hover .scroll-button {
+	.Subject:hover .scroll-button {
 		display: none;
 	}
-	.CourseGroup .scroller > .Course:last-of-type {
+	.Subject .scroller > .Group:last-of-type {
 		margin-right: 3%;
 	}
 }
 
-/* Right-margins so the last page can consist of <4 courses 
+/* Right-margins so the last page can consist of <4 groups 
    This is only necessary on desktop when the buttons are visible*/
 @media (pointer: fine) { 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 1) {
+	.Subject .scroller > .Group:last-of-type:nth-of-type(4n + 1) {
 		margin-right: 75%;
 	}
 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 2) {
+	.Subject .scroller > .Group:last-of-type:nth-of-type(4n + 2) {
 		margin-right: 51%;
 	}
 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 3) {
+	.Subject .scroller > .Group:last-of-type:nth-of-type(4n + 3) {
 		margin-right: 27%;
 	}
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n) {
+	.Subject .scroller > .Group:last-of-type:nth-of-type(4n) {
 		margin-right: 3%;
 	}
 	@media screen and (max-width: 700px) {
-		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n){
+		.Subject .scroller > .Group:last-of-type:nth-of-type(2n){
 			margin-right: 3%;
 		}
-		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n + 1) {
+		.Subject .scroller > .Group:last-of-type:nth-of-type(2n + 1) {
 			margin-right: 52%;
 		}
 	}

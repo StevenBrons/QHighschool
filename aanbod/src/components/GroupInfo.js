@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './CourseInfo.css';
+import './GroupInfo.css';
 
 function formatCourseId(courseId = "") { // done this ugly because of internet explorer
   if (courseId >= 1000)
@@ -11,31 +11,30 @@ function formatCourseId(courseId = "") { // done this ugly because of internet e
   return "M000" + courseId
 }
 
-class CourseInfo extends Component {
+class GroupInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.ref = React.createRef();
 	}
 
 	componentDidMount() {
-		// scroll courseinfo to center
+		// scroll groupInfo to center
 		window.scrollTo({ top: this.ref.current.offsetTop - window.innerHeight * 0.05, behavior: 'smooth' })
 	}
 
 	render() {
-		const course = this.props.course;
-		const id = course.id;
+		const group = this.props.group;
 		return (
-			<div className='CourseInfo' ref={this.ref}>
+			<div className='GroupInfo' ref={this.ref}>
 				<div className='text-and-image' >
 					<div className='info-text'>
 						<h1 className='title'>
-							{course.courseName.toUpperCase()}
+							{group.courseName.toUpperCase()}
 						</h1>
 						<div className='period'>
 							<div className='square' />
 							<p className='number'>
-								Blok {course.period}
+								Blok {group.period}
 							</p>
 						</div>
 
@@ -44,12 +43,12 @@ class CourseInfo extends Component {
 					</p>
 
 						<p>
-							{course.courseDescription}
+							{group.courseDescription}
 						</p>
 
 						<button
 							className='enroll-button'
-							onClick={() => { window.open(`https://app.q-highschool.nl/aanbod?vak=${course.subjectName}&blok=${course.period}&leerjaar=${course.schoolYear}`) }}
+							onClick={() => { window.open(`https://app.q-highschool.nl/aanbod?vak=${group.subjectName}&blok=${group.period}&leerjaar=${group.schoolYear}`) }}
 						>
 							AANMELDEN
 					</button>
@@ -57,7 +56,7 @@ class CourseInfo extends Component {
 					<div
 						className='image'
 						style={{
-							background: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(course.courseId)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
+							background: `url(https://q-highschool.nl/images/thumbnails/${formatCourseId(group.courseId)}.jpg), url(https://q-highschool.nl/images/thumbnails/default.jpg) no-repeat`,
 							backgroundRepeat: 'no-repeat',
 							backgroundSize: 'cover',
 							backgroundPosition: 'center center'
@@ -68,13 +67,13 @@ class CourseInfo extends Component {
 					/>
 				</div>
 				<div className='extra-info'>
-					<p className='extra-info-text'><b>Dag:</b> {course.day} </p>
-					{/* <p className = 'extra-info-text'><b>Tijd:</b> {course.time}</p> */}
-					<p className='extra-info-text'><b>Doelgroep:</b> {course.enrollableFor} </p>
+					<p className='extra-info-text'><b>Dag:</b> {group.day} </p>
+					{/* <p className = 'extra-info-text'><b>Tijd:</b> {group.time}</p> */}
+					<p className='extra-info-text'><b>Doelgroep:</b> {group.enrollableFor} </p>
 				</div>
 			</div>
 		)
 	}
 }
 
-export default CourseInfo;
+export default GroupInfo;
