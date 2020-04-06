@@ -119,6 +119,58 @@ class Certificate extends Component {
 				pdf.text(date, 99, 158);
 		}
 
+	/**
+	 * Adds default text to a new portfolio page.
+	 *
+	 * @param pdf The pdf to add the text to.
+	 * @param name Name of the student for the header.
+	 */
+		portfolioBasePage(pdf, name) {
+			// Set the name header.
+			pdf.text("Hierbij verklaart Quadraam dat", 80, 50);
+
+			pdf.setFontSize(25);
+			pdf.setFontStyle("bold");
+			pdf.text(name, 107, 60, {align: "center"});
+
+			pdf.setFontSize(12);
+			pdf.setFontStyle("normal");
+			pdf.text("de volgende Q-Highschool modules heeft afgerond", 60, 70);
+
+			// Make the header for the portfolio table.
+			pdf.setFontStyle("bold");
+			pdf.text("Naam module", 20, 100);
+			pdf.text("Studietijd", 130, 100);
+			pdf.text("Datum", 170, 100);
+			pdf.setFontStyle("normal");
+		}
+
+	/**
+	 * Function that determines whether a row in the portfolio should be present
+	 * or omitted.
+	 *
+	 * @param evaluation The evaluation object.
+	 * @returns {boolean} True if the row should be in the portfolio.
+	 */
+	isCertificateWorthy(evaluation) {
+		if (evaluation != null) {
+			const assesment = evaluation.assesment + "";
+			switch (evaluation.type) {
+				case "decimal":
+					const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+					return x >= 5.5;
+				case "stepwise":
+					return assesment === "G" || assesment === "V";
+				case "check":
+					return assesment === "passed";
+				default:
+					return false;
+			}
+		}
+
+		return false;
+	}
+
 		/**
 			* Gathers data for the portfolio page(s) in the certificate,
 			* then adds the data in a nicely formatted way to the
@@ -132,12 +184,6 @@ class Certificate extends Component {
 
 				let name = undefined;
 
-				// Make the header for the portfolio table.
-				pdf.setFontStyle("bold");
-				pdf.text("Naam module", 20, 100);
-				pdf.text("Studietijd", 130, 100);
-				pdf.text("Datum", 170, 100);
-
 				// Construct the portfolio table.
 				let heightOffset = 0;
 				let moduleId = 0;
@@ -149,9 +195,18 @@ class Certificate extends Component {
 						if (!val.hasOwnProperty("evaluation"))
 								return;
 
+						// Add another page if there are too many modules.
+						if (++moduleId % 6 === 0) {
+							this.makeBase(pdf);
+							this.portfolioBasePage(pdf, name);
+							heightOffset = 0;
+						}
+
 						// Get the student name, if not already set.
-						if (name === undefined && val.evaluation.hasOwnProperty("displayName") && val.evaluation.displayName.length > 0)
-								name = val.evaluation.displayName.toString();
+						if (name === undefined && val.evaluation.hasOwnProperty("displayName") && val.evaluation.displayName.length > 0) {
+							name = val.evaluation.displayName.toString();
+							this.portfolioBasePage(pdf, name);
+						}
 
 						// Get the module name.
 						if (val.hasOwnProperty("courseName"))
@@ -172,10 +227,10 @@ class Certificate extends Component {
 								data.date = val.hasOwnProperty("schoolYear") ? val.schoolYear : "Niet bekend.";
 
 						// Get the grade data.
-						if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0)
+						if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0 && this.isCertificateWorthy(val.evaluation))
 								data.grade = val.evaluation.assesment.toString();
 						else
-								data.grade = "-";
+								return;
 
 						// Construct a pdf row.
 						let height = heightOffset++ * 13 + (100 + 13);
@@ -191,23 +246,7 @@ class Certificate extends Component {
 
 						pdf.text(data.time + " uur", 130, height);
 						pdf.text(data.date, 170, height);
-
-						// Add another page if there are too many modules.
-						if (++moduleId % 6 === 0) {
-								this.makeBase(pdf);
-						}
 				});
-
-				// Set the name header.
-				pdf.text("Hierbij verklaart Quadraam dat", 80, 50);
-
-				pdf.setFontSize(25);
-				pdf.setFontStyle("bold");
-				pdf.text(name, 107, 60, {align: "center"});
-
-				pdf.setFontSize(12);
-				pdf.setFontStyle("normal");
-				pdf.text("de volgende Q-Highschool modules heeft afgerond", 60, 70);
 		}
 
 		/**
