@@ -185,7 +185,7 @@ class Certificate extends Component {
 				let name = undefined;
 
 				// Construct the portfolio table.
-				let heightOffset = 0;
+				let heightOffset = 1;
 				pdf.setFontStyle("normal");
 				Object.keys(this.props.groups).forEach((key) => {
 						let val = this.props.groups[key];
@@ -195,10 +195,10 @@ class Certificate extends Component {
 								return;
 
 						// Add another page if there are too many modules.
-						if (heightOffset % 5 === 0) {
+						if (heightOffset % 6 === 0) {
 							this.makeBase(pdf);
 							this.portfolioBasePage(pdf, name);
-							heightOffset = 0;
+							heightOffset = 1;
 						}
 
 						// Get the student name, if not already set.
