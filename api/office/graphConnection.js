@@ -45,14 +45,16 @@ exports.getAllTeams = async (skipUrl) => {
 	return teams;
 }
 
-setTimeout(async () => {
-	const teams = await exports.getAllTeams();
-	teams.map((team) => {
-		console.log(team.displayName);
-	});
-}, 10);
+// f7a83329-09e7-4344-9f51-0c940db73065 <-- test team
+// 19:92ed31fdf885454ba20dba5699ebcd45@thread.tacv2 <-- test team channel1
+// setTimeout(async () => {
+// 	const teams = await exports.getAllTeams();
+// 	teams.map((team) => {
+// 		console.log(team.displayName);
+// 	});
+// }, 10);
 
-// exports.getAccessToken().then(console.log)
+exports.getAccessToken().then(console.log)
 
 exports.getAuthenticatedClient = (accessToken) => {
 	const client = graph.Client.init({
