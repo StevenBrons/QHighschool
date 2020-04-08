@@ -31,7 +31,7 @@ export async function fetchData(endpoint, method, data, dispatch, getState, forc
 	for (let i = 0; i < getState().hasFetched.length; i++) {
 		const o = getState().hasFetched[i];
 		if (o.data === f.data && o.call === f.call && o.method === f.method) {
-			return Promise.reject(new Error("Duplicate api call"));
+			console.error(`Duplicate api call: ${method} ${endpoint}`);
 		}
 	};
 	dispatch({

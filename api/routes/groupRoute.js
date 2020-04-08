@@ -34,8 +34,13 @@ router.get(
 
 router.post(
   "/",
+  ensureOffice,
   promiseMiddleware(async req => {
-    return groupDb.getGroup(req.body.groupId);
+    if (req.isAuthenticated()) {
+      return groupDb.getGroup(req.body.groupId, req.user.id);
+    } else {
+      return groupDb.getGroup(req.body.groupId);
+    }
   }),
   doReturn
 );

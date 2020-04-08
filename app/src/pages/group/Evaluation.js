@@ -4,41 +4,45 @@ import Field from '../../components/Field';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
 import { Tooltip, TableSortLabel, Typography, Paper } from '@material-ui/core';
 
+const CHECK_FORMATS = [{
+	label: "Gehaald",
+	value: "passed",
+},
+{
+	label: "Niet gehaald",
+	value: "failed",
+},
+{
+	label: "Niet deelgenomen",
+	value: "ND",
+}];
+
+const STEPWISE_FORMATS = [{
+	label: "Onvoldoende",
+	value: "O",
+},
+{
+	label: "Voldoende",
+	value: "V",
+},
+{
+	label: "Goed",
+	value: "G",
+},
+{
+	label: "Niet deelgenomen",
+	value: "ND",
+}]
+
 const EVALUATION_FORMATS = [{
 	label: "vink",
 	value: "check",
-	options: [{
-		label: "Gehaald",
-		value: "passed",
-	},
-	{
-		label: "Niet gehaald",
-		value: "failed",
-	},
-	{
-		label: "Niet deelgenomen",
-		value: "ND",
-	}],
+	options: CHECK_FORMATS,
 },
 {
 	label: "trapsgewijs",
 	value: "stepwise",
-	options: [{
-		label: "Onvoldoende",
-		value: "O",
-	},
-	{
-		label: "Voldoende",
-		value: "V",
-	},
-	{
-		label: "Goed",
-		value: "G",
-	},
-	{
-		label: "Niet deelgenomen",
-		value: "ND",
-	}],
+	options: STEPWISE_FORMATS,
 }, {
 	label: "cijfer",
 	value: "decimal",
@@ -60,6 +64,48 @@ function getEvaluationColor(ev) {
 			return "#673ab7";
 	}
 }
+
+function translateAssessment(evaluation) {
+	let { assesment, type } = evaluation;
+	switch (type) {
+		case "decimal":
+			return assesment + "";
+		case "stepwise":
+			return STEPWISE_FORMATS.filter(({ label, value }) => value === assesment)[0].label;
+		case "check":
+			return CHECK_FORMATS.filter(({ label, value }) => value === assesment)[0].label;
+		default:
+			return "---"
+	}
+}
+
+
+/**
+ * Function that determines whether a row in the portfolio should be present
+ * or omitted.
+ *
+ * @param evaluation The evaluation object.
+ * @returns {boolean} True if the row should be in the portfolio.
+ */
+function isCertificateWorthy(evaluation) {
+	if (evaluation != null) {
+		const assesment = evaluation.assesment + "";
+		switch (evaluation.type) {
+			case "decimal":
+				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
+				return x >= 5.5;
+			case "stepwise":
+				return assesment === "G" || assesment === "V";
+			case "check":
+				return assesment === "passed";
+			default:
+				return false;
+		}
+	}
+
+	return false;
+}
+
 
 class Evaluation extends Component {
 
@@ -253,4 +299,4 @@ class EvaluationTab extends Component {
 
 }
 
-export { Evaluation, EvaluationTab, getEvaluationColor };
+export { Evaluation, EvaluationTab, getEvaluationColor, isCertificateWorthy, translateAssessment };
