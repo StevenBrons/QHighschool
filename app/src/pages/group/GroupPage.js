@@ -4,7 +4,7 @@ import map from 'lodash/map';
 
 import PresenceTable from './PresenceTable';
 import Lesson from './Lesson';
-import { EvaluationTab } from './Evaluation';
+import { EvaluationTab, isCertificateWorthy } from './Evaluation';
 import Page from '../Page';
 import UserList from "../user/UserList"
 
@@ -60,24 +60,6 @@ class GroupPage extends Component {
 		}
 	}
 
-	isCertificateWorthy({ evaluation }) {
-		if (evaluation != null) {
-			const assesment = evaluation.assesment + "";
-			switch (evaluation.type) {
-				case "decimal":
-					const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
-					return x >= 5.5;
-				case "stepwise":
-					return assesment === "G" || assesment === "V";
-				case "check":
-					return assesment === "passed";
-				default:
-					return false;
-			}
-		}
-		return false;
-	}
-
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let values = queryString.parse(nextProps.location.search);
 		return {
@@ -98,8 +80,6 @@ class GroupPage extends Component {
 		const evaluations = this.state.group.evaluations;
 		const presence = this.state.group.presence;
 		const newParticipant = this.state.newParticipant;
-
-		console.log(enrollmentIds)
 
 		switch (currentTab) {
 			case "Inschrijvingen":
@@ -138,10 +118,10 @@ class GroupPage extends Component {
 				if (participantIds == null) {
 					return <Progress />;
 				}
-				const canAddNewParticipant = 
+				const canAddNewParticipant =
 					!participantIds.includes(newParticipant.userId) &&
 					!(enrollmentIds != null &&
-					enrollmentIds.includes(newParticipant.userId)) &&
+						enrollmentIds.includes(newParticipant.userId)) &&
 					newParticipant.userId;
 				const cantAddReason = canAddNewParticipant ? "" : (newParticipant.userId ? "Deze gebruiker heeft zich al ingeschreven of is al een deelnemer" : "Vul een deelnemer in");
 				return (
@@ -376,25 +356,8 @@ class GroupPage extends Component {
 	openCertificate = () => {
 		const groupId = this.props.group.id;
 		const userId = this.props.userId;
-		const role = this.props.role;
 
-		// in case of student show that students certificate. In case of other role show certificates of all students for that group
-		// also check if in development mode because url is different in that case
-		if (role === "student") {
-			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				window.open("http://localhost:26194/api/certificate/course/" + userId + "/" + groupId, "_blank");
-			} else {
-				window.open("/api/certificate/course/" + userId + "/" + groupId, "_blank");
-			}
-		} else {
-			if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-				//window.open("http://localhost:26194/api/certificate/course/" + userId + "/"+ groupId ,"_blank");
-				// IMPLEMENT ME
-			} else {
-				//window.open("/api/certificate/course" + userId + "/" + groupId,"_blank");
-				// IMPLEMENT ME
-			}
-		}
+		window.open("/certificaat/gebruiker/" + userId.toString() + "/groep/" + groupId.toString(), "_blank");
 	}
 
 	render() {
@@ -433,7 +396,7 @@ class GroupPage extends Component {
 					}
 					<div style={{ flex: "2" }} />
 					{
-						(this.isCertificateWorthy(group))
+						(isCertificateWorthy(group.evaluation))
 						&&
 						<Button color="primary" variant="contained" style={{ margin: "20px" }} onClick={this.openCertificate}>
 							{role === "student" ? "Certificaat" : "Certificaten"}
