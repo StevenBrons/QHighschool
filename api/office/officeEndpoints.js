@@ -10,7 +10,9 @@ exports.updateClass = async (groupId) => {
 	if (!group.graphId) return createClass(groupId);
 	return connection.api("education/classes/" + group.graphId)
 		.patch(getClassDataFromGroup(group))
-		.catch(console.error);
+		.catch(() => {
+			console.error("Team not found");
+		});
 }
 
 exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
@@ -22,7 +24,10 @@ exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
 async function addParticipant(graphId, upn, participatingRole) {
 	const role = participatingRole === "teacher" ? "teachers" : "members";
 	return connection.api(`education/classes/${graphId}/${role}/$ref`)
-		.post({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` }).catch(console.error);
+		.post({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` })
+		.catch(() => {
+			console.error("No Office account found for user");
+		});
 }
 
 async function removeParticipant(graphId, upn, participatingRole) {

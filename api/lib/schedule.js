@@ -22,9 +22,11 @@ exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
       day
     );
   }
+  const weeknummer = typeof week.weekNumber === "function" ? week.weekNumber(day) : week.weekNumber;
+
   return moment()
     .year(week.year)
-    .week(week.weekNumber)
+    .week(weeknummer)
     .day(day)
     .toDate();
 };
@@ -525,11 +527,24 @@ exports.schedule = [
     schoolYear: "2019/2020"
   },
   {
-    weekNumber: 17,
     period: 4,
     numberInBlock: 4,
     year: 2020,
-    schoolYear: "2019/2020"
+    schoolYear: "2019/2020",
+    weekNumber: (day) => {
+      switch (day) {
+        case "maandag":
+          return 17;
+        case "dinsdag":
+          return 17;
+        case "woensdag":
+          return 19;
+        case "donderdag":
+          return 19;
+        case "vrijdag":
+          return 19;
+      }
+    }
   },
   {
     weekNumber: 20,

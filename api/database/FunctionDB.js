@@ -111,7 +111,6 @@ exports.updateAllGroups = async () => {
 };
 
 exports.updateLessonDates = async group => {
-  if (!schedule.shouldBeSynced(group)) return;
   const { id, schoolYear, period, day } = group;
   for (let i = 0; i < 9; i++) {
     const date = schedule.getLessonDate(schoolYear, period, i + 1, day);
