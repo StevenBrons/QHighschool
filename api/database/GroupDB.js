@@ -329,7 +329,7 @@ exports.setPresence = async ({ userId, lessonId, status }, courseGroupId) => {
   });
 };
 
-exports.isCertificateWorthy = ({ evaluation }) => {
+exports.isCertificateWorthy = (evaluation) => {
   if (evaluation != null) {
     const assesment = evaluation.assesment + "";
     switch (evaluation.type) {

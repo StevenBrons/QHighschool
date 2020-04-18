@@ -9,7 +9,7 @@ import Field from "../components/Field";
 import Group from "./group/Group";
 import { getEnrolLments, getGroups, getParticipatingGroups, getSubjects } from "../store/actions";
 
-import { Button, Divider, Paper, Toolbar, Typography } from "@material-ui/core";
+import { Divider, Paper, Toolbar, Typography } from "@material-ui/core";
 import queryString from "query-string";
 
 class Portfolio extends Component {

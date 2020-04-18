@@ -12,6 +12,11 @@
       <b><a href="https://app.q-highschool.nl/portfolio">Klik hier</a></b> om je beoordeling en de toelichting daarop te bekijken. Mocht je vragen of opmerkingen hebben over je beoordeling, neem dan contact op met je docent.
       <br />
       <br />
+      <% if (isCertificateWorthy) { %>
+        Als je tevreden bent over het door jou behaalde resultaat, kun je vanaf dit moment ook zelf <b><a href="https://app.q-highschool.nl/groep/<%= evaluation.groupId %>" >een certificaat</a></b> uitprinten voor deze module. Dit is het bewijs dat je deze module met goed gevolg hebt afgesloten. Gefeliciteerd!
+        <br />
+        <br />
+      <% } %>
       Als je niet tevreden bent over het resultaat, wil je misschien in aanmerking komen voor een herkansing? Wanneer de herkansingsdatum bekend is, krijg je automatisch een bericht van het Q-highschoolteam. Vanaf dat moment kun je je inschrijven.
       <br />
       <br />

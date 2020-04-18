@@ -280,6 +280,7 @@ export function setGroup(group) {
 
 			fetchData("group/evaluations", "patch", {
 				evaluations: JSON.stringify(changedEvaluations),
+				groupId: group.id,
 			}, dispatch, getState);
 		}
 

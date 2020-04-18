@@ -6,7 +6,6 @@ import { isCertificateWorthy, translateAssessment } from "./group/Evaluation";
 import jspdf from "jspdf"
 import Page from "../pages/Page"
 import Progress from "../components/Progress"
-import { Button } from "@material-ui/core";
 
 class Certificate extends Component {
 

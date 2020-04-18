@@ -217,23 +217,16 @@ router.post(
   doReturn
 );
 
-async function setEvaluation(ev, req) {
-  let isInOneGroup = false;
-  await courseDB.getGroupIdsOfCourseId(ev.courseId).then(groupIds =>
-    groupIds.forEach(groupId => {
-      if (req.user.inGroup(groupId)) {
-        isInOneGroup = true;
-      }
-    })
-  );
-  if (isInOneGroup && Number.isInteger(ev.courseId) && ev.courseId >= 0) {
+async function setEvaluation(ev, groupId, req) {
+  if (req.user.inGroup(groupId) && Number.isInteger(ev.courseId) && ev.courseId >= 0) {
     return groupDb.setEvaluation({
       userId: ev.userId,
       assesment: ev.assesment,
       explanation: ev.explanation,
       type: ev.type,
       courseId: ev.courseId,
-      updatedByUserId: req.user.id
+      updatedByUserId: req.user.id,
+      groupId,
     });
   }
 }
@@ -245,9 +238,10 @@ router.patch(
   ensureTeacher,
   promiseMiddleware((req, res) => {
     const evaluations = JSON.parse(req.body.evaluations);
+    const groupId = req.body.groupId;
     if (Array.isArray(evaluations) && evaluations.length >= 1) {
       mailApi.sendEvaluationChangedTeacherMail(evaluations, req.user.id)
-      return Promise.all(evaluations.map(ev => setEvaluation(ev, req)));
+      return Promise.all(evaluations.map(ev => setEvaluation(ev, groupId, req)));
     } else {
       authError(res);
     }

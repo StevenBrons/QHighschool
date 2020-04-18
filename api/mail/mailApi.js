@@ -39,6 +39,7 @@ this.sendDerollmentMail = async (userId, groupId) => {
 this.sendEvaluationChangedMail = async (evaluation) => {
 	const updatedByUser = (await userDb.getUser(evaluation.updatedByUserId)).displayName;
 	const user = await userDb.getSelf(evaluation.userId);
+	console.log(user);
 	const course = await courseDb.getCourse(evaluation.courseId);
 	const isCertificateWorthy = groupDb.isCertificateWorthy(evaluation);
 	const mail = ejs.render(evaluationChangeTemplate, { user, evaluation, course, updatedByUser, isCertificateWorthy }, {});
