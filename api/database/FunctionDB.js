@@ -182,7 +182,7 @@ exports.findEvaluation = async (userId, groupId) => {
     include: [
       {
         model: User,
-        attributes: ["id", "email", "displayName"],
+        attributes: ["id", "email", "displayName", "school"],
       },
       {
         model: User,
@@ -194,7 +194,7 @@ exports.findEvaluation = async (userId, groupId) => {
   if (evaluation == null) {
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ["displayName", "email", "id"],
+      attributes: ["displayName", "email", "id", "school"],
       raw: true,
     });
     evaluation = {
@@ -221,6 +221,7 @@ exports.findEvaluation = async (userId, groupId) => {
       "user.displayName",
       "updatedByUser.displayName",
       "user.email",
+      "user.school",
       "user.id",
     ], "evaluation", evaluation),
     "Blokjaar": group["schoolYear"] + " - " + group["period"],
