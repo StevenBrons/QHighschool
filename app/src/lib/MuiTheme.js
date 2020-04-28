@@ -149,6 +149,10 @@ const theme = createMuiTheme({
 		"fontWeightLight": 300,
 		"fontWeightRegular": 400,
 		"fontWeightMedium": 500,
+		"h1" : {
+			"fontFamily": "\"Avenir Black\", \"Roboto\", \"Helvetica\", \"Arial\", sans-serif",
+			"letterSpacing": "0.01em",
+		},
 		"display4": {
 			"fontSize": "7rem",
 			"fontWeight": 300,
