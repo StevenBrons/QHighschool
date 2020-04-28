@@ -42,7 +42,7 @@ body, #root, .App {
 
 .Header {
 	/* background: white; */
-	background: rgb(240, 131, 31) !important;
+	background: rgb(255,122,3) !important;
 	/* background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);

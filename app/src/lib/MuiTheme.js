@@ -54,9 +54,9 @@ const theme = createMuiTheme({
 		},
 		"type": "light",
 		"primary": {
-			"main": "#08C8F9",
+			"main": "#1FB2FF", /* 'Blauw' */
 			"contrastText": "#fff",
-			"light": "rgb(57, 211, 250)",
+			"light": "rgb(10, 252, 254)", /* 'Digitaal blauw' */
 			"dark": "rgb(5, 140, 174)"
 		},
 		// "secondary": {
