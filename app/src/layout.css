@@ -3,6 +3,17 @@
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
+@font-face {
+  font-family: 'Avenir-Black';
+  src: url(./fonts/Avenir-Black.eot); 
+  src: local('Avenir-Black'),
+       url(./fonts/Avenir-Black.eot?#iefix) format('embedded-opentype'),
+       url(./fonts/Avenir-Black.woff2) format('woff2'),
+       url(./fonts/Avenir-Black.woff) format('woff'),
+       url(./fonts/Avenir-Black.ttf) format('truetype'),
+       url(./fonts/Avenir-Black.svg#Avenir-Black) format('svg');
+}
+
 #root>div {
 	height: 100%;
 }
