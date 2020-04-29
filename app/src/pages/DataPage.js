@@ -260,8 +260,8 @@ class DataPage extends Component {
         content = <Progress style={{ marginTop: "100px" }} />;
       } else {
         content = (
-          <Typography variant="body1">
-            Klik op "Laat gegevens" om de gegevens te tonen
+          <Typography variant="body1" style={{ marginTop: "100px"}}>
+            Klik op "Laad gegevens" om de gegevens te tonen
           </Typography>
         );
       }
