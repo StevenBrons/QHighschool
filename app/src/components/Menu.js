@@ -45,9 +45,7 @@ class Menu extends Component {
       case "grade_admin":
         this.state.pages = [
           "aanbod",
-          "groepen",
           "gegevens",
-          "taxi",
           "profiel",
           "loguit"
         ];
