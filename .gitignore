@@ -116,7 +116,6 @@ yarn-debug.log*
 yarn-error.log*
 
 docx_source
-html_output
 markdown_output
 OneDrive*.zip
 
