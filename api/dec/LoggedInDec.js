@@ -9,9 +9,6 @@ const LoggedIn = connection.define('loggedin', {
 	active: {
 		type: Sequelize.BOOLEAN,
 	},
-	ip: {
-		type: Sequelize.STRING,
-	}
 }, {
 		tableName: 'loggedin'
 	});

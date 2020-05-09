@@ -93,7 +93,6 @@ exports.createTokenForUser = async ({ email }) => {
 	await LoggedIn.create({
 		userId,
 		token,
-		ip: "_v2.0 unknown_",
 		active: true,
 	});
 	return token;
