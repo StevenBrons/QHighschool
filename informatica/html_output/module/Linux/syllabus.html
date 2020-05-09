@@ -1,0 +1,399 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><h1 id="de-linux-kernel">De Linux Kernel</h1>
+<script>document.__language = "bash";</script>
+<h1 id="over-de-module">Over de module</h1>
+<h2 id="wat-beheers-je-aan-het-eind">Wat beheers je aan het eind</h2>
+<p>Na het afronden van deze module ben je een gevorderde met Linux. Je kan met gemak je weg vinden op de command line en servers beheren. Ook kan je een systeem helemaal inrichten zoals je voor ogen hebt.</p>
+<h2 id="hoe-wordt-dat-bereikt">Hoe wordt dat bereikt</h2>
+<p>Het leren van de stof middels deze module is vooral pragmatisch gericht. Het is de bedoeling dat je veel uitprobeert en buiten de stof om kleine projecten opzet. Voorbeelden van deze projecten staan aan het begin van elk hoofdstuk, met meerdere moeilijkheidsgraden.</p>
+<p>Als je stof al kent, werk dan vooral niet nog een keer de stof door. Zorg er wel voor dat je alle oefeningen doorkomt en terugvalt op de stof als dat niet lukt. Deze module is om je bij te leren, niet om je te vervelen.</p>
+<p>Mocht je meer willen weten dan besproken wordt in deze module, blader dan naar Appendix A voor links. In het geval van een probleem, kan je deze bespreken in Microsoft Teams.</p>
+<h2 id="format">Format</h2>
+<p>Elk hoofdstuk is aangeduid met een letter ervoor. Een P betekent een praktisch hoofdstuk met 3 keuze-projecten of meerdere opgaven aan het eind. Een T staat voor theoretisch hoofdstuk en zal alleen theorie bevatten.</p>
+<h1 id="kennismaking">Kennismaking</h1>
+<h2 id="met-elkaar">Met elkaar</h2>
+<p>Ga in 2 rijen staan tegenover elkaar. Stel je voor en stel daarna 3 vragen. 1 persoonlijke vraag, 1 vraag over de favoriete bezigheid en 1 vraag hoeveel ze al van Linux weten.</p>
+<h2 id="met-linux-en-het-belang-ervan">Met Linux en het belang ervan</h2>
+<p>Je kent Linux misschien niet, maar je bent er zeker wel in aanraking mee gekomen. Elke website die je bezoekt draait in de achtergrond een of meerdere Linux server om de pagina te leveren. Vrijwel elke grote game server draait ook Linux.</p>
+<p>Sterker nog, zelfs als je geen enkele website hebt bezocht of games gespeeld, kan je nog in aanraking met Linux geweest zijn. Elke Android telefoon draait namelijk ook een vorm van Linux.</p>
+<p>Linux is overal. In de informatica wereld telt het spreekwoord <em>Ignorance is bliss</em> niet. Informatie staat centraal, daarom is het belangrijk om te weten wat er om je heen is en hoe het werkt. Als een leuke bonus, hoe vet zou het zijn om het zelf te kunnen beheren en controleren?</p>
+<h2 id="inspirerende-personen-en-groepen-rond-linux">Inspirerende personen en groepen rond Linux</h2>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">Linus Torvalds</td>
+<td align="left">De ontwerper en hoofd codeschrijver van Linux.</td>
+</tr>
+<tr class="even">
+<td align="left">Nederlandse Linux Gebruikers Groep (NLLGG)</td>
+<td align="left">Grootste vereniging voor Linux enthousiasten in Nederland.</td>
+</tr>
+<tr class="odd">
+<td align="left">TransIP</td>
+<td align="left">Nederlandse VPS (Virtual Private Server) provider.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="t-wat-is-linux">T: Wat is Linux</h1>
+<h2 id="kernel">Kernel</h2>
+<p>Linux is geen besturingssysteem, zoals velen denken. Het is een kernel. Een kernel is de basis en het centrum van een besturingssysteem. Deze doet al het werk achter de schermen, zoals bijvoorbeeld het efficiënt indelen van RAM (ook het toewijzen van RAM aan programma’s), het laten werken van een muis en ervoor zorgen dat I/O werkt (Input / Output, harde schijven en andere manieren van data-opslag en uitlezen).</p>
+<p>Een kernel zorgt er ook voor dat een besturingssysteem op verschillende hardware gedraaid kan worden. Zonder kernel is een besturingssysteem alleen voor een specifieke set van hardware. Dan werkt het dus alleen op de processor waarvoor het geschreven is en heeft het alleen drivers voor die set hardware.</p>
+<p>Programma’s worden ook gemaakt voor een kernel, om dezelfde reden. Een programmeur heeft natuurlijk het liefst dat zijn programma werkt op alle apparaten, niet alleen die van hem. Het is moeilijk genoeg om een groot programma te schrijven, laat staan apart schrijven voor alle processors die ooit gemaakt zijn.</p>
+<p>Andere kernels zijn bijvoorbeeld de Windows NT kernel (voor Microsoft Windows) en de XNU kernel (voor alle Apple besturingssystemen: iOS, macOS, tvOS etc).</p>
+<p>De Windows NT kernel verscheen voor het eerst met Windows NT 3.1 (het besturingssysteem). Daarvoor gebruikte men DOS, een besturingssysteem zonder (geavanceerde) kernel. DOS was inefficiënt en onveilig hierdoor, maar er was destijds geen internet dus dit was nog geen groot probleem.</p>
+<h2 id="open-source">Open Source</h2>
+<p>Misschien heb je al gehoord van de term Open Source. Een programma die open source geschreven is, heeft de broncode vrij uitgegeven. Mensen kunnen dan te allen tijde kijken wat het programma doet, en zelf aangepaste versies maken van het programma.</p>
+<p>Dit kan natuurlijk snel juridisch ingewikkeld worden met copyright en dat soort zaken. Hiervoor is de GPL licentie ontwikkeld. Elk open source project wat onder de GPL licentie gemaakt is, is vrij om aangepast te worden zolang het nieuwe product ook open source is. De GPL licentie is een vorm van een ‘copyleft licentie’, wat het vrij delen van kennis en samenwerken onder ontwikkelaars stimuleert.</p>
+<p>Linux is ook open source. Iedereen is vrij om zijn eigen versie te maken van Linux, en daarna uit te delen of te verkopen.</p>
+<h2 id="besturingssystemen-met-linux">Besturingssystemen met Linux</h2>
+<p>Een besturingssysteem die Linux gebruikt als kernel, wordt een Linux distro (korte versie van distributie) genoemd. Er zijn ontzettend veel Linux distro’s, waarvan de meest bekende Debian, Fedora en Ubuntu zijn. Met Ubuntu wordt kennis gemaakt iets verder in de module.</p>
+<p>Bijna elke Linux distro is kosteloos verkrijgbaar. De meest bekende commerciële distro’s van Linux, komen van Red Hat. Hier krijgt de klant 24/7 support en is gegarandeerd van een veilig systeem (updates worden tegengehouden en meerdere maanden gecontroleerd voordat de gebruiker ze krijgt).</p>
+<p>Er is ook een veel bekendere aangepaste versie van Linux die je misschien zelf al gebruikt: Android. De ‘aangepaste versie’ hier is om het zo licht mogelijk te maken voor telefoons om uit te voeren. Hier wordt de telefoon sneller van en kan ook zwaardere applicaties uitvoeren.</p>
+<h1 id="t-geschiedenis-van-linux">T: Geschiedenis van Linux</h1>
+<h2 id="unix">Unix</h2>
+<p>In den beginne was Unix. Een van de eerste commerciële besturingssystemen met een (geavanceerde) kernel. Unix is gemaakt door AT&amp;T’s Bell in 1969. Een van de fundamentele dingen van Unix is dat alles behandeld kan worden als bestand. Een printer bijvoorbeeld, was in Unix een bestand op een vaste plek. Als er data gekopieerd werd naar dit bestand, werd het uitgeprint. Dit zorgde ervoor dat Unix ontzettend makkelijk was in gebruik en om programma’s voor te schrijven.</p>
+<p>De hoofd Unix filosofie is dat ieder programma een specifieke taak heeft. Het Unix besturingssysteem is dan ook erg modulair en heel erg aanpasbaar. Unix bestaat uit de centrale Unix kernel die de hoofd programma's uitvoerde, en de hoofd programma's zelf. Een voorbeeld van zo’n hoofd programma is de shell, waar we zelf kennis mee gaan maken iets verder in de module.</p>
+<p>Na een aantal lange jaren, werden er veel aangepaste versies gemaakt van Unix. Zo ontstonden BSD en Linux. Een aangepaste versie van BSD werd later overgenomen door Apple, waar XNU geboren werd.</p>
+<p>[]{#_38va8uejlqbn .anchor}Waar de grootvader van besturingssystemen rond de 100.000 regels aan code had, hebben de modernere versies zoals Linux rond de 13 miljoen regels. De modulariteit van Unix is nooit weggehaald en wordt nog steeds gebruikt, het ‘alles is een bestand’ principe ook.</p>
+<h2 id="linux">Linux</h2>
+<p>Linux is geschreven door een Finse student als zijproject tijdens zijn studie. Hij had nooit verwacht dat het zou uitgroeien naar de grootte die het tegenwoordig heeft. Deze man, heet Linus Torvalds. In 1991, begon Linus’ interesse in besturingssystemen en raakte gefrustreerd met MINIX (mini-Unix), omdat het gelicenseerd was voor educatief gebruik wat het beperkt maakte voor Linus om te kijken hoe het werkte.</p>
+<p>Linus begon toen te werken aan zijn eigen OS, waarvoor hij de Linux kernel schreef. Hij wou de kernel eerst Freax noemen, wat een combinatie is van ‘free’, ‘freak’ en ‘x’ (Unix). Hij vond de naam Linux te egoïstisch, maar dankzij Ari Lemmke (Linus’ collega-student) is het toch Linux geworden. Ari heeft namelijk het project hernoemd zonder dat Linus het destijds wist, Linus is uiteindelijk toch overtuigd en noemde zijn project ‘Linux’.</p>
+<h2 id="commercieel-linux">Commercieel Linux</h2>
+<p>In het midden van de jaren 90 werd Linux vooral gebruikt onder hobbyisten. Dit veranderde toen NASA hun dure computers vervingen en clusters van goedkopere Linux computers maakte. Hier kreeg Linux meer bekendheid van, waardoor HP, Dell en IBM Linux commercieel begonnen aan te bieden om de monopolie van Microsoft Windows tegen te gaan. Linux is vooral het meest bekend geworden toen Google het verwerkte in Android.</p>
+<p>Hier rechts is een logo van Red Hat Enterprise Linux (RHEL). Een Linux distro met 24/7 support en extreem veilige packages.</p>
+<p>Tegenwoordig is Linux de marktleider op het gebied van servers en supercomputing.</p>
+<h1 id="p-testomgeving-creëren">P: Testomgeving creëren</h1>
+<p>Het is nu tijd om zelf aan de slag te gaan met Linux. De mensen die al Linux op hun computer hebben staan in plaats van Windows of macOS kunnen dit hoofdstuk overslaan.</p>
+<p>We gaan eerst beginnen met een Linux distro die een grafisch interface heeft. Hiervoor is Ubuntu het makkelijkst in gebruik en om te leren.</p>
+<p>Om te voorkomen dat je volledige Windows installatie vervangen moet worden met Ubuntu, wordt er een virtual machine gemaakt. Een virtual machine is een manier om een OS volledig afgesloten van je ‘host’ (de OS op je systeem) uit te voeren.</p>
+<p>Refereer aan de <a href="https://drive.google.com/open?id=1hf4DXpMUwo_HzEFQshI-zT1xZSlPW-F1PfYUU26aoWQ"><em>Installatiehandleiding</em></a> hoe je deze testomgeving creëert.</p>
+<h2 id="verschillen-waar-je-rekening-mee-moet-houden">Verschillen waar je rekening mee moet houden</h2>
+<p>Je hebt nu je eigen testomgeving gemaakt waar je vrij alles kan proberen. Ga vooral los en ontdek Ubuntu zo veel als je kan.</p>
+<p>Ubuntu is wel compleet anders dan Windows en macOS. Bij Ubuntu is er bijvoorbeeld niet één systeemupdate, maar allemaal kleine systeemprogramma’s die een update hebben.</p>
+<p>Ook worden programma’s anders geïnstalleerd. Ubuntu werkt met een ‘package manager’: Aptitude. Een package manager installeert de programma’s voor je zonder dat je je zorgen hoeft te maken of je wel een juist programma binnenhaalt. Zo ben je altijd zeker dat je het juiste programma hebt, en dat er geen virus gedownload wordt. Ook maakt dit het installeren van het programma erg makkelijk.</p>
+<p>Om de package manager zo gebruiksvriendelijk mogelijk te maken heeft Ubuntu een App Store. De App Store is een grafische applicatie die dient als versimpeling van de terminal-applicatie Aptitude.</p>
+<h2 id="opdrachten">Opdrachten</h2>
+<p>Zorg dat je je weg een beetje rond Ubuntu weet. Probeer daarna of je dit kan.</p>
+<ol style="list-style-type: decimal">
+<li><p>Installeer systeemupdates.</p></li>
+<li><p>Installeer VLC uit de App Store.</p></li>
+<li><p>Voeg VLC toe aan je Dock.</p></li>
+<li><p>Maak een nieuwe gebruiker.</p></li>
+<li><p>Sluit de VM af (van binnen Ubuntu).</p></li>
+<li><p>Maak een Word document.</p></li>
+</ol>
+<h1 id="p-werken-met-de-terminal">P: Werken met de terminal</h1>
+<h2 id="shell">Shell</h2>
+<p>Wanneer je een terminal opent binnen Linux, wordt er een speciaal programma gestart zodat je kan ‘communiceren’ met het systeem. Dit programma wordt de shell genoemd, waarvan de meest bekende de <strong>B</strong>ourne <strong>A</strong>gain <strong>SH</strong>ell is (<strong>bash</strong>).</p>
+<p>Er zijn ook veel andere soorten shells die verschillende functionaliteit bieden. De oudste is simpelweg Shell (<strong>sh</strong>), maar deze wordt amper gebruikt op moderne systemen. De meest moderne shell is zsh. In deze module leer je bash, maar je kan zelf altijd een shell later kiezen.</p>
+<h2 id="de-basis">De Basis</h2>
+<h3 id="hoe-navigeer-je">Hoe navigeer je</h3>
+<p>De terminal kan er heel moeilijk uitzien in het begin, maar dit valt mee zodra je er mee leert werken. Een van de eerste dingen die je wil weten, is hoe je van map verplaatst en zien wat er in die map zit.</p>
+<p>Het navigeren gebeurd met het commando ‘cd’. Dit staat voor ‘Change directory’ en wordt gevolgd met de map die je wil bezoeken. Als je een map ‘Downloads’ in je home folder hebt, kan je bijvoorbeeld naar die map door <code>cd \~/Downloads</code> te doen. (~ is een alias voor je home folder).</p>
+<p>Om direct twee mappen diep te gaan, gebruik je een /. Een slash is een bijzonder karakter en kan dus niet gebruikt worden in bestandsnamen. Zit er een map ‘Drivers’ in je ‘Downloads’ map, dan doe je dus <code>cd \~/Downloads/Drivers</code>.</p>
+<p>Je shell werkt met een working directory. Dit is de map waar de shell zich in bevindt. Je kan dat zien aan de text voor je username in de prompt. Om het volledige pad van je working directory te printen, gebruik je <code>pwd</code> (<strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory). Als er een map ‘Memes’ in je working directory zit, kan je daar naar toe gaan met <code>cd Memes</code> (hier dus niet de ~ omdat de map ‘Memes’ niet in je home folder zit.) Als je een map begint met /, dan wordt er gekeken vanaf het begin van de schijf (ook wel de root folder genoemd).</p>
+<h3 id="welke-bestanden-zitten-er-in-een-map">Welke bestanden zitten er in een map</h3>
+<p>Om te zien wat er in een map zit, gebruik je het ‘ls’ commando (list). Zonder argumenten levert ls wat er in je working directory zit. Wil je de inhoud van een andere map bekijken, dan kan je een map leveren als argument. Zit je in de map /boot, dan kan je je home folder bekijken met <code>ls \~/</code>.</p>
+<p>Wanneer je alle inhoud van een map wil zien (inclusief geheime bestanden) dan kan je de optie -a toevoegen aan ls. Als je de output als lijst wil zien met een map op elke rij, dan kan je -l toevoegen. Dus als je alle bestanden wil zien als lijst, doe je <code>ls -a -l</code>, wat je kan verkorten naar <code>ls -al</code>.</p>
+<p>Mappen maken doe je met het mkdir commando. Deze heeft alleen een mapnaam nodig als argument. Om een map ‘test’ te maken, doe je dus <code>mkdir test</code>. Ook kan je direct een submap maken samen met een hoofdmap. Dit doe je met de -p optie. Dan wordt het commando dus: <code>mkdir -p test/submap</code></p>
+<h3 id="bestanden-bewerken-en-maken">Bestanden bewerken en maken</h3>
+<p>Om een leeg bestand te maken in een map, gebruik je het touch commando. Dit is een van de simpelste commando’s die er is. De syntax is hetzelfde als het mkdir commando.</p>
+<p>Om een textbestand te bewerken, moet je een editor gebruiken. Op Linux is altijd vi standaard geïnstalleerd, maar deze is zeker niet gebruiksvriendelijk voor onbekenden. Daarom gebruiken we in deze module ‘nano’. Om een bestand te bewerken met nano, doe je: `nano <bestand>. Vervolgens kom je in de editor terecht en kan je direct typen. Om een zin te knippen gebruik je Control + K. Om het weer te plakken daarna gebruik je Control + U. Je kan net zo vaak plakken als je wil.</p>
+<p>Om het bestand op te slaan doe je Control + O. Om nano af te sluiten, doe je Control + X. Nano vraagt ook of je het bestand wil opslaan (als je dat nog niet gedaan had), wanneer je nano verlaat.</p>
+<p>Het touch commando wordt vooral gebruikt om te kijken of je genoeg rechten hebt in een map om bestanden te kunnen maken. Als je met touch geen bestand kan maken, kan je ook geen bestanden bewerken in die map of mappen aanmaken.</p>
+<h3 id="bestanden-lezen">Bestanden lezen</h3>
+<p>Om een bestand snel uit te lezen gebruik je cat. De syntax is als volgt: <code>cat &lt;bestand&gt;</code>. Heb je een te groot bestand waardoor het niet helemaal op je terminal past, gebruik je less. <code>less &lt;bestand&gt;</code> zorgt ervoor dat je kan scrollen in het bestand met de pijlen op je toetsenbord.</p>
+<h3 id="informatie-over-een-programma-krijgen">Informatie over een programma krijgen</h3>
+<p>Het komt vaak voor dat je wil weten hoe een programma precies werkt of hoe je het moet gebruiken. Linux komt met een ingebouwde handleiding waar programma’s zelf pagina’s in zetten over hoe ze gebruikt moeten worden. Als je in C programmeert kan je in diezelfde handleiding ook informatie opvragen over functions.</p>
+<p>Deze handleiding is te bereiken met het ‘man’ commando. Dit staat voor manual. De syntax is <code>man &lt;commando/function&gt;</code>. Dus als je informatie wil opvragen over het nano commando, doe je <code>man nano</code>.</p>
+<h3 id="uitvoeren-als-administrator">Uitvoeren als administrator</h3>
+<p>Er zijn sommige programma’s die hogere rechten nodig hebben om te functioneren. Om deze reden is het handig als je eigen gebruiker die rechten kan verlenen. Hiervoor gebruiken we sudo. Sudo is een klein programmaatje wat een ander programma uitvoert als administrator, waardoor het de rechten heeft die het nodig heeft.</p>
+<p>De syntax is simpel: <code>sudo &lt;programma&gt;</code>.</p>
+<h3 id="output-filteren">Output filteren</h3>
+<p>Soms wil je niet alles lezen wat een programma je geeft, maar heb je slechts een specifiek deel nodig. Hiervoor kan je grep gebruiken. Grep is een commando die output filtert aan de hand van een input string. De input string wordt of gezien als letterlijke match (zonder caps) of als een regex. Vaak heb je alleen de letterlijke match nodig.</p>
+<p>In /etc/passwd staan alle gebruikers die het systeem heeft. Stel je wil alleen je eigen gebruiker zien, dan gebruik je dus <code>grep &lt;gebruikersnaam&gt; /etc/passwd</code>.</p>
+<h2 id="package-manager">Package Manager</h2>
+<h3 id="package-manager-1">Package manager?</h3>
+<p>Een package manager is een programma die andere programma’s installeert. Deze programma’s worden gebundeld in een installatie-pakketje die een package wordt genoemd. In het geval van Debian Linux wordt apt gebruikt. Omdat Ubuntu van Debian afstamt, wordt ook in Ubuntu apt gebruikt.</p>
+<p>In verschillende Linux distributies worden ook verschillende package managers gebruikt. Zo heb je in Arch Linux ‘pacman’ (kort voor package manager) en in Red Hat (CentOS, Fedora, RHEL) yum.</p>
+<h3 id="installeren">Installeren</h3>
+<p>Het installeren van pakketten is super makkelijk. Het commando gaat als volgt: <code>sudo apt install &lt;pakket&gt;</code>. Om te zoeken naar het pakket wat je nodig hebt, gebruik je <code>sudo apt search &lt;pakketnaam&gt;</code>.</p>
+<h3 id="verwijderen">Verwijderen</h3>
+<p>In apt zijn er twee manieren van verwijderen. Een waar alle bestanden worden verwijderd die het programma meebracht tijdens installatie (zoals configuratie bestanden etc) en een waar alleen het programma zelf wordt verwijderd.</p>
+<p>De eerste wordt een ‘purge’ genoemd en doe je als volgt: <code>sudo apt purge &lt;pakket&gt;</code>. De ander heet een ‘uninstall’ en wordt gedaan met <code>sudo apt remove &lt;pakket&gt;</code>.</p>
+<p>In de meeste gevallen wil je een purge doen.</p>
+<h2 id="pipes-en-andere-operators">Pipes en andere operators</h2>
+<p>In Bash en andere POSIX (centrale afspraken voor hoe een besturingssysteem ingericht hoort te zijn) shells, kan je meer dan alleen commando’s uitvoeren. In elk programma heb je 3 streams, de input stream, output stream en error stream. Je kan de output van een programma stoppen in de input stream van een volgend programma.</p>
+<p>Dit doe je met een pipe operator: |. Zo kan je bijvoorbeeld een apt search doen waar je kan scrollen door de output met less: <code>sudo apt search vlc | less</code>. Dan is het net voor het tweede programma of je die input zelf hebt getypt. In een Python script waar input() wordt gebruikt, kan je met een pipe operator dit dus automatiseren. <code>echo “John” | python3 -c “print(‘Hello ‘ + input())”</code>, zal “Hello John” outputten.</p>
+<p>Als je wel de output van een programma wil, maar niet door wil geven aan een ander programma maar wil opslaan als bestand gebruik je de &gt; operator. Deze werkt exact hetzelfde als de pipe operator, alleen bij deze geef je een bestand om de output naar te schrijven als tweede helft. Bijvoorbeeld: <code>echo “I am a file” &gt; file.txt</code>. Als je de output wil <strong>toevoegen</strong> aan een bestand ipv het bestand vervangen met de output, gebruik je twee &gt;. Bijvoorbeeld <code>echo “I am the second line in a file” &gt;&gt; file.txt</code></p>
+<p>Ook kan je een commando uitvoeren als een ander commando succesvol is uitgevoerd. Dat doe je met de &amp;&amp; operator. <code>echo “test” &amp;&amp; echo “worked!”</code>. Dit werkt omdat <code>echo “test”</code> een status code van 0 teruggeeft, wat succesvolle uitvoering betekent. Elke code anders dan 0 is een foutmelding.</p>
+<p>Er is ook een manier om commando’s te chainen op dezelfde manier, maar onafhankelijk van of het eerste commando goed ging of niet. Dat doe je met een puntkomma: ;. Bijvoorbeeld <code>cat /etc/shadow; echo “I ran!”</code>. Normale gebruikers hebben geen toegang tot /etc/shadow, dus dit geeft een access denied (andere statuscode dan 0), toch voert bash het andere commando ook uit. Probeer dit ook met een &amp;&amp;, je zal zien dat het tweede commando dan niet uitgevoerd wordt.</p>
+<p>Ook is er een || operator. Deze wordt alleen uitgevoerd als het eerste commando niet succesvol ging. Dit zie je echter niet vaak terug in een commandline, maar meer in de shell scripts.</p>
+<h2 id="command-substitution">Command substitution</h2>
+<p>Het komt ook voor dat je de output van een programma wil gebruiken als argument bij een ander programma. Hier komt command substitution om de hoek kijken. Hier vervang je een deel van je originele commando met de output van een programma. Dit doe je met $(<command>)</p>
+<p>Bijvoorbeeld: <code>cat \$(echo “/etc/passwd”)</code>. Dit kan ook ingewikkelder worden door alles aan elkaar te koppelen: <code>cat /etc/passwd | grep \$(whoami)</code>. Dit commando haalt alleen de informatie van jouw gebruiker op uit het centrale gebruikersbestand. Dit kan echter als elke gebruiker uitgevoerd worden en elke gebruiker krijgt zijn eigen informatie te zien. Dit komt door het whoami commando, die jouw username teruggeeft.</p>
+<h2 id="opdrachten-1">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Zorg dat je je comfortabel voelt met navigeren in de terminal.</p></li>
+<li><p>Maak een tekstbestand aan met text erin.</p></li>
+<li><p>Installeer een pakket. Bijvoorbeeld Extreme Tux Racer. Kijk daarna &gt; in je app launcher (het ubuntu logo linksboven) of het &gt; geïnstalleerd is.</p></li>
+<li><p>Lees de paragraaf hieronder en gebruik chmod om de permissies van &gt; een bestand aan te passen.</p></li>
+</ol>
+<p><br />
+-</p>
+<h1 id="t-permissions">T: Permissions</h1>
+<p>Net als in Windows, heeft Linux ook beveiliging op bestanden zitten. Je kan niet een bestand bekijken als je niet bevoegd bent hiervoor. De rechten worden verleend aan 3 gebruikers(groepen): de eigenaar, een groep gebruikers en alle gebruikers.</p>
+<p>Als iemand lid is van de financiën groep, maar niet de eigenaar is van een bestand, kan deze dus wel de rechten krijgen om bijvoorbeeld een spreadsheet te bewerken.</p>
+<h2 id="octaal">Octaal</h2>
+<p>Deze rechten zijn 3 cijfers in het octale telsysteem. Dit betekent dat het grootste getal een 7 is. Dit is in octaal gedaan omdat de rechten uit 3 sub-rechten bestaan. Lezen, schrijven en uitvoeren. Als je iemand de rechten wil geven om wel te schrijven en te lezen, maar niet om het uit te voeren, krijg je in binary 110. Als je dit omzet naar octaal, krijg je 6.</p>
+<p>Hieronder nog wat voorbeelden voor permissions:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Read</th>
+<th align="left">Write</th>
+<th align="left">Execute</th>
+<th align="left">Octaal cijfer</th>
+<th align="left">Betekenis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">4</td>
+<td align="left">Gebruikers van deze permissie kunnen alleen het bestand lezen.</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">7</td>
+<td align="left">Gebruikers van deze permissie kunnen alles met het bestand. Bewerken, lezen en schrijven. Dit is meestal de permission die de eigenaar van een bestand heeft.</td>
+</tr>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">Gebruikers kunnen alleen schrijven naar dit bestand. Dit wordt meestal gebruikt voor programma’s die data schrijven naar bestanden.</td>
+</tr>
+</tbody>
+</table>
+<p>Deze cijfers kan je toewijzen aan de rechten voor de eigenaar, een groep en iedereen. Je moet echter wel altijd alle permissies aangeven wanneer je ze aanpast.</p>
+<p>Directories zijn apart. <strong>Deze hebben het execute recht nodig</strong> om bekeken te kunnen worden met ls of cd, of andere programma’s.</p>
+<h2 id="users-en-groups">Users en Groups</h2>
+<p>Zoals eerder genoemd, kunnen rechten worden toegewezen aan bepaalde gebruikers of groepen. Je kan zien wie een bestand / map beheerd met <code>ls -al</code>. Om een bestand toe te wijzen aan meerdere gebruikers, moet er een nieuwe groep aangemaakt worden. Het is niet mogelijk om meerdere eigenaars van een bestand te hebben, ook niet meerdere groepen.</p>
+<p>Om dus ervoor te zorgen dat je permissions goed staan, moet je een aparte groep maken met alle gebruikers die het bestand mogen bewerken.</p>
+<p>Gebruikers maak je aan met het useradd commando. Om een gebruiker aan te maken met zijn thuismap, gebruik je de -m optie. <code>useradd -m &lt;username&gt;</code>. Als je de gebruiker meteen lid wil maken van een groep, gebruik je de -G optie. Met beide bijvoorbeeld: <code>useradd -m -G mygroup testuser</code>.</p>
+<p>Groepen maak je op eenzelfde manier aan, met het groupadd commando. Bijvoorbeeld <code>groupadd mygroup</code>.</p>
+<h2 id="setuid-en-setgid">SetUID en SetGID</h2>
+<p>Er is nog een andere bijzondere vorm van permissions. De SetUID (SUID) en SetGID (SGID) bit kan ook aangezet worden op bestanden. Hierdoor wordt een programma uitgevoerd als de gebruiker (SetUID) of de groep (SetGID), die eigenaar is van het bestand.</p>
+<p>Dit werkt niet op shell scripts maar alleen op gecompileerde programma’s wegens veiligheid. Over het algemeen is het niet aan te raden om SetUID/SetGID te gebruiken, maar soms is er geen keus. Het ping commando op Linux bijvoorbeeld, heeft verhoogde rechten nodig om een ICMP pakket te mogen versturen van de kernel, deze wordt met SetUID als ‘root’ uitgevoerd, de centrale hoofd administrator.</p>
+<h2 id="sudo-su-en-root">Sudo, Su en Root</h2>
+<p>Je kan ook zelf (mits je de rechten ervoor hebt) iets uitvoeren of bewerken als root. Je hoeft je dan nooit zorgen te maken dat je de juiste rechten hebt, maar dat kan ook verkeerd gaan. Sommige bestanden worden met verkeerde permissions niet uitgevoerd. Ook systeembestanden. Wees dus altijd voorzichtig waar je het root account voor gebruikt.</p>
+<p>Omdat het zelf gebruiken van het root account geen ‘best practice’ was, is ‘sudo’ gemaakt. Met sudo kan je een commando uitvoeren als een andere gebruiker. De naam is een afkorting van ‘Switch User (and) DO’. Om een commando uit te voeren als root, doe je dus: <code>sudo &lt;commando&gt; &lt;commando argumenten&gt;</code>. Om iets te bewerken als root, doe je <code>sudo nano &lt;bestand&gt;</code>.</p>
+<p>Je kan ook wisselen naar een ander account. Daar is het switch user (su) command voor gemaakt. Net als bij sudo, als er geen user argument wordt gegeven is de default user root. Je hebt wel het wachtwoord nodig van het account waar je op inlogt. Dit is dus niet handig om administrator rechten mee te krijgen. Je kan ook met het sudo commando wisselen van gebruiker. Hiermee open je een shell als een andere user. Dat kan op twee manieren. De eerste is de default shell van de gebruiker gebruiken: <code>sudo -u &lt;gebruiker&gt; -s</code>. De ander is je eigen shell kiezen en dat runnen in het command gedeelte van sudo: <code>sudo -u &lt;gebruiker&gt; &lt;shell (bijv. bash)&gt;</code>.</p>
+<h2 id="permissies-instellen">Permissies instellen</h2>
+<p>Je kan zelf kiezen welke permissions een bestand of map heeft. Dit doe je met het chmod commando. De syntax is <code>chmod &lt;3 octaalnummers&gt; &lt;bestand/map&gt;</code>. Bijvoorbeeld <code>chmod 777 \~/test</code>: Hiermee verander je de permissions op de map test in je home folder, zodat iedereen er naar toe kan schrijven en lezen.</p>
+<p>De 3 octaalnummers zijn zoals hierboven beschreven op volgorde eigenaar, groep, iedereen. 750 is dus bijvoorbeeld dat alleen de eigenaar kan lezen en schrijven, de groep alleen kan lezen en voor de rest niemand erbij kan.</p>
+<p>SetUID en SetGID worden ingesteld na de normale permissions. Dat kan met <code>chmod u+s &lt;programma&gt;</code> voor SUID en <code>chmod g+s &lt;programma&gt;</code> voor SGID.</p>
+<p><br />
+=</p>
+<h1 id="p-shell-scripts">P: Shell scripts</h1>
+<p>Vele systeembeheerders zitten niet te wachten om veel commando’s na elkaar te doen, vooral niet wanneer deze vaker dan een keer uitgevoerd moeten worden. Hier zijn shell scripts voor ontworpen. Dit zijn tekstbestanden die uitgevoerd kunnen worden. Elke regel in een shell script wordt uitgevoerd alsof het van de terminal zelf komt.</p>
+<h2 id="de-basis-1">De Basis</h2>
+<h3 id="shebang">Shebang</h3>
+<p>Om te beginnen moet er een shebang aan de bovenkant van het tekstbestand staan op regel 1. Dit is de regel die aangeeft met welk programma het script wordt uitgevoerd. Voor shell scripts moet de shebang een shell bevatten, maar je kan ook aan de bovenkant van een Python script een shebang zetten.</p>
+<p>De shebang is het volgende format:</p>
+<p><code>\#!&lt;executable&gt;</code></p>
+<p>Dus in ons geval:</p>
+<p><code>\#!/bin/bash</code></p>
+<h3 id="let-the-scripting-begin">Let the scripting begin</h3>
+<p>Na een shebang kan op elke regel een ander commando worden gezet. Ook werken dezelfde operators zoals je gewend bent van de terminal.</p>
+<p>Een shell script moet executable gemaakt worden met chmod voordat de terminal hem kan uitvoeren. Daarna kan je het shell script uitvoeren met: ./script.sh (er is dus een bestand genaamd shell.sh die de commando’s bevat in dezelfde working directory waar de terminal zich bevindt.)</p>
+<h2 id="variabelen">Variabelen</h2>
+<p>Shell scripts kunnen meer dan alleen losse commando’s uitvoeren. Zo kan je ook variabelen gebruiken. Wanneer <code>./script.sh arg1 arg2</code> op die manier wordt uitgevoerd, kan je de argumenten gebruiken in het script zelf. Deze worden dan $1 en $2 binnen het script. Zo kan je bijvoorbeeld een script hebben met:</p>
+<pre><code>
+\#!/bin/bash
+
+echo Hello “\$1”
+</code></pre>
+<p>Wanneer deze wordt uitgevoerd, zal het het eerste argument teruggeven met Hello ervoor. Zoals je ziet is $1 met aanhalingstekens gebruikt. Dit is zodat de variabele precies zo wordt teruggegeven als je hem opslaat. Variabelen maak je als volgt:</p>
+<pre><code>
+\#!/bin/bash\
+name=John\
+echo Hello “\$name”!
+</code></pre>
+<p>Er kunnen geen spaties zitten tussen je variabele naam en het = teken en ook niet tussen het = teken en je waarde. Een variabele aanroepen doe je met een dollarteken, gevolgd door de variabele naam. In dit geval $name.</p>
+<p>Variabelen kunnen ook de output zijn van een programma. Dat doe je als volgt:</p>
+<pre><code>
+\#!/bin/bash
+
+username=”\$(whoami)” \# De aanhalingstekens om het als string op te
+slaan
+
+echo Hallo “\$username”
+</code></pre>
+<p>De username variabele wordt ingesteld met de output van <code>whoami</code>, wat de gebruikersnaam van de huidige gebruiker teruggeeft. Vervolgens wordt er hallo tegen gezegd.</p>
+<h2 id="conditions">Conditions</h2>
+<p>Het is ook mogelijk om if statements te doen binnen een shell script. Hiermee kan je bijvoorbeeld kijken of een bestand / map bestaat of dat de huidige gebruiker root is.</p>
+<p>De syntax is als volgt:</p>
+<pre><code>
+if [[ “\$var1” == “\$var2” ]]; then
+
+do_stuff
+
+fi
+</code></pre>
+<p>Als je wil kijken of een map bestaat gebruik je if iets anders:</p>
+<p><code>if [[ -d /pad/naar/map ]]; then</code>. -d checkt of het bestand een map is. -f doet hetzelfde maar dan checkt het of het een bestand is. Wanneer een bestand niet bestaat is de condition niet waar en wordt dus niet uitgevoerd.</p>
+<p>Nummers kan je ook anders laten checken:</p>
+<p><code>if [[ “\$var1” -eq 1 ]]; then</code> checkt of het getal gelijk is aan 1. Zo heb je ook -gt voor groter dan, -lt voor kleiner dan en -ne voor niet gelijk.</p>
+<p>Een condition kan je ook altijd met ! beginnen zodat het tegengestelde wordt genomen. Dan wordt gekeken of iets niet waar is. Bijvoorbeeld zien of een map <strong>niet</strong> bestaat:</p>
+<p><code>if [[ ! -d /pad/naar/map ]]; then</code>.</p>
+<p>Vergeet niet een if altijd af te sluiten met fi op een aparte regel.</p>
+<p><br />
+-</p>
+<h2 id="loops">Loops</h2>
+<p>Met shell scripts kan je zelfs loops maken. Dit wordt niet veel gebruikt maar kan alsnog handig zijn om over bestanden te gaan. Bijvoorbeeld om alle bestanden te outputten in een map:</p>
+<pre><code>
+\#!/bin/bash
+
+directory=”\$1”
+
+for file in \$(ls “\$directory”); do
+
+echo “\$file”
+
+cat “\$file”
+
+done
+</code></pre>
+<p>Hier kan je zien dat de syntax als volgt is:</p>
+<pre><code>
+for &lt;variabele naam&gt; in &lt;met spatie gescheiden objecten&gt;; do
+
+do_stuff
+
+done
+</code></pre>
+<p>Als je meer wil weten over loops kan je het beste deze bron gebruiken: <a href="http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html"><em>http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html</em></a></p>
+<h2 id="speciale-variabelen">Speciale variabelen</h2>
+<p>Je kan ook zogenaamde environment variables gebruiken in shell scripts. De meest bekende environment variable is PATH. PATH is een variabele waar paden zijn opgeslagen waar programma’s in zitten. Zo kan je <code>bash</code> typen in plaats van het volledige pad <code>/bin/bash</code> (/bin zit dus in PATH).</p>
+<p>Deze variabelen kan je gebruiken en instellen met behulp van shell scripts <strong>(zorg dat je alles vierdubbel hebt gecontroleerd voordat je een environment variabele aanpast).</strong></p>
+<p>Ook kan je de Internal Field Separator (IFS) gebruiken. Dit is een bijzondere variabele in een script die aanpast hoe loops uitgevoerd worden.</p>
+<p>Bijvoorbeeld met:</p>
+<pre class="\"><code>\#!/bin/bash
+
+words=”my:word is the coolest”
+
+for word in “\$words”; do
+
+echo “\$word”
+
+done\</code></pre>
+<p>krijg je de output:</p>
+<pre class="\"><code>my:word
+
+is
+
+the
+
+coolest\</code></pre>
+<p>Maar als je IFS aanpast:</p>
+<pre class="\"><code>\#!/bin/bash
+
+IFS=”:”
+
+words=”my:word is the coolest”
+
+for word in “\$words”; do
+
+echo “\$word”
+
+done\</code></pre>
+<p>Krijg je:</p>
+<pre class="\"><code>my\
+word is the coolest\</code></pre>
+<p>Nu wordt er dus niet meer op spaties gesplitst, maar op wat er ingesteld is met de IFS, in dit geval een dubbele punt.</p>
+<h2 id="opdrachten-2">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Maak een shell script die naam en leeftijds argumenten neemt en ze &gt; terugschrijft naar de gebruiker.</p></li>
+<li><p>Maak een shell script die een entry toevoegt aan /etc/hosts. Dat &gt; bestand volgt het volgende format: &gt;<br />
+&gt; <ip> <hostname></p></li>
+</ol>
+<h1 id="p-introductie-met-servers">P: Introductie met servers</h1>
+<p>De meeste servers in de wereld draaien Linux. Er is wel een groot verschil tussen Linux zoals Ubuntu Desktop en Ubuntu Server. Bij Ubuntu Server heb je bijvoorbeeld helemaal geen nut aan een muis, sinds er geen graphical interface is. Alles gaat met de terminal.</p>
+<p>Ook hebben de meeste servers andere versies van pakketten dan de ‘normale’ desktop distros. Dit komt omdat servers stabielere en veiligere software draaien. De nieuwere versies worden eerst getest op veiligheid en stabiliteit voordat ze gedownload kunnen worden met een package manager. Bij RHEL is dit testen soms een periode van een vol jaar.</p>
+<h2 id="ssh">SSH</h2>
+<p>Omdat je als serverbeheerder vaak niet naar de serverkast wil lopen om daar op een scherm in de terminal dingen aan te passen is er SSH. SSH staat voor Secure SHell en is een programma waarmee je op afstand kan verbinden met een server. Je krijgt dan een terminal waarmee je commando’s kan uitvoeren op de server.</p>
+<p>Verbinden met SSH gaat vaak als volgt:</p>
+<pre><code>
+ssh &lt;username&gt;@&lt;host&gt;
+</code></pre>
+<p>De username is de username waar je op wil inloggen op de server. Host geeft het ip adres of domein aan waarmee je wilt verbinden. Als je een server hebt op het ip adres 10.20.10.1 met een gebruiker test, log je als volgt in:</p>
+<p><code>\ ssh [test@10.20.10.1\ ](mailto:test@10.20.10.1)</code></p>
+<p>Jullie krijgen zelf een SSH omgeving om op te werken van de docent. Het verbinden met SSH vanaf een Windows computer kan met het programma PuTTY. Je kan ook je VM gebruiken om met SSH te verbinden op de Linux manier zoals hierboven beschreven.</p>
+<h2 id="web-stacks">Web Stacks</h2>
+<p>Webservers werken vooral met Web Stacks. Een web stack is een groep programma’s / frameworks waarop websites gebouwd en gedeployed worden. De oudste stack is LAMP en bestaat uit:</p>
+<ul>
+<li><p>Linux</p></li>
+<li><p>Apache (De webserver)</p></li>
+<li><p>MySQL (Database software)</p></li>
+<li><p>PHP (Een programmeertaal die draait op de server zelf, maar kan &gt; worden bestuurd via een website)</p></li>
+</ul>
+<p>Tegenwoordig ligt de focus meer op Javascript. Hier zijn ook veel stacks van waarvan de meest bekende de MEAN stack is:</p>
+<ul>
+<li><p>MongoDB (Database software)</p></li>
+<li><p>Express.js (Framework dat ervoor zorgt dat Javascript ook als &gt; servertaal gebruikt kan worden)</p></li>
+<li><p>AngularJS (Framework die het maken van de frontend versimpeld.)</p></li>
+<li><p>Node.js (De centrale regelaar van beide frameworks)</p></li>
+</ul>
+<h1 id="p-een-webserver-opzetten">P: Een webserver opzetten</h1>
+<p>Als eindopdracht gaan jullie een webserver opzetten met behulp van Nginx. Installeer dit pakket, en bewerk de configuratiebestanden in /etc/nginx. Als inhoud van de website kan je je online CV gebruiken die je bij Webdesign 1.0 hebt gemaakt.</p>
+<p>Zorg dat alles werkt en goed ingesteld is.</p>
+<p>Voor bonuspunten kan je een web stack gebruiken. Maak dan ook gebruik van alle functies van de stack.</p>
+<h1 id="appendix-a">Appendix A</h1>
+<p><a href="https://www.kernel.org/"><em>https://www.kernel.org/</em></a></p>
+<p><a href="https://www.linux.org/"><em>https://www.linux.org/</em></a></p>
+<p><a href="https://www.cyberciti.biz/"><em>https://www.cyberciti.biz/</em></a></p>
+<p><a href="https://serverfault.com/"><em>https://serverfault.com/</em></a></p>
+<p><a href="https://unix.stackexchange.com/"><em>https://unix.stackexchange.com/</em></a></p>
+<p><a href="https://wiki.archlinux.org/"><em>https://wiki.archlinux.org/</em></a></p>
+<p><a href="https://tutorials.ubuntu.com/"><em>https://tutorials.ubuntu.com/</em></a></p>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+body, html {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	margin: 0;
+	grid-template-columns: 1fr 4fr;
+	grid-template-rows: 64px auto;
+	grid-template-areas: "header header" "TOC content" "TOC content";
+	overflow: hidden;
+}
+
+#courses {
+	overflow-y: auto;
+	width: 100vw;
+	height: auto;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+.GroupCard {
+	width: 300px;
+	height: 300px;
+	padding: 0px;
+	display: inline-block;
+	position: relative;
+	margin: 30px;
+	text-decoration-line: none;
+	transition-duration: 150ms;
+	box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+	background-position: center;
+	background-size: cover;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.GroupCard:hover {
+	box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.GroupCard h2 {
+	margin: auto;
+	vertical-align: middle;
+	overflow: hidden;
+	padding-top: 5px;
+	height: 64px;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-size: 24px;
+	bottom: 0px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}

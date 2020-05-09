@@ -1,0 +1,1033 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><h1 id="webdesign">Webdesign</h1>
+<p>Websites bouwen met HTML5 en CSS3<img src="../Webdesign./media/image1.jpg" alt="Image result for webdesign" width="418" height="278" /></p>
+<script>document.__language = "html";</script>
+<h1 id="leerdoelen">Leerdoelen</h1>
+<p><em>Introductie</em></p>
+<ul>
+<li><p>Je weet hoe websites worden geprogrammeerd.</p></li>
+<li><p>Je weet wat developer tools zijn en hoe je deze kunt gebruiken.</p></li>
+</ul>
+<p><em>HTML</em></p>
+<ul>
+<li><p>Je weet waar HTML voor staat, wat het is en waarvoor het wordt gebruikt.</p></li>
+<li><p>Je weet wat elements zijn en kunt deze in HTML gebruiken.</p></li>
+<li><p>Je weet wat tags zijn en kunt deze in HTML gebruiken.</p></li>
+<li><p>Je weet wat attributes zijn en kunt deze in HTML gebruiken.</p></li>
+<li><p>Je weet hoe HTML-bestanden in elkaar zitten.</p></li>
+<li><p>Je kunt met de boilerplate code een website maken.</p></li>
+<li><p>Je weet wat comments zijn en kunt deze in HTML gebruiken.</p></li>
+<li><p>Je weet wat een IDE is.</p></li>
+<li><p>Je kunt de simpelste elements gebruiken om alinea’s, tekst, kopjes en afbeeldingen aan je website toe te voegen.</p></li>
+<li><p>Je kunt organisatie brengen in een HTML-bestand.</p></li>
+<li><p>Je kunt tabellen en lijsten toevoegen aan een website.</p></li>
+<li><p>Je kunt navigatie toevoegen aan een website.</p></li>
+<li><p><em>(Optioneel)</em> Je weet hoe HTML-bestanden handmatig kunnen worden gevalideerd.</p></li>
+</ul>
+<p><em>CSS</em></p>
+<ul>
+<li><p>Je weet waar CSS voor staat, wat het is en waarvoor het wordt gebruikt.</p></li>
+<li><p>Je weet hoe CSS-bestanden in elkaar zitten.</p></li>
+<li><p>Je kunt HTML en CSS koppelen zodat ze samenwerken.</p></li>
+<li><p>Je kunt kleur toevoegen aan je website met CSS.</p>
+<ul>
+<li>(Optioneel) Je weet hoe je kleuren op verschillende manieren kan definiëren.</li>
+</ul></li>
+<li><p>Je kunt de opmaak van tekst aanpassen met CSS.</p></li>
+<li><p>Je kunt randen toevoegen aan elements met CSS.</p></li>
+<li><p>Je weet hoe het box model in elkaar zit.</p></li>
+<li><p>Je kunt de layout van een website bepalen met CSS.</p></li>
+<li><p>Je kunt het uiterlijk van links aanpassen met CSS.</p></li>
+</ul>
+<p><em>Extra uitdaging</em></p>
+<ul>
+<li><p>(Optioneel) Je kunt specifieke lettertypen toevoegen aan een website.</p></li>
+<li><p>(Optioneel) Je kunt icoontjes toevoegen aan een website.</p></li>
+<li><p>(Optioneel) Je kunt een dropdown menu toevoegen aan een website.</p></li>
+<li><p>(Optioneel) Je kunt elements animeren.</p></li>
+<li><p>(Optioneel) Je weet wat Responsive Web Design is en kunt het toepassen.</p></li>
+<li><p>(Optioneel) Je weet wat Bootstrap is en kunt het toepassen.</p></li>
+</ul>
+<h1 id="introductie">Introductie</h1>
+<p>In deze module leer je hoe de wereld van <strong>webdesign</strong> in elkaar zit en maak je je eigen website! Alles wat je leert kun je direct toepassen op je eigen site. Websites zijn inmiddels onderdeel van ons dagelijkse leven en hebben daarmee een hele belangrijke plaats gekregen. Het is daarom heel handig om te weten wat er precies achter de schermen gebeurt, op het moment dat jij op een website klikt.</p>
+<p>Websites worden geprogrammeerd met <strong>HTML</strong> en <strong>CSS</strong>. Dit zijn twee programmeertalen waarmee alle basisfunctionaliteiten van een website toegankelijk zijn. Je kunt hiermee bijvoorbeeld tekst en plaatjes laten zien, navigeren tussen pagina’s en het uiterlijk van de website aanpassen. Dit lijkt misschien heel moeilijk, maar gaandeweg deze module leer je dat het eigenlijk best makkelijk is.</p>
+<p>Tegenwoordig zijn er naast websites ook veel <strong>webapps</strong> (‘web applications’) te vinden online. Dit zijn vaak de grotere en meer gecompliceerde websites. Denk bijvoorbeeld aan Whatsapp Web in je browser of Google Drive. Maar ook kleinere en simpelere websites, zoals die voor je rooster, zijn webapps. Wat een webapp zo anders maakt, is het gebruik van <strong>Javascript</strong>. Dit is een programmeertaal die op een slimme manier HTML en CSS kan aanpassen en kan reageren op acties van de gebruiker. Zo krijg je hele interactieve websites. HTML en CSS blijven echter een belangrijke rol spelen, want hoeveel Javascript je ook gebruikt, deze twee programmeertalen vormen altijd de basis van een website.</p>
+<p>In deze module leer je over de basis van HTML en CSS. Je leert hoe een website in elkaar zit en gaat ook je eigen website maken. Wil je na deze module nou graag verder met webdesign? Kies dan voor het project <code>Webdesign 2.0</code> of volg de module <code>Javascript</code>. Op die manier word je goed voorbereid op het maken van webapps.</p>
+<h2 id="benodigdheden">Benodigdheden</h2>
+<p>Om deze module goed te kunnen volgen, heb je de volgende programma’s nodig:</p>
+<ul>
+<li><p>Google Chrome: <a href="https://www.google.com/chrome/"><em>https://www.google.com/chrome/</em></a> klik op <code>Chrome downloaden</code> en installeer het programma. Een andere webbrowser mag ook, zoals Firefox, maar dan kunnen je resultaten wel licht verschillen. Gebruik geen Internet Explorer of Microsoft Edge.</p></li>
+<li><p>WebStorm: <a href="https://www.jetbrains.com/webstorm/download/"><em>https://www.jetbrains.com/webstorm/download/</em></a> klik op <code>Download</code>. Installeer vervolgens het programma. Wanneer je het programma voor het eerst opstart, kies dan het Darcula UI theme en druk vervolgens op ‘Skip Remaining and Set Defaults’. Normaal gesproken is WebStorm een betaald product, maar voor onze scholen is het gratis. Maak hiervoor een account aan op <a href="https://www.jetbrains.com/shop/eform/students"><em>https://www.jetbrains.com/shop/eform/students</em></a> met je school-email. Wanneer je dit account verifieerd dan moet je op die pagina nog een account maken. Vervolgens kun je gratis van alle Jetbrains-producten gebruik maken. Log vervolgens bij WebStorm in met dat account.</p></li>
+</ul>
+<h2 id="kennismakingsopdrachten"><span class="exercise">Kennismakingsopdrachten</span></h2>
+<p>Je doet deze module natuurlijk niet in je eentje, maar met een groep. Misschien ken je nog niemand omdat je vrienden deze module niet doen. Het is hoe dan ook een goed plan om kennis met elkaar te maken. Doe daarom in de klas de volgende oefeningen:</p>
+<ol style="list-style-type: decimal">
+<li><p>Brainstorm met een paar klasgenoten die je nog niet kent over wat jullie al weten over websites. Welke websites vinden jullie erg mooi? Waarom zijn deze juist mooi? Wat kun je erop doen? Welke technologie zit erachter? Wat zou een bepaalde website allemaal moeten kunnen? Waar moet een programmeur rekening mee houden?</p></li>
+<li><p>Bespreek welke websites jullie allemaal gebruiken. Zoek websites op als ze nog onbekend voor je zijn.</p></li>
+<li><p>Bespreek voor elke website of het alleen met HTML en CSS gemaakt zou zijn of ook met JavaScript.</p></li>
+<li><p>Ga eens samen na of de verenigingen of organisaties waar jullie lid van zijn (zoals een sportvereniging) een website hebben. Maak je daar vaak gebruik van? En waarvoor? Kun je zien hoe deze geprogrammeerd is?</p></li>
+<li><p>Zoek een website op die niet online zou mogen staan omdat hij zo slecht is. Wie kan de slechtste site vinden?</p></li>
+<li><p>Misschien heeft iemand van jullie al een site gemaakt. Bekijk deze.</p></li>
+</ol>
+<p>Als het goed is ben je er in deze oefeningen een beetje achter gekomen wat jullie hobby’s zijn en welke websites daarbij horen. Misschien zit er wel iemand in jullie groepje die al ervaring heeft met webdesign en die al veel kan vertellen over de technologie achter zo’n website. Als dat niet zo is, is dat nog geen reden voor paniek, hoor. Je leert in deze module alles wat je moet weten.</p>
+<h2 id="zelf-onderzoeken">Zelf onderzoeken</h2>
+<p>Na de leuke informatie van de expert is het nu tijd om zelf eens te gaan snuffelen op websites. Je kan namelijk al heel veel leren over webdesign in de browser zelf. Dit doe je door de <code>**Developer Tools**</code> te gebruiken. Om te beginnen kan je de <code>**Inspector**</code> gebruiken. Hiervoor kan je in de meeste browsers op <code>F12</code> drukken. Op de website van Quadraam geeft dit met Google Chrome het volgende resultaat:</p>
+<div class="figure">
+<img src="../Webdesign./media/image2.png" width="601" height="358" />
+
+</div>
+<p>Het paneel aan de rechterkant van het scherm is geopend op het tabje <code>Elements</code>. Alle tekst die hierin staat is al programmeercode! Dit is namelijk de HTML van deze pagina. Wanneer je met je muis boven één van de regels zweeft dan zie dat het deel van de website gemaakt met die regel code grijs oplichten. Met de pijltjes links van de regels kun je de onderdelen binnen dat onderdeel zien.</p>
+Binnen de <code>inspector</code> kan je de webpagina ook aanpassen door dubbel te klikken op de tekst. Geen zorgen, dit verandert de webpagina alleen voor jou! Wanneer je de pagina ververst met de
+<div class="inline-image">
+<img src="../Webdesign./media/image3.png" width="61" height="57" />
+</div>
+<p>knop linksboven of met <code>F5</code> dan zijn al je wijzigingen weer verdwenen. Je kunt zelfs hele onderdelen van de website verwijderen! Selecteer hiervoor gewoon een regel code en druk daarna op <code>Delete</code>.</p>
+<p>De gemarkeerde knop in het plaatje activeert een modus waarbij je ergens op de website kan klikken, waardoor de regel code die daarvoor verantwoordelijk is wordt weergeven. Dit is handig om snel te vinden hoe een bepaald deel van de website in elkaar zit.</p>
+<h2 id="onderzoeksopdrachten"><span class="exercise">Onderzoeksopdrachten</span></h2>
+<ol style="list-style-type: decimal">
+<li><p>Gebruik de inspector op <a href="https://www.quadraam.nl/home" class="uri">https://www.quadraam.nl/home</a> om te kijken hoe de website is opgebouwd. Welke tekst zit waarin? Waarom zou dit zo zijn?</p></li>
+<li><p>Probeer met de inspector een stuk tekst of andere code aan te passen. Wat gebeurt er als je alle tekst verwijdert uit een blok? Kun je op andere manieren de website apart eruit laten zien?</p></li>
+<li><p>Ga zelf naar een andere website toe en open de inspector daar weer. Wat is er anders aan de website? Probeer ook hier weer verschillende regels code te veranderen.</p></li>
+</ol>
+<p>Naast de inspector zijn er in alle browsers ook nog andere gereedschappen ingebouwd om webdesigners te helpen bij hun baan. Zo kan bijvoorbeeld bijgehouden worden hoeveel geheugen een website gebruikt in het <code>Performance</code> tabblad of welke fouten er zijn in de code in het <code>Console</code> tabblad. Het is nu tijd om te leren hoe je zelf een website maakt.</p>
+<h1 id="html">HTML</h1>
+<p>HTML staat voor <strong>HyperText</strong> <strong>Markup</strong> <strong>Language</strong>. Hierbij is HyperText de techniek waarmee een verbinding wordt gemaakt met bijvoorbeeld een andere webpagina. Markup staat voor het systeem waar de programmeertaal zich aan houdt: de manier waarop een document is opgebouwd, is hetzelfde als de website die je uiteindelijk ziet. Als een plaatje boven de tekst staat in HTML, zal dat op de website ook zo zijn. Language betekent hier programmeertaal. HTML is dus een programmeertaal waarbij verbindingen tussen componenten gemaakt kunnen worden en waarbij de uiteindelijke visuele uitkomst identiek is aan de code. Simpeler gezegd is HTML de absolute basis van de website. Met HTML worden alle onderdelen van de website ‘getekend’ waardoor je geen lege pagina hebt.</p>
+<p>Alle websites op het <strong>World Wide Web</strong> (en veel daarbuiten) zijn in de basis gemaakt met HTML. Deze code wordt geladen vanaf een zogenoemde <strong>Webserver</strong>. Veel over webservers hoef je niet te weten, alleen dat het een computer is waarop bestanden kunnen worden opgeslagen en weer geladen kunnen worden. Dat opslaan en laden wordt gedaan vanaf andere computers zoals die van jou. Op deze webservers staan vooral HTML-bestanden, deze bestanden eindigen op <code>.html</code>. Het belangrijkste bestand van de hele website heet <code>index.html</code>. Dit komt door een afspraak die vroeger is gemaakt. Bij het contact maken met een webserver voor het laden van een website, geeft de server standaard dat bestand aan je computer. Dit is dan ook het bestand wat vervolgens wordt weergegeven.</p>
+<p>Wanneer je online zelf onderzoek doet naar HTML dan ga je een paar nieuwe termen tegenkomen. Hieronder staan de belangrijkste termen uitgelegd.</p>
+<h2 id="elements-en-tags">Elements en tags</h2>
+<p><strong>Elements</strong> (elementen) zijn stukjes code in een HTML-bestand die aangeven wat voor soort informatie op een bepaalde plek weergegeven moeten worden. Er zijn verschillende elements voor tekst, plaatjes, kopjes, linkjes en nog veel meer. Deze elements kunnen ook in elkaar gezet worden, deze heten dan nested elements. Zo kan er bijvoorbeeld een plaatjeselement in een linkjeselement zitten, waardoor je op het plaatje kunt klikken om naar de website van het linkje te gaan. Elements worden in een HTML-bestand weergeven en gelezen als <strong>tags</strong>.</p>
+<p>Een goede tag kan er als volgt uitzien: <code>&lt;br/&gt;</code>. Deze tag zorgt voor een witregel in je webpagina. Zoals je kan zien staan er haken om de tag heen. Deze tag is een zogenoemde <strong>empty tag</strong>. Dit betekent dat deze tag geen inhoud kan hebben buiten de tag zelf. Het zou in dit geval onlogisch zijn als je tekst in je witregel wilt zetten, dan is het namelijk geen witregel meer.</p>
+<p>Er zijn ook veel tags waar wel inhoud in mag zitten. Deze tags zijn dan als volgt geformuleerd: <code>&lt;p&gt;Deze tekst wordt een paragraaf&lt;/p&gt;</code>. Dit zorgt uiteindelijk in de website voor de vorming van een paragraaf met de tekst ‘Deze tekst wordt een paragraaf’ Op deze manier zie je twee tags, namelijk de <strong>start tag</strong> <code>&lt;p&gt;</code> en de <strong>end tag</strong> <code>&lt;/p&gt;</code>. Tags die inhoud hebben zijn altijd op deze manier geformuleerd. Het is in sommige uitzonderlijke gevallen mogelijk om de end tag (of zelfs de start tag) weg te laten. Dat is echter een slecht idee, want het leidt vaak tot onvoorziene problemen. Empty tags hoeven niet afgesloten te worden (<code>&lt;br&gt;</code> kan ook in plaats van <code>&lt;br/&gt;</code>). Dit is echter ook sterk af te raden om dezelfde reden. Sluit dus altijd je empty tags en end tags af met een schuine streep!</p>
+<h2 id="attributes">Attributes</h2>
+<p><strong>Attributes</strong> (attributen) zijn opties die gebruikt worden om meer informatie toe te voegen aan een element. Een attribute ziet er als volgt uit: <code>&lt;a href=”[*https://www.quadraam.nl/home*](https://www.quadraam.nl/home)&quot;&gt;Quadraam&lt;/a&gt;</code>. Dit produceert een link (het element a maakt een link) met de naam ‘Quadraam’ die je naar de website van Quadraam brengt wanneer je erop klikt. Hierbij is het deel <code>href=”[*https://www.quadraam.nl/home*](https://www.quadraam.nl/home)&quot;</code> de attribute. Een attribute bevindt zich altijd binnen de start tag en heeft altijd de volgende opmaak: <code>attribuutnaam=”waarde”</code>.</p>
+<p>Wanneer je meer leert over de verschillende elements dan leer je ook snel meer over de verschillende attributes die daarbij horen.</p>
+<h2 id="html-bestanden">HTML-bestanden</h2>
+<p>Een HTML-bestand heeft altijd een standaard opbouw, dit wordt ook wel de <strong>boilerplate code</strong> genoemd:</p>
+<pre class="\"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;nl&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Dit ziet er behoorlijk ingewikkeld uit, maar dit is uiteindelijk best simpel.</p>
+<pre class="\"><code>&lt;!DOCTYPE html&gt;</code></pre>
+<p>Deze regel geeft aan de browser aan welke versie HTML er gebruikt wordt. Wij gebruiken in deze module HTML5. Omdat HTML5 de nieuwste versie is mag er in het <code>doctype</code> gewoon <code>html</code> gezet worden in plaats van <code>html5</code>. Wanneer je bijvoorbeeld HTML4 gebruikt wordt het <code>html4</code>.</p>
+<pre class="\"><code>&lt;html lang=&quot;nl&quot;&gt;
+&lt;/html&gt;</code></pre>
+<p>Deze regels geven het begin en eind van de website aan. Binnen de start tag zit nog een attribute genaamd <code>lang</code>. Deze attribute wordt gebruikt om de primaire taal van een website aan te geven. Op deze manier kunnen browsers en zoekmachines zich daarop aanpassen. <code>lang</code> is niet verplicht maar wordt wel sterk aangeraden. Voor meer informatie: <a href="https://www.w3schools.com/tags/ref_language_codes.asp"><em>https://www.w3schools.com/tags/ref_language_codes.asp</em></a></p>
+<pre class="\"><code>&lt;head&gt;
+&lt;/head&gt;</code></pre>
+<p>Deze regels geven het begin en einde van de kop van het HTML-bestand aan. In de kop van het HTML-bestand kan geen inhoud van de website gezet worden, want deze inhoud wordt niet weergeven op de website. In plaats daarvan wordt de kop van het HTML-bestand gebruikt als plaats voor dingen zoals metadata, een icoontje voor de webpagina of de titel van de webpagina.</p>
+<pre class="\"><code>&lt;meta charset=&quot;utf-8&quot;/&gt;</code></pre>
+<p>Meta elements worden gebruikt om metadata toe te wijzen. <strong>Metadata</strong> is extra informatie die in dit geval aan de browser wordt doorgegeven aan de website. In dit geval laat <code>meta</code> weten hoe de tekst van dit bestand is gecodeerd. Dit is in ons geval <code>utf-8</code>. Voor meer informatie: <a href="https://www.w3schools.com/html/html_charset.asp"><em>https://www.w3schools.com/html/html_charset.asp</em></a></p>
+<pre class="\"><code>&lt;title&gt;Hello World&lt;/title&gt;</code></pre>
+<p><code>title</code> wordt gebruikt om de titel van de website door te geven aan de browser. De titel van de website is wat er bovenin de browser op het tabblad staat bij de website.</p>
+<pre class="\"><code>&lt;body&gt;
+&lt;/body&gt;</code></pre>
+<p><code>body</code> is waar alle inhoud van de website geplaatst moet worden. Binnen deze twee tags maak je dus eigenlijk heel je website.</p>
+<p>Een website maken is dus eigenlijk heel simpel. Gebruik bij het maken van een HTML-bestand gewoon de bovenstaande code en zet je eigen elements binnen de body tags. Pas de titel aan in het head-element en dan heb je een functionerende website.</p>
+<p>In een HTML-bestand kom je vaak de volgende stukken code tegen: <code>&lt;!-- Comment --&gt;</code>. Dit zijn <strong>comments</strong> in de HTML code. Comments worden gebruikt om je code uit te leggen en leesbaar te maken voor andere programmeurs. <em>Het is belangrijk dat je veel comments gebruikt in je code en je wordt hier dan ook op beoordeeld in de eindopdracht.</em></p>
+<h2 id="zelf-aan-de-slag">Zelf aan de slag</h2>
+<p>Nu is het tijd om zelf te gaan bouwen aan een website en om de verschillende elements te leren kennen. <em>Wanneer je een element of tag niet helemaal begrijpt, kun je in Appendix B meer informatie over de tags vinden en over de wijze waarop je ze moet gebruiken.</em></p>
+<p>In deze module gebruiken we het programma <strong>WebStorm</strong> om de websites makkelijk en snel te kunnen programmeren. WebStorm is een voorbeeld van een <strong>IDE</strong>, een Integrated Development Environment. Dit zijn programma’s die het voor programmeurs makkelijker maken om te programmeren, bijvoorbeeld door de code meteen te controleren op foutjes. WebStorm is een zeer krachtig programma waar je veel verschillende dingen mee kan. Je kunt er zelfs de webapps zoals besproken in de introductie mee maken. In het begin ziet WebStorm er heel gecompliceerd uit, maar geen paniek! In deze module leer je stap voor stap hoe je met WebStorm werkt, en veel van de functies ga je nu nog niet gebruiken.</p>
+<h3 id="opdracht-1-simpele-elements"><span class="exercise">Opdracht 1 – Simpele elements</span></h3>
+<ol style="list-style-type: decimal">
+<li>Als je WebStorm voor de eerste keer opent, druk dan op:
+<div class="inline-image">
+<img src="../Webdesign./media/image4.png" width="173" height="25" />
+</div>
+<em><br />
+</em>Als je WebStorm al een keer hebt geopend, maak dan een nieuw project met File → New → Project… <em><br />
+</em>Gebruik de naam <code>WebDevelopment</code> voor je project, laat de rest van de instellingen hetzelfde en druk op Create. Maak een nieuwe map binnen <code>WebDevelopment</code> door met de rechtermuisknop op de map te klikken en dan New → Directory te selecteren. Noem deze map <code>Opdracht_1</code>. <em><br />
+</em>Maak bij elke opdracht weer een nieuwe map, op die manier kun je alle opdrachten goed gescheiden houden. Kopieer dan meteen alle bestanden van de vorige opdracht naar je nieuwe map, we bouwen namelijk verder op de website uit de vorige opdracht.<em><br />
+</em>Maak een nieuw bestand in de opdrachtmap door met de rechtermuisknop op de map te klikken en dan New -&gt; HTML-file. Noem het bestand <code>index</code> en druk op enter. Zo wordt de boilerplate code alvast voor je toegevoegd.</li>
+</ol>
+<p>Voor de meeste mensen geldt dat ze dingen beter onthouden en begrijpen als ze het zelf overtypen, probeer dus zo veel mogelijk zelf te typen en zo min mogelijk te kopiëren. Op die manier vergroot je de kans dat je het in één keer begrijpt. Dit geldt niet alleen voor deze module, maar is belangrijk om te doen in alle informatica modules binnen de Q-Highschool.</p>
+<ol style="list-style-type: decimal">
+<li>Druk in de balk bovenaan of aan de linkerkant met de rechtermuisknop op index.html Selecteer vervolgens de optie <code>Debug ‘index.html’</code>. WebStorm opent nu jouw website.</li>
+</ol>
+<p>In de meeste IDE’s betekent de <strong>debug modus</strong> dat er een live versie van je code wordt geopend. Op die manier kun je aan je code werken terwijl je programma bezig is. In ons geval met web development betekent het dat WebStorm onze webpagina opent en bij iedere wijziging meteen voor ons ververst.</p>
+<p>Je ziet in WebStorm zelf dat alle tekst een aparte kleur heeft. Dit is om de code makkelijker te lezen en te begrijpen te maken. Dit heet <strong>syntax highlighting</strong> en is in vrijwel alle IDE’s aanwezig.</p>
+<h4 id="indentation">Indentation</h4>
+<p>Als het goed is, zie je nu een witte pagina met de tekst <code>Title</code> in het kopje van het tabblad. Gefeliciteerd! Je eerste website is een feit. Hij is alleen nog wel een beetje saai met die witte pagina. Daar gaan we zo dadelijk wat inhoud aan toevoegen, maar eerst is het belangrijk om te leren over <strong>indentation</strong>. Het is belangrijk dat je code altijd indent. Dit houdt in dat voor andere programmeurs makkelijk te zien moet zijn hoe je code in elkaar zit. Voor sommige programmeertalen is het zelfs verplicht om indentation te gebruiken, ze functioneren niet goed zonder indentation. Voor indentation gebruiken wij de Tabtoets. Voor indentation gelden meestal de volgende regels:</p>
+<p>Zorg ervoor dat de start en end tags altijd op ‘hetzelfde niveau’ zitten. Dit houdt in dat ze een gelijke afstand tot de linkerzijde van het scherm moeten hebben. Een uitzondering hierop is een tag die zo kort is dat de start en end tags op dezelfde regel kunnen staan. Zet ze in dit geval op dezelfde regel. Bijvoorbeeld:</p>
+<pre><code>
+&lt;p&gt;
+
+Dit is een lang stuk tekst waarbij de omringende start- en end tags op
+hetzelfde niveau moeten zitten. Op deze manier hebben ze een gelijke
+afstand tot de linkerzijde van het scherm en is de code overzichtelijk
+voor alle programmeurs die het lezen. Hieronder staat een voorbeeld van
+een korte regel tekst. Bij deze tekst zitten de start- en end tags op
+één regel.
+
+&lt;/p&gt;
+
+&lt;p&gt;Een kort stuk tekst.&lt;/p&gt;
+</code></pre>
+<p>Wanneer een tag binnen een andere tag valt dan mogen deze niet op hetzelfde niveau zitten. De binnenste tag moet een grotere afstand hebben tot de linkerkant dan de buitenste tag. Bijvoorbeeld:</p>
+<pre><code>
+&lt;body&gt;
+
+&lt;p&gt;Een stuk tekst&lt;/p&gt;
+
+&lt;/body&gt;
+</code></pre>
+<p>En dus niet:</p>
+<pre><code>
+&lt;body&gt;
+
+&lt;p&gt;Een stuk tekst&lt;/p&gt;
+
+&lt;/body&gt;
+</code></pre>
+<p>De regels lijken nu een beetje ingewikkeld, maar als je goed kijkt naar de voorbeelden dan zie je het vanzelf terugkomen. De boilerplate code uit het begin van deze opdracht volgt goede indentation. Je zult merken dat de boilerplate code binnen WebStorm er iets anders uit ziet. Veel programmeurs vinden het namelijk onzinnig om de <code>&lt;head&gt;</code> en <code>&lt;body&gt;</code> met indentation binnen <code>&lt;html&gt;</code> te zetten. Wij houden deze structuur ook aan en hebben die drie elements allemaal op één lijn staan. De boilerplate code <em>zonder</em> indentation ziet er zo uit:</p>
+<pre class="\"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;nl&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Vraag de eerste paar keren dat je programmeert aan klasgenoten of desnoods aan je docent of je indentation klopt. Voor meer informatie over indentation: <a href="https://www.granneman.com/webdev/coding/formatting-and-indenting-your-html#examples"><em>https://www.granneman.com/webdev/coding/formatting-and-indenting-your-html#examples</em></a></p>
+<h4 id="het-p-element">Het p-element</h4>
+<p>Nu gaan we dan toch echt aan de inhoud werken! Met het belangrijkste element heb je al een beetje kennisgemaakt, dat is namelijk <code>p</code>. Met dit element kun je een alinea maken.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Voeg in WebStorm een <code>p</code> toe binnen de body met wat tekst naar keuze. Zorg ervoor dat het er ongeveer zo uit komt te zien:</li>
+</ol>
+<pre class="\"><code>&lt;body&gt;
+&lt;p&gt;
+Wat leuke tekst om je website te testen.\
+&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+<p>Als het goed is zie je nu ook meteen je geschreven tekst op de website.</p>
+<h4 id="tekst-formatteren">Tekst formatteren</h4>
+<p>Binnen deze alinea’s kun je ook nog aanpassen hoe de tekst eruitziet op de volgende manieren:</p>
+<ul>
+<li><p><em><code>&lt;b&gt;Tekst&lt;/b&gt;</code></em> binnen deze tag is de tekst dikgedrukt (<strong>bold</strong> in het Engels).</p></li>
+<li><p><em><code>&lt;i&gt;Tekst&lt;/i&gt;</code></em> binnen deze tag is de tekst schuingedrukt (<em>italics</em> in het Engels).</p></li>
+<li><p><em><code>&lt;s&gt;Tekst&lt;/s&gt;</code></em> binnen deze tag is de tekst doorgestreept (<del>strikethrough</del> in het Engels).</p></li>
+<li><p><em><code>&lt;mark&gt;Tekst&lt;/mark&gt;</code></em> binnen deze tag is de tekst gemarkeerd.</p></li>
+<li><p><em><code>&lt;br/&gt;</code></em> gaat naar een nieuwe regel, staat gelijk aan één keer op ENTER drukken.</p></li>
+<li><p>Veel meer vind je op <a href="https://www.w3schools.com/tags/ref_byfunc.asp"><em>https://www.w3schools.com/tags/ref_byfunc.asp</em></a> onder het kopje <code>Formatting</code></p></li>
+</ul>
+<p>Deze tags mogen middenin de tekst gebruikt worden, je hoeft hier niks mee te doen voor indentation.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Schrijf nu een paar stukjes tekst over jezelf of iets anders binnen de alinea. Gebruik een paar van de hierboven beschreven elements om je tekst er iets leuker uit te laten zien.</p></li>
+<li><p>(Optioneel) Kijk op de website van w3schools en zoek naar nog meer tags om je tekst mee op te vrolijken. Gebruik daar ook een paar van.</p></li>
+</ol>
+<h4 id="kopjes">Kopjes</h4>
+<p>Je tekst ziet er voor nu waarschijnlijk heel ongestructureerd uit, laten we hier verandering in brengen. HTML heeft al een paar kopjes ingebouwd, deze worden gebruikt door de <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code> en <code>h6</code> in je HTML-bestand te zetten. Hierbij is <code>h1</code> het belangrijkste en grootste kopje en <code>h6</code> het minst belangrijke en kleine kopje.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Voeg kopjes toe aan je stuk tekst om het overzichtelijker te maken.</li>
+</ol>
+<h4 id="afbeeldingen">Afbeeldingen</h4>
+<p>Met alleen maar tekst blijft de website toch nog een beetje saai. Je kan gelukkig ook plaatjes toevoegen met HTML. Dit doe je met <code>img</code> Deze tag ziet er als volgt uit: <code>&lt;img src=”afbeeldingsbron” alt=”vervangende tekst wanneer het plaatje niet geladen kan worden” width=”breedte” height=”hoogte”/&gt;</code>. De afbeeldingsbron kan een pad zijn naar een ander bestand of een link naar een afbeelding online. De breedte en hoogte van het plaatje zijn in pixels en hoeven niet hetzelfde te zijn als het origineel. Een alt attribute moet altijd bij een img tag zitten, anders geven sommige browsers een fout.</p>
+<p>Een belangrijk aspect bij het gebruiken van foto’s op het internet is de wetgeving. Je mag namelijk niet zomaar ieder plaatje dat je online vindt gebruiken in je website. Kijk voor meer informatie over de wetgeving en voor locaties van rechtenvrije foto’s op <a href="https://www.riffonline.com/nl/happening/knowledge/de-wetgeving-voor-het-gebruik-van-fotos-op-het-web/" class="uri">https://www.riffonline.com/nl/happening/knowledge/de-wetgeving-voor-het-gebruik-van-fotos-op-het-web/</a></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Voeg een afbeelding van het internet naar keuze toe op een plek naar keuze. Experimenteer een beetje met de breedte en de hoogte om te zien wat er met het plaatje gebeurt. Vergelijk de waardes die je invult en het resultaat dat je krijgt met de originele afmetingen van het plaatje. Welke conclusie kun je hieruit trekken?</p></li>
+<li><p>Download een afbeelding vanaf het internet en zet die in een map genaamd sources in de map <code>Opdracht 1</code>. Geef hem een herkenbare naam en noteer de bestandsextentie (<code>.png</code>, <code>.jpg</code>, etc.). Voeg de afbeelding vervolgens toe aan de website met <code>src=”sources/naam.extentie”</code>.</p></li>
+</ol>
+<p>In theorie is het mogelijk om een afbeelding te allen tijde vanaf het internet te laden op je website. Dit zorgt echter voor langere laadtijden omdat de afbeelding nog gedownload moet worden vanaf een andere website. Ook kan de website van de afbeelding opeens offline gaan, waardoor deze niet meer geladen kan worden. Zorg er daarom altijd voor dat je een lokale versie van de afbeelding in je map hebt staan, op die manier ben je altijd zelf verantwoordelijk voor de bereikbaarheid van de afbeelding en heb je een snelle website.</p>
+<p>Nu heb je jouw eerste echte website gemaakt. Hij is nog redelijk simpel, maar je mag echt wel trots op jezelf zijn. Dit is een voorbeeld van hoe je website eruit zou kunnen zien:</p>
+<div class="figure">
+<img src="../Webdesign./media/image5.png" width="601" height="264" />
+
+</div>
+<pre class="\"><code>&lt;!DOCTYPE html&gt;
+
+&lt;html lang=&quot;nl&quot;&gt;
+
+&lt;head&gt;
+
+&lt;meta charset=&quot;utf-8&quot; /&gt;
+
+&lt;title&gt;Q-highschool&lt;/title&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;img
+
+src=&quot;https://cdn.shortpixel.ai/client/to_webp,q_glossy,ret_img/https://q-highschool.nl/wp-content/uploads/2018/05/Logo_Q-highschool_2019.png&quot;
+
+alt=&quot;q-highschool logo&quot; width=&quot;200&quot; height=&quot;60&quot; /&gt;
+
+&lt;p&gt;
+
+De &lt;b&gt;Q-highschool&lt;/b&gt; is een initiatief van Quadraam,
+Gelderse Onderwijs Groep, en maakt en organiseert innovatief onderwijs
+waaraan alle leerlingen van de dertien Quadraamscholen kunnen deelnemen.
+&lt;br /&gt;&lt;i&gt;Jij&lt;/i&gt; dus ook!&lt;br /&gt; Er zijn vier
+leidende principes die richting geven aan het onderwijsaanbod en de
+werkwijze binnen de Q-highschool. Deze kenmerken zijn hieronder
+beschreven en geven aan waar de Q-highschool voor staat.
+
+&lt;/p&gt;
+
+&lt;img src=&quot;sources/logo-quadraam.jpg&quot; alt=&quot;foto&quot; width=&quot;150&quot; /&gt;
+
+&lt;h3&gt;Open leersysteem&lt;/h3&gt;
+
+&lt;p&gt;
+
+Met een &lt;b&gt;netwerk&lt;/b&gt; van leerlingen, hun ouders en
+medewerkers wordt de buitenwereld toegankelijk gemaakt, waardoor
+expertise en leermogelijkheden haast oneindig voorradig zijn.
+
+&lt;/p&gt;
+
+&lt;h3&gt;Leren is groeien&lt;/h3&gt;
+
+&lt;p&gt;
+
+Experimenteren, fouten maken, opnieuw beginnen, of het gewoon anders
+doen, mag dan ook binnen de Q-highschool.
+De&lt;b&gt;leerervaring&lt;/b&gt; weegt zwaarder dan het eindresultaat.
+
+&lt;/p&gt;
+
+&lt;h3&gt;Regie bij de leerling&lt;/h3&gt;
+
+&lt;p&gt;
+
+Wij geloven erin dat leerlingen zelf
+&lt;b&gt;verantwoordelijkheid&lt;/b&gt; kunnen nemen voor (delen van)
+hun eigen leerproces. Q-highschool biedt daarvoor de ruimte en de
+mogelijkheden.
+
+&lt;/p&gt;
+
+&lt;h3&gt;Leren omdat het ertoe doet&lt;/h3&gt;
+
+&lt;p&gt;
+
+Om te leren heb je hoofd, hart en handen nodig. Leren is ervaren,
+denken, doen en zijn. In de Q-highschool nemen leerlingen deel aan
+&lt;b&gt;leeractiviteiten die ertoe doen.&lt;/b&gt;
+
+&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<h3 id="opdracht-2-organisatie"><span class="exercise">Opdracht 2 – Organisatie</span></h3>
+<p>Zoals je misschien al hebt gemerkt tijdens het lezen van de code in het voorbeeld is het niet op het eerste gezicht duidelijk hoe de website georganiseerd is. In HTML5 is hier een nieuw systeem voor geïntroduceerd, dit bestaat uit de zogenaamde <strong>Semantic Elements</strong>. Deze elements zorgen ervoor dat elke website in de basis op dezelfde manier gestructureerd kan worden zoals hiernaast. Door deze structuur kunnen computers en zoekmachines beter omgaan met de websites, waardoor de ervaring van de gebruiker verbeterd.</p>
+<div class="figure">
+<img src="../Webdesign./media/image6.gif" alt="HTML5 Semantic Elements" width="163" height="192" />
+<p class="caption">HTML5 Semantic Elements</p>
+</div>
+<h4 id="header">Header</h4>
+<p><code>&lt;header&gt;&lt;/header&gt;</code> wordt gebruikt om de kop van een website of sectie te weergeven. Er mogen meer headers in één website gebruikt worden op verschillende plekken. <code>header</code> moet altijd in de omringende ‘container’ geplaatst worden voor de sectie of de website.</p>
+<h4 id="nav">Nav</h4>
+<p><code>&lt;nav&gt;&lt;/nav&gt;</code> wordt gebruikt om de hoofdnavigatie van de website weer te geven. In dit element zet je alle knoppen naar andere delen van je website.</p>
+<h4 id="section">Section</h4>
+<p><code>&lt;section&gt;&lt;/section&gt;</code> wordt gebruikt om secties in de website uit elkaar te houden. Dit is inhoud die thematisch bij elkaar hoort. Een startpagina zou bijvoorbeeld kunnen worden verdeeld in secties voor de introductie, de inhoud en contactinformatie.</p>
+<h4 id="article">Article</h4>
+<p><code>&lt;article&gt;&lt;/article&gt;</code> wordt gebruikt om onafhankelijke, op zichzelf staande inhoud van elkaar te scheiden. Op een blog kan bijvoorbeeld iedere blogpost een nieuw artikel zijn.</p>
+<p>Je kan articles in sections zetten, maar dit kan ook andersom. Het artikel over een voetbalwedstrijd kan in de sportsectie zitten, maar kan tegelijkertijd ook verschillende secties bezitten over verschillende onderwerpen in de wedstrijd.</p>
+<h4 id="aside">Aside</h4>
+<p><code>&lt;aside&gt;&lt;/aside&gt;</code> wordt gebruikt om wat inhoud naast de hoofdcontent te zetten. <code>aside</code> moet altijd een verband hebben met de inhoud eromheen.</p>
+<h4 id="footer">Footer</h4>
+<p><code>&lt;footer&gt;&lt;/footer&gt;</code> wordt gebruikt om de voettekst van een document of sectie aan te geven. <code>footer</code> wordt veel gebruikt om de schrijver van het document, copyright informatie, contactinformatie en dat soort informatie te geven.</p>
+<h4 id="figure-en-figcaption">Figure en figcaption</h4>
+<p>De <code>&lt;figure&gt;&lt;/figure</code> en <code>&lt;figcaption&gt;&lt;/figcaption&gt;</code> worden gebruikt om een beschrijving toe te voegen bij een plaatje op de website. Dit gaat op de volgende manier:</p>
+<pre class="\"><code>&lt;figure&gt;
+&lt;img src=&quot;plaatje.jpg&quot; alt=&quot;plaatje&quot;/&gt;
+&lt;figcaption&gt;Plaatje 1 - Plaatje&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+<p>Meer informatie over semantic elements kan je hier vinden: <a href="https://www.w3schools.com/html/html5_semantic_elements.asp"><em>https://www.w3schools.com/html/html5_semantic_elements.asp</em></a></p>
+<ol style="list-style-type: decimal">
+<li>Maak een kopie van de website die je in opdracht 1 hebt gemaakt. Doe dit door binnen WebStorm met de rechtermuisknop op <code>Webdevelopment</code> te drukken en vervolgens New Directory te kiezen. Geef hem de naam <code>Opdracht 2</code> en druk op <code>OK</code>. Kopieer vervolgens het HTML-bestand uit <code>Opdracht 1</code> door er één keer op te klikken en vervolgens <code>CTRL + C</code> te gebruiken. Selecteer vervolgens de map <code>Opdracht 2</code> en gebruik <code>CTRL + V</code> om het bestand te plakken. Sluit het bestand uit de map <code>Opdracht 1</code> door bovenin de balk op het kruisje naast <code>index.html</code> te drukken. Open vervolgens het HTML-bestand <code>index.html</code> uit de map <code>Opdracht 2</code>.</li>
+</ol>
+<blockquote>
+<p>Pas het bestand aan en zorg ervoor dat hij nu voldoet aan de standaarden van semantic elements. Gebruik ieder semantic element ten minste één keer (behalve <code>nav</code>). Laat het controleren door klasgenoten of door de docent.</p>
+</blockquote>
+<p>Hier is een voorbeeld van een goede implementatie:</p>
+<div class="figure">
+<img src="../Webdesign./media/image7.png" width="601" height="287" />
+
+</div>
+<pre class="\"><code>&lt;!DOCTYPE html&gt;
+
+&lt;html lang=&quot;nl&quot;&gt;
+
+&lt;head&gt;
+
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+
+&lt;title&gt;Q-highschool&lt;/title&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;header&gt;
+
+&lt;img
+src=&quot;https://cdn.shortpixel.ai/client/to_webp,q_glossy,ret_img/https://q-highschool.nl/wp-content/uploads/2018/05/Logo_Q-highschool_2019.png&quot;
+alt=&quot;q-highschool logo&quot; width=&quot;200&quot; height=&quot;60&quot;/&gt;
+
+&lt;/header&gt;
+
+&lt;section&gt;
+
+&lt;p&gt;
+
+De &lt;b&gt;Q-highschool&lt;/b&gt; is een initiatief van Quadraam,
+Gelderse Onderwijs Groep, en maakt en organiseert innovatief onderwijs
+waaraan alle leerlingen van de dertien Quadraamscholen kunnen deelnemen.
+&lt;br/&gt;&lt;i&gt;Jij&lt;/i&gt; dus ook! &lt;br/&gt;Er zijn vier
+leidende principes die richting geven aan het onderwijsaanbod en de
+werkwijze binnen de Q-highschool. Deze kenmerken zijn hieronder
+beschreven en geven aan waar de Q-highschool voor staat.
+
+&lt;/p&gt;
+
+&lt;aside&gt;
+
+&lt;figure&gt;
+
+&lt;img src=&quot;sources/logo-quadraam.jpg&quot; alt=&quot;foto&quot; width=&quot;150&quot;/&gt;
+
+&lt;figcaption&gt;Het logo van Quadraam&lt;/figcaption&gt;
+
+&lt;/figure&gt;
+
+&lt;/aside&gt;
+
+&lt;/section&gt;
+
+&lt;section&gt;
+
+&lt;article&gt;
+
+&lt;h3&gt;Open leersysteem&lt;/h3&gt;
+
+&lt;p&gt;
+
+Met een &lt;b&gt;netwerk&lt;/b&gt; van leerlingen, hun ouders en
+medewerkers wordt de buitenwereld toegankelijk gemaakt, waardoor
+expertise en leermogelijkheden haast oneindig voorradig zijn.
+
+&lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;article&gt;
+
+&lt;h3&gt;Leren is groeien&lt;/h3&gt;
+
+&lt;p&gt;
+
+Experimenteren, fouten maken, opnieuw beginnen, of het gewoon anders
+doen, mag dan ook binnen de Q-highschool. De
+&lt;b&gt;leerervaring&lt;/b&gt; weegt zwaarder dan het eindresultaat.
+
+&lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;article&gt;
+
+&lt;h3&gt;Regie bij de leerling&lt;/h3&gt;
+
+&lt;p&gt;
+
+Wij geloven erin dat leerlingen zelf
+&lt;b&gt;verantwoordelijkheid&lt;/b&gt; kunnen nemen voor (delen van)
+hun eigen leerproces. Q-highschool biedt daarvoor de ruimte en de
+mogelijkheden.
+
+&lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;article&gt;
+
+&lt;h3&gt;Leren omdat het ertoe doet&lt;/h3&gt;
+
+&lt;p&gt;
+
+Om te leren heb je hoofd, hart en handen nodig. Leren is ervaren,
+denken, doen en zijn. In de Q-highschool nemen leerlingen deel aan
+&lt;b&gt;leeractiviteiten die ertoe doen.&lt;/b&gt;
+
+&lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;/section&gt;
+
+&lt;footer&gt;© Quadraam 2019&lt;/footer&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<h4 id="div-en-span">Div en span</h4>
+<p>Voordat semantic elements de standaard werden werd er veel gewerkt met <code>&lt;div&gt;&lt;/div&gt;</code> en <code>&lt;span&gt;&lt;/span&gt;</code>. Deze elements worden gebruikt om andere elements te groeperen, net zoals de semantic elements doen. Er zit echter wel één groot verschil tussen de twee methoden. Dat verschil is dat bij semantic elements al is vastgesteld op welke manier elements gegroepeerd moeten worden, terwijl dat met <code>div</code> en <code>span</code> niet zo is.</p>
+<p><code>div</code> groepeert de elements bij elkaar en zet er een witregel onder en boven, op deze manier wordt een op zichzelf staand blok gemaakt. <code>span</code> groepeert de elements in-line bij elkaar, ze worden dus achter elkaar gezet.</p>
+<p>Je kan en mag deze elements nog steeds gebruiken om andere elements te groeperen, maar wanneer je semantic elements kan gebruiken dan is het sneller en beter om deze te gebruiken.</p>
+<h3 id="opdracht-3-tabellen-en-lijsten"><span class="exercise">Opdracht 3 – Tabellen en lijsten</span></h3>
+<p>Tabellen en lijsten zijn zeer handige manieren om informatie te ordenen. In HTML zijn hier dan ook verschillende elements aan toegewijd.</p>
+<h4 id="table">Table</h4>
+<p>In HTML maak je een tabel met <code>&lt;table&gt;&lt;/table&gt;</code>. Hierbinnen maak je rijen met <code>&lt;tr&gt;&lt;/tr&gt;</code> en kolommen met <code>&lt;td&gt;&lt;/td&gt;</code>. Ook kan je de tabel kopjes geven met <code>&lt;th&gt;&lt;/th&gt;</code>. Je kan ook de hele tabel een kop geven met <code>&lt;caption&gt;&lt;/caption&gt;</code>. De syntax van een tabel is als volgt:</p>
+<div class="figure">
+<img src="../Webdesign./media/image8.png" width="146" height="203" />
+
+</div>
+<pre class="\"><code>&lt;table&gt;
+&lt;caption&gt;Mensen&lt;/caption&gt;
+
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Naam&lt;/th&gt;
+&lt;th&gt;Leeftijd&lt;/th&gt;
+&lt;/tr&gt;
+
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Nancy&lt;/td&gt;
+&lt;td&gt;60&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;James&lt;/td&gt;
+&lt;td&gt;47&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Thomas&lt;/td&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+<p>Dit geeft het resultaat aan de rechterkant. Er kunnen nog meer dingen worden aangepast aan de tabel. Kijk hiervoor op <a href="https://www.w3schools.com/html/html_tables.asp"><em>https://www.w3schools.com/html/html_tables.asp</em></a> als je geïnteresseerd bent. De tabel ziet er nu ook nog redelijk saai uit. Dit gaan we echter later met CSS verbeteren.</p>
+<ol style="list-style-type: decimal">
+<li>Maak een kopie van de website uit opdracht 2. Pas hem nu aan door een tabel toe te voegen, voorzie die ook meteen van inhoud.</li>
+</ol>
+<h4 id="unordered-list">Unordered list</h4>
+<p>Wanneer je met HTML slechts een lijst van bullet points wilt maken dan kan je hiervoor een unordered list gebruiken. Deze vorm van list bestaat uit een buitenste element <code>&lt;ul&gt;&lt;/ul&gt;</code>, die een unordered list aankondigt, en een binnenste element met <code>&lt;li&gt;&lt;/li&gt;</code> (list items). Deze elements bevatten uiteindelijk de inhoud. Dit doe je als volgt met het resultaat aan de rechterkant:<img src="../Webdesign./media/image9.png" width="148" height="112" /></p>
+<pre class="\"><code>&lt;ul&gt;
+&lt;li&gt;HTML&lt;/li&gt;
+&lt;li&gt;CSS&lt;/li&gt;
+&lt;li&gt;JavaScript&lt;/li&gt;
+&lt;li&gt;C&lt;/li&gt;
+&lt;li&gt;C\#&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Voeg een unordered list toe aan de website en voorzie hem van inhoud.</li>
+</ol>
+<h4 id="ordered-list">Ordered list</h4>
+<p>Wanneer je met HTML een geordende lijst met bijvoorbeeld nummers wilt maken, dan kun je hiervoor een ordered list gebruiken. Dit bestaat uit het buitenste element <code>&lt;ol&gt;&lt;/ol&gt;</code>, met de binnenste elements <code>&lt;li&gt;&lt;/li&gt;</code>. De syntax is gelijk aan die van een unordered list. <code>ol</code> heeft alleen wel een extra attribute, namelijk <code>type</code> Hiermee kan je de type ordening specificeren als volgt:</p>
+<ul>
+<li><p><code>type=”1”</code> lijst geordend met cijfers (standaard)</p></li>
+<li><p><code>type=”A”</code> lijst geordend met hoofdletters</p></li>
+<li><p><code>type=”a”</code> lijst geordend met kleine letters</p></li>
+<li><p><code>type=”I”</code> lijst geordend met Romeinse hoofdletters</p></li>
+<li><p><code>type=”i”</code> lijst geordend met Romeinse kleine letters</p></li>
+</ul>
+<p>Dit leidt tot de volgende syntax en het volgende resultaat:</p>
+<div class="figure">
+<img src="../Webdesign./media/image10.png" width="132" height="108" />
+
+</div>
+<pre class="\"><code>&lt;ol type=&quot;I&quot;&gt;
+&lt;li&gt;HTML&lt;/li&gt;
+&lt;li&gt;CSS&lt;/li&gt;
+&lt;li&gt;JavaScript&lt;/li&gt;
+&lt;li&gt;C&lt;/li&gt;
+&lt;li&gt;C\#&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+<ol style="list-style-type: decimal">
+<li><p>Voeg een ordered list toe aan de website en voorzie meteen van inhoud.</p></li>
+<li><p>Lijsten en tabellen zijn onwijs veelzijdig en krachtig. Ze vormen zich naar de inhoud en de browser. Experimenteer met lijsten en tabellen in je eigen website of in een nieuw bestand. Zet lijsten in andere lijsten of tabellen. Kijk goed naar wat er gebeurt en probeer er een goed begrip van te krijgen.</p></li>
+</ol>
+<p>Meer over de lijsten vind je hier: <a href="https://www.w3schools.com/html/html_lists.asp"><em>https://www.w3schools.com/html/html_lists.asp</em></a></p>
+<h3 id="opdracht-4-navigatie"><span class="exercise">Opdracht 4 – Navigatie</span></h3>
+<p>Tot nu toe bestaan de websites die we hebben gemaakt maar uit één enkele pagina die gemaakt wordt door één HTML-bestand. Binnen een grotere website voldoet één pagina meestal niet. Die pagina wordt al snel te vol en te groot. Daarom worden veel websites opgesplitst in meer pagina’s. Om een nieuwe pagina toe te voegen, hoeven we slechts een nieuw HTML-bestand te maken met een andere naam.</p>
+<h4 id="een-contactpagina">Een contactpagina</h4>
+<ol style="list-style-type: decimal">
+<li>Maak een nieuw HTML-bestand in de map voor opdracht 4 en geef het de bestandsnaam <code>contact.html</code></li>
+</ol>
+<p>We gaan een nieuwe pagina maken die gevuld is met jouw contactinformatie, zodat mensen je kunnen bereiken via de website.</p>
+<ol style="list-style-type: decimal">
+<li>Gebruik de technieken die je hebt geleerd in opdracht 1 en 2 om een goede pagina te maken met je contactgegevens. Vermeld in ieder geval je naam, emailadres en telefoonnummer.</li>
+</ol>
+<h4 id="links">Links</h4>
+<p>Nu hebben we twee pagina’s: één startpagina en één contactpagina. Je kunt echter nog niet tussen deze twee pagina’s wisselen, want er zijn nog geen links aanwezig op je site. Een link wordt gemaakt met <code>&lt;a&gt;&lt;/a&gt;</code>. Het element heeft een attribute genaamd <code>href</code>, dit moet gelijk zijn aan de locatie van de link. De elementen binnen <code>a</code> zijn de elementen waar je op moet klikken voor de link om te werken. Dit kan dus simpele tekst zijn maar ook een plaatje of tabel. Uiteindelijk ziet een link er zo uit: <code>&lt;a href=&quot;koppelingslocatie&quot;&gt;Knop&lt;/a&gt;</code>.</p>
+<p>De koppelingslocatie is in dit geval <code>contact.html</code>, omdat de bestanden in dezelfde map staan. In andere situaties moet hier het pad naar het bestand worden gebruikt. In de volgende situatie bijvoorbeeld:</p>
+<ul>
+<li><p><em><code>*index.html*</code></em> zit in een map genaamd <code>WebDevelopment</code>.</p></li>
+<li><p>De map <code>contactmap</code> zit in de map <code>WebDevelopment</code>.</p></li>
+<li><p><em><code>*contact.html*</code></em> zit in de map <code>contactmap</code>.</p></li>
+</ul>
+<p>Nu is het pad tussen <code>index.html</code> en <code>contact.html</code> &lt;<code>contactmap/contact.html</code>&gt;.</p>
+<p>Let op dat de namen van bestanden en mappen hierin hoofdlettergevoelig zijn. Als de naam van een bestand met een hoofdletter begint dan moet die naam ook in de koppelingslocatie met een hoofdletter.</p>
+<ol style="list-style-type: decimal">
+<li>Maak een link in <code>index.html</code> naar <code>contact.html</code> en ook andersom. Probeer het nu uit.</li>
+</ol>
+<p>De koppelingslocatie binnen een link mag ook een openbare site zijn zoals <a href="https://google.com" class="uri">https://google.com</a> Gebruik hiervoor de URL van de website in de browser. Vergeet dus niet om <code>https://</code> of <code>http://</code> in zo’n geval erbij te zetten: <code>&lt;a href=”https://www.google.com/”&gt;Google&lt;/a&gt;</code></p>
+<p>Het gebruiken van een openbare site als link is handig, wanneer je bijvoorbeeld een Facebookpagina wilt linken op je website.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg op een pagina een link toe naar een externe website.</li>
+</ol>
+<h4 id="navigatie-via-een-menu">Navigatie via een menu</h4>
+<p>Op vrijwel iedere site waar je vandaag de dag gebruik van maakt, moet je navigeren tussen verschillende pagina’s met een menubalk. Hiervoor is speciaal <code>nav</code> uit opdracht 2 in het leven geroepen. In dat element zet je alle belangrijke navigatielinks van je site. Voor de beste gebruikservaring is het een goed idee om de menubalk op iedere pagina identiek te laten zijn. Kijk bijvoorbeeld op <a href="https://www.youtube.com/"><em>https://www.youtube.com/</em></a>, hier zie je ook dat de balk aan de bovenkant van de website altijd hetzelfde blijft. Een handige tip voor een simpele menubalk is om de huidige pagina ook in de menubalk terug te laten komen, maar dit normale tekst te maken in plaats van een linkje. Later gaan we dit met <code>CSS</code> op een andere manier doen. <code>nav</code> staat tussen de header en de eerste <code>section</code> of <code>article</code>. Het zou er ongeveer zo uit moeten zien:</p>
+<pre class="\"><code>&lt;nav&gt;
+Home\
+&lt;a href=&quot;contact.html&quot;&gt;Contact&lt;/a&gt;
+&lt;a href=&quot;https://google.nl/&quot;&gt;Google&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Voeg een menubalk toe aan de startpagina en aan de contactpagina, zet hierin de links gemaakt in de vorige opdracht.</li>
+</ol>
+<h3 id="optioneel-opdracht-5-validatie"><span class="exercise">(Optioneel) Opdracht 5 – Validatie</span></h3>
+<p>Het is in het algemeen bekend dat mensen fouten maken. Dit betekent dat ook jij fouten gaat maken in je HTML code. Het vervelende aan HTML is dat foutjes vaak niet meteen tot problemen leiden. Het komt dan helaas wel voor dat het later voor problemen gaat zorgen en dat het heel moeilijk is om de bron van het probleem te vinden.</p>
+<p>Gelukkig wordt in deze module de WebStorm IDE gebruikt. In WebStorm zie je het namelijk meteen wanneer je foutjes maakt doordat er een streepje onder komt te staan met een lampje. Wanneer je op dit lampje klikt kan je verschillende mogelijkheden kiezen om je code te verbeteren. Meer over de hulp van WebStorm vind je op <a href="https://www.jetbrains.com/help/webstorm/getting-started-with-webstorm.html" class="uri">https://www.jetbrains.com/help/webstorm/getting-started-with-webstorm.html</a></p>
+<p>Voordat IDE’s gebruikt werden voor het maken van websites moest de HTML code geverifieerd worden door een externe website. Daarvoor werd de HTML validator van w3schools veel gebruikt. Op deze website kun je jouw HTML invoeren en uitvinden of er foutjes in zitten. Bij het checken krijg je te maken met twee verschillende soorten meldingen, de errors en de warnings. Bij errors is het de bedoeling dat je de code aanpast zodat de error verdwijnt. Dit zijn foutjes in de code die tot problemen gaan leiden. Bij warnings is het de bedoeling dat je nagaat of het van toepassing is op jouw website. Warnings worden vooral gegeven wanneer je niet de beste programmeergewoontes aanhoudt. De validator vind je hier: <a href="https://validator.w3.org/#validate_by_input"><em>https://validator.w3.org/#validate_by_input</em></a></p>
+<ol style="list-style-type: decimal">
+<li>Gebruik de validator om de code van je website uit opdracht 4 te controleren. Pas zo nodig de code aan om in ieder geval de errors weg te laten gaan.</li>
+</ol>
+<p>De validator kan ook gebruikt worden om CSS te valideren op: <em><a href="https://jigsaw.w3.org/css-validator/#validate_by_input" class="uri">https://jigsaw.w3.org/css-validator/#validate_by_input</a></em> Omdat WebStorm deze foutjes al heel snel en makkelijk aangeeft hoef je de validator van w3schools niet te gebruiken.</p>
+<h1 id="css">CSS</h1>
+<p>CSS staat voor Cascading Style Sheets. Met CSS beschrijf je hoe elements weergeven moeten worden op je beeldscherm. Je kunt één CSS-bestand gebruiken voor veel verschillende HTML-bestanden, waardoor je makkelijk een uniforme opmaak voor heel je website hanteert. Je kunt ook meer CSS-bestanden per HTML-bestand gebruiken om zo heel gemakkelijk en snel een aangepaste opmaak voor elke pagina te maken.</p>
+<p>CSS lost een heel groot probleem met HTML op. HTML is namelijk helemaal niet bedoeld om te beschrijven hoe een website eruit moet gaan zien, naast de basis layout. Laten we maar gewoon beginnen, dan zie je al snel hoe handig CSS is.</p>
+<h2 id="syntax">Syntax</h2>
+<p>Een CSS-bestand bestaat uit <strong>stijlregels</strong>, waarbij iedere stijlregel een deel van de website aanpast. Met CSS wijs je die stijlregels toe aan de HTML op drie verschillende manieren. Je kan stijlregels koppelen aan elements, om deze toe te passen op alle elements met die naam. Je kan stijlregels koppelen aan <code>class</code>. Dit is een attribute die bij ieder element gebruikt kan worden om een groep elements dezelfde stijlregels te geven. Je kan ook stijlregels koppelen aan <code>id</code>. Dit is ook een attribute die bij ieder element toegevoegd kan worden. Het verschil tussen classes en <code>id</code> is dat <code>class</code> voor meerdere elements gelijk kan zijn, terwijl <code>id</code> uniek moet zijn voor ieder element. In de praktijk ziet CSS er dan zo uit:</p>
+<pre class="\"><code>selector {
+property: waarde;
+}</code></pre>
+<p>Hierbij is de <strong>selector</strong> dus een element, een class of een id. De <strong>property</strong> specificeert welk visuele aspect aangepast moet worden. De verschillende selectors gebruik je als volgt:</p>
+<ul>
+<li><p>Element selector: geen HTML, elementnaam als selector in CSS (bijvoorbeeld <code>p</code>).</p></li>
+<li><p>Class selector: <code>class=”classnaam”</code> in HTML, <code>.classnaam</code> als selector in CSS.</p></li>
+<li><p>Id selector: <code>id=”idnaam”</code> in HTML, <code>\#idnaam</code> als selector in CSS.</p></li>
+</ul>
+<p>Je kan met CSS ook meer selectors dezelfde stijlregels toewijzen. Dit doe je door de selectors achter elkaar te zetten en te scheiden met komma’s:</p>
+<pre class="\"><code>selector1, selector2, selector3 {
+property: waarde;
+}</code></pre>
+<p>Met CSS kan je, net zoals met HTML, comments toevoegen aan je code. Ook in CSS is dit belangrijk voor de leesbaarheid en begrijpbaarheid van je code. De syntax is als volgt: <code>/* Comment */</code>.</p>
+<h2 id="koppeling">Koppeling</h2>
+<p>Voordat de CSS-code aan de browser kan doorgeven hoe de website eruit moet zien, moet de CSS-code eerst gekoppeld worden aan een HTML-bestand. Dit gebeurt vanuit het HTML-bestand zelf. Er zijn drie manieren om dat te doen.</p>
+<h3 id="optioneel-inline-styling">1. (Optioneel) Inline styling</h3>
+<p>Bij inline styling worden de stijlregels toegevoegd als een attribute binnen een element. Op die manier hebben ze alleen invloed op de elementen waar je de stijlregels specifiek bij zet. De syntax is als volgt: <code>&lt;p style=&quot;property1: waarde1; property2: waarde2;&quot;&gt;&lt;/p&gt;</code>.</p>
+<p>Als je goed kijkt, zie je dat inline styling eigenlijk niet zo veel afwijkt van de manier van styling in een CSS-bestand. Het grootste verschil is dat alles op één regel is gepropt, waardoor het er veel minder overzichtelijk uitziet. Deze vorm van styling is dan eigenlijk ook alleen maar handig wanneer je maximaal drie stijlregels moet toevoegen aan één element. Een ander nadeel hiervan is dat je tussen de HTML-code moet gaan zoeken, wanneer je de stijlregels wilt veranderen. Het is dus niet makkelijk aan te passen.</p>
+<h3 id="optioneel-internal-stylesheet">2. (Optioneel) Internal stylesheet</h3>
+<p>Met een internal stylesheet worden de stijlregels toegevoegd binnen een element in het HTML-bestand. Deze stijlregels gaan in het style-element binnen de <em>head</em>. Dit ziet er dan zo uit:</p>
+<pre class="\"><code>&lt;style&gt;
+selector {
+property1: waarde1;
+property2: waarde2;
+}
+&lt;/style&gt;</code></pre>
+<p>Een voordeel van een internal stylesheet is dat je geen extern CSS-bestand nodig hebt. Een nadeel hiervan is dat deze styles slechts door één HTML-pagina gebruikt kunnen worden, namelijk de pagina waar de CSS in staat. Hierdoor is het eigenlijk alleen geschikt wanneer een bepaalde pagina een sterk afwijkende en unieke stijl heeft. Ook zorgt dit ervoor dat er amper scheiding is tussen de HTML-code en de CSS-code, wat het moeilijk te onderhouden maakt.</p>
+<h3 id="external-stylesheet">3. External stylesheet</h3>
+<p>Met een external stylesheet worden de stijlregels in een eigen CSS-bestand gezet die dan vervolgens wordt gekoppeld aan het HTML-bestand. Dit gebeurt met <code>&lt;link/&gt;</code>. Dit element heeft drie verplichte attributes, namelijk <code>rel</code> (hoe de browser de tekst moet interpreteren), <code>type</code> (wat voor soort bestand het is) en <code>href</code> (waar staat het bestand). @<a href="@ wordt altijd in de head geplaatst,
+dit komt omdat een stylesheet een van de eerste dingen is die de website
+moet laden. Dit geeft de volgende syntax: `<link rel="stylesheet"
+type="text/css" href="stylesheet.css"/>`.</p>
+<p>Voor je eigen stylesheets hoef je alleen <code>href</code> aan te passen naar de locatie van je eigen stylesheet. De rest van het voorbeeld kun je kopiëren. Mocht je willen weten wat de andere attributes precies betekenen en wat de mogelijkheden hiervoor zijn kijk dan op: <a href="https://www.w3schools.com/tags/tag_link.asp"><em>https://www.w3schools.com/tags/tag_link.asp</em></a></p>
+<h2 id="zelf-aan-de-slag-1">Zelf aan de slag</h2>
+<p>CSS bevat heel veel verschillende properties, om deze goed te begrijpen ga je ze meteen in de praktijk toepassen. Gebruik om de CSS te testen je HTML-bestand uit <code>Opdracht_5</code> maak een nieuwe website met wat content aan. Zorg ervoor dat je in ieder geval een paar keer <code>p</code> en een paar keer <code>a</code> gebruikt.</p>
+<h3 id="opdracht-6-koppeling"><span class="exercise">Opdracht 6 – Koppeling</span></h3>
+<p>We gaan nu een CSS-bestand maken en die koppelen aan je HTML-bestand.</p>
+<ol style="list-style-type: decimal">
+<li><p>Voeg een CSS-bestand toe aan de map <span class="citation">@Opdracht_6</span>@ door met de rechtermuisknop op de map te klikken en vervolgens New -&gt; Stylesheet te kiezen. Geef hem de naam <code>stylesheet</code> en druk op <code>enter</code></p></li>
+<li><p>Gebruik @&lt;a href=&quot;@ om jouw <code>stylesheet.css</code> te koppelen aan je HTML-bestanden zoals uitgelegd hierboven.</p></li>
+</ol>
+<h3 id="opdracht-7-kleuren"><span class="exercise">Opdracht 7 – Kleuren</span></h3>
+<p>Eén van de belangrijkste elementen van een website is het kleurenschema. Tot nu toe zijn onze websites in zwart-wit gemaakt op een paar plaatjes na. Wij gaan daar nu verandering in aanbrengen met CSS.</p>
+<h4 id="tekst">Tekst</h4>
+<p>Je kan met CSS de kleur van tekst heel eenvoudig veranderen, dit doe je met de stijlregel: <code>color: kleur;</code></p>
+<p>Hierbij kan <code>kleur</code> veel verschillende waarden zijn. De simpelste optie is het gebruiken van de Engelse naam voor de kleur (bijvoorbeeld <code>red</code> of <code>yellow</code>). Wanneer je achter <code>color:</code> op <code>*CTRL*+*SPATIE*</code> drukt, krijg je binnen WebStorm een lijstje te zien van alle kleuren die mogelijk zijn. Er zijn 140 standaard kleuren die je kan gebruiken. De lijst is ook nog terug te vinden op: <a href="https://www.w3schools.com/colors/colors_names.asp"><em>https://www.w3schools.com/colors/colors_names.asp</em></a> . Alle tekst binnen paragrafen blauw maken doe je zo:</p>
+<pre class="\"><code>p {
+color: blue;
+}</code></pre>
+<ol style="list-style-type: decimal">
+<li>Geef de tekst in je website een kleurtje. Maak hierbij gebruik van aparte kleuren voor de verschillende kopjes, tabellen, etc.</li>
+</ol>
+<h4 id="optioneel-rgba">(Optioneel) RGB(A)</h4>
+<p>De Engelse naam voor de kleur gebruiken, is niet de enige manier om de kleur te bepalen, een andere manier is om de zogenaamde RGB Value te gebruiken. Hierbij staan de letters in RGB voor Red, Green en Blue. De syntax voor een RGB kleur is als volgt: <code>color: rgb(255,255,255);</code></p>
+<p>In deze syntax staat het eerste getal voor de hoeveelheid rood, het tweede getal voor de hoeveelheid groen en het derde getal voor de hoeveelheid blauw. Deze getallen kunnen waarden zijn tussen 0 en 255, waarbij 0 betekent dat die kleur er niet in zit en 255 betekent dat die kleur er zo veel mogelijk in zit. Met RGB kleuren kun je de verschillende waarden voor rood, groen en blauw licht combineren om zo tot meer kleuren te komen. Hiervoor kan je het beste een color picker gebruiken zoals die van google, zo kan je visueel een kleur kiezen en dan de RGB waarden te kopiëren: <a href="https://www.google.com/search?q=rgb+color+picker"><em>https://www.google.com/search?q=rgb+color+picker</em></a></p>
+<p>RGBA is een variant op de RGB waarden. Hierbij is er een vierde getal toegevoegd tussen 0 en 1 dat bepaald hoe transparant de kleur is. Hier betekent 0 dat de kleur volledig transparant is en 1 dat de kleur niet transparant is. De syntax hiervan is als volgt: <code>color: rgba(255,255,255,0.5);</code></p>
+<ol style="list-style-type: decimal">
+<li>Pas één of meerdere van jouw aangepaste kleuren aan en gebruik nu RGB of RGBA waarden.</li>
+</ol>
+<h4 id="optioneel-hex">(Optioneel) HEX</h4>
+<p>De HEX manier om kleuren aan te geven lijkt veel op de RGB manier. De syntax is als volgt: <code>color: \#ff155a;</code></p>
+<p>Op het eerste oog lijkt het heel anders, dit komt door het gebruik van hexadecimal. Hexadecimal is een manier om te tellen die voor computers is ontwikkeld. De waardes voor rood, groen en blauw blijven variabel tussen 0 en 255, alleen dit ziet er in hexadecimal uit als <code>00</code> tot <code>ff</code>. Dit betekent dat in het voorbeeld <code>*ff</code>* de waarde is voor rood, <code>*15</code>* de waarde is voor groen en <code>*5a</code>* de waarde is voor blauw. Ook het gebruik van HEX is het makkelijkst met de color picker, kies een kleur en kopieer de waarde: <a href="https://www.google.com/search?q=rgb+color+picker"><em>https://www.google.com/search?q=rgb+color+picker</em></a></p>
+<ol style="list-style-type: decimal">
+<li>Pas één of meerdere van jouw aangepaste kleuren aan en gebruik nu HEX waarden.</li>
+</ol>
+<h4 id="optioneel-hsla">(Optioneel) HSL(A)</h4>
+<p>Nog een andere manier om kleuren aan te duiden is HSL. Dit staat voor Hue, Saturation en Lightness. De syntax is als volgt: <code>color: hsl(360, 100%, 100%);</code></p>
+<div class="figure">
+<img src="../Webdesign./media/image11.png" alt="Image result for color wheel angles" width="291" height="280" />
+<p class="caption">Image result for color wheel angles</p>
+</div>
+<p>Hierbij staat het eerste getal voor de hue (tint in het Nederlands). Deze hue is een waarde tussen 0° en 360° op het kleurenwiel hierboven. Als je de hue van 0 tot 360 laat variëren doorloop je de kleuren van de regenboog. Het tweede getal staat voor de saturation (verzadiging in het Nederlands). Deze saturation is een waarde tussen 0% en 100%. Hierbij is 100% een hele hoge verzadiging en dus hele levendige, felle en heldere kleuren. 0% is een hele lage verzadiging en is daarom heel grauw. Het derde getal staat voor lightness (helderheid in het Nederlands). Deze lightness is ook een waarde tussen 0% en 100%. Hierbij is 100% een hele hoge helderheid en dus wit. 0% is een hele lage helderheid en dus zwart. De color picker is ook hierbij je beste vriend: <a href="https://www.google.com/search?q=rgb+color+picker"><em>https://www.google.com/search?q=rgb+color+picker</em></a></p>
+<p>HSLA is weer een variant op de HSL waarden. Net zoals bij RGBA is er een vierde getal toegevoegd tussen 0 en 1 dat bepaald hoe transparant de kleur is. Hierbij betekent 0 dat de kleur volledig transparant is en 1 dat de kleur niet transparant is.</p>
+<ol style="list-style-type: decimal">
+<li>Pas één of meerdere van jouw aangepaste kleuren aan en gebruik nu HSL of HSLA waarden.</li>
+</ol>
+<h4 id="achtergrond">Achtergrond</h4>
+<p>Naast de tekstkleur kan ook de achtergrondkleur van elementen aangepast worden. Dit wordt gedaan met <code>background-color</code>. Hierbij kunnen de verschillende waarden voor kleuren hierboven weer gebruikt worden. Deze property heeft op ieder element weer een andere invloed, uitproberen loont dus.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een achtergrondkleur toe aan één of meerdere elementen.</li>
+</ol>
+<h4 id="opacity">Opacity</h4>
+<p>Voor ieder element in je webpagina kan je ook <code>opacity</code> gebruiken. Dit specificeert de doorzichtigheid van dat element. De waarde hiervan moet tussen 0 en 1 zijn, waarbij 0 betekent dat het element niet zichtbaar is en 1 betekent dat het element volledig zichtbaar is.</p>
+<ol style="list-style-type: decimal">
+<li><p>Voeg <code>opacity</code> toe aan één of meerdere elementen.</p></li>
+<li><p>Zorg ervoor dat in je uiteindelijke CSS-bestand iedere kleuraanduiding minimaal één keer aanwezig is. Zo kan je later terugkomen naar de code en zien welke verschillende manieren ook alweer bestaan.</p></li>
+</ol>
+<h3 id="opdracht-8-tekst"><span class="exercise">Opdracht 8 – Tekst</span></h3>
+<p>We hebben het bij opdracht 1 over simpele elementen al een beetje gehad over het formatteren van tekst. Dit kan met HTML gedaan worden met tags, maar dit kan ook gedaan worden met CSS. Zoals je in de vorige opdracht al hebt gezien bepaal je de kleur van de tekst met <code>color</code>, maar ook andere opmaak zoals het lettertype kunnen bepaald worden.</p>
+<p>Bij het geven van opmaak aan tekst moet de leesbaarheid van de tekst altijd voorop staan. Hier zijn een aantal basis principes voor ontwikkeld. Deze kan je hier vinden: <a href="https://www.oogvereniging.nl/leven-werken/alle-onderwerpen/boeken-lezen/handreiking-bruikbaarheid-gedrukte-tekst/" class="uri">https://www.oogvereniging.nl/leven-werken/alle-onderwerpen/boeken-lezen/handreiking-bruikbaarheid-gedrukte-tekst/</a></p>
+<h4 id="align">Align</h4>
+<p>Tekst kan binnen CSS met <code>text-align</code> uitgelijnd worden naar links, naar het midden of naar rechts. De waarden hiervoor zijn respectievelijk <code>left</code>, <code>center</code> en <code>right</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>text-align</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="decoration">Decoration</h4>
+<p>Met <code>text-decoration</code> kan bepaald worden of er lijnen boven, door of onder te tekst geplaatst worden. De waarden hiervoor zijn respectievelijk <code>overline</code>, <code>line-through</code> en <code>underline</code>. Je kan met <code>text-decoration</code> ook de standaard lijnen onder links weghalen met de waarde <code>none</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>text-decoration</code> toe of verwijder deze bij één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="shadow">Shadow</h4>
+<p>Met <code>text-shadow</code> kan een schaduw toegevoegd worden aan tekst. Dit volgt de volgende syntax: <code>text-shadow: horizontale-positie verticale-positie</code> Hierbij zijn de posities in pixels en mogen deze ook negatief zijn. Ook heb je de mogelijkheid om de kleur van de schaduw en de hoeveelheid vervaging van de schaduw bepalen met respectievelijk <code>color</code> in kleuren en <code>blur-radius</code> in pixels.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>text-shadow</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="font-family">Font-family</h4>
+<p>Er worden op websites heel veel verschillende lettertypen gebruikt en deze worden toegepast met CSS. Er zijn drie hoofdcategorieën lettertypen die belangrijk zijn om te kennen, <strong>Serif</strong> en <strong>Sans-serif</strong> staan hiernaast. De derde is <strong>Monospace</strong>, alle lettertypen binnen deze categorie hebben letters die allemaal een gelijke breedte zijn.</p>
+<div class="figure">
+<img src="../Webdesign./media/image12.png" alt="Image result for serif sans serif" width="305" height="140" />
+<p class="caption">Image result for serif sans serif</p>
+</div>
+<p>Omdat je online met veel verschillende computers en browsers te maken krijgt, is het de bedoeling dat je meer mogelijke lettertypen aangeeft voor een bepaald stuk tekst. Dit wordt gedaan met <code>font-family</code> met de volgende syntax: <code>font-family: &quot;Times New Roman&quot;, Times, serif;</code>. Hier begin je met het lettertype dat je in het ideale geval wilt gebruiken en bouw je af naar uiteindelijk een hoofdcategorie. Alle browsers hebben ten minste één lettertype uit alle hoofdcategorieën. Door op deze manier <code>font-family</code> te gebruiken weet een browser altijd welk lettertype gebruikt moet worden. Kijk voor veilige lettertypen combinaties op de volgende pagina: <a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp"><em>https://www.w3schools.com/cssref/css_websafe_fonts.asp</em></a></p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>font-family</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="font-style">Font-style</h4>
+<p>Het is natuurlijk ook mogelijk om een stuk tekst met CSS schuingedrukt te laten zijn, dit wordt gedaan met <code>font-style</code>. Hiermee kan je de tekst recht of schuingedrukt maken met respectievelijk <em>normal</em> en <em>italic</em>.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>font-style</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="font-weight">Font-weight</h4>
+<p>Tekst dikgedrukt maken doe je met <code>font-weight</code>. Hierbij gebruik je <code>*normal</code>* om de tekst niet dikgedrukt te maken en <code>*bold</code>* om de tekst wel dikgedrukt te maken.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>font-weight</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="font-size">Font-size</h4>
+<p>De grootte van de tekst kan uiteraard ook aangepast worden in CSS. Dit kan gedaan worden met <code>font-size</code> Hier moeten developers echter een belangrijke keuze maken. Het is namelijk mogelijk om de grootte van de tekst vast te zetten in pixels, hierbij kun je er te allen tijde zeker van zijn dat de tekst een bepaalde grootte heeft. Het is echter ook mogelijk om de grootte van de tekst te bepalen in <em>em</em>, hierbij is <em>1em</em> gelijk aan 16px. Door <em>em</em> te gebruiken kunnen gebruikers zelf in het menu van hun browser aanpassen hoe groot de tekst moet zijn. Doordat sommige mensen kleine tekst slecht kunnen lezen, is het een goed idee om de tekstgrootte in <em>em</em> te gebruiken. Als je al een bepaalde grootte in pixels in je hoofd hebt dan hoef je deze slechts te delen door 16 om je <em>em</em> waarde te verkrijgen.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>font-size</code> toe aan één of meerdere elementen naar keuze en gebruik daarvoor een waarde in em.</li>
+</ol>
+<h3 id="opdracht-9-randen"><span class="exercise">Opdracht 9 – Randen</span></h3>
+<p>Met <code>CSS</code> is het mogelijk om randen te vormen om ieder element van je website. Randen zijn een essentieel onderdeel van je webdesign, ze zorgen er namelijk voor dat de lezer van je website makkelijk kan zien hoe alles georganiseerd is. Het verbetert op die manier de User Experience.</p>
+<h4 id="border-style">Border-style</h4>
+<p>Randen zijn er in allerlei verschillende vormen en met <code>border-style</code> kan je bepalen welke vorm je rand moet aannemen. <code>border-style</code> kan tussen de één en vier parameters bevatten met de volgende syntax:</p>
+<pre><code>
+border-style: rondom;
+
+border-style: boven-beneden links-rechts;
+
+border-style: boven links-rechts beneden;
+
+border-style: boven rechts beneden links;
+</code></pre>
+<div class="figure">
+<img src="../Webdesign./media/image13.png" width="217" height="221" />
+
+</div>
+<p>Een paar van de verschillende waarden staan aan de rechterkant, kijk voor meer mogelijkheden voor randstijlen op <em><a href="https://www.w3schools.com/css/css_border.asp" class="uri">https://www.w3schools.com/css/css_border.asp</a> </em></p>
+<p><em>LET OP!</em> <code>border-style</code> <em>moet gebruikt worden als je één van de andere waarden van randen die hierna worden uitgelegd wilt gebruiken. Wanneer je dit niet toevoegt dan gebeurt er niks!</em></p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>border-style</code> toe aan één of meerdere elementen naar keuze.</li>
+</ol>
+<h4 id="border-width">Border-width</h4>
+<p>Je kunt de dikte van de randen aanpassen met <code>border-width</code>. Dit kan in px, pt, cm, em, thin, medium of thick. Ook <code>border-width</code> kan tussen de één en vier parameters bevatten met de syntax van <code>border-style</code></p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>border-width</code> toe aan de elementen met een rand.</li>
+</ol>
+<h4 id="border-color">Border-color</h4>
+<p>Je kunt de kleur van de randen ook aanpassen. Dit doe je met <code>border-color</code>. Dit kan met de verschillende manieren om kleuren weer te geven uit Opdracht 7. Ook <code>border-color</code> kan tussen de één en vier parameters bevatten met de syntax van <code>border-style</code>. Wanneer er geen border-color is gespecificeerd dan volgt de rand de kleur van het element die is gepaald met <code>color</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>border-color</code> toe aan de elementen met een rand.</li>
+</ol>
+<h4 id="border-radius">Border-radius</h4>
+<p>Tot nu toe hebben de randen steeds vierkante hoeken, je kan echter met <code>border-radius</code> ook ronde hoeken specificeren. Dit bepaalt de radius van de cirkels op de hoeken en heeft een maximum van 12px. Ook <code>border-radius</code> kan tussen de één en vier parameters bevatten, waarbij er met vier parameters linksboven begonnen wordt en met linksonder geëindigd wordt.</p>
+<ol style="list-style-type: decimal">
+<li>Voeg een <code>border-radius</code> toe aan één of meer elementen met een rand.</li>
+</ol>
+<h4 id="border">Border</h4>
+<p>Voor simpele randen die geen verschil nodig hebben in de verschillende zijden kan je <code>border</code> gebruiken. De syntax is als volgt: <code>border: border-width border-style border-color</code></p>
+<ol style="list-style-type: decimal">
+<li>Pas een simpele rand aan en vervang de CSS code met een <code>border</code></li>
+</ol>
+<h3 id="exerciseopdracht-10-het-box-model"><span class="citation">@exerciseOpdracht</span> 10 – Het box model</span></h3>
+<div class="figure">
+<img src="../Webdesign./media/image14.png" alt="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Box-model.svg/765px-Box-model.svg.png" width="421" height="321" />
+<p class="caption">https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Box-model.svg/765px-Box-model.svg.png</p>
+</div>
+<p>Alle HTML-elements kunnen in principe gezien worden als dozen. In CSS wordt <strong>het box model</strong> gebruikt om het design en de layout van de elements te bespreken. Het box model is een doos die om het element heen zit bestaande uit de margin, border en padding. Dit zit om de content heen die door de HTML wordt bepaald. Met borders heb je al kennis gemaakt, nu ga je ook kennismaken met margin en padding.</p>
+<h4 id="margin">Margin</h4>
+<p>De margin van een element is de ruimte die om de border heen zit die het element bezet. Binnen deze margin kunnen zich normaal gesproken geen andere elements bevinden. Margin is te bepalen met de volgende syntax <code>margin: boven rechts beneden links;</code> of:</p>
+<pre class="\"><code>margin-top: waarde;
+
+margin-right: waarde;
+
+margin-bottom: waarde;
+
+margin-left: waarde;</code></pre>
+<p>De margin kan verschillende waarden hebben:</p>
+<ul>
+<li><p>auto: de browser berekend de goede margin</p></li>
+<li><p>px, pt, cm, etc.</p></li>
+<li><p>%: een percentage van de breedte van het element dat eromheen zit</p></li>
+<li><p>inherit: dezelfde margin als het element dat eromheen zit</p></li>
+</ul>
+<p>Margins zijn bedoeld om een minimale hoeveelheid ruimte aan één of meer van de zijden van een element te definiëren. Om dit te faciliteren, maakt de browser gebruik van <em>margin collapsing</em>. Dit houdt in dat wanneer er twee margins boven elkaar zitten van verschillende elementen, de kleinste margin genegeerd wordt. Het resultaat is dus dat de afstand tussen de elements slechts de afstand van de grootste margin is, en niet de som van beide margins.</p>
+<ol style="list-style-type: decimal">
+<li>Pas de <code>margin</code> aan van één of meerdere elementen.</li>
+</ol>
+<h4 id="padding">Padding</h4>
+<p>Padding is eigenlijk het omgekeerde van een margin. Een margin bepaald de ruimte tussen de border en andere elementen, terwijl de padding de ruimte tussen de border en de content bepaalt. Padding volgt dezelfde syntax als margin.</p>
+<ol style="list-style-type: decimal">
+<li>Pas de <code>padding</code> aan van één of meerdere elementen.</li>
+</ol>
+<h3 id="opdracht-11-layout"><span class="exercise">Opdracht 11 – Layout</span></h3>
+<p>De layout van een website bepalen en programmeren is misschien wel het moeilijkste wat er is. Gelukkig zijn er in CSS een hoop gereedschappen ingebouwd om het wat makkelijker te maken. In deze opdracht leer je daarover.</p>
+<h4 id="display">Display</h4>
+Het <code>display</code> property mag met ieder element gebruikt worden. Het is de meest belangrijke property als het op layout aankomt. <code>display</code> bepaalt namelijk of en hoe een element wordt weergeven. Ieder element valt in één van twee categorieën, namelijk <code>block</code> of @
+<div class="inline-image">
+<p>@ .</p>
+<p>Elements in de <code>block</code> categorie beginnen altijd op een nieuwe regel en gebruiken de volledige beschikbare breedte. <code>div</code>, <code>h1</code>, <code>p</code> en <code>section</code> zijn voorbeelden van block-level elements.</p>
+Elements in de @
+<div class="inline-image">
+<p>@ categorie gaan altijd door op dezelfde regel en zijn zo breed als nodig is. <code>span</code>, <code>a</code> en <code>img</code> zijn voorbeelden van inline elements.</p>
+<p>Met <code>display</code> kan je een block-level element als inline weergeven en vice versa. Een andere optie is <code>none</code>. Hiermee wordt het element helemaal niet weergeven op de website en past de rest van de layout zich zo aan alsof het element niet bestaat.</p>
+<h4 id="position">Position</h4>
+<p>Met <code>position</code> kan de type locatievorming voor een element bepaald worden. <code>position</code> wordt in combinatie gebruikt met <code>top</code>, <code>right</code>, <code>bottom</code> en <code>left</code> om de afstand tot die verschillende zijden te bepalen.</p>
+<p><code>position: static;</code> is de standaardwaarde voor <code>position</code>. Hiermee wordt het element niet op een speciale manier gepositioneerd, maar wordt het via de standaard layout van de pagina gepositioneerd.</p>
+<p><code>position: relative;</code> wordt gebruikt om elements relatief aan de standaardpositie te positioneren. Dit kan gebruikt worden om extra ruimte rondom een element te creëren, aangezien de omringende elements niet verplaatsen om de gaten te vullen.</p>
+<p><code>position: fixed;</code> wordt gebruikt om elements op een vaste plaats op het scherm te zetten. Zelf wanneer de webpagina wordt gescrold dan blijft het element op zijn plek op het scherm.</p>
+<p><code>position: absolute;</code> wordt gebruikt om elements op een vaste plaats binnen een gepositioneerd element te zetten. Wanneer het element niet in een gepositioneerd element zit dan wordt het gepositioneerd ten opzichte van de <code>body</code>.</p>
+<p><code>position: sticky;</code> wordt gebruikt om elements eerst relatief te positioneren, totdat de gebruiker voorbij het element probeert te scrollen en dan blijft het element ‘vastplakken’ op een bepaalde positie op het scherm.</p>
+<h4 id="float">Float</h4>
+<p><code>float</code> wordt gebruikt om elements naast andere elements te laten ‘drijven’. Hier kan gekozen worden tussen <code>float: left;</code> en <code>float: right;</code>.</p>
+<p>Af en toe wil je float gebruiken maar tegelijkertijd voorkomen dat bepaalde elementen daardoor ingekort worden. Speciaal daarvoor is <code>clear</code> bedacht. Ook hierbij kan gekozen worden tussen <code>clear: left;</code> en <code>clear: right;</code>. De waarde bepaald aan welke kant er geen element gefloat mag worden.</p>
+<h4 id="hoogte-en-breedte">Hoogte en breedte</h4>
+<p>Soms krijg je te maken met een <code>block</code> element dat eigenlijk niet de volledige breedte van de pagina in moet nemen. In dit geval kan je met <code>width</code> de breedte in <code>CSS</code> aanpassen. Hetzelfde kan je ook doen met <code>height</code> Hiervoor kan je veel verschillende waarden gebruiken, zoals pixels of percentages.</p>
+<ol style="list-style-type: decimal">
+<li>Experimenteer met de gereedschappen uit deze opdracht en probeer daarmee je website een goede layout te geven. Dit is bijna de laatste stap voordat je een volledige website hebt!</li>
+</ol>
+<h3 id="opdracht-12-links"><span class="exercise">Opdracht 12 – Links</span></h3>
+<p>Tot nu toe hebben we bijna elk onderdeel van de website een bepaalde stijl kunnen geven. Alleen de links blijven een beetje achter. Je hebt misschien al gemerkt dat links van kleur veranderen wanneer je er op klikt en wanneer je die pagina al een keer hebt bezocht. Dit wordt bepaald in de link states.</p>
+<h4 id="link-states">Link states</h4>
+<p>Er zijn vier verschillende staten waarin links kunnen zitten:</p>
+<ul>
+<li><p><code>a:link</code> – een normale, onbezochte link</p></li>
+<li><p><code>a:visited</code> – een bezochte link</p></li>
+<li><p><code>a:hover</code> – een link wanneer men er overheen zweeft met de cursor</p></li>
+<li><p><code>a:active</code> – een link wanneer die wordt aangeklikt</p></li>
+</ul>
+<p>Deze states kunnen gebruikt worden als selector in CSS en op die manier kun je de stijl van de link in die gevallen aanpassen. In het CSS-bestand <em>moeten</em> de selectors in dezelfde volgorde als hierboven voorkomen, anders werken ze niet.</p>
+<ol style="list-style-type: decimal">
+<li>Pas de links in je <code>nav</code> aan met CSS om ze er beter uit te laten zien.</li>
+</ol>
+<h4 id="links-als-knoppen">Links als knoppen</h4>
+<p>Je kunt deze met deze selectors links er ook uit laten zien als knoppen, door bijvoorbeeld een <code>background-color</code> of een <code>border</code> te gebruiken. Moderne websites hebben vrijwel nooit meer normale tekst als links, het zijn vaak knoppen. Kijk voor inspiratie en voorbeelden van een menubalk met CSS op <a href="https://www.w3schools.com/css/css_navbar.asp"><em>https://www.w3schools.com/css/css_navbar.asp</em></a></p>
+<ol style="list-style-type: decimal">
+<li>Pas je menubalk aan om van knoppen voorzien te zijn in plaats van tekst.</li>
+</ol>
+<h1 id="expert-aan-het-woord">Expert aan het woord</h1>
+<p>Speciaal voor deze module is iemand geregeld uit het vak Webdesign die jullie iets gaat vertellen. Vraag bij de docent voor meer informatie.</p>
+<h1 id="extra-uitdaging">Extra uitdaging</h1>
+<p>De volgende zes opdrachten zijn voor de mensen die na de uitleg van normaal HTML en CSS nog extra informatie en uitdaging kunnen gebruiken. Deze opdrachten brengen je eigen website iets dichterbij de webapps die gemaakt worden met Javascript In deze opdrachten wordt de theorie niet uitgelegd, maar krijg je in plaats daarvan de bronnen aangereikt om je eigen onderzoek te doen. Je hebt deze informatie niet nodig om het eindproduct te maken (zonder deze informatie kan je ook een 10 halen), maar het gebruiken van deze opdrachten zorgt er wel voor dat je alles beter onder de knie krijgt en een beter eindproduct kunt maken.</p>
+<p>Ook als je extra uitdaging zoekt, hoef je deze opdrachten niet allemaal te doorlopen. Lees de beschrijvingen één voor één door en beslis daarna welke opdracht(en) je graag zou willen doen. Bekijk vervolgens de bronnen en experimenteer zelf met een toepassing binnen je eigen website.</p>
+<h2 id="optioneel-extra-1-web-fonts">(Optioneel) Extra 1 – Web Fonts</h2>
+<p>[]{#_heading=h.32hioqz .anchor}Lettertypen zijn heel bepalend in het uiterlijk van je website, daarom kan je web fonts gebruiken om alle mogelijke lettertypen te gebruiken in je website. Normaal gesproken ben je afhankelijk van de lettertypen die op de computer van de gebruiker geïnstalleerd zijn. Met web fonts voeg je lettertypen toe aan je website die de computer van de gebruiker vervolgens zelf downloadt. Bronnen:</p>
+<ul>
+<li><p>Hoe gebruik je web fonts: <a href="https://www.w3schools.com/css/css3_fonts.asp"><em>https://www.w3schools.com/css/css3_fonts.asp</em></a></p></li>
+<li><p>Een font library van Google: <a href="https://fonts.google.com/"><em>https://fonts.google.com/</em></a></p></li>
+</ul>
+<h2 id="optioneel-extra-2-icons">(Optioneel) Extra 2 – Icons</h2>
+<p>Overal op websites kom je kleine figuurtjes tegen waar je op kan klikken en die bepaalde dingen aangeven. Dit zijn de zogenaamde icons. Met HTML en CSS kan je die icoontjes heel makkelijk toevoegen aan je website. Je voegt hierbij een CSS-bestand toe die online beschikbaar wordt gesteld en vervolgens gebruik je die om de verschillende icoontjes te laden. Wij raden aan om de icoontjes van Material Design van Google te gebruiken, die worden uitgelegd onderaan de website van w3schools. Bronnen:</p>
+<ul>
+<li><p>Hoe gebruik je icons: <a href="https://www.w3schools.com/css/css_icons.asp"><em>https://www.w3schools.com/css/css_icons.asp</em></a></p></li>
+<li><p>Een icon library van Google: <a href="https://material.io/resources/icons/?style=baseline"><em>https://material.io/resources/icons/?style=baseline</em></a></p></li>
+</ul>
+<h2 id="optioneel-extra-3-dropdowns">(Optioneel) Extra 3 – Dropdowns</h2>
+<p>Het is mogelijk om binnen HTML en CSS een dropdown menu te maken. Dit is een knop die, wanneer je er overheen zweeft of wanneer je er op drukt, uitklapt en meerdere andere knoppen weergeeft. Dit laat vooral zien hoe je goed gebruik kan maken van <code>display: none;</code> Het vergroot zeker je begrip van CSS Bronnen:</p>
+<ul>
+<li><p>Hoe maak je een dropdown: <a href="https://www.w3schools.com/css/css_dropdowns.asp"><em>https://www.w3schools.com/css/css_dropdowns.asp</em></a></p></li>
+<li><p>Herhaling van <code>display</code>: <a href="https://www.w3schools.com/css/css_display_visibility.asp"><em>https://www.w3schools.com/css/css_display_visibility.asp</em></a></p></li>
+</ul>
+<h2 id="optioneel-extra-4-animaties">(Optioneel) Extra 4 – Animaties</h2>
+<p>Het klinkt misschien heel raar, maar je kan inderdaad animaties maken met CSS Je kan hiermee zo veel properties veranderen als je wilt, zo vaak je wilt. Het is een ingewikkeld concept en zeker niet makkelijk om op te zetten, maar wanneer het eenmaal werkt dan is het dat zeker waard. Bronnen:</p>
+<ul>
+<li>Hoe maak je een animation: <a href="https://www.w3schools.com/css/css3_animations.asp"><em>https://www.w3schools.com/css/css3_animations.asp</em></a></li>
+</ul>
+<h2 id="optioneel-extra-5-responsive-web-design">(Optioneel) Extra 5 – Responsive Web Design</h2>
+<p>Tegenwoordig zijn er zo veel verschillende devices die websites kunnen openen dat er een hele categorie is gericht op het accommoderen van die verschillende schermgroottes. Dit heet Responsive Web Design (RWD). Het is eigenlijk een must om te weten, maar te ingewikkeld voor de normale module. Probeer dit uit als je er tijd voor hebt! Bronnen:</p>
+<ul>
+<li><p>Hoe gebruik ik RWD 1: <a href="https://www.w3schools.com/css/css_rwd_intro.asp"><em>https://www.w3schools.com/css/css_rwd_intro.asp</em></a></p></li>
+<li><p>Hoe gebruik ik RWD 2: <a href="https://www.w3schools.com/css/css_rwd_viewport.asp"><em>https://www.w3schools.com/css/css_rwd_viewport.asp</em></a></p></li>
+<li><p>Hoe gebruik ik RWD 3: <a href="https://www.w3schools.com/css/css_rwd_grid.asp"><em>https://www.w3schools.com/css/css_rwd_grid.asp</em></a></p></li>
+<li><p>Hoe gebruik ik RWD 4: <a href="https://www.w3schools.com/css/css_rwd_mediaqueries.asp"><em>https://www.w3schools.com/css/css_rwd_mediaqueries.asp</em></a></p></li>
+<li><p>Hoe gebruik ik RWD 5: <a href="https://www.w3schools.com/css/css_rwd_images.asp"><em>https://www.w3schools.com/css/css_rwd_images.asp</em></a></p></li>
+<li><p>Hoe gebruik ik RWD 6: <a href="https://www.w3schools.com/css/css_rwd_videos.asp"><em>https://www.w3schools.com/css/css_rwd_videos.asp</em></a></p></li>
+<li><p>RWD Frameworks: <a href="https://www.w3schools.com/css/css_rwd_frameworks.asp"><em>https://www.w3schools.com/css/css_rwd_frameworks.asp</em></a></p></li>
+<li><p>RWD Templates: <a href="https://www.w3schools.com/css/css_rwd_templates.asp"><em>https://www.w3schools.com/css/css_rwd_templates.asp</em></a></p></li>
+</ul>
+<h2 id="optioneel-extra-6-bootstrap">(Optioneel) Extra 6 – Bootstrap</h2>
+<p>Dit is er eentje voor de echte doorzetters. Bootstrap is een framework voor responsive web design met heel veel functionaliteit. Leren hoe je met Bootstrap moet werken is eigenlijk hetzelfde als een compleet andere programmeertaal leren binnen HTML en CSS. Maar als je veel tijd over hebt en wilt weten hoe je een perfecte responsive website maakt dan is het zeker een aanrader. Bronnen:</p>
+<ul>
+<li><p>W3schools Bootstrap Tutorial: <a href="https://www.w3schools.com/bootstrap4/default.asp"><em>https://www.w3schools.com/bootstrap4/default.asp</em></a></p></li>
+<li><p>Bootstrap website: <a href="https://getbootstrap.com/"><em>https://getbootstrap.com/</em></a></p></li>
+<li><p>Bootstrap documentatie: <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/"><em>https://getbootstrap.com/docs/4.3/getting-started/introduction/</em></a></p></li>
+</ul>
+<h1 id="eindopdracht"><span class="exercise">Eindopdracht</span></h1>
+<p>Na het oefenen met het maken van een website is het nu tijd om het eindproduct voor deze module te gaan maken. Zo kan je alle geleerde kennis meteen toepassen en een website maken die je nog gaat gebruiken.</p>
+<h2 id="introductie-1">Introductie</h2>
+<p>Bij het solliciteren voor een nieuwe baan wordt bijna altijd om je curriculum vitae (CV) gevraagd. Voor veel mensen is dit een simpel Word-bestandje of PDF waarin de werkervaring en opleidingen van een persoon staan. Vaak wordt daar ook nog een beetje informatie over jezelf aan toegevoegd. In onze ogen is dat allemaal een beetje achterhaald, wij vinden namelijk dat iedereen binnen de informaticawereld een online CV moet hebben! Dat is dan ook de opdracht, je gaat een website maken als vervanging voor je CV.</p>
+<p>Als je nog nooit een CV hebt gemaakt dan is <a href="http://www.carrieretijger.nl/carriere/solliciteren/sollicitatiebrief-en-cv/cv-opstellen"><em>http://www.carrieretijger.nl/carriere/solliciteren/sollicitatiebrief-en-cv/cv-opstellen</em></a> misschien een goede website om te beginnen. Als je al een CV hebt dan is het slechts een kwestie van die informatie in een goede website verwerken! Hieronder staan de eisen geordend op categorie met (tussen haakjes) de weging.</p>
+<h2 id="eisen">Eisen</h2>
+<h4 id="inhoud">Inhoud</h4>
+<ul>
+<li><p>Gebruik alle gegevens uit een normaal CV (3x):</p>
+<ul>
+<li><p>Personalia:</p>
+<ul>
+<li><p>Naam</p></li>
+<li><p>Adres</p></li>
+<li><p>Telefoonnummer</p></li>
+<li><p>E-mailadres</p></li>
+<li><p>Geboortedatum</p></li>
+</ul></li>
+<li><p>Opleidingen (afgerond en niet afgerond)</p></li>
+<li><p>Competenties en vaardigheden</p></li>
+<li><p>Werkervaring</p></li>
+<li><p>(Optioneel) Prestaties</p></li>
+<li><p>(Optioneel) Hobby’s en nevenactiviteiten</p></li>
+<li><p>(Optioneel) Cursussen</p></li>
+</ul></li>
+</ul>
+<h4 id="html-1">HTML</h4>
+<ul>
+<li><p>Gebruik minimaal drie verschillende webpagina’s (2x).</p></li>
+<li><p>Maak minimaal één link die buiten je website verwijst (1x).</p></li>
+<li><p>Gebruik minimaal drie plaatjes (1x).</p></li>
+<li><p>Gebruik de structuur van semantic elements (2x).</p></li>
+<li><p>Gebruik comments in je code (2x).</p></li>
+<li><p>Maak gebruik van minimaal één tabel, unordered list of ordered list (1x).</p></li>
+<li><p>Gebruik goede indentation (1x).</p></li>
+</ul>
+<h4 id="css-1">CSS</h4>
+<ul>
+<li><p>Gebruik minimaal één CSS-bestand (1x).</p></li>
+<li><p>Gebruik op ten minste 4 verschillende plekken een kleur (1x).</p></li>
+<li><p>Geef de tekst een aangepaste stijl (1x).</p></li>
+<li><p>Gebruik randen ten minste één keer (1x).</p></li>
+<li><p>Maak juist gebruik van margin en padding (1x).</p></li>
+<li><p>Geef de verschillende link states een aangepaste stijl (1x).</p></li>
+<li><p>Gebruik randen ten minste één keer (1x).</p></li>
+<li><p>Maak een mooie website (3x).</p></li>
+</ul>
+<p>Je kan extra punten verdienen door elementen uit de extra opdrachten te gebruiken.</p>
+<h2 id="alternatief">Alternatief</h2>
+<p>Als je al een online CV hebt of een veel leukere en betere opdracht denkt te weten, overleg dan even met je docent. Samen kunnen jullie bepalen of het een goed idee is en eisen opstellen.</p>
+<h1 id="appendix-a-definities">Appendix A – Definities</h1>
+<p>Een lijst van definities in de volgorde dat ze voor het eerst voorkomen in de module.</p>
+<p><strong>Webdesign</strong>: Het vormgeven van websites in het internet, waarbij ook het technisch ontwikkelen van websites als onderdeel wordt gezien.</p>
+<p><strong>HTML</strong>: HyperText Markup Language is een opmaaktaal voor de specificatie van documenten, voornamelijk bedoeld voor het wereldwijde web.</p>
+<p><strong>CSS</strong>: Cascading Style Sheets zijn een mogelijkheid om de vormgeving van webpagina’s los te koppelen van hun feitelijke inhoud en centraal vast te leggen.</p>
+<p><strong>Webapp</strong>: Een client-side computerprogramma die wordt gedraaid in een webbrowser.</p>
+<p><strong>JavaScript</strong>: Een scripttaal om webpagina’s interactief te maken en webapplicaties te ontwikkelen.</p>
+<p><strong>Developer Tools</strong>: Een groep gereedschappen binnen een webbrowser die een programmeur helpen bij het ontwikkelen van de website.</p>
+<p><strong>Inspector</strong>: Een developer tool om te zien hoe de HTML van een website is opgebouwd.</p>
+<p><strong>Performance</strong>: Een developer tool om bij te houden hoeveel geheugen een website gebruikt.</p>
+<p><strong>Console</strong>: Een developer tool waarmee waarden en errorberichten in de website uitgelezen kunnen worden.</p>
+<p><strong>HyperText</strong>: Tekst met direct activeerbare verwijzingen.</p>
+<p><strong>Markup</strong>: Een systeem voor het samenstellen van een document dat uit de syntax van het bestand uit te lezen is.</p>
+<p><strong>World Wide Web:</strong> Een aantal technische afspraken voor het wereldwijd over het internet aanbieden en verbinden van documenten en computertoepassingen in combinatie met de verzameling documenten en toepassingen die wereldwijd volgens dit systeem over het internet worden aangeboden.</p>
+<p><strong>Webserver</strong>: De computer met een programma dat via een netwerk HTTP-verzoeken ontvangt en documenten naar de client stuurt.</p>
+<p><strong>Elements:</strong> Aanwijzers in een HTML-bestand die aangeven wat voor soort informatie op een bepaalde plek weergeven moet worden.</p>
+<p><strong>Tags:</strong> De manier waarop een element in een markup taal wordt weergeven.</p>
+<p><strong>Empty tag</strong>: Een tag van een element zonder inhoud.</p>
+<p><strong>Start tag</strong>: Het begin van een element met twee tags.</p>
+<p><strong>End tag</strong>: Het einde van een element met twee tags.</p>
+<p><strong>Attributes</strong>: Opties die gebruikt kunnen worden om meer informatie toe te voegen aan een element.</p>
+<p><strong>Boilerplate code</strong>: De aanduiding voor code die regelmatig terugkeert maar niet of nauwelijks effect heeft op de inhoud.</p>
+<p><strong>Metadata</strong>: Gegevens die de karakteristieken van bepaalde gegevens beschrijven.</p>
+<p><strong>Comments:</strong> Stukken tekst die niet uitmaken voor de website, maar die er alleen zijn om extra context te geven aan de mensen die je code lezen.</p>
+<p><strong>WebStorm:</strong> Een IDE die speciaal is gemaakt om websites mee te maken.</p>
+<p><strong>IDE:</strong> Een Integrated Development Environment is een programma wat speciaal is gemaakt om software mee te schrijven met speciale gereedschappen voor programmeurs.</p>
+<p><strong>Debug mode:</strong> Een modus in een IDE dat de programmeur de mogelijkheid geeft om terwijl het programma bezig is de interne staat van het programma te wijzigen.</p>
+<p><strong>Syntax highlighting:</strong> Een onderdeel van IDE’s waarbij tekst met verschillende functies verschillende kleuren krijgt toegewezen.</p>
+<p><strong>Indentation:</strong> Lege ruimte aan het begin van een regel wat de structuur van code helpt communiceren.</p>
+<p><strong>Semantic Elements:</strong> Elementen in een HTML-bestand met een vaste betekenis en een vaste plaats.</p>
+<p><strong>Stijlregel:</strong> Een regel in een CSS-bestand die een bepaald visueel aspect van een website aanpast.</p>
+<p><strong>Selector:</strong> Het deel van een CSS-stijlregel die specificeert welk element of welke elements het doel zijn.</p>
+<p><strong>Property:</strong> Het deel van een CSS-stijlregel die specificeert welk visuele aspect aangepast moet worden.</p>
+<p><strong>Inline styling:</strong> Wanneer de stijlregels binnen een HTML-bestand binnen het doelelement worden toegevoegd.</p>
+<p><strong>Internal stylesheet:</strong> Wanneer de stijlregels binnen een HTML-bestand in een apart element worden toegevoegd.</p>
+<p><strong>External stylesheet:</strong> Wanneer de stijlregels voor een HTML-bestand in een apart bestand worden toegevoegd.</p>
+<p><strong>RGB:</strong> Een systeem om kleuren te definiëren waarbij 3 getallen gebruikt worden die waarden voor Rood, Groen en Blauw licht representeren.</p>
+<p><strong>RGBA:</strong> Een systeem om kleuren te definiëren waarbij 4 getallen gebruikt worden die de waarden voor Rood licht, Groen licht, Blauw licht en transparantie representeren.</p>
+<p><strong>HEX:</strong> Een systeem om kleuren te definiëren waarbij 3 getallen in hexadecimaal formaat gebruikt worden die de waarden voor rood, groen en blauw licht representeren.</p>
+<p><strong>HSL:</strong> Een systeem om kleuren te definiëren waarbij 3 getallen gebruikt worden die de waarden voor tint, verzadiging en helderheid representeren.</p>
+<p><strong>HSLA:</strong> Een systeem om kleuren te definiëren waarbij 4 getallen gebruikt worden die de waarden voor tint, verzadiging, helderheid en transparantie representeren.</p>
+<p><strong>Serif:</strong> Een categorie van lettertypen met kleine streepjes aan de uiteinden van letters.</p>
+<p><strong>Sans-serif:</strong> Een categorie van lettertypen zonder kleine streepjes aan de uiteinden van letters.</p>
+<p><strong>Monospace:</strong> Een categorie van lettertypen waarbij alle tekens dezelfde breedte hebben.</p>
+<p><strong>Het box model:</strong> Een model wat gebruikt wordt om het design en de layout van HTML elements te bespreken die uitgaat van dozen die in elkaar zitten.</p>
+<h1 id="appendix-b-html-reference">Appendix B – HTML Reference</h1>
+<p>Een lijst van elements en hoe ze precies toegepast moeten worden kan gevonden worden op: <a href="https://www.w3schools.com/tags/default.asp"><em>https://www.w3schools.com/tags/default.asp</em></a></p>
+<h1 id="appendix-c-css-reference">Appendix C – CSS Reference</h1>
+<p>Een lijst van CSS properties en hoe ze precies toegepast moeten worden kan gevonden worden op: <em>https://www.w3schools.com/cssref/default.asp</em></p>
+</div>
+</body>
+
+</html>

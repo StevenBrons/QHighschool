@@ -1,0 +1,455 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><h1 id="programmeren-in-python">Programmeren in Python</h1>
+<p>Een introductie in de wereld van scripttalen</p>
+<script>document.__language = "python";</script>
+<h1 id="welkom">Welkom!</h1>
+<p>Welkom bij de module “Programmeren in Python” in het informaticaprogramma van de Q-Highschool! Hierin leer je de basis van Python, een programmeertaal die je uiteindelijk gaat gebruiken om je zelfgekozen eindopdracht te maken!</p>
+<h2 id="waarom-python">Waarom Python?</h2>
+<p>Maar, waarom eigenlijk Python? Python is één van de simpelste programmeertalen om mee te beginnen. Het brengt je in contact met de manier waarop code geïnterpreteerd wordt door je systeem en laat je kennismaken met de opbouw van een scripttaal, een taal die werkt op de achtergrond en veel gebruikt wordt voor automatisering van taken.</p>
+<p>Dit is superhandig, want hoewel er zeker verschillen zitten tussen de formulering en de vaktermen tussen talen, is ook heel veel nagenoeg hetzelfde. Vooral de structuur verandert nauwelijks tussen programmeertalen.</p>
+<p>Ook wordt Python zelf gebruikt in de vakwereld. Neem Instagram, één van de grootste online sociale media om foto’s te delen. Instagram was, qua functionaliteit, vrijwel volledig gebouwd in Python! Ook andere tech-giganten gebruiken deze taal, zoals Spotify, Netflix en zelfs Google!</p>
+<p>En buiten deze grote bedrijven wordt Python ook veel voor projecten gebruikt. Volgens GitHub, de grootste database van codeprojecten wereldwijd, is Python de derde meest populaire taal die gebruikt wordt!</p>
+<p><span id="Werken_met_deze_module" class="anchor"></span></p>
+<h1 id="wat-ga-je-leren">Wat ga je leren?</h1>
+<p>In deze module ga je het volgende leren:</p>
+<p><em>Algemeen</em></p>
+<ul>
+<li><p>De basis van Python, die je kan toepassen om eenvoudige scripts te schrijven.</p></li>
+<li><p>De opbouw van een scripttaal.</p></li>
+<li><p>Het denken in de structuur van een scripttaal.</p></li>
+</ul>
+<p><em>Introductie &amp; Variables</em></p>
+<ul>
+<li><p><code>print()</code>-statements te maken en zo waarden printen.</p></li>
+<li><p>Variables op te slaan, oproepen en waar nodig overschrijven.</p></li>
+<li><p>Errors goed genoeg te lezen om te begrijpen waar het probleem ligt en wat het probleem is, en de errors te gebruiken om je code te debuggen.</p></li>
+</ul>
+<p><em>Functions</em></p>
+<ul>
+<li><p>Ingebouwde functions te gebruiken om complexe taken niet zelf te hoeven coderen.</p></li>
+<li><p>De werking van arguments en waarom deze bestaan.</p></li>
+</ul>
+<p><em>Comments &amp; Quotes</em></p>
+<ul>
+<li><p>Code te commenten, tot op het niveau dat iemand zonder enige Python-kennis je script zou begrijpen.</p></li>
+<li><p>De werking van escape characters en hoe je ze gebruikt.</p></li>
+</ul>
+<p><em>input()</em></p>
+<ul>
+<li><p>`input() te gebruiken om de gebruiker te vragen een waarde in te voeren.</p></li>
+<li><p>Een ingevoerde waarde te verwerken in je script.</p></li>
+</ul>
+<p><em>If/else statements &amp; boolean operators</em></p>
+<ul>
+<li>If/else-statements en boolean operators te gebruiken om conditionals te maken in een als/dan/anders constructie.</li>
+</ul>
+<p><em>Loops, indices en beter rekenen</em></p>
+<ul>
+<li><p>For loops te gebruiken voor vastgestelde ranges of voor alle karakters in een string.</p></li>
+<li><p>While loops te gebruiken voor een conditional loop (een loop die alleen maar werkt als de condition klopt).</p></li>
+<li><p>Wanneer je for en wanneer while moet gebruiken.</p></li>
+<li><p>Indices gebruiken om bepaalde stukken tekst uit een string op te vragen.</p></li>
+<li><p>Nieuwe operators gebruiken om beter, efficienter en leesbaarder te rekenen, zowel met numbers als met strings.</p></li>
+</ul>
+<p><em>def (zelf functies maken)</em></p>
+<ul>
+<li><p>Functies te gebruiken om vaker uit te voeren stukken code slechts één keer uit te hoeven typen.</p></li>
+<li><p>Functies te gebruiken om je code overzichtelijker en leesbaarder te maken.</p></li>
+</ul>
+<p><em>Lists &amp; Dictionaries</em></p>
+<ul>
+<li>Dictionaries en lists te gebruiken om grote hoeveelheden data in op te slaan.</li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Hoe de key-value verhouding werkt bij dictionaries en kan hiermee programmeren.</p></li>
+<li><p>Hoe indices werken bij lists.</p></li>
+</ul>
+<p><em>Extra’s</em> en <em>Breinbrekers</em></p>
+<ul>
+<li><p>Hoe recursie werkt in Python.</p></li>
+<li><p>De basis van exception handling in Python.</p></li>
+<li><p>Bestanden te managen in Python.</p></li>
+<li><p>Hoe je lastige informatica-problemen moet aanpakken.</p></li>
+</ul>
+<h1 id="werken-met-deze-module">Werken met deze module</h1>
+<p>Als je verder scrollt, zie je misschien al wel dat er weinig tekst staat. Dit komt doordat het overgrote deel van de stof die we gaan behandelen, en enkele oefenopgaven die erbij horen, staan op een externe site genaamd CSCircles.</p>
+<p>Elk hoofdstuk word je gelinkt naar een bepaalde pagina op deze site, waarin je de stof kan lezen en indien nodig oefenopgaven kan maken. Dit is geen verplichting, maar wel handig. Ook wordt W3Schools gelinkt, een site met handige en overzichtelijke voorbeelden van het onderwerp. Tevens wordt waar mogelijk een andere externe bron gelinkt. Deze kan gebruikt worden voor extra oefening. Je vindt hier soms ook onbehandelde informatie in die je zou kunnen gebruiken.</p>
+<p>Bij de meeste paragrafen staan op deze pagina ook nog aparte opdrachten. Dit zijn lastigere oefenopgaven, bedoeld voor jezelf om te testen of je de stof voldoende snapt en kan toepassen. Ook deze zijn niet verplicht, echter zeer aan te raden. Maak hierbij voor elke opdracht een nieuw document aan en sla deze op, om het later nog in te kunnen zien.</p>
+<p>Sommige paragrafen staan <em>schuingedrukt</em> in de inhoudsopgave. Dit zijn inleveropdrachten, deze worden nagekeken. Nadere omschrijving en beoordelingscriteria staan in de paragrafen zelf.</p>
+<p>Helemaal achterin (achter de eindopdracht) tref je een aantal extra onderwerpen. Hiervan hoef je de stof niet te kennen. Voor mensen die een uitdaging zoeken kan dit echter een mooie kans zijn. Ook kan toepassing van deze stof in de eindopdracht beloond worden met punten.</p>
+<p>Als je behoefte hebt aan nog meer oefening, voel je vrij om op het web een opdracht op te zoeken die je leuk of nuttig lijkt. Dit geldt ook voor verdieping en verbreding van je kennis. Laat je dus niet inperken door wat in deze module staat, maar ga vooral ook zelf op onderzoek uit!</p>
+<p>Bij de opdrachten mag je volledig te werk gaan zoals jij wil en zelf keuzes maken. De enige voorwaarde is dat de programma’s voldoen aan de eisen die in de desbetreffende opdracht staan.</p>
+<p>Mocht een opdracht niet in één keer lukken, zit er dan even op! Meestal komt een strategie wel in je op als je het even laat inzinken.</p>
+<p>Ook als je programma niet werkt zoals gewenst of helemaal niet werkt, geef niet op! Python heeft duidelijke error-messages en ingebouwde functies die debuggen eenvoudig zouden moeten maken. Bovendien is coderen een leerproces, en trial-en-error is een fundamenteel onderdeel hiervan.</p>
+<h1 id="pycharm">PyCharm</h1>
+<p>Voor deze module wordt aangeraden het programma PyCharm te gebruiken. Dit programma is namelijk makkelijk in gebruik en overzichtelijk, en heeft daarbij ook nog eens een ingebouwde interpreter (hetgeen je code leest en vertaalt naar computertaal).</p>
+<p>Installeer eerst Python. Download de installer <a href="https://www.python.org/downloads/">hier</a>, en volg de instructies. Verander niets qua instelling, aangezien dit niet nodig is.</p>
+<p>Download als dat klaar is PyCharm Community Edition <a href="https://www.jetbrains.com/pycharm/download/#section=windows">hier</a>. Bij de installatie, selecteer <em>Add launchers dir to the PATH</em>, <em>Create Associations - .py</em> en <em>Add “Open Folder as Project”</em>.<br />
+Als alles gereed is kan je beginnen met het instellen. Open PyCharm, accepteer de <em>Terms and Conditions</em> en kies je favoriete theme. Plugins zijn niet nodig, sla deze over.<br />
+Klik dan op <em>Create New Project</em>. Kies de gewilde locatie op je PC waar je het project wil neerzetten en de naam van het project. Klik dan op <em>Project Interpreter</em>. Selecteer <em>Existing Interpreter</em> en kies <em>Python 3.<getal></em>. Als deze er niet tussen staat, klik op de drie puntjes, <em>System Interpreter</em> en selecteer de enige optie. Klik op <em>OK</em> en daarna <em>Create</em>.</p>
+<p>Je hebt nu je eerste project! Om een nieuw bestand te maken klik je met de rechter-muisknop op het mapje met de naam die je het project gegeven hebt, onder <em>Project</em>. Selecteer <em>New</em>, <em>Python File</em>.<br />
+Copy-paste <code>print(“hi”)</code> in het bestand dat je net gemaakt hebt en klik bovenin op tab <em>Run, Run</em> (of klik Shift + F10). Je ziet onder in beeld een zwart scherm opkomen waar <code>hi</code> in staat.</p>
+<p>Nu weet je hoe je PyCharm gebruikt!</p>
+<p>Verdere informatie kan je hier vinden: <a href="https://www.jetbrains.com/help/pycharm/quick-start-guide.html" class="uri">https://www.jetbrains.com/help/pycharm/quick-start-guide.html</a></p>
+<p>Een andere editor gebruiken mag altijd. Hiervoor moet je echter wel zelf opzoeken hoe je de interpreter (als deze er is) instelt.</p>
+<h1 id="even-voor-de-duidelijkheid">Even voor de duidelijkheid</h1>
+<p>Je hebt de Python interpreter nodig om Python code te schrijven. Dit is een klein programmaatje wat je Python code omzet tot iets wat je processor begrijpt.</p>
+<p>Daarnaast hebben we een online platform, CSCircles. Deze heeft een Python interpreter geïnstalleerd op de server en bied vervolgens de mogelijkheid om Python code te typen in hun invoervelden. Deze code wordt uitgevoerd op de server en dan wordt de uitvoer van je programma vergeleken met hun verwachte uitvoer.</p>
+<p>Als laatste hebben we PyCharm. PyCharm is een slimme editor om Python code mee te schrijven. Deze geeft suggesties over hoe je code verbeterd kan worden op vele manieren. Wanneer je aangeeft om in PyCharm je programma uit te voeren, roept PyCharm de Python interpreter aan en voert je code uit. Vervolgens wordt de uitvoer opgevangen en wordt in PyCharm weer teruggegeven.</p>
+<p>In het eerste deel van deze module ga je aan de slag met CSCircles, om de taal te leren. Nadat de syntax (de taal zelf) bekend is, zal je leren hoe je op een inzichtelijke manier programma’s ontwikkelt en hoe je de leesbaarheid van je code kan verbeteren. In dit laatste deel stap je over op PyCharm en zal je iets uitgebreidere programma’s schrijven.</p>
+<h1 id="introductie-variables"><span class="exercise">Introductie &amp; Variables</span></h1>
+<h2 id="leerdoelen">Leerdoelen</h2>
+<p>Je leert <code>print()</code>-statements maken en zo waarden te printen.<br />
+Je leert variables opslaan, oproepen en waar nodig overschrijven.<br />
+Je leert errors goed genoeg lezen om te begrijpen waar het probleem ligt en wat het probleem is, om zo de errors te gebruiken om je code te debuggen.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/"><em>0: Hello!</em></a> en <a href="https://cscircles.cemc.uwaterloo.ca/1-variables/"><em>1: Variables</em></a>.<br />
+W3Schools: <a href="https://www.w3schools.com/python/python_variables.asp"><em>Python Variables</em></a> Extra opdrachten: <a href="https://pythonbasics.org/variables/#Exercises"><em>Variables Exercises</em></a></p>
+<h2 id="opdrachten">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Analyseer de volgende regel code:</p>
+<p><code>print(Hello World)</code></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Deze code veroorzaakt een error. Bedenk en noteer waarom.</p></li>
+<li><p>Voer de code uit. Je ziet in de console (het zwarte gedeelte onderaan je scherm) de error-message in het rood. Lees deze door en noteer voor elk onderdeel wat het betekent.</p></li>
+<li><p>Verander de code zo, dat de output <code>Hello World</code> is.</p></li>
+</ol></li>
+<li><p>Je maakt een script om je naam om te keren.</p>
+<p>Om iets om te keren, moet je er <code>[::-1]</code> achter zetten.</p>
+<p>Je hoeft nu nog niet te begrijpen hoe dit werkt.</p></li>
+</ol>
+<!-- -->
+<ol style="list-style-type: lower-alpha">
+<li><p>Maak een variable aan met als naam <code>name</code> en sla hierin je eigen naam op.</p></li>
+<li><p>Maak een tweede variable aan genaamd <code>reversedName</code> en zorg dat deze je variable uit <em>a</em> omdraait.</p></li>
+<li><p>Print vervolgens je omgekeerde naam.</p></li>
+</ol>
+<!-- -->
+<ol style="list-style-type: decimal">
+<li><p>Je maakt een script om van een waarde de volgende 3 exponenten (machten) uit te rekenen.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Maak een variable waarin je de oorspronkelijke waarde zet. Noem deze <code>ogValue*</code>* (kort voor “originalValue”).</li>
+</ol></li>
+</ol>
+<blockquote>
+<p>Hierna ga je de berekeningen uitvoeren. Hiervoor heb je <strong>alleen</strong> vermenigvuldigen nodig; machtsverheffen wordt in een later hoofdstuk pas behandeld.</p>
+<p>Uiteindelijk wil je natuurlijk een output die de resultaten weergeeft. Er zijn twee manieren die tot dit resultaat leiden.<br />
+Bij de één gebruik je een variable waarin je alle berekeningen opslaat. Hier gebruik je de plus-operator (+) om strings “bij elkaar op te tellen”.<br />
+Bij de ander sla je elke berekening op in een aparte variable, en gebruik je de komma in <code>print(x, y)</code> om automatisch spaties te laten verschijnen tussen alle values.</p>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li>Codeer beide manieren. Zorg ervoor dat voor beide manieren de output het format hebben van <code>&lt;origineleWaarde&gt; &lt;exponent1&gt; &lt;exponent2&gt; &lt;exponent3&gt;</code>.<br />
+<br />
+NOOT: Let erop dat Python <strong>strings</strong> (karakters) en <strong>integers</strong> (gehele getallen) niet bij elkaar kan optellen! Gebruik <code>str(&lt;geheel getal&gt;)</code> om het getal te transformeren naar een string.</li>
+</ol>
+<h1 id="functions"><span class="exercise">Functions</span></h1>
+<h2 id="leerdoelen-1">Leerdoelen</h2>
+<p>Je leert ingebouwde functions te gebruiken om complexe taken niet zelf te hoeven coderen.<br />
+Je snapt hoe arguments werken en waarom deze bestaan.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/2-functions/"><em>2: Functions</em></a> en <a href="https://cscircles.cemc.uwaterloo.ca/4-types/"><em>4: Types</em></a> Lijst Built-In functions: <a href="https://www.w3schools.com/python/python_ref_functions.asp"><em>Built-in Functions</em></a> W3Schools types: <a href="https://www.w3schools.com/python/python_numbers.asp"><em>Python Numbers</em></a> (geen complex), <a href="https://www.w3schools.com/python/python_casting.asp"><em>Python Casting</em></a></p>
+<h2 id="opdrachten-1">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Bij de laatste opdracht van het vorige hoofdstuk heb je al gezien dat types invloed kunnen hebben op hoe je code zichzelf uitvoert. Ook heb je toen kennis gemaakt met een functie genaamd <code>str()</code>, die je gebruikt hebt om een integer om te zetten naar een string.<br />
+<br />
+Om verder te gaan op deze types ga je de functie <code>type()</code> gebruiken. <code>type()</code> neemt een <strong>value</strong> (algemeen woord voor een waarde, ongeacht het type) en geeft het type ervan weer. Dit is onmisbaar bij het debuggen van code, omdat redelijk wat fouten bijvoorbeeld komen van het aanroepen van een functie met een verkeerd type value.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Gebruik de <code>type()</code>-functie voor de waarden: <code>“hi”</code>, <code>9</code>, <code>34.2313</code> en <code>9/13</code>. Test als je wil met meer waarden. Noteer welke Nederlandse begrippen corresponderen met de Python-types.<br />
+<br />
+NOOT: Zorg wel dat je alle function calls print, anders krijg je niets te zien!</li>
+</ol></li>
+</ol>
+<blockquote>
+<p>Je hebt al kennis gemaakt met <code>str()</code>. Ook <code>int()</code> en <code>float()</code> bestaan. Deze zijn er allemaal om waarden van het ene naar het andere type te transformeren.</p>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li>Test uit welke outputs deze functies geven bij verschillende types inputs.</li>
+</ol>
+<h1 id="comments-quotes"><span class="exercise">Comments &amp; Quotes</span></h1>
+<h2 id="leerdoelen-2">Leerdoelen</h2>
+<p>Je leert code te commenten, tot op de hoogte dat iemand zonder enige Python-kennis je script zou begrijpen.<br />
+Je leert hoe escape characters werken en wanneer deze gebruikt worden.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/3-comments-literals/"><em>3: Comments, Quotes</em></a> W3Schools: <a href="https://www.w3schools.com/python/python_comments.asp"><em>Python Comments</em></a></p>
+<p>Voor dit hoofdstuk zijn geen extra opdrachten.</p>
+<p>NOOT: bij opdrachten voor een cijfer word je ook op je comments beoordeeld</p>
+<h1 id="input"><span class="exercise">input()</span></h1>
+<h2 id="leerdoelen-3">Leerdoelen</h2>
+<p>Je leert <code>input()</code> te gebruiken om de gebruiker te vragen om een waarde in te voeren.<br />
+Je leert hoe je een ingevoerde waarde moet verwerken in je script.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/5-input/"><em>5: Input</em></a> W3Schools: <a href="https://www.w3schools.com/python/ref_func_input.asp"><em>input() function</em></a></p>
+<h2 id="opdrachten-2">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>We verbeteren opdracht 3 van <em>Introductie &amp; Variables</em> (de exponenten-opdracht). Toen heb je zelf de originele waarde die je zou gaan machtsverheffen opgeslagen in variable <code>ogValue</code>.<br />
+<br />
+Verander die variable zo, dat deze als originele value een input neemt.<br />
+Vanwege kleine onzuiverheden in het afronden van floats, hoeft dit enkel te werken op ints. Geef waar nodig dus aanwijzingen, om te voorkomen dat het script een error geeft.</p></li>
+<li><p>Je maakt een script om ship names te genereren.<br />
+<br />
+Een ship name is een combinatie van de twee namen van twee personen die aan elkaar gekoppeld worden.<br />
+<br />
+Hoewel een ship name meestal een vloeiende naam is, heb je op dit moment nog niet de kennis om dit te maken. Wel ga je twee namen samenvoegen.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Maak twee variabelen aan die allebei een input aannemen. Deze twee inputs zijn de namen die we samen gaan voegen.</p>
+<p>Om te kijken hoeveel letters de een en hoeveel letters de andere naam af moet staan ga je <code>randint</code> uit module <code>random</code> gebruiken. Dit zit echter niet standaard in Python, en moeten we importen. Dit gaat als volgt:</p></li>
+</ol></li>
+</ol>
+<p><code>import random</code></p>
+<p>En deze function gebruik je zo: <code>random.randint(begin, end)</code><br />
+Waar <em>begin</em> het eerste gehele getal is waar de function uit kan kiezen en <em>end</em> het laatste (en alles ertussenin).</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Gebruik de function om twee willekeurige gehele getallen tussen 1 en de lengte van de naam (1 en lengte <em>niet</em> meegerekend) te kiezen, en sla deze getallen op in een variable.<br />
+Let hierbij dat je de lengte van een string kan bepalen door middel van `len(arg)@, waar <em>arg</em> een string (of een variable die een string bevat) is.</p>
+<p>We gaan nu de de hoeveelheid letters die je net bepaald hebt uit de namen halen. Voor het gemak zeggen we dat de eerst ingevulde naam het voorste deel afstaat, en de laatst ingevulde naam het achterste deel.<br />
+Hiervoor gebruiken we indices (enkelvoud: index). De index van een karakter in een string zegt gewoon op welke plek deze in de string staat. Door hier gebruik van te maken kunnen we niet alleen één letter in een string selecteren, maar ook een aantal letters tegelijk.</p>
+<p>Aangezien je van de eerste naam het eerste deel van de willekeurig bepaalde lengte wil, gebruik je het volgende: <code>nameOne[0:randOne]</code>.<br />
+Dit betekent: van <code>nameOne</code>, pak alle letters van index <code>0</code> (de allereerste letter) t/m de letter met index <code>randOne</code> (de willekeurig gegenereerde index).</p></li>
+<li><p>Vul dit in met je eigen variabelen en sla het op in een nieuwe variabele.</p>
+<p>Zo’n zelfde idee geldt ook voor de tweede naam, alleen dan het laatste deel.</p>
+<p>Hiervoor gebruiken we: <code>nameTwo[len(nameTwo) – randTwo : len(nameTwo)]</code>.<br />
+Dit betekent: van <code>nameTwo</code>, pak alle letters van index <code>len(nameTwo)-randTwo</code> (dus, <code>randTwo</code> letters terug vanaf het einde van de string) t/m index <code>len(nameTwo)</code> (het einde van de string).</p></li>
+<li><p>Doe hiervoor hetzelfde als bij c.</p></li>
+<li><p>Print het eerste deel en het tweede deel uit, zonder spatie of newline ertussen.</p></li>
+</ol>
+<h1 id="ifelse-statements-boolean-operators"><span class="exercise">If/else statements &amp; boolean operators</span></h1>
+<h2 id="leerdoelen-4">Leerdoelen</h2>
+<p>Je kan nu if/else-statements en boolean operators gebruiken om conditionals te maken in een als-dan-anders constructie.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/6-if/"><em>6: If</em></a> en <a href="https://cscircles.cemc.uwaterloo.ca/9-else-and-or-not/"><em>9: Else, And, Or, Not</em></a> W3Schools: <a href="https://www.w3schools.com/python/python_conditions.asp"><em>Python Conditions</em></a> Extra opdrachten: <a href="https://pythonbasics.org/if-statements/#Exercise"><em>If-statements Exercises</em></a></p>
+<h2 id="opdrachten-3">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Je maakt een script dat twee strings aanneemt als input en de langste van de twee print.<br />
+Als beide strings even lang zijn, print je script beide strings uit. Gebruik hiervoor de ingebouwde functie <code>len(“string”)</code>.</p></li>
+<li><p>Voor 3 cijfer-inputs (X, Y en Z), maak variabelen x, y en x zo, x = kleinste van XYZ, y = middelste, z = grootste (oftewel x &lt;= y &lt;= z). Gebruik hiervoor alleen if/else statements en simpele variabelen.</p></li>
+<li><p>Neem een functie genaamd <code>isvalid(string)</code> over (later meer over functies). De functie wordt hieronder weergegeven:</p></li>
+</ol>
+<pre class="\"><code>def isvalid(string):
+if 0 &lt;= int(string) &lt;= 10:
+print(&quot;This number lies between 0 and 10!&quot;)
+elif string.isdigit():
+print(&quot;This number doesn&#39;t lie between 0 and 10!&quot;)
+else: print(&quot;This is either a float or not a number!&quot;)</code></pre>
+<blockquote>
+<p>Deze code werkt niet zoals gewenst.</p>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li><p>Bedenk wat hieraan fout zou kunnen zijn en check vervolgens door voorbeeld-inputs.</p></li>
+<li><p>Debug deze code op twee manieren: zonder het aanmaken van een nieuwe regel, en door nested (in elkaar gezette) if-else statements te gebruiken.</p></li>
+</ol>
+<h1 id="abc-formule"><span class="exercise">ABC-formule</span></h1>
+<p>De ABC-formule:</p>
+<h2 id="opdracht">Opdracht</h2>
+<ul>
+<li><p>Maak een programma dat de ABC-formule kan toepassen op gehele getallen.</p></li>
+<li><p>Zorg dat je programma via de discriminant checkt of er 0, 1 of 2 reële uitkomsten zijn.</p></li>
+<li><p>Bij 0 uitkomsten, print een melding dat er geen reële resultaten zijn.<br />
+Bij 1, print dat er één versie is en reken één of beide versies uit. Ga verder met het volgende deel.<br />
+Bij 2, reken beide versies uit. Ga verder met het volgende deel.</p></li>
+<li><p>Gebruik de volgende line om te bepalen of een floatwaarde een int is. Pas je print statement zo aan, dat als het volgende geldt, je script “exact <integer-waarde>” print in plaats van een float. Doe deze check bij beide variabelen in het geval van twee reële uitkomsten.</p></li>
+</ul>
+<pre class="\"><code>if jouwResultaat.is_integer():</code></pre>
+<ul>
+<li><p>Als het nummer geen int is, gebruik <code>Fraction()</code> uit module <code>fractions</code> om te checken of de lengte van de resulterende breuk kleiner of gelijk aan 10 is. Als dit het geval is, print de breuk in plaats van het kommagetal. Haal wel eerst de helen ervan af! Gebruik hiervoor <code>int()</code>. Deze functie rondt positieve getallen af naar beneden en negatieve naar boven.</p></li>
+<li><p>Als het nummer geen van beiden is, print zijn float-waarde.</p></li>
+</ul>
+<p>TIP: voor betere leesbaarheid, zoek de functie <code>.format()</code> op op internet.</p>
+<p>Beoordeling<br />
+Je wordt beoordeeld op het volgende:</p>
+<ul>
+<li><p>Voldoe je volledig aan de opdracht</p></li>
+<li><p>Is je programma gebruiksvriendelijk (goede prompts, formeel taalgebruik, volzinnen, etc)</p></li>
+<li><p>Is je code leesbaar en logisch geordend; zou iemand met evenveel Python-kennis als jij dit programma kunnen begrijpen zonder comments te lezen</p></li>
+<li><p>Heb je voldoende en nuttig gecomment; kan iemand die geen Python kan jouw programma begrijpen door enkel de comments te lezen<span id="richhh" class="anchor"></span></p></li>
+</ul>
+<p>Je cijfer wordt gebaseerd op deze criteria.</p>
+<p>Deze inleveropdracht telt niet mee voor je eindcijfer.</p>
+<h1 id="loops-indices-en-beter-rekenen"><span class="exercise">Loops, indices en beter rekenen</span></h1>
+<h2 id="leerdoelen-5">Leerdoelen</h2>
+<p>Je leert for-loops te gebruiken voor vastgestelde ranges of voor alle karakters in een string.<br />
+Je leert while-loops te gebruiken voor een conditional loop (een loop die alleen maar werkt als de condition klopt).<br />
+Je leert wanneer je <code>for</code> en wanneer <code>while</code> moet gebruiken.<br />
+Je leert indices te gebruiken om bepaalde stukken tekst uit een string op te vragen.<br />
+Je leert nieuwe operators gebruiken om beter, efficienter en leesbaarder te rekenen, zowel met numbers als met strings.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/7-rich-editor/"><em>7: Rich</em></a>, alle subcategorieën<br />
+W3Schools: <a href="https://www.w3schools.com/python/python_while_loops.asp"><em>Python While Loops</em></a>, <a href="https://www.w3schools.com/python/python_for_loops.asp"><em>Python For Loops</em></a>, <a href="https://www.w3schools.com/python/python_strings.asp"><em>Python Strings</em></a>, <a href="https://www.w3schools.com/python/python_operators.asp"><em>Python Operators</em></a> Extra opdrachten: <a href="https://pythonbasics.org/for-loops/#Exercise"><em>Exercises For Loops</em></a>, <a href="https://pythonbasics.org/while-loop/#Exercise"><em>Exercises While Loops</em></a>, <a href="https://pythonbasics.org/strings/#Exercises"><em>Exercises Strings and Indices</em></a></p>
+<h2 id="opdrachten-4">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Je gaat een eenvoudig script maken om karakters binnen een woord te vervangen, om er zo een raadwoord van te maken.</p>
+<p>Zorg dat je script als input een woord neemt en uit dit woord willekeurige letters vervangt in *_*(underscore). Bedenk zelf een eerlijke kans voor elke letter om vervangen te worden.</p></li>
+<li><p>Je gaat een Caesar Cipher script maken. Een Caesar Cipher slaat op het <code>&lt;key&gt;</code> aantal letters verplaatsen in het alfabet voor elke letter. De letter A met key 3 zou dus een D (<em>A</em> &gt; B &gt; C &gt; <em>D</em>) worden, en D met key 23 wordt weer een A.</p>
+<p>Jij gaat dit ook doen, maar in plaats van met alleen het alfabet, met de hele ASCII-tabel.</p></li>
+</ol>
+<!-- -->
+<ol style="list-style-type: lower-alpha">
+<li>Zorg dat je script elk karakter uit een gebruiker-gegeven string een gebruiker-gegeven aantal plaatsen kan opschuiven.</li>
+</ol>
+<blockquote>
+<p>Wat nu echter het geval is, is dat er maar 128 ASCII-karakters (maximaal aantal verschillende values om te passen in een binary van 7 bits) zijn. En je programma keert niet terug naar het begin van de lijst als je 127 passeert (0000000 à 0 in dec is ook een value).</p>
+<p>Er zijn twee manieren om dit op te lossen.</p>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li><p>Maak één script die enkel werkt als de key die de user geeft tussen -128 en 128 ligt. Zorg wel dat deze werkt als de waarde van een karakter + de key meer dan 128 is!</p>
+<p>Maak ook een script waarin je het aantal “rondjes” dat je script maakt checkt en deze van de uiteindelijke value aftrekt, om zo voor elk omgezet karakter alsnog een waarde van 0 t/m 127 is.</p></li>
+</ol>
+<h1 id="remix"><span class="exercise">Remix</span></h1>
+<p>Maak <a href="https://cscircles.cemc.uwaterloo.ca/8-remix/"><em>8: Remix</em></a> op CSCircles.</p>
+<p>Dit is een verzameling lastigere sommen die dienen ter herhaling van de stof die je tot nu toe hebt gehad, en deze combineert.</p>
+<p>Hierbij zijn geen extra opdrachten.</p>
+<h1 id="def-zelf-functies-maken"><span class="exercise">def (zelf functies maken)</span></h1>
+<h2 id="leerdoelen-6">Leerdoelen</h2>
+<p>Je leert functies te gebruiken om vaker uit te voeren stukken code slechts één keer uit te hoeven typen. Je leert functies te gebruiken om je code overzichtelijker en leesbaarder te maken.</p>
+<p>CSCircles stof en opdrachten: <a href="https://cscircles.cemc.uwaterloo.ca/10-def/"><em>10: def</em></a> en <a href="https://cscircles.cemc.uwaterloo.ca/11b-how-functions-work/"><em>11B: Variable Scopes</em></a> W3Schools: <a href="https://www.w3schools.com/python/python_functions.asp"><em>Python Functions</em></a> Extra opdrachten: <em>Function Exercises</em></p>
+<h2 id="opdrachten-5">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li><p>Je gaat een eenvoudige function maken die een string als input neemt en deze string vervolgens verandert in een reeks getallen, de ASCII-values van de letters in de string. Scheid deze getallen van elkaar met spaties.<br />
+<br />
+Dit kan je op twee manieren doen.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Maak gebruik van <em>global</em> om vanuit de function de variable op module-level te editen.</p></li>
+<li><p>Maak gebruik van een return statement om de variable over te schrijven.</p></li>
+</ol></li>
+<li><p>Maak een programma dat een willekeurige integer tussen 0 en <code>int(input)</code> genereert, en die mensen laat raden en checkt of ze het correcte antwoord hebben (een lotingsprogramma).<br />
+<br />
+Maak 2 functions: Eén om te checken of het geraden cijfer tussen 0 en <code>input()</code> ligt (is het een valide poging); Eén om te checken of het geraden cijfer correct is.<br />
+<br />
+Check ook of alle ingevoerde waardes wel integers zijn; <code>int()</code> gebruiken op niet-int strings veroorzaakt namelijk een error. Gebruik hiervoor <code>.isnumeric()</code>.</p></li>
+</ol>
+<h1 id="tips"><span class="exercise">Tips</span></h1>
+<p>Maak <em><a href="https://cscircles.cemc.uwaterloo.ca/12-tips/">12: Tips</a></em> op CSCircles. Dit hoofdstuk bevat vooral handigheidjes die je kan gebruiken om je code handiger/effectiever te maken.</p>
+<p>Hierbij zijn geen extra opdrachten.</p>
+<h1 id="lists-dictionaries"><span class="exercise">Lists &amp; Dictionaries</span></h1>
+<h2 id="leerdoelen-7">Leerdoelen</h2>
+<p>Je leert dictionaries en lists te gebruiken om grote hoeveelheden data in op te slaan.<br />
+Je leert hoe de key-value verhouding werkt bij dictionaries en kan hiermee programmeren.<br />
+Je leert hoe indices werken bij lists.</p>
+<p>CSCircles stof en opdrachten: <em><a href="https://cscircles.cemc.uwaterloo.ca/13-lists/">13: Lists</a></em> en <a href="https://cscircles.cemc.uwaterloo.ca/15a-basic/"><em>15A: Termination Determination</em></a> Dictionaries stof en opdrachten: <em>LearnPython Dictionaries</em><br />
+W3Schools: <a href="https://www.w3schools.com/python/python_lists.asp"><em>Python Lists</em></a>, <a href="https://www.w3schools.com/python/python_dictionaries.asp"><em>Python Dictionaries</em></a> Extra opdrachten: <em>Dictionary Exercises</em>, <a href="https://pythonbasics.org/split/#Exercises"><em>Split Exercises</em></a>, <a href="https://pythonbasics.org/list-operations/#Exercise"><em>List Exercises</em></a></p>
+<h2 id="opdrachten-6">Opdrachten</h2>
+<ol style="list-style-type: decimal">
+<li>Schrijf een telefoonboek-programma. Je programma moet bij invoeren van een naam het geregistreerde telefoonnummer teruggeven. Ook moet je een modus hebben voor het toevoegen en verwijderen van telefoonnummers, waar je in blijft totdat de gebruiker <code>exit</code> ingeeft.</li>
+</ol>
+<h1 id="galgje-met-een-twist"><span class="exercise">Galgje met een twist</span></h1>
+<h2 id="opdracht-1">Opdracht</h2>
+<p>Maak een woordraadspel dat werkt als volgt:</p>
+<ul>
+<li><p>Je script vraagt een input en verandert in die string 40% van de letters in _(underscore).</p></li>
+<li><p>Gebruikers kunnen een index gebruiken om op de positie van een underscore een letter te raden. Deze indexgetallen dienen telkens onder het aangepaste woord geprint te worden.</p></li>
+<li><p>Als ze deze letter goed geraden hebben, wordt de underscore vervangen door de letter.</p></li>
+<li><p>Als ze de letter fout geraden hebben, geeft je script een hint of de letter een klinker of een medeklinker is.</p></li>
+<li><p>Gebruikers hebben een aantal levens, scalair aan het aantal lege vakken in het woord (oftewel: kan 1 x aantal, 2 x aantal, 0.5 x aantal, 1.2 x aantal afgerond, etc. zijn), en als deze op zijn is het game-over.</p></li>
+<li><p>Als gebruikers denken het woord te weten, kunnen ze het volledig raden. Hiervoor hebben ze één kans; daarna is het ook game-over.</p></li>
+</ul>
+<p><em>Let op: Je dient overal checks in te zetten of ingevoerde waarden kloppen! De code mag niet breekbaar zijn!</em></p>
+<h2 id="beoordeling">Beoordeling</h2>
+<p>Je wordt beoordeeld op het volgende:</p>
+<ul>
+<li><p>Voldoe je volledig aan de opdracht en valt je programma niet te breken?</p></li>
+<li><p>Zijn de prompts goed, gebruiksvriendelijk en overzichtelijk in de console?</p></li>
+<li><p>Is de code voor een programmeur met jouw kennis goed leesbaar, met waar nodig comments voor verduidelijking?</p></li>
+<li><p>Is de code in het algemeen efficient tot zover jouw kennis rijkt; heb je overal de makkelijke en efficiente methodes voor gekozen?</p></li>
+</ul>
+<p>Je cijfer wordt gebaseerd op deze criteria.</p>
+<h1 id="eindopdracht"><span class="exercise">Eindopdracht</span></h1>
+<h2 id="opdracht-2">Opdracht</h2>
+<p>Nu mag je zelf iets bedenken en gaan maken! Dit kan van alles zijn. Bijvoorbeeld:</p>
+<ul>
+<li><p>Boter, kaas en eieren;</p></li>
+<li><p>Een spel gebaseerd op tekst;</p></li>
+<li><p>Een password-generator;</p></li>
+<li><p>Iets anders dat je zelf leuk lijkt!</p></li>
+</ul>
+<p>Je mag deze opdracht in je eentje of met z’n tweeën maken. Zodra je een idee hebt, werk je deze uit. Kom dan naar de docent toe en vraag om goedkeuring. Een aantal belangrijke punten waar de docent op gaat letten zijn:</p>
+<ul>
+<li><p>Is de opdracht qua niveau goed? (niet te hoog gegrepen maar vooral niet te makkelijk)</p></li>
+<li><p>Duurt de opdracht niet te lang/te kort om te maken? (gestelde tijd is ongeveer 4 uur per leerling)</p></li>
+<li><p>Kan je de vaardigheden die je geleerd hebt goed in de opdracht kwijt? (oftewel: je kan wel een lastig project maken met alleen if/else statements, maar kan je erin ook loops verwerken)</p></li>
+</ul>
+<p>Zorg dus wel dat je je idee voldoende diep hebt uitgewerkt, dat jij en de docent samen een goede tijds- en niveauinschatting kunnen maken!</p>
+<p>Als je groen licht hebt gekregen van de docent mag je beginnen!</p>
+<p>TIP: als je niet op ideeën kan komen, kijk dan vooral op internet! Er zijn genoeg artikelen die Python-projecten van eenvoudig tot lastig behandelen!</p>
+<h2 id="beoordeling-1">Beoordeling</h2>
+<p>Je wordt beoordeeld op het volgende:</p>
+<ul>
+<li><p>Werkt je programma zoals verwacht en valt de code niet te breken?</p></li>
+<li><p>Zijn de prompts goed, gebruiksvriendelijk en overzichtelijk in de console?</p></li>
+<li><p>Is de code voor een programmeur met jouw/jullie kennis goed leesbaar, met waar nodig comments voor verduidelijking?</p></li>
+<li><p>Is de code in het algemeen efficient tot zover jouw kennis rijkt; heb je overal de makkelijke en efficiente methodes voor gekozen?</p></li>
+</ul>
+<p>Je cijfer wordt gebaseerd op deze criteria.</p>
+<h1 id="extras"><span class="exercise">Extra’s</span></h1>
+<p>Hierover moet je zelf onderzoek doen en oefenopgaven maken.</p>
+<h2 id="recursie">Recursie</h2>
+<ol style="list-style-type: decimal">
+<li>Een palindroom is een woord dat gelijk is als het omgekeerd gelezen wordt. “Lepel” of “meetsysteem” zijn hier voorbeelden van.<br />
+<br />
+Schrijf een script dat een input aanneemt en hiervan checkt of het een palindroom is. Laat het niet hoofdlettergevoelig zijn (zowel <code>lepel</code> als <code>LEPEL</code> als <code>LEpeL</code> moeten werken) en werken op alle tekens (<code>[sdf0%%0fds]</code> is dus ook een palindroom). Gebruik een recursive function.<br />
+<br />
+Als het een palindroom is, print “Dit is een palindroom!”. Anders, print “Dit is geen palindroom!”.</li>
+</ol>
+<h2 id="errors-exceptions">Errors &amp; Exceptions</h2>
+<p>Hiervoor is geen opgave.</p>
+<h2 id="file-handling">File Handling</h2>
+<ol style="list-style-type: decimal">
+<li>Schrijf een script om een cijferlijst-bestand te maken.<br />
+Zorg dat deze als input een vak en een cijfer kan aannemen en kan schrijven naar het bestand. Laat het per vak cijfers kunnen ophalen, en de hele cijferlijst (uiteraard waarbij het duidelijk is voor welk vak welke cijfers zijn). Zorg ook dat up-to-date gemiddelden per vak in het bestand staan.</li>
+</ol>
+<h1 id="breinbrekers"><span class="exercise">Breinbrekers</span></h1>
+<p>Lastige opgaven die alle stof, inclusief de extra’s, behandelt. <em>Maak deze dus pas als je de stof voldoende</em> <em>snapt.</em> Voor meer breinbrekers, ga vooral naar <a href="https://projecteuler.net/">Project Euler</a>. Dit staat vol met uitdagende opgaven.</p>
+<ol style="list-style-type: decimal">
+<li><p>In een bepaalde regio zijn alle plaatsen door een rechtstreekse weg met elkaar verbonden. Maar voor alle wegen geldt éénrichtingsverkeer; als je van A naar B mag via de directe weg, mag je dus niet langs die weg van B naar A. Als je dat wel wilt zul je een omweg moeten nemen.<br />
+<br />
+In zo’n gebied ga je op zoek naar een route waarbij je iedere plaats precies één keer bezoekt.<br />
+<br />
+Schrijf een programma dat van <a href="https://light-theme-hurts.my-ey.es/7yrsk1m.txt">dit bestand</a> met 100 gegevensreeksen eerst willekeurig één reeks kiest. De reeksen zijn gescheiden door blank lines.<br />
+<br />
+Als de reeks bepaald is, laat je script regels hiervan inlezen.<br />
+Het aantal in te lezen regels wordt bepaald door de eerste regel van elke reeks, een getal N (2 &lt; N &lt; 27). Hiermee wordt het aantal plaatsen in het gebied aangegeven. De plaatsen hebben als naam een hoofdletter; de eerste N hoofdletters worden gebruikt als plaatsnaam.<br />
+<br />
+Vervolgens leest je programma van de reeks in kwestie in N regels informatie over de richting van de verbindingswegen.<br />
+Op de eerste regel staan de N verbindingen van A naar alle andere plaatsen; een 0 betekent dat de weg in A eindigt, een 1 dat de weg in A begint. De volgende regels gaan over de volgende plaatsen.<br />
+<br />
+Tussen twee plaatsen is altijd precies één weg; er zijn geen wegen van een plaats naar zichzelf!<br />
+<br />
+Je programma schrijft naar standaard output één regel met daarop een route waarin alle plaatsen precies één keer worden bezocht. Er is altijd een oplossing mogelijk.<br />
+<br />
+LET OP: Er wordt niet gevraagd om weer terug te gaan naar de plaats waar je begonnen bent.<br />
+TIP: Kijk het .txt-bestand met reeksen door voor beter begrip van het format.<br />
+Naar: Nederlandse Informatica Olympiade 2019, Eerste Ronde</p></li>
+<li><p>Schrijf een functie dat de reeksen zoals hierboven beschreven genereerd.<br />
+Laat deze ook schrijven naar een bestand.</p></li>
+<li><p>Schrijf een nieuw telefoonboek-script. Je programma moet bij invoeren van een naam het geregistreerde telefoonnummer teruggeven, en vice versa.<br />
+Ook moet je een modus hebben voor het toevoegen, verwijderen en bewerken (bestaand persoon, nieuw nummer) van telefoonnummers, waar je in blijft totdat je <em>exit</em> zegt.<br />
+Gebruik voor alle checks (bestaat deze persoon in het telefoonboek etc.) een try/except statement (dit vergemakkelijkt namelijk de code).<br />
+Zorg dat je script terugslaat op een telefoonboek-bestand.</p></li>
+</ol>
+</div>
+</body>
+
+</html>

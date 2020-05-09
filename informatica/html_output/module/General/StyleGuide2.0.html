@@ -1,0 +1,139 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><p>Style Guide modules</p>
+<h1 id="folder-indeling">Folder indeling</h1>
+<ul>
+<li><p>Plaats alle theorie/opdrachten in één bestand genaamd `syllabus.docx` wat zich op het hoogste niveau binnen de module bevind.</p></li>
+<li><p>De overige mappenstructuur mag je naar eigen inzicht indelen maar:</p>
+<ul>
+<li><ul>
+<li>Gebruik uniforme namen</li>
+</ul></li>
+<li><p>Gebruik Nederlandse namen</p></li>
+<li><p>Plaats een punt voor een map of document wat uiteindelijk niet publiek moet worden (dus `.antwoorden.docx`, of `.reflectie_module_1.docx`</p></li>
+<li><p>Bestanden binnen een onzichtbare map hoeven géén punt te hebben</p></li>
+<li><p>Gebruik voor mappen snake_case, ofwel `woorden_aan_elkaar_zonder_hoofdletters_verbonden_met_underscores` voor mappen en bestanden.</p></li>
+</ul></li>
+</ul>
+<h1 id="word-indeling">Word indeling</h1>
+<ul>
+<li><p>Maak voor titels, koppen tussenkoppen etc strict gebruik van de word koppen (dus kop 1, kop 2 en titel etc.), niet zelf lettertypen aanpassen</p></li>
+<li><p>Gebruik geen andere tekst opmaak dan hier aangegeven</p></li>
+<li><p>Gebruik bold voor begrippen (dus niet voor nadruk)</p></li>
+<li><p>Gebruik italics, CAPS of één uitroepteken of indentatie voor nadruk</p></li>
+</ul>
+<h1 id="extern-materiaal">Extern materiaal</h1>
+<p>Zorg dat de afbeeldingen copyright-vrij zijn en vrij bruikbaar voor commercieel gebruik met modificatie</p>
+<ul>
+<li><p>Plaatjes worden tekst-breed neergezet (er kan dus geen tekst naast een plaatje staan)</p></li>
+<li><p>Als je een inline plaatje wil doe dit als volgt:</p></li>
+</ul>
+Een willkeurige zin
+<div class="inline-image">
+<p>@-inline@ met er in een plaatje</p>
+<p>Waarbij je het plaatje tussen de twee middelste ` sleept</p>
+<h1 id="opmaak-tags">Opmaak tags</h1>
+<h2 id="code-opmaak">Code opmaak</h2>
+<ul>
+<li>Voor het quoten van code (dus `
+<div>
+<p><code>, of \</code>int`) gebruik je het volgende:</p></li>
+<li><p>als de code inline moet blijven (dus geen code-blok) omring het met `</p></li>
+<li><p>als de code een echt code-block moet worden omring het met ```</p></li>
+</ul>
+<blockquote>
+<p>Voorbeeld</p>
+<p>een enkel stukje code zoals <code>int x = 2;</code> in een zin</p>
+<p>een code block zoals</p>
+<pre><code>
+for (int i = 0; i &lt; 10; i++) {
+
+System.out.println(i);
+
+}
+</code></pre>
+</blockquote>
+<ul>
+<li>Zorg ervoor dat er tussen de ``` een lege regel staat (dus gebruik shift+enter ipv enter)!</li>
+</ul>
+<h2 id="opdrachten">Opdrachten</h2>
+<ul>
+<li>Schrijf in de kop van een opdracht <span class="exercise"></span></li>
+</ul>
+<h2 id="voorbeeld">Voorbeeld</h2>
+<blockquote>
+<p>@<exercise><span class="citation">@Opdracht</span> 1: Maak een bestand@</exercise>@</p>
+</blockquote>
+<ul>
+<li>Indenteer de tekst van een opdracht, (klik dus één keer op naar rechts in word)</li>
+</ul>
+<h3 id="voorbeeld-1">Voorbeeld</h3>
+<blockquote>
+<p><span class="exercise">Opdracht 1: Maak een bestand</span></p>
+<p>Dit is de tekst van de opdracht, zoals je ziet is deze ingesprongen ten opzichte van de titel</p>
+</blockquote>
+<h2 id="tips">Tips</h2>
+<ul>
+<li>Gebruik
+<div class="tip">
+De tip
+</div>
+om een tip-blok te maken, zorg ervoor dat er een lege regel omheen staat:</li>
+</ul>
+<h3 id="voorbeeld-2">Voorbeeld</h3>
+<blockquote>
+<div class="tip">
+<br />
+Als je code niet werkt, voer het opnieuw uit, dit lost problemen soms matisch op!<br />
+
+</div>
+</blockquote>
+<h2 id="opmerkingen">Opmerkingen</h2>
+<ul>
+<li>Gebruik
+<div class="remark">
+Een opmerking
+</div>
+om een opmerking-blok te maken, zorg ervoor dat er een lege regel omheen staat:</li>
+</ul>
+<h3 id="voorbeeld-3">Voorbeeld</h3>
+<blockquote>
+<div class="remark">
+<br />
+Deze code werkt alleen op dinsdagen na 15:00, tenzij het een oneven maand is en geen schrikkeljaar<br />
+
+</div>
+</blockquote>
+</div>
+</body>
+
+</html>

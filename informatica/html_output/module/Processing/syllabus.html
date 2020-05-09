@@ -1,0 +1,1418 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><h1 id="processing">Processing</h1>
+<p>Visueel programmeren met Java</p>
+<div class="figure">
+<img src="../Processing./media/image1.png" alt="Image result for processing" width="601" height="601" />
+<p class="caption">Image result for processing</p>
+</div>
+<script>document.__language = "java";</script>
+<h1 id="leerdoelen">Leerdoelen</h1>
+<ul>
+<li><p>Het kunnen tekenen van basis figuren</p></li>
+<li><p>Toepassen van Object-Georiënteerd programmeren</p></li>
+<li><p>Snappen wat fractals zijn</p></li>
+<li><p>Met recursie fractals kunnen tekenen</p></li>
+<li><p>Het kunnen animeren van objecten</p></li>
+<li><p>Een simpel spel kunnen maken</p></li>
+</ul>
+<h1 id="introductie">Introductie</h1>
+<h2 id="inleiding">Inleiding</h2>
+<p>Wat leuk dat je meedoet aan de Q-Highschool module Processing. In deze module ga je werken in het Processing framework geschreven in Java. In deze module focussen we op visueel programmeren, ofwel, met code iets op het scherm laten verschijnen. Met deze module laten we de <em>magie van code</em> zien, dat code niet alleen tekst is, maar dat het ook gebruikt kan worden om mooie en leuke dingen te maken. We wensen alle deelnemers van deze module veel plezier!</p>
+<h2 id="opbouw-module">Opbouw module</h2>
+<p>Deze module bestaat uit 8 lesweken. In de eerste 6 weken leer je nieuwe concepten, die je in de laatste twee weken gaat toepassen in een grotere opdracht. Er wordt veel gebruik gemaakt de video's en de website van Daniel Shiffman. Het is aan jezelf de aangeleverde bronnen worden te gebruiken. Per week is er een lijst met voorbeeld-programma's beschikbaar. We raden sterk aan dat je deze bekijkt, een beetje aanpast en kijkt of je snapt wat er gebeurd. Verder zijn er veel oefenopdrachten. Om de stof goed te begrijpen raden we sterk aan deze opdrachten serieus te maken. Alle (voorbeeld) oplossingen van deze opdrachten zijn gegeven. Probeer het altijd eerst zelf voordat je naar de oplossingen kijkt. Om de twee weken is er een inleveropdracht (dus vier in totaal). Deze worden voor een cijfer beoordeeld.</p>
+<ul>
+<li><p>Er staat voor sommige opdrachten of stukken theorie ‘[optioneel]’. Dit zijn opdrachten of stukken theorie voor als je het nog niet helemaal begrijpt, vind je de stof te snel gaan, maak dan deze opdrachten.</p></li>
+<li><p>Voor sommige opdrachten staat [extra]. Dit zijn extra uitdagende opdrachten of stukken theorie die je de stof nog beter helpen begrijpen. Doe dit als je extra uitdaging zoekt!</p></li>
+<li><p>Iedere inleveropdracht heeft ook delen waar [bonus] voor staat. Voor deze opdrachten zijn bonuspunten te verdienen.</p></li>
+</ul>
+
+<p>Kennismaking</p>
+<p>Verzin allemaal een bijvoeglijk naamwoord met dezelfde letter als je naam zoals: &quot;Vage Victor&quot; &quot;Aardige Amber&quot; Iedere persoon die zich voorstelt noemt ook de namen van de vorige personen op.</p>
+<h2 id="inspiratie">Inspiratie</h2>
+<p>Ga naar de website <a href="https://www.openprocessing.org/browse">Processing Sketches</a>. Hier zijn een heleboel Processing sketches te vinden. Je kunt hier zien dat je ook kunst kunt creëren met code! Bekijk er een aantal en deel de coolste met je medeleerlingen!</p>
+<h1 id="week-1">Week 1</h1>
+<h2 id="leerdoelen-1">2.1 Leerdoelen</h2>
+<p>Deze week leer je omgaan met de volgende concepten:</p>
+<ul>
+<li><p>Variabelen: <code>int</code></p></li>
+<li><p>Standaard functions:</p>
+<ul>
+<li><p><code>size(int width, int height)</code></p></li>
+<li><p><code>circle(int x, int y, int r)</code></p></li>
+<li><p><code>random(float bound)</code></p></li>
+<li><p><code>stroke(float r, float g, float b)</code></p></li>
+<li><p><code>fill(float r, float g, float b)</code></p></li>
+<li><p><code>background(float r, float g, float b)</code></p></li>
+<li><p><code>strokeWeight(int w)</code></p></li>
+</ul></li>
+<li><p>Globale variabelen: <code>width, height, mouseX, mouseY</code></p></li>
+<li><p>Het aanroepen van functions</p></li>
+<li><p>Het maken van eigen functions</p></li>
+<li><p>Het gebruiken van for-loops</p></li>
+<li><p>Standaard operatoren: <code>a + b, a - b, a * b, a / b, a % b, a \^ b</code></p></li>
+</ul>
+<h2 id="uitleg">2.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://hello.processing.org/editor/">Interactive Processing Editor</a></p></li>
+<li><p>[Optioneel] <a href="https://www.youtube.com/watch?v=2VLaIr5Ckbs&list=PLRqwX-V7Uu6ZYJC7L-r6rX6utt6wwJCyi
+">Introduction - Processing Tutorial</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=a562vsSI2Po&list=PLRqwX-V7Uu6bsRnSEJ9tRn4V_XCGXovs4">Pixels - Processing Tutorial</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=5N31KNgOO0g&list=PLRqwX-V7Uu6Yo4VdQ4ZTtqRQ1AE4t_Ep9">Processing Environment - Processing Tutorial</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=o8dffrZ86gs&list=PLRqwX-V7Uu6by61pbhdvyEpIeymlmnXzD
+">Interaction - Processing Tutorial</a><br />
+Alleen 3.1</p></li>
+<li><p><a href="https://www.youtube.com/watch?v=B-ycSR3ntik&list=PLRqwX-V7Uu6aFNOgoIMSbSYOkKNTo89uf
+">Variables - Processing Tutorial</a><br />
+Alleen 4.1</p></li>
+</ul>
+<h2 id="optioneel-voorbeelden">2.3 [optioneel] Voorbeelden</h2>
+<p>Bekijk de volgende voorbeelden. Ga per regel na of je snapt wat er gebeurd. Pas eventueel wat dingen aan om te kijken wat het effect is. Als je codeert mag je het internet en de voorbeelden altijd gebruiken, maak hier dus gebruik van!</p>
+<h3 id="section"></h3>
+<h3 id="section-1"></h3>
+<p>-- --</p>
+<table style="width:98%;">
+<colgroup>
+<col width="98%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left">void setup() {</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;size(500,500); //set size of sketch</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;int size = 8; //make a variable how many by how many squares the board will be</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;int tileWidth = width / size; //determine the width of one tile</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;noStroke(); //disable the stroke, or outline when you draw</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;for (int x = 0; x &lt; size; x++) { //loop through all the x-tiles</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;&gt;for (int y = 0; y &lt; size; y++) { //loop through all the y-tiles</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;&gt;&gt;if ((x + y) % 2 == 0) {</td>
+</tr>
+<tr class="odd">
+<td align="left">// the % operator means remainder, so (x + y) % 2 == 0 checks if x + y is even. (And this happens to give a perfect chessboard)</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;&gt;&gt;&gt;fill(0); //set the fill color to black</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;&gt;&gt;&gt;} else {</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;&gt;&gt;&gt;&gt;fill(255); //set the fill color to white</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;&gt;&gt;&gt;}</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;&gt;&gt;&gt;rect(x * tileWidth,y*tileWidth,tileWidth,tileWidth); //draw a rectangle at the specified coordinates</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;&gt;&gt;}</td>
+</tr>
+<tr class="even">
+<td align="left">&gt;&gt;}</td>
+</tr>
+<tr class="odd">
+<td align="left">}</td>
+</tr>
+<tr class="even">
+<td align="left">void draw() {}</td>
+</tr>
+</tbody>
+</table>
+<h2 id="chess">Chess</h2>
+<pre><code>
+void setup() {
+
+    size(500,500); //set size of sketch
+
+    //make a variable how many by how many squares the board will be
+
+    int size = 8;
+
+    int tileWidth = width / size; //determine the width of one tile
+
+    noStroke(); //disable the stroke, or outline when you draw
+
+    for (int x = 0; x &lt; size; x++) { //loop through all the x-tiles
+
+        //loop through all the y-tiles
+
+        for (int y = 0; y &lt; size; y++) {
+
+            if ((x + y) % 2 == 0) {
+
+                // the % operator means remainder,
+
+                // so (x + y) % 2 == 0 checks if x + y is even.
+
+                // (this gives a perfect chessboard)
+
+                fill(0); //set the fill color to black
+
+            } else {
+
+                fill(255); //set the fill color to white
+
+            }
+
+                rect(x * tileWidth,y*tileWidth,
+
+                    tileWidth,tileWidth);
+
+                 //draw a rectangle at the specified coordinates
+
+        }
+
+    }
+
+}
+
+void draw() {}
+</code></pre>
+<h2 id="houses">Houses</h2>
+<pre><code>
+final int HOUSE_WIDTH = 60;
+
+void setup() {
+
+    size(500, 500);
+
+    for (int i = 0; i &lt; (width / HOUSE_WIDTH) + 1; i++) {
+
+         drawHouse(i * HOUSE_WIDTH, height / 2);
+
+    }
+
+}
+
+void drawHouse(int x, int y) {
+
+    rect(x, y, HOUSE_WIDTH, HOUSE_WIDTH);
+
+    triangle(x, y, x + (HOUSE_WIDTH / 2), y – HOUSE_WIDTH,
+
+    x + HOUSE_WIDTH, y);
+
+}
+
+void draw() {
+
+}
+</code></pre>
+<h2 id="opdrachten">2.4. Opdrachten</h2>
+<p>Je gaat de eerste code schrijven! Zorg ervoor je een nieuwe <strong>sketch</strong> aanmaakt.</p>
+<h3 id="een-cirkel"><span class="exercise">2.4.1 Een cirkel</span></h3>
+<p>Plak de volgende code in je lege sketch. Run de sketch om te kijken wat dit doet!</p>
+<pre><code>
+void setup ( ) {
+
+    size (500 ,500) ;
+
+    circle (100 ,100 ,70) ;
+
+}
+
+void draw ( ) {}
+</code></pre>
+<p>Pas de code aan zodat de cirkel in het midden van het scherm staat.</p>
+<div class="remark">
+<p>Oudere versies van Processing hebben geen <code>circle(x, y, radius)</code> functie. Gebruik dan <code>ellipse(x, y, width, height)</code></p>
+</div>
+<h3 id="het-midden"><span class="exercise">2.4.2 Het midden</span></h3>
+<p>Als je de grootte van het scherm aanpast (pas de arguments van <code>size</code> aan), zul je zien dat de cirkel niet meer in het midden staat. Gebruik de variabelen <code>width</code> en <code>height</code> om het midden van het scherm te berekenen. Zorg ervoor dat de cirkel in het midden van het scherm blijft staan, onafhankelijk van de grote van het scherm.</p>
+<h3 id="een-sneeuwpop"><span class="exercise">2.4.3 Een sneeuwpop</span></h3>
+<p>Maak een sneeuwpop door twee cirkels half-boven de eerste cirkel te tekenen. Zorg ervoor dat deze cirkels ook op de juiste plek blijven staan als je de schermgrootte veranderd!</p>
+<h3 id="een-function"><span class="exercise">2.4.4 Een function</span></h3>
+<p>Het tekenen van de sneeuwpop is een simpel <strong>algoritme</strong>. Als je een programma wil maken is het belangrijk dat je het opdeelt. Dit opdelen gebeurt onder meer door het maken van <strong>functions</strong>. Plaats de volgende function <em>helemaal onderaan</em> je de sketch.</p>
+<pre><code>
+void drawSnowman(int x, int y) {
+
+}
+</code></pre>
+<p>Plaats de volgende regel code onderaan in setup.</p>
+<pre><code>
+drawSnowman(int(random(width)), int(random(height)));
+</code></pre>
+<p>Verplaats het tekenen van je sneeuwpop naar de <code>drawSnowman</code> function. Het is belangrijk dat je de sneeuwman op de coördinaten <code>x, y</code> plaatst.</p>
+<h3 id="meer-sneeuwpoppen"><span class="exercise">2.4.5 Meer sneeuwpoppen</span></h3>
+<p>Maak een <code>for</code> loop in de setup die 10 sneeuwpoppen op willekeurige plekken op het scherm plaatst.</p>
+<h3 id="gekleurde-sneeuwpoppen"><span class="exercise">2.4.6 Gekleurde sneeuwpoppen</span></h3>
+<p>In de wereld van code kan alles! Waarom zouden we ons limiteren tot witte sneeuwpoppen? Zorg ervoor dat alle sneeuwpoppen verschillende kleuren hebben!</p>
+<h3 id="nog-meer-sneeuwpoppen"><span class="exercise">2.4.7 Nog meer sneeuwpoppen</span></h3>
+<p>Voeg de volgende function toe.</p>
+<pre><code>
+void mouseClicked() {
+
+}
+</code></pre>
+<p>Deze function word uitgevoerd op het moment dat je met de muis op de sketch klikt. Zorg ervoor dat er een sneeuwpop op de plek van de muis verschijnt als je klikt.</p>
+<div class="tip">
+<p>Zoek op het internet naar een manier om de muis coördinaten te krijgen</p>
+</div>
+<h3 id="extra-hogere-sneeuwmannen"><span class="exercise">2.4.8 [Extra] Hogere sneeuwmannen</span></h3>
+<p>Pas de function drawSnowman aan zodat er nog een derde variable is:</p>
+<pre><code>
+void drawSnowman(int x, int y, int n) {}
+</code></pre>
+<p>Deze derde variable geeft de hoogte van de sneeuwpop aan. Zorg ervoor dat ook de hoogte (het aantal cirkels) variabel is. Let op! De cirkels moeten zowel kleiner worden, als boven op elkaar gestapeld worden. Zorg dat je ook 100-ballen-hoge sneeuwpoppen kunt maken. Pas vervolgens <code>drawSnowman(int(random(width)), int(random(height)));</code> aan zodat de sneeuwpoppen tussen de 2 en 6 hoog zijn.</p>
+<h3 id="extra-sneeuwmannen-dans"><span class="exercise">2.4.9 [Extra] Sneeuwmannen dans</span></h3>
+<p>Maak de function <code>makeCircle</code>, met als parameters een <code>int n</code>.</p>
+<pre><code>
+void makeCircle(int n) {}
+</code></pre>
+<p>Deze function moet n sneeuwmannen in een cirkel om het midden van het scherm tekenen. De sneeuwmannen moeten allemaal op gelijke afstand van elkaar staan.</p>
+<h1 id="week-2">Week 2</h1>
+<h2 id="leerdoelen-2">3.1 Leerdoelen</h2>
+<ul>
+<li><p>­x, y coördinaten om kunnen zetten in <code>PVector</code> objecten.</p></li>
+<li><p>Gebruik kunnen maken van de volgende <code>PVector</code> methods: <code>add(PVector p)</code>, <code>sub(PVector p)</code>, <code>mult(float amount)</code> en <code>rotate(float angle)</code>.</p></li>
+</ul>
+<h2 id="uitleg-1">3.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://natureofcode.com/book/chapter-1-vectors/">Nature Of Code Chapter 1</a><br />
+Alleen 1.1, 1.2, 1.3, 1.4 en 1.5</p></li>
+<li><p><a href="
+https://www.youtube.com/watch?v=mWJkvxQXIa8&list=PLRqwX-V7Uu6ZwSmtE13iJBcoI-r4y7iEc">Vectors – The Nature of Code</a><br />
+Alleen 1.1, 1.2, 1.3 en 1.4</p></li>
+</ul>
+<h2 id="voorbeelden">3.3 Voorbeelden</h2>
+<h3 id="star">3.3.1 Star</h3>
+<pre><code>
+void setup() {
+
+    size(300, 300);
+
+}
+
+void draw() {
+
+    background(255);
+
+    PVector mouse = new PVector(mouseX, mouseY);
+
+    PVector line = new PVector(0, 100);
+
+    int amount = 10;
+
+    for (double i = 0; i &lt; amount; i++) {
+
+        PVector lineEnd = line.copy().add(mouse);
+
+        line(mouse.x, mouse.y, lineEnd.x, lineEnd.y);
+
+        line.rotate((PI * 2 / amount));
+
+    }
+
+}
+</code></pre>
+<h3 id="square">3.3.2 Square</h3>
+<pre><code>
+void setup() {
+
+    size(300,300);
+
+    drawSquare(new PVector(width / 2,height / 2),
+
+    new PVector(100, 0));
+
+}
+
+void drawSquare(PVector pos, PVector side) {
+
+    PVector p2 = pos.copy().add(side);
+
+    side.rotate(PI / 2);
+
+    PVector p3 = p2.copy().add(side);
+
+    side.rotate(PI / 2);
+
+    PVector p4 = p3.copy().add(side);
+
+    line(pos.x, pos.y, p2.x, p2.y);
+
+    line(p2.x, p2.y, p3.x, p3.y);
+
+    line(p3.x, p3.y, p4.x, p4.y);
+
+    line(p4.x, p4.y, pos.x, pos.y);
+
+}
+
+void draw() {}
+</code></pre>
+<h3 id="forest">3.3.3 Forest</h3>
+<pre><code>
+void setup() {
+
+    size(600,600);
+
+    int amount = 7;
+
+    for (int x = 0; x &lt; amount; x++) {
+
+        for (int y = 0; y &lt; amount; y++) {
+
+            int xPos = x * 60;
+
+            int yPos = y * 60;
+
+            tree(new PVector(xPos, yPos));
+
+        }
+
+    }
+
+}
+
+void tree(PVector pos) {
+
+    strokeWeight(5);
+
+    PVector trunk = new PVector(0, -60);
+
+    PVector branch = new PVector(0, -30);
+
+    PVector trunkTip = pos.copy().add(trunk);
+
+    int numberOfBranches = 10;
+
+    stroke(98, 43, 0);
+
+    line(pos.x ,pos.y, trunkTip.x, trunkTip.y);
+
+    branch.rotate(-PI / 2);
+
+    stroke(16, 167, 0);
+
+    for (int i = 0; i &lt; numberOfBranches; i++) {
+
+        PVector branchEnd = trunkTip.copy().add(branch);
+
+        line(trunkTip.x, trunkTip.y, branchEnd.x, branchEnd.y);
+
+        branch.rotate(PI / numberOfBranches);
+
+    }
+
+}
+
+void draw() {
+
+    if (mousePressed) {
+
+        tree(new PVector(mouseX, mouseY));
+
+    }
+
+}
+</code></pre>
+<h3 id="flower">3.3.4 Flower</h3>
+<pre><code>
+void setup() {
+
+    size(500,500);
+
+    colorMode(HSB);
+
+    drawFlower(new PVector(width/2,height/2));
+
+}
+
+void drawFlower(PVector p) {
+
+    
+
+PVector trunk = new PVector(0,-150);
+
+PVector trunk = new PVector(0,-150);
+
+    PVector branch = new PVector(0,-25);
+
+    PVector trunkAbs = p.copy().add(trunk);
+
+    stroke(70,255,100);
+
+    strokeWeight(10);
+
+    line(p.x,p.y,trunkAbs.x,trunkAbs.y);
+
+    noStroke();
+
+    for (double angle = 0; angle &lt; PI * 2; angle+=1) {
+
+        fill((int)angle * (255 / (2 * PI)),255,255);
+
+        branch.rotate(1);
+
+        PVector leaf = p.copy().add(trunk).add(branch);
+
+        circle(leaf.x,leaf.y,50);
+
+    }
+
+}
+</code></pre>
+<h2 id="opdrachten-1">3.4 Opdrachten</h2>
+<p>Omdat het onhandig is om telkens twee argumenten mee te moeten geven voor een positie op het scherm <code>int x</code>, <code>int y</code> en we een betere manier nodig hebben om met coördinaten om te gaan bestaat er in Processing de <code>PVector</code> class.</p>
+<h3 id="optioneel-vectoren-in-de-wiskunde"><span class="exercise">3.4.1 [optioneel] Vectoren in de wiskunde</span></h3>
+<p>Een vector is een verzameling van meerdere variabelen. Wij zullen ons alleen maar bezig houden met 2 dimensionale vectoren van x, y coördinaten. Een vector wordt als volgt genoteerd:</p>
+<div class="figure">
+<img src="../Processing./media/image2.PNG" width="143" height="84" />
+
+</div>
+<p>Er zijn een paar rekenregels, die erg voor de hand liggen als je bedenkt dat een vector gewoon een verzameling van twee coördinaten is:</p>
+<div class="figure">
+<img src="../Processing./media/image3.PNG" width="206" height="128" />
+
+</div>
+<p>De tweede rekenregel heet scalaire vermenigvuldiging. Dit geeft het uitrekken of inkrimpen van een vector weer. Dit is makkelijker te zien als we de vectoren als pijltjes (of natuurkundige krachten) tekenen:</p>
+<div class="figure">
+<img src="../Processing./media/image4.png" width="601" height="609" />
+
+</div>
+<h4 id="opdrachten-2">Opdrachten</h4>
+<ol style="list-style-type: decimal">
+<li><p>Teken de optelling van @$`$@ <span class="math inline">$\left( \frac{2}{1} \right) + \left( \frac{- 1}{3} \right)$</span></p></li>
+<li><p>Bereken <span class="math inline">2 • ((3•<em>a⃗</em>)+<em>b⃗</em>)</span> met <span class="math inline">$\overrightarrow{a} = \left( \frac{1}{2} \right)$</span> en <span class="math inline">$\overrightarrow{b} = \left( \frac{- 1}{2} \right)$</span></p></li>
+<li><p>Bepaal het midden tussen <span class="math inline"><em>a⃗</em></span> en <span class="math inline"><em>b⃗</em></span>. (We zoeken dus een algemene formule voor het midden tussen twee vectoren).</p></li>
+<li><p>Bereken de vector op <span class="math inline">$\frac{2}{3}$</span> afstand tussen <span class="math inline"><em>a⃗</em></span> en <span class="math inline"><em>b⃗</em></span>. (Wederom zoeken we dus een algemene formule).</p></li>
+</ol>
+<h3 id="optioneel-pvector"><span class="exercise">3.4.2 [optioneel] PVector</span></h3>
+<p>Processing heeft de class PVector, met daarin een heleboel handige methods, zie voor uitleg de <a href="https://processing.org/reference/PVector.html">reference</a>.</p>
+<p>Op welke coördinaten tekent dit stukje code een stip? Schrijf je antwoord in een <strong>comment</strong> van je sketch.</p>
+<pre><code>
+void setup() {
+
+    PVector v1 = new PVector(3, 2);
+
+    PVector v2 = v1.copy();
+
+    v1.add(v2);
+
+    v1.add(v2);
+
+    v2.sub(new PVector(1, 1));
+
+    v1.mult(3);
+
+    drawDot(v1);
+
+    drawDot(v2);
+
+}
+
+void drawDot(PVector v) {
+
+    circle(v.x, v.y, 5);
+
+}
+</code></pre>
+<div class="remark">
+<p>De oorsprong (0,0) zit bij computers links boven, en niet links onder zoals bij de meeste wiskundige grafieken! De y-as is als het ware gespiegeld.</p>
+</div>
+<h3 id="optioneel-vectoren-gebruiken"><span class="exercise">3.4.3 [optioneel] Vectoren gebruiken</span></h3>
+<p>Nu je hebt geleerd wat een vector is wil je natuurlijk deze coole vectoren voor alles gebruiken! Helaas accepteren de Processing functies geen vectoren, alleen x en y coördinaten. Maak de volgende 3 functies af, de functie <code>myLine</code> is al gegeven.</p>
+<pre><code>
+void myLine(PVector v1, PVector v2) {
+
+    line(v1.x, v1.y, v2.x, v2.y);
+
+}
+
+void myCircle(PVector v1, PVector v2) {
+
+    // TODO
+
+}
+
+void myTriangle(PVector v1, PVector v2, PVector v3) {
+
+    // TODO
+
+}
+</code></pre>
+<h3 id="een-driehoek"><span class="exercise">3.4.4 Een driehoek</span></h3>
+<p>Maak de functie <code>betterTriangle(PVector p1, PVector side)</code>. Hierbij is <code>p1</code> één van de hoekpunten en <code>side</code> één van de zijden.</p>
+<div class="tip">
+<p>Kijk naar het voorbeeld <code>square</code>.</p>
+</div>
+<div class="figure">
+<img src="../Processing./media/image5.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/triangle.png" width="224" height="174" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/triangle.png</p>
+</div>
+<p>Figuur 3.1: Een driehoek met de vector <code>side</code> rood gekleurd</p>
+<h3 id="polygoon"><span class="exercise">3.4.5 Polygoon</span></h3>
+<p>Een gelijkzijdige polygoon of veelhoek is een figuur met n hoeken en lijnstukken van gelijke lengte. Voor n = 3 is dit een driehoek, voor n = 4 is dit een vierkant, voor n = 5 is dit een pentagon en voor n = 17 is dit een heptadecagoon (zie figuur 3.2). Maak de functie <code>polygon(PVector center, int radius, int n)</code>. Deze functie moet een polygoon van <code>int n</code> hoeken tekenen met een straal van <code>int radius</code>. Maak gebruik van vectoren en gebruik de <code>rotate(float angle</code> method.</p>
+<div class="remark">
+<p>Een hoek wordt niet in graden uitgedrukt maar in radialen, dit betekent dat één cirkel (dus 360 graden) gelijk is aan <span class="math inline">2 • <em>π</em></span>, ofwel: <span class="math inline">2 • <em>P</em><em>I</em></span>.</p>
+</div>
+<div class="figure">
+<img src="../Processing./media/image6.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/polygon.png" width="601" height="111" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/polygon.png</p>
+</div>
+<p>Figuur 3.2: Polygonen met n = 3, 4, 5 en 17</p>
+<h3 id="middelloodlijn"><span class="exercise">3.4.6 Middelloodlijn</span></h3>
+<p>Maak de functie <code>bisector(PVector p1, PVector p2)</code>. Deze functie moet de middelloodlijn tekenen van de twee functies met de lengte gelijk aan de afstand tussen de twee functies (zie figuur 3.3).</p>
+<div class="tip">
+<p>Probeer eerst op papier een aantal middelloodlijnen te tekenen en probeer vervolgens om de twee punten waartussen de lijn getrokken moet worden te vinden.</p>
+</div>
+<div class="figure">
+<img src="../Processing./media/image7.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/bisector.png" width="473" height="473" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/bisector.png</p>
+</div>
+<p>Figuur 3.3: Middelloodlijn, de twee stippen geven <code>p1</code> en <code>p2</code> aan.</p>
+<h1 id="inleveropdracht-1">Inleveropdracht 1</h1>
+<h2 id="kochs-curve-generatie-1"><span class="exercise">4.1 Koch’s Curve generatie 1</span></h2>
+<p>Maak de functie <code>kochCurve(PVector p1, PVector p2)</code>. Deze functie tekent de volgende figuur tussen <code>p1</code> en <code>p2</code>:</p>
+<div class="figure">
+<img src="../Processing./media/image8.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch.png" width="601" height="222" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch.png</p>
+</div>
+<p>Figuur 4.1: Koch’s Curve gen 1</p>
+<p>Hierbij ligt <code>m2</code> midden tussen <code>p1</code> en <code>p2</code>. De afstand tussen <code>p1</code> en <code>m1</code> is even groot als de afstand tussen <code>m2</code> en <code>t</code>. <code>m1</code> ligt op <span class="math inline">$\frac{1}{3}$</span> afstand van <code>p1</code> naar <code>p2</code>. <code>m3</code> ligt op <span class="math inline">$\frac{2}{3}$</span> afstand van <code>p1</code> naar <code>p2</code>.</p>
+<div class="tip">
+<p>Dit is een redelijk complexe opdracht. Teken dit eerst uit, en probeer al voordat je begint met coderen te weten wat je precies gaat coderen. Maak gebruik van de <code>dist</code>, <code>rotate</code> en <code>mult</code> <code>PVector</code> methods.</p>
+</div>
+<h2 id="bonus-hilberts-curve"><span class="exercise">3.2 [bonus] Hilbert’s Curve</span></h2>
+<p>Maak de functie <code>hilbertCurve(PVector p1, PVector p2)</code> die de volgende figuur tekent:</p>
+<div class="figure">
+<img src="../Processing./media/image9.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/hilbert.png" width="601" height="591" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/hilbert.png</p>
+</div>
+<p>Figuur 4.2: Hilbert’s Curve</p>
+<h1 id="week-3">Week 3</h1>
+<h2 id="leerdoelen-3">5.1 Leerdoelen</h2>
+<ul>
+<li><p>Begrip voor het concept recursie</p></li>
+<li><p>Het coderen van recursieve functies</p></li>
+<li><p>Het kunnen tekenen van simpele fractals</p></li>
+</ul>
+<h2 id="uitleg-2">5.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://www.youtube.com/watch?v=-wiverLQl1Q&list=PLRqwX-V7Uu6bXUJvjnMWGU5SmjhI-OXef">Fractals – The Nature of Code</a></p>
+<p>Alleen 8.1, 8.2 en 8.3<br />
+Bij 8.3 wordt er gebruik gemaakt van een <code>ArrayList</code> voor het maken van Koch’s Curve. Dit hoef je (nog) niet te kunnen.</p></li>
+<li><p><a href="https://natureofcode.com/book/chapter-8-fractals/">Nature of Code chapter 8</a></p>
+<p>Alleen 8.1, 8.2, 8.3, 8.4 en 8.5<br />
+Bij 8.4 wordt er gebruik gemaakt van een <code>ArrayList</code> voor het maken van Koch’s Curve. Dit hoef je (nog) niet te kunnen.</p></li>
+</ul>
+<h2 id="opdrachten-3">5.3 Opdrachten</h2>
+<h3 id="optioneel-recursieve-functies"><span class="exercise">5.3.1 [optioneel] Recursieve functies</span></h3>
+<p>Recursieve functies zijn functies die een (makkelijkere) versie van zichzelf gebruiken voor het bereken van een antwoord. Kijk bijvoorbeeld naar:</p>
+<div class="figure">
+<img src="../Processing./media/image10.png" width="293" height="69" />
+
+</div>
+<p>Deze functie geeft <span class="math inline"><em>f</em>(<em>n</em>) = <em>g</em><sup><em>n</em></sup></span>. Als we dit uitschrijven krijgen we</p>
+<p>Schrijf de uitwerking van <span class="math inline"><em>g</em>(5)</span> helemaal uit. Weet je ook welke functie <span class="math inline"><em>g</em></span> is?</p>
+<div class="figure">
+<img src="../Processing./media/image14.png" width="253" height="47" />
+
+</div>
+<p>Schrijf de uitwerking van h(4) helemaal uit. Weet je ook welke functie is?</p>
+<div class="figure">
+<img src="../Processing./media/image16.PNG" width="479" height="142" />
+
+</div>
+<h3 id="recursieve-circles"><span class="exercise">5.3.2 Recursieve circles</span></h3>
+<p>Als een functie zichzelf aanroept noemen we dit een recursieve aanroep. Je kunt met recursie allerlei coole dingen tekenen. Een recursieve functie moet wel ooit stoppen, daarom geef je vaak een getal mee int n wat het aantal iteraties geeft, ofwel, hoe vaak de functie aangeroepen wordt, of hoe &quot;diep&quot; de functie gaat. Pas de onderstaande code aan zodat het resultaat lijkt op figuur 5.1.</p>
+<pre><code>
+void recursiveCircles(int n, PVector pos) {
+
+    if (n &gt; 0) {
+
+        circle(pos.x, pos.y, n * 10);
+
+        recursiveCircles(n – 1, pos);
+
+    }
+
+}
+</code></pre>
+<div class="figure">
+<img src="../Processing./media/image17.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/recursive_circles.png" width="336" height="265" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/recursive_circles.png</p>
+</div>
+<p>Figuur 5.1: Recursief getekende cirkels</p>
+<h3 id="maak-een-binary-tree"><span class="exercise">5.3.3 Maak een binary tree</span></h3>
+<p>In deze opdracht ga je een binary tree maken (zie figuur 5.2). Een binary tree bestaat uit één lijn, genaamd de stam (trunk). Vanuit de top van deze stam &quot;groeien&quot; weer twee nieuwe stammen, alleen dan gedraaid onder een hoek. Maak de functie binaryTree af.</p>
+<pre><code>
+void binaryTree(int n, PVector pos, PVector trunk) {
+
+    if (n &gt; 0) {
+
+        PVector tip = pos.copy().add(trunk);
+
+        line(pos.x, pos.y, tip.x, tip.y);
+
+    }
+
+}
+</code></pre>
+<div class="figure">
+<img src="../Processing./media/image18.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/binary_tree.png" width="592" height="527" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/binary_tree.png</p>
+</div>
+<p>Figuur 5.2: Een binary tree</p>
+<h3 id="meer-soorten-trees"><span class="exercise">5.3.4 Meer soorten trees!</span></h3>
+<p>Vervang de hoek die je gebruikt hebt bij de vorige opdracht door <code>((float) mouseX /width)</code>. Aanschouw de epische trees!</p>
+<div class="remark">
+<p>Zorg ervoor dat je de functie aanroept in de <code>draw</code> functie.</p>
+</div>
+<h1 id="week-4">Week 4</h1>
+<h2 id="leerdoelen-4">6.1 Leerdoelen</h2>
+<ul>
+<li><p>Ingewikkelde fractals kunnen tekenen</p></li>
+<li><p>Snappen wat een L-System is</p></li>
+<li><p>Extra: L-Systems kunnen gebruiken om fractals te tekenen</p></li>
+</ul>
+<h2 id="uitleg-3">6.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://www.youtube.com/watch?v=-wiverLQl1Qn&list=PLRqwX-V7Uu6bXUJvjnMWGU5SmjhI-OXefn&index=1">Fractals – The Nature of Code</a></p>
+<p>Alleen 8.4, 8.5, #14 en #16</p></li>
+<li><p><a href="https://natureofcode.com/book/chapter-8-fractals/">Chapter 8. Fractals</a><br />
+Alleen 8.6</p></li>
+</ul>
+<h2 id="opdrachten-4">6.3 Opdrachten</h2>
+<p>Deze opdracht bestaat uit twee delen. Het eerste deel (het maken van een Sierpinski Triangle) hoort nog bij de stof. En het tweede deel over L-Systems is verdieping en hoef je niet te kunnen/kennen (hoewel het wel super gaaf is!).</p>
+<h3 id="sierpinski-triangle"><span class="exercise">6.3.1 Sierpinski Triangle</span></h3>
+<p>Maak een functie die een Sierpinski Triangle tekent <code>sierpinski(int n, PVector p1, PVector p2, PVector p3)</code>. Een Sierpinski Triangle (zie figuur 6.1) bestaat uit een driehoek met hoekpunten <code>p1</code>, <code>p2</code> en <code>p3</code>. Telkens wordt het midden van de zijden bepaald. Deze middelpunten vormen samen met de originele hoekpunten 3 kleinere driehoeken. Dit proces wordt <code>n</code> keer recursief herhaald zodat figuur 6.1 ontstaat!</p>
+<p>Je mag gebruik maken van de volgende functie:</p>
+<pre><code>
+PVector midpoint(PVector p1, PVector p2) {
+
+    return p1.copy().add(p2).mult(0.5);
+
+}
+</code></pre>
+<div class="figure">
+<img src="../Processing./media/image19.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/sierpinski.png" width="490" height="431" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/sierpinski.png</p>
+</div>
+<p>Figuur 6.1: Sierpinski’s Triangle met <code>n = 5</code></p>
+<h3 id="extra-l-systems"><span class="exercise">6.3.2 [extra] L-Systems</span></h3>
+<p>Lees de paragraaf over L-Systems of bekijk de video's (zie het kopje uitleg).</p>
+<h4 id="eerste-l-system">Eerste L-System</h4>
+<pre><code>
+Axiom = A
+
+Rules:
+
+    A -&gt; B-A-B
+
+    B -&gt; A-B-A
+</code></pre>
+<p>De eerste generatie van dit L-System geeft <code>B-A-B</code>.</p>
+<p>De tweede generatie geeft <code>A+B+A-B-A-B-A+B+A</code>.</p>
+<p>Geef zelf de derde generatie.</p>
+<h4 id="tweede-l-system">Tweede L-System</h4>
+<pre><code>
+Axiom = F-G-G
+
+Rules:
+
+    F -&gt; F-G+F+G-F
+
+    G -&gt; GG
+</code></pre>
+<p>Geef de tweede generatie van dit L-System. Het is een boel schrijfwerk, maar het zeker waard!</p>
+<h4 id="turtle-graphics">Turtle Graphics</h4>
+<p>We gaan nu zogenaamde turtle graphics toepassen op het tweede L-System. Zet je pen op het papier en lees je antwoord van de vorige opdracht letter voor letter:</p>
+<ul>
+<li><p>Als je een F tegenkomt zet een streep van 1 cm (omhoog).</p></li>
+<li><p>Als je een G tegenkomt zet een streep van 1 cm (omhoog).</p></li>
+<li><p>Als je een + tegenkomt draai het papier 120 graden met de klok mee.</p></li>
+<li><p>Als je een - tegenkomt draai het papier 120 graden tegen de klok in.</p></li>
+</ul>
+<p>Als je verder wil spelen met deze L-Systems, je kunt heel veel leuke dingen op het internet vinden. Begin op <a href="http://www.kevs3d.co.uk/dev/lsystems/">deze website</a></p>
+<h1 id="inleveropdracht-2">Inleveropdracht 2</h1>
+<h2 id="codeer-kochs-curve"><span class="exercise">7.1 Codeer Koch’s Curve</span></h2>
+<p>Vandaag gaan we door middel van recursieve functies fractals tekenen! In de vorige assignment heb je de functie <code>kochCurve</code> geschreven die de figuur 7.1 tekent. Als je iedere lijn vervangt door deze zelfde figuur krijg je de situatie van figuur 7.2. Als je dit oneindig vaak herhaalt krijg je een fractal (zie figuur 7.3).</p>
+<div class="figure">
+<img src="../Processing./media/image8.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch.png" width="601" height="222" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch.png</p>
+</div>
+<p>Figuur 7.1: Koch’s Curve generatie 1</p>
+<div class="figure">
+<img src="../Processing./media/image20.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch2.png" width="601" height="211" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch2.png</p>
+</div>
+<p>Figuur 7.2: Koch’s Curve generatie 2</p>
+<div class="figure">
+<img src="../Processing./media/image21.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch_fract.png" width="601" height="230" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/koch_fract.png</p>
+</div>
+<p>Figuur 7.3: Koch’s Curve Fractal (generatie ∞)</p>
+<p>In deze opdracht ga je een functie schrijven die dit proces n keer herhaald. Maak gebruik van de al geschreven functie <code>kochCurve</code> van de vorige assignment.</p>
+<pre><code>
+void kochCurve(int n, PVector p1, PVector p2) {
+
+    if (n == 0) {
+
+        line(p1.x, p1.y, p2.x, p2.y);
+
+    } else {
+
+         //TODO
+
+    }
+
+}
+</code></pre>
+<h2 id="bonus-kochs-snowflake"><span class="exercise">7.2 [bonus] Koch’s Snowflake</span></h2>
+<p>Door Koch's curve een aantal keer te draaien ontstaat <strong>Koch's Snowflake</strong>.</p>
+<pre><code>
+void kochSnowflake(int n, int sides, int r, PVector center) {}
+</code></pre>
+<p>De parameters zijn:</p>
+<ul>
+<li><p><code>n</code>: het aantal iteraties van Koch’s curve.</p></li>
+<li><p><code>center</code>: het midden van de snowflake.</p></li>
+<li><p><code>sides</code>: het aantal zijden van de snowflake.</p></li>
+<li><p><code>r</code>: de radius van de snowflake.</p></li>
+</ul>
+<div class="tip">
+<p>Gebruik de code die je hebt geschreven voor opdracht 3.4.5 Polygoon</p>
+</div>
+<p>De volgende code geeft als resultaat figuur 7.4:</p>
+<pre><code>
+kochSnowflake(2, 5, 50, new PVector(100, 200));
+
+kochSnowflake(5, 6, 100, new PVector(300, 200));
+
+kochSnowflake(1, 6, 30, new PVector(500, 200));
+
+kochSnowflake(3, 3, 100, new PVector(700, 200));
+</code></pre>
+<div class="figure">
+<img src="../Processing./media/image22.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/snowflakes.png" width="601" height="188" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/snowflakes.png</p>
+</div>
+<p>Figuur 7.4: Koch snowflakes!</p>
+<h1 id="week-5">Week 5</h1>
+<h2 id="leerdoelen-5">8.1 Leerdoelen</h2>
+<ul>
+<li><p>Het maken en gebruiken van classes</p></li>
+<li><p>Het gebruiken van objecten (instances of classes)</p></li>
+<li><p>Het maken van methods</p></li>
+<li><p>Het werken met een ArrayList</p></li>
+</ul>
+<h2 id="uitleg-4">8.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://www.youtube.com/watch?v=YcbcfkLzgvs&list=PLRqwX-V7Uu6bb7z2IJaTlzwzIg_5yvL4i">8: Object-Oriented Programming</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=NptnmWvkbTw&list=PLRqwX-V7Uu6bO9RKxHObluh-aPgrrvb4a&index=1">9: Arrays en ArrayList@-link</p></li>
+<li><ul>
+<li><a href="https://processing.org/tutorials/objects/">Extra uitleg objecten</a></li>
+</ul></li>
+<li><ul>
+<li></li>
+</ul></li>
+</ul>
+<h2 id="voorbeelden-1">8.3 Voorbeelden</h2>
+<h3 id="clouds">8.3.1 Clouds</h3>
+<pre><code>
+ArrayList&lt;Cloud&gt; clouds = new ArrayList();
+
+int time = 0;
+
+void setup() {
+
+    size(500, 500);
+
+}
+
+void draw() {
+
+    background(76, 195, 255);
+
+    if (time % 100 == 0) { //every 100 frames
+
+        clouds.add(new Cloud());
+
+    }
+
+    for (Cloud curCloud : clouds) {
+
+        curCloud.update();
+
+        curCloud.show();
+
+    }
+
+     time++;
+
+}
+
+class Cloud {
+
+    PVector pos = new PVector(-100, int(random(width)));
+
+    PVector wind = new PVector(3, 0);
+
+    void update() {
+
+        pos.add(wind);
+
+    }
+
+    void show() {
+
+        circle(pos.x - 40, pos.y + 10, 80);
+
+        circle(pos.x + 40, pos.y + 10, 76);
+
+        circle(pos.x, pos.y, 80);
+
+    }
+
+}
+</code></pre>
+<h3 id="ball">8.3.2 Ball</h3>
+<pre><code>
+Ball ball = new Ball();
+
+ArrayList&lt;Wall&gt; walls = new ArrayList();
+
+void setup() {
+
+    size(500,500);
+
+    Wall wallTop = new Wall(new PVector(0,0),new PVector(width,10));
+
+    Wall wallRight = new Wall(
+
+        new PVector(width - 10,0),
+
+        new PVector(width - 10,height)
+
+    );
+
+    Wall wallBottom = new Wall(
+
+        new PVector(0,height - 10),
+
+        new PVector(width,height - 10)
+
+    );
+
+    walls.add(wallTop);
+
+    walls.add(wallRight);
+
+    walls.add(wallBottom);
+
+}
+
+void draw() {
+
+    background(255);
+
+}
+
+class Ball {
+
+    PVector pos;
+
+    PVector vel;
+
+    int radius = 50;
+
+    Ball () {
+
+        pos = new PVector(width / 2,height / 2);
+
+        vel = new PVector(-10,2);
+
+    }
+
+    void move() {
+
+        //TODO
+
+    }
+
+    void bounce() {
+
+        //TODO
+
+    }
+
+}
+
+class Wall {
+
+    PVector topLeft;
+
+    PVector bottomRight;
+
+    Wall(PVector topLeft2, PVector bottomRight2) {
+
+        topLeft = topLeft2;
+
+        bottomRight = bottomRight2;
+
+    }
+
+    boolean intersects(Ball b) {
+
+    
+
+    
+
+//TODO
+
+    }
+
+    void show() {}
+
+}
+</code></pre>
+<h2 id="opdrachten-5">8.4 Opdrachten</h2>
+<p>Deze week gaan we voor het eerst <em>beweging</em> maken! Voortaan is het belangrijk dat je alleen maar tekent in de draw functie. Het is extra belangrijk dat je de uitlegvideo's over Object Georiënteerd Programmeren bekijkt!</p>
+<h3 id="een-class"><span class="exercise">8.4.1 Een class</span></h3>
+<p>Het is handig om bepaalde variabelen en functies op die variabelen samen in één object te bundelen. Hiervoor gebruiken we een <strong>class</strong>. In een class kun je meerdere variabelen en functies stoppen. Zorg ervoor dat je goed snapt hoe de volgende sketch werkt:</p>
+<pre><code>
+Ball ball1;
+
+Ball ball2;
+
+void setup() {
+
+    size(500, 500);
+
+    ball1 = new Ball(new PVector(width / 2, height / 2));
+
+    ball2 = new Ball(new PVector(width / 2, 0));
+
+}
+
+void draw() {
+
+    background(255);
+
+    ball1.move();
+
+    ball1.draw();
+
+    ball2.move();
+
+    ball2.draw();
+
+}
+
+class Ball {
+
+    // Variabelen van deze class
+
+    PVector pos = new PVector(width / 2, height / 2);
+
+    PVector gravity = new PVector(0, 5);
+
+    // De constructor
+
+    Ball(PVector beginPos) {
+
+         this.pos = beginPos;
+
+    }
+
+    void move() {
+
+        pos.add(gravity);
+
+    }
+
+    void draw() {
+
+        circle(pos.x, pos.y, 50);
+
+    }
+
+}
+</code></pre>
+<p>Pas de code aan zodat je naast de begin positie van de bal, ook de kleur kan aangeven.</p>
+<h3 id="stuiterballen"><span class="exercise">8.4.2 Stuiterballen</span></h3>
+<p>Pas de sketch aan door het volgende toe te voegen (en de method <code>move</code> te vervangen).</p>
+<pre><code>
+PVector bounceForce = new PVector(0, 0);
+
+void move() {
+
+    bounceIfBottom();
+
+    pos.add(gravity);
+
+    pos.add(bounceForce);
+
+    bounceForce.mult(0.9);
+
+}
+
+void bounceIfBottom() {
+
+    //TODO
+
+}
+</code></pre>
+<p>De method <code>bounceIfBottom</code> moet de bal laten stuiteren als deze de onderkant van het scherm raakt.</p>
+<h3 id="een-arraylist"><span class="exercise">8.4.3 Een ArrayList</span></h3>
+<p>In het de sketch van de vorige opdracht worden er twee variabelen gebruikt (<code>ball1</code> en <code>ball2</code>) om de ballen op te slaan. Maar wat nu als we 4 ballen op willen slaan, of 100000? We willen niet een hele lijst met variabelen maken natuurlijk. Daarom gebruiken we een <code>ArrayList</code>. Pas je gemaakte sketch aan zodat je met behulp van een <code>ArrayList</code> zoveel ballen kan maken als je wil! Pas vervolgens de code aan zodat je 100 ballen op willekeurige plekken maakt!</p>
+<div class="tip">
+<p>Je krijgt een willekeurig getal met <code>int(random(maximum hoeveelheid))</code></p>
+</div>
+<h1 id="week-6">Week 6</h1>
+<h2 id="leerdoelen-6">9.1 Leerdoelen</h2>
+<ul>
+<li><p>Omgaan met classes en objecten</p></li>
+<li><p>Particles maken en updaten</p></li>
+</ul>
+<h2 id="uitleg-5">9.2 Uitleg</h2>
+<ul>
+<li><p><a href="https://natureofcode.com/book/chapter-4-particle-systems/">Particle Systems – The Nature of Code<br />
+Alleen 4.1, 4.2, 4.3, 4.4 en 4.5</p></li>
+<li><p><a href="https://www.youtube.com/watch?v=vdgiqMkFygc&list=PLRqwX-V7Uu6Z9hI4mSgx2FlE5w8zvjmEy&index=1">Chapter 2. Particle Systems</a><br />
+Alleen 4.1, 4.2, 4.3, 4.4 en 4.5</p></li>
+</ul>
+<h2 id="voorbeelden-2">9.3 Voorbeelden</h2>
+<h3 id="rain">9.3.1 Rain</h3>
+<pre><code>
+ArrayList&lt;Particle&gt; drops = new ArrayList();
+
+PVector wind = new PVector(0, 0);
+
+void setup() {
+
+    size(500, 500);
+
+    strokeWeight(3);
+
+}
+
+void draw() {
+
+    wind = new PVector((-(width / 2) + mouseX) / 40, 0);
+
+    for (int i = 0; i &lt; 10; i++) {
+
+        Particle newDrop = new Particle(
+
+            new PVector(random(width + 400) - 200, -50)
+
+        );
+
+        drops.add(newDrop);
+
+    }
+
+    background(186, 204, 211);
+
+    for (int i = drops.size() - 1; i &gt;= 0; i--) {
+
+        Particle p = drops.get(i);
+
+        p.update();
+
+        p.draw();
+
+         if (p.isDead()) {
+
+             drops.remove(p);
+
+        }
+
+    }
+
+}
+
+class Particle {
+
+    PVector pos;
+
+    PVector vel;
+
+    int startColor;
+
+    float lifetime;
+
+    float maxLifetime = 255;
+
+    Particle(PVector pos) {
+
+        lifetime = maxLifetime;
+
+        this.pos = pos;
+
+        vel = new PVector(0, 4);
+
+        startColor = color(0, random(120), 190 + random(60));
+
+    }
+
+    void update() {
+
+        pos.add(vel);
+
+        pos.add(wind);
+
+        lifetime -= 2;
+
+    }
+
+    boolean isDead() {
+
+        return lifetime &lt;= 0;
+
+    }
+
+    void draw() {
+
+        stroke(startColor,255 * (lifetime / maxLifetime));
+
+        line(pos.x, pos.y, pos.x + wind.x, pos.y + 20);
+
+    }
+
+}
+</code></pre>
+<h2 id="opdrachten-6">9.4 Opdrachten</h2>
+<p>In deze opdracht ga je vuur maken! Dit gaan je doen door een <strong>particle system</strong> te maken (zie uitleg en figuur 9.1).</p>
+<div class="figure">
+<img src="../Processing./media/image23.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/fire.png" width="255" height="293" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/oefeningen/images/fire.png</p>
+</div>
+<p>Figuur 9.1: Vuur!</p>
+<h3 id="een-particle"><span class="exercise">9.4.1 Een particle</span></h3>
+<p>Maak een <strong>Particle</strong> class. Bedenk zelf welke variabelen en methods deze class waarschijnlijk moet hebben. Kijk naar figuur 9.1, welke eigenschappen heeft één vuurdeeltje?</p>
+<h3 id="het-tekenen"><span class="exercise">9.4.2 Het tekenen</span></h3>
+<p>Maak een <code>ArrayList</code> van particles en zorg ervoor dat alle particles. Voeg hier één particle aan toe (in de <code>setup</code> functie). Zorg er vervolgens voor dat alle particles getekent worden (doe dit uiteraard in de <code>draw</code> method).</p>
+<h3 id="het-updaten"><span class="exercise">9.4.3 Het updaten</span></h3>
+<p>Maak een <code>update</code> method in particle die ervoor zorgt dat de deeltjes omhoog vliegen en een klein beetje naar links of rechts.</p>
+<div class="remark">
+<p>Het is hier dus super handig als je gebruik maakt van een PVector.</p>
+</div>
+<h3 id="lifetime"><span class="exercise">9.4.4 Lifetime</span></h3>
+<p>We willen dat één vuurdeeltje na een tijdje verdwijnt. Dit kun je doen door een variable <code>float lifetime = 255</code> te maken. Elke update haal je hier 1 van af met <code>lifetime--</code>. Vervolgens moet je tijdens het updaten checken of <code>lifetime &lt; 0</code>. Is dit het geval, dan moet je het deeltje uit de <code>ArrayList</code> te halen (<code>particles.remove(particle)</code>, waarbij <code>particles</code> de <code>ArrayList</code> is, en <code>particle</code> het deeltje wat je wil weghalen).</p>
+<h3 id="kleur-veranderen"><span class="exercise">9.4.5 Kleur veranderen</span></h3>
+<p>Zorg ervoor dat de vuur deeltjes meer doorzichtig worden naarmate ze korter te leven hebben.</p>
+<div class="tip">
+<p>Gebruik <code>fill(color, alpha)</code> waar bijvoorbeeld <code>color = color(255, 50, 0)</code> en <code>alpha</code> tussen <code>0</code> en <code>255</code>.</p>
+</div>
+<h3 id="vuur"><span class="exercise">9.4.6 Vuur!</span></h3>
+<p>Voeg elke keer dat <code>draw</code> wordt aangeroepen een nieuwe <code>particle</code> toe aan de <code>ArrayList</code> zodat een prachtig vuur ontstaat!</p>
+<h3 id="extra-extra-mooi-vuur"><span class="exercise">9.4.7 [extra] Extra mooi vuur</span></h3>
+<p>Als je wilt kun je ook nog extra dingen toevoegen:</p>
+<ul>
+<li><p>Dat de grootte van de vuur deeltjes verschillend is</p></li>
+<li><p>Dat de kleur van de vuur deeltjes verschillend is</p></li>
+<li><p>Dat het vuur je muis volgt</p></li>
+<li><p>Dat je meerdere vuurtjes kunt maken</p></li>
+</ul>
+<h1 id="inleveropdracht-3">Inleveropdracht 3</h1>
+<h2 id="pong"><span class="exercise">10.1 Pong</span></h2>
+<p>Voor deze opdracht ga je het klassieke spel Pong maken. Als je nog nooit gehoord hebt van dit spel moet je het even opzoeken om te weten waar we het over hebben (zoek op pong game). Je sketch moet minimaal aan de volgende eisen voldoen. Je bent verder helemaal vrij extra functionaliteit toe te voegen:</p>
+<ul>
+<li><p>Een bal</p></li>
+<li><p>Een door de gebruiker bestuurbaar batje</p></li>
+<li><p>Stuiter-functionaliteit</p></li>
+</ul>
+<p>Om je een beetje te helpen staat er onderaan een stappenplan. Je hoeft dit niet te volgen, maar het is wel aan te raden als je het moeilijk vind.</p>
+<ol style="list-style-type: decimal">
+<li>Gebruik het volgende opzetje:</li>
+</ol>
+<pre><code>
+ArrayList&lt;Wall&gt; walls = new ArrayList();
+
+Wall paddle;
+
+Ball ball;
+
+void setup() {
+
+    size(500, 500);
+
+    Wall top = new Wall(0, 0, width, 20);
+
+    Wall right = new Wall(width – 20, 0, width – 20, height);
+
+    Wall bottom = new Wall(0, height – 20, width, height – 20);
+
+    paddle = new Wall(0, height / 3, 20, height / 4);
+
+    walls.add(top);
+
+    walls.add(right);
+
+    walls.add(bottom);
+
+    walls.add(paddle);
+
+    ball = new Ball();
+
+}
+
+void draw() {
+
+    background(255);
+
+    for (Wall w: walls) {
+
+        w.draw();
+
+        ball.bounceIfHits(w);
+
+    }
+
+    ball.draw();
+
+    ball.move();
+
+}
+</code></pre>
+<ol style="list-style-type: decimal">
+<li>Maak de <code>Wall</code> class:</li>
+</ol>
+<pre><code>
+class Wall {
+
+    int x;
+
+    int y;
+
+    
+
+int w;
+
+    int h;
+
+    Wall(int x, int y, int w, int h) {
+
+        //TODO
+
+    }
+
+    void draw() {
+
+        //TODO
+
+    }
+
+}
+</code></pre>
+<div class="tip">
+<p>Test je code nu al, anders moet je straks een heleboel bugs oplossen!</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Maak de <code>Ball</code> class:</li>
+</ol>
+<pre><code>
+class Ball {
+
+    PVector pos;
+
+    PVector vel;
+
+    Int radius = 20;
+
+    Ball() {
+
+    //TODO
+
+    }
+
+    void move() {
+
+        //TODO
+
+    }
+
+    void bounceIfHits(Wall w) {
+
+        //TODO
+
+    }
+
+     void draw() {
+
+        //TODO
+
+    }
+
+}
+</code></pre>
+<ol style="list-style-type: decimal">
+<li>Maak als laatste de besturing van <code>paddle</code>!</li>
+</ol>
+<div class="figure">
+<img src="../Processing./media/image24.png" alt="https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/pong.png" width="537" height="573" />
+<p class="caption">https://raw.githubusercontent.com/StevenBrons/Processing/master/inleveropdrachten/images/pong.png</p>
+</div>
+<p>Figuur 10.1: Een voorbeeld van Pong</p>
+<h2 id="bonus-extra-functionaliteit"><span class="exercise">10.2 [bonus] Extra functionaliteit</span></h2>
+<p>Voeg extra features aan je sketch toe. Hieronder is een lijst met voorbeelden van extra functionaliteiten, Je mag natuurlijk ook zelf iets leuks bedenken.</p>
+<ul>
+<li><p>Restarten: Het starten en opnieuw spelen van het spel in je programma zelf ipv de start- en stopknop van Processing te gebruiken.</p></li>
+<li><p>Geef het batje een andere kleur (gebruik inheritance)</p></li>
+<li><p>Het bijhouden en op het het scherm tonen van de score</p></li>
+<li><p>Meerdere ballen tegelijk</p></li>
+<li><p>Multiplayer (geef de andere speler twee andere toetsen)</p></li>
+<li><p>Power-ups</p></li>
+<li><p>Meerdere levels</p></li>
+</ul>
+<h1 id="inleveropdracht-4">Inleveropdracht 4</h1>
+<h2 id="maak-je-eigen-game"><span class="exercise">11.1 Maak je eigen game!</span></h2>
+<p>Voor deze laatste inlever opdracht ga je een eigen game maken! Leg de lat niet al te hoog, een game maken kost namelijk heel veel tijd. Ik heb onderaan een lijstje gemaakt van spellen die je na zou kunnen maken, of bedenk zelf een leuk spel!</p>
+<ul>
+<li><p>Asteroids</p></li>
+<li><p>Frogger</p></li>
+<li><p><a href="https://chromedino.com/">Het dinosaurus spel van Google Chrome</a></p></li>
+<li><p><a href=" https://flappybird.io/">Flappy Bird</a></p></li>
+</ul>
+<p>Probeer Object Georiënteerd te programmeren. Bedenk voordat je begint met typen eerst welke objecten je nodig hebt, welke methods en variables die objecten hebben, en wat er verder nog nodig is voor je spel. Zorg er dus voor dat je al weet wat je gaat maken voordat je begint met typen. Verder is het erg handig om wat dingen uit te tekenen, dit geeft een beter beeld van wat je wil bereiken!</p>
+</div>
+</body>
+
+</html>

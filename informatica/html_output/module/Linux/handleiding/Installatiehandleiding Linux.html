@@ -1,0 +1,81 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><div class="figure">
+<img src="../Linux/handleiding./media/image8.png" width="602" height="602" />
+
+</div>
+<h2 id="voorbereiding">Voorbereiding</h2>
+<ol start="0" style="list-style-type: decimal">
+<li><p><em>Zet VT-x (Intel) of AMD-v (AMD) aan in de BIOS voor virtualisatie &gt; ondersteuning.<br />
+&gt;<br />
+&gt; (Als je dit hebt maakt het het uitvoeren van de virtual machine &gt; een stuk gemakkelijker voor je pc. Als je dit niet hebt geen &gt; probleem.) &gt; </em></p></li>
+<li><p>Download de Ubuntu Desktop LTS (Long-Term-Support) ISO van &gt; <a href="https://ubuntu.com/download/desktop"><em>https://ubuntu.com/download/desktop</em></a></p></li>
+<li><p>Download en installeer VirtualBox van &gt; <a href="https://www.virtualbox.org/wiki/Downloads"><em>https://www.virtualbox.org/wiki/Downloads</em></a>, &gt; kies hierbij onder VirtualBox platform packages jouw &gt; besturingssysteem.</p></li>
+<li><p>Zorg dat je ten minste 20 GB vrij hebt op je harde schijf.</p></li>
+<li><p>Maak een virtual machine voor Ubuntu.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Maak in VirtualBox een nieuwe virtual machine door op <strong>New</strong> te &gt; klikken. Vul bij <strong>Name</strong> “Ubuntu” in (zonder &gt; aanhalingstekens).</p></li>
+<li><p>Geef de virtual machine <strong>2048 MB</strong> aan RAM. Doe dit met de &gt; slider of door het in te vullen.</p></li>
+<li><p>Klik op <strong>Next</strong> tot je aankomt bij <strong>File location and size</strong>. &gt; Geef de virtual machine <strong>20 GB</strong> aan opslag, hierdoor kan je &gt; vrij testen.</p></li>
+<li><p>Zorg dat <strong>Ubuntu</strong> geselecteerd is. Druk dan op <strong>Settings</strong>. &gt; Ga naar het tabblad <strong>System</strong> en dan <strong>Processor</strong>. Zorg dat &gt; je <strong>2 Processor(s)</strong> hebt toegekend.</p></li>
+<li><p>Ga nu naar <strong>Storage</strong> en kies de CD-ROM waar <strong>Empty</strong> bij &gt; staat. Klik rechts van <strong>IDE Second Master</strong> en dan <strong>Choose &gt; Virtual Optical Disk file</strong>. Kies nu de ISO die je hebt &gt; gedownload in stap 2.</p></li>
+<li><p>Druk op <strong>OK</strong>.</p></li>
+</ol></li>
+</ol>
+<h2 id="installatie">Installatie</h2>
+<ol style="list-style-type: decimal">
+<li><p>Start de virtual machine.</p></li>
+<li><p>Kies je taal (de verdere stappen zijn met Engels gedaan), klik &gt; daarna op <strong>Install Ubuntu</strong>.</p></li>
+<li><p>Kies je installatie taal.<br />
+&gt; <img src="../Linux/handleiding./media/image1.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Kies de keyboard layout. De meeste laptops zullen English (US) &gt; hebben.<br />
+&gt; <img src="../Linux/handleiding./media/image9.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Kies voor de <strong>Normal Installation</strong> en vink beide checkboxes aan.<br />
+&gt; <img src="../Linux/handleiding./media/image3.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>De virtuele schijf van 20 GB staat nog niks op. Daarom is het het &gt; makkelijkst om hier <strong>Erase disk and install Ubuntu</strong> te kiezen. &gt; Er wordt hier niets van je echte harde schijf verwijderd.<br />
+&gt; <img src="../Linux/handleiding./media/image2.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Klik op <strong>Continue</strong><br />
+&gt; <img src="../Linux/handleiding./media/image6.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Klik op <strong>Continue</strong> bij de tijdzone.<br />
+&gt; <img src="../Linux/handleiding./media/image4.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Vul je gegevens in zoals je ze wil hebben en klik op <strong>Continue</strong>.<br />
+&gt; <img src="../Linux/handleiding./media/image5.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Wacht totdat Ubuntu klaar is met installeren, klik daarna op &gt; <strong>Restart Now</strong>.<br />
+&gt; <img src="../Linux/handleiding./media/image10.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+<li><p>Druk op ENTER wanneer gevraagd.</p></li>
+<li><p>Log in en je bent klaar om Ubuntu te gebruiken.<br />
+&gt; <img src="../Linux/handleiding./media/image7.png" />{width=&quot;6.270833333333333in&quot; &gt; height=&quot;3.9166666666666665in&quot;}</p></li>
+</ol>
+</div>
+</body>
+
+</html>

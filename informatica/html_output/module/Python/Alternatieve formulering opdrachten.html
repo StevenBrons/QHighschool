@@ -1,0 +1,77 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="pandoc" />
+	<title></title>
+	<link rel="stylesheet" href="../../style.css" type="text/css" />
+	</link>
+	<link rel="stylesheet" href="../../course.css" type="text/css" />
+	</link>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="../../prism.js"></script>
+	<link rel="stylesheet" href="../../prism.css" type="text/css">
+	</link>
+	<script src="../../toc.js"></script>
+	<script src="../../jquery.js"></script>
+	<script src="../../script.js"></script>
+</head>
+
+<body>
+	<header>
+		<a href="/">
+			<img src="../../logo_qhighschool_white.svg"></header>
+		</a>
+	<div id="TOC">
+		<!-- AUTOFILLED -->
+	</div>
+	<div id="content"><h1 id="galgje-met-een-twist">Galgje met een twist</h1>
+<p>Maak een woordraadspel dat als volgt werkt:</p>
+<ul>
+<li><p>Je programma kiest een willekeurig woord uit een woordenlijst.</p></li>
+<li><p>Deze lijst stel je zelf samen door 40 willekeurige woorden uit <a href="https://nl.wiktionary.org/wiki/WikiWoordenboek:Lijst_met_1000_basiswoorden" class="uri">https://nl.wiktionary.org/wiki/WikiWoordenboek:Lijst_met_1000_basiswoorden</a> te selecteren en deze in je Python-programma te zetten. Onderaan de opdracht vind je een voorbeeld.</p></li>
+<li><p>Van dat gekozen woord geef je 40% van de letters, willekeurig verdeeld, weer met underscores. Rond de 40% af naar het eerste gehele getal boven de 40% van de lengte van het woord.</p></li>
+<li><p>Je programma vraagt vervolgens om een index en een letter.</p></li>
+<li><p>Op die index kijk je of de letter overeenkomt met het originele woord. Wanneer dat het geval is, vervang je de underscore door de gevonden letter. Wanneer de letter fout geraden is, geeft je programma een hint of de letter een klinker of een medeklinker is.</p></li>
+<li><p>Wanneer de gebruiker <em>x</em> aantal keer een verkeerde letter geraden heeft, dan is deze af. Het getal <em>x</em> is gelijk aan het aantal letters, dat door een underscore is vervangen (40%). Rond dit getal af naar het eerste gehele getal boven de 40% van de lengte.</p></li>
+<li><p>Als gebruikers denken het woord te weten, kunnen ze het volledig raden. Indien ze het dan fout hebben, hebben ze verloren.</p></li>
+<li><p>Zorg dat je programma tegen foutieve invoer van de gebruiker kan. Dit doe je door elke invoer van de gebruiker te controleren of deze geldig is. Mocht de invoer ongeldig zijn, dan geef je een vriendelijke en duidelijke foutmelding.</p></li>
+</ul>
+<h2 id="extra-uitleg">Extra uitleg</h2>
+<p>Stel je hebt de woorden <em>controle, eiland, stempel</em> en <em>mengsel</em> gekozen. Dan zet je dit in je Python-programma als volgt:</p>
+<p>woorden_lijst = [‘controle’,’eiland’,’stempel’,’mengsel’]</p>
+<h2 id="beoordeling">Beoordeling</h2>
+<p>Bij de beoordeling van dit project letten we erop of je code goed in elkaar zit. Dat wil zeggen dat je geen grammaticale fouten of spelfouten hebt gemaakt. Een voorbeeld van foutieve code is:</p>
+<p>if (x=0): print “Yolo!”</p>
+<p>Er staan twee fouten in deze code. De Python-interpreter zal deze code niet accepteren. Je kunt hier maximaal 10 punten voor scoren.</p>
+<p>Daarnaast letten we erop of je programma de dingen doet, zoals die hierboven in de bolletjeslijst zijn beschreven. Je kunt hier maximaal 40 punten scoren. We letten ook op wat voor code je schrijft. Maak je gebruik van functies, maak je gebruik van loops in plaats van onnodige herhaling van codefragmenten? Maak je gebruik van commentaar? Op dit onderdeel kun je maximaal 40 punten behalen. Als laatste kijken we ook naar hoe je met de gebruiker om gaat. Weet de gebruiker van je programma wat je van hem/haar verwacht? Geef je vriendelijke foutmeldingen? Op dit onderdeel kun je maximaal 10 punten scoren.</p>
+<h1 id="eindopdracht">Eindopdracht</h1>
+<p>Nu mag je zelf iets bedenken en gaan maken! Dit kan van alles zijn. Bijvoorbeeld:</p>
+<ul>
+<li><p>Boter, kaas en eieren;</p></li>
+<li><p>Een spel gebaseerd op tekst;</p></li>
+<li><p>Een password-generator;</p></li>
+<li><p>Iets anders dat je zelf leuk lijkt!</p></li>
+</ul>
+<p>Je mag deze opdracht in je eentje of met z’n tweeën maken. Zodra je een idee hebt, werk je deze uit. Kom dan naar de docent toe en vraag om goedkeuring. Een aantal belangrijke punten waar de docent op gaat letten zijn:</p>
+<ul>
+<li><p>Is de opdracht qua niveau goed? (niet te hoog gegrepen maar vooral niet te makkelijk)</p></li>
+<li><p>Duurt de opdracht niet te lang/te kort om te maken? (gestelde tijd is ongeveer 4 uur per leerling)</p></li>
+<li><p>Kan je de vaardigheden die je geleerd hebt goed in de opdracht kwijt? (oftewel: je kan wel een lastig project maken met alleen if/else statements, maar kan je erin ook loops verwerken)</p></li>
+</ul>
+<p>Zorg dus wel dat je je idee voldoende diep hebt uitgewerkt, dat jij en de docent samen een goede tijds- en niveauinschatting kunnen maken!</p>
+<p>Als je groen licht hebt gekregen van de docent mag je beginnen!</p>
+<p>TIP: als je niet op ideeën kan komen, kijk dan vooral op internet! Er zijn genoeg artikelen die Python-projecten van eenvoudig tot lastig behandelen!</p>
+<h2 id="beoordeling-1">Beoordeling</h2>
+<p>De beoordeling van je eindopdracht gaat bijna hetzelfde als bij de vorige opdracht. Het enige verschil is dat de puntenverdeling anders is.</p>
+<p>Grammaticale fouten of spelfouten: maximaal 10 punten<br />
+Je programma doet de dingen goed die het moet doen: maximaal 10 punten (was 40p) Wat voor code schrijf je: maximaal 40 punten<br />
+Hoe ga je met de gebruiker om: maximaal 40 punten (was 10p)</p>
+</div>
+</body>
+
+</html>
