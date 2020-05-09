@@ -17,10 +17,6 @@ const translation = require("../lib/translation");
 const moment = require("moment");
 moment.locale("nl");
 
-function formatId(idName, courseId = "") {
-  return "#" + idName + (courseId + "").padStart(4, "0");
-}
-
 exports.createUser = async accessToken => {
   const user = await graphConnection.getOwnDetails(accessToken);
 
@@ -142,25 +138,6 @@ exports.addLessonsIfNecessary = async ({ id, schoolYear, period, day }) => {
   }
 };
 
-const extractFromObject = (keys, modelName, object) => {
-  return keys.reduce((tot, key) => {
-    let res = tot;
-    const s = key.split(".");
-    const normalisedKey = s.slice(s.length - 2).join(".");
-    let value = object[key];
-    switch (normalisedKey) {
-      case "group.id":
-        value = formatId("G", value);
-        break;
-      case "course.id":
-        value = formatId("M", value);
-        break;
-    }
-    res[translation.translate(modelName + "." + key)] = value;
-    return res;
-  }, {})
-}
-
 exports.findEvaluation = async (userId, groupId) => {
   const group = await Group.findByPk(groupId, {
     attributes: ["id", "period", "schoolYear"],
@@ -194,7 +171,7 @@ exports.findEvaluation = async (userId, groupId) => {
   if (evaluation == null) {
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ["displayName", "email", "id", "school"],
+      attributes: ["displayName", "email", "id", "school", "year","preferedEmail"],
       raw: true,
     });
     evaluation = {
@@ -207,21 +184,24 @@ exports.findEvaluation = async (userId, groupId) => {
     }
   }
   return {
-    ...extractFromObject([
-      "course.name",
+    ...translation.extractFromObject([
       "course.subject.name",
-      "course.id",
+      "course.name",
       "period",
+      "course.id",
       "id",
     ], "course_group", group),
-    ...extractFromObject([
+    ...translation.extractFromObject([
+      "user.school",
+      "user.displayName",
+      "user.year",
+      "user.level",
       "assesment",
       "explanation",
       "type",
-      "user.displayName",
       "updatedByUser.displayName",
       "user.email",
-      "user.school",
+      "user.preferedEmail",
       "user.id",
     ], "evaluation", evaluation),
     "Blokjaar": group["schoolYear"] + " - " + group["period"],
@@ -287,7 +267,7 @@ exports.getEnrollment = async school => {
   }).then(enrl =>
     enrl.map(e => {
       return {
-        ...extractFromObject([
+        ...translation.extractFromObject([
           "user.email",
           "course_group.course.name",
           "course_group.course.subject.name",
@@ -328,7 +308,7 @@ exports.getUserData = async school => {
     attributes,
     raw: true
   }).then(data => {
-    return data.map(obj => extractFromObject(attributes, "user", obj));
+    return data.map(obj => translation.extractFromObject(attributes, "user", obj));
   })
 };
 
@@ -341,7 +321,7 @@ exports.getCourseIdsData = async school => {
     },
     raw: true
   }).then(course =>
-    course.map(e => extractFromObject([
+    course.map(e => translation.extractFromObject([
       "name",
       "subject.name",
       "id",

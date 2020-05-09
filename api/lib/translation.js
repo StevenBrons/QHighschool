@@ -22,6 +22,10 @@ const table = {
 	"updatedByUser.displayName": "Aangepast door",
 }
 
+this.formatId = (idName, courseId = "") => {
+  return "#" + idName + (courseId + "").padStart(4, "0");
+}
+
 this.translate = (key) => {
 	const s = key.split(".");
 	const normalisedKey = s.slice(s.length - 2).join(".");
@@ -33,3 +37,21 @@ this.translate = (key) => {
 	return value
 }
 
+this.extractFromObject = (keys, modelName, object) => {
+  return keys.reduce((tot, key) => {
+    let res = tot;
+    const fullPath = [modelName].concat(key.split("."));
+    const normalisedKey = fullPath.slice(fullPath.length - 2).join(".");
+		let value = object[key];
+    switch (normalisedKey) {
+      case "course_group.id":
+        value = this.formatId("G", value);
+        break;
+      case "course.id":
+        value = this.formatId("M", value);
+        break;
+    }
+    res[this.translate(fullPath.join("."))] = value;
+    return res;
+  }, {})
+}
