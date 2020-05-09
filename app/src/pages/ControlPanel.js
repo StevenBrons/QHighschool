@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import EnsureSecureLogin from '../components/EnsureSecureLogin';
 import Page from './Page';
 import $ from "jquery";
-import map from 'lodash/map';
+import {map, values} from 'lodash';
 
 import { connect } from 'react-redux';
 import queryString from "query-string";
 import SelectUser from '../components/SelectUser';
 import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText, } from '@material-ui/core';
 import Field from '../components/Field';
-import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../store/actions';
+import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure,getAllUsers } from '../store/actions';
+import { withRouter } from "react-router-dom";
 
-const pages = ["alias", "vak", "module", "groep"];
+
+const pages = ["alias", "vak", "module", "groep", "gebruikers"];
 
 class ControlPanel extends Component {
 
@@ -73,6 +75,8 @@ class ControlPanel extends Component {
 				return <Course addCourse={this.props.addCourse} subjects={this.props.subjects} />
 			case "groep":
 				return <Group addGroup={this.props.addGroup} courses={this.state.courses} />
+			case "gebruikers":
+				return <User getAllUsers={this.props.getAllUsers} history={this.props.history} users={this.props.users}/>
 			default:
 		}
 	}
@@ -80,7 +84,7 @@ class ControlPanel extends Component {
 	render() {
 		return (
 			<Page>
-				<EnsureSecureLogin>
+				{/* <EnsureSecureLogin> */}
 					<Paper
 						elevation={2}
 						style={{ position: "relative" }}
@@ -97,11 +101,11 @@ class ControlPanel extends Component {
 								{pages.map(this.mapPageToListItem)}
 							</List>
 						</Paper>
-						<div style={{ padding: "12px" }}>
+						<div style={{ padding: "12px", width: "100%" }}>
 							{this.getContent()}
 						</div>
 					</div>
-				</EnsureSecureLogin>
+				{/* </EnsureSecureLogin> */}
 			</Page>
 		);
 	}
@@ -247,10 +251,63 @@ class Group extends Component {
 	}
 }
 
+class User extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			search: "",
+		}
+	}
+
+	componentDidMount() {
+		this.props.getAllUsers();
+	}
+
+	render() {
+		let users = values(this.props.users);
+		users = users.filter(({displayName}) => {
+			return displayName.toLowerCase().includes(this.state.search.toLowerCase());
+		});
+		users = users.map(({displayName,role, id}) => {
+			return <tr key={id}>
+				<Typography variant="button" component="td">
+					{displayName}
+				</Typography>
+				<td>
+					{role}
+				</td>
+				<td>
+					<Button color="primary" component="td" onClick={() => {
+						this.props.history.push("/profiel/" + id);
+					}}>
+						open profiel
+					</Button>
+				</td>
+			</tr>
+		});
+		return <div style={{width:"100%"}}>
+				<Paper style={{width:"100%"}}>
+					<Field
+						label="Zoek"
+						value={this.state.search}
+						onChange={(search) => this.setState({search})}
+						editable
+					/>
+				</Paper>
+				<table style={{width:"100%"}}>
+					<tbody>
+						{users}
+					</tbody>
+				</table>
+			</div>
+	}
+}
+
 function mapStateToProps(state) {
 	return {
 		subjects: state.subjects,
 		groups: state.groups,
+		users: state.users,
 	}
 }
 
@@ -261,8 +318,9 @@ function mapDispatchToProps(dispatch) {
 		addGroup: async (courseId, userId) => dispatch(addGroup(courseId, userId)),
 		addNotification: (notification) => dispatch(addNotification(notification)),
 		getSubjects: () => dispatch(getSubjects()),
+		getAllUsers: () => dispatch(getAllUsers()),
 		dispatch: dispatch,
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ControlPanel));
