@@ -204,7 +204,7 @@ class Menu extends Component {
       .map(this.getItem.bind(this));
 
     return (
-      <Paper elevation={8} className="Menu">
+      <Paper elevation={8} className="Menu" style={{minHeight: (visiblePages.length + visibleProfile.length + 1) * 40 + "px" }}>
         <List component="nav" style={{ height: "100%" }}>
           {visiblePages}
           <div style={{ position: "absolute", bottom: "20px", width: "100%" }}>
