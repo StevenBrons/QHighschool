@@ -31,7 +31,7 @@ class Header extends Component {
 					/>
 					<List color="inherit" style={{ right: 20, position: "absolute" }} onClick={this.handleClick}>
 						<PersonIcon style={{ transform: "scale(1.5)", marginRight: "10px", float: "left" }} />
-						<span className="HiddenOnMobile">
+						<span className="HiddenOnMobile HiddenOnTablet">
 							{this.props.displayName}
 						</span>
 					</List>

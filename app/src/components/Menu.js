@@ -11,6 +11,8 @@ import LocalTaxiIcon from "@material-ui/icons/LocalTaxi";
 import BuildIcon from "@material-ui/icons/Build";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import NotificationBadge from "./NotificationBadge";
+import { toggleMenu } from '../store/actions';
+import getCurrentScreenSize from '../lib/GetCurrentScreenSize'
 
 import Paper from "@material-ui/core/Paper";
 import { withRouter } from "react-router-dom";
@@ -56,6 +58,14 @@ class Menu extends Component {
         this.state.pages = ["aanbod", "profiel", "loguit"];
         break;
     }
+    this.state.screenSize = getCurrentScreenSize();
+    window.addEventListener("resize", this.updateScreenSize)
+  }
+
+  updateScreenSize = () => {
+    this.setState({
+      screenSize: getCurrentScreenSize(),
+    })
   }
 
   logout() {
@@ -73,6 +83,8 @@ class Menu extends Component {
       this.logout();
     } else {
       this.props.history.push("/" + page);
+      if (this.state.screenSize === "phone")
+        this.props.toggleMenu();
     }
   }
 
@@ -127,9 +139,11 @@ class Menu extends Component {
         style={style}
       >
         {icon}
-        <Typography variant="button" color={color} className="HiddenOnMobile">
+        { !(this.state.screenSize === "tablet") && 
+        <Typography variant="button" color={color}> 
           {page.title}
         </Typography>
+        }
       </ListItem>
     );
   }
@@ -217,4 +231,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, null)(Menu));
+function mapDispatchToProps(dispatch) {
+	return {
+		toggleMenu: () => dispatch(toggleMenu()),
+	};
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Menu));

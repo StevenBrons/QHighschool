@@ -120,11 +120,20 @@ table {
 	padding: 0px;
 }
 
+body:before { /* This enables screen size being queried from the code */
+	content: "desktop";
+	display: none;
+	visibility: hidden;
+}
+
 /* Small Monitors: 
 	(Reduced padding and margins)
 */
 
 @media only screen and (max-width: 1350px) {
+	body:before {
+		content: "small desktop"
+	}
 	.Page {
 		padding: 15px;
 	}
@@ -140,6 +149,9 @@ table {
 */
 
 @media only screen and (max-width: 1200px) {
+	body:before {
+		content: "tablet"
+	}
 	.App {
 		grid-template-columns: 68px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 		-ms-grid-columns: 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428% 7.1428%;
@@ -147,9 +159,6 @@ table {
 	.menuShown {
 		grid-column-start: 2;
 		-ms-grid-column: 2;
-	}
-	.HiddenOnMobile {
-		display: none !important;
 	}
 	.Login {
 		grid-row: 4 / span 6;
@@ -159,9 +168,30 @@ table {
 	}
 }
 
+@media only screen and (max-width: 1200px) and (min-width: 781px) {
+	.HiddenOnTablet {
+		display: none !important;
+	}
+}
+
 /* Mobile */
 
 @media only screen and (max-width: 780px) {
+	body:before {
+		content: "phone"
+	}
+	.App {
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	}
+	.menuShown {
+		grid-column-start: 1;
+		-ms-grid-column: 1;
+	}
+	.Menu {
+		grid-column: 1 / span 10;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 10;
+	}
 	.ColumnFlexDirectionOnMobile {
 		flex-direction: column;
 	}
@@ -172,5 +202,8 @@ table {
 		-ms-grid-column-span: 14;
 		-ms-grid-row: 4;
 		-ms-grid-row-span: 7;
+	}
+	.HiddenOnMobile {
+		display: none !important;
 	}
 }
