@@ -37,18 +37,47 @@ class Page extends Component {
   }
 
   onClick = (groupId, subject) => {
-    let popOut = this.state.popOut;
-    if (popOut && popOut.subject === subject && popOut.groupId === groupId) {
-      popOut = null;
-    } else {
-      popOut = {
-        subject: subject,
-        groupId: groupId,
-      }
+    // let popOut = this.state.popOut;
+    // if (popOut && popOut.subject === subject && popOut.groupId === groupId) {
+    //   this.setState({
+    //     popOut: null,
+    //   })
+    //   return
+    // } 
+    // if (popOut) {
+    //   popOut = {
+    //     subject: subject,
+    //     groupId: groupId,
+    //   }
+    //   setTimeout(() => {this.setState({popOut: popOut})}, 500)
+    //   this.setState({popOut: null})
+    //   return;
+    // }
+
+    let oldPopOut = this.state.popOut
+    let newPopOut = {
+      subject: subject,
+      groupId: groupId,
     }
-    this.setState({
-      popOut: popOut,
-    })
+    if (!oldPopOut) { // nothing special
+      console.log('normal')
+      this.setState({
+        popOut: newPopOut
+      })
+    }
+    else if (oldPopOut.subject === subject && oldPopOut.groupId === groupId) {// 'turn off' current popout
+      this.setState({
+        popOut: null
+      })
+    } // else turn off this one and turn on another one
+    else if (oldPopOut.subject < subject) { // and next one is beneath the current one so extra animation 
+      //needs to take place. ( change this order in case you don't just use alphabetical order for the subjects anymore!!!)
+      this.setState({popOut: null})
+      setTimeout(() => {this.setState({popOut: newPopOut})}, 500)
+    }
+    else { // next one is above current one so it can happen instantly
+      this.setState({popOut: newPopOut})
+    }
   }
 
   showSubjectInfo = (subject) => {

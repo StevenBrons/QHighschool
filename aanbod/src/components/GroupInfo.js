@@ -18,8 +18,14 @@ class GroupInfo extends Component {
 	}
 
 	componentDidMount() {
-		// scroll groupInfo to center
-		window.scrollTo({ top: this.ref.current.offsetTop - window.innerHeight * 0.05, behavior: 'smooth' })
+		let scrollDestination = this.ref.current.offsetTop - window.innerHeight * 0.05
+		window.scrollTo({ top: scrollDestination, behavior: 'smooth' })
+	}
+
+	componentWillUnmount() {
+		if (window.scrollY > this.ref.current.offsetTop) {
+			window.scrollBy({top: -(0.9 * this.ref.current.offsetHeight), behavior: 'smooth'})
+		}
 	}
 
 	render() {
