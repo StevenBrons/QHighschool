@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { getEnrolLments, getGroups, getParticipatingGroups, getSubjects } from "../store/actions";
+import { getEnrolLments, getParticipatingGroups, getSubjects } from "../store/actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { isCertificateWorthy, translateAssessment } from "./group/Evaluation";
+import { translateAssessment } from "./group/Evaluation";
 import jspdf from "jspdf"
 import Page from "../pages/Page"
 import Progress from "../components/Progress"
@@ -145,11 +145,16 @@ class Certificate extends Component {
 		pdf.setFontStyle("normal");
 		pdf.text("de volgende Q-Highschool modules heeft afgerond", 60, 70);
 
+		this.addPortfolioTableHeader(pdf,100)
+	}
+
+
+	addPortfolioTableHeader(pdf, height) {
 		// Make the header for the portfolio table.
 		pdf.setFontStyle("bold");
-		pdf.text("Naam module", 20, 100);
-		pdf.text("Studietijd", 130, 100);
-		pdf.text("Datum", 170, 100);
+		pdf.text("Naam module", 20, height);
+		pdf.text("Studietijd", 130, height);
+		pdf.text("Datum", 170, height);
 		pdf.setFontStyle("normal");
 	}
 
@@ -167,27 +172,33 @@ class Certificate extends Component {
 		let name = undefined;
 
 		// Construct the portfolio table.
-		let heightOffset = 1;
+		let heightOffset = 0;
+		let page = 0;
 		pdf.setFontStyle("normal");
 		Object.keys(this.props.groups).forEach((key) => {
 			let val = this.props.groups[key];
 			let data = {};
 
+			let maxLines = page === 1 ? 5 : 9;
+
+			// Add another page if there are too many modules.
+			if (heightOffset % maxLines === 0) {
+				name = val.evaluation.displayName.toString();
+				if (page === 0) {
+					this.portfolioBasePage(pdf, name);
+				} else {
+					this.makeBase(pdf);
+					this.addPortfolioTableHeader(pdf,60)
+				}
+				heightOffset = 0;
+				page += 1;
+			}
+
+			let topHeight = page === 1 ? 113 : 75;
+
 			if (!val.hasOwnProperty("evaluation"))
 				return;
 
-			// Add another page if there are too many modules.
-			if (heightOffset % 6 === 0) {
-				this.makeBase(pdf);
-				this.portfolioBasePage(pdf, name);
-				heightOffset = 1;
-			}
-
-			// Get the student name, if not already set.
-			if (name === undefined && val.evaluation.hasOwnProperty("displayName") && val.evaluation.displayName.length > 0) {
-				name = val.evaluation.displayName.toString();
-				this.portfolioBasePage(pdf, name);
-			}
 
 			// Get the module name.
 			if (val.hasOwnProperty("courseName"))
@@ -208,13 +219,13 @@ class Certificate extends Component {
 				data.date = val.hasOwnProperty("schoolYear") ? val.schoolYear : "Niet bekend.";
 
 			// Get the grade data.
-			if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0 && isCertificateWorthy(val.evaluation))
+			if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0)
 				data.grade = translateAssessment(val.evaluation)
 			else
 				return;
 
 			// Construct a pdf row.
-			let height = heightOffset++ * 13 + (100 + 13);
+			let height = heightOffset * 13 + topHeight;
 			pdf.text(data.name, 20, height, { maxWidth: 70 });
 
 			// Set the color to Quadraam orange and make the text bold.
@@ -227,6 +238,7 @@ class Certificate extends Component {
 
 			pdf.text(data.time + " uur", 130, height);
 			pdf.text(data.date, 170, height);
+			heightOffset += 1;
 		});
 	}
 
@@ -268,7 +280,8 @@ class Certificate extends Component {
 		let pdf = this.makeBase();
 
 		// Add a single module if requested.
-		if (this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null) {
+		let isModuleCertificate = this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null
+		if (isModuleCertificate) {
 			this.addModule(this.props.match.params.groupId, pdf);
 		} else {
 			// Add the portfolio page(s).
@@ -282,7 +295,11 @@ class Certificate extends Component {
 		// window.location = pdf.output("bloburi", "Certificaat Q-Highschool.pdf");
 
 		// Save the pdf
-		pdf.save("Certificaat Q-Highschool.pdf");
+		if (isModuleCertificate) {
+			pdf.save("Certificaat Q-Highschool.pdf");
+		} else {
+			pdf.save(`Portfolio Q-Highschool ${this.props.user.displayName}.pdf`);
+		}
 
 		// Make sure we do not generate the pdf multiple times.
 		let newState = this.state;
@@ -322,14 +339,14 @@ function mapStateToProps(state) {
 		role: state.role,
 		schoolYear: state.schoolYear,
 		currentPeriod: state.currentPeriod,
-		userId: state.userId
+		userId: state.userId,
+		user: state.users[state.userId],
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		getSubjects: () => dispatch(getSubjects()),
-		getGroups: () => dispatch(getGroups()),
 		getEnrollments: () => dispatch(getEnrolLments()),
 		getParticipatingGroups: () => dispatch(getParticipatingGroups())
 	};
