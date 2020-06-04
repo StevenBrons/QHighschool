@@ -161,7 +161,7 @@ class Certificate extends Component {
 		pdf.setFontStyle("bold");
 		pdf.text("Naam module", 20, height);
 		pdf.text("Studietijd", 130, height);
-		pdf.text("Datum", 170, height);
+		pdf.text("Schooljaar", 170, height);
 		pdf.setFontStyle("normal");
 	}
 
