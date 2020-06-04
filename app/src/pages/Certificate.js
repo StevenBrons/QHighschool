@@ -289,11 +289,13 @@ class Certificate extends Component {
 
 		// Add a single module if requested.
 		let isModuleCertificate = this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null;
+		let groupId = this.props.match.params.groupId;
+		let subjectId = this.props.match.params.subjectId;
 		if (isModuleCertificate) {
-			this.addModule(this.props.match.params.groupId, pdf);
+			this.addModule(groupId, pdf);
 		} else {
 			// Add the portfolio page(s).
-			this.addPortfolio(pdf,this.props.match.params.subjectId);
+			this.addPortfolio(pdf,subjectId);
 
 			// Make sure the page count is always even in case we're printing a portfolio.
 			this.fixPageCount(pdf);
@@ -306,7 +308,7 @@ class Certificate extends Component {
 		if (isModuleCertificate) {
 			pdf.save("Certificaat Q-Highschool.pdf");
 		} else {
-			pdf.save(`Portfolio Q-Highschool ${this.props.user.displayName}.pdf`);
+			pdf.save(`Parcoursoverzicht ${this.props.subjects[subjectId].name} ${this.props.user.displayName}.pdf`);
 		}
 
 		// Make sure we do not generate the pdf multiple times.
