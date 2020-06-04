@@ -69,7 +69,7 @@ function translateAssessment(evaluation) {
 	let { assesment, type } = evaluation;
 	switch (type) {
 		case "decimal":
-			return assesment + "";
+			return parseFloat((assesment + "").replace(",", ".")).toFixed(1) + "";
 		case "stepwise":
 			return STEPWISE_FORMATS.filter(({ label, value }) => value === assesment)[0].label;
 		case "check":
