@@ -72,7 +72,7 @@ class App extends Component {
                     <Route path="/taxi/" component={Taxi}/>
                     <Route path="/beheer/" component={ControlPanel}/>
                     <Route path="/certificaat/gebruiker/:userId/groep/:groupId" component={Certificate}/>
-                    <Route path="/certificaat/gebruiker/:userId" component={Certificate}/>
+                    <Route path="/certificaat/gebruiker/:userId/parcours/:subjectId" component={Certificate}/>
                     <Redirect push to={startPage}/>
                 </Switch>
             </div>

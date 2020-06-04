@@ -34,6 +34,10 @@ class Certificate extends Component {
 		});
 	}
 
+	componentDidMount() {
+		this.props.getSubjects();
+	}
+
 	/**
 		* Adds a page to an existing pdf, or generates a base
 		* pdf to work with. This new page has all the images pre-applied.
@@ -62,8 +66,6 @@ class Certificate extends Component {
 
 		// Image has a ratio of 0.7:1
 		pdf.addImage(this.state.images.background, "jpg", 0, 0, 210, 300);
-		// Image has a ratio of 3.66:1
-		pdf.addImage(this.state.images.course_header, "png", 20, 0, 150, 41);
 		// Image has a ratio of 2.54:1
 		pdf.addImage(this.state.images.signature, "png", 45, 190, 120, 47);
 		// Image has a ratio of 3.43:1
@@ -97,6 +99,9 @@ class Certificate extends Component {
 
 		// Fetch the data.
 		let data = this.props.groups[groupId];
+
+		// Image has a ratio of 3.66:1
+		pdf.addImage(this.state.images.course_header, "png", 20, 0, 150, 41);
 
 		// Add the text.
 		pdf.text("Hierbij verklaart Quadraam dat", 105, 60, { align: "center" });
@@ -133,17 +138,19 @@ class Certificate extends Component {
 	 * @param pdf The pdf to add the text to.
 	 * @param name Name of the student for the header.
 	 */
-	portfolioBasePage(pdf, name) {
+	portfolioBasePage(pdf, subjectId) {
 		// Set the name header.
 		pdf.text("Hierbij verklaart Quadraam dat", 80, 50);
 
 		pdf.setFontSize(25);
 		pdf.setFontStyle("bold");
-		pdf.text(name, 107, 60, { align: "center" });
+		pdf.text(this.props.user.displayName, 107, 60, { align: "center" });
 
 		pdf.setFontSize(12);
 		pdf.setFontStyle("normal");
-		pdf.text("de volgende Q-Highschool modules heeft afgerond", 60, 70);
+		pdf.text(`binnen het parcours ${this.props.subjects[subjectId].name} de volgende Q-highschoolmodules heeft afgerond:`, 105, 70, { align: "center", maxWidth: 100 });
+
+		pdf.addImage(this.state.images.portfolio_header, "png", 20, 0, 150, 41);
 
 		this.addPortfolioTableHeader(pdf,100)
 	}
@@ -165,11 +172,9 @@ class Certificate extends Component {
 		*
 		* @param pdf The pdf object.
 		*/
-	addPortfolio(pdf) {
+	addPortfolio(pdf, subjectId) {
 		if (!this.props.groups)
 			return;
-
-		let name = undefined;
 
 		// Construct the portfolio table.
 		let heightOffset = 0;
@@ -181,30 +186,39 @@ class Certificate extends Component {
 
 			let maxLines = page === 1 ? 5 : 9;
 
-			// Add another page if there are too many modules.
-			if (heightOffset % maxLines === 0) {
-				name = val.evaluation.displayName.toString();
-				if (page === 0) {
-					this.portfolioBasePage(pdf, name);
-				} else {
-					this.makeBase(pdf);
-					this.addPortfolioTableHeader(pdf,60)
-				}
-				heightOffset = 0;
-				page += 1;
+			if (val.subjectId + "" !== subjectId + "") {
+				return;
 			}
-
-			let topHeight = page === 1 ? 113 : 75;
 
 			if (!val.hasOwnProperty("evaluation"))
 				return;
-
 
 			// Get the module name.
 			if (val.hasOwnProperty("courseName"))
 				data.name = val.courseName.toString();
 			else
 				return;
+
+			// Get the grade data.
+			if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0)
+				data.grade = translateAssessment(val.evaluation)
+			else
+				return;
+
+			// Add another page if there are too many modules.
+			if (heightOffset % maxLines === 0) {
+				if (page === 0) {
+					this.portfolioBasePage(pdf, subjectId);
+				} else {
+					this.makeBase(pdf);
+					this.addPortfolioTableHeader(pdf,60);
+					pdf.addImage(this.state.images.portfolio_header, "png", 20, 0, 150, 41);
+				}
+				heightOffset = 0;
+				page += 1;
+			}
+
+			let topHeight = page === 1 ? 113 : 75;
 
 			// Get the study credits.
 			if (val.hasOwnProperty("studyTime"))
@@ -217,12 +231,6 @@ class Certificate extends Component {
 				data.date = val.evaluation.date.toString();
 			else
 				data.date = val.hasOwnProperty("schoolYear") ? val.schoolYear : "Niet bekend.";
-
-			// Get the grade data.
-			if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0)
-				data.grade = translateAssessment(val.evaluation)
-			else
-				return;
 
 			// Construct a pdf row.
 			let height = heightOffset * 13 + topHeight;
@@ -280,12 +288,12 @@ class Certificate extends Component {
 		let pdf = this.makeBase();
 
 		// Add a single module if requested.
-		let isModuleCertificate = this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null
+		let isModuleCertificate = this.props.match.params.hasOwnProperty("groupId") && this.props.match.params.groupId !== null;
 		if (isModuleCertificate) {
 			this.addModule(this.props.match.params.groupId, pdf);
 		} else {
 			// Add the portfolio page(s).
-			this.addPortfolio(pdf);
+			this.addPortfolio(pdf,this.props.match.params.subjectId);
 
 			// Make sure the page count is always even in case we're printing a portfolio.
 			this.fixPageCount(pdf);
@@ -341,6 +349,7 @@ function mapStateToProps(state) {
 		currentPeriod: state.currentPeriod,
 		userId: state.userId,
 		user: state.users[state.userId],
+		subjects: state.subjects,
 	};
 }
 
