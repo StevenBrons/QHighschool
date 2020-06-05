@@ -67,6 +67,9 @@ function getEvaluationColor(ev) {
 
 function translateAssessment(evaluation) {
 	let { assesment, type } = evaluation;
+	if ((assesment + "").toUpperCase() === "ND") {
+		return "ND";
+	}
 	switch (type) {
 		case "decimal":
 			return (parseFloat((assesment + "").replace(",", ".")).toFixed(1) + "").replace(".", ",");
