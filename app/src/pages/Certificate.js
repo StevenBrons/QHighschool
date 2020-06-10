@@ -200,7 +200,11 @@ class Certificate extends Component {
 				return;
 
 			// Get the grade data.
-			if (val.evaluation.hasOwnProperty("assesment") && val.evaluation.assesment.length > 0)
+			if (
+				val.evaluation.hasOwnProperty("assesment") && 
+				val.evaluation.assesment.length > 0 && 
+				(val.evaluation.assesment + "").toUpperCase() != "ND"
+				)
 				data.grade = translateAssessment(val.evaluation)
 			else
 				return;
