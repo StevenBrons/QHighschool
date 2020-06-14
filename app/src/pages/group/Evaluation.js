@@ -95,8 +95,7 @@ function isCertificateWorthy(evaluation) {
 		const assesment = evaluation.assesment + "";
 		switch (evaluation.type) {
 			case "decimal":
-				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
-				return x >= 6.0;
+				return parseFloat(assesment.replace(/,/g, ".")) >= 6.0;
 			case "stepwise":
 				return assesment === "G" || assesment === "V";
 			case "check":
