@@ -2,14 +2,16 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import theme from "../lib/MuiTheme";
 import MenuItem from "@material-ui/core/MenuItem";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import PropTypes from "prop-types";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 class Field extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: false
+      error: false,
+      search: "",
     };
   }
 
@@ -201,7 +203,7 @@ class Field extends React.Component {
     if (style.labelVisible != null && !(style.labelVisible === true)) {
       label = null;
     }
-
+    
     if (options) {
       menuItems = options.map(option => {
         if (typeof option !== "string") {
@@ -233,32 +235,43 @@ class Field extends React.Component {
       default:
     }
 
-    const field = (
-      <TextField
+    let field; 
+    if (options && options.length > 10) {
+      field = <Autocomplete
         id={this.props.id}
-        value={value}
-        margin="none"
-        disabled={disabled}
-        fullWidth={fullWidth}
-        multiline={multiline}
-        className={classNames.join(" ") + " Field"}
-        label={label}
-        select={options ? true : false}
+        options={this.options}
+        getOptionLabel={(option) => option.label}
         style={{ flex: 1, ...style, margin: marginPx }}
-        onChange={this.onChange}
-        error={this.state.error}
-        InputProps={{
-          disableUnderline,
-          style: { ...style, width: "100%" },
-          endAdornment: endAdornment ? endAdornment : null,
-          inputProps: {
-            style: { ...style, width: "100%" }
-          }
-        }}
-      >
-        {menuItems}
-      </TextField>
-    );
+        renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+      />
+    } else {
+      field = (
+        <TextField
+          id={this.props.id}
+          value={value}
+          margin="none"
+          disabled={disabled}
+          fullWidth={fullWidth}
+          multiline={multiline}
+          className={classNames.join(" ") + " Field"}
+          label={label}
+          select={options ? true : false}
+          style={{ flex: 1, ...style, margin: marginPx }}
+          onChange={this.onChange}
+          error={this.state.error}
+          InputProps={{
+            disableUnderline,
+            style: { ...style, width: "100%" },
+            endAdornment: endAdornment ? endAdornment : null,
+            inputProps: {
+              style: { ...style, width: "100%" }
+            }
+          }}
+        >
+          {menuItems}
+        </TextField>
+      );
+    }
     if (layout.td) {
       // style.width = undefined;
       return <td style={style}>{field}</td>;
@@ -297,6 +310,7 @@ Field.propTypes = {
   }),
   id: PropTypes.string,
   label: PropTypes.string,
+  search: PropTypes.bool,
   options: PropTypes.any,
   // PropTypes.arrayOf(
   // 	PropTypes.oneOfType([
