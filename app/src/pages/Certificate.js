@@ -120,7 +120,7 @@ class Certificate extends Component {
 		pdf.setFontSize(12);
 		pdf.setFontStyle("normal");
 
-		pdf.text("van " + data.studyTime.toString() + " studie-uren en onderdeel van het parcours informatica successvol heeft afgesloten met de beoordeling", 105, 125, { align: "center", maxWidth: 120 });
+		pdf.text(`van ${data.studyTime} studie-uren en onderdeel van het parcours ${data.subjectName} successvol heeft afgesloten met de beoordeling`, 105, 125, { align: "center", maxWidth: 120 });
 
 		pdf.setFontStyle("bold");
 		pdf.setFontSize(28);
@@ -203,7 +203,7 @@ class Certificate extends Component {
 			if (
 				val.evaluation.hasOwnProperty("assesment") && 
 				val.evaluation.assesment.length > 0 && 
-				(val.evaluation.assesment + "").toUpperCase() != "ND"
+				(val.evaluation.assesment + "").toUpperCase() !== "ND"
 				)
 				data.grade = translateAssessment(val.evaluation)
 			else
