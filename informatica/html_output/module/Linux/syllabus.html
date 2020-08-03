@@ -113,6 +113,7 @@
 <li><p>Maak een Word document.</p></li>
 </ol>
 <h1 id="p-werken-met-de-terminal">P: Werken met de terminal</h1>
+<p>Mocht je de VM niet werkend hebben gekregen in de vorige paragraaf, kijk eerst naar P: Introductie met Servers --&gt; SSH om te kijken hoe je met de server verbind. Zodra je verbonden bent zit je op een terminal en kan je hier verder.</p>
 <h2 id="shell">Shell</h2>
 <p>Wanneer je een terminal opent binnen Linux, wordt er een speciaal programma gestart zodat je kan ‘communiceren’ met het systeem. Dit programma wordt de shell genoemd, waarvan de meest bekende de <strong>B</strong>ourne <strong>A</strong>gain <strong>SH</strong>ell is (<strong>bash</strong>).</p>
 <p>Er zijn ook veel andere soorten shells die verschillende functionaliteit bieden. De oudste is simpelweg Shell (<strong>sh</strong>), maar deze wordt amper gebruikt op moderne systemen. De meest moderne shell is zsh. In deze module leer je bash, maar je kan zelf altijd een shell later kiezen.</p>
@@ -359,14 +360,14 @@ word is the coolest\</code></pre>
 <p>Ook hebben de meeste servers andere versies van pakketten dan de ‘normale’ desktop distros. Dit komt omdat servers stabielere en veiligere software draaien. De nieuwere versies worden eerst getest op veiligheid en stabiliteit voordat ze gedownload kunnen worden met een package manager. Bij RHEL is dit testen soms een periode van een vol jaar.</p>
 <h2 id="ssh">SSH</h2>
 <p>Omdat je als serverbeheerder vaak niet naar de serverkast wil lopen om daar op een scherm in de terminal dingen aan te passen is er SSH. SSH staat voor Secure SHell en is een programma waarmee je op afstand kan verbinden met een server. Je krijgt dan een terminal waarmee je commando’s kan uitvoeren op de server.</p>
-<p>Verbinden met SSH gaat vaak als volgt:</p>
+<p>Verbinden met SSH gaat vaak als volgt op een Linux machine en sommige Windows computers die SSH geinstalleerd hebben (vaak standaard).:</p>
 <pre><code>
 ssh &lt;username&gt;@&lt;host&gt;
 </code></pre>
-<p>De username is de username waar je op wil inloggen op de server. Host geeft het ip adres of domein aan waarmee je wilt verbinden. Als je een server hebt op het ip adres 10.20.10.1 met een gebruiker test, log je als volgt in:</p>
-<p><code>\ ssh [test@10.20.10.1\ ](mailto:test@10.20.10.1)</code></p>
-<p>Jullie krijgen zelf een SSH omgeving om op te werken van de docent. Het verbinden met SSH vanaf een Windows computer kan met het programma PuTTY. Je kan ook je VM gebruiken om met SSH te verbinden op de Linux manier zoals hierboven beschreven.</p>
-<h2 id="web-stacks">Web Stacks</h2>
+<p>De username is de username waar je op wil inloggen op de server. Host geeft het ip adres of domein aan waarmee je wilt verbinden. Als je een server hebt op het ip adres 10.20.10.1 met een gebruiker test en het poort 52, log je als volgt in:</p>
+<p><code>\ ssh –p 52 [test@10.20.10.1\ ](mailto:test@10.20.10.1)</code></p>
+<p>Jullie krijgen zelf een SSH omgeving om op te werken van de docent. Het verbinden met SSH vanaf een Windows computer kan met het programma PuTTY. Daar vul je de host in, username en poort. Wanneer je op verbinden klikt verbind PuTTY met de server en vraagt om je wachtwoord. Wachtwoorden worden hier niet getoond, maar je typt wel. Je kan ook je VM gebruiken om met SSH te verbinden op de Linux manier zoals hierboven beschreven.</p>
+<h1 id="web-stacks">Web Stacks</h1>
 <p>Webservers werken vooral met Web Stacks. Een web stack is een groep programma’s / frameworks waarop websites gebouwd en gedeployed worden. De oudste stack is LAMP en bestaat uit:</p>
 <ul>
 <li><p>Linux</p></li>

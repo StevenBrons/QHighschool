@@ -67,9 +67,12 @@ function getEvaluationColor(ev) {
 
 function translateAssessment(evaluation) {
 	let { assesment, type } = evaluation;
+	if ((assesment + "").toUpperCase() === "ND") {
+		return "ND";
+	}
 	switch (type) {
 		case "decimal":
-			return assesment + "";
+			return (parseFloat((assesment + "").replace(",", ".")).toFixed(1) + "").replace(".", ",");
 		case "stepwise":
 			return STEPWISE_FORMATS.filter(({ label, value }) => value === assesment)[0].label;
 		case "check":
@@ -92,8 +95,7 @@ function isCertificateWorthy(evaluation) {
 		const assesment = evaluation.assesment + "";
 		switch (evaluation.type) {
 			case "decimal":
-				const x = assesment.replace(/\./g, "_$comma$_").replace(/,/g, ".").replace(/_\$comma\$_/g, ",");
-				return x >= 6.0;
+				return parseFloat(assesment.replace(/,/g, ".")) >= 6.0;
 			case "stepwise":
 				return assesment === "G" || assesment === "V";
 			case "check":
