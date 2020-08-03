@@ -114,6 +114,7 @@ class Field extends React.Component {
     let menuItems;
     let endAdornment;
     let classNames = [];
+
     if (this.props.style) {
       switch (this.props.style.type) {
         case "headline":
@@ -239,10 +240,10 @@ class Field extends React.Component {
     if (options && options.length > 10) {
       field = <Autocomplete
         id={this.props.id}
-        options={this.options}
+        options={options}
         getOptionLabel={(option) => option.label}
         style={{ flex: 1, ...style, margin: marginPx }}
-        renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+        renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
       />
     } else {
       field = (
@@ -312,14 +313,6 @@ Field.propTypes = {
   label: PropTypes.string,
   search: PropTypes.bool,
   options: PropTypes.any,
-  // PropTypes.arrayOf(
-  // 	PropTypes.oneOfType([
-  // 		PropTypes.shape({
-  // 			value: PropTypes.string,
-  // 			label: PropTypes.string,
-  // 		}),
-  // 		PropTypes.string,
-  // 	])),
   editable: PropTypes.bool,
   default: PropTypes.string
 };
