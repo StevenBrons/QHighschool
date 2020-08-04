@@ -435,8 +435,9 @@ exports.getSubjectIdOfGroupId = async groupId => {
 };
 
 exports.getParticipatingGroupsIds = async userId => {
-  return Participant.findAll({
+  const groupIds = await Participant.findAll({
     where: { userId },
     attributes: ["courseGroupId"]
-  }).map(u => u.courseGroupId + "");
+  });
+  return groupIds.map(u => u.courseGroupId + "");
 };

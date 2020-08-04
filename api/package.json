@@ -7,33 +7,33 @@
     "debug": "node --nolazy --inspect ./bin/www"
   },
   "dependencies": {
-    "@microsoft/microsoft-graph-client": "^1.7.0",
+    "@microsoft/microsoft-graph-client": "^2.0.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.5",
     "cookie-session": "^2.0.0-rc.1",
     "debug": "~4.1.1",
-    "ejs": "^2.7.4",
+    "ejs": "^3.1.3",
     "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "http-errors": "^1.7.3",
-    "moment": "^2.24.0",
-    "morgan": "^1.9.1",
-    "mysql2": "^1.7.0",
-    "nodemailer": "^6.4.3",
-    "npm": "^6.14.1",
+    "express-session": "^1.17.1",
+    "http-errors": "^1.8.0",
+    "moment": "^2.27.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.11",
+    "npm": "^6.14.7",
     "passport": "^0.4.1",
     "passport-azure-ad": "^4.2.1",
-    "promise-mysql": "^3.3.2",
+    "promise-mysql": "^4.1.3",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5",
-    "sequelize": "^5.21.5",
-    "simple-oauth2": "^2.5.2",
-    "swagger-ui-express": "^4.1.3"
+    "request-promise": "^4.2.6",
+    "sequelize": "^6.3.4",
+    "simple-oauth2": "^4.1.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/register": "^7.8.6"
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5"
   }
 }
