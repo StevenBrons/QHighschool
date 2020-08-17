@@ -47,7 +47,7 @@ exports.isEnrollable = group => {
 exports.shouldBeSynced = group => {
   if (process.env.NODE_ENV) {
     //production
-    return (group.schoolYear + "" === "2019/2020" || group.schoolYear + "" === "2020/2021") && group.period > 2;
+    return group.schoolYear + "" === "2020/2021"
   } else {
     //develop
     return group.schoolYear + "" === "2019/2020" && group.period + "" === "1";
@@ -318,7 +318,7 @@ exports.schedule = [
 
 
 
-  
+
 
 
   //PERIOD 1 2019/2020
