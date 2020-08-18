@@ -23,7 +23,7 @@ class CourseSelect extends Component {
 		super(props);
 		this.state = {
 			period: props.currentPeriod,
-			leerjaar: "2019/2020",
+			leerjaar: props.schoolYear,
 			subject: null,
 		}
 	}
@@ -37,7 +37,7 @@ class CourseSelect extends Component {
 			blok = nextProps.enrollmentPeriod + "";
 		}
 		if (!leerjaar) {
-			leerjaar = "2019/2020";
+			leerjaar = nextProps.schoolYear;
 		}
 		return {
 			...prevState,
@@ -90,10 +90,13 @@ class CourseSelect extends Component {
 	}
 
 	getMenuItems() {
-		const subjectsComponents = map(this.props.subjects, (subject) => {
-			return this.getMenuItem(subject.name, subject.name);
-		});
-		if (this.props.role === "student") {
+		const role = this.props.role;
+		let subjects = map(this.props.subjects, subject => subject);
+		if (role !== "admin") {
+			subjects = subjects.filter(subject => subject.name[0] !== "@");
+		}
+		let subjectsComponents = subjects.map(subject => this.getMenuItem(subject.name, subject.name));
+		if (role === "student") {
 			subjectsComponents.unshift(this.getMenuItem("Ingeschreven", "enrolled"));
 		}
 		return subjectsComponents;
@@ -214,6 +217,7 @@ function mapStateToProps(state) {
 		enrollableGroups: state.enrollableGroups,
 		groups: state.groups,
 		subjects: state.subjects,
+		schoolYear: state.schoolYear,
 		enrolledGroupsIds: state.users[state.userId].enrollmentIds,
 	};
 }
