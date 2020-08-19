@@ -32,25 +32,20 @@ exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
 };
 
 exports.getCurrentSchoolYear = () => {
-  const currentYear = moment().year();
-  if (moment().week() <= 32) {
-    return currentYear - 1 + "/" + currentYear;
-  } else {
-    return currentYear + "/" + (currentYear + 1);
-  }
+  return "2020/2021";
 };
 
 exports.isEnrollable = group => {
-  return (group.period + "" === "4" && group.schoolYear === "2019/2020") || group.schoolYear === "2020/2021";
+  return group.schoolYear == exports.getCurrentSchoolYear();
 }
 
 exports.shouldBeSynced = group => {
   if (process.env.NODE_ENV) {
     //production
-    return group.schoolYear + "" === "2020/2021"
+    return group.schoolYear + "" === "2020/2021";
   } else {
     //develop
-    return group.schoolYear + "" === "2019/2020" && group.period + "" === "1";
+    return group.schoolYear == exports.getCurrentSchoolYear();
   }
 };
 
