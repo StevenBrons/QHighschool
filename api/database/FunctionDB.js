@@ -144,11 +144,12 @@ exports.addLessonsIfNecessary = async ({ id, schoolYear, period, day }) => {
 
 const extractFromObject = (keys, modelName, object) => {
   return keys.reduce((tot, key) => {
+    const fullKey = `${modelName}.${key}`;
     let res = tot;
-    const s = key.split(".");
-    const normalisedKey = s.slice(s.length - 2).join(".");
+    const s = fullKey.split(".");
+    const keyEnd = s.slice(s.length - 2).join(".");
     let value = object[key];
-    switch (normalisedKey) {
+    switch (keyEnd) {
       case "group.id":
         value = formatId("G", value);
         break;
@@ -156,7 +157,7 @@ const extractFromObject = (keys, modelName, object) => {
         value = formatId("M", value);
         break;
     }
-    res[translation.translate(modelName + "." + key)] = value;
+    res[translation.translate(keyEnd)] = value;
     return res;
   }, {})
 }
