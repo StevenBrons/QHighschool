@@ -115,8 +115,6 @@ class Alias extends Component {
 		}
 	}
 
-	;
-
 	render() {
 		return <div style={{ margin: "10px 0" }}>
 			<SelectUser onChange={(aliasId) => this.setState({ aliasId })} />

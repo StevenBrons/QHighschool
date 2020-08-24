@@ -4,13 +4,14 @@ const { getSubjectIdOfGroupId, getParticipatingGroupsIds } = require("./GroupDB"
 
 class SerialisedUser {
 
-	constructor(id, email, role, displayName, groupIds, subjectIds, school = "NO_SCHOOL", token) {
+	constructor(id, email, role, availableRoles, displayName, groupIds, subjectIds, school = "NO_SCHOOL", token) {
 		this.id = id;
 		this.email = email;
 		this.role = role;
 		this.displayName = displayName;
 		this.groupIds = groupIds;
 		this.subjectIds = subjectIds;
+		this.availableRoles = availableRoles.split(",");
 		if (this.role === "grade_admin") {
 			this.school = school;
 		}
@@ -72,14 +73,14 @@ exports.getUserByToken = async (token) => {
 		},
 		include: {
 			model: User,
-			attributes: ["id", "email", "role", "displayName", "school"],
+			attributes: ["id", "email", "role", "availableRoles", "displayName", "school"],
 		}
 	}).then(async (loginData) => {
 		if (loginData.length === 1) {
 			const user = loginData[0].user;
 			const groupIds = await getParticipatingGroupsIds(user.id);
 			const subjectIds = await Promise.all(groupIds.map(getSubjectIdOfGroupId));
-			return new SerialisedUser(user.id, user.email, user.role, user.displayName, groupIds, subjectIds, user.school, token);
+			return new SerialisedUser(user.id, user.email, user.role, user.availableRoles, user.displayName, groupIds, subjectIds, user.school, token);
 		} else {
 			return null;
 		}

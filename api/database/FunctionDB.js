@@ -363,3 +363,15 @@ exports.setAlias = async (token, oldUserId, newUserId) => {
     });
   });
 };
+
+exports.switchRole = async (userId, newRole) => {
+  return User.findOne({
+    where: {
+      id:userId,
+    }
+  }).then(user => {
+    user.update({
+      role: newRole,
+    })
+  });
+};

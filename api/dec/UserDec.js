@@ -14,6 +14,11 @@ module.exports = connection.define('user', {
 		allowNull: false,
 		defaultValue: "student",
 	},
+	availableRoles: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		defaultValue: "student",
+	},
 	school: {
 		type: Sequelize.STRING,
 	},

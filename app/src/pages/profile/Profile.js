@@ -8,6 +8,7 @@ import Progress from "../../components/Progress"
 import PersonalData from "./PersonalData"
 import EducationData from "./EducationData"
 import ExamSubjects from "./ExamSubjects"
+import OtherData from "./OtherData"
 import Remarks from "./Other"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
@@ -100,6 +101,7 @@ class Profile extends Component {
 						}
 						<div>
 							<PersonalData {...p} onChange={this.onChange} />
+							<OtherData {...p} onChange={this.onChange} />
 							<EducationData  {...p} onChange={this.onChange} />
 							{this.props.isStudent &&
 								<ExamSubjects {...p} onChange={this.onChange} />

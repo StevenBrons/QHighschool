@@ -49,6 +49,23 @@ router.post(
 );
 
 router.post(
+  "/switchRole",
+  ensureSecure,
+  promiseMiddleware((req, res) => {
+    const newRole = req.body.newRole;
+    const avRoles = req.user.availableRoles;
+    const i = avRoles.indexOf(newRole);
+    if (i !== -1) {
+      functionDb.switchRole(req.user.id,avRoles[i])
+    } else {
+      throw new Error("Illegal role!!");
+    }
+  }),
+  doSuccess
+);
+
+
+router.post(
   "/disableSecureMode",
   ensureAdmin,
   ensureSecure,

@@ -86,6 +86,15 @@ export function setAlias(userId) {
 	}
 }
 
+export function switchRole(newRole) {
+	return (dispatch, getState) => {
+		fetchData("function/switchRole", "post", { newRole }, dispatch, getState)
+			.then(() => {
+				document.location.reload();
+			})
+	}
+}
+
 export function getGroups() {
 	return (dispatch, getState) => {
 		fetchData("group/list", "get", null, dispatch, getState)
