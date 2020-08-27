@@ -18,7 +18,6 @@ class CourseInfo extends Component {
 
 	render() {
 		const course = this.props.course;
-		const id = course.id;
 		return (
 			<div className='CourseInfo' ref={this.ref}>
 				<div className='text-and-image' >
