@@ -1,3 +1,4 @@
+require("isomorphic-fetch");
 const moment = require("moment");
 const { azureADCreds } = require('../private/keys');
 const graph = require('@microsoft/microsoft-graph-client');

@@ -391,7 +391,7 @@ exports.addGroup = async ({ courseId, mainTeacherId }) => {
     day: "maandag",
     courseId,
     period: 1,
-    schoolYear: "2019/2020"
+    schoolYear: schedule.getCurrentSchoolYear(),
   };
 
   const group = await Group.create(g);

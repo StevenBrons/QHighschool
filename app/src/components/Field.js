@@ -93,9 +93,13 @@ class Field extends React.Component {
     return true;
   }
 
-  onChange = event => {
+  onChange = (event) => {
     this.props.onChange(event.target.value);
   };
+  
+  getOptionLabel = (v) => {
+    return this.props.options.filter(({value}) => value === v)[0].label;
+  }
 
   render() {
     let value = this.props.value == null ? "" : this.props.value;
@@ -237,13 +241,14 @@ class Field extends React.Component {
     }
 
     let field; 
-    if (options && options.length > 10) {
+    if (options && options.length > 200000) {
       field = <Autocomplete
         id={this.props.id}
-        options={options}
-        getOptionLabel={(option) => option.label}
+        options={options.map(({label,value}) => value)}
+        getOptionLabel={this.getOptionLabel}
         style={{ flex: 1, ...style, margin: marginPx }}
-        renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
+        onChange={(event,value) => this.onChange(value)}
+        renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
       />
     } else {
       field = (
