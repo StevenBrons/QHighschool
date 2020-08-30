@@ -1,10 +1,8 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
 import theme from "../lib/MuiTheme";
-import MenuItem from "@material-ui/core/MenuItem";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import PropTypes from "prop-types";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {Autocomplete} from "@material-ui/lab";
+import { FormControl, Select, Chip,TextField,InputAdornment,MenuItem } from '@material-ui/core/';
 
 class Field extends React.Component {
   constructor(props) {
@@ -101,24 +99,8 @@ class Field extends React.Component {
     return this.props.options.filter(({value}) => value === v)[0].label;
   }
 
-  render() {
-    let value = this.props.value == null ? "" : this.props.value;
+  getStyle = () => {
     let style = this.props.style || {};
-    let layout = this.props.layout || {};
-
-    let label = this.props.label;
-    let disabled = true;
-    let multiline = false;
-    let fullWidth = false;
-
-    let options = this.props.options;
-    let disableUnderline = style.underline || true;
-    let margin = style.margin || "none";
-    let marginPx = 0;
-    let menuItems;
-    let endAdornment;
-    let classNames = [];
-
     if (this.props.style) {
       switch (this.props.style.type) {
         case "headline":
@@ -162,6 +144,41 @@ class Field extends React.Component {
           break;
       }
     }
+    return style;
+  }
+
+  getSelect = () => {
+
+  }
+
+  getAutocomplete = (options,style) => {
+    return <Autocomplete
+      id={this.props.id}
+      options={options.map(({label,value}) => value)}
+      getOptionLabel={this.getOptionLabel}
+      style={{ flex: 1, ...style }}
+      onChange={(event,value) => this.onChange(value)}
+      renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
+    />
+  }
+
+  render() {
+    let value = this.props.value == null ? "" : this.props.value;
+    let layout = this.props.layout || {};
+    let style = this.getStyle()
+
+    let label = this.props.label;
+    let disabled = true;
+    let multiline = false;
+    let fullWidth = false;
+
+    let options = this.props.options;
+    let disableUnderline = style.underline || true;
+    let margin = style.margin || "none";
+    let marginPx = 0;
+    let endAdornment;
+    let classNames = [];
+    let multiple = this.props.multiple;
 
     if (layout.alignment === "right") {
       style.float = "right";
@@ -190,7 +207,6 @@ class Field extends React.Component {
       disableUnderline = style.underline || false;
       margin = style.margin || "normal";
     } else {
-
       if (
         options != null &&
         options[0] != null &&
@@ -210,21 +226,16 @@ class Field extends React.Component {
     }
     
     if (options) {
-      menuItems = options.map(option => {
-        if (typeof option !== "string") {
-          return (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          );
-        }
-        return (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        );
-      });
+      if (options[0].value == null) {
+        options = options.map((value) => {
+          return {
+            label: value,
+            value: value,
+          }
+        })
+      }
     }
+
     if (style.unit) {
       endAdornment = (
         <InputAdornment position="end">{style.unit}</InputAdornment>
@@ -241,15 +252,25 @@ class Field extends React.Component {
     }
 
     let field; 
-    if (options && options.length > 200000) {
-      field = <Autocomplete
-        id={this.props.id}
-        options={options.map(({label,value}) => value)}
-        getOptionLabel={this.getOptionLabel}
-        style={{ flex: 1, ...style, margin: marginPx }}
-        onChange={(event,value) => this.onChange(value)}
-        renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
-      />
+    if (options) {
+      if (options.length > 200000 && !multiple) {
+        field = this.getAutocomplete(options);
+      } else {
+        field = <FormControl component={"td"}>
+        <Select
+          multiple={this.props.multiple}
+          value={value}
+          onChange={this.onChange}
+          disabled={disabled}
+        >
+          {options.map(({label,value}) => value).map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      }
     } else {
       field = (
         <TextField
@@ -274,12 +295,10 @@ class Field extends React.Component {
             }
           }}
         >
-          {menuItems}
         </TextField>
       );
     }
-    if (layout.td) {
-      // style.width = undefined;
+    if (layout.td && options == null) {
       return <td style={style}>{field}</td>;
     } else {
       return field;
@@ -295,7 +314,7 @@ Field.propTypes = {
     notEmpty: PropTypes.bool,
     maxLength: PropTypes.number
   }),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.any)]),
   style: PropTypes.shape({
     labelVisible: PropTypes.bool,
     type: PropTypes.oneOf(["title", "caption", "headline"]),

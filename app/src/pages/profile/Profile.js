@@ -9,7 +9,6 @@ import PersonalData from "./PersonalData"
 import EducationData from "./EducationData"
 import ExamSubjects from "./ExamSubjects"
 import OtherData from "./OtherData"
-import Remarks from "./Other"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
@@ -106,7 +105,6 @@ class Profile extends Component {
 							{this.props.isStudent &&
 								<ExamSubjects {...p} onChange={this.onChange} />
 							}
-							<Remarks {...p} onChange={this.onChange} />
 							<div style={{ height: "300px" }} />
 						</div>
 					</Saveable>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography, Button } from "@material-ui/core/";
+import { Typography, Button, FormControlLabel, Checkbox } from "@material-ui/core/";
 import Field from "../../components/Field"
 import { switchRole } from "../../store/actions"
 import { connect } from 'react-redux';
@@ -16,14 +16,12 @@ class OtherData extends Component {
 	render() {
 		const p = this.props;
 		const u = p.user;
-		if (u.availableRoles.split(",").length <= 1) {
-			return null;
-		}
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
 					Overig
 				</Typography>
+				{(u.availableRoles.split(",").length > 1) &&
 				<table>
 					<tbody>
 						<tr>
@@ -51,6 +49,25 @@ class OtherData extends Component {
 						</tr>
 					</tbody>
 				</table>
+				}
+				{p.isAdmin &&
+					<div>
+						<Typography variant="h6" color="secondary">
+							Verzoek profiel update
+						</Typography>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={p.user.needsProfileUpdate}
+									disabled={!p.editableUser}
+									color="primary"
+									onChange={({ target: { checked } }) => p.onChange("needsProfileUpdate", checked)}
+								/>
+							}
+							label="Deze gebruiker moet zijn gegevens bijwerken"
+						/>
+					</div>
+				}
 			</div>
 		);
 	}
