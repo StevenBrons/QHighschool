@@ -56,7 +56,7 @@ router.post(
     const avRoles = req.user.availableRoles;
     const i = avRoles.indexOf(newRole);
     if (i !== -1) {
-      functionDb.switchRole(req.user.id,avRoles[i])
+      return functionDb.switchRole(req.user.id,avRoles[i])
     } else {
       throw new Error("Illegal role!!");
     }

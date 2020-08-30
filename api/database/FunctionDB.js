@@ -365,13 +365,12 @@ exports.setAlias = async (token, oldUserId, newUserId) => {
 };
 
 exports.switchRole = async (userId, newRole) => {
-  return User.findOne({
+  const user = await User.findOne({
     where: {
       id:userId,
     }
-  }).then(user => {
-    user.update({
-      role: newRole,
-    })
   });
+  return user.update({
+    role: newRole,
+  })
 };

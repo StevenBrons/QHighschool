@@ -26,7 +26,7 @@ class Saveable extends Component {
 							<Button color="primary" variant="outlined" onClick={onSave}>
 								Opslaan
 							</Button>
-							<Button color="default" onClick={onSave}>
+							<Button color="default" onClick={() => window.location.reload(false)}>
 								Annuleren
 							</Button>
 						</div>

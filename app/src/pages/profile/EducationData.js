@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, Divider } from '@material-ui/core/';
+import { Typography, Divider, FormControl, Select, Chip, MenuItem } from '@material-ui/core/';
 import Field from '../../components/Field';
 import { cloneDeep } from "lodash";
 import possibleValues from "./educationConstraints"
@@ -100,23 +100,31 @@ class EducationData extends Component {
 						</tr>
 						<tr>
 							<Field
-								value="Hoofdrol"
+								value="Rollen"
 								layout={{ td: true }}
 								style={{ margin: "none" }}
 							/>
-							<Field
-								value={p.user.role}
-								style={{ margin: "none" }}
-								editable={p.editableAdmin}
-								layout={{ td: true, area: true }}
-								onChange={(value) => p.onChange("role", value)}
-								options={[
-									{ label: "Administrator", value: "admin" },
-									{ label: "Leerling", value: "student" },
-									{ label: "Expert", value: "teacher" },
-									{ label: "Contactpersoon", value: "grade_admin" },
-								]}
-							/>
+							<FormControl component={"td"}>
+								<Select
+									multiple
+									value={p.user.availableRoles.split(",")}
+									onChange={(e) => p.onChange("availableRoles", e.target.value.join(","))}
+									disabled={!p.editableAdmin}
+									renderValue={(selected) => (
+										<div>
+											{selected.map((value) => (
+												<Chip key={value} label={value} />
+											))}
+										</div>
+									)}
+								>
+									{["admin","student","teacher","grade_admin"].map((name) => (
+										<MenuItem key={name} value={name}>
+											{name}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
 						</tr>
 						<tr>
 							<Field

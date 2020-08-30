@@ -4,7 +4,7 @@ import { Prompt } from 'react-router-dom';
 class PageLeaveWarning extends Component {
 
 	render() {
-		const message = "Weet je zeker dat u de pagina wilt verlaten? Er zijn nog niet-opgeslagen gegevens!";
+		const message = "Weet je zeker dat je de pagina wilt verlaten? Er zijn nog niet-opgeslagen gegevens!";
 		if (this.props.giveWarning) {
 			window.onbeforeunload = function (e) {
 				e.returnValue = message;

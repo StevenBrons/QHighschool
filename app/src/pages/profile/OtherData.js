@@ -35,7 +35,7 @@ class OtherData extends Component {
 							<Field
 								value={this.state.newRole || u.role}
 								style={{ margin: "none" }}
-								editable={p.editableAdmin}
+								editable={p.editableUser}
 								options={u.availableRoles.split(",")}
 								onChange={newRole => this.setState({newRole})}
 								layout={{ td: true, area: true }}

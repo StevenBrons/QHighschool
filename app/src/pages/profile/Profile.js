@@ -84,7 +84,7 @@ class Profile extends Component {
 								});
 							}
 						}}
-						editIfSecure={this.props.isAdmin}
+						editIfSecure={!this.props.isStudent}
 						isSecure={this.props.isSecure}
 					>
 						<Typography variant="h4" color="primary">
@@ -118,8 +118,8 @@ class Profile extends Component {
 
 function mapStateToProps(state, ownProps) {
 	const isOwn = true;
-	const isAdmin = state.role === "admin"
-	const isStudent = state.role === "student"
+	const isStudent = state.role === "student";
+	const isAdmin = state.role === "admin";
 	const isSecure = state.secureLogin != null;
 	return {
 		isAdmin,
@@ -127,7 +127,7 @@ function mapStateToProps(state, ownProps) {
 		isStudent,
 		isOwn,
 		user: state.users[state.userId],
-		editableUser: (isOwn && !isAdmin) || (isSecure && isAdmin),
+		editableUser: (isOwn && isStudent)  || (isOwn && isSecure) || (isSecure && isAdmin),
 		editableAdmin: isSecure && isAdmin,
 	}
 }
