@@ -22,12 +22,26 @@ class PersonalData extends Component {
 							/>
 							<Field
 								value={u.displayName}
-								style={{ margin: "none" }}
+								style={{ margin: "none", width: "50%" }}
 								editable={p.editableAdmin}
 								onChange={(value) => p.onChange("displayName", value)}
-								layout={{ td: true, area: true }}
+								layout={{ td: true }}
 							/>
 						</tr>
+						{p.isAdmin && <tr>
+							<Field
+								value="Authenticatie email"
+								layout={{ td: true }}
+								style={{ margin: "none" }}
+							/>
+							<Field
+								value={u.email}
+								style={{ margin: "none", width: "50%" }}
+								editable={p.editableAdmin}
+								onChange={(value) => p.onChange("email", value)}
+								layout={{ td: true }}
+							/>
+						</tr>}
 						<tr>
 							<Field
 								value="Voorkeursemail"
@@ -37,10 +51,10 @@ class PersonalData extends Component {
 							<Field
 								validate={{ type: "email" }}
 								value={u.preferedEmail}
-								style={{ margin: "none" }}
+								style={{ margin: "none", width: "50%" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("preferedEmail", value)}
-								layout={{ td: true, area: true }}
+								layout={{ td: true}}
 							/>
 						</tr>
 						<tr>
@@ -52,8 +66,8 @@ class PersonalData extends Component {
 							<Field
 								validate={{ type: "phoneNumber" }}
 								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
-								layout={{ td: true, area: true }}
-								style={{ margin: "none" }}
+								layout={{ td: true }}
+								style={{ margin: "none", width: "50%" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
 							/>

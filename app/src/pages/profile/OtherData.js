@@ -3,6 +3,7 @@ import { Typography, Button, FormControlLabel, Checkbox } from "@material-ui/cor
 import Field from "../../components/Field"
 import { switchRole } from "../../store/actions"
 import { connect } from 'react-redux';
+import EnsureSecureLogin from "../../components/EnsureSecureLogin";
 
 class OtherData extends Component {
 
@@ -21,34 +22,36 @@ class OtherData extends Component {
 				<Typography variant="h6" color="secondary">
 					Overig
 				</Typography>
-				{(u.availableRoles.split(",").length > 1) &&
-				<table>
-					<tbody>
-						<tr>
-							<Field
-								value="Huidige rol"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
-							/>
-							<Field
-								value={this.state.newRole || u.role}
-								style={{ margin: "none" }}
-								editable={p.editableUser}
-								options={u.availableRoles.split(",")}
-								onChange={newRole => this.setState({newRole})}
-								layout={{ td: true, area: true }}
-							/>
-							<Button
-								variant="contained"
-								color="primary"
-								disabled={this.state.newRole == null}
-								component="td"
-								onClick={() => this.props.dispatch(switchRole(this.state.newRole))}>
-								Verander rol
-							</Button>
-						</tr>
-					</tbody>
-				</table>
+				{(u.availableRoles.split(",").length > 1 && p.isOwn) &&
+				<EnsureSecureLogin>
+					<table>
+						<tbody>
+							<tr>
+								<Field
+									value="Huidige rol"
+									layout={{ td: true }}
+									style={{ margin: "none" }}
+									/>
+								<Field
+									value={this.state.newRole || u.role}
+									style={{ margin: "none" }}
+									editable={p.editableUser}
+									options={u.availableRoles.split(",")}
+									onChange={newRole => this.setState({newRole})}
+									layout={{ td: true, area: true }}
+									/>
+								<Button
+									variant="contained"
+									color="primary"
+									disabled={this.state.newRole == null}
+									component="td"
+									onClick={() => this.props.dispatch(switchRole(this.state.newRole))}>
+									Verander rol
+								</Button>
+							</tr>
+						</tbody>
+					</table>
+				</EnsureSecureLogin>
 				}
 				{p.isAdmin &&
 					<div>

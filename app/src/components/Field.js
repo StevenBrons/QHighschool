@@ -2,7 +2,7 @@ import React from "react";
 import theme from "../lib/MuiTheme";
 import PropTypes from "prop-types";
 import {Autocomplete} from "@material-ui/lab";
-import { FormControl, Select, Chip,TextField,InputAdornment,MenuItem } from '@material-ui/core/';
+import { FormControl, Select, TextField, InputAdornment, MenuItem, InputLabel } from '@material-ui/core/';
 
 class Field extends React.Component {
   constructor(props) {
@@ -95,8 +95,23 @@ class Field extends React.Component {
     this.props.onChange(event.target.value);
   };
   
+  getNormalizedOptions = () => {
+    let options = this.props.options;
+    if (options) {
+      if (options[0].value == null) {
+        options = options.map((value) => {
+          return {
+            label: value,
+            value: value,
+          }
+        })
+      }
+    }
+    return options;
+  }
+
   getOptionLabel = (v) => {
-    return this.props.options.filter(({value}) => value === v)[0].label;
+    return this.getNormalizedOptions().filter(({value}) => value === v)[0].label;
   }
 
   getStyle = () => {
@@ -147,38 +162,26 @@ class Field extends React.Component {
     return style;
   }
 
-  getSelect = () => {
-
-  }
-
-  getAutocomplete = (options,style) => {
-    return <Autocomplete
-      id={this.props.id}
-      options={options.map(({label,value}) => value)}
-      getOptionLabel={this.getOptionLabel}
-      style={{ flex: 1, ...style }}
-      onChange={(event,value) => this.onChange(value)}
-      renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
-    />
-  }
-
   render() {
     let value = this.props.value == null ? "" : this.props.value;
     let layout = this.props.layout || {};
+
     let style = this.getStyle()
+    let options = this.getNormalizedOptions();
 
     let label = this.props.label;
     let disabled = true;
     let multiline = false;
     let fullWidth = false;
 
-    let options = this.props.options;
     let disableUnderline = style.underline || true;
     let margin = style.margin || "none";
     let marginPx = 0;
     let endAdornment;
     let classNames = [];
     let multiple = this.props.multiple;
+
+    let component = layout.td ? "td" : "div";
 
     if (layout.alignment === "right") {
       style.float = "right";
@@ -206,36 +209,11 @@ class Field extends React.Component {
       disabled = false;
       disableUnderline = style.underline || false;
       margin = style.margin || "normal";
-    } else {
-      if (
-        options != null &&
-        options[0] != null &&
-        typeof options[0] !== "string"
-      ) {
-        const a = options.filter(opt => {
-          return opt.value === value;
-        })[0];
-        if (a != null) {
-          value = a.label;
-        }
-      }
-      options = null;
     }
     if (style.labelVisible != null && !(style.labelVisible === true)) {
       label = null;
     }
     
-    if (options) {
-      if (options[0].value == null) {
-        options = options.map((value) => {
-          return {
-            label: value,
-            value: value,
-          }
-        })
-      }
-    }
-
     if (style.unit) {
       endAdornment = (
         <InputAdornment position="end">{style.unit}</InputAdornment>
@@ -254,14 +232,24 @@ class Field extends React.Component {
     let field; 
     if (options) {
       if (options.length > 200000 && !multiple) {
-        field = this.getAutocomplete(options);
+        field = <Autocomplete
+          id={this.props.id}
+          options={options.map(({label,value}) => value)}
+          getOptionLabel={this.getOptionLabel}
+          style={{ flex: 1, ...style }}
+          onChange={(event,value) => this.onChange(value)}
+          renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
+        />
       } else {
-        field = <FormControl component={"td"}>
+        field = <FormControl component={component} style={{ flex: 1, ...style }}>
+        {label && <InputLabel>{label}</InputLabel>}
         <Select
           multiple={this.props.multiple}
           value={value}
           onChange={this.onChange}
           disabled={disabled}
+          renderValue={multiple ? ((vs) => vs.map(this.getOptionLabel).join(", ")) : this.getOptionLabel}
+          style={{ flex: 1, ...style }}
         >
           {options.map(({label,value}) => value).map((value) => (
             <MenuItem key={value} value={value}>
@@ -282,27 +270,23 @@ class Field extends React.Component {
           multiline={multiline}
           className={classNames.join(" ") + " Field"}
           label={label}
-          select={options ? true : false}
           style={{ flex: 1, ...style, margin: marginPx }}
           onChange={this.onChange}
           error={this.state.error}
+          component={component}
           InputProps={{
             disableUnderline,
             style: { ...style, width: "100%" },
             endAdornment: endAdornment ? endAdornment : null,
             inputProps: {
-              style: { ...style, width: "100%" }
+              style: { ...style, width: "100%" },
             }
           }}
         >
         </TextField>
       );
     }
-    if (layout.td && options == null) {
-      return <td style={style}>{field}</td>;
-    } else {
-      return field;
-    }
+    return field;
   }
 }
 

@@ -31,7 +31,8 @@ class CourseSelect extends Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let { blok, vak, leerjaar } = queryString.parse(nextProps.location.search);
 		if (!vak && nextProps.subjects != null) {
-			vak = nextProps.subjects[Object.keys(nextProps.subjects)[0]].name;
+			const normalSubjects = filter(nextProps.subjects,subject => subject.name[0] !== "@");
+			vak = normalSubjects[0].name;
 		}
 		if (!blok) {
 			blok = nextProps.enrollmentPeriod + "";

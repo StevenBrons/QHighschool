@@ -75,6 +75,7 @@ class EducationData extends Component {
 			}}
 			style={{
 				margin: "none",
+				width: "50%"
 			}}
 			options={options}
 		/>
@@ -106,7 +107,7 @@ class EducationData extends Component {
 							/>
 							<Field
 								value={p.user.availableRoles.split(",")}
-								style={{ margin: "none" }}
+								style={{ margin: "none", width: "50%" }}
 								multiple
 								editable={p.editableAdmin}
 								layout={{ td: true, area: true }}

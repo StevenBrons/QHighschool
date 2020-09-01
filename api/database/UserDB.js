@@ -68,17 +68,19 @@ exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year,
 
 exports.setFullUser = async (
 	{ id, preferedEmail, profile, phoneNumber, level, year, remarks,
-		needsProfileUpdate, role, school, displayName, examSubjects }) => {
+		needsProfileUpdate, school, displayName, examSubjects, email, availableRoles}) => {
 	return User.update({
-		preferedEmail: preferedEmail,
-		profile: profile,
-		phoneNumber: phoneNumber,
-		year: year,
-		level: level,
+		email,
+		preferedEmail,
+		profile,
+		phoneNumber,
+		availableRoles,
+		year,
+		level,
 		examSubjects,
 		remarks,
 		needsProfileUpdate,
-		role,
+		role: availableRoles.split(",")[0],
 		school,
 		displayName,
 	}, {
