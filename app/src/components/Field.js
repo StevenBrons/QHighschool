@@ -9,7 +9,6 @@ class Field extends React.Component {
     super(props);
     this.state = {
       error: false,
-      search: "",
     };
   }
 
@@ -91,14 +90,10 @@ class Field extends React.Component {
     return true;
   }
 
-  onChange = (event) => {
-    this.props.onChange(event.target.value);
-  };
-  
   getNormalizedOptions = () => {
     let options = this.props.options;
     if (options) {
-      if (options[0].value == null) {
+      if (options.length > 0 && options[0].value == null) {
         options = options.map((value) => {
           return {
             label: value,
@@ -111,7 +106,12 @@ class Field extends React.Component {
   }
 
   getOptionLabel = (v) => {
-    return this.getNormalizedOptions().filter(({value}) => value === v)[0].label;
+    const opt = this.getNormalizedOptions().filter(({value}) => value === v)
+    if (opt.length > 0) {
+      return opt[0].label;
+    } else {
+      return "";
+    }
   }
 
   getStyle = () => {
@@ -175,13 +175,21 @@ class Field extends React.Component {
     let fullWidth = false;
 
     let disableUnderline = style.underline || true;
-    let margin = style.margin || "none";
-    let marginPx = 0;
     let endAdornment;
     let classNames = [];
     let multiple = this.props.multiple;
 
     let component = layout.td ? "td" : "div";
+
+    const outerStyle = {
+      ...style,
+      display: layout.td ? "table-cell" : "inherit",
+    }
+
+    const innerStyle = {
+      width: layout.td ? "100%" : "inherit",
+      ...style,
+    }
 
     if (layout.alignment === "right") {
       style.float = "right";
@@ -208,7 +216,6 @@ class Field extends React.Component {
     if (this.props.editable) {
       disabled = false;
       disableUnderline = style.underline || false;
-      margin = style.margin || "normal";
     }
     if (style.labelVisible != null && !(style.labelVisible === true)) {
       label = null;
@@ -219,48 +226,42 @@ class Field extends React.Component {
         <InputAdornment position="end">{style.unit}</InputAdornment>
       );
     }
-    switch (margin) {
-      case "dense":
-        marginPx = 5;
-        break;
-      case "normal":
-        marginPx = 12;
-        break;
-      default:
-    }
 
-    let field; 
     if (options) {
-      if (options.length > 200000 && !multiple) {
-        field = <Autocomplete
-          id={this.props.id}
+      if (options.length > 10 && !multiple) {
+        const field = <Autocomplete
+          value={this.props.value}
           options={options.map(({label,value}) => value)}
           getOptionLabel={this.getOptionLabel}
-          style={{ flex: 1, ...style }}
-          onChange={(event,value) => this.onChange(value)}
+          onChange={(event,value) => this.props.onChange(value)}
           renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
         />
+        if (component === "td") {
+          return <td style={{...outerStyle}}>{field}</td>;
+        } else {
+          return field;
+        }
       } else {
-        field = <FormControl component={component} style={{ flex: 1, ...style }}>
+        return <FormControl component={component} style={outerStyle}>
         {label && <InputLabel>{label}</InputLabel>}
         <Select
           multiple={this.props.multiple}
           value={value}
-          onChange={this.onChange}
+          fullWidth
+          onChange={(event) => this.props.onChange(event.target.value)}
           disabled={disabled}
           renderValue={multiple ? ((vs) => vs.map(this.getOptionLabel).join(", ")) : this.getOptionLabel}
-          style={{ flex: 1, ...style }}
         >
-          {options.map(({label,value}) => value).map((value) => (
+          {options.map(({label,value}) => (
             <MenuItem key={value} value={value}>
-              {value}
+              {label}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
       }
     } else {
-      field = (
+      return (
         <TextField
           id={this.props.id}
           value={value}
@@ -270,23 +271,22 @@ class Field extends React.Component {
           multiline={multiline}
           className={classNames.join(" ") + " Field"}
           label={label}
-          style={{ flex: 1, ...style, margin: marginPx }}
-          onChange={this.onChange}
+          style={outerStyle}
+          onChange={(event) => this.props.onChange(event.target.value)}
           error={this.state.error}
           component={component}
           InputProps={{
             disableUnderline,
-            style: { ...style, width: "100%" },
+            style: innerStyle,
             endAdornment: endAdornment ? endAdornment : null,
             inputProps: {
-              style: { ...style, width: "100%" },
+              style: innerStyle,
             }
           }}
         >
         </TextField>
       );
     }
-    return field;
   }
 }
 
@@ -319,7 +319,6 @@ Field.propTypes = {
   }),
   id: PropTypes.string,
   label: PropTypes.string,
-  search: PropTypes.bool,
   options: PropTypes.any,
   editable: PropTypes.bool,
   default: PropTypes.string

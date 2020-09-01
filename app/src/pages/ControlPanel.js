@@ -97,7 +97,7 @@ class ControlPanel extends Component {
 								{pages.map(this.mapPageToListItem)}
 							</List>
 						</Paper>
-						<div style={{ padding: "12px" }}>
+						<div style={{ padding: "12px", width: "50%" }}>
 							{this.getContent()}
 						</div>
 					</div>
@@ -117,7 +117,7 @@ class Alias extends Component {
 
 	render() {
 		return <div style={{ margin: "10px 0" }}>
-			<SelectUser onChange={(aliasId) => this.setState({ aliasId })} />
+			<SelectUser value={this.state.aliasId} onChange={(aliasId) => this.setState({ aliasId })} />
 			<br />
 			<Button
 				variant="contained"

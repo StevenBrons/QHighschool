@@ -22,7 +22,7 @@ class PersonalData extends Component {
 							/>
 							<Field
 								value={u.displayName}
-								style={{ margin: "none", width: "50%" }}
+								style={{ margin: "none" }}
 								editable={p.editableAdmin}
 								onChange={(value) => p.onChange("displayName", value)}
 								layout={{ td: true }}
@@ -36,7 +36,7 @@ class PersonalData extends Component {
 							/>
 							<Field
 								value={u.email}
-								style={{ margin: "none", width: "50%" }}
+								style={{ margin: "none" }}
 								editable={p.editableAdmin}
 								onChange={(value) => p.onChange("email", value)}
 								layout={{ td: true }}
@@ -51,7 +51,7 @@ class PersonalData extends Component {
 							<Field
 								validate={{ type: "email" }}
 								value={u.preferedEmail}
-								style={{ margin: "none", width: "50%" }}
+								style={{ margin: "none" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("preferedEmail", value)}
 								layout={{ td: true}}
@@ -67,7 +67,7 @@ class PersonalData extends Component {
 								validate={{ type: "phoneNumber" }}
 								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
 								layout={{ td: true }}
-								style={{ margin: "none", width: "50%" }}
+								style={{ margin: "none" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
 							/>

@@ -68,14 +68,13 @@ class EducationData extends Component {
 			onChange={(value) => this.props.onChange(field, value)}
 			layout={{
 				td: true,
-				area: true,
 			}}
 			validate={{
 				notEmpty: true,
 			}}
 			style={{
 				margin: "none",
-				width: "50%"
+				width: "100%",
 			}}
 			options={options}
 		/>
@@ -103,11 +102,11 @@ class EducationData extends Component {
 							<Field
 								value="Rollen"
 								layout={{ td: true }}
-								style={{ margin: "none" }}
+								style={{ margin: "none", width:"100%" }}
 							/>
 							<Field
 								value={p.user.availableRoles.split(",")}
-								style={{ margin: "none", width: "50%" }}
+								style={{ margin: "none" }}
 								multiple
 								editable={p.editableAdmin}
 								layout={{ td: true, area: true }}

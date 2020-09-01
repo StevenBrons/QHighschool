@@ -8,8 +8,9 @@
 }
 
 .Profile table {
-	width: 100%;
+	width: 60%;
 	margin-left: 20px;
+	table-layout: fixed;
 }
 
 .Profile .NeedsProfileUpdate {
@@ -23,7 +24,8 @@
 	width: 80%;
 }
 
-td:first-child {
+.Profile td:first-child {
+	display: table-cell;
 	width: 300px;
 	max-width: 40%;
 }

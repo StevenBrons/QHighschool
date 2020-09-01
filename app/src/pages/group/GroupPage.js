@@ -100,7 +100,7 @@ class GroupPage extends Component {
 				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return <table style={{ width: "100%" }}>
+				return <table style={{ width: "100%", tableLayout:"fixed" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
 							return <Lesson
