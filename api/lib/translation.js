@@ -32,4 +32,3 @@ this.translate = (key) => {
 	}
 	return value
 }
-
