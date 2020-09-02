@@ -38,7 +38,7 @@ async function removeParticipant(graphId, upn, participatingRole) {
 
 
 function sanitizeText(text) {
-	const MAX_LENGTH = 440;
+	const MAX_LENGTH = 400;
 	return text.replace(/[^a-zA-Z0-9 \-#\.\?\!\(\)\[\]]/g, "").substring(0, MAX_LENGTH);;
 }
 
@@ -56,7 +56,7 @@ function getClassDataFromGroup(group) {
 	const year = getSmallYear(group.schoolYear);
 	console.log(sanitizeText(group.courseDescription));
 	return {
-		description: sanitizeText(group.courseDescription),
+		description: "", // sanitizeText(group.courseDescription)
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
 		mailNickname,
 		classCode: displayGroupId,
