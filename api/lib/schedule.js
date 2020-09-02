@@ -808,7 +808,7 @@ exports.schedule = [
     schoolYear: "2020/2021"
   },
   {
-    weekNumber: 17,
+    weekNumber: 19,
     period: 4,
     numberInBlock: 4,
     year: 2021,
