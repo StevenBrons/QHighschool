@@ -54,7 +54,7 @@ let possibleValues = {
 		},
 		"Lorentz Lyceum": {
 			level: ["HAVO", "VWO", "OPUS", "n.v.t.", "-"],
-			schoolLocation: ["Parnassusstraat 20, Arnhem", "Groningensingel 1245, Arnhem"]
+			schoolLocation: ["Parnassusstraat 20, Arnhem", "Metamorfosenallee 100, Arnhem"]
 		},
 		"Maarten van Rossem": {
 			level: ["VMBO", "-"],
@@ -232,7 +232,7 @@ let possibleValues = {
 		"Auditorium 3, Elst": {},
 		"Utrechtseweg 174, Arnhem": {},
 		"Olympus 11, Arnhem": {},
-		"Groningensingel 1245, Arnhem": {},
+		"Metamorfosenallee 100, Arnhem": {},
 		"Bernhardlaan 49, Arnhem": {},
 		"Saturnus 5, Duiven": {},
 	},
