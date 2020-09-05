@@ -1,7 +1,7 @@
 let possibleValues = {
 	role: {
 		"student": {
-			level: ["Praktijkschool", "ISK", "n.v.t.", "Jan Ligthart", "OPUS", "MAVO", "VMBO", "HAVO", "VWO"],
+			level: ["Praktijkschool", "ISK", "n.v.t.", "Jan Ligthart", "OPUS", "MAVO", "VMBO", "HAVO", "VWO","AGORA"],
 		},
 		"teacher": {
 			level: ["-"],
@@ -44,7 +44,7 @@ let possibleValues = {
 			schoolLocation: ["Auditorium 3, Elst"],
 		},
 		"Liemers College": {
-			level: ["VMBO", "MAVO", "HAVO", "VWO", "-"],
+			level: ["VMBO", "MAVO", "HAVO", "VWO", "AGORA", "-"],
 			schoolLocation: [
 				"Dijksestraat 12, Didam",
 				"Stationspoort 36, Zevenaar",
@@ -152,6 +152,8 @@ let possibleValues = {
 		"Jan Ligthart": {
 			year: ["1"],
 			profile: ["n.v.t."]
+		},
+		"AGORA": {
 		},
 		"OPUS": {
 			year: ["1", "2", "3", "4", "5", "6"],
