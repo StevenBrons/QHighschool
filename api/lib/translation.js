@@ -11,6 +11,7 @@ const table = {
 	"user.preferedEmail": "Voorkeursemail",
 	"user.profile": "Profiel",
 	"user.phoneNumber": "Telefoonnummer",
+	"user.schoolLocation": "Schoollocatie",
 	"user.id": "QH-id",
 	"course_group.id": "Groepcode",
 	"course_group.period": "Blok",
