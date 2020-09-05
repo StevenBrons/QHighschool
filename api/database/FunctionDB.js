@@ -277,6 +277,7 @@ exports.getEnrollment = async school => {
         attributes: [
           "email",
           "preferedEmail",
+          "schoolLocation",
           "displayName",
           "school",
           "year",
@@ -297,6 +298,7 @@ exports.getEnrollment = async school => {
           "user.school",
           "user.year",
           "user.level",
+          "user.schoolLocation",
           "user.preferedEmail",
           "course_group.period",
           "course_group.course.id",
@@ -319,6 +321,7 @@ exports.getUserData = async school => {
     "preferedEmail",
     "profile",
     "phoneNumber",
+    "schoolLocation",
     "id"
   ];
   const where = school
