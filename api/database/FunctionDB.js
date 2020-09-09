@@ -99,13 +99,13 @@ exports.createUser = async accessToken => {
 
 exports.updateAllGroups = async () => {
   const groups = await Group.findAll();
-  const errorHandler = (e) => console.error(`Error for: ${group.id}\n${e}`)
+  const errorHandler = (group) => ((e) => console.error(`Error for: ${group.id}\n${e}`))
   return Promise.all(
     groups.map(async group => {
       if (schedule.shouldBeSynced(group)) {
-        await exports.addLessonsIfNecessary(group).catch(errorHandler);
-        await exports.updateLessonDates(group).catch(errorHandler);
-        await officeEndpoints.updateClass(group.id).catch(errorHandler);
+        await exports.addLessonsIfNecessary(group).catch(errorHandler(group));
+        await exports.updateLessonDates(group).catch(errorHandler(group));
+        await officeEndpoints.updateClass(group.id).catch(errorHandler(group));
       }
     })
   );

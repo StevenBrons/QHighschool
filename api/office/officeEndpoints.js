@@ -54,9 +54,8 @@ function getClassDataFromGroup(group) {
 	mailNickname = mailNickname.replace(/[^a-zA-Z0-9 \-#]/g, "");
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
 	const year = getSmallYear(group.schoolYear);
-	console.log(sanitizeText(group.courseDescription));
 	return {
-		description: "", // sanitizeText(group.courseDescription)
+		description: sanitizeText(group.courseDescription),
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
 		mailNickname,
 		classCode: displayGroupId,
