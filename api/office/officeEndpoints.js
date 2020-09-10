@@ -40,8 +40,8 @@ exports.syncAllParticipants = async (group) => {
 		console.log("Remove members to team of group " + group.id);
 		console.log(toBeRemoved.map(({email}) => email))
 	}
-	// await toBeAdded.map(({participatingRole,email}) => addParticipant(group.graphId,email,participatingRole));
-	// await toBeRemoved.map(({id,role}) => removeParticipant(group.graphId,id,role));
+	await toBeAdded.map(({participatingRole,email}) => addParticipant(group.graphId,email,participatingRole));
+	await toBeRemoved.map(({id,role}) => removeParticipant(group.graphId,id,role));
 }
 
 exports.getMemberList = async (group) => {
