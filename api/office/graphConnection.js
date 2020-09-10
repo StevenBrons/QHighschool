@@ -34,8 +34,6 @@ this.getAccessToken = async () => {
 	return oauthToken.access_token;
 }
 
-// this.getAccessToken().then(console.log);
-
 exports.getAuthenticatedClient = (accessToken) => {
 	const client = graph.Client.init({
 		authProvider: (done) => {

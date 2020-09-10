@@ -106,6 +106,7 @@ exports.updateAllGroups = async () => {
         await exports.addLessonsIfNecessary(group).catch(errorHandler(group));
         await exports.updateLessonDates(group).catch(errorHandler(group));
         await officeEndpoints.updateClass(group.id).catch(errorHandler(group));
+        await officeEndpoints.syncAllParticipants(group).catch(errorHandler(group));
       }
     })
   );
