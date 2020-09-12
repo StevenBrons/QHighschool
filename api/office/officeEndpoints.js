@@ -87,8 +87,8 @@ async function removeParticipant(graphId, graphUserId, participatingRole) {
 
 
 function sanitizeText(text) {
-	if (text == null) {
-		return "";
+	if (text == null || text == "") {
+		return "-";
 	}
 	const MAX_LENGTH = 400;
 	return text.replace(/[^a-zA-Z0-9 \-#\.\?\!\(\)\[\]]/g, "").substring(0, MAX_LENGTH);;
