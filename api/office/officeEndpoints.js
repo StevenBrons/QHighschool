@@ -18,6 +18,10 @@ exports.updateClass = async (groupId) => {
 
 // connection.getAccessToken().then(console.log).then(async () => {
 // 	const testGroup = await groupDb.getGroup("80");
+// 	console.log(await this.getMemberList(testGroup));
+// 	setTimeout(async () => {
+// 		console.log(await this.getMemberList(testGroup));
+// 	},1000 * 5)
 // });
 
 exports.syncAllParticipants = async (group) => {

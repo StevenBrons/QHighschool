@@ -6,13 +6,13 @@ const rp = require('request-promise');
 
 let oauthToken = {
 	token_type: "Bearer",
-	expires_in: -1,
+	expires_in: -10,
 	createdAt: moment(),
 	access_token: "",
 }
 
 this.getAccessToken = async () => {
-	if (oauthToken.createdAt.add(oauthToken.expires_in - 100, "s").isBefore(moment())) {
+	if (oauthToken.createdAt.clone().add(oauthToken.expires_in, "s").isBefore(moment())) {
 		var options = {
 			method: 'POST',
 			uri: 'https://login.microsoftonline.com/Quadraam.onmicrosoft.com/oauth2/v2.0/token',
@@ -25,9 +25,10 @@ this.getAccessToken = async () => {
 			json: true
 		};
 		const res = await rp(options);
+		console.log(res)
 		oauthToken = {
 			...res,
-			expires_in: 1000,
+			expires_in: 3500,
 			createdAt: moment(),
 		};
 	}
