@@ -22,6 +22,9 @@ exports.updateClass = async (groupId) => {
 // 	setTimeout(async () => {
 // 		console.log(await this.getMemberList(testGroup));
 // 	},1000 * 5)
+// 	setTimeout(async () => {
+// 		console.log(await this.getMemberList(testGroup));
+// 	},1000 * 10)
 // });
 
 exports.syncAllParticipants = async (group) => {

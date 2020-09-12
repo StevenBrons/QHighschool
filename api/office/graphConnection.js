@@ -25,7 +25,6 @@ this.getAccessToken = async () => {
 			json: true
 		};
 		const res = await rp(options);
-		console.log(res)
 		oauthToken = {
 			...res,
 			expires_in: 3500,
