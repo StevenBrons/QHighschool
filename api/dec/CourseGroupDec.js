@@ -16,7 +16,7 @@ const CourseGroup = connection.define('course_group', {
 	schoolYear: {
 		type: Sequelize.STRING,
 		validate: {
-			isIn: [["2017/2018", "2018/2019", "2019/2020", "2020/2021"]],
+			isIn: [["2017/2018", "2018/2019", "2019/2020", "2020/2021", "2021/2022", "2022/2023"]],
 		},
 	},
 	enrollableFor: {

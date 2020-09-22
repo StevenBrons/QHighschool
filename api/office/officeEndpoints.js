@@ -18,14 +18,21 @@ exports.updateClass = async (groupId) => {
 
 // connection.getAccessToken().then(console.log).then(async () => {
 // 	const testGroup = await groupDb.getGroup("80");
-// 	console.log(await this.getMemberList(testGroup));
-// 	setTimeout(async () => {
-// 		console.log(await this.getMemberList(testGroup));
-// 	},1000 * 5)
-// 	setTimeout(async () => {
-// 		console.log(await this.getMemberList(testGroup));
-// 	},1000 * 10)
+// 	const G = await this.getAllClasses();
+// 	G.map((g) => {
+// 		console.log(g.id + " " + g.displayName);
+// 	});
 // });
+
+exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/education/classes") => {
+	const obj = await connection.api(link.substring(33)).get();
+	let groups = obj.value;
+	if (obj["@odata.nextLink"] != null) {
+		groups = groups.concat(await this.getAllClasses(obj["@odata.nextLink"]));
+	}
+	return groups;
+}
+
 
 exports.syncAllParticipants = async (group) => {
 	const members = await this.getMemberList(group);
