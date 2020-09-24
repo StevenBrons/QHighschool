@@ -19,7 +19,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import queryString from "query-string";
 import NotificationBadge from '../../components/NotificationBadge';
-import SelectUser from '../../components/SelectUser';
+import UserField from '../../fields/UserField';
 import Field from '../../components/Field';
 import { Typography, Tooltip } from '@material-ui/core';
 
@@ -134,7 +134,7 @@ class GroupPage extends Component {
 								</Typography>
 								<br />
 								<div style={{ display: "inline-flex" }}>
-									<SelectUser onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
+									<UserField onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
 									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
 									<Tooltip title={cantAddReason} placement={"bottom-start"}>
 										<div>

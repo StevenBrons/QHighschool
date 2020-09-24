@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { relogSecure } from "../store/actions"
-import Field from "./Field"
+import { Typography } from '@material-ui/core';
 
 class EnsureSecureLogin extends Component {
 
@@ -11,7 +11,9 @@ class EnsureSecureLogin extends Component {
 
 		if (!(this.props.active === false) && this.props.secureLogin == null) {
 			const content = <div>
-				<Field value="Log opnieuw in om toegang te krijgen" layout={{ area: true }} style={{ width: "auto" }} />
+				<Typography>
+					Log opnieuw in om toegang te krijgen
+				</Typography>
 				<Button color="primary" variant="contained" onClick={relogSecure}>
 					Inloggen
 				</Button>

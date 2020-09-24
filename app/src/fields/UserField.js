@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import map from "lodash/map";
 
-import Field from "./Field";
+import SelectField from "./SelectField";
 import { getAllUsers } from "../store/actions";
 
 class SelectUser extends Component {
@@ -18,13 +18,12 @@ class SelectUser extends Component {
         value: id,
       }
     });
-    return <Field 
+    return <SelectField 
       label="Gebruiker"
       options={options}
       value={this.props.value}
       editable
       onChange={this.props.onChange}
-      style={{ margin: "normal" }}
     />
   }
 }

@@ -12,15 +12,6 @@ class Field extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      ...prevState,
-      error: nextProps.editable
-        ? !Field.validate(nextProps.value, nextProps.validate)
-        : false
-    };
-  }
-
   static validate(value, rules = {}, options = [value]) {
     switch (rules.type) {
       case "phoneNumber":
@@ -86,8 +77,17 @@ class Field extends React.Component {
         return false;
       }
     }
-
+  
     return true;
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      ...prevState,
+      error: nextProps.editable
+        ? !Field.validate(nextProps.value, nextProps.validate)
+        : false
+    };
   }
 
   getNormalizedOptions = () => {

@@ -6,10 +6,12 @@ import map from 'lodash/map';
 
 import { connect } from 'react-redux';
 import queryString from "query-string";
-import SelectUser from '../components/SelectUser';
-import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText, } from '@material-ui/core';
-import Field from '../components/Field';
+import UserField from '../fields/UserField';
+import Field from "../components/Field"
+import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
 import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../store/actions';
+import InputField from '../fields/InputField';
+import SelectField from '../fields/SelectField';
 
 const pages = ["alias", "vak", "module", "groep"];
 
@@ -117,7 +119,7 @@ class Alias extends Component {
 
 	render() {
 		return <div style={{ margin: "10px 0" }}>
-			<SelectUser value={this.state.aliasId} onChange={(aliasId) => this.setState({ aliasId })} />
+			<UserField value={this.state.aliasId} onChange={(aliasId) => this.setState({ aliasId })} />
 			<br />
 			<Button
 				variant="contained"
@@ -141,27 +143,28 @@ class Subject extends Component {
 	render() {
 		const subject = this.state;
 		return <div>
-			<Field
+			<InputField
 				label="Naam"
 				value={subject.name}
 				onChange={(name) => this.setState({ name })}
-				editable={true}
+				editable
 				validate={{ maxLength: 50 }}
 			/>
 			<br />
-			<Field
+			<InputField
 				label="Omschrijving"
 				value={subject.description}
 				onChange={(description) => this.setState({ description })}
-				editable={true}
+				editable
 				validate={{ maxLength: 440 }}
-				layout={{ area: true }}
+				multiline
 			/>
 			<Button
 				variant="contained"
 				color="primary"
 				style={{ height: "37px", margin: "12px" }}
-				onClick={() => { this.props.addSubject(subject.name, subject.description).then(relogSecure) }}>
+				onClick={() => { this.props.addSubject(subject.name, subject.description).then(relogSecure) }}
+			>
 				Voeg toe
 			</Button>
 		</div>
@@ -179,22 +182,22 @@ class Course extends Component {
 	render() {
 		const course = this.state;
 		return <div>
-			<Field
+			<InputField
 				label="Naam"
 				value={course.name}
 				onChange={(name) => this.setState({ name })}
-				editable={true}
+				editable
 				validate={{ maxLength: 50 }}
-				style={{ flex: "1" }}
 			/>
 			<br />
-			<Field
+			<SelectField
 				value={course.subjectId}
-				subjectId label="Vak"
+				label="Vak"
 				onChange={(subjectId) => this.setState({ subjectId })}
-				editable={true}
-				options={map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })}
-				style={{ minWidth: "200px" }}
+				editable
+				options={
+					map(this.props.subjects, (subject) => { return { value: subject.id, label: subject.name } })
+				}
 			/>
 			<br />
 			<Button
@@ -230,7 +233,7 @@ class Group extends Component {
 				style={{ minWidth: "200px" }}
 			/>
 			<br />
-			<SelectUser
+			<UserField
 				value={group.teacherId}
 				onChange={(teacherId) => this.setState({ teacherId })}
 			/>
