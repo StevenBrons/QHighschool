@@ -7,9 +7,10 @@ class InputField extends Component {
 	render() {
 		const P = this.props;
 		let CP = {} // Component props
-		CP.error = P.editable ? !validate(P.value, P.validate): false;
+		CP.error = P.editable ? !validate(P.value, P.validate) : false;
 		CP.disabled = !P.editable;
 		CP.label = P.label;
+		CP.multiline = P.multiline;
 
 		return <FieldContainer {...P}>
 			<TextField

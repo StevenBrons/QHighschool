@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FieldContainer from './FieldContainer';
+import SelectField from './SelectField';
 
-class TextField extends Component {
+class SchoolYearField extends Component {
 
 	render() {
-		<FieldContainer>
-			
-		</FieldContainer>
+		return <SelectField 
+		
+		/>
 	}
 
 }
 
 
-export default TextField;
+export default SchoolYearField;

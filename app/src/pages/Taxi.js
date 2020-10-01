@@ -3,7 +3,7 @@ import Page from './Page';
 import Progress from '../components/Progress';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import Field from '../components/Field';
+import SelectField from '../fields/SelectField';
 import Paper from '@material-ui/core/Paper';
 import $ from "jquery";
 import queryString from "query-string";
@@ -73,13 +73,12 @@ class Taxi extends Component {
 					style={{ position: "relative" }}
 				>
 					<Toolbar style={{ display: "flex" }}>
-						<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
-							Taxischema
+					<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
+						Taxischema
           </Typography>
-						<Field
+						<SelectField
 							label="week"
 							value={this.state.week}
-							editable
 							options={[0, 1, 2, 3, 4, 5, 6, 7, 8].map(n => { return { label: n === 0 ? "Basisrooster" : "Week " + n, value: n + "" } })}
 							onChange={this.handleFilterChange}
 						/>

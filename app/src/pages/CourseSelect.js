@@ -5,7 +5,6 @@ import map from 'lodash/map';
 
 import Page from './Page';
 import Progress from '../components/Progress';
-import Field from '../components/Field';
 import Group from './group/Group';
 import { getSubjects, getGroups, getEnrolLments } from '../store/actions';
 
@@ -16,6 +15,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import queryString from "query-string";
+import SelectField from '../fields/SelectField';
+import SchoolYearField from '../fields/SchoolYearField';
 
 class CourseSelect extends Component {
 
@@ -31,7 +32,7 @@ class CourseSelect extends Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		let { blok, vak, leerjaar } = queryString.parse(nextProps.location.search);
 		if (!vak && nextProps.subjects != null) {
-			const normalSubjects = filter(nextProps.subjects,subject => subject.name[0] !== "@");
+			const normalSubjects = filter(nextProps.subjects, subject => subject.name[0] !== "@");
 			vak = normalSubjects[0].name;
 		}
 		if (!blok) {
@@ -123,7 +124,7 @@ class CourseSelect extends Component {
 					data = (
 						<div style={{ margin: "15px" }} >
 							Je hebt je nog niet ingeschreven.
-					</div>
+						</div>
 					)
 				}
 			}
@@ -163,11 +164,9 @@ class CourseSelect extends Component {
 						<Typography variant="subtitle1" color="textSecondary" style={{ flex: "2 1 auto" }}>
 							Schrijf je in voor modules
           	</Typography>
-						<Field
+						<SelectField
 							label="blok"
 							value={this.state.period}
-							editable
-							style={{ flex: "none" }}
 							options={[
 								{ label: "Alle", value: "all" },
 								{ label: "Blok 1", value: "1" },
@@ -176,11 +175,9 @@ class CourseSelect extends Component {
 								{ label: "Blok 4", value: "4" }]}
 							onChange={this.handlePeriodChange}
 						/>
-						<Field
-							label="schooljaar"
-							style={{ flex: "none" }}
+						<SelectField
 							value={this.state.schoolYear}
-							editable
+							label="schooljaar"
 							options={[
 								{ label: "Alle", value: "all" },
 								{ label: "2016/2017", value: "2016/2017" },

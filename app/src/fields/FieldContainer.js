@@ -72,7 +72,15 @@ function validate(value, rules = {}, options = [value]) {
 class FieldContainer extends Component {
 
   render() {
-    return this.props.children;
+    if (this.props.td) {
+      return <td style={this.props.style}>
+        {this.props.children}
+      </td>
+    } else {
+      return <div style={this.props.style}>
+        {this.props.children}
+      </div>
+    }
   }
 }
 

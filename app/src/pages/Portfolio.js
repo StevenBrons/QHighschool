@@ -11,6 +11,7 @@ import { getEnrolLments, getGroups, getParticipatingGroups, getSubjects } from "
 
 import { Divider, Paper, Toolbar, Typography } from "@material-ui/core";
 import queryString from "query-string";
+import SelectField from "../fields/SelectField";
 
 class Portfolio extends Component {
 	constructor(props) {
@@ -67,11 +68,12 @@ class Portfolio extends Component {
 
 		return (
 			<div key={name} style={{ padding: "10px" }}>
-				<Field
-					value={name}
-					style={{ type: "headline", color: "secondary" }}
-					layout={{ area: true }}
-				/>
+				<Typography
+					color="secondary"
+					variant="h6"
+				>
+					{name}
+				</Typography>
 				{groups}
 				<Divider style={{ marginTop: "20px" }} />
 			</div>
@@ -149,7 +151,7 @@ class Portfolio extends Component {
 						<Typography
 							variant="subtitle1"
 							color="textSecondary"
-							style={{ flex: "2 1 auto" }}
+							style={{ flex: "4 1 auto" }}
 						>
 							{this.props.role === "student" ? "Portfolio" : "Mijn groepen"}
 						</Typography>
@@ -163,11 +165,10 @@ class Portfolio extends Component {
 																Certificaat
 														</Button>
 												)} */}
-						<Field
+						<SelectField
 							label="blok"
+							style={{ flex: 1 }}
 							value={this.state.period}
-							editable
-							style={{ flex: "none" }}
 							options={[
 								{ label: "Alle", value: "all" },
 								{ label: "Blok 1", value: "1" },
@@ -177,11 +178,10 @@ class Portfolio extends Component {
 							]}
 							onChange={this.handlePeriodChange}
 						/>
-						<Field
-							label="leerjaar"
-							style={{ flex: "none" }}
+						<SelectField
+							label="schooljaar"
+							style={{ flex: 1 }}
 							value={this.state.schoolYear}
-							editable
 							options={[
 								{ label: "Alle", value: "all" },
 								{ label: "2016/2017", value: "2016/2017" },

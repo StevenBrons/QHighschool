@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Field from '../../components/Field';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
 import { Tooltip, TableSortLabel, Typography, Paper } from '@material-ui/core';
+import InputField from '../../fields/InputField';
+import SelectField from '../../fields/SelectField';
 
 const CHECK_FORMATS = [{
 	label: "Gehaald",
@@ -109,26 +111,14 @@ function isCertificateWorthy(evaluation) {
 }
 
 
-class Evaluation extends Component {
+class EvaluationField extends Component {
 
 	render() {
 		const e = this.props.evaluation;
-		let style = {
-			underline: false,
-			flex: 2,
-		};
-		let layout = { td: true };
-		if (this.props.student) {
-			style.type = "headline";
-			style.color = "primaryContrast"
-			layout.td = false;
-			layout.alignment = "right";
-		}
 		if (e.type === "decimal") {
-			return <Field
-				style={style}
+			return <InputField
 				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
-				layout={layout}
+				td
 				label="Beoordeling"
 				name={e.userId}
 				value={e.assesment ? e.assesment : ""}
@@ -136,11 +126,10 @@ class Evaluation extends Component {
 				onChange={this.props.onChange}
 			/>
 		} else {
-			return <Field
-				style={style}
+			return <SelectField
 				name={e.userId}
 				label="Beoordeling"
-				layout={layout}
+				td
 				value={e.assesment ? e.assesment : ""}
 				options={EVALUATION_FORMATS.filter(f => f.value === e.type)[0].options}
 				editable={this.props.editable}
@@ -150,6 +139,22 @@ class Evaluation extends Component {
 	}
 
 }
+
+class EvaluationDisplay extends Component {
+
+	render() {
+		const e = this.props.evaluation;
+		const v = translateAssessment(e);
+		return <Typography
+			variant="h6"
+			style={{ color: "white" }}
+		>
+			{v}
+		</Typography>
+	}
+
+}
+
 
 
 class EvaluationTab extends Component {
@@ -230,20 +235,28 @@ class EvaluationTab extends Component {
 			.map(ev => {
 				return (
 					<Paper style={style} key={ev.userId} component="tr">
-						<Field style={{ type: "title", color: "primary", flex: 2 }} value={ev.displayName} layout={{ td: true }} />
-						<Evaluation
+						<td style={{ flex: "1" }}>
+							<Typography
+								variant="h6"
+								color="primary"
+							>
+								{ev.displayName}
+							</Typography>
+						</td>
+						<EvaluationField
 							editable={this.props.editable}
 							evaluation={ev}
 							onChange={(assesment) => this.handleSingleChange({ ...ev, assesment })}
 						/>
-						<Field
-							style={{ underline: false, flex: 5 }}
-							layout={{ area: true, td: true }}
-							label={"Uitleg"}
+						<InputField
+							td
+							label="Uitleg"
 							name={ev.userId}
 							value={ev.explanation}
 							editable={this.props.editable}
 							onChange={(explanation) => this.handleSingleChange({ ...ev, explanation })}
+							multiline
+							style={{ flex: "2" }}
 						/>
 					</Paper >
 				);
@@ -280,11 +293,9 @@ class EvaluationTab extends Component {
 								</div>
 							</td>
 							<td style={{ flex: "5" }} />
-							<td>
-								<Field
+							<td style={{ flex: "2" }} >
+								<SelectField
 									label="Beoordelingsformaat"
-									style={{ type: "caption", underline: false, margin: "normal", labelVisible: true }}
-									layout={{ alignment: "right" }}
 									value={evaluations[0].type}
 									options={EVALUATION_FORMATS}
 									editable={this.props.editable}
@@ -301,4 +312,11 @@ class EvaluationTab extends Component {
 
 }
 
-export { Evaluation, EvaluationTab, getEvaluationColor, isCertificateWorthy, translateAssessment };
+export {
+	EvaluationDisplay,
+	EvaluationField,
+	EvaluationTab,
+	getEvaluationColor,
+	isCertificateWorthy,
+	translateAssessment
+};

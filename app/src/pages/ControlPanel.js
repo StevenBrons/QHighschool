@@ -223,11 +223,11 @@ class Group extends Component {
 	render() {
 		const group = this.state;
 		return <div>
-			<Field
+			<SelectField
 				value={group.courseId}
 				label="Module"
 				onChange={(courseId) => this.setState({ courseId })}
-				editable={true}
+				editable
 				search
 				options={this.props.courses.map((course) => { return { label: course.name, value: course.id } })}
 				style={{ minWidth: "200px" }}

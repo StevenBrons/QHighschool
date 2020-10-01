@@ -11,13 +11,13 @@ class SelectField extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-    return {
+		return {
 			...prevState,
 			options: SelectField.getNormalizedOptions(nextProps.options)
-    };
-  }
+		};
+	}
 
-  static getNormalizedOptions = (options) => {
+	static getNormalizedOptions = (options) => {
 		if (options.length > 0 && options[0].value == null) {
 			options = options.map((value) => {
 				return {
@@ -26,43 +26,45 @@ class SelectField extends Component {
 				}
 			})
 		}
-    return options;
-  }
+		return options;
+	}
 
-  getOptionLabel = (v) => {
-    const opt = this.state.options.filter(({value}) => value === v)
-    if (opt.length > 0) {
-      return opt[0].label;
-    } else {
-      return "";
-    }
-  }
+	getOptionLabel = (v) => {
+		const opt = this.state.options.filter(({ value }) => value === v)
+		if (opt.length > 0) {
+			return opt[0].label;
+		} else {
+			return "";
+		}
+	}
 
 	getAutocomplete = () => {
 		return <Autocomplete
 			value={this.props.value}
-			options={this.state.options.map(({label,value}) => value)}
+			disabled={!!this.props.editable}
+			options={this.state.options.map(({ label, value }) => value)}
 			getOptionLabel={this.getOptionLabel}
-			onChange={(event,value) => this.props.onChange(value)}
-			renderInput={(params) => <TextField {...params} label={this.props.label}  variant="outlined" />}
+			onChange={(event, value) => this.props.onChange(value)}
+			renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
 		/>
 	}
 
 	getDropdown = () => {
 		return <FormControl fullWidth>
-		{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
+			{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
 			<Select
 				multiple={this.props.multiple}
 				fullWidth
+				disabled={!!this.props.editable}
 				value={this.props.value}
 				onChange={(event) => this.props.onChange(event.target.value)}
 				renderValue={
-					this.props.multiple ? 
-						((vs) => vs.map(this.getOptionLabel).join(", ")) : 
+					this.props.multiple ?
+						((vs) => vs.map(this.getOptionLabel).join(", ")) :
 						this.getOptionLabel
 				}
 			>
-				{this.state.options.map(({label,value}) => (
+				{this.state.options.map(({ label, value }) => (
 					<MenuItem key={value} value={value}>
 						{label}
 					</MenuItem>
@@ -78,6 +80,7 @@ class SelectField extends Component {
 		} else {
 			field = this.getDropdown();
 		}
+
 
 		return <FieldContainer {...this.props} >
 			{field}

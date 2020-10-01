@@ -133,7 +133,6 @@ class GroupData extends Component {
               }}
               validate={{ type: "integer" }}
             />
-            <div style={{ width: "20px", display: "inline-block" }} />
             <Field
               value={courseId}
               label="Modulecode"
@@ -166,7 +165,6 @@ class GroupData extends Component {
           </div>
         </div>
         <br />
-
         <Popover
           open={this.state.anchorEl ? true : false}
           onClose={this.handleClickAway}

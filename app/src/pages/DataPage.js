@@ -24,6 +24,7 @@ import Progress from "../components/Progress";
 import Field from "../components/Field";
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
 import $ from "jquery";
+import SelectField from "../fields/SelectField";
 
 const splitOnDefault = {
   users: "Hoofdrol",
@@ -260,7 +261,7 @@ class DataPage extends Component {
         content = <Progress style={{ marginTop: "100px" }} />;
       } else {
         content = (
-          <Typography variant="body1" style={{ marginTop: "100px"}}>
+          <Typography variant="body1" style={{ marginTop: "100px" }}>
             Klik op "Laad gegevens" om de gegevens te tonen
           </Typography>
         );
@@ -342,11 +343,11 @@ class DataPage extends Component {
               <Typography
                 variant="subtitle1"
                 color="textSecondary"
-                style={{ flex: "6" }}
+                style={{ flex: "6", margin: "5px"  }}
               >
                 Gegevens
               </Typography>
-              <Field
+              <SelectField
                 label="Gegevens van"
                 value={this.state.data}
                 editable
@@ -356,26 +357,23 @@ class DataPage extends Component {
                   { label: "Inschrijvingen", value: "enrollments" },
                   { label: "Module codes", value: "courseIds" }
                 ]}
-                style={{ flex: "3" }}
+                style={{ flex: "3", margin: "5px"  }}
                 onChange={this.handleFilterChange}
               />
               <Button
                 variant="outlined"
                 onClick={this.handleShowData}
-                style={{ flex: "1" }}
+                style={{ flex: "2", margin: "5px" }}
               >
                 Laad gegevens
               </Button>
-              <Field
+              <SelectField
                 value={this.state.splitOn}
                 label="Splits op"
                 options={this.state.tables ? [...this.state.tables[0][0], "Niet splitsen"] : ["Niet splitsen"]}
                 editable={this.state.hasFetched}
                 onChange={this.handleSplitChange}
-                style={{
-                  margin: "normal",
-                  flex: "3",
-                }}
+                style={{ flex: "3", margin: "5px" }}
               />
               <IconButton onClick={this.downloadTables}>
                 <VerticalAlignBottom />

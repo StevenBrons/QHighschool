@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Field from "../../components/Field";
 import ChooseButton from "./ChooseButton";
-import { Evaluation, getEvaluationColor } from "./Evaluation";
+import { Evaluation, EvaluationDisplay, getEvaluationColor } from "./Evaluation";
 import "./GroupCard.css";
 
 class GroupCard extends Component {
@@ -28,8 +28,10 @@ class GroupCard extends Component {
             backgroundColor: getEvaluationColor(this.props.group.evaluation)
           }}
         >
-          <Field value="Beoordeling" style={{ type: "title", flex: 2 }} />
-          <Evaluation evaluation={this.props.group.evaluation} student />
+          <Typography variant="h6" style={{ color: "white" }}>
+            Beoordeling
+          </Typography>
+          <EvaluationDisplay evaluation={this.props.group.evaluation} />
         </div>
       );
     } else {
