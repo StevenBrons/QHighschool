@@ -82,7 +82,7 @@ class ExamSubjects extends Component {
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
-					Examen vakken
+					Examenvakken
 				</Typography>
 				<Typography>
 					In deze vakken wil ik bij de Q-Highschool examen doen:
