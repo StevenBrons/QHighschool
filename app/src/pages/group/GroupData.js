@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import map from "lodash/map";
 
-import Field from "../../components/Field";
+import InputField from "../../fields/InputField";
+import SelectField from "../../fields/SelectField";
 import User from "../user/User";
 
-import { Divider, Button, Popover } from "@material-ui/core";
+import { Divider, Button, Popover, Typography } from "@material-ui/core";
 
 class GroupData extends Component {
   constructor(props) {
@@ -30,38 +31,21 @@ class GroupData extends Component {
     return (
       <div style={{ position: "relative" }}>
         <div style={{ display: "flex" }}>
-          <Field
+          <InputField
             value={group.courseName}
             onChange={value => onChange("courseName", value)}
             editable={editable}
             style={{ flex: "5", type: "headline" }}
             validate={{ maxLength: 50 }}
           />
-          <Field
+          <SelectField
             value={group.subjectId}
             onChange={value => onChange("subjectId", value)}
-            layout={{ alignment: "right" }}
-            style={{ type: "headline" }}
             editable={editable}
             options={map(this.props.subjects, subject => {
               return { value: subject.id, label: subject.name };
             })}
           />
-          {!editable && (
-            <Button
-              color="secondary"
-              style={{
-                position: "absolute",
-                display: "block",
-                top: "30px",
-                right: "-15px",
-                zIndex: "100"
-              }}
-              onClick={this.showTeacherCard}
-            >
-              <div>{group.teacherName}</div>
-            </Button>
-          )}
         </div>
         <div
           style={{ display: "flex" }}
@@ -73,12 +57,12 @@ class GroupData extends Component {
               paddingRight: "15px"
             }}
           >
-            <div>
-              <Field
+            <div style={{ display: "flex" }}>
+              <SelectField
                 value={group.period}
                 onChange={value => onChange("period", value)}
                 editable={editable && role === "admin"}
-                style={{ width: "100px", type: "caption" }}
+                style={{ flex: 1 }}
                 options={[
                   { label: "Blok 1", value: 1 },
                   { label: "Blok 2", value: 2 },
@@ -86,11 +70,11 @@ class GroupData extends Component {
                   { label: "Blok 4", value: 4 }
                 ]}
               />
-              <Field
+              <SelectField
                 value={group.day}
                 onChange={value => onChange("day", value)}
                 editable={editable && role === "admin"}
-                style={{ width: "150px", type: "caption" }}
+                style={{ flex: 1 }}
                 options={[
                   "onbekend",
                   "maandag",
@@ -102,64 +86,56 @@ class GroupData extends Component {
                   "zondag"
                 ]}
               />
+              <SelectField
+                value={group.schoolYear}
+                editable={editable && role === "admin"}
+                style={{ flex: 1 }}
+                onChange={value => onChange("schoolYear", value)}
+                options={["2018/2019", "2019/2020", "2020/2021", "2021/2022", "2022/2023", "2023/2024"]}
+              />
             </div>
-            <Field
-              value={group.schoolYear}
-              editable={editable && role === "admin"}
-              onChange={value => onChange("schoolYear", value)}
-              options={["2018/2019", "2019/2020", "2020/2021", "2021/2022", "2022/2023", "2023/2024"]}
-              style={{ width: "80%", type: "caption" }}
-            />
             <Divider style={{ margin: "15px" }} />
-            <Field
+            <InputField
               value={group.enrollableFor}
               label="Doelgroep"
               onChange={value => onChange("enrollableFor", value)}
-              style={{ width: "100%", labelVisible: true, type: "caption" }}
               default="Iedereen"
               editable={editable}
             />
-            <Field
+            <InputField
               value={group.studyTime}
               label="Studietijd"
               onChange={value => onChange("studyTime", value)}
               default="onbekend"
               editable={editable}
-              style={{
-                labelVisible: true,
-                unit: "uur",
-                width: "40%",
-                type: "caption"
-              }}
+              unit="uur"
               validate={{ type: "integer" }}
             />
-            <Field
+            <InputField
               value={courseId}
               label="Modulecode"
-              style={{
-                labelVisible: true,
-                width: "40%",
-                type: "caption"
-              }}
+            />
+            <InputField
+              value={group.teacherName}
+              editable={false}
+              label="Hoofddocent"
             />
           </div>
           <div style={{ width: "100%" }}>
-            <Field
+            <InputField
               value={group.courseDescription}
               validate={{ maxLength: 440 }}
               label="Omschrijving"
-              style={{ labelVisible: true }}
               onChange={value => onChange("courseDescription", value)}
-              layout={{ area: true }}
+              multiline
               editable={editable}
             />
-            <Field
+            <InputField
               value={group.remarks}
               label="Opmerkingen"
               onChange={value => onChange("remarks", value)}
-              style={{ labelVisible: true }}
               default="Geen voorkennis vereist"
-              layout={{ area: true }}
+              multiline
               editable={editable}
             />
           </div>

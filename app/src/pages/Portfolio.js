@@ -5,7 +5,6 @@ import forEach from "lodash/forEach";
 
 import Page from "./Page";
 import Progress from "../components/Progress";
-import Field from "../components/Field";
 import Group from "./group/Group";
 import { getEnrolLments, getGroups, getParticipatingGroups, getSubjects } from "../store/actions";
 

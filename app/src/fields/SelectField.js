@@ -41,7 +41,7 @@ class SelectField extends Component {
 	getAutocomplete = () => {
 		return <Autocomplete
 			value={this.props.value}
-			disabled={!!this.props.editable}
+			disabled={!this.props.editable}
 			options={this.state.options.map(({ label, value }) => value)}
 			getOptionLabel={this.getOptionLabel}
 			onChange={(event, value) => this.props.onChange(value)}
@@ -55,7 +55,7 @@ class SelectField extends Component {
 			<Select
 				multiple={this.props.multiple}
 				fullWidth
-				disabled={!!this.props.editable}
+				disabled={!this.props.editable}
 				value={this.props.value}
 				onChange={(event) => this.props.onChange(event.target.value)}
 				renderValue={

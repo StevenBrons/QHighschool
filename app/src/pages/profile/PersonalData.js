@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Typography } from "@material-ui/core/";
 import Field from "../../components/Field"
+import InputField from "../../fields/InputField";
 
 class PersonalData extends Component {
 
@@ -15,59 +16,52 @@ class PersonalData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<Field
+							<InputField
 								value="Naam"
-								layout={{ td: true }}
+								td
 								style={{ margin: "none" }}
 							/>
-							<Field
+							<InputField
 								value={u.displayName}
-								style={{ margin: "none" }}
 								editable={p.editableAdmin}
 								onChange={(value) => p.onChange("displayName", value)}
-								layout={{ td: true }}
+								td
 							/>
 						</tr>
 						{p.isAdmin && <tr>
-							<Field
+							<InputField
 								value="Authenticatie email"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
-							<Field
+							<InputField
 								value={u.email}
-								style={{ margin: "none" }}
 								editable={p.editableAdmin}
 								onChange={(value) => p.onChange("email", value)}
-								layout={{ td: true }}
+								td
 							/>
 						</tr>}
 						<tr>
-							<Field
+							<InputField
 								value="Voorkeursemail"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
-							<Field
+							<InputField
 								validate={{ type: "email" }}
 								value={u.preferedEmail}
-								style={{ margin: "none" }}
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("preferedEmail", value)}
-								layout={{ td: true}}
+								td
 							/>
 						</tr>
 						<tr>
-							<Field
+							<InputField
 								value="Telefoonnummer"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
-							<Field
+							<InputField
 								validate={{ type: "phoneNumber" }}
 								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
 							/>

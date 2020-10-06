@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
-import Field from '../../components/Field';
 import { Button } from '@material-ui/core';
 import { setPresenceUserStatus } from "../../store/actions";
 import { connect } from "react-redux";
+import InputField from '../../fields/InputField';
+import SelectField from '../../fields/SelectField';
 
 class Lesson extends Component {
 
@@ -77,14 +78,14 @@ class Lesson extends Component {
 					style={{ backgroundColor: "#e0e0e0" }}
 				>
 					<td style={{ display: "flex", flexDirection: "column" }}>
-						<Field style={{ fontWeight: "bold" }} value="Lesnummer" />
-						<Field style={{ fontWeight: "bold" }} value="Soort les" />
+						<InputField value="Lesnummer" />
+						<InputField value="Soort les" />
 					</td>
-					<Field style={{ flex: 4, fontWeight: "bold" }} value="Onderwerp" layout={{ td: true }} />
-					<Field style={{ flex: 8, fontWeight: "bold" }} value="Activiteiten" layout={{ td: true }} />
+					<InputField style={{ flex: 4 }} value="Onderwerp" td />
+					<InputField style={{ flex: 8 }} value="Activiteiten" td />
 					<td style={{ display: "flex", flexDirection: "column" }}>
-						<Field style={{ fontWeight: "bold" }} value="Datum" layout={{ alignment: "right" }} />
-						<Field style={{ fontWeight: "bold" }} value="Aanwezigheid" layout={{ alignment: "right" }} />
+						<InputField value="Datum" />
+						<InputField value="Aanwezigheid" />
 					</td>
 				</Paper>
 			);
@@ -97,13 +98,12 @@ class Lesson extends Component {
 				component="tr"
 			>
 				<td style={{ display: "flex", flexDirection: "column" }}>
-					<Field
+					<InputField
 						color="primary"
 						layout={{ area: true }}
-						style={{ fontWeight: "bold" }}
 						value={"Les " + lesson.numberInBlock}
 					/>
-					<Field
+					<InputField
 						label="Soort les"
 						layout={{ area: true }}
 						value={lesson.kind}
@@ -111,31 +111,29 @@ class Lesson extends Component {
 						onChange={(value) => this.handleChange("kind", value)}
 					/>
 				</td>
-				<Field
+				<InputField
 					label="Onderwerp"
 					style={{ flex: 4 }}
 					value={lesson.subject}
 					editable={this.props.editable}
 					onChange={(value) => this.handleChange("subject", value)}
-					layout={{ td: true, area: true }}
+					td
 				/>
-				<Field
+				<InputField
 					label="Activiteiten"
 					style={{ flex: 8 }}
 					value={lesson.activities}
 					editable={this.props.editable}
 					onChange={(value) => this.handleChange("activities", value)}
-					layout={{ td: true, area: true }}
+					td
 				/>
 				<td style={{ display: "flex", flexDirection: "column" }}>
-					<Field
+					<InputField
 						layout={{ alignment: "right" }}
 						value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
 					/>
-					<Field
+					<SelectField
 						label="Aanwezigheid"
-						style={{ labelVisible: true }}
-						layout={{ alignment: "right" }}
 						value={lesson.presence}
 						editable={this.props.editable}
 						onChange={(value) => this.handleChange("presence", value)}

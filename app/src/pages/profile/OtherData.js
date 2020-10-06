@@ -4,13 +4,15 @@ import Field from "../../components/Field"
 import { switchRole } from "../../store/actions"
 import { connect } from 'react-redux';
 import EnsureSecureLogin from "../../components/EnsureSecureLogin";
+import SelectField from "../../fields/SelectField";
+import InputField from "../../fields/InputField";
 
 class OtherData extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			newRole: null, 
+			newRole: null,
 		}
 	}
 
@@ -23,35 +25,33 @@ class OtherData extends Component {
 					Overig
 				</Typography>
 				{(u.availableRoles.split(",").length > 1 && p.isOwn) &&
-				<EnsureSecureLogin>
-					<table>
-						<tbody>
-							<tr>
-								<Field
-									value="Huidige rol"
-									layout={{ td: true }}
-									style={{ margin: "none" }}
+					<EnsureSecureLogin>
+						<table>
+							<tbody>
+								<tr>
+									<InputField
+										value="Huidige rol"
+										td
 									/>
-								<Field
-									value={this.state.newRole || u.role}
-									style={{ margin: "none" }}
-									editable={p.editableUser}
-									options={u.availableRoles.split(",")}
-									onChange={newRole => this.setState({newRole})}
-									layout={{ td: true, area: true }}
+									<SelectField
+										value={this.state.newRole || u.role}
+										editable={p.editableUser}
+										options={u.availableRoles.split(",")}
+										onChange={newRole => this.setState({ newRole })}
+										td
 									/>
-								<Button
-									variant="contained"
-									color="primary"
-									disabled={this.state.newRole == null}
-									component="td"
-									onClick={() => this.props.dispatch(switchRole(this.state.newRole))}>
-									Verander rol
+									<Button
+										variant="contained"
+										color="primary"
+										disabled={this.state.newRole == null}
+										component="td"
+										onClick={() => this.props.dispatch(switchRole(this.state.newRole))}>
+										Verander rol
 								</Button>
-							</tr>
-						</tbody>
-					</table>
-				</EnsureSecureLogin>
+								</tr>
+							</tbody>
+						</table>
+					</EnsureSecureLogin>
 				}
 				{p.isAdmin &&
 					<div>

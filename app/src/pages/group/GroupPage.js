@@ -22,6 +22,7 @@ import NotificationBadge from '../../components/NotificationBadge';
 import UserField from '../../fields/UserField';
 import Field from '../../components/Field';
 import { Typography, Tooltip } from '@material-ui/core';
+import SelectField from '../../fields/SelectField';
 
 class GroupPage extends Component {
 
@@ -100,7 +101,7 @@ class GroupPage extends Component {
 				if (lessons.length === 0) {
 					return "Er zijn nog geen lessen bekend";
 				}
-				return <table style={{ width: "100%", tableLayout:"fixed" }}>
+				return <table style={{ width: "100%", tableLayout: "fixed" }}>
 					<tbody>
 						{map({ 0: { id: -1 }, ...lessons }, lesson => {
 							return <Lesson
@@ -135,7 +136,7 @@ class GroupPage extends Component {
 								<br />
 								<div style={{ display: "inline-flex" }}>
 									<UserField onChange={this.handleNewParticipantIdChange} value={newParticipant.userId} />
-									<Field editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
+									<SelectField editable label="Rol" value={newParticipant.participatingRole} options={[{ value: "student", label: "Leerling" }, { value: "teacher", label: "Expert" }]} onChange={this.handleNewParticipantRoleChange} />
 									<Tooltip title={cantAddReason} placement={"bottom-start"}>
 										<div>
 											<Button variant="contained"

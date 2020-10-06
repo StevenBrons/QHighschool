@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import map from "lodash/map"
 import filter from "lodash/filter"
 import User from "../user/User"
-import Field from "../../components/Field"
+import InputField from "../../fields/InputField"
 import { Paper } from '@material-ui/core';
 
 class PresenceTable extends Component {
@@ -14,12 +14,12 @@ class PresenceTable extends Component {
 			options[0].label = "Afgemeld";
 			options[1].label = "Afgemeld";
 		}
-		return <Field
+		return <InputField
 			key={i}
 			value={presence.status}
 			options={options}
 			label={presence.userStatus === "absent" ? "afgemeld" : undefined}
-			layout={{ td: true, area: true }}
+			td
 			editable={this.props.editable}
 			onChange={(status) => {
 				this.props.handleChange({
@@ -57,16 +57,15 @@ class PresenceTable extends Component {
 
 	createLessonHeader = (lesson) => {
 		const content = map(this.props.lessons, lesson => {
-			return <Field
+			return <InputField
 				value={"Les " + lesson.numberInBlock}
 				key={lesson.id}
-				style={{ type: "title" }}
-				layout={{ td: true}}
+				td
 			/>;
 		});
 		return (
 			<Paper component="tr" elevation={2} key={"l" + lesson} style={{ backgroundColor: "#e0e0e0" }} >
-				<Field value="" layout={{ td: true, width:"20%" }} />
+				<InputField value="" td />
 				{content}
 			</Paper>
 		);

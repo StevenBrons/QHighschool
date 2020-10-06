@@ -5,7 +5,7 @@ import { Add } from "@material-ui/icons";
 import {
 	getSubjects,
 } from "../../store/actions";
-import Field from "../../components/Field";
+import SelectField from "../../fields/SelectField";
 import { map } from "lodash";
 
 class ExamSubjects extends Component {
@@ -105,32 +105,18 @@ class ExamSubjects extends Component {
 						<Typography gutterBottom>
 							In welk vak wil je examen doen?
           	</Typography>
-						<Field
-							editable
+						<SelectField
 							label="Nieuw examenvak"
 							value={this.state.newSubjectId}
 							options={availableSubjects}
-							style={{
-								margin: "dense",
-							}}
-							layout={{
-								area: true,
-							}}
 							onChange={(value) => this.onChange("newSubjectId", value)}
 						/>
 						<Typography gutterBottom>
 							Volg je dit vak binnen je profiel of in het vrije deel?
           	</Typography>
-						<Field
-							editable
+						<SelectField
 							value={this.state.newSubjectProfile}
 							options={[{ label: "In profiel", value: "T" }, { label: "In vrije deel", value: "F" }]}
-							style={{
-								margin: "dense",
-							}}
-							layout={{
-								area: true,
-							}}
 							onChange={(value) => this.onChange("newSubjectProfile", value)}
 						/>
 					</DialogContent>
