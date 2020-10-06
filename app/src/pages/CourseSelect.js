@@ -16,7 +16,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import queryString from "query-string";
 import SelectField from '../fields/SelectField';
-import SchoolYearField from '../fields/SchoolYearField';
 
 class CourseSelect extends Component {
 

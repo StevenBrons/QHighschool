@@ -7,7 +7,6 @@ import map from 'lodash/map';
 import { connect } from 'react-redux';
 import queryString from "query-string";
 import UserField from '../fields/UserField';
-import Field from "../components/Field"
 import { Toolbar, Button, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
 import { getSubjects, setAlias, addNotification, addSubject, addCourse, addGroup, relogSecure } from '../store/actions';
 import InputField from '../fields/InputField';

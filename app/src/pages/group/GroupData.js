@@ -5,7 +5,7 @@ import InputField from "../../fields/InputField";
 import SelectField from "../../fields/SelectField";
 import User from "../user/User";
 
-import { Divider, Button, Popover, Typography } from "@material-ui/core";
+import { Divider, Popover } from "@material-ui/core";
 
 class GroupData extends Component {
   constructor(props) {

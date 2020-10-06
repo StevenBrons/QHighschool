@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Field from '../../components/Field';
 import EnsureSecureLogin from '../../components/EnsureSecureLogin';
 import { Tooltip, TableSortLabel, Typography, Paper } from '@material-ui/core';
 import InputField from '../../fields/InputField';

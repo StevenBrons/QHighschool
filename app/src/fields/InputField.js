@@ -7,7 +7,7 @@ class InputField extends Component {
 	render() {
 		const P = this.props;
 		let value = P.value;
-		if (value == null || value == "") {
+		if (value == null || value === "") {
 			value = P.default;
 		}
 		let CP = {

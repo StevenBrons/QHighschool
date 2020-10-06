@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Typography, Divider } from '@material-ui/core/';
-import Field from '../../components/Field';
 import { cloneDeep } from "lodash";
 import possibleValues from "./educationConstraints"
+import SelectField from '../../fields/SelectField';
+import InputField from '../../fields/InputField';
 
 class EducationData extends Component {
 
@@ -62,19 +63,13 @@ class EducationData extends Component {
 		if (field === "school") {
 			editable = this.props.editableAdmin;
 		}
-		return <Field
+		return <SelectField
 			value={value}
 			editable={editable}
 			onChange={(value) => this.props.onChange(field, value)}
-			layout={{
-				td: true,
-			}}
+			td
 			validate={{
 				notEmpty: true,
-			}}
-			style={{
-				margin: "none",
-				width: "100%",
 			}}
 			options={options}
 		/>
@@ -91,39 +86,34 @@ class EducationData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<Field
+							<InputField
 								value="School"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
 							{this.getField("school")}
 						</tr>
 						<tr>
-							<Field
+							<InputField
 								value="Rollen"
-								layout={{ td: true }}
-								style={{ margin: "none", width:"100%" }}
+								td
 							/>
-							<Field
+							<SelectField
 								value={p.user.availableRoles.split(",")}
-								style={{ margin: "none" }}
 								multiple
 								editable={p.editableAdmin}
-								layout={{ td: true, area: true }}
-								options={["admin","student","teacher","grade_admin"]}
+								td
+								options={["admin", "student", "teacher", "grade_admin"]}
 								onChange={(v) => p.onChange("availableRoles", v.join(","))}
 							/>
 						</tr>
 						<tr>
-							<Field
+							<InputField
 								value="Schoolemail"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
-							<Field
+							<InputField
 								value={p.user.email}
-								style={{ margin: "none" }}
-								layout={{ td: true, area: true }}
+								td
 							/>
 						</tr>
 					</tbody>
@@ -132,34 +122,30 @@ class EducationData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<Field
+							<InputField
 								value="Opleidingsniveau"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
 							{this.getField("level")}
 						</tr>
 						<tr>
-							<Field
+							<InputField
 								value="Schoollocatie"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
 							{this.getField("schoolLocation")}
 						</tr>
 						<tr>
-							<Field
+							<InputField
 								value="Leerjaar"
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+								td
 							/>
 							{this.getField("year")}
 						</tr>
 						<tr>
-							<Field
-								value={"Profiel"}
-								layout={{ td: true }}
-								style={{ margin: "none" }}
+							<InputField
+								value="Profiel"
+								td
 							/>
 							{this.getField("profile")}
 						</tr>

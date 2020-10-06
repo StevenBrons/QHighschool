@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Typography } from "@material-ui/core/";
-import Field from "../../components/Field"
 import InputField from "../../fields/InputField";
 
 class PersonalData extends Component {

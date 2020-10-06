@@ -1,9 +1,8 @@
 import { Typography, Button, Paper, Badge } from "@material-ui/core";
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import Field from "../../components/Field";
 import ChooseButton from "./ChooseButton";
-import { Evaluation, EvaluationDisplay, getEvaluationColor } from "./Evaluation";
+import { EvaluationDisplay, getEvaluationColor } from "./Evaluation";
 import "./GroupCard.css";
 
 class GroupCard extends Component {

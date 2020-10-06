@@ -20,7 +20,6 @@ import Button from '@material-ui/core/Button';
 import queryString from "query-string";
 import NotificationBadge from '../../components/NotificationBadge';
 import UserField from '../../fields/UserField';
-import Field from '../../components/Field';
 import { Typography, Tooltip } from '@material-ui/core';
 import SelectField from '../../fields/SelectField';
 

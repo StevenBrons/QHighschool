@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Typography, Button, FormControlLabel, Checkbox } from "@material-ui/core/";
-import Field from "../../components/Field"
 import { switchRole } from "../../store/actions"
 import { connect } from 'react-redux';
 import EnsureSecureLogin from "../../components/EnsureSecureLogin";

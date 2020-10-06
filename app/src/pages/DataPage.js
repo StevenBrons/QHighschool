@@ -21,7 +21,6 @@ import Excel from "exceljs/dist/es5/exceljs.browser";
 
 import Page from "./Page";
 import Progress from "../components/Progress";
-import Field from "../components/Field";
 import EnsureSecureLogin from "../components/EnsureSecureLogin";
 import $ from "jquery";
 import SelectField from "../fields/SelectField";
@@ -343,7 +342,7 @@ class DataPage extends Component {
               <Typography
                 variant="subtitle1"
                 color="textSecondary"
-                style={{ flex: "6", margin: "5px"  }}
+                style={{ flex: "6", margin: "5px" }}
               >
                 Gegevens
               </Typography>
@@ -357,7 +356,7 @@ class DataPage extends Component {
                   { label: "Inschrijvingen", value: "enrollments" },
                   { label: "Module codes", value: "courseIds" }
                 ]}
-                style={{ flex: "3", margin: "5px"  }}
+                style={{ flex: "3", margin: "5px" }}
                 onChange={this.handleFilterChange}
               />
               <Button
