@@ -1,32 +1,32 @@
-.CourseGroup {
+.SubjectRow {
 	color: white;
 	position: relative;
 }
 
-.CourseGroup .title {
+.SubjectRow .title {
 	position: absolute;
 	left: 2.5%;
 	bottom: 15.2vw;
 }
 
 @media screen and (max-width: 500px) {
-	.CourseGroup .title {
+	.SubjectRow .title {
 		font-size: .6em;
 	}
 }
 
 @media screen and (max-width: 700px) {
-	.CourseGroup .title {
+	.SubjectRow .title {
 		bottom: 28.5vw;
 	}
 }
 
-.CourseGroup .title:hover {
+.SubjectRow .title:hover {
 	color: #ff7a03;
 	cursor: pointer;
 }
 
-.CourseGroup .scroller {
+.SubjectRow .scroller {
 	white-space: nowrap;
 	width: 100%;
 	overflow: hidden;
@@ -34,7 +34,7 @@
 	padding: 3vw 0;
 }
 
-.CourseGroup .scroll-button {
+.SubjectRow .scroll-button {
 	position: absolute;
 	height: 100%;
 	width: 2vw;
@@ -45,31 +45,31 @@
 	padding: 0;
 }
 
-.CourseGroup:hover .scroll-button{
+.SubjectRow:hover .scroll-button{
 	display: inline-block;
 }
 
-.CourseGroup .scroll-button.left {
+.SubjectRow .scroll-button.left {
 	left: 0;
 	z-index: 2;
 	background: url(/previous-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
-.CourseGroup .scroll-button.right {
+.SubjectRow .scroll-button.right {
 	right: 0;
 	z-index: 2;
 	background: url(/next-page-button.svg) no-repeat center rgba(20,20,20,.7);
 }
 
 @media (pointer: coarse) { /* Touch screen, so scrolling through courses can be done without buttons*/
-	.CourseGroup .scroller {
+	.SubjectRow .scroller {
 		overflow-x: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
-	.CourseGroup:hover .scroll-button {
+	.SubjectRow:hover .scroll-button {
 		display: none;
 	}
-	.CourseGroup .scroller > .Course:last-of-type {
+	.SubjectRow .scroller > .Course:last-of-type {
 		margin-right: 3%;
 	}
 }
@@ -77,25 +77,25 @@
 /* Right-margins so the last page can consist of <4 courses 
    This is only necessary on desktop when the buttons are visible*/
 @media (pointer: fine) { 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 1) {
+	.SubjectRow .scroller > .Course:last-of-type:nth-of-type(4n + 1) {
 		margin-right: 75%;
 	}
 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 2) {
+	.SubjectRow .scroller > .Course:last-of-type:nth-of-type(4n + 2) {
 		margin-right: 51%;
 	}
 
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n + 3) {
+	.SubjectRow .scroller > .Course:last-of-type:nth-of-type(4n + 3) {
 		margin-right: 27%;
 	}
-	.CourseGroup .scroller > .Course:last-of-type:nth-of-type(4n) {
+	.SubjectRow .scroller > .Course:last-of-type:nth-of-type(4n) {
 		margin-right: 3%;
 	}
 	@media screen and (max-width: 700px) {
-		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n){
+		.SubjectRow .scroller > .Course:last-of-type:nth-of-type(2n){
 			margin-right: 3%;
 		}
-		.CourseGroup .scroller > .Course:last-of-type:nth-of-type(2n + 1) {
+		.SubjectRow .scroller > .Course:last-of-type:nth-of-type(2n + 1) {
 			margin-right: 52%;
 		}
 	}

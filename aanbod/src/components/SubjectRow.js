@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Course from "./Course";
-import "./CourseGroup.css";
+import "./SubjectRow.css";
 
 const COLORS = [
   "purple",
@@ -12,14 +12,16 @@ const COLORS = [
   "yellow"
 ];
 
-class CourseGroup extends Component {
+const ENROLLMENT_PERIOD = 2;
+
+class SubjectRow extends Component {
   constructor(props) {
     super(props);
     this.scroller = React.createRef();
     this.title = React.createRef();
     let coursesPerPage = window.innerWidth <= 700 ? 2 : 4; // mobile : desktop
-    let maxPage = Math.floor((Object.keys(props.courses).length - 1) / coursesPerPage);
-    let colors = this.randomColors(Object.keys(props.courses).length)
+    let maxPage = Math.floor((Object.keys(props.groups).length - 1) / coursesPerPage);
+    let colors = this.randomColors(Object.keys(props.groups).length)
     this.state = {
       page: 0,
       maxPage: maxPage,
@@ -34,7 +36,7 @@ class CourseGroup extends Component {
         if (window.innerWidth > 700 && this.state.coursesPerPage === 2) {
           let page = Math.floor(this.state.page / 2);
           let coursesPerPage = 4;
-          let maxPage = Math.floor((Object.keys(this.props.courses).length - 1) / coursesPerPage);
+          let maxPage = Math.floor((Object.keys(this.props.groups).length - 1) / coursesPerPage);
           this.setState({
             page: page,
             coursesPerPage: coursesPerPage,
@@ -43,7 +45,7 @@ class CourseGroup extends Component {
         } else if (window.innerWidth <= 700 && this.state.coursesPerPage === 4) {
           let page = this.state.page * 2;
           let coursesPerPage = 2;
-          let maxPage = Math.floor((Object.keys(this.props.courses).length - 1) / coursesPerPage);
+          let maxPage = Math.floor((Object.keys(this.props.groups).length - 1) / coursesPerPage);
           this.setState({
             page: page,
             coursesPerPage: coursesPerPage,
@@ -74,31 +76,23 @@ class CourseGroup extends Component {
     });
   }
 
-  getSortedCourseIds(courses) {// course objects -> ordered course ids
-    let ids = Object.keys(courses).sort((a, b) => {
-      let startYear = new RegExp(/(\d{4})\//) // '2019/2020' => 2019
-      let yearA = parseInt(courses[a].schoolYear.match(startYear)[1])
-      let yearB = parseInt(courses[b].schoolYear.match(startYear)[1])
-
-      if (yearA === yearB) {
-        let periodA = courses[a].period
-        let periodB = courses[b].period
-
-        if (periodA === periodB) {
-          return 0
-        }
-        return periodA - periodB
-      }
-      return yearA - yearB
-    })
-    return ids
+  getSortedGroups(groups) {// course objects -> filtered and ordered groups
+    return Object.keys(groups)
+      .map(id => groups[id])
+      .filter(({period}) => period >= ENROLLMENT_PERIOD)
+      .sort((a, b) => {
+        let startYear = new RegExp(/(\d{4})\//) // '2019/2020' => 2019
+        let yearA = parseInt(a.schoolYear.match(startYear)[1])
+        let yearB = parseInt(b.schoolYear.match(startYear)[1])
+        return [yearA - yearB, a.period - b.period];
+    });
   }
 
   render() {
-    const { courses, selectedCourse, showSubjectInfo } = this.props;
+    const { groups, selectedCourse, showSubjectInfo } = this.props;
     const { page, maxPage, colors } = this.state;
     return (
-      <div className="CourseGroup">
+      <div className="SubjectRow">
         <h3 className="title" ref={this.title}>
           {this.props.title}
         </h3>
@@ -109,15 +103,15 @@ class CourseGroup extends Component {
           />
         )}
         <div className="scroller" ref={this.scroller}>
-          {this.getSortedCourseIds(courses).map((id, i) => {
+          {this.getSortedGroups(groups).map(({id,courseId,courseName}, i) => {
             return (
               <Course
                 key={id}
                 groupId={id}
-                courseId={courses[id].courseId}
+                courseId={groups[id].courseId}
                 class="course"
                 onClick={_ => this.props.onClick(id)}
-                text={courses[id].courseName.toUpperCase()}
+                text={groups[id].courseName.toUpperCase()}
                 selected={selectedCourse === id}
                 large={this.props.large}
                 color={colors[i]}
@@ -136,4 +130,4 @@ class CourseGroup extends Component {
   }
 }
 
-export default CourseGroup;
+export default SubjectRow;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Page.css';
 import CourseInfo from './components/CourseInfo';
-import CourseGroup from './components/CourseGroup';
+import SubjectRow from './components/SubjectRow';
 import SubjectInfo from './components/SubjectInfo';
 // import Header from './components/Header';
 import { fetchCourses, fetchSubjectInformation } from './fetchData';
@@ -102,12 +102,11 @@ class Page extends Component {
         }
         {subjects.map((subject, i) =>
           <React.Fragment key={i}>
-            <CourseGroup
+            <SubjectRow
               title={subject}
               key={i}
-              courses={courses[subject]}
+              groups={courses[subject]}
               onClick={courseId => this.onClick(courseId, subject)}
-              className='course-group'
               selectedCourse={popOut && popOut.courseId}
               showSubjectInfo={() => this.showSubjectInfo(subject)}
             />
