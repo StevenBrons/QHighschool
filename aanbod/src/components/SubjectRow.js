@@ -81,10 +81,10 @@ class SubjectRow extends Component {
       .map(id => groups[id])
       .filter(({period}) => period >= ENROLLMENT_PERIOD)
       .sort((a, b) => {
-        let startYear = new RegExp(/(\d{4})\//) // '2019/2020' => 2019
-        let yearA = parseInt(a.schoolYear.match(startYear)[1])
-        let yearB = parseInt(b.schoolYear.match(startYear)[1])
-        return [yearA - yearB, a.period - b.period];
+        let startYear = new RegExp(/(\d{4})\//); // '2019/2020' => 2019
+        let yearA = parseInt(a.schoolYear.match(startYear)[1]);
+        let yearB = parseInt(b.schoolYear.match(startYear)[1]);
+        return parseInt(yearA + a.period) - parseInt(yearB + b.period);
     });
   }
 
@@ -108,10 +108,10 @@ class SubjectRow extends Component {
               <Course
                 key={id}
                 groupId={id}
-                courseId={groups[id].courseId}
+                courseId={courseId}
                 class="course"
                 onClick={_ => this.props.onClick(id)}
-                text={groups[id].courseName.toUpperCase()}
+                text={courseName}
                 selected={selectedCourse === id}
                 large={this.props.large}
                 color={colors[i]}
