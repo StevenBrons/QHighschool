@@ -84,7 +84,7 @@ class SubjectRow extends Component {
         let startYear = new RegExp(/(\d{4})\//); // '2019/2020' => 2019
         let yearA = parseInt(a.schoolYear.match(startYear)[1]);
         let yearB = parseInt(b.schoolYear.match(startYear)[1]);
-        return parseInt(yearA + a.period) - parseInt(yearB + b.period);
+        return parseInt(yearA + a.period + a.courseDescription.charCodeAt(0)) - parseInt(yearB + b.period + b.courseDescription.charCodeAt(0));
     });
   }
 
