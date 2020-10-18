@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { Component } from 'react';
 import FieldContainer from './FieldContainer';
@@ -29,40 +29,51 @@ class SelectField extends Component {
 		return options;
 	}
 
-	getOptionLabel = (v) => {
-		const opt = this.state.options.filter(({ value }) => value === v)
-		if (opt.length > 0) {
-			return opt[0].label;
-		} else {
-			return "";
-		}
+	getOptionsLabel = (v3) => {
+		let vs = this.props.multiple ? v3 : [v3];
+		return vs.map((v) => {
+			const opt = this.state.options.filter(({ value }) => value === v)
+			if (opt.length > 0) {
+				return opt[0].label;
+			} else {
+				return "";
+			}
+		}).join(",");
 	}
 
 	getAutocomplete = () => {
 		return <Autocomplete
 			value={this.props.value}
-			disabled={!this.props.editable}
+			disabled={this.props.disabled}
 			options={this.state.options.map(({ label, value }) => value)}
-			getOptionLabel={this.getOptionLabel}
+			getOptionLabel={this.getOptionsLabel}
 			onChange={(event, value) => this.props.onChange(value)}
 			renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
+			disableUnderline
 		/>
 	}
 
+	getCurtain = () => {
+		return <div style={{ width: "100%", height: "100%", position: "absolute", zIndex: 10 }} />
+	}
+
 	getDropdown = () => {
+		let nonEdit = {}
+		if (!this.props.editable) {
+			nonEdit.disableUnderline = true;
+			nonEdit.IconComponent = "div";
+		}
 		return <FormControl fullWidth>
 			{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
+			{!this.props.editable && this.getCurtain()}
 			<Select
 				multiple={this.props.multiple}
 				fullWidth
-				disabled={!this.props.editable}
+				disabled={this.props.disabled}
 				value={this.props.value}
 				onChange={(event) => this.props.onChange(event.target.value)}
-				renderValue={
-					this.props.multiple ?
-						((vs) => vs.map(this.getOptionLabel).join(", ")) :
-						this.getOptionLabel
-				}
+				{...nonEdit}
+				renderValue={(vs) => <Typography {...this.props.typograpyProps}>{this.getOptionsLabel(vs)}</Typography>}
 			>
 				{this.state.options.map(({ label, value }) => (
 					<MenuItem key={value} value={value}>
@@ -70,7 +81,7 @@ class SelectField extends Component {
 					</MenuItem>
 				))}
 			</Select>
-		</FormControl>
+		</FormControl >
 	}
 
 	render() {

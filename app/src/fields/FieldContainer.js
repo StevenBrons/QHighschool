@@ -72,17 +72,20 @@ function validate(value, rules = {}, options = [value]) {
 class FieldContainer extends Component {
 
   render() {
+    const component = this.props.children;
+    const style = { ...this.props.style }
+
     if (this.props.td) {
-      return <td style={this.props.style}>
-        {this.props.children}
+      return <td style={style}>
+        {component}
       </td>
     } else {
-      return <div style={this.props.style}>
-        {this.props.children}
+      return <div style={style}>
+        {component}
       </div>
     }
   }
 }
 
-export {validate};
+export { validate };
 export default FieldContainer;

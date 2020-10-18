@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from '@material-ui/core';
+import { InputAdornment, TextField, Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import FieldContainer, { validate } from './FieldContainer';
 
@@ -11,25 +11,37 @@ class InputField extends Component {
 			value = P.default;
 		}
 		let CP = {
-			InputProps: {}
-		} // Component props
-		CP.error = P.editable ? !validate(value, P.validate) : false;
-		CP.disabled = !P.editable;
+			InputProps: {},
+			InputLabelProps: {},
+			inputProps: {},
+		}
+
+		CP.error = (P.editable && !P.disabled) ? !validate(value, P.validate) : false;
+		CP.disabled = P.disabled;
 		CP.value = value;
 		CP.label = P.label;
 		CP.multiline = P.multiline;
+		CP.fullWidth = true;
 		CP.defaultValue = P.defaultValue;
-		if (P.unit) {
-			CP.InputProps.endAdornment = <InputAdornment position="end">{P.unit}</InputAdornment>;
+		CP.onChange = (event) => this.props.onChange(event.target.value)
+		CP.InputProps.disableUnderline = !P.editable;
+		CP.InputLabelProps.disabled = true;
+
+		if (P.unit) CP.InputProps.endAdornment = <InputAdornment position="end">{P.unit}</InputAdornment>;
+		if (!P.editable) CP.inputProps.readOnly = "readonly";
+
+		let component;
+		if (!this.props.editable && this.props.typograpyProps) {
+			component =
+				<Typography {...this.props.typograpyProps}>
+					{this.props.value}
+				</Typography>
+		} else {
+			component = <TextField {...CP} />
 		}
 
 		return <FieldContainer {...P}>
-			<TextField
-				{...CP}
-				fullWidth
-				onChange={(event) => this.props.onChange(event.target.value)}
-			>
-			</TextField>
+			{component}
 		</FieldContainer>
 	}
 

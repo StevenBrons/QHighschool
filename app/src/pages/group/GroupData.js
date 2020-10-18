@@ -35,13 +35,15 @@ class GroupData extends Component {
             value={group.courseName}
             onChange={value => onChange("courseName", value)}
             editable={editable}
-            style={{ flex: "5", type: "headline" }}
+            style={{ flex: "5" }}
             validate={{ maxLength: 50 }}
+            typograpyProps={{ variant: "h5", color: "primary" }}
           />
           <SelectField
             value={group.subjectId}
             onChange={value => onChange("subjectId", value)}
             editable={editable}
+            typograpyProps={{ variant: "h5", color: "primary" }}
             options={map(this.props.subjects, subject => {
               return { value: subject.id, label: subject.name };
             })}
@@ -114,6 +116,7 @@ class GroupData extends Component {
             <InputField
               value={courseId}
               label="Modulecode"
+              editable={false}
             />
             <InputField
               value={group.teacherName}
