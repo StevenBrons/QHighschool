@@ -86,17 +86,15 @@ class EducationData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<InputField
-								value="School"
-								td
-							/>
+							<Typography component="td">
+								School
+							</Typography>
 							{this.getField("school")}
 						</tr>
 						<tr>
-							<InputField
-								value="Rollen"
-								td
-							/>
+							<Typography component="td">
+								Rollen
+							</Typography>
 							<SelectField
 								value={p.user.availableRoles.split(",")}
 								multiple
@@ -107,10 +105,9 @@ class EducationData extends Component {
 							/>
 						</tr>
 						<tr>
-							<InputField
-								value="Schoolemail"
-								td
-							/>
+							<Typography component="td">
+								Schoolemail
+							</Typography>
 							<InputField
 								value={p.user.email}
 								td
@@ -122,31 +119,27 @@ class EducationData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<InputField
-								value="Opleidingsniveau"
-								td
-							/>
+							<Typography component="td">
+								Opleidingsniveau
+							</Typography>
 							{this.getField("level")}
 						</tr>
 						<tr>
-							<InputField
-								value="Schoollocatie"
-								td
-							/>
+							<Typography component="td">
+								Schoollocatie
+							</Typography>
 							{this.getField("schoolLocation")}
 						</tr>
 						<tr>
-							<InputField
-								value="Leerjaar"
-								td
-							/>
+							<Typography component="td">
+								Leerjaar
+							</Typography>
 							{this.getField("year")}
 						</tr>
 						<tr>
-							<InputField
-								value="Profiel"
-								td
-							/>
+							<Typography component="td">
+								Profiel
+							</Typography>
 							{this.getField("profile")}
 						</tr>
 					</tbody>

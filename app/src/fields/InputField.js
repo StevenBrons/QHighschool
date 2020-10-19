@@ -15,11 +15,8 @@ class InputField extends Component {
 			InputLabelProps: {},
 			inputProps: {},
 		}
-		if (P.editable == null) {
-			P.editable = true;
-		}
 
-		CP.error = (P.editable && !P.disabled) ? !validate(value, P.validate) : false;
+		CP.error = (P.editable !== false && !P.disabled) ? !validate(value, P.validate) : false;
 		CP.disabled = P.disabled;
 		CP.value = value;
 		CP.label = P.label;
@@ -27,14 +24,14 @@ class InputField extends Component {
 		CP.fullWidth = true;
 		CP.defaultValue = P.defaultValue;
 		CP.onChange = (event) => this.props.onChange(event.target.value)
-		CP.InputProps.disableUnderline = !P.editable;
+		CP.InputProps.disableUnderline = P.editable === false;
 		CP.InputLabelProps.disabled = true;
 
 		if (P.unit) CP.InputProps.endAdornment = <InputAdornment position="end">{P.unit}</InputAdornment>;
-		if (!P.editable) CP.inputProps.readOnly = "readonly";
+		if (P.editable === false) CP.inputProps.readOnly = "readonly";
 
 		let component;
-		if (!this.props.editable && this.props.typograpyProps) {
+		if (this.props.editable === false && this.props.typograpyProps) {
 			component =
 				<Typography {...this.props.typograpyProps}>
 					{this.props.value}

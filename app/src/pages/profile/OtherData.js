@@ -4,7 +4,6 @@ import { switchRole } from "../../store/actions"
 import { connect } from 'react-redux';
 import EnsureSecureLogin from "../../components/EnsureSecureLogin";
 import SelectField from "../../fields/SelectField";
-import InputField from "../../fields/InputField";
 
 class OtherData extends Component {
 
@@ -21,17 +20,16 @@ class OtherData extends Component {
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
-					Overig
+					Rolwissel
 				</Typography>
 				{(u.availableRoles.split(",").length > 1 && p.isOwn) &&
 					<EnsureSecureLogin>
 						<table>
 							<tbody>
 								<tr>
-									<InputField
-										value="Huidige rol"
-										td
-									/>
+									<Typography component="td">
+										Huidige rol
+									</Typography>
 									<SelectField
 										value={this.state.newRole || u.role}
 										editable={p.editableUser}

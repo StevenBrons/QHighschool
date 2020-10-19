@@ -15,11 +15,9 @@ class PersonalData extends Component {
 				<table>
 					<tbody>
 						<tr>
-							<InputField
-								value="Naam"
-								td
-								style={{ margin: "none" }}
-							/>
+							<Typography component="td">
+								Naam
+							</Typography>
 							<InputField
 								value={u.displayName}
 								editable={p.editableAdmin}
@@ -28,10 +26,9 @@ class PersonalData extends Component {
 							/>
 						</tr>
 						{p.isAdmin && <tr>
-							<InputField
-								value="Authenticatie email"
-								td
-							/>
+							<Typography component="td">
+								Authenticatie email
+							</Typography>
 							<InputField
 								value={u.email}
 								editable={p.editableAdmin}
@@ -40,10 +37,9 @@ class PersonalData extends Component {
 							/>
 						</tr>}
 						<tr>
-							<InputField
-								value="Voorkeursemail"
-								td
-							/>
+							<Typography component="td">
+								Voorkeursemail
+							</Typography>
 							<InputField
 								validate={{ type: "email" }}
 								value={u.preferedEmail}
@@ -53,10 +49,9 @@ class PersonalData extends Component {
 							/>
 						</tr>
 						<tr>
-							<InputField
-								value="Telefoonnummer"
-								td
-							/>
+							<Typography component="td">
+								Telefoonnummer
+							</Typography>
 							<InputField
 								validate={{ type: "phoneNumber" }}
 								value={"06 " + (u.phoneNumber ? u.phoneNumber.replace(/^06[ ]*/, "") : "")}
