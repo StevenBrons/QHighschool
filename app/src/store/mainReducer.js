@@ -5,6 +5,7 @@ const DEFAULT_STATE = {
   currentPeriod: 1,
   enrollmentPeriod: 2,
   schoolYear: "2020/2021",
+  possibleYears: generateYears("2020/2021"),
 
   userId: null,
   enrollableGroups: null,
@@ -15,6 +16,17 @@ const DEFAULT_STATE = {
   notifications: [],
   hasFetched: []
 };
+
+function generateYears(currentYear) {
+  const FIRST_YEAR = 2016;
+  const yearOffset = 5;
+  const yearMax = currentYear.split("/")[0] + yearOffset;
+  let years = [];
+  for (let i = firstYear; i < yearMax; i++) {
+    years.push(i + "/" + (i+1))
+  }
+  return years;
+}
 
 function mainReducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
