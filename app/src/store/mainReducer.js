@@ -3,7 +3,7 @@ import groupsReducer from "./groupsReducer";
 
 const DEFAULT_STATE = {
   currentPeriod: 1,
-  enrollmentPeriod: 1,
+  enrollmentPeriod: 2,
   schoolYear: "2020/2021",
 
   userId: null,
