@@ -59,13 +59,13 @@ class SelectField extends Component {
 
 	getDropdown = () => {
 		let nonEdit = {}
-		if (!this.props.editable) {
+		if (this.props.editable === false) {
 			nonEdit.disableUnderline = true;
 			nonEdit.IconComponent = "div";
 		}
 		return <FormControl fullWidth>
 			{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
-			{!this.props.editable && this.getCurtain()}
+			{this.props.editable === false && this.getCurtain()}
 			<Select
 				multiple={this.props.multiple}
 				fullWidth

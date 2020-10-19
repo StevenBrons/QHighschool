@@ -15,6 +15,9 @@ class InputField extends Component {
 			InputLabelProps: {},
 			inputProps: {},
 		}
+		if (P.editable == null) {
+			P.editable = true;
+		}
 
 		CP.error = (P.editable && !P.disabled) ? !validate(value, P.validate) : false;
 		CP.disabled = P.disabled;
