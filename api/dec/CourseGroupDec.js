@@ -15,9 +15,6 @@ const CourseGroup = connection.define('course_group', {
 	},
 	schoolYear: {
 		type: Sequelize.STRING,
-		validate: {
-			isIn: [["2017/2018", "2018/2019", "2019/2020", "2020/2021", "2021/2022", "2022/2023"]],
-		},
 	},
 	enrollableFor: {
 		type: Sequelize.STRING,
@@ -26,8 +23,8 @@ const CourseGroup = connection.define('course_group', {
 		type: Sequelize.STRING,
 	},
 }, {
-		tableName: 'course_group'
-	});
+	tableName: 'course_group'
+});
 
 CourseGroup.belongsTo(Course);
 Course.hasMany(CourseGroup);

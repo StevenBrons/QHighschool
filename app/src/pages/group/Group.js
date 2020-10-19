@@ -83,6 +83,7 @@ function mapStateToProps(state, ownProps) {
 		userId: state.userId,
 		userIsMemberOfGroup,
 		schoolYear: state.schoolYear,
+		possibleYears: state.possibleYears,
 	}
 }
 

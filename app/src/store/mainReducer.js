@@ -20,10 +20,10 @@ const DEFAULT_STATE = {
 function generateYears(currentYear) {
   const FIRST_YEAR = 2016;
   const yearOffset = 5;
-  const yearMax = currentYear.split("/")[0] + yearOffset;
+  const yearMax = parseInt(currentYear.split("/")[0]) + yearOffset;
   let years = [];
   for (let i = FIRST_YEAR; i < yearMax; i++) {
-    years.push(i + "/" + (i+1))
+    years.push(i + "/" + (i + 1))
   }
   return years;
 }

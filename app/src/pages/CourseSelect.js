@@ -179,8 +179,9 @@ class CourseSelect extends Component {
 							label="schooljaar"
 							options={[
 								{ label: "Alle", value: "all" },
-								...this.props.possibleYears.map((year) => {return {label: year, value: year}})
+								...this.props.possibleYears.map((year) => { return { label: year, value: year } })
 							]}
+							style={{ flex: "1", marginLeft: "20px" }}
 							onChange={this.handleYearChange}
 						/>
 					</Toolbar>
@@ -212,6 +213,7 @@ function mapStateToProps(state) {
 		subjects: state.subjects,
 		schoolYear: state.schoolYear,
 		enrolledGroupsIds: state.users[state.userId].enrollmentIds,
+		possibleYears: state.possibleYears,
 	};
 }
 

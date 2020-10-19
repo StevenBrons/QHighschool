@@ -93,7 +93,7 @@ class GroupData extends Component {
                 editable={editable && role === "admin"}
                 style={{ flex: 1 }}
                 onChange={value => onChange("schoolYear", value)}
-                options={["2018/2019", "2019/2020", "2020/2021", "2021/2022", "2022/2023", "2023/2024"]}
+                options={this.props.possibleYears}
               />
             </div>
             <Divider style={{ margin: "15px" }} />
