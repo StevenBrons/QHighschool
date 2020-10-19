@@ -22,7 +22,7 @@ function generateYears(currentYear) {
   const yearOffset = 5;
   const yearMax = currentYear.split("/")[0] + yearOffset;
   let years = [];
-  for (let i = firstYear; i < yearMax; i++) {
+  for (let i = FIRST_YEAR; i < yearMax; i++) {
     years.push(i + "/" + (i+1))
   }
   return years;
