@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import map from "lodash/map"
 import filter from "lodash/filter"
 import User from "../user/User"
-import InputField from "../../fields/InputField"
 import { Paper, Typography } from '@material-ui/core';
 import SelectField from '../../fields/SelectField';
 

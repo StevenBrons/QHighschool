@@ -8,7 +8,6 @@ import { setSecureLogin } from "../../store/actions"
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
 import { Button, Typography } from "@material-ui/core";
-import InputField from "../../fields/InputField";
 
 class User extends Component {
 
