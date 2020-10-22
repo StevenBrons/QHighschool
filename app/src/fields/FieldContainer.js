@@ -26,6 +26,9 @@ function validate(value, rules = {}, options = [value]) {
       break;
     case "decimalGrade":
       //replace dot with comma and vice versa
+      if (value == null) {
+        return false;
+      }
       const x = value
         .replace(/\./g, "_$comma$_")
         .replace(/,/g, ".")
@@ -73,7 +76,7 @@ class FieldContainer extends Component {
 
   render() {
     const component = this.props.children;
-    const style = { ...this.props.style }
+    const style = { flex: "1", ...this.props.style }
 
     if (this.props.td) {
       return <td style={style}>
