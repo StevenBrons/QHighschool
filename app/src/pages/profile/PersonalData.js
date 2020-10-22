@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Typography } from "@material-ui/core/";
+import { Alert } from "@material-ui/lab";
+import { validate } from "../../fields/FieldContainer"
 import InputField from "../../fields/InputField";
 
 class PersonalData extends Component {
@@ -47,10 +49,17 @@ class PersonalData extends Component {
 								onChange={(value) => p.onChange("preferedEmail", value)}
 								td
 							/>
+							<td>
+								{!validate(u.preferedEmail, { type: "email" }) &&
+									<Alert severity="warning">
+										Zonder voorkeursemail kunnen we je niet bereiken!
+									</Alert>
+								}
+							</td>
 						</tr>
 						<tr>
 							<Typography component="td">
-								Telefoonnummer
+								Mobiel nummer
 							</Typography>
 							<InputField
 								validate={{ type: "phoneNumber" }}
@@ -59,6 +68,13 @@ class PersonalData extends Component {
 								editable={p.editableUser}
 								onChange={(value) => p.onChange("phoneNumber", value.slice(0, 11))}
 							/>
+							<td>
+								{!validate(u.phoneNumber, { type: "phoneNumber" }) &&
+									<Alert severity="warning">
+										Zonder telefoonnummer kunnen we je niet bereiken!
+									</Alert>
+								}
+							</td>
 						</tr>
 					</tbody>
 				</table>

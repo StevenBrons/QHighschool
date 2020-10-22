@@ -81,7 +81,7 @@ class EducationData extends Component {
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
-					School gegevens
+					Schoolgegevens
 				</Typography>
 				<table>
 					<tbody>

@@ -38,19 +38,25 @@ class SelectField extends Component {
 			} else {
 				return "";
 			}
-		}).join(",");
+		}).join(", ");
 	}
 
 	getAutocomplete = () => {
-		return <Autocomplete
-			value={this.props.value}
-			disabled={this.props.disabled}
-			options={this.state.options.map(({ label, value }) => value)}
-			getOptionLabel={this.getOptionsLabel}
-			onChange={(event, value) => this.props.onChange(value)}
-			renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
-			disableUnderline
-		/>
+		if (this.props.editable === false) {
+			return <Typography {...this.props.typograpyProps}>
+				{this.getOptionsLabel(this.props.value)}
+			</Typography>
+		} else {
+			return <Autocomplete
+				value={this.props.value}
+				disabled={this.props.disabled}
+				options={this.state.options.map(({ label, value }) => value)}
+				getOptionLabel={this.getOptionsLabel}
+				onChange={(event, value) => this.props.onChange(value)}
+				renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
+				disableUnderline
+			/>
+		}
 	}
 
 	getCurtain = () => {

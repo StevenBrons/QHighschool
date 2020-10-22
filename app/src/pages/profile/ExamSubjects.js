@@ -85,38 +85,37 @@ class ExamSubjects extends Component {
 					Examenvakken
 				</Typography>
 				<Typography>
-					In deze vakken wil ik bij de Q-Highschool examen doen:
+					In deze vakken wil ik bij de Q-highschool examen doen:
 				</Typography>
-				<table>
+				<table style={{ marginTop: "10px" }}>
 					<tbody>
 						{examSubjectComponents}
 					</tbody>
 				</table>
 				{this.props.editableUser &&
 					<Button variant="contained" color="primary" startIcon={<Add />} onClick={this.toggleDialog} >
-						Nieuw examenvak
+						Examenvak toevoegen
 					</Button>
 				}
 				<Dialog onClose={this.toggleDialog} aria-labelledby="customized-dialog-title" open={this.state.isDialogOpen}>
 					<DialogTitle id="customized-dialog-title" onClose={this.toggleDialog}>
-						Nieuw examenvak
+						Examenvak toevoegen
         	</DialogTitle>
 					<DialogContent dividers>
 						<Typography gutterBottom>
 							In welk vak wil je examen doen?
           	</Typography>
 						<SelectField
-							label="Nieuw examenvak"
 							value={this.state.newSubjectId}
 							options={availableSubjects}
 							onChange={(value) => this.onChange("newSubjectId", value)}
 						/>
 						<Typography gutterBottom>
-							Volg je dit vak binnen je profiel of in het vrije deel?
+							Volg je dit vak binnen je profieldeel of in het vrije deel?
           	</Typography>
 						<SelectField
 							value={this.state.newSubjectProfile}
-							options={[{ label: "In profiel", value: "T" }, { label: "In vrije deel", value: "F" }]}
+							options={[{ label: "In profieldeel", value: "T" }, { label: "In vrije deel", value: "F" }]}
 							onChange={(value) => this.onChange("newSubjectProfile", value)}
 						/>
 					</DialogContent>

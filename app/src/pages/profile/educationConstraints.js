@@ -1,7 +1,7 @@
 let possibleValues = {
 	role: {
 		"student": {
-			level: ["Praktijkschool", "ISK", "n.v.t.", "Jan Ligthart", "OPUS", "MAVO", "VMBO", "HAVO", "VWO","AGORA"],
+			level: ["Praktijkschool", "ISK", "n.v.t.", "Jan Ligthart", "OPUS", "MAVO", "VMBO", "HAVO", "VWO", "AGORA"],
 		},
 		"teacher": {
 			level: ["-"],
@@ -54,7 +54,7 @@ let possibleValues = {
 		},
 		"Lorentz Lyceum": {
 			level: ["HAVO", "VWO", "OPUS", "n.v.t.", "-"],
-			schoolLocation: ["Parnassusstraat 20, Arnhem", "Metamorfosenallee 100, Arnhem"]
+			schoolLocation: ["Metamorfosenallee 100, Arnhem"]
 		},
 		"Maarten van Rossem": {
 			level: ["VMBO", "-"],
@@ -65,7 +65,7 @@ let possibleValues = {
 			schoolLocation: ["Utrechtseweg 174, Arnhem"]
 		},
 		"Olympus College": {
-			level: ["ISK", "Jan Ligthart", "MAVO", "HAVO", "VWO", "-"],
+			level: ["Jan Ligthart", "MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: ["Olympus 11, Arnhem"],
 		},
 		"Produs Praktijkonderwijs": {
@@ -212,7 +212,6 @@ let possibleValues = {
 		"n.v.t.": {},
 	},
 	schoolLocation: {
-		"Parnassusstraat 20, Arnhem": {},
 		"Leidenweg 60, Arnhem": {},
 		"Hoge Witteveld 2, Didam": {},
 		"Thomas a Kempislaan 82, Arnhem": {},
