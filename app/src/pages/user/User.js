@@ -7,7 +7,7 @@ import { setSecureLogin } from "../../store/actions"
 
 import { withRouter } from 'react-router-dom';
 import Progress from '../../components/Progress'
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import InputField from "../../fields/InputField";
 
 class User extends Component {
@@ -44,7 +44,9 @@ class User extends Component {
 
 		switch (this.props.display) {
 			case "name":
-				return <InputField value={this.props.user.displayName} td />;
+				return <Typography component="td" color="primary" variant="button">
+					{this.props.user.displayName}
+				</Typography>;
 			case "row":
 				return (
 					<UserRow {...this.props}>

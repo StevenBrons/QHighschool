@@ -3,7 +3,8 @@ import map from "lodash/map"
 import filter from "lodash/filter"
 import User from "../user/User"
 import InputField from "../../fields/InputField"
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
+import SelectField from '../../fields/SelectField';
 
 class PresenceTable extends Component {
 
@@ -14,7 +15,7 @@ class PresenceTable extends Component {
 			options[0].label = "Afgemeld";
 			options[1].label = "Afgemeld";
 		}
-		return <InputField
+		return <SelectField
 			key={i}
 			value={presence.status}
 			options={options}
@@ -57,15 +58,18 @@ class PresenceTable extends Component {
 
 	createLessonHeader = (lesson) => {
 		const content = map(this.props.lessons, lesson => {
-			return <InputField
-				value={"Les " + lesson.numberInBlock}
-				key={lesson.id}
-				td
-			/>;
+			return <Typography key={lesson.id} component="td" color="primary">
+				{"Les " + lesson.numberInBlock}
+			</Typography>
 		});
 		return (
-			<Paper component="tr" elevation={2} key={"l" + lesson} style={{ backgroundColor: "#e0e0e0" }} >
-				<InputField value="" td />
+			<Paper
+				component="tr"
+				elevation={2}
+				key={"l" + lesson}
+				style={{ backgroundColor: "#e0e0e0" }}
+			>
+				<Typography component="td" />
 				{content}
 			</Paper>
 		);
@@ -74,7 +78,7 @@ class PresenceTable extends Component {
 	render() {
 		let rows = this.props.participantIds.map(this.createRow);
 		rows.unshift(this.createLessonHeader());
-		return <table>
+		return <table style={{ width: "100%" }}>
 			<tbody>
 				{rows}
 			</tbody>

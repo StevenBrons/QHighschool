@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { setPresenceUserStatus } from "../../store/actions";
 import { connect } from "react-redux";
 import InputField from '../../fields/InputField';
@@ -78,16 +78,28 @@ class Lesson extends Component {
 					style={{ backgroundColor: "#e0e0e0" }}
 				>
 					<td style={{ display: "flex", flexDirection: "column" }}>
-						<InputField value="Lesnummer" />
-						<InputField value="Soort les" />
-					</td>
-					<InputField style={{ flex: 4 }} value="Onderwerp" td />
-					<InputField style={{ flex: 8 }} value="Activiteiten" td />
+						<Typography>
+							Lesnummer
+						</Typography>
+						<Typography>
+							Soort les
+						</Typography>
+					</td >
+					<Typography style={{ flex: 4 }} component="td">
+						Onderwerp
+					</Typography >
+					<Typography style={{ flex: 8 }} component="td">
+						Activiteiten
+					</Typography >
 					<td style={{ display: "flex", flexDirection: "column" }}>
-						<InputField value="Datum" />
-						<InputField value="Aanwezigheid" />
-					</td>
-				</Paper>
+						<Typography>
+							Datum
+						</Typography>
+						<Typography>
+							Aanwezigheid
+						</Typography >
+					</td >
+				</Paper >
 			);
 		}
 		return (
@@ -98,11 +110,9 @@ class Lesson extends Component {
 				component="tr"
 			>
 				<td style={{ display: "flex", flexDirection: "column" }}>
-					<InputField
-						color="primary"
-						layout={{ area: true }}
-						value={"Les " + lesson.numberInBlock}
-					/>
+					<Typography color="primary" variant="button" component="td" >
+						{"Les " + lesson.numberInBlock}
+					</Typography>
 					<InputField
 						label="Soort les"
 						layout={{ area: true }}
@@ -128,10 +138,9 @@ class Lesson extends Component {
 					td
 				/>
 				<td style={{ display: "flex", flexDirection: "column" }}>
-					<InputField
-						layout={{ alignment: "right" }}
-						value={this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
-					/>
+					<Typography component="td">
+						{this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
+					</Typography>
 					<SelectField
 						label="Aanwezigheid"
 						value={lesson.presence}
