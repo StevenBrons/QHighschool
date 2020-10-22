@@ -118,7 +118,6 @@ class EvaluationField extends Component {
 			return <InputField
 				validate={{ min: 1, max: 10, type: "decimalGrade", notEmpty: true }}
 				td
-				label="Beoordeling"
 				name={e.userId}
 				value={e.assesment ? e.assesment : ""}
 				editable={this.props.editable}
@@ -127,7 +126,6 @@ class EvaluationField extends Component {
 		} else {
 			return <SelectField
 				name={e.userId}
-				label="Beoordeling"
 				td
 				value={e.assesment ? e.assesment : ""}
 				options={EVALUATION_FORMATS.filter(f => f.value === e.type)[0].options}
