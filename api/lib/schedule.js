@@ -11,22 +11,13 @@ exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
   })[0];
 
   if (week == null) {
-    throw new Error(
-      "Schedule is wrong! Could not find match for: " +
-      schoolYear +
-      "," +
-      period +
-      "," +
-      numberInBlock +
-      "," +
-      day
-    );
+    throw new Error(`Schedule is wrong! Could not find match for: ${schoolYear}, ${period}, ${numberInBlock}, ${day}`);
   }
   const weeknummer = typeof week.weekNumber === "function" ? week.weekNumber(day) : week.weekNumber;
 
   return moment()
     .year(week.year)
-    .week(weeknummer)
+    .isoWeek(weeknummer)
     .day(day)
     .toDate();
 };
