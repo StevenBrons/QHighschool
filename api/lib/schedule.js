@@ -42,10 +42,10 @@ exports.isEnrollable = group => {
 exports.shouldBeSynced = group => {
   if (process.env.NODE_ENV) {
     //production
-    return group.schoolYear + "" === "2020/2021";
+    return group.schoolYear === exports.getCurrentSchoolYear();
   } else {
     //develop
-    return group.schoolYear == exports.getCurrentSchoolYear();
+    return group.schoolYear === exports.getCurrentSchoolYear() && group.period === 1;
   }
 };
 

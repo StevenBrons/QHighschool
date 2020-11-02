@@ -9,22 +9,25 @@ exports.updateClass = async (groupId) => {
 	if (!schedule.shouldBeSynced(group)) return "NO_SYNC";
 	if (!group.graphId) return createClass(groupId);
 
-	return connection.api("education/classes/" + group.graphId)
-	.patch(getClassDataFromGroup(group))
-	.catch(() => {
-		console.error("Team not found");
-	});
+	return connection.api("groups/" + group.graphId)
+		.patch(getMSGroupDataFromGroup(group))
+		.catch(() => {
+			console.error("Team not found");
+		});
 }
 
-// connection.getAccessToken().then(console.log).then(async () => {
-// 	const testGroup = await groupDb.getGroup("80");
-// 	const G = await this.getAllClasses();
-// 	G.map((g) => {
-// 		console.log(g.id + " " + g.displayName);
-// 	});
-// });
+// Normal created group
+// Api created group   NEW 4a65e346-5d8b-41de-bc05-1f82e3bb89ab OLD ac6db7b8-ee9d-4c1f-95ed-64f5e866facf
 
-exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/education/classes") => {
+connection.getAccessToken().then(console.log).then(async () => {
+	// const testGroup = await groupDb.getGroup("80");
+	// const G = await this.getAllClasses();
+	// G.map((g) => {
+	// 	console.log(g.id + " " + g.displayName);
+	// });
+});
+
+exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/groups") => {
 	const obj = await connection.api(link.substring(33)).get();
 	let groups = obj.value;
 	if (obj["@odata.nextLink"] != null) {
@@ -36,37 +39,37 @@ exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/educatio
 
 exports.syncAllParticipants = async (group) => {
 	const members = await this.getMemberList(group);
-	const memberEmails = members.map(({email}) => email);
-	const participants = await groupDb.getParticipants(group.id,true);
-	const participantEmails = participants.map(({email}) => email);
-	const toBeAdded = participants.filter(({email}) => {
+	const memberEmails = members.map(({ email }) => email);
+	const participants = await groupDb.getParticipants(group.id, true);
+	const participantEmails = participants.map(({ email }) => email);
+	const toBeAdded = participants.filter(({ email }) => {
 		return memberEmails.indexOf(email) == -1;
 	});
-	const toBeRemoved = members.filter(({email}) => {
-		return participantEmails.indexOf(email) === -1 && 
-		!(email === "Q-Highschool@quadraam.nl" || email === "Qhighschool@quadraam.nl");
+	const toBeRemoved = members.filter(({ email }) => {
+		return participantEmails.indexOf(email) === -1 &&
+			!(email === "Q-Highschool@quadraam.nl" || email === "Qhighschool@quadraam.nl");
 	});
 	if (toBeAdded.length > 0) {
 		console.log("Adding members to team of group " + group.id);
-		console.log(toBeAdded.map(({email}) => email));
+		console.log(toBeAdded.map(({ email }) => email));
 	}
 	if (toBeRemoved.length > 0) {
 		console.log("Remove members to team of group " + group.id);
-		console.log(toBeRemoved.map(({email}) => email))
+		console.log(toBeRemoved.map(({ email }) => email))
 	}
-	await toBeAdded.map(({participatingRole,email}) => addParticipant(group.graphId,email,participatingRole));
-	await toBeRemoved.map(({id,role}) => removeParticipant(group.graphId,id,role));
+	await toBeAdded.map(({ participatingRole, email }) => addParticipant(group.graphId, email, participatingRole));
+	await toBeRemoved.map(({ id, role }) => removeParticipant(group.graphId, id, role));
 }
 
 exports.getMemberList = async (group) => {
 	if (!schedule.shouldBeSynced(group)) return "NO_SYNC";
 	const graphId = group.graphId;
-	let memberList = (await connection.api(`education/classes/${graphId}/members`).get()).value;
-	let teacherList = (await connection.api(`education/classes/${graphId}/teachers`).get()).value;
-	memberList  = memberList.map(member => { return {...member, role: "member"}});
-	teacherList = teacherList.map(member => { return {...member, role: "teacher"}});
-	return memberList.concat(teacherList).map(({id,role,displayName,userPrincipalName}) => {
-		return {id,role,displayName,email:userPrincipalName};
+	let memberList = (await connection.api(`groups/${graphId}/members`).get()).value;
+	let teacherList = (await connection.api(`groups/${graphId}/owners`).get()).value;
+	memberList = memberList.map(member => { return { ...member, role: "student" } });
+	teacherList = teacherList.map(member => { return { ...member, role: "teacher" } });
+	return memberList.concat(teacherList).map(({ id, role, displayName, userPrincipalName }) => {
+		return { id, role, displayName, email: userPrincipalName };
 	})
 }
 
@@ -78,17 +81,17 @@ exports.addParticipantByUserId = async (userId, groupId, participatingRole) => {
 }
 
 async function addParticipant(graphId, upn, participatingRole) {
-	const role = participatingRole === "teacher" ? "teachers" : "members";
-	return connection.api(`education/classes/${graphId}/${role}/$ref`)
-		.post({ "@odata.id": `https://graph.microsoft.com/v1.0/education/users/${upn}` })
+	const role = participatingRole === "teacher" ? "owners" : "members";
+	return connection.api(`groups/${graphId}/${role}/$ref`)
+		.post({ "@odata.id": `https://graph.microsoft.com/v1.0/users/${upn}` })
 		.catch(() => {
 			console.error("No Office account found for user " + upn);
 		});
 }
 
 async function removeParticipant(graphId, graphUserId, participatingRole) {
-	const role = participatingRole === "teacher" ? "teachers" : "members";
-	return connection.api(`education/classes/${graphId}/${role}/${graphUserId}/$ref`)
+	const role = participatingRole === "teacher" ? "owners" : "members";
+	return connection.api(`groups/${graphId}/${role}/${graphUserId}/$ref`)
 		.delete();
 }
 
@@ -105,7 +108,24 @@ function getSmallYear(schoolYear) {
 	return schoolYear.replace(/^20/, "").replace(/\/20/, "");
 }
 
-function getClassDataFromGroup(group) {
+function __getClassDataFromGroup(group) {
+	const displayGroupId = "#G" + group.id.padStart(4, "0");
+	let mailNickname = group.courseName + displayGroupId;
+	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+	mailNickname = mailNickname.replace(/ +/g, "");
+	mailNickname = mailNickname.replace(/[^a-zA-Z0-9 \-#]/g, "");
+	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
+	const year = getSmallYear(group.schoolYear);
+	// return {
+	// 	description: sanitizeText(group.courseDescription),
+	// 	displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
+	// 	mailNickname,
+	// 	classCode: displayGroupId,
+	// 	externalId: group.id + "",
+	// 	externalName: `${group.courseName}`,
+	// }
+}
+function getMSGroupDataFromGroup(group) {
 	const displayGroupId = "#G" + group.id.padStart(4, "0");
 	let mailNickname = group.courseName + displayGroupId;
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
@@ -116,10 +136,13 @@ function getClassDataFromGroup(group) {
 	return {
 		description: sanitizeText(group.courseDescription),
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
+		groupTypes: [
+			"Unified"
+		],
+		mailEnabled: true,
 		mailNickname,
-		classCode: displayGroupId,
-		externalId: group.id + "",
-		externalName: `${group.courseName}`,
+		securityEnabled: true,
+		visibility: "Private"
 	}
 }
 
@@ -129,11 +152,13 @@ async function createClass(groupId) {
 
 	const participants = await groupDb.getParticipants(group.id, true);
 
-	const team = await connection.api("education/classes")
-		.post(getClassDataFromGroup(group));
+	const team = await connection.api("groups")
+		.post(getMSGroupDataFromGroup(group));
 	await groupDb.setGraphId(group.id, team.id);
-	await connection.api(`education/schools/${office365.schoolId}/classes/$ref`)
-		.post({ "@odata.id": "https://graph.microsoft.com/v1.0/education/classes/" + team.id });
+
+	// // add team to school
+	// await connection.api(`education/schools/${office365.schoolId}/classes/$ref`)
+	// 	.post({ "@odata.id": "https://graph.microsoft.com/v1.0/groups/" + team.id });
 
 	await addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
 	await Promise.all(participants.map(p => addParticipant(team.id, p.email, p.participatingRole)));
