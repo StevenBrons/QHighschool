@@ -91,6 +91,12 @@ this.api = (endpoint) => {
 			options.method = "DELETE";
 			options.body = body;
 			return rp(options);
+		},
+		put: async (body) => {
+			await pre();
+			options.method = "PUT";
+			options.body = body;
+			return rp(options);
 		}
 	}
 }

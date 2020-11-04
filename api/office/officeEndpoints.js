@@ -10,7 +10,7 @@ exports.updateClass = async (groupId) => {
 	if (!group.graphId) return createClass(groupId);
 
 	return connection.api("groups/" + group.graphId)
-		.patch(getMSGroupDataFromGroup(group))
+		.patch(getMSGroupOptionsFromGroup(group))
 		.catch(() => {
 			console.error("Team not found");
 		});
@@ -21,10 +21,13 @@ exports.updateClass = async (groupId) => {
 
 connection.getAccessToken().then(console.log).then(async () => {
 	// const testGroup = await groupDb.getGroup("80");
-	// const G = await this.getAllClasses();
-	// G.map((g) => {
-	// 	console.log(g.id + " " + g.displayName);
-	// });
+	// // const G = await this.getAllClasses();
+	// // G.map((g) => {
+	// // 	console.log(g.id + " " + g.displayName);
+	// // });
+	// let l = "75ac4f83-014b-4e8e-ad6f-f587575014ee";
+	// await connection.api(`groups/${l}/team`)
+	// 	.put(getMSTeamOptionsFromGroup(testGroup));
 });
 
 exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/groups") => {
@@ -125,7 +128,12 @@ function __getClassDataFromGroup(group) {
 	// 	externalName: `${group.courseName}`,
 	// }
 }
-function getMSGroupDataFromGroup(group) {
+
+function getMSTeamOptionsFromGroup(group) {
+	return {};
+}
+
+function getMSGroupOptionsFromGroup(group) {
 	const displayGroupId = "#G" + group.id.padStart(4, "0");
 	let mailNickname = group.courseName + displayGroupId;
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
@@ -139,10 +147,10 @@ function getMSGroupDataFromGroup(group) {
 		groupTypes: [
 			"Unified"
 		],
-		mailEnabled: true,
+		mailEnabled: false,
 		mailNickname,
-		securityEnabled: true,
-		visibility: "Private"
+		securityEnabled: false,
+		visibility: "HiddenMembership",
 	}
 }
 
@@ -152,19 +160,29 @@ async function createClass(groupId) {
 
 	const participants = await groupDb.getParticipants(group.id, true);
 
-	const team = await connection.api("groups")
-		.post(getMSGroupDataFromGroup(group));
-	await groupDb.setGraphId(group.id, team.id);
+	// Create MSGroup
+	const msGroup = await connection.api("groups")
+		.post(getMSGroupOptionsFromGroup(group));
+	await groupDb.setGraphId(group.id, msGroup.id);
+
 
 	// // add team to school
 	// await connection.api(`education/schools/${office365.schoolId}/classes/$ref`)
 	// 	.post({ "@odata.id": "https://graph.microsoft.com/v1.0/groups/" + team.id });
 
-	await addParticipant(team.id, "Qhighschool@quadraam.nl", "teacher");
-	await Promise.all(participants.map(p => addParticipant(team.id, p.email, p.participatingRole)));
+	// Add participants
+	await addParticipant(msGroup.id, "Qhighschool@quadraam.nl", "teacher");
+	await Promise.all(participants.map(p => addParticipant(msGroup.id, p.email, p.participatingRole)));
+
+	// Create MSTeam
+	setTimeout(() => {
+		connection.api(`groups/${msGroup.id}/team`)
+			.put(getMSTeamOptionsFromGroup(group));
+	}, 60 * 1000)
+
 
 	console.log("The group #G" + groupId + " is now synchronised with office teams");
-	return team.id;
+	return msGroup.id;
 }
 
 async function getGraphIdOrCreate(groupId) {
