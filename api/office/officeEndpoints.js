@@ -9,20 +9,20 @@ exports.updateClass = async (groupId) => {
 	if (!schedule.shouldBeSynced(group)) return "NO_SYNC";
 	if (!group.graphId) return createClass(groupId);
 
-	return connection.api("education/classes/" + group.graphId)
-	.patch(getClassDataFromGroup(group))
-	.catch(() => {
-		console.error("Team not found");
-	});
+	return connection.api("groups/" + group.graphId)
+		.patch(getClassDataFromGroup(group))
+		.catch(() => {
+			console.error("Team not found");
+		});
 }
 
-// connection.getAccessToken().then(console.log).then(async () => {
-// 	const testGroup = await groupDb.getGroup("80");
-// 	const G = await this.getAllClasses();
-// 	G.map((g) => {
-// 		console.log(g.id + " " + g.displayName);
-// 	});
-// });
+connection.getAccessToken().then(console.log).then(async () => {
+	const testGroup = await groupDb.getGroup("80");
+	const G = await this.getAllClasses();
+	G.map((g) => {
+		console.log(g.id + " " + g.displayName);
+	});
+});
 
 exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/education/classes") => {
 	const obj = await connection.api(link.substring(33)).get();
@@ -36,26 +36,26 @@ exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/educatio
 
 exports.syncAllParticipants = async (group) => {
 	const members = await this.getMemberList(group);
-	const memberEmails = members.map(({email}) => email);
-	const participants = await groupDb.getParticipants(group.id,true);
-	const participantEmails = participants.map(({email}) => email);
-	const toBeAdded = participants.filter(({email}) => {
+	const memberEmails = members.map(({ email }) => email);
+	const participants = await groupDb.getParticipants(group.id, true);
+	const participantEmails = participants.map(({ email }) => email);
+	const toBeAdded = participants.filter(({ email }) => {
 		return memberEmails.indexOf(email) == -1;
 	});
-	const toBeRemoved = members.filter(({email}) => {
-		return participantEmails.indexOf(email) === -1 && 
-		!(email === "Q-Highschool@quadraam.nl" || email === "Qhighschool@quadraam.nl");
+	const toBeRemoved = members.filter(({ email }) => {
+		return participantEmails.indexOf(email) === -1 &&
+			!(email === "Q-Highschool@quadraam.nl" || email === "Qhighschool@quadraam.nl");
 	});
 	if (toBeAdded.length > 0) {
 		console.log("Adding members to team of group " + group.id);
-		console.log(toBeAdded.map(({email}) => email));
+		console.log(toBeAdded.map(({ email }) => email));
 	}
 	if (toBeRemoved.length > 0) {
 		console.log("Remove members to team of group " + group.id);
-		console.log(toBeRemoved.map(({email}) => email))
+		console.log(toBeRemoved.map(({ email }) => email))
 	}
-	await toBeAdded.map(({participatingRole,email}) => addParticipant(group.graphId,email,participatingRole));
-	await toBeRemoved.map(({id,role}) => removeParticipant(group.graphId,id,role));
+	await toBeAdded.map(({ participatingRole, email }) => addParticipant(group.graphId, email, participatingRole));
+	await toBeRemoved.map(({ id, role }) => removeParticipant(group.graphId, id, role));
 }
 
 exports.getMemberList = async (group) => {
@@ -63,10 +63,10 @@ exports.getMemberList = async (group) => {
 	const graphId = group.graphId;
 	let memberList = (await connection.api(`education/classes/${graphId}/members`).get()).value;
 	let teacherList = (await connection.api(`education/classes/${graphId}/teachers`).get()).value;
-	memberList  = memberList.map(member => { return {...member, role: "member"}});
-	teacherList = teacherList.map(member => { return {...member, role: "teacher"}});
-	return memberList.concat(teacherList).map(({id,role,displayName,userPrincipalName}) => {
-		return {id,role,displayName,email:userPrincipalName};
+	memberList = memberList.map(member => { return { ...member, role: "member" } });
+	teacherList = teacherList.map(member => { return { ...member, role: "teacher" } });
+	return memberList.concat(teacherList).map(({ id, role, displayName, userPrincipalName }) => {
+		return { id, role, displayName, email: userPrincipalName };
 	})
 }
 
@@ -117,9 +117,9 @@ function getClassDataFromGroup(group) {
 		description: sanitizeText(group.courseDescription),
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
 		mailNickname,
-		classCode: displayGroupId,
-		externalId: group.id + "",
-		externalName: `${group.courseName}`,
+		// classCode: displayGroupId,
+		// externalId: group.id + "",
+		// externalName: `${group.courseName}`,
 	}
 }
 
