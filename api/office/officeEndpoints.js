@@ -12,6 +12,7 @@ exports.updateClass = async (groupId) => {
 	return connection.api("groups/" + group.graphId)
 		.patch(getClassDataFromGroup(group))
 		.catch((e) => {
+			console.log(e)
 			console.error("Team not found");
 		});
 }
