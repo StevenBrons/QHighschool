@@ -12,7 +12,6 @@ exports.updateClass = async (groupId) => {
 	return connection.api("groups/" + group.graphId)
 		.patch(getClassDataFromGroup(group))
 		.catch((e) => {
-			console.log(e)
 			console.error("Team not found");
 		});
 }
@@ -117,7 +116,7 @@ function getClassDataFromGroup(group) {
 	return {
 		description: sanitizeText(group.courseDescription),
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
-		// mailNickname,
+		mailNickname,
 		// classCode: displayGroupId,
 		// externalId: group.id + "",
 		// externalName: `${group.courseName}`,
