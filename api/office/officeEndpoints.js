@@ -11,18 +11,19 @@ exports.updateClass = async (groupId) => {
 
 	return connection.api("groups/" + group.graphId)
 		.patch(getClassDataFromGroup(group))
-		.catch(() => {
+		.catch((e) => {
+			console.log(e)
 			console.error("Team not found");
 		});
 }
 
-connection.getAccessToken().then(console.log).then(async () => {
-	// const testGroup = await groupDb.getGroup("80");
-	// const G = await this.getAllClasses();
-	// G.map((g) => {
-	// 	console.log(g.id + " " + g.displayName);
-	// });
-});
+// connection.getAccessToken().then(console.log).then(async () => {
+// 	// const testGroup = await groupDb.getGroup("80");
+// 	// const G = await this.getAllClasses();
+// 	// G.map((g) => {
+// 	// 	console.log(g.id + " " + g.displayName);
+// 	// });
+// });
 
 exports.getAllClasses = async (link = "https://graph.microsoft.com/v1.0/education/classes") => {
 	const obj = await connection.api(link.substring(33)).get();
