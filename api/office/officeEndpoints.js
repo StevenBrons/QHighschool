@@ -12,8 +12,7 @@ exports.updateClass = async (groupId) => {
 	return connection.api("groups/" + group.graphId)
 		.patch(getClassDataFromGroup(group))
 		.catch((e) => {
-			console.log(e)
-			console.error("Team not found");
+			console.error("Team not found/Team update error");
 		});
 }
 
@@ -112,6 +111,9 @@ function getClassDataFromGroup(group) {
 	mailNickname = mailNickname.replace(/(?:^|\s)\S/g, a => a.toUpperCase());
 	mailNickname = mailNickname.replace(/ +/g, "");
 	mailNickname = mailNickname.replace(/[^a-zA-Z0-9 \-#]/g, "");
+	if (mailNickname.length > 40) {
+		mailNickname = mailNickname.substring(0, 40);
+	}
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
 	const year = getSmallYear(group.schoolYear);
 	return {
