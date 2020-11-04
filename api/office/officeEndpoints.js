@@ -117,7 +117,7 @@ function getClassDataFromGroup(group) {
 	return {
 		description: sanitizeText(group.courseDescription),
 		displayName: sanitizeText(`QH ${group.subjectAbbreviation} ${group.courseName} (BLOK ${group.period} - ${year})`),
-		mailNickname,
+		// mailNickname,
 		// classCode: displayGroupId,
 		// externalId: group.id + "",
 		// externalName: `${group.courseName}`,
