@@ -79,13 +79,13 @@ class SubjectRow extends Component {
   getSortedGroups(groups) {// course objects -> filtered and ordered groups
     return Object.keys(groups)
       .map(id => groups[id])
-      .filter(({period}) => period >= ENROLLMENT_PERIOD)
+      .filter(({ period }) => period >= ENROLLMENT_PERIOD)
       .sort((a, b) => {
         let startYear = new RegExp(/(\d{4})\//); // '2019/2020' => 2019
         let yearA = parseInt(a.schoolYear.match(startYear)[1]);
         let yearB = parseInt(b.schoolYear.match(startYear)[1]);
-        return parseInt(yearA + a.period + a.courseDescription.charCodeAt(0)) - parseInt(yearB + b.period + b.courseDescription.charCodeAt(0));
-    });
+        return parseInt(`${yearA}${a.period}${a.courseDescription.charCodeAt(0)}`) - parseInt(`${yearB}${b.period}${b.courseDescription.charCodeAt(0)}`);
+      });
   }
 
   render() {
@@ -103,7 +103,7 @@ class SubjectRow extends Component {
           />
         )}
         <div className="scroller" ref={this.scroller}>
-          {this.getSortedGroups(groups).map(({id,courseId,courseName}, i) => {
+          {this.getSortedGroups(groups).map(({ id, courseId, courseName }, i) => {
             return (
               <Course
                 key={id}

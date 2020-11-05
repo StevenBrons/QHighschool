@@ -4,11 +4,11 @@
   "private": true,
   "proxy": "http://localhost:26194/",
   "dependencies": {
-    "jquery": "^3.4.1",
-    "react": "^16.9.0",
-    "react-app-polyfill": "^1.0.4",
-    "react-dom": "^16.9.0",
-    "react-scripts": "^3.4.0",
+    "jquery": "^3.5.1",
+    "react": "^16.14.0",
+    "react-app-polyfill": "^1.0.6",
+    "react-dom": "^16.14.0",
+    "react-scripts": "^3.4.4",
     "react-spinners": "^0.6.1",
     "smoothscroll-polyfill": "^0.4.4",
     "typeface-roboto": "0.0.75"
