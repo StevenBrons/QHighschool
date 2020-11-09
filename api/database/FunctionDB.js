@@ -99,7 +99,7 @@ exports.createUser = async accessToken => {
 
 exports.updateAllGroups = async () => {
   const groups = await Group.findAll();
-  const errorHandler = (group,opp) => ((e) => console.error(`Error for operation ${opp}: ${group.id}\n${e}`))
+  const errorHandler = (group, opp) => ((e) => console.error(`Error for operation ${opp}: ${group.id}\n${e}`))
   return Promise.all(
     groups.map(async group => {
       if (schedule.shouldBeSynced(group)) {
@@ -324,6 +324,7 @@ exports.getUserData = async school => {
     "profile",
     "phoneNumber",
     "schoolLocation",
+    "examRights",
     "id"
   ];
   const where = school
@@ -372,7 +373,7 @@ exports.setAlias = async (token, oldUserId, newUserId) => {
 exports.switchRole = async (userId, newRole) => {
   const user = await User.findOne({
     where: {
-      id:userId,
+      id: userId,
     }
   });
   return user.update({

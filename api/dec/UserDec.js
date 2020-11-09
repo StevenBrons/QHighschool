@@ -65,6 +65,10 @@ module.exports = connection.define('user', {
 		type: Sequelize.STRING,
 		defaultValue: "[]", // [{"id": 1, "inProfile": true}]
 	},
+	examRights: {
+		type: Sequelize.STRING,
+		defaultValue: "",
+	},
 	needsProfileUpdate: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: true,
