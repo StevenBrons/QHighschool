@@ -62,7 +62,7 @@ class ExamSubjects extends Component {
 				{name}
 			</th>
 			<td>
-				{inProfile ? "(in profiel deel)" : "(in vrije deel)"}
+				{inProfile ? "(in profieldeel)" : "(in vrije deel)"}
 			</td>
 		</tr>
 	}
