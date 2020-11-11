@@ -49,7 +49,7 @@ exports.getNotifications = async (userId) => {
 	return Notification.findAll({ where: { userId } });
 }
 
-exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year, remarks, needsProfileUpdate, examSubjects, schoolLocation, school }) => {
+exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year, remarks, needsProfileUpdate, examSubjects, schoolLocation, school, examRights, }) => {
 	return User.update({
 		year,
 		level,
@@ -61,6 +61,7 @@ exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year,
 		examSubjects,
 		needsProfileUpdate,
 		schoolLocation,
+		examRights,
 	}, {
 		where: {
 			id,
@@ -70,7 +71,7 @@ exports.setUser = async ({ id, preferedEmail, profile, phoneNumber, level, year,
 
 exports.setFullUser = async (
 	{ id, preferedEmail, profile, phoneNumber, level, year, remarks,
-		needsProfileUpdate, school, schoolLocation, displayName, examSubjects, email, availableRoles}) => {
+		needsProfileUpdate, school, schoolLocation, displayName, examSubjects, email, availableRoles, examRights }) => {
 	return User.update({
 		email,
 		preferedEmail,
@@ -86,6 +87,7 @@ exports.setFullUser = async (
 		role: availableRoles.split(",")[0],
 		school,
 		displayName,
+		examRights,
 	}, {
 		where: {
 			id,

@@ -66,7 +66,7 @@ class EducationData extends Component {
 		return <SelectField
 			value={value}
 			editable={editable}
-			onChange={(value) => this.props.onChange(field, value)}
+			onChange={(v) => this.props.onChange(field, v)}
 			td
 			validate={{
 				notEmpty: true,
@@ -141,6 +141,24 @@ class EducationData extends Component {
 								Profiel
 							</Typography>
 							{this.getField("profile")}
+						</tr>
+						<tr>
+							<Typography component="td">
+								Extra toets rechten
+							</Typography>
+							<SelectField
+								value={this.props.user["examRights"] == "" ? [] : this.props.user["examRights"].split(",")}
+								td
+								editable={this.props.editableUser}
+								onChange={(v) => this.props.onChange("examRights", v.join(","))}
+								multiple
+								options={[
+									"Toetstijdverlenging",
+									"Gesproken toetsen",
+									"Gebruik van laptop en woordenboek",
+									"Geen extra rechten",
+								]}
+							/>
 						</tr>
 					</tbody>
 				</table>
