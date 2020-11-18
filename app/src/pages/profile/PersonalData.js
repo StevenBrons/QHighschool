@@ -52,7 +52,7 @@ class PersonalData extends Component {
 							<td>
 								{!validate(u.preferedEmail, { type: "email" }) &&
 									<Alert severity="warning">
-										Zonder voorkeursemail kunnen we je niet bereiken!
+										Als je geen ander email invult, gaan onze berichten naar je school e-mailadres!
 									</Alert>
 								}
 							</td>
@@ -71,7 +71,7 @@ class PersonalData extends Component {
 							<td>
 								{!validate(u.phoneNumber, { type: "phoneNumber" }) &&
 									<Alert severity="warning">
-										Zonder telefoonnummer kunnen we je niet bereiken!
+										Zonder mobiele nummer kunnen we je niet snel bereiken!
 									</Alert>
 								}
 							</td>

@@ -44,11 +44,12 @@ let possibleValues = {
 			schoolLocation: ["Auditorium 3, Elst"],
 		},
 		"Liemers College": {
-			level: ["VMBO", "MAVO", "HAVO", "VWO", "AGORA", "-"],
+			level: ["VMBO", "MAVO", "HAVO", "VWO", "-"],
 			schoolLocation: [
 				"Dijksestraat 12, Didam",
 				"Stationspoort 36, Zevenaar",
 				"Heerenmäten 6, Zevenaar",
+				"Zonegge (AGORA) 07-09, Zevenaar",
 				"Zonegge 07-09, Zevenaar",
 			],
 		},
@@ -220,6 +221,7 @@ let possibleValues = {
 		"Dijksestraat 12, Didam": {},
 		"Stationspoort 36, Zevenaar": {},
 		"Heerenmäten 6, Zevenaar": {},
+		"Zonegge (AGORA) 07-09, Zevenaar": {},
 		"Zonegge 07-09, Zevenaar": {},
 		"Eltensestraat 8, Duiven": {
 			level: ["VMBO", "MAVO"],

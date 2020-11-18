@@ -31,6 +31,7 @@ exports.getUser = async (userId) => {
 			year: user.year,
 			profile: user.profile,
 			level: user.level,
+			examRights: user.examRights,
 		}
 	});
 }

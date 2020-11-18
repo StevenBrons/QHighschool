@@ -147,7 +147,7 @@ class EducationData extends Component {
 								Extra toets rechten
 							</Typography>
 							<SelectField
-								value={this.props.user["examRights"] == "" ? [] : this.props.user["examRights"].split(",")}
+								value={this.props.user["examRights"] === "" ? [] : this.props.user["examRights"].split(",")}
 								td
 								editable={this.props.editableUser}
 								onChange={(v) => this.props.onChange("examRights", v.join(","))}
@@ -155,7 +155,8 @@ class EducationData extends Component {
 								options={[
 									"Toetstijdverlenging",
 									"Gesproken toetsen",
-									"Gebruik van laptop en woordenboek",
+									"Gebruik van laptop",
+									"Gebruik van woordenboek",
 									"Geen extra rechten",
 								]}
 							/>
