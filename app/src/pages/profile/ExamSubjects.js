@@ -45,7 +45,11 @@ class ExamSubjects extends Component {
 	updateExamSubjects = () => {
 		this.props.onChange("examSubjects", JSON.stringify([
 			...this.props.examSubjects,
-			{ id: this.state.newSubjectId, inProfile: this.state.newSubjectProfile === "T" }
+			{
+				id: this.state.newSubjectId,
+				inProfile: this.state.newSubjectProfile === "T",
+				startSchoolYear: this.props.schoolYear,
+			}
 		]));
 
 		this.setState({
@@ -56,13 +60,16 @@ class ExamSubjects extends Component {
 		})
 	}
 
-	getExamSubjectListItem = ({ id, name, inProfile }) => {
+	getExamSubjectListItem = ({ id, name, inProfile, startSchoolYear = "onbekend" }) => {
 		return <tr key={id} className="examSubjectListItem">
-			<th>
+			<td>
 				{name}
-			</th>
+			</td>
 			<td>
 				{inProfile ? "(in profieldeel)" : "(in vrije deel)"}
+			</td>
+			<td>
+				{startSchoolYear}
 			</td>
 		</tr>
 	}
@@ -72,7 +79,7 @@ class ExamSubjects extends Component {
 		const examSubjectComponents =
 			p.examSubjects
 				.filter(({ id }) => p.subjects[id])
-				.map(({ id, inProfile }) => { return { id, inProfile, name: p.subjects[id].name } })
+				.map(({ id, inProfile, startSchoolYear }) => { return { id, inProfile, name: p.subjects[id].name, startSchoolYear } })
 				.map(this.getExamSubjectListItem);
 		const availableSubjects = map(p.subjects, (x) => { return { ...x } })
 			.filter(({ canDoExam }) => canDoExam)
@@ -87,11 +94,19 @@ class ExamSubjects extends Component {
 				<Typography>
 					In deze vakken wil ik bij de Q-highschool examen doen:
 				</Typography>
-				<table style={{ marginTop: "10px" }}>
-					<tbody>
-						{examSubjectComponents}
-					</tbody>
-				</table>
+				{p.examSubjects !== [] ?
+					<table style={{ marginTop: "10px" }}>
+						<tbody>
+							<tr className="examSubjectListItem">
+								<th>Vak</th>
+								<th></th>
+								<th>Start cohort</th>
+							</tr>
+							{examSubjectComponents}
+						</tbody>
+					</table>
+					: null
+				}
 				{this.props.editableUser &&
 					<Button variant="contained" color="primary" startIcon={<Add />} onClick={this.toggleDialog} >
 						Examenvak toevoegen
@@ -137,6 +152,7 @@ function mapStateToProps(state, ownProps) {
 	return {
 		subjects: state.subjects || [],
 		examSubjects: (ownProps.user.examSubjects || "").length > 2 ? JSON.parse(ownProps.user.examSubjects) : [],
+		schoolYear: state.schoolYear,
 		...ownProps,
 	}
 }

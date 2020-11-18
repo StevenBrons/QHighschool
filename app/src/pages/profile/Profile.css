@@ -43,11 +43,10 @@
 }
 
 .examSubjectListItem th {
-	width: 20%;
 	font-weight: bold;
+	text-align: left;
 }
 
 .examSubjectListItem td {
 	margin-left: 20px;
-	float: left;
 }

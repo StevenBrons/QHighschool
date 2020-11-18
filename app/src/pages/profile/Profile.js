@@ -125,7 +125,7 @@ function mapStateToProps(state, ownProps) {
 		isStudent,
 		isOwn,
 		user: state.users[state.userId],
-		editableUser: (isOwn && isStudent)  || (isOwn && isSecure) || (isSecure && isAdmin),
+		editableUser: (isOwn && isStudent) || (isOwn && isSecure) || (isSecure && isAdmin),
 		editableAdmin: isSecure && isAdmin,
 	}
 }
