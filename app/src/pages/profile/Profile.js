@@ -106,6 +106,9 @@ class Profile extends Component {
 								<ExamSubjects {...p} onChange={this.onChange} />
 							}
 							<div style={{ height: "300px" }} />
+							<Typography>
+								In onze <a href="https://www.quadraam.nl/privacy">privacyverklaring</a> is meer te lezen over het gebruik van deze gegevens.
+							</Typography>
 						</div>
 					</Saveable>
 				</Page>
@@ -125,7 +128,7 @@ function mapStateToProps(state, ownProps) {
 		isStudent,
 		isOwn,
 		user: state.users[state.userId],
-		editableUser: (isOwn && isStudent)  || (isOwn && isSecure) || (isSecure && isAdmin),
+		editableUser: (isOwn && isStudent) || (isOwn && isSecure) || (isSecure && isAdmin),
 		editableAdmin: isSecure && isAdmin,
 	}
 }
