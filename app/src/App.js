@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Redirect, Route, Switch, withRouter,} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component } from "react";
+import { Redirect, Route, Switch, withRouter, } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import {addNotification, getSelf} from './store/actions';
+import { addNotification, getSelf } from './store/actions';
 
 import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
@@ -52,28 +52,28 @@ class App extends Component {
 
     render() {
         if (!this.props.role && this.props.location.pathname !== "/login") {
-            return <div/>;
+            return <div />;
         }
         const startPage = this.getStartPage(this.props.role);
         return (
             <div className="App">
-                <NotificationBar/>
-                {this.props.showMenu && <Menu/>}
-                <Header/>
+                <NotificationBar />
+                {this.props.showMenu && <Menu />}
+                <Header />
                 <Switch>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/aanbod" component={CourseSelect}/>
-                    <Route path="/groep/:groupId" component={Group}/>
-                    <Route path="/gebruiker/:userId" component={User}/>
-                    <Route path="/profiel/" component={Profile}/>
-                    <Route path="/portfolio/" component={Portfolio}/>
-                    <Route path="/groepen/" component={Portfolio}/>
-                    <Route path="/gegevens/" component={DataPage}/>
-                    <Route path="/taxi/" component={Taxi}/>
-                    <Route path="/beheer/" component={ControlPanel}/>
-                    <Route path="/certificaat/gebruiker/:userId/groep/:groupId" component={Certificate}/>
-                    <Route path="/certificaat/gebruiker/:userId/parcours/:subjectId" component={Certificate}/>
-                    <Redirect push to={startPage}/>
+                    <Route path="/login" component={Login} />
+                    <Route path="/aanbod" component={CourseSelect} />
+                    <Route path="/groep/:groupId" component={Group} />
+                    <Route path="/gebruiker/:userId" component={User} />
+                    <Route path="/profiel/" component={Profile} />
+                    <Route path="/portfolio/" component={Portfolio} />
+                    <Route path="/groepen/" component={Portfolio} />
+                    <Route path="/gegevens/" component={DataPage} />
+                    <Route path="/taxi/" component={Taxi} />
+                    <Route path="/beheer/" component={ControlPanel} />
+                    <Route path="/certificaat/gebruiker/:userId/groep/:groupId" component={Certificate} />
+                    <Route path="/certificaat/gebruiker/:userId/parcours/:subjectId" component={Certificate} />
+                    <Redirect push to={startPage} />
                 </Switch>
             </div>
         );
