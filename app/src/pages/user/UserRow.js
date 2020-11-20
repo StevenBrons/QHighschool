@@ -3,8 +3,9 @@ import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
+import { connect } from "react-redux";
 
-class GroupCard extends Component {
+class UserRow extends Component {
 
 	constructor(props) {
 		super(props);
@@ -43,10 +44,6 @@ class GroupCard extends Component {
 		} else {
 			return number; // return input if unrecognizable 
 		}
-	}
-
-	expand() {
-		this.props.history.push("/user/" + this.props.user.id)
 	}
 
 	render() {
@@ -108,6 +105,19 @@ class GroupCard extends Component {
 	}
 }
 
+function mapStateToProps(state, { userId, children }) {
+	return {
+		role: state.role,
+		user: state.users[userId],
+		userId,
+		children,
+	};
+}
 
-export default withRouter(GroupCard);
+function mapDispatchToProps(dispatch) {
+	return {
+	};
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserRow));
 

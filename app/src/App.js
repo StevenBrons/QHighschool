@@ -7,7 +7,6 @@ import { addNotification, getSelf } from './store/actions';
 import Login from "./pages/Login";
 import CourseSelect from "./pages/CourseSelect";
 import Group from "./pages/group/Group";
-import User from "./pages/user/User";
 import DataPage from "./pages/DataPage";
 import Taxi from "./pages/Taxi";
 
@@ -64,7 +63,6 @@ class App extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/aanbod" component={CourseSelect} />
                     <Route path="/groep/:groupId" component={Group} />
-                    <Route path="/gebruiker/:userId" component={User} />
                     <Route path="/profiel/" component={Profile} />
                     <Route path="/portfolio/" component={Portfolio} />
                     <Route path="/groepen/" component={Portfolio} />

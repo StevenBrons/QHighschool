@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import map from "lodash/map"
-import filter from "lodash/filter"
-import User from "../user/User"
+import map from "lodash/map";
+import filter from "lodash/filter";
 import { Paper, Typography } from '@material-ui/core';
 import SelectField from '../../fields/SelectField';
+import { connect } from 'react-redux';
 
 class PresenceTable extends Component {
 
@@ -49,7 +49,9 @@ class PresenceTable extends Component {
 
 		return (
 			<Paper component="tr" elevation={1} key={"p" + participantId}>
-				<User key={participantId} userId={participantId} display="name" />
+				<Typography color="primary" component="td">
+					{this.props.users[participantId].displayName}
+				</Typography>
 				{content}
 			</Paper>
 		);
@@ -86,4 +88,11 @@ class PresenceTable extends Component {
 
 }
 
-export default PresenceTable;
+function mapStateToProps(state, ownProps) {
+	return {
+		users: state.users,
+		...ownProps
+	}
+}
+
+export default connect(mapStateToProps)(PresenceTable);

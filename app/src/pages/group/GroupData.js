@@ -3,9 +3,8 @@ import map from "lodash/map";
 
 import InputField from "../../fields/InputField";
 import SelectField from "../../fields/SelectField";
-import User from "../user/User";
 
-import { Divider, Popover } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 
 class GroupData extends Component {
   constructor(props) {
@@ -144,19 +143,6 @@ class GroupData extends Component {
           </div>
         </div>
         <br />
-        <Popover
-          open={this.state.anchorEl ? true : false}
-          onClose={this.handleClickAway}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{ horizontal: "left", vertical: "top" }}
-        >
-          <User
-            key={group.teacherId}
-            userId={group.teacherId}
-            display="card"
-            style={{ margin: "0px" }}
-          />
-        </Popover>
       </div>
     );
   }

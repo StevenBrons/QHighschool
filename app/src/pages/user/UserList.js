@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Typography, Tooltip, TableSortLabel, Paper } from "@material-ui/core";
-import User from "./User";
+import UserRow from "./UserRow"
 
 class UserList extends Component {
   constructor(props) {
@@ -127,7 +127,7 @@ class UserList extends Component {
     const header = this.getHeader();
     const users = this.sortIds().map(id => {
       return (
-        <User key={id} userId={id} display="row" actions={this.props.actions} />
+        <UserRow key={id} userId={id} actions={this.props.actions} />
       );
     });
     return (
