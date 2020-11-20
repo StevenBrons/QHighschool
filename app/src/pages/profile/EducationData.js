@@ -144,7 +144,7 @@ class EducationData extends Component {
 						</tr>
 						<tr>
 							<Typography component="td">
-								Extra toets rechten
+								Extra toetsrechten
 							</Typography>
 							<SelectField
 								value={this.props.user["examRights"] === "" ? [] : this.props.user["examRights"].split(",")}
