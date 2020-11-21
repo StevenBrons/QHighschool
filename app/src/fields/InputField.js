@@ -7,7 +7,7 @@ class InputField extends Component {
 	render() {
 		const P = this.props;
 		let value = P.value;
-		if (value == null || value === "") {
+		if ((value == null || value === "") && P.default) {
 			value = P.default;
 		}
 		let CP = {
@@ -20,6 +20,7 @@ class InputField extends Component {
 		CP.disabled = P.disabled;
 		CP.value = value;
 		CP.label = P.label;
+		CP.variant = P.variant;
 		CP.multiline = P.multiline;
 		CP.fullWidth = true;
 		CP.defaultValue = P.defaultValue;

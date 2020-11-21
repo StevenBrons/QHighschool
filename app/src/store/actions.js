@@ -186,6 +186,8 @@ export function getSelf() {
 	}
 }
 
+
+
 export function setUser(user) {
 	return (dispatch, getState) => {
 		dispatch({

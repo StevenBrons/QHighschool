@@ -123,7 +123,7 @@ exports.getGroups = async (userId, admin) => {
 
 exports.getList = async () => {
 	return User.findAll({
-		attributes: ["id", "displayName"],
+		attributes: ["id", "displayName", "role", "school"],
 	});
 }
 

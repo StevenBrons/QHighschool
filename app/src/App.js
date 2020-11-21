@@ -17,6 +17,7 @@ import Portfolio from "./pages/Portfolio";
 import ControlPanel from "./pages/ControlPanel";
 import Profile from "./pages/profile/Profile";
 import Certificate from "./pages/Certificate";
+import UserListPage from "./pages/user/UserListPage";
 
 
 class App extends Component {
@@ -63,6 +64,8 @@ class App extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/aanbod" component={CourseSelect} />
                     <Route path="/groep/:groupId" component={Group} />
+                    <Route path="/gebruikers" component={UserListPage} />
+                    <Route path="/gebruiker/:userId" component={Profile} />
                     <Route path="/profiel/" component={Profile} />
                     <Route path="/portfolio/" component={Portfolio} />
                     <Route path="/groepen/" component={Portfolio} />

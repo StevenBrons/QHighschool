@@ -96,7 +96,7 @@ class EducationData extends Component {
 								Rollen
 							</Typography>
 							<SelectField
-								value={p.user.availableRoles.split(",")}
+								value={(p.user.availableRoles || "").split(",")}
 								multiple
 								editable={p.editableAdmin}
 								td
@@ -147,7 +147,7 @@ class EducationData extends Component {
 								Extra toetsrechten
 							</Typography>
 							<SelectField
-								value={this.props.user["examRights"] === "" ? [] : this.props.user["examRights"].split(",")}
+								value={this.props.user["examRights"] ? this.props.user["examRights"].split(",") : []}
 								td
 								editable={this.props.editableUser}
 								onChange={(v) => this.props.onChange("examRights", v.join(","))}

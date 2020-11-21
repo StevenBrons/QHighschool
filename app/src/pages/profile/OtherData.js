@@ -17,12 +17,13 @@ class OtherData extends Component {
 	render() {
 		const p = this.props;
 		const u = p.user;
+		const roles = (u.availableRoles || "").split(",");
 		return (
 			<div>
 				<Typography variant="h6" color="secondary">
 					Rolwissel
 				</Typography>
-				{(u.availableRoles.split(",").length > 1 && p.isOwn) &&
+				{(roles.length > 1 && p.isOwn) &&
 					<EnsureSecureLogin>
 						<table>
 							<tbody>
@@ -33,7 +34,7 @@ class OtherData extends Component {
 									<SelectField
 										value={this.state.newRole || u.role}
 										editable={p.editableUser}
-										options={u.availableRoles.split(",")}
+										options={roles}
 										onChange={newRole => this.setState({ newRole })}
 										td
 									/>

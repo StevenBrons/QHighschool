@@ -12,7 +12,7 @@ import OtherData from "./OtherData"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
-import { setUser, setFullUser, setSecureLogin, getCookie } from '../../store/actions';
+import { setUser, setFullUser, setSecureLogin, getCookie, getU } from '../../store/actions';
 import queryString from "query-string";
 import { withRouter } from 'react-router-dom';
 
@@ -115,16 +115,27 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-	const isOwn = true;
+	let isOwn;
 	const isStudent = state.role === "student";
 	const isAdmin = state.role === "admin";
 	const isSecure = state.secureLogin != null;
+	let userId = ownProps.match.params.userId;
+	if (userId == null) {
+		isOwn = true;
+		userId = state.userId;
+	} else {
+		isOwn = false;
+	}
+
+	// Basic: 		student
+	// Full : 		grade_admin, admin
+
 	return {
 		isAdmin,
 		isSecure,
 		isStudent,
-		isOwn,
-		user: state.users[state.userId],
+		isFull: isOwn || isAdmin,
+		user: state.users[userId],
 		editableUser: (isOwn && isStudent) || (isOwn && isSecure) || (isSecure && isAdmin),
 		editableAdmin: isSecure && isAdmin,
 	}

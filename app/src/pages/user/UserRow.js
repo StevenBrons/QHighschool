@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
+import { Link, Typography } from '@material-ui/core';
 import { connect } from "react-redux";
 
 class UserRow extends Component {
@@ -49,6 +49,8 @@ class UserRow extends Component {
 	render() {
 		let user = { ...this.props.user };
 		let style = { ...this.state.style };
+		let isExtendedUser = user.preferedEmail || user.phoneNumber || user.email;
+
 		return (
 			<tr key={user.id}>
 				<Paper
@@ -63,40 +65,38 @@ class UserRow extends Component {
 						justifyContent: "space-between"
 					}}>
 						<Typography variant="button" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} >
-							{user.firstName + " " + user.lastName}
+							<Link href={`./gebruiker/${user.id}`}>
+								{user.displayName}
+							</Link>
 						</Typography>
 						<Typography variant="subtitle1" style={{ flex: 1 }} >
 							{user.school}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
-							{user.level + " - " + user.year}
+							{user.role}
 						</Typography>
 						<Typography variant="body1" style={{ flex: 1 }} >
-							{user.role === "teacher" ? "docent" : "leerling"}
-						</Typography>
-						<Typography variant="body1" style={{ flex: 1 }} >
-							{user.profile}
+							{user.id}
 						</Typography>
 					</div>
-					{this.props.role === "admin" &&
+					{isExtendedUser ?
 						<div style={{
 							display: "flex",
 							justifyContent: "space-between"
 						}}>
 							<Typography variant="body1" style={{ flex: 1 }} >
-								{user.email}
-							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} >
 								{user.preferedEmail}
 							</Typography>
-							<div style={{ flex: 1 }} />
+							<Typography variant="body1" style={{ flex: 1 }} >
+								{user.level + " - " + user.year}
+							</Typography>
+							<Typography variant="body1" style={{ flex: 1 }} >
+								{user.profile}
+							</Typography>
 							<Typography variant="body1" style={{ flex: 1 }} >
 								{this.formatPhoneNumber(user.phoneNumber)}
 							</Typography>
-							<Typography variant="body1" style={{ flex: 1 }} >
-								{user.id}
-							</Typography>
-						</div>
+						</div> : null
 					}
 					{this.props.children}
 				</Paper >

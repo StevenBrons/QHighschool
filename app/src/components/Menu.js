@@ -9,7 +9,8 @@ import PersonIcon from "@material-ui/icons/Person";
 import ExitIcon from "@material-ui/icons/ExitToApp";
 import LocalTaxiIcon from "@material-ui/icons/LocalTaxi";
 import BuildIcon from "@material-ui/icons/Build";
-import ViewColumnIcon from "@material-ui/icons/ViewColumn";
+import TableChartIcon from "@material-ui/icons/TableChart";
+import ContactsIcon from '@material-ui/icons/Contacts';
 import NotificationBadge from "./NotificationBadge";
 
 import Paper from "@material-ui/core/Paper";
@@ -37,7 +38,7 @@ class Menu extends Component {
           "aanbod",
           "profiel",
           "gegevens",
-          "taxi",
+          "gebruikers",
           "beheer",
           "loguit"
         ];
@@ -47,7 +48,7 @@ class Menu extends Component {
           "aanbod",
           "groepen",
           "gegevens",
-          "taxi",
+          "gebruikers",
           "profiel",
           "loguit"
         ];
@@ -90,8 +91,10 @@ class Menu extends Component {
         return <AssessmentIcon style={{ color: c }} />;
       case "Person":
         return <PersonIcon style={{ color: c }} />;
-      case "ViewColumn":
-        return <ViewColumnIcon style={{ color: c }} />;
+      case "TableChart":
+        return <TableChartIcon style={{ color: c }} />;
+      case "Contacts":
+        return <ContactsIcon style={{ color: c }} />;
       case "Exit":
         return <ExitIcon color="secondary" />;
       case "Taxi":
@@ -154,7 +157,7 @@ class Menu extends Component {
       {
         id: "gegevens",
         title: "Gegevens",
-        icon: "ViewColumn" // table_chart is more appropriate
+        icon: "TableChart",
       },
       {
         id: "taxi",
@@ -165,7 +168,12 @@ class Menu extends Component {
         id: "beheer",
         title: "Beheer",
         icon: "Beheer"
-      }
+      },
+      {
+        id: "gebruikers",
+        title: "Gebruikers",
+        icon: "Contacts",
+      },
     ];
 
     const profile = [
