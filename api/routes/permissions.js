@@ -40,6 +40,11 @@ exports.ensureGradeAdmin = (req, res, next) => {
 	next();
 }
 
+exports.ensureAdminOrGradeAdmin = (req, res, next) => {
+	if (!(req.user.isGradeAdmin()) && !(req.user.isAdmin())) return authError(res);
+	next();
+}
+
 exports.ensureConfirm = (req, res, next) => {
 	if (req.body.message !== "confirm") {
 		return new Error("You need to confirm this action");

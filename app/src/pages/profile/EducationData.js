@@ -3,7 +3,6 @@ import { Typography, Divider } from '@material-ui/core/';
 import { cloneDeep } from "lodash";
 import possibleValues from "./educationConstraints"
 import SelectField from '../../fields/SelectField';
-import InputField from '../../fields/InputField';
 
 class EducationData extends Component {
 
@@ -102,15 +101,6 @@ class EducationData extends Component {
 								td
 								options={["admin", "student", "teacher", "grade_admin"]}
 								onChange={(v) => p.onChange("availableRoles", v.join(","))}
-							/>
-						</tr>
-						<tr>
-							<Typography component="td">
-								Schoolemail
-							</Typography>
-							<InputField
-								value={p.user.email}
-								td
 							/>
 						</tr>
 					</tbody>

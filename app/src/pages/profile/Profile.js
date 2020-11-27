@@ -12,7 +12,7 @@ import OtherData from "./OtherData"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
-import { setUser, setFullUser, setSecureLogin, getCookie, getU } from '../../store/actions';
+import { setUser, setFullUser, setSecureLogin, getCookie, getUser } from '../../store/actions';
 import queryString from "query-string";
 import { withRouter } from 'react-router-dom';
 
@@ -22,6 +22,18 @@ class Profile extends Component {
 		super(props);
 		this.state = {
 			user: {}
+		}
+	}
+
+	componentDidMount = () => {
+		if (this.state.user == null || !this.props.isOwn) {
+			this.props.getUser(this.props.userId);
+		}
+	}
+
+	componentDidUpdate = () => {
+		if (this.state.user == null) {
+			this.props.getUser(this.props.userId);
 		}
 	}
 
@@ -43,12 +55,22 @@ class Profile extends Component {
 			const beforeLoginPath = getCookie("beforeLoginPath");
 			nextProps.history.push(beforeLoginPath);
 		}
-		return {
-			orgUser: nextProps.user,
-			user: {
-				...nextProps.user,
-				...prevState.user,
+		if (prevState.userId === nextProps.userId) {
+			return {
+				orgUser: nextProps.user,
+				user: {
+					...prevState.user,
+					...nextProps.user,
+				},
+				userId: nextProps.userId,
 			}
+		} else {
+			return {
+				orgUser: nextProps.user,
+				user: nextProps.user,
+				userId: nextProps.userId,
+			}
+
 		}
 	}
 
@@ -68,7 +90,7 @@ class Profile extends Component {
 			<LoginProvider>
 				<Page className="Profile">
 					<Saveable
-						hasChanged={hasChanged || (user.needsProfileUpdate && user.role === "student")}
+						hasChanged={hasChanged || (user.needsProfileUpdate === true && user.role === "student")}
 						onSave={() => {
 							if (this.props.editableAdmin) {
 								this.props.saveFull(user)
@@ -102,7 +124,7 @@ class Profile extends Component {
 							<PersonalData {...p} onChange={this.onChange} />
 							<OtherData {...p} onChange={this.onChange} />
 							<EducationData  {...p} onChange={this.onChange} />
-							{this.props.isStudent &&
+							{user.role === "student" &&
 								<ExamSubjects {...p} onChange={this.onChange} />
 							}
 							<div style={{ height: "300px" }} />
@@ -118,6 +140,7 @@ function mapStateToProps(state, ownProps) {
 	let isOwn;
 	const isStudent = state.role === "student";
 	const isAdmin = state.role === "admin";
+	const isGradeAdmin = state.role === "grade_admin";
 	const isSecure = state.secureLogin != null;
 	let userId = ownProps.match.params.userId;
 	if (userId == null) {
@@ -126,18 +149,23 @@ function mapStateToProps(state, ownProps) {
 	} else {
 		isOwn = false;
 	}
+	const school = state.users[state.userId].school;
+	const user = state.users[userId];
+	const editableAdmin = isSecure && (isAdmin || (user && user.school === school && isGradeAdmin))
 
 	// Basic: 		student
-	// Full : 		grade_admin, admin
+	// Full : 		teacher, grade_admin, admin
 
 	return {
 		isAdmin,
 		isSecure,
 		isStudent,
 		isFull: isOwn || isAdmin,
-		user: state.users[userId],
-		editableUser: (isOwn && isStudent) || (isOwn && isSecure) || (isSecure && isAdmin),
-		editableAdmin: isSecure && isAdmin,
+		user,
+		editableUser: (isOwn && isStudent) || (isOwn && isSecure) || editableAdmin,
+		editableAdmin,
+		userId,
+		isOwn,
 	}
 }
 
@@ -146,6 +174,7 @@ function mapDispatchToProps(dispatch) {
 		setSecureLogin: (secureLogin) => dispatch(setSecureLogin(secureLogin)),
 		save: (user) => dispatch(setUser(user)),
 		saveFull: (user) => dispatch(setFullUser(user)),
+		getUser: (userId) => dispatch(getUser(userId)),
 	};
 }
 

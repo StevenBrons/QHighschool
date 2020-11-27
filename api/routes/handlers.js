@@ -59,7 +59,7 @@ exports.doSuccess = function doSuccess(req, res, next) {
 
 exports.promiseMiddleware = function promiseMiddleware(asyncFunction) {
 	return (req, res, next) => {
-		asyncFunction(req, res).then((output) => {
+		asyncFunction(req, res, next).then((output) => {
 			req.ownProps = {};
 			req.ownProps.output = output;
 			next();

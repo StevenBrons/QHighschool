@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userDb = require("../database/UserDB");
 const groupDb = require("../database/GroupDB");
-const { doReturn, doSuccess, promiseMiddleware } = require("./handlers");
-const { ensureAdmin, ensureStudent, ensureSecure } = require("./permissions");
+const { doReturn, doSuccess, promiseMiddleware, authError } = require("./handlers");
+const { ensureAdmin, ensureStudent, ensureSecure, ensureAdminOrGradeAdmin } = require("./permissions");
 
 router.get(
   "/self",
@@ -15,7 +15,30 @@ router.get(
 
 router.post(
   "/",
-  ensureAdmin,
+  promiseMiddleware(async (req, res) => {
+    const role = req.user.role;
+    if (role === "admin") return true;
+    if (role === "grade_admin") {
+      const school = await userDb.getSchoolOfUser(req.body.userId);
+      if (school === req.user.school) {
+        return true;
+      }
+    }
+    if (role === "teacher") {
+      const g1 = await userDb.getParticipatingGroupIds(req.user.id, false);
+      const g2 = await userDb.getParticipatingGroupIds(req.body.userId, false);
+      let shareGroup = false;
+      for (let i in g1) {
+        if (g2.indexOf(g1[i]) !== -1) {
+          shareGroup = true;
+        }
+      }
+      if (shareGroup) {
+        return true;
+      }
+    }
+    return new authError();
+  }),
   promiseMiddleware(req => {
     return userDb.getUser(req.body.userId);
   }),
@@ -88,9 +111,13 @@ router.get(
 
 router.get(
   "/list",
-  ensureAdmin,
-  promiseMiddleware(() => {
-    return userDb.getList();
+  ensureAdminOrGradeAdmin,
+  promiseMiddleware(req => {
+    if (req.user.isAdmin()) {
+      return userDb.getList();
+    } else {
+      return userDb.getUsersOfSchool(req.user.school);
+    }
   }),
   doReturn
 );

@@ -27,7 +27,9 @@ exports.getUser = async (userId) => {
 			displayName: user.displayName,
 			email: user.email,
 			role: user.role,
+			availableRoles: user.availableRoles,
 			school: user.school,
+			schoolLocation: user.schoolLocation,
 			year: user.year,
 			profile: user.profile,
 			level: user.level,
@@ -126,6 +128,23 @@ exports.getList = async () => {
 		attributes: ["id", "displayName", "role", "school"],
 	});
 }
+
+exports.getSchoolOfUser = async (userId) => {
+	return User.findByPk(userId, {
+		attributes: ["school"],
+	}).then(({ school }) => school);
+}
+
+exports.getUsersOfSchool = async (school) => {
+	return User.findAll({
+		attributes: ["id", "displayName", "role", "school"],
+		where: {
+			school,
+		}
+	});
+}
+
+
 
 exports.getParticipatingGroupIds = async (userId, admin) => {
 	if (admin) {

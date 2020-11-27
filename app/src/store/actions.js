@@ -197,6 +197,17 @@ export function setUser(user) {
 		fetchData("user", "patch", user, dispatch, getState);
 	}
 }
+export function getUser(userId) {
+	return (dispatch, getState) => {
+		fetchData("user", "post", { userId }, dispatch, getState).then(user => {
+			dispatch({
+				type: "CHANGE_USER",
+				user,
+			});
+		});
+	}
+}
+
 export function setFullUser(user) {
 	return (dispatch, getState) => {
 		dispatch({
@@ -340,7 +351,7 @@ export function getGroupEnrollments(groupId) {
 
 export function getGroupLessons(groupId) {
 	return (dispatch, getState) => {
-		fetchData("group/lessons", "post", { groupId: groupId }, dispatch, getState)
+		fetchData("group/lessons", "post", { groupId }, dispatch, getState)
 			.then((lessons) => {
 				dispatch({
 					type: "CHANGE_GROUP",
@@ -355,7 +366,7 @@ export function getGroupLessons(groupId) {
 
 export function getGroupPresence(groupId) {
 	return (dispatch, getState) => {
-		fetchData("group/presence", "post", { groupId: groupId }, dispatch, getState)
+		fetchData("group/presence", "post", { groupId }, dispatch, getState)
 			.then((presence) => {
 				dispatch({
 					type: "CHANGE_GROUP",
