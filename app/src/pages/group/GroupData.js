@@ -85,7 +85,8 @@ class GroupData extends Component {
                   "donderdag",
                   "vrijdag",
                   "zaterdag",
-                  "zondag"
+                  "zondag",
+                  "niet van toepassing",
                 ]}
               />
               <SelectField
