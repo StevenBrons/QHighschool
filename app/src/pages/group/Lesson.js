@@ -66,94 +66,106 @@ class Lesson extends Component {
 	}
 
 
-	render() {
+
+	getHeader = () => {
+		return <Paper
+			elevation={this.state.hover ? 2 : 1}
+			onMouseEnter={() => this.setState({ hover: true })}
+			onMouseLeave={() => this.setState({ hover: false })}
+			component="tr"
+			style={{ backgroundColor: "#e0e0e0" }}
+		>
+			<td style={{ display: "flex", flexDirection: "column" }}>
+				<Typography>
+					Lesnummer
+			</Typography>
+				<Typography>
+					Soort les
+			</Typography>
+			</td >
+			<Typography style={{ flex: 4 }} component="td">
+				Onderwerp
+		</Typography >
+			<Typography style={{ flex: 8 }} component="td">
+				Activiteiten
+		</Typography >
+			<td style={{ display: "flex", flexDirection: "column" }}>
+				<Typography>
+					Datum
+			</Typography>
+				<Typography>
+					Aanwezigheid
+			</Typography >
+			</td >
+		</Paper >
+	}
+
+	getLesson = () => {
 		const lesson = this.props.lesson;
-		if (lesson.id === -1) {
-			return (
-				<Paper
-					elevation={this.state.hover ? 2 : 1}
-					onMouseEnter={() => this.setState({ hover: true })}
-					onMouseLeave={() => this.setState({ hover: false })}
-					component="tr"
-					style={{ backgroundColor: "#e0e0e0" }}
-				>
-					<td style={{ display: "flex", flexDirection: "column" }}>
-						<Typography>
-							Lesnummer
-						</Typography>
-						<Typography>
-							Soort les
-						</Typography>
-					</td >
-					<Typography style={{ flex: 4 }} component="td">
-						Onderwerp
-					</Typography >
-					<Typography style={{ flex: 8 }} component="td">
-						Activiteiten
-					</Typography >
-					<td style={{ display: "flex", flexDirection: "column" }}>
-						<Typography>
-							Datum
-						</Typography>
-						<Typography>
-							Aanwezigheid
-						</Typography >
-					</td >
-				</Paper >
-			);
+		let displayDate = "niet van toepassing";
+		if (lesson.date) {
+			const d = new Date(lesson.date);
+			displayDate = `${this.getWeekdayString(d.getDay())} ${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
 		}
-		return (
-			<Paper
-				elevation={this.state.hover ? 2 : 1}
-				onMouseEnter={() => this.setState({ hover: true })}
-				onMouseLeave={() => this.setState({ hover: false })}
-				component="tr"
-			>
-				<td style={{ display: "flex", flexDirection: "column" }}>
-					<Typography color="primary" variant="button" component="td" >
-						{"Les " + lesson.numberInBlock}
-					</Typography>
-					<InputField
-						label="Soort les"
-						layout={{ area: true }}
-						value={lesson.kind}
-						editable={this.props.editable}
-						onChange={(value) => this.handleChange("kind", value)}
-					/>
-				</td>
+		return <Paper
+			elevation={this.state.hover ? 2 : 1}
+			onMouseEnter={() => this.setState({ hover: true })}
+			onMouseLeave={() => this.setState({ hover: false })}
+			component="tr"
+		>
+			<td style={{ display: "flex", flexDirection: "column" }}>
+				<Typography color="primary" variant="button" component="td" >
+					{"Les " + lesson.numberInBlock}
+				</Typography>
 				<InputField
-					label="Onderwerp"
-					style={{ flex: 4 }}
-					value={lesson.subject}
+					label="Soort les"
+					layout={{ area: true }}
+					value={lesson.kind}
 					editable={this.props.editable}
-					onChange={(value) => this.handleChange("subject", value)}
-					td
+					onChange={(value) => this.handleChange("kind", value)}
 				/>
-				<InputField
-					label="Activiteiten"
-					style={{ flex: 8 }}
-					value={lesson.activities}
+			</td>
+			<InputField
+				label="Onderwerp"
+				style={{ flex: 4 }}
+				value={lesson.subject}
+				editable={this.props.editable}
+				onChange={(value) => this.handleChange("subject", value)}
+				td
+			/>
+			<InputField
+				label="Activiteiten"
+				style={{ flex: 8 }}
+				value={lesson.activities}
+				editable={this.props.editable}
+				onChange={(value) => this.handleChange("activities", value)}
+				td
+			/>
+			<td style={{ display: "flex", flexDirection: "column" }}>
+				<Typography component="td">
+					{displayDate}
+				</Typography>
+				<SelectField
+					label="Aanwezigheid"
+					value={lesson.presence}
 					editable={this.props.editable}
-					onChange={(value) => this.handleChange("activities", value)}
-					td
+					onChange={(value) => this.handleChange("presence", value)}
+					options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
 				/>
-				<td style={{ display: "flex", flexDirection: "column" }}>
-					<Typography component="td">
-						{this.getWeekdayString(new Date(lesson.date).getDay()) + " " + new Date(lesson.date).getDate() + "-" + (new Date(lesson.date).getMonth() + 1) + "-" + new Date(lesson.date).getFullYear()}
-					</Typography>
-					<SelectField
-						label="Aanwezigheid"
-						value={lesson.presence}
-						editable={this.props.editable}
-						onChange={(value) => this.handleChange("presence", value)}
-						options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
-					/>
-					{
-						this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
-					}
-				</td>
-			</Paper >
-		);
+				{
+					this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
+				}
+			</td>
+		</Paper >;
+	}
+
+
+	render() {
+		if (this.props.lesson.id === -1) {
+			return this.getHeader();
+		} else {
+			return this.getLesson();
+		}
 	}
 
 

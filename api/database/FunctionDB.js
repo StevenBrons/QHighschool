@@ -205,7 +205,7 @@ exports.findEvaluation = async (userId, groupId) => {
       explanation: "",
       type: "decimal",
     };
-    for (key in user) {
+    for (let key in user) {
       evaluation["user." + key] = user[key];
     }
   }
@@ -231,6 +231,9 @@ exports.findEvaluation = async (userId, groupId) => {
   };
 };
 
+
+
+
 exports.getEvaluation = async school => {
   const where = school
     ? { school: { [Op.or]: school.split("||") } }
@@ -252,6 +255,43 @@ exports.getEvaluation = async school => {
   );
   return [].concat(evs);
 };
+
+exports.getSchedule = async (year, isoWeek) => {
+  const start = moment()
+    .year(year)
+    .isoWeek(isoWeek)
+    .isoWeekday(1)
+    .hour(0)
+    .minute(0)
+    .toDate();
+  const end = moment()
+    .year(year)
+    .isoWeek(isoWeek)
+    .isoWeekday(7)
+    .hour(23)
+    .minute(59)
+    .toDate();
+  const lessons = await Lesson.findAll({
+    where: {
+      date: {
+        [Op.between]: [start, end]
+      }
+    }
+  });
+  return lessons.map(lesson => {
+    return {
+      ...lesson.datavalues,
+      startTime: "12:00",
+      endTime: "14:00",
+      courseName: "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.",
+      schoolLocation: "Liemers College",
+      schoolAddress: "Straatnaam 123",
+      classRoom: "1.2c",
+      teacherName: "Naam van de Docent",
+      subjectName: "vaknaam komt hiero",
+    }
+  });
+}
 
 exports.getEnrollment = async school => {
   const where = school

@@ -8,11 +8,13 @@ const {
   ensureAdmin,
   ensureConfirm,
   ensureSecure,
-  ensureGradeAdmin
+  ensureGradeAdmin,
+  ensureOffice,
 } = require("./permissions");
 
 router.post(
   "/updateAllGroups",
+  ensureOffice,
   ensureAdmin,
   ensureConfirm,
   promiseMiddleware(() => {
@@ -24,6 +26,7 @@ router.post(
 
 router.post(
   "/taxi",
+  ensureOffice,
   promiseMiddleware(req => {
     if (req.user.isAdmin()) {
       return taxi.getSchedule(-1, parseInt(req.body.week));
@@ -34,8 +37,18 @@ router.post(
   doReturn
 );
 
+router.get(
+  "/schedule/:year/:isoWeek",
+  promiseMiddleware(req => {
+    const { isoWeek, year } = req.params;
+    return functionDb.getSchedule(parseInt(year), parseInt(isoWeek));
+  }),
+  doReturn
+);
+
 router.post(
   "/alias",
+  ensureOffice,
   ensureAdmin,
   ensureSecure,
   promiseMiddleware((req, res) => {
@@ -50,13 +63,14 @@ router.post(
 
 router.post(
   "/switchRole",
+  ensureOffice,
   ensureSecure,
   promiseMiddleware((req, res) => {
     const newRole = req.body.newRole;
     const avRoles = req.user.availableRoles;
     const i = avRoles.indexOf(newRole);
     if (i !== -1) {
-      return functionDb.switchRole(req.user.id,avRoles[i])
+      return functionDb.switchRole(req.user.id, avRoles[i])
     } else {
       throw new Error("Illegal role!!");
     }
@@ -67,6 +81,7 @@ router.post(
 
 router.post(
   "/disableSecureMode",
+  ensureOffice,
   ensureAdmin,
   ensureSecure,
   ensureConfirm,
@@ -84,6 +99,7 @@ async function formatInTable(modelName, array) {
 
 router.post(
   "/data",
+  ensureOffice,
   ensureSecure,
   ensureGradeAdmin,
   promiseMiddleware((req, res) => {

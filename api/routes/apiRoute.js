@@ -14,7 +14,7 @@ router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
 
 router.use('/user', ensureOffice, userRoute);
-router.use('/function', ensureOffice, functionRoute);
+router.use('/function', functionRoute);
 router.use('/certificate', ensureOffice, certificateRoute);
 
 module.exports = router;

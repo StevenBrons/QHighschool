@@ -1,7 +1,12 @@
 const moment = require("moment");
 moment.locale("nl");
 
+const DAYS = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"];
+
 exports.getLessonDate = function (schoolYear, period, numberInBlock, day) {
+  if (DAYS.indexOf(day) === -1) {
+    return null;
+  }
   const week = exports.schedule.filter(week => {
     return (
       week.period + "" === period + "" &&

@@ -6,7 +6,7 @@ const CourseGroup = connection.define('course_group', {
 	day: {
 		type: Sequelize.STRING,
 		validate: {
-			isIn: [["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]],
+			isIn: [["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag", "onbekend", "niet van toepassing"]],
 		},
 	},
 	period: {
