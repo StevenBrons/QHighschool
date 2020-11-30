@@ -12,7 +12,7 @@ import OtherData from "./OtherData"
 import LoginProvider from '../../lib/LoginProvider';
 import "./Profile.css";
 import Saveable from '../../components/Saveable';
-import { setUser, setFullUser, setSecureLogin, getCookie, getUser } from '../../store/actions';
+import { setSelf, setUser, setSecureLogin, getCookie, getUser } from '../../store/actions';
 import queryString from "query-string";
 import { withRouter } from 'react-router-dom';
 
@@ -38,6 +38,7 @@ class Profile extends Component {
 	}
 
 	onChange = (field, value) => {
+		console.log(field, value);
 		this.setState({
 			user: {
 				...this.state.user,
@@ -59,8 +60,8 @@ class Profile extends Component {
 			return {
 				orgUser: nextProps.user,
 				user: {
-					...prevState.user,
 					...nextProps.user,
+					...prevState.user,
 				},
 				userId: nextProps.userId,
 			}
@@ -79,7 +80,7 @@ class Profile extends Component {
 		const hasChanged = JSON.stringify(this.props.user) !== JSON.stringify(user);
 		const p = { ...this.props, user }
 
-		if (user == null || user === {}) {
+		if (user == null || user.id == null) {
 			return <LoginProvider>
 				<Page>
 					<Progress />
@@ -93,13 +94,13 @@ class Profile extends Component {
 						hasChanged={hasChanged || (user.needsProfileUpdate === true && user.role === "student")}
 						onSave={() => {
 							if (this.props.editableAdmin) {
-								this.props.saveFull(user)
+								this.props.setUser(user)
 							} else {
 								const U = {
 									...user,
 									needsProfileUpdate: false,
 								}
-								this.props.save(U)
+								this.props.setSelf(U)
 								this.setState({
 									user: U,
 								});
@@ -172,11 +173,11 @@ function mapStateToProps(state, ownProps) {
 	}
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps, state) {
 	return {
 		setSecureLogin: (secureLogin) => dispatch(setSecureLogin(secureLogin)),
-		save: (user) => dispatch(setUser(user)),
-		saveFull: (user) => dispatch(setFullUser(user)),
+		setSelf: (user) => dispatch(setSelf(user)),
+		setUser: (user) => dispatch(setUser(user)),
 		getUser: (userId) => dispatch(getUser(userId)),
 	};
 }

@@ -34,6 +34,7 @@ exports.getUser = async (userId) => {
 			profile: user.profile,
 			level: user.level,
 			examRights: user.examRights,
+			examSubjects: user.examSubjects,
 		}
 	});
 }

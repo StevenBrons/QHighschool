@@ -16,12 +16,12 @@ const {
   ensureAdmin,
   ensureInGroup,
   ensureInSubjectGroup,
-  public
+  publicAccess,
 } = require("./permissions");
 
 router.get(
   "/list",
-  public,
+  publicAccess,
   promiseMiddleware(req => {
     if (req.isAuthenticated()) {
       return groupDb.getGroups(req.user.id);

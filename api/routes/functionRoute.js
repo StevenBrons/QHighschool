@@ -10,6 +10,7 @@ const {
   ensureSecure,
   ensureGradeAdmin,
   ensureOffice,
+  publicAccess,
 } = require("./permissions");
 
 router.post(
@@ -39,6 +40,7 @@ router.post(
 
 router.get(
   "/schedule/:year/:isoWeek",
+  publicAccess,
   promiseMiddleware(req => {
     const { isoWeek, year } = req.params;
     return functionDb.getSchedule(parseInt(year), parseInt(isoWeek));

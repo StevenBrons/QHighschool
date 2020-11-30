@@ -188,13 +188,13 @@ export function getSelf() {
 
 
 
-export function setUser(user) {
+export function setSelf(user) {
 	return (dispatch, getState) => {
 		dispatch({
 			type: "CHANGE_USER",
 			user,
 		});
-		fetchData("user", "patch", user, dispatch, getState);
+		fetchData("user/self", "patch", user, dispatch, getState);
 	}
 }
 export function getUser(userId) {
@@ -208,13 +208,13 @@ export function getUser(userId) {
 	}
 }
 
-export function setFullUser(user) {
+export function setUser(user) {
 	return (dispatch, getState) => {
 		dispatch({
 			type: "CHANGE_USER",
 			user,
 		});
-		fetchData("user/full", "patch", user, dispatch, getState);
+		fetchData("user", "patch", user, dispatch, getState);
 	}
 }
 

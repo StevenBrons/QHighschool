@@ -54,7 +54,6 @@ class SelectField extends Component {
 				getOptionLabel={this.getOptionsLabel}
 				onChange={(event, value) => this.props.onChange(value)}
 				renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
-				disableUnderline
 			/>
 		}
 	}

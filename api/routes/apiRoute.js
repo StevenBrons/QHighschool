@@ -12,9 +12,9 @@ const { ensureOffice } = require('./permissions');
 router.use('/course', courseRoute);
 router.use('/subject', subjectRoute);
 router.use('/group', groupRoute);
+router.use('/function', functionRoute);
 
 router.use('/user', ensureOffice, userRoute);
-router.use('/function', functionRoute);
 router.use('/certificate', ensureOffice, certificateRoute);
 
 module.exports = router;

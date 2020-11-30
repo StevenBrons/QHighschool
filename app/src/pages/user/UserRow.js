@@ -65,7 +65,7 @@ class UserRow extends Component {
 						justifyContent: "space-between"
 					}}>
 						<Typography variant="button" color={user.role === "teacher" ? "secondary" : "primary"} style={{ flex: 1 }} >
-							<Link href={`./gebruiker/${user.id}`}>
+							<Link href={`/gebruiker/${user.id}`}>
 								{user.displayName}
 							</Link>
 						</Typography>

@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const subjectDB = require('../database/SubjectDB');
 const { promiseMiddleware, doReturn } = require('./handlers');
-const { public, ensureOffice, ensureSecure, ensureAdmin, } = require('./permissions');
+const { publicAccess, ensureOffice, ensureSecure, ensureAdmin, } = require('./permissions');
 
-router.get("/list", public, promiseMiddleware(async () => {
+router.get("/list", publicAccess, promiseMiddleware(async () => {
 	return subjectDB.getSubjects();
 }), doReturn);
 

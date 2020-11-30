@@ -101,7 +101,7 @@ class UserList extends Component {
       variant="outlined"
       value={this.state.filter}
       td
-      label="filter"
+      label="Zoek"
       onChange={(filter) => this.setState({ filter })}
     />;
   }
@@ -113,6 +113,7 @@ class UserList extends Component {
     const userIds = this.props.userIds;
     return userIds
       .filter(id => {
+        if (users[id] == null) return false;
         const name = (users[id]["displayName"] + "").toLowerCase();
         const filter = this.state.filter.toLowerCase();
         return name.includes(filter);

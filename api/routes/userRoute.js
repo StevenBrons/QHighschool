@@ -2,8 +2,21 @@ const express = require("express");
 const router = express.Router();
 const userDb = require("../database/UserDB");
 const groupDb = require("../database/GroupDB");
-const { doReturn, doSuccess, promiseMiddleware, authError } = require("./handlers");
-const { ensureAdmin, ensureStudent, ensureSecure, ensureAdminOrGradeAdmin } = require("./permissions");
+const {
+  doReturn,
+  doSuccess,
+  promiseMiddleware
+} = require("./handlers");
+const {
+  ensureAdmin,
+  ensureStudent,
+  ensureSecure,
+  ensureGradeAdmin,
+  OR,
+  ensureTeacher,
+  ensureInSameGroup,
+  ensureInSameSchool
+} = require("./permissions");
 
 router.get(
   "/self",
@@ -15,30 +28,20 @@ router.get(
 
 router.post(
   "/",
-  promiseMiddleware(async (req, res) => {
-    const role = req.user.role;
-    if (role === "admin") return true;
-    if (role === "grade_admin") {
-      const school = await userDb.getSchoolOfUser(req.body.userId);
-      if (school === req.user.school) {
-        return true;
-      }
-    }
-    if (role === "teacher") {
-      const g1 = await userDb.getParticipatingGroupIds(req.user.id, false);
-      const g2 = await userDb.getParticipatingGroupIds(req.body.userId, false);
-      let shareGroup = false;
-      for (let i in g1) {
-        if (g2.indexOf(g1[i]) !== -1) {
-          shareGroup = true;
-        }
-      }
-      if (shareGroup) {
-        return true;
-      }
-    }
-    return new authError();
-  }),
+  ensureSecure,
+  OR(
+    [
+      ensureAdmin,
+    ],
+    [
+      ensureGradeAdmin,
+      ensureInSameSchool,
+    ],
+    [
+      ensureTeacher,
+      ensureInSameGroup,
+    ]
+  ),
   promiseMiddleware(req => {
     return userDb.getUser(req.body.userId);
   }),
@@ -46,7 +49,7 @@ router.post(
 );
 
 router.patch(
-  "/",
+  "/self",
   promiseMiddleware(req => {
     return userDb.setUser({ ...req.body, id: req.user.id });
   }),
@@ -54,9 +57,9 @@ router.patch(
 );
 
 router.patch(
-  "/full",
-  ensureAdmin,
+  "/",
   ensureSecure,
+  OR([ensureAdmin], [ensureGradeAdmin, ensureInSameSchool]),
   promiseMiddleware(req => {
     return userDb.setFullUser(req.body);
   }),
@@ -111,7 +114,10 @@ router.get(
 
 router.get(
   "/list",
-  ensureAdminOrGradeAdmin,
+  OR(
+    [ensureAdmin],
+    [ensureGradeAdmin]
+  ),
   promiseMiddleware(req => {
     if (req.user.isAdmin()) {
       return userDb.getList();
