@@ -28,19 +28,10 @@ router.get(
 
 router.post(
   "/",
-  ensureSecure,
   OR(
-    [
-      ensureAdmin,
-    ],
-    [
-      ensureGradeAdmin,
-      ensureInSameSchool,
-    ],
-    [
-      ensureTeacher,
-      ensureInSameGroup,
-    ]
+    [ensureAdmin],
+    [ensureGradeAdmin, ensureInSameSchool,],
+    [ensureTeacher, ensureInSameGroup,]
   ),
   promiseMiddleware(req => {
     return userDb.getUser(req.body.userId);

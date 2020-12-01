@@ -214,7 +214,7 @@ export function setUser(user) {
 			type: "CHANGE_USER",
 			user,
 		});
-		fetchData("user", "patch", user, dispatch, getState);
+		fetchData("user", "patch", { userId: user.id, ...user }, dispatch, getState);
 	}
 }
 

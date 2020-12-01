@@ -133,11 +133,11 @@ class ExamSubjects extends Component {
 					options={[{ label: "In profieldeel", value: "T" }, { label: "In vrije deel", value: "F" }]}
 					onChange={(value) => this.onChange("newSubjectProfile", value)}
 				/>
-				{
+				{!this.props.isStudent &&
 					<div>
 						<Typography gutterBottom>
 							Wat is je startcohort?
-				</Typography>
+						</Typography>
 						<SelectField
 							value={this.state.newSubjectStartYear}
 							options={this.props.possibleYears}
@@ -154,7 +154,7 @@ class ExamSubjects extends Component {
 					Opslaan
 			</Button>
 			</DialogActions>
-		</Dialog>
+		</Dialog >
 	}
 
 	render() {
