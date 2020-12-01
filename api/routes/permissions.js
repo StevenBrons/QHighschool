@@ -62,7 +62,7 @@ exports.ensureOffice = (req, res, next) => {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	throw new AuthError();
+	throw new Error("Authentication Error");
 }
 
 exports.ensureInSameGroup = async (req, res, next) => {
