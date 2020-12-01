@@ -28,6 +28,7 @@ exports.getUser = async (userId) => {
 			email: user.email,
 			role: user.role,
 			availableRoles: user.availableRoles,
+			preferedEmail: user.preferedEmail,
 			school: user.school,
 			schoolLocation: user.schoolLocation,
 			year: user.year,
