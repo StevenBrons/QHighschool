@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import InputField from "../../fields/InputField"
-import { Typography, Tooltip, TableSortLabel, Paper } from "@material-ui/core";
+import { Typography, Tooltip, TableSortLabel, Paper, Button } from "@material-ui/core";
 import UserRow from "./UserRow"
 
 class UserList extends Component {
@@ -137,13 +137,24 @@ class UserList extends Component {
       });
   };
 
+  getUserRow = (userId) => {
+    let children;
+    if (this.props.actions) {
+      children = this.props.actions.map(({ label, onClick }, i) => {
+        return <Button key={i} onClick={() => onClick(userId)} variant="contained" color="primary">{label}</Button>
+      });
+    }
+    return <UserRow
+      key={userId}
+      userId={userId}
+      actions={this.props.actions} >
+      {children}
+    </UserRow>
+  }
+
   render() {
     const header = this.getHeader();
-    const users = this.sortAndFilterIds().map(id => {
-      return (
-        <UserRow key={id} userId={id} actions={this.props.actions} />
-      );
-    });
+    const users = this.sortAndFilterIds().map(this.getUserRow);
     const filters = this.props.userIds.length > 50 ? this.getFilters() : null;
     return (
       <table style={{ width: "100%" }}>
@@ -164,6 +175,7 @@ function mapStateToProps(state, ownProps) {
     users: state.users,
     role: state.role,
     userIds: ownProps.userIds,
+    actions: ownProps.actions,
   };
 }
 
