@@ -34,8 +34,7 @@ renderData = (data) => {
 	tempDate.setDate(tempDate.getDate() + 1)
 	$("#friday .date").text(dateString(tempDate))
 
-	$(".week-controls .date").text( "Week " + getWeekNumber(date)[1] + " " + date.getFullYear() + " • " + 
-		dateString(date) + " - " + dateString(tempDate))
+	$(".week-controls .date").text( "Week " + getWeekNumber(date)[1] + " " + date.getFullYear())
 }
  
 // sort lessons into weekdays and sort lessons within weekday based on startTime
@@ -69,16 +68,16 @@ createLesson = (lesson) => {
 	const {courseName, subjectName, teacherName, schoolLocation,
 		schoolAddress, classRoom, startTime, endTime} = lesson
 	return $("<div>", { class: "lesson" }).append(
-		$("<h2>").text(courseName),
-		$("<h4>").text(subjectName),
+		$("<h3>", {class: "course"}).text(courseName),
+		$("<h4>", {class: "subject"}).text(subjectName),
 		$("<hr/>"),
-		$("<p>").text(teacherName),
+		$("<p>", {class: "teacher"}).text(teacherName),
 		$("<hr/>"),
-		$("<p>").text(schoolLocation),
-		$("<p>").text(schoolAddress),
-		$("<p>").text(classRoom),
+		$("<p>", {class: "location"}).text(schoolLocation),
+		$("<p>", {class: "address"}).text(schoolAddress),
+		$("<p>", {class: "room"}).text(classRoom),
 		$("<hr/>"),
-		$("<p>").text(startTime + " - " + endTime),
+		$("<p>", {class: "time"}).text(startTime + " - " + endTime),
 	)
 }
 
