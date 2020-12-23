@@ -1,12 +1,6 @@
+const MONTHS = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"]
 let testData = [{"day":"monday", "startTime":"12:00","endTime":"14:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"monday","startTime":"11:30","endTime":"14:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"monday","startTime":"16:00","endTime":"18:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"tuesday","startTime":"9:00","endTime":"18:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"wednesday","startTime":"16:00","endTime":"18:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"tuesday","startTime":"16:00","endTime":"18:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"wednesday","startTime":"16:00","endTime":"17:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"},{"day":"wednesday","startTime":"16:00","endTime":"19:00","courseName":"CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.","schoolLocation":"Liemers College","schoolAddress":"Straatnaam 123","classRoom":"1.2c","teacherName":"Naam van de Docent","subjectName":"vaknaam komt hiero"}]
 $(() => {
-	$.getJSON("https://api.q-highschool.nl/api/function/schedule/2020/48", (data) => {
-		console.log(data)
-
-		renderData(testData)
-	}).fail(() => {
-		$("body").text("Er iets misgegaan bij het ophalen van de data.")
-	})
 
 	renderData = (data) => {
 		data = orderAndSort(data)
@@ -15,6 +9,11 @@ $(() => {
 		$("#wednesday").append(data["wednesday"].map((lesson) => createLesson(lesson)))
 		$("#thursday").append(data["thursday"].map((lesson) => createLesson(lesson)))
 		$("#friday").append(data["friday"].map((lesson) => createLesson(lesson)))
+
+		let friday = new Date(date.getTime())
+		friday.setDate(friday.getDate() + 4)
+		$(".date").text( "Week " + getWeekNumber(date)[1] + " " + date.getFullYear() + " • " + 
+			date.getDate() + " " + MONTHS[date.getMonth()] + " - " + friday.getDate() + " " + MONTHS[friday.getMonth()])
 	}
 
 	// sort lessons into weekdays and sort lessons within weekday based on startTime
@@ -60,4 +59,58 @@ $(() => {
 			$("<p>").text(startTime + " - " + endTime),
 		)
 	}
+
+	getWeekNumber = (d) => {
+    // Copy date so don't modify original
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    // Get first day of year
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    // Calculate full weeks to nearest Thursday
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    // Return array of year and week number
+    return [d.getUTCFullYear(), weekNo];
+	}
+
+	getDate = () => {
+		// If today is a week day, set date to monday of that week. In weekend set to next monday
+		var date = new Date() 
+		if (date.getDay() == 0)
+			date.setDate(date.getDate() + 1)
+		else if (date.getDay() == 6)
+			date.setDate(date.getDate() + 2)
+		else
+			date.setDate(date.getDate() - date.getDay() + 1)
+		return date
+	}
+
+	$(".week-button#next").click(() => {
+		date.setDate(date.getDate() + 7)
+		let friday = new Date(date.getTime())
+		friday.setDate(friday.getDate() + 4)
+		$(".date").text( "Week " + getWeekNumber(date)[1] + " " + date.getFullYear() + " • " + 
+			date.getDate() + " " + MONTHS[date.getMonth()] + " - " + friday.getDate() + " " + MONTHS[friday.getMonth()])
+	})
+
+	$(".week-button#previous").click(() => {
+		date.setDate(date.getDate() - 7)
+		let friday = new Date(date.getTime())
+		friday.setDate(friday.getDate() + 4)
+		$(".date").text( "Week " + getWeekNumber(date)[1] + " " + date.getFullYear() + " • " + 
+			date.getDate() + " " + MONTHS[date.getMonth()] + " - " + friday.getDate() + " " + MONTHS[friday.getMonth()])
+	})
+
+	var date = getDate()
+
+	$.getJSON("https://api.q-highschool.nl/api/function/schedule/2020/48", (data) => {
+		console.log(data)
+
+		renderData(testData)
+
+	}).fail(() => {
+		$("body").text("Er iets misgegaan bij het ophalen van de data.")
+	})
+
 });

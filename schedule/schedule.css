@@ -14,3 +14,11 @@
 	padding: 1em;
 	background-color: rgb(200,200,200);
 }
+
+.week-button {
+	height: 2em;
+	width: 2em;
+	border-radius: 40%;
+	border: none;
+	background-color: lightblue;
+}
