@@ -6,6 +6,7 @@ body {
 
 .week-controls {
 	margin: 1em;
+	white-space: nowrap;
 }
 
 .week-button {
@@ -17,14 +18,26 @@ body {
 	font-size: 15pt;
 }
 
+@media screen and (max-width: 800px) {
+	.week-button {
+		height: 60px;
+		width: 60px;
+		font-size: 30pt;
+	}
+	.week-controls .date {
+		font-size: 2em;
+	}
+}
+
 .week {
 	display: flex;
+	align-items: flex-start;
 }
 
 .day{
 	flex: 1;
 	border-left: 3px solid rgb(255, 175, 50);
-	margin-left: 1em;
+	margin-left: 2em;
 	padding-left: 1em;
 }
 
