@@ -12,7 +12,7 @@ const COLORS = [
   "yellow"
 ];
 
-const ENROLLMENT_PERIOD = 2;
+const ENROLLMENT_PERIOD = 3;
 
 class SubjectRow extends Component {
   constructor(props) {
