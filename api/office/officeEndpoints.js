@@ -111,6 +111,7 @@ function getClassDataFromGroup(group) {
 		mailNickname = mailNickname.substring(0, 40);
 	}
 	mailNickname = process.env.NODE_ENV ? mailNickname : "DeleteMe" + Math.floor(Math.random() * 99999);
+	mailNickname = mailNickname + "2";
 	const year = getSmallYear(group.schoolYear);
 	return {
 		description: sanitizeText(group.courseDescription),
