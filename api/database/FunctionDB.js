@@ -9,6 +9,8 @@ const Participant = require("../dec/ParticipantDec");
 const User = require("../dec/UserDec");
 const Op = require("sequelize").Op;
 
+const groupDb = require("../database/GroupDB");
+
 const graphConnection = require("../office/graphConnection");
 const officeEndpoints = require("../office/officeEndpoints");
 const schedule = require("../lib/schedule");
@@ -275,22 +277,31 @@ exports.getSchedule = async (year, isoWeek) => {
     where: {
       date: {
         [Op.between]: [start, end]
-      }
-    }
+      },
+    },
+    raw: true,
   });
-  return lessons.map(lesson => {
+  return Promise.all(lessons.map(async (lesson) => {
+    const group = await groupDb.getGroup(lesson.courseGroupId);
     return {
-      ...lesson.datavalues,
-      startTime: "12:00",
-      endTime: "14:00",
-      courseName: "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.",
-      schoolLocation: "Liemers College",
-      schoolAddress: "Straatnaam 123",
-      classRoom: "1.2c",
-      teacherName: "Naam van de Docent",
-      subjectName: "vaknaam komt hiero",
+      id: lesson.id,
+      date: lesson.date,
+      kind: lesson.kind,
+      activities: lesson.activities,
+      numberInBlock: lesson.numberInBlock,
+      lessonSubject: lesson.subject,
+      presence: lesson.presence,
+      day: group.day,
+      courseName: group.courseName,
+      subjectName: group.subjectName,
+      teacherName: group.teacherName,
+      startTime: "",
+      endTime: "",
+      schoolLocation: "",
+      schoolAddress: "",
+      classRoom: "",
     }
-  });
+  }));
 }
 
 exports.getEnrollment = async school => {
