@@ -12,8 +12,24 @@ let getData = () => {
 	})
 }
 
+function translateWeekday(weekday) {
+	switch (weekday) {
+		case "maandag": return "monday";
+		case "dinsdag": return "tuesday";
+		case "woensdag": return "wednesday";
+		case "donderdag": return "thursday";
+		case "vrijdag": return "friday";
+	}
+}
+
 let renderData = (data) => {
-	data = orderAndSort(data)
+	data = orderAndSort(data);
+	$("#monday").empty();
+	$("#tuesday").empty();
+	$("#wednesday").empty();
+	$("#thursday").empty();
+	$("#friday").empty();
+
 	$("#monday").append(data["monday"].map((lesson) => createLesson(lesson)))
 	$("#monday .date").text(dateString(curDate))
 
@@ -40,7 +56,7 @@ let renderData = (data) => {
 // sort lessons into weekdays and sort lessons within weekday based on startTime
 let orderAndSort = (data) => {
 	data = data.reduce((week, lesson) => {
-		week[lesson.day].push(lesson)
+		week[translateWeekday(lesson.day)].push(lesson)
 		return week
 	}, { "monday": [], "tuesday": [], "wednesday": [], "thursday": [], "friday": [] })
 	Object.keys(data).map((day) => {
@@ -117,12 +133,12 @@ $(() => {
 	getData()
 
 	$(".week-button#next").click(() => {
-		curDate.setcurDate(curDate.getCurDate() + 7)
+		curDate.setDate(curDate.getDate() + 7)
 		getData()
 	})
 
 	$(".week-button#previous").click(() => {
-		curDate.setcurDate(curDate.getDate() - 7)
+		curDate.setDate(curDate.getDate() - 7)
 		getData()
 	})
 });

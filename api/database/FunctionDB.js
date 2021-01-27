@@ -262,9 +262,9 @@ exports.getSchedule = async (year, isoWeek) => {
   const start = moment()
     .year(year)
     .isoWeek(isoWeek)
-    .isoWeekday(1)
+    .isoWeekday(0)
     .hour(0)
-    .minute(0)
+    .minute(1)
     .toDate();
   const end = moment()
     .year(year)
