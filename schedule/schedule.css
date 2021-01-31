@@ -36,7 +36,7 @@ body {
 
 .day{
 	flex: 1;
-	border-left: 3px solid rgb(255, 175, 50);
+	border-left: 3px solid rgb(177, 177, 177);
 	margin-left: 2em;
 	padding-left: 1em;
 }
@@ -51,10 +51,37 @@ body {
 }
 
 .lesson {
-	border: 2px solid rgb(40, 40, 170);
 	padding: .5em;
 	background-color: rgb(40,40,40);
 	margin-bottom: 1em;
+}
+
+.lesson.purple {
+	border: 2px solid #460eaf;
+}
+
+.lesson.pink {
+	border: 2px solid #fc22fc;
+}
+
+.lesson.blue {
+	border: 2px solid #1fb2ff;
+}
+
+.lesson.orange {
+	border: 2px solid #ff7a03;
+}
+
+.lesson.red {
+	border: 2px solid #e20b12;
+}
+
+.lesson.yellow {
+	border: 2px solid #ffc000;
+}
+
+.lesson.green {
+	border: 2px solid #00fe81;
 }
 
 .lesson .course {

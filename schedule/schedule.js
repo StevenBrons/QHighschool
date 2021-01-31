@@ -1,4 +1,14 @@
-// let testData = [{ "day": "friday", "startTime": "12:00", "endTime": "14:00", "courseName": "Lineaire Algebra B", "schoolLocation": "Praedinius Gymnasium", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "J. de Boer", "subjectName": "Wiskunde" }, { "day": "monday", "startTime": "12:00", "endTime": "14:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "monday", "startTime": "11:30", "endTime": "14:00", "courseName": "CourseName ", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "monday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "tuesday", "startTime": "9:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "tuesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "17:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "19:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }]
+// let testData = [{ "day": "friday", "startTime": "12:00", "endTime": "14:00", "courseName": "Lineaire Algebra B", "schoolLocation": "Praedinius Gymnasium", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "J. de Boer", "subjectName": "Wiskunde" }, { "day": "monday", "startTime": "12:00", "endTime": "14:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "monday", "startTime": "11:30", "endTime": "14:00", "courseName": "CourseName ", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "monday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "tuesday", "startTime": "9:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "wiskunde" }, { "day": "tuesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "biologie" }, { "day": "wednesday", "startTime": "16:00", "endTime": "17:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "biologie" }, { "day": "wednesday", "startTime": "16:00", "endTime": "19:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "biologie" }]
+
+const COLORS = [
+  "purple",
+  "pink",
+  "blue",
+  "orange",
+  "red",
+  "green",
+  "yellow"
+];
 
 let curDate;
 
@@ -13,24 +23,30 @@ let getData = () => {
 }
 
 let renderData = (data) => {
+	subjectColors = getColors(data)
 	data = orderAndSort(data)
-	$("#monday").append(data["monday"].map((lesson) => createLesson(lesson)))
+	$("#monday").children().slice(2).remove()
+	$("#monday").append(data["monday"].map((lesson) => createLesson(lesson, subjectColors[lesson.subjectName])))
 	$("#monday .date").text(dateString(curDate))
 
-	$("#tuesday").append(data["tuesday"].map((lesson) => createLesson(lesson)))
+	$("#tuesday").children().slice(2).remove()
+	$("#tuesday").append(data["tuesday"].map((lesson) => createLesson(lesson, subjectColors[lesson.subjectName])))
 	let tempDate = new Date(curDate.getTime())
 	tempDate.setDate(tempDate.getDate() + 1)
 	$("#tuesday .date").text(dateString(tempDate))
 
-	$("#wednesday").append(data["wednesday"].map((lesson) => createLesson(lesson)))
+	$("#wednesday").children().slice(2).remove()
+	$("#wednesday").append(data["wednesday"].map((lesson) => createLesson(lesson, subjectColors[lesson.subjectName])))
 	tempDate.setDate(tempDate.getDate() + 1)
 	$("#wednesday .date").text(dateString(tempDate))
 
-	$("#thursday").append(data["thursday"].map((lesson) => createLesson(lesson)))
+	$("#thursday").children().slice(2).remove()
+	$("#thursday").append(data["thursday"].map((lesson) => createLesson(lesson, subjectColors[lesson.subjectName])))
 	tempDate.setDate(tempDate.getDate() + 1)
 	$("#thursday .date").text(dateString(tempDate))
 
-	$("#friday").append(data["friday"].map((lesson) => createLesson(lesson)))
+	$("#friday").children().slice(2).remove()
+	$("#friday").append(data["friday"].map((lesson) => createLesson(lesson, subjectColors[lesson.subjectName])))
 	tempDate.setDate(tempDate.getDate() + 1)
 	$("#friday .date").text(dateString(tempDate))
 
@@ -47,11 +63,26 @@ let orderAndSort = (data) => {
 		data[day].sort((a, b) => {
 			let comp = compareTime(a.startTime, b.startTime)
 			if (comp == 0)
-				return compareTime(a.endTime, b.endTime)
+				return a.subjectName > b.subjectName ? 1 : (b.subjectName > a.subjectName? -1 : 0)
 			return comp
 		})
 	})
 	return data
+}
+
+let getColors = (data) => {
+	let subjects = data.reduce((subjects, lesson) => {
+		if (!subjects.includes(lesson.subjectName)) {
+			subjects.push(lesson.subjectName)
+		}
+		return subjects
+	}, [])
+	
+	let colors = {}
+	for (i = 0; i < subjects.length; i++) {
+		colors[subjects[i]] = COLORS[i % subjects.length]
+	}
+	return colors
 }
 
 let compareTime = (timeA, timeB) => {
@@ -64,10 +95,10 @@ let compareTime = (timeA, timeB) => {
 	return timeA > timeB ? 1 : (timeB > timeA ? -1 : 0)
 }
 
-let createLesson = (lesson) => {
+let createLesson = (lesson, color) => {
 	const { courseName, subjectName, teacherName, schoolLocation,
 		schoolAddress, classRoom, startTime, endTime } = lesson
-	return $("<div>", { class: "lesson" }).append(
+	return $("<div>", { class: "lesson " + color }).append(
 		$("<h3>", { class: "course" }).text(courseName),
 		$("<h4>", { class: "subject" }).text(subjectName),
 		$("<hr/>"),
@@ -117,12 +148,12 @@ $(() => {
 	getData()
 
 	$(".week-button#next").click(() => {
-		curDate.setcurDate(curDate.getCurDate() + 7)
+		curDate.setDate(curDate.getDate() + 7)
 		getData()
 	})
 
 	$(".week-button#previous").click(() => {
-		curDate.setcurDate(curDate.getDate() - 7)
+		curDate.setDate(curDate.getDate() - 7)
 		getData()
 	})
 });
