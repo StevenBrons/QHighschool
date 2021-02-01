@@ -69,8 +69,7 @@ class SelectField extends Component {
 			nonEdit.IconComponent = "div";
 		}
 		return <FormControl fullWidth>
-			{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
-			{this.props.editable === false && this.getCurtain()}
+			{this.props.label && <InputLabel disabled>{this.props.label}</InputLabel>}
 			<Select
 				multiple={this.props.multiple}
 				fullWidth
@@ -86,6 +85,7 @@ class SelectField extends Component {
 					</MenuItem>
 				))}
 			</Select>
+			{this.props.editable === false && this.getCurtain()}
 		</FormControl >
 	}
 

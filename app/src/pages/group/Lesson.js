@@ -77,7 +77,7 @@ class Lesson extends Component {
 		>
 			<td style={{ display: "flex", flexDirection: "column" }}>
 				<Typography>
-					Lesnummer
+					Lesnummer - datum
 			</Typography>
 				<Typography>
 					Soort les
@@ -91,8 +91,8 @@ class Lesson extends Component {
 		</Typography >
 			<td style={{ display: "flex", flexDirection: "column" }}>
 				<Typography>
-					Datum
-			</Typography>
+					Locatie - lokaal
+				</Typography>
 				<Typography>
 					Aanwezigheid
 			</Typography >
@@ -114,9 +114,14 @@ class Lesson extends Component {
 			component="tr"
 		>
 			<td style={{ display: "flex", flexDirection: "column" }}>
-				<Typography color="primary" variant="button" component="td" >
-					{"Les " + lesson.numberInBlock}
-				</Typography>
+				<div>
+					<Typography color="primary" variant="button" component="td" >
+						{"Les " + lesson.numberInBlock}
+					</Typography>
+					<Typography component="td" variant="body1" color="textSecondary">
+						{displayDate}
+					</Typography>
+				</div>
 				<InputField
 					label="Soort les"
 					layout={{ area: true }}
@@ -130,6 +135,7 @@ class Lesson extends Component {
 				style={{ flex: 4 }}
 				value={lesson.subject}
 				editable={this.props.editable}
+				multiline
 				onChange={(value) => this.handleChange("subject", value)}
 				td
 			/>
@@ -138,13 +144,11 @@ class Lesson extends Component {
 				style={{ flex: 8 }}
 				value={lesson.activities}
 				editable={this.props.editable}
+				multiline
 				onChange={(value) => this.handleChange("activities", value)}
 				td
 			/>
 			<td style={{ display: "flex", flexDirection: "column" }}>
-				<Typography component="td">
-					{displayDate}
-				</Typography>
 				<SelectField
 					label="Aanwezigheid"
 					value={lesson.presence}
@@ -152,6 +156,22 @@ class Lesson extends Component {
 					onChange={(value) => this.handleChange("presence", value)}
 					options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
 				/>
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					<InputField
+						label="Locatie"
+						style={{ flex: 8 }}
+						value={lesson.location}
+						editable={this.props.editable}
+						onChange={(value) => this.handleChange("location", value)}
+					/>
+					<InputField
+						label="Lokaal"
+						style={{ flex: 8 }}
+						value={lesson.room}
+						editable={this.props.editable}
+						onChange={(value) => this.handleChange("room", value)}
+					/>
+				</div>
 				{
 					this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
 				}
