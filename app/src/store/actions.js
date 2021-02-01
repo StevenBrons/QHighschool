@@ -251,6 +251,8 @@ export function setGroup(group) {
 				schoolYear: group.schoolYear,
 				enrollableFor: group.enrollableFor,
 				period: group.period,
+				startTime: group.startTime,
+				endTime: group.endTime,
 			}
 		}
 

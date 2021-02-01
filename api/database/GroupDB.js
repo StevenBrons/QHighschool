@@ -17,11 +17,14 @@ const Op = require("sequelize").Op;
 exports._mapGroup = data => {
   let groupName = data.course.name;
   groupName = groupName.charAt(0).toUpperCase() + groupName.slice(1);
+  console.log(data);
   return {
     id: data.id + "",
     courseId: data.courseId,
     day: data.day,
     period: data.period,
+    startTime: data.startTime,
+    endTime: data.endTime,
     schoolYear: data.schoolYear,
     enrollableFor: data.enrollableFor,
     courseName: groupName,
