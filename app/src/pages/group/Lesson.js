@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { setPresenceUserStatus } from "../../store/actions";
 import { connect } from "react-redux";
 import InputField from '../../fields/InputField';
 import SelectField from '../../fields/SelectField';
+import "./Lesson.css";
 
 class Lesson extends Component {
 
@@ -13,16 +14,6 @@ class Lesson extends Component {
 		super(props);
 		this.state = {
 			hover: false,
-			style: {
-				width: "100%",
-				height: "auto",
-				marginTop: "10px",
-				marginBottom: "10px",
-				padding: "2px",
-				display: "flex",
-				alignItems: "start",
-				position: "relative",
-			},
 		}
 	}
 
@@ -30,77 +21,16 @@ class Lesson extends Component {
 		return ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"][number];
 	}
 
-	getOptOutButton() {
-		if (this.props.lesson.userStatus === "absent") {
-			return < div style={{ flex: 1 }}>
-				<Button
-					style={{ width: "70px", float: "right" }}
-					size="small"
-					mini
-					color="primary"
-					onClick={() => this.props.setPresenceUserStatus(this.props.lesson.id, "present", this.props.lesson.courseGroupId)}
-				>
-					Aanmelden
-				</Button>
-			</div>
-		}
-		return < div style={{ flex: 1 }}>
-			<Button
-				style={{ width: "70px", float: "right" }}
-				size="small"
-				mini
-				color="secondary"
-				onClick={() => this.props.setPresenceUserStatus(this.props.lesson.id, "absent", this.props.lesson.courseGroupId)}
-			>
-				Afmelden
-			</Button>
-		</div>
-	}
-
-
 	handleChange = (name, value) => {
+		console.log(name);
+		console.log(value);
 		this.props.handleChange({
 			...this.props.lesson,
 			[name]: value,
 		});
 	}
 
-
-
-	getHeader = () => {
-		return <Paper
-			elevation={this.state.hover ? 2 : 1}
-			onMouseEnter={() => this.setState({ hover: true })}
-			onMouseLeave={() => this.setState({ hover: false })}
-			component="tr"
-			style={{ backgroundColor: "#e0e0e0" }}
-		>
-			<td style={{ display: "flex", flexDirection: "column" }}>
-				<Typography>
-					Lesnummer - datum
-			</Typography>
-				<Typography>
-					Soort les
-			</Typography>
-			</td >
-			<Typography style={{ flex: 4 }} component="td">
-				Onderwerp
-		</Typography >
-			<Typography style={{ flex: 8 }} component="td">
-				Activiteiten
-		</Typography >
-			<td style={{ display: "flex", flexDirection: "column" }}>
-				<Typography>
-					Locatie - lokaal
-				</Typography>
-				<Typography>
-					Aanwezigheid
-			</Typography >
-			</td >
-		</Paper >
-	}
-
-	getLesson = () => {
+	render() {
 		const lesson = this.props.lesson;
 		let displayDate = "niet van toepassing";
 		if (lesson.date) {
@@ -112,8 +42,9 @@ class Lesson extends Component {
 			onMouseEnter={() => this.setState({ hover: true })}
 			onMouseLeave={() => this.setState({ hover: false })}
 			component="tr"
+			className="Lesson"
 		>
-			<td style={{ display: "flex", flexDirection: "column" }}>
+			<td>
 				<div>
 					<Typography color="primary" variant="button" component="td" >
 						{"Les " + lesson.numberInBlock}
@@ -122,17 +53,23 @@ class Lesson extends Component {
 						{displayDate}
 					</Typography>
 				</div>
-				<InputField
-					label="Soort les"
-					layout={{ area: true }}
-					value={lesson.kind}
-					editable={this.props.editable}
-					onChange={(value) => this.handleChange("kind", value)}
-				/>
+				<div className="LocationRoom">
+					<InputField
+						label="Locatie"
+						value={lesson.location}
+						editable={this.props.editable}
+						onChange={(value) => this.handleChange("location", value)}
+					/>
+					<InputField
+						label="Lokaal"
+						value={lesson.room}
+						editable={this.props.editable}
+						onChange={(value) => this.handleChange("room", value)}
+					/>
+				</div>
 			</td>
 			<InputField
 				label="Onderwerp"
-				style={{ flex: 4 }}
 				value={lesson.subject}
 				editable={this.props.editable}
 				multiline
@@ -141,51 +78,36 @@ class Lesson extends Component {
 			/>
 			<InputField
 				label="Activiteiten"
-				style={{ flex: 8 }}
 				value={lesson.activities}
 				editable={this.props.editable}
 				multiline
 				onChange={(value) => this.handleChange("activities", value)}
 				td
 			/>
-			<td style={{ display: "flex", flexDirection: "column" }}>
+			<td style={{ display: "flex", flexDirection: "column", verticleAlign: "top" }}>
+				<SelectField
+					label="Soort les"
+					value={lesson.kind}
+					editable={this.props.editable}
+					options={[
+						{ value: "fysiek", label: "Fysiek", category: "Centrale bijeenkomst" },
+						{ value: "online", label: "Online", category: "Centrale bijeenkomst" },
+						{ value: "hybride", label: "Hybride", category: "Centrale bijeenkomst" },
+						{ value: "groepswerk", label: "Groepswerk", category: "Geen centrale bijeenkomst" },
+						{ value: "zelfstudie", label: "Zelfstudie", category: "Geen centrale bijeenkomst" },
+					]}
+					onChange={(value) => this.handleChange("kind", value)}
+				>
+				</SelectField>
 				<SelectField
 					label="Aanwezigheid"
 					value={lesson.presence}
 					editable={this.props.editable}
 					onChange={(value) => this.handleChange("presence", value)}
-					options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }, { label: "Geen bijeenkomst", value: "unrequired" }]}
+					options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }]}
 				/>
-				<div style={{ display: "flex", flexDirection: "row" }}>
-					<InputField
-						label="Locatie"
-						style={{ flex: 8 }}
-						value={lesson.location}
-						editable={this.props.editable}
-						onChange={(value) => this.handleChange("location", value)}
-					/>
-					<InputField
-						label="Lokaal"
-						style={{ flex: 8 }}
-						value={lesson.room}
-						editable={this.props.editable}
-						onChange={(value) => this.handleChange("room", value)}
-					/>
-				</div>
-				{
-					this.props.userIsMemberOfGroup && this.props.role === "student" ? this.getOptOutButton() : null
-				}
 			</td>
 		</Paper >;
-	}
-
-
-	render() {
-		if (this.props.lesson.id === -1) {
-			return this.getHeader();
-		} else {
-			return this.getLesson();
-		}
 	}
 
 

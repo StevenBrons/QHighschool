@@ -17,7 +17,6 @@ const Op = require("sequelize").Op;
 exports._mapGroup = data => {
   let groupName = data.course.name;
   groupName = groupName.charAt(0).toUpperCase() + groupName.slice(1);
-  console.log(data);
   return {
     id: data.id + "",
     courseId: data.courseId,

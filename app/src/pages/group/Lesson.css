@@ -1,0 +1,8 @@
+.Lesson td {
+	vertical-align: top;
+}
+
+.Lesson .LocationRoom {
+	display: flex;
+	flex-direction: row;
+}
