@@ -295,11 +295,10 @@ exports.getSchedule = async (year, isoWeek) => {
       courseName: group.courseName,
       subjectName: group.subjectName,
       teacherName: group.teacherName,
-      startTime: "",
-      endTime: "",
-      schoolLocation: "",
-      schoolAddress: "",
-      classRoom: "",
+      startTime: lesson.startTime,
+      endTime: lesson.endTime,
+      location: lesson.location,
+      classRoom: lesson.room,
     }
   }));
 }

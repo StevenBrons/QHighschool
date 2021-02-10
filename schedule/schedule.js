@@ -1,12 +1,10 @@
-let testData = [{ "day": "vrijdag", "startTime": "12:00", "endTime": "14:00", "courseName": "Lineaire Algebra B", "schoolLocation": "Praedinius Gymnasium", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "J. de Boer", "subjectName": "Wiskunde" }, { "day": "maandag", "startTime": "12:00", "endTime": "14:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "maandag", "startTime": "11:30", "endTime": "14:00", "courseName": "CourseName ", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "maandag", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "tuesday", "startTime": "9:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "tuesday", "startTime": "16:00", "endTime": "18:00", "courseName": "CourseName komt hiero.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "17:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }, { "day": "wednesday", "startTime": "16:00", "endTime": "19:00", "courseName": "CourseName komt hiero. Merk op dat deze titels soms echt verschrikkelijk lang zijn. Echt veel te lang voor iedere layout.", "schoolLocation": "Liemers College", "schoolAddress": "Straatnaam 123", "classRoom": "1.2c", "teacherName": "Naam van de Docent", "subjectName": "vaknaam komt hiero" }]
-
 let curDate;
 
 let getData = () => {
 	let [year, week] = getWeekNumber(curDate)
 	console.log(week, year)
 	$.getJSON(`https://api.q-highschool.nl/api/function/schedule/${year}/${week}`, (data) => {
-		renderData(testData)
+		renderData(data)
 	}).fail(() => {
 		$("body").text("Er iets misgegaan bij het ophalen van de data.")
 	})
@@ -82,16 +80,14 @@ let compareTime = (timeA, timeB) => {
 }
 
 let createLesson = (lesson) => {
-	const { courseName, subjectName, teacherName, schoolLocation,
-		schoolAddress, classRoom, startTime, endTime } = lesson
+	const { courseName, subjectName, teacherName, location, classRoom, startTime, endTime } = lesson
 	return $("<div>", { class: "lesson" }).append(
 		$("<h3>", { class: "course" }).text(courseName),
 		$("<h4>", { class: "subject" }).text(subjectName),
 		$("<hr/>"),
 		$("<p>", { class: "teacher" }).text(teacherName),
 		$("<hr/>"),
-		$("<p>", { class: "location" }).text(schoolLocation),
-		$("<p>", { class: "address" }).text(schoolAddress),
+		$("<p>", { class: "location" }).text(location),
 		$("<p>", { class: "room" }).text(classRoom),
 		$("<hr/>"),
 		$("<p>", { class: "time" }).text(startTime + " - " + endTime),
