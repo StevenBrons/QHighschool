@@ -295,8 +295,8 @@ exports.getSchedule = async (year, isoWeek) => {
       courseName: group.courseName,
       subjectName: group.subjectName,
       teacherName: group.teacherName,
-      startTime: lesson.startTime,
-      endTime: lesson.endTime,
+      startTime: group.startTime,
+      endTime: group.endTime,
       location: lesson.location,
       classRoom: lesson.room,
     }
