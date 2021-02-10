@@ -72,7 +72,7 @@ let orderAndSort = (data) => {
 let compareTime = (timeA, timeB) => {
 	// "7:00" -> "07:00"
 	if (!timeA) return -1;
-	if (!timeB) return 1;
+	if (!timeB) return -1;
 	if (timeA.length == 4)
 		timeA = "0" + timeA
 	if (timeB.length == 4)
@@ -82,18 +82,22 @@ let compareTime = (timeA, timeB) => {
 }
 
 let createLesson = (lesson) => {
-	const { courseName, subjectName, teacherName, location, classRoom, startTime = "", endTime = "" } = lesson
-	return $("<div>", { class: "lesson" }).append(
-		$("<h3>", { class: "course" }).text(courseName ? courseName : ""),
-		$("<h4>", { class: "subject" }).text(subjectName ? subjectName : ""),
-		$("<hr/>"),
-		$("<p>", { class: "teacher" }).text(teacherName ? teacherName : ""),
-		$("<hr/>"),
-		$("<p>", { class: "location" }).text(location ? location : ""),
-		$("<p>", { class: "room" }).text(classRoom ? classRoom : ""),
-		$("<hr/>"),
-		$("<p>", { class: "time" }).text(startTime + " - " + endTime),
-	)
+	const { courseName, subjectName, teacherName, location, classRoom, startTime, endTime } = lesson;
+	let elt = $("<div>", { class: "lesson" });
+	elt.append($("<h3>", { class: "course" }).text(courseName ? courseName : ""));
+	elt.append($("<h4>", { class: "subject" }).text(subjectName ? subjectName : ""));
+	elt.append($("<hr/>"));
+	elt.append($("<p>", { class: "teacher" }).text(teacherName ? teacherName : ""));
+	if (location || classRoom) {
+		elt.append($("<hr/>"));
+		elt.append($("<p>", { class: "location" }).text(location ? location : ""));
+		elt.append($("<p>", { class: "room" }).text(classRoom ? classRoom : ""));
+	}
+	if (startTime || endTime) {
+		elt.append($("<hr/>"));
+		elt.append($("<p>", { class: "time" }).text((startTime ? startTime : "") + " - " + (endTime ? endTime : "")));
+	}
+	return elt;
 }
 
 const MONTHS = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"]
