@@ -25,7 +25,7 @@ function validate(value, rules = {}, options = [value]) {
       }
       break;
     case "time":
-      return /^\d\d:\d\d$/g.test(value);
+      return /^(\d\d|\d):\d\d$/g.test(value);
     case "decimalGrade":
       //replace dot with comma and vice versa
       if (value == null) {
