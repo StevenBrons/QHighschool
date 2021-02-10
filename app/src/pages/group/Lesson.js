@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import InputField from '../../fields/InputField';
 import SelectField from '../../fields/SelectField';
 import "./Lesson.css";
+import educationConstraints from "../profile/educationConstraints"
+import { flatten, map } from 'lodash';
 
 class Lesson extends Component {
 
@@ -22,8 +24,6 @@ class Lesson extends Component {
 	}
 
 	handleChange = (name, value) => {
-		console.log(name);
-		console.log(value);
 		this.props.handleChange({
 			...this.props.lesson,
 			[name]: value,
@@ -37,6 +37,15 @@ class Lesson extends Component {
 			const d = new Date(lesson.date);
 			displayDate = `${this.getWeekdayString(d.getDay())} ${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
 		}
+		const locations = flatten(map(educationConstraints.school, ({ schoolLocation }, school) => {
+			return Object.keys(schoolLocation).map((adres) => {
+				return {
+					value: adres,
+					label: adres,
+					category: school,
+				};
+			});
+		}));
 		return <Paper
 			elevation={this.state.hover ? 2 : 1}
 			onMouseEnter={() => this.setState({ hover: true })}
@@ -46,18 +55,20 @@ class Lesson extends Component {
 		>
 			<td>
 				<div>
-					<Typography color="primary" variant="button" component="td" >
+					<Typography color="primary" variant="button" >
 						{"Les " + lesson.numberInBlock}
 					</Typography>
-					<Typography component="td" variant="body1" color="textSecondary">
+					<Typography color="textSecondary" variant="body1">
 						{displayDate}
 					</Typography>
 				</div>
 				<div className="LocationRoom">
-					<InputField
+					<SelectField
 						label="Locatie"
 						value={lesson.location}
 						editable={this.props.editable}
+						freeSolo
+						options={locations}
 						onChange={(value) => this.handleChange("location", value)}
 					/>
 					<InputField
@@ -104,7 +115,7 @@ class Lesson extends Component {
 					value={lesson.presence}
 					editable={this.props.editable}
 					onChange={(value) => this.handleChange("presence", value)}
-					options={[{ label: "Noodzakelijk", value: "required" }, { label: "Eigen keuze", value: "optional" }]}
+					options={[{ label: "Sterk aanbevolen", value: "required" }, { label: "Eigen keuze", value: "optional" }]}
 				/>
 			</td>
 		</Paper >;

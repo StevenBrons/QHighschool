@@ -55,7 +55,9 @@ class GroupData extends Component {
           <div
             style={{
               width: "30%",
-              paddingRight: "15px"
+              paddingRight: "15px",
+              display: "flex",
+              flexDirection: "column"
             }}
           >
             <div style={{ display: "flex" }}>
@@ -110,6 +112,7 @@ class GroupData extends Component {
               onChange={value => onChange("studyTime", value)}
               default="onbekend"
               editable={editable}
+              style={{ width: "40%" }}
               unit="uur"
               validate={{ type: "integer" }}
             />
