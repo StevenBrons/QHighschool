@@ -8,13 +8,15 @@ const Lesson = connection.define('lesson', {
 	activities: Sequelize.TEXT,
 	numberInBlock: Sequelize.INTEGER,
 	subject: Sequelize.TEXT,
+	location: Sequelize.TEXT,
+	room: Sequelize.TEXT,
 	presence: {
 		type: Sequelize.STRING,
 		isIn: [["required", "optional", "unrequired"]],
 	},
 }, {
-		tableName: 'lesson'
-	});
+	tableName: 'lesson'
+});
 
 Lesson.belongsTo(Group);
 Group.hasMany(Lesson);

@@ -102,7 +102,7 @@ class GroupPage extends Component {
 				}
 				return <table style={{ width: "100%", tableLayout: "fixed" }}>
 					<tbody>
-						{map({ 0: { id: -1 }, ...lessons }, lesson => {
+						{map(lessons, lesson => {
 							return <Lesson
 								lesson={lesson}
 								key={lesson.id}
@@ -315,7 +315,6 @@ class GroupPage extends Component {
 
 	handlePresenceChange = (presenceObj) => {
 		let presence = this.state.group.presence || this.props.group.presence;
-		console.log(presence);
 		this.setState({
 			group: {
 				...this.state.group,

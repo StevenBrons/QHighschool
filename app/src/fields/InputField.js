@@ -7,8 +7,11 @@ class InputField extends Component {
 	render() {
 		const P = this.props;
 		let value = P.value;
-		if ((value == null || value === "") && P.default) {
+		if ((value == null || value === "") && !P.editable && P.default) {
 			value = P.default;
+		}
+		if (value == null) {
+			value = "";
 		}
 		let CP = {
 			InputProps: {},
@@ -23,7 +26,6 @@ class InputField extends Component {
 		CP.variant = P.variant;
 		CP.multiline = P.multiline;
 		CP.fullWidth = true;
-		CP.defaultValue = P.defaultValue;
 		CP.onChange = (event) => this.props.onChange(event.target.value)
 		CP.InputProps.disableUnderline = P.editable === false;
 		CP.InputLabelProps.disabled = true;

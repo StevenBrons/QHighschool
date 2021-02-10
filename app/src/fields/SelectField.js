@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
+import { FormControl, InputLabel, ListSubheader, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { Component } from 'react';
 import FieldContainer from './FieldContainer';
@@ -11,9 +11,18 @@ class SelectField extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
+		const normOptions = SelectField.getNormalizedOptions(nextProps.options);
+		const containsCurValue = normOptions.filter(({ value }) => value === nextProps.value).length > 0;
+		if (!containsCurValue && nextProps.freeSolo) {
+			normOptions.push({
+				label: nextProps.value,
+				value: nextProps.value
+			});
+		}
 		return {
 			...prevState,
-			options: SelectField.getNormalizedOptions(nextProps.options)
+			options: normOptions,
+			value: nextProps.value || "",
 		};
 	}
 
@@ -29,37 +38,84 @@ class SelectField extends Component {
 		return options;
 	}
 
-	getOptionsLabel = (v3) => {
-		let vs = this.props.multiple ? v3 : [v3];
+	renderValue = (val) => {
+		let vs = this.props.multiple ? val : [val];
 		return vs.map((v) => {
 			const opt = this.state.options.filter(({ value }) => value === v)
 			if (opt.length > 0) {
-				return opt[0].label;
+				if (opt[0].category) {
+					return <div key={opt[0].value}>
+						<Typography {...this.props.typograpyProps} variant="subtitle2">{opt[0].category}</Typography>
+						<Typography {...this.props.typograpyProps}>{opt[0].label}</Typography>
+					</div>
+				} else {
+					return opt[0].label;
+				}
+			} else {
+				return val;
+			}
+		});
+	}
+
+	getOptionsLabel = (val) => {
+		let vs = this.props.multiple ? val : [val];
+		return vs.map((v) => {
+			const opt = this.state.options.filter(({ value }) => value === v)
+			if (opt.length > 0) {
+				if (opt[0].category) {
+					return opt[0].label
+				} else {
+					return opt[0].label;
+				}
 			} else {
 				return "";
 			}
 		}).join(", ");
 	}
 
+	getCategoryOf = (val) => {
+		return this.state.options.find(({ value }) => value === val).category
+	}
+
 	getAutocomplete = () => {
-		if (this.props.editable === false) {
-			return <Typography {...this.props.typograpyProps}>
-				{this.getOptionsLabel(this.props.value)}
-			</Typography>
-		} else {
-			return <Autocomplete
-				value={this.props.value}
-				disabled={this.props.disabled}
-				options={this.state.options.map(({ label, value }) => value)}
-				getOptionLabel={this.getOptionsLabel}
-				onChange={(event, value) => this.props.onChange(value)}
-				renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
-			/>
-		}
+		return <Autocomplete
+			value={this.state.value}
+			disabled={this.props.disabled}
+			freeSolo={this.props.freeSolo}
+			autoSelect
+			groupBy={this.getCategoryOf}
+			options={this.state.options.map(({ label, value }) => value)}
+			getOptionLabel={this.getOptionsLabel}
+			onChange={(event, value) => this.props.onChange(value)}
+			renderInput={(params) => <TextField {...params} label={this.props.label} variant="outlined" />}
+		/>
 	}
 
 	getCurtain = () => {
 		return <div style={{ width: "100%", height: "100%", position: "absolute", zIndex: 10 }} />
+	}
+
+	renderMenuItems = () => {
+		if (this.props.children == null) {
+			const items = this.state.options.reduce((acc, cur) => {
+				const last = acc[acc.length - 1];
+				if ((cur.category != null && last == null) || (last != null && last.category !== cur.category)) {
+					return acc.concat([{ sep: true, category: cur.category, value: cur.value }, cur])
+				}
+				return acc.concat([cur]);
+			}, [])
+			return items.map(({ sep, label, value, category }) => {
+				if (sep) {
+					return <ListSubheader key={value + "_category"}>{category}</ListSubheader>;
+				} else {
+					return <MenuItem key={value} value={value}>
+						{label}
+					</MenuItem>
+				}
+			});
+		} else {
+			return this.props.children;
+		}
 	}
 
 	getDropdown = () => {
@@ -69,29 +125,25 @@ class SelectField extends Component {
 			nonEdit.IconComponent = "div";
 		}
 		return <FormControl fullWidth>
-			{this.props.label && <InputLabel>{this.props.label}</InputLabel>}
-			{this.props.editable === false && this.getCurtain()}
+			{this.props.label && <InputLabel disabled>{this.props.label}</InputLabel>}
 			<Select
 				multiple={this.props.multiple}
 				fullWidth
 				disabled={this.props.disabled}
-				value={this.props.value}
+				value={this.state.value}
 				onChange={(event) => this.props.onChange(event.target.value)}
 				{...nonEdit}
-				renderValue={(vs) => <Typography {...this.props.typograpyProps}>{this.getOptionsLabel(vs)}</Typography>}
+				renderValue={value => this.renderValue(value)}
 			>
-				{this.state.options.map(({ label, value }) => (
-					<MenuItem key={value} value={value}>
-						{label}
-					</MenuItem>
-				))}
+				{this.renderMenuItems()}
 			</Select>
+			{this.props.editable === false && this.getCurtain()}
 		</FormControl >
 	}
 
 	render() {
 		let field;
-		if (this.state.options.length > 10 && !this.props.multiple) {
+		if (this.state.options.length > 10 && !this.props.multiple && this.props.editable) {
 			field = this.getAutocomplete();
 		} else {
 			field = this.getDropdown();

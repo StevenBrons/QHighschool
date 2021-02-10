@@ -22,6 +22,12 @@ const CourseGroup = connection.define('course_group', {
 	graphId: {
 		type: Sequelize.STRING,
 	},
+	startTime: {
+		type: Sequelize.STRING,
+	},
+	endTime: {
+		type: Sequelize.STRING,
+	},
 }, {
 	tableName: 'course_group'
 });

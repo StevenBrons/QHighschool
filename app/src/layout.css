@@ -4,14 +4,9 @@
 }
 
 @font-face {
-  font-family: 'Avenir-Black';
-  src: url(./fonts/Avenir-Black.eot); 
-  src: local('Avenir-Black'),
-       url(./fonts/Avenir-Black.eot?#iefix) format('embedded-opentype'),
-       url(./fonts/Avenir-Black.woff2) format('woff2'),
-       url(./fonts/Avenir-Black.woff) format('woff'),
-       url(./fonts/Avenir-Black.ttf) format('truetype'),
-       url(./fonts/Avenir-Black.svg#Avenir-Black) format('svg');
+	font-family: 'Avenir-Black';
+	src: url(./fonts/Avenir-Black.eot);
+	src: local('Avenir-Black'), url(./fonts/Avenir-Black.eot?#iefix) format('embedded-opentype'), url(./fonts/Avenir-Black.woff2) format('woff2'), url(./fonts/Avenir-Black.woff) format('woff'), url(./fonts/Avenir-Black.ttf) format('truetype'), url(./fonts/Avenir-Black.svg#Avenir-Black) format('svg');
 }
 
 #root>div {
@@ -53,7 +48,7 @@ body, #root, .App {
 
 .Header {
 	/* background: white; */
-	background: rgb(255,122,3) !important;
+	background: rgb(255, 122, 3) !important;
 	/* background: -moz-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: -webkit-linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
 	background: linear-gradient(-45deg, rgba(240,131,31,1) 0%, rgba(0,204,255,1) 40%);
@@ -109,7 +104,7 @@ body, #root, .App {
 }
 
 td {
-	padding: 7px;
+	padding: 10px;
 }
 
 table {
@@ -184,4 +179,8 @@ table {
 		-ms-grid-row: 4;
 		-ms-grid-row-span: 7;
 	}
+}
+
+.MuiListSubheader-root {
+	pointer-events: none;
 }

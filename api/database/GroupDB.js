@@ -22,6 +22,8 @@ exports._mapGroup = data => {
     courseId: data.courseId,
     day: data.day,
     period: data.period,
+    startTime: data.startTime,
+    endTime: data.endTime,
     schoolYear: data.schoolYear,
     enrollableFor: data.enrollableFor,
     courseName: groupName,

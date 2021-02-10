@@ -55,7 +55,9 @@ class GroupData extends Component {
           <div
             style={{
               width: "30%",
-              paddingRight: "15px"
+              paddingRight: "15px",
+              display: "flex",
+              flexDirection: "column"
             }}
           >
             <div style={{ display: "flex" }}>
@@ -110,6 +112,7 @@ class GroupData extends Component {
               onChange={value => onChange("studyTime", value)}
               default="onbekend"
               editable={editable}
+              style={{ width: "40%" }}
               unit="uur"
               validate={{ type: "integer" }}
             />
@@ -141,6 +144,26 @@ class GroupData extends Component {
               multiline
               editable={editable}
             />
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <InputField
+                value={group.startTime}
+                label="Starttijd"
+                onChange={value => onChange("startTime", value)}
+                default="--:--"
+                validate={{ type: "time" }}
+                editable={editable}
+                style={{ flex: "0.1 1 0%" }}
+              />
+              <InputField
+                value={group.endTime}
+                label="Eindtijd"
+                validate={{ type: "time" }}
+                onChange={value => onChange("endTime", value)}
+                default="--:--"
+                editable={editable}
+                style={{ flex: "0.1 1 0%" }}
+              />
+            </div>
           </div>
         </div>
         <br />
