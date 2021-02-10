@@ -72,6 +72,7 @@ let orderAndSort = (data) => {
 let compareTime = (timeA, timeB) => {
 	// "7:00" -> "07:00"
 	if (!timeA) return -1;
+	if (!timeB) return 1;
 	if (timeA.length == 4)
 		timeA = "0" + timeA
 	if (timeB.length == 4)
