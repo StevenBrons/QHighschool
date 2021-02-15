@@ -374,6 +374,7 @@ exports.getUserData = async school => {
     "profile",
     "phoneNumber",
     "schoolLocation",
+    "examSubjects",
     "examRights",
     "id"
   ];
