@@ -12,6 +12,7 @@ const table = {
 	"user.profile": "Profiel",
 	"user.phoneNumber": "Telefoonnummer",
 	"user.schoolLocation": "Schoollocatie",
+	"user.examSubjects": "Examenvakken",
 	"user.examRights": "Aanvullende voorwaarden bij toetsing",
 	"user.id": "QH-id",
 	"course_group.id": "Groepcode",
